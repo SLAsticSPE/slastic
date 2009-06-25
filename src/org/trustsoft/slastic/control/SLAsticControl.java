@@ -2,11 +2,11 @@ package org.trustsoft.slastic.control;
 
 import java.util.Hashtable;
 import kieker.loganalysis.LogAnalysisController;
-import kieker.loganalysis.consumer.ExecutionSequenceRepositoryFiller;
-import kieker.loganalysis.consumer.MonitoringRecordLogger;
 import kieker.loganalysis.datamodel.ExecutionSequence;
 import kieker.loganalysis.logReader.FSReader;
 import kieker.loganalysis.plugins.DependencyGraphPlugin;
+import kieker.loganalysis.recordConsumer.ExecutionSequenceRepositoryFiller;
+import kieker.loganalysis.recordConsumer.MonitoringRecordLogger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
