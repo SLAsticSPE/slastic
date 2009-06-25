@@ -20,8 +20,6 @@ package org.trustsoft.slastic.control.monitoringRecord.SLA;
  * ==================================================
  */
 
-import java.util.Vector;
-import kieker.tpmon.annotation.TpmonInternal;
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
@@ -43,8 +41,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
     public String host= null;
     public long rtNseconds = -1;
     public Object retVal = null;
-    
-    @TpmonInternal()
+
     public void initFromStringVector(String[] recordVector)
             throws IllegalArgumentException {
         // String[]
@@ -60,7 +57,6 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
         return;
     }
 
-    @TpmonInternal()
     public String[] toStringVector() {
         // String[] = {....}
         String[] vec = {
@@ -73,17 +69,14 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
         return vec;
     }
 
-    @TpmonInternal()
     public int getRecordTypeId() {
         return typeId;
     }
 
-    @TpmonInternal()
     public static AbstractKiekerMonitoringRecord getInstance() {
         return new SLOMonitoringRecord();
     }
 
-    @TpmonInternal()
     public static SLOMonitoringRecord getInstance(String componentName,
             String operationName, String host){
         SLOMonitoringRecord rec = (SLOMonitoringRecord)SLOMonitoringRecord.getInstance();
