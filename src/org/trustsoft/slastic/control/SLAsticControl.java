@@ -24,7 +24,7 @@ public class SLAsticControl {
             log.error("No input dir found!");
             log.error("Provide an input dir as system property.");
             log.error("Example to read all tpmon-* files from /tmp:\n" +
-                    "                    ant -DinputDir=/tmp/ run-logAnalysis    ");
+                    "                    ant -DinputDir=/tmp/ run-SLAsticControl    ");
             System.exit(1);
         } else {
             log.info("Reading all tpmon-* files from " + inputDir);
