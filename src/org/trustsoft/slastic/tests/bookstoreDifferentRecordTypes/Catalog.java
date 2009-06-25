@@ -2,6 +2,7 @@ package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;
+import org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe;
 
 
 /**
@@ -34,6 +35,7 @@ import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;
  *
  */
 public class Catalog {
+    @SLAsticSLAMonitoringProbe()
     @TpmonExecutionMonitoringProbe()
     public static void getBook(boolean complexQuery) {
         if (complexQuery) {
