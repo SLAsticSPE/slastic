@@ -44,5 +44,6 @@ public class SLAsticControl {
         depGraphTool.processExecutionTraces(sequenceTable.values());
 
         log.info("Bye, this was SLAsticControl");
+        System.exit(0);
     }
 }

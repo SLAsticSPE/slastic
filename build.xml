@@ -17,11 +17,11 @@
         <property name="slastic.version"
                   value="0.01a"/>
         <property name="slastic.monadapt.jar"
-                  value="${dist.dir}/${slastic.monadapt.packagenamebase}-${slastic.version}.jar"/>
+                  value="${slastic.monadapt.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.control.jar"
-                  value="${dist.dir}/${slastic.control.packagenamebase}-${slastic.version}.jar"/>
+                  value="${slastic.control.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.sim.jar"
-                  value="${dist.dir}/${slastic.sim.packagenamebase}-${slastic.version}.jar"/>
+                  value="${slastic.sim.packagenamebase}-${slastic.version}.jar"/>
     </target>
 
     <target name="update-version" unless="version.noupdate"
@@ -101,11 +101,11 @@
         <path id="slastic.control.core.classpath">
             <path refid="classpath.libs"/>
             <fileset dir="${dist.dir}">
-                <include name="${slastic.control.jar}"/>
+                <include name="${dist.dir}/${slastic.control.jar}"/>
             </fileset>
         </path>
 
-       <path id="run.tests.classpath">
+        <path id="run.tests.classpath">
             <path refid="slastic.control.core.classpath"/>
             <pathelement location="${build.tests.dir}/"/>
         </path>
@@ -130,12 +130,12 @@
                 <include name="org/trustsoft/slastic/monadapt/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${slastic.monadapt.jar}">
+        <jar destfile="${dist.dir}/${slastic.monadapt.jar}">
             <fileset dir="${build.slastic.monadapt.dir}"/>
         </jar>
     </target>
 
-   <target name="build-slastic.control" depends="clean,init">
+    <target name="build-slastic.control" depends="clean,init">
         <delete dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}/META-INF"/>
@@ -154,12 +154,12 @@
                 <include name="org/trustsoft/slastic/control/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${slastic.control.jar}">
+        <jar destfile="${dist.dir}/${slastic.control.jar}">
             <fileset dir="${build.slastic.control.dir}"/>
         </jar>
     </target>
     
-  <target name="build-slastic.sim" depends="clean,init">
+    <target name="build-slastic.sim" depends="clean,init">
         <delete dir="${build.slastic.sim.dir}"/>
         <mkdir  dir="${build.slastic.sim.dir}"/>
         <mkdir  dir="${build.slastic.sim.dir}/META-INF"/>
@@ -178,7 +178,7 @@
                 <include name="org/trustsoft/slastic/sim/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${slastic.sim.jar}">
+        <jar destfile="${dist.dir}/${slastic.sim.jar}">
             <fileset dir="${build.slastic.sim.dir}"/>
         </jar>
     </target>
@@ -196,16 +196,16 @@
         <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
     </target>
 
-   <target name="run-SLAsticControl" depends="build-slastic.control,init-log4-properties-tests">
+    <target name="run-SLAsticControl" depends="build-slastic.control,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="kieker.loganalysis.LogAnalysisController"
-              classpathref="classpath.libs">
+              classname="org.trustsoft.slastic.control.SLAsticControl"
+              classpathref="slastic.control.core.classpath">
             <jvmarg value="-DinputDir=${inputDir}"/>
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <classpath>
-                <pathelement location="${dist.dir}/${dist.tpmon.ctrl}"/>
+                <pathelement location="${dist.dir}/${slastic.control.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
@@ -243,7 +243,7 @@
 	      tofile="${build.tests.dir}/META-INF/aop.xml"/>
     </target>
 
-   <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
+    <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
             depends="compile-tests-loadTimeWeavingDifferentRecordTypes">
         <java dir="."
               fork="true"
