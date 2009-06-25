@@ -9,6 +9,7 @@ import kieker.loganalysis.recordConsumer.ExecutionSequenceRepositoryFiller;
 import kieker.loganalysis.recordConsumer.MonitoringRecordLogger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.recordConsumer.ResponseTimePlotter;
 
 /**
  * @author Andre van Hoorn
@@ -32,9 +33,18 @@ public class SLAsticControl {
 
         LogAnalysisController analysisInstance = new LogAnalysisController();
         analysisInstance.setLogReader(new FSReader(inputDir));
+
+        /* Dumps the record type ID */
         analysisInstance.addConsumer(new MonitoringRecordLogger());
+
+        /* Collects all executions */
         ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();
         analysisInstance.addConsumer(seqRepConsumer);
+
+        /* Dumps response times */
+        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
+        analysisInstance.addConsumer(rtPlotter);
+
         analysisInstance.run();
 
         /* Example that plots a dependency graph */
