@@ -37,11 +37,12 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
     */
     private static int typeId = TpmonController.getInstance().registerMonitoringRecordType(SLOMonitoringRecord.class);
     private static int numRecordFields = 5;
-    private long timestamp = -1;
-    private String componentName = null;
-    private String operationName = null;
-    private String host= null;
-    private long rtNseconds = -1;
+    public long timestamp = -1;
+    public String componentName = null;
+    public String operationName = null;
+    public String host= null;
+    public long rtNseconds = -1;
+    public Object retVal = null;
     
     @TpmonInternal()
     public void initFromStringVector(Vector<String> recordVector)
@@ -82,8 +83,12 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
     }
 
     @TpmonInternal()
-    public static SLOMonitoringRecord getInstance(long timestamp, int branchID, int branchingOutcome){
+    public static SLOMonitoringRecord getInstance(String componentName,
+            String operationName, String host){
         SLOMonitoringRecord rec = (SLOMonitoringRecord)SLOMonitoringRecord.getInstance();
+        rec.componentName = componentName;
+        rec.operationName = operationName;
+        rec.host = host;
         return rec;
     }
 }

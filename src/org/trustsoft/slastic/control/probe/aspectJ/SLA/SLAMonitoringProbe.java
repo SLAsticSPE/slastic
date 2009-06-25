@@ -1,12 +1,14 @@
 package org.trustsoft.slastic.control.probe.aspectJ.SLA;
 
-import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.*;
 import kieker.tpmon.annotation.TpmonInternal;
 import kieker.tpmon.core.ControlFlowRegistry;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.trustsoft.slastic.control.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /*
  * org.trustsoft.slastic.control.probe.aspectJ.SLA.SLAMonitoringProbe
@@ -30,13 +32,20 @@ import org.aspectj.lang.annotation.Aspect;
  * @author Andre van Hoorn
  */
 @Aspect
-public abstract class SLAMonitoringProbe {
+public class SLAMonitoringProbe {
 
     protected static final TpmonController ctrlInst = TpmonController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
-    
+
+    @Pointcut("execution(@org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe * *.*(..))"//+
+              /*" && !execution(@kieker.tpmon.annotation.TpmonInternal * *.*(..))"*/)
+    public void monitoredMethod() {
+    }
+
+    @Around("monitoredMethod()")
+
     @TpmonInternal()
-    protected KiekerExecutionRecord initExecutionData(ProceedingJoinPoint thisJoinPoint) {
+    protected SLOMonitoringRecord initMonitoringRecord(ProceedingJoinPoint thisJoinPoint) {
        // e.g. "getBook" 
         String methodname = thisJoinPoint.getSignature().getName();
         // toLongString provides e.g. "public kieker.tests.springTest.Book kieker.tests.springTest.CatalogService.getBook()"
@@ -44,36 +53,42 @@ public abstract class SLAMonitoringProbe {
         int paranthIndex = paramList.lastIndexOf('(');
         paramList = paramList.substring(paranthIndex); // paramList is now e.g.,  "()"
 
-        KiekerExecutionRecord execData = KiekerExecutionRecord.getInstance(
+        SLOMonitoringRecord record = SLOMonitoringRecord.getInstance(
                 thisJoinPoint.getSignature().getDeclaringTypeName() /* component */, 
                 methodname + paramList /* operation */, 
-                cfRegistry.recallThreadLocalTraceId() /* traceId, -1 if entry point*/);
-        
-        execData.isEntryPoint = false;
-        //execData.traceId = ctrlInst.recallThreadLocalTraceId(); // -1 if entry point
-        if (execData.traceId == -1) { 
-            execData.traceId = cfRegistry.getAndStoreUniqueThreadLocalTraceId();
-            execData.isEntryPoint = true;
-        } 
-        return execData;
+                "host");      
+        return record;
     }
     
     @TpmonInternal()
-    public abstract Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint) throws Throwable;
+    public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint) throws Throwable {
+       if (!ctrlInst.isMonitoringEnabled()) {
+            return thisJoinPoint.proceed();
+        }
+        SLOMonitoringRecord record  = this.initMonitoringRecord(thisJoinPoint);
+        try{
+            this.proceedAndMeasure(thisJoinPoint, record);
+        } catch (Exception e){
+            throw e; // exceptions are forwarded
+        } finally {
+            /* note that proceedAndMeasure(...) even sets the variable name
+             * in case the execution of the joint point resulted in an
+             * exception! */
+            ctrlInst.logMonitoringRecord(record);
+        }
+        return record.retVal;
+    }
     
     @TpmonInternal()
     protected void proceedAndMeasure(ProceedingJoinPoint thisJoinPoint,
-            KiekerExecutionRecord execData) throws Throwable {
-        execData.tin = ctrlInst.getTime(); // startint stopwatch    
+            SLOMonitoringRecord record) throws Throwable {
+        record.timestamp = ctrlInst.getTime(); // startint stopwatch
         try {
-            execData.retVal = thisJoinPoint.proceed();
+            record.retVal = thisJoinPoint.proceed();
         } catch (Exception e) {
             throw e; // exceptions are forwarded
         } finally {
-            execData.tout = ctrlInst.getTime();
-            if (execData.isEntryPoint) {
-                cfRegistry.unsetThreadLocalTraceId();
-            }
+            record.rtNseconds = ctrlInst.getTime()-record.timestamp;
         }
     }
 }

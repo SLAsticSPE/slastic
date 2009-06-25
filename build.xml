@@ -228,10 +228,10 @@
     </condition>
 
     <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
-	    depends="init,init-aop-xml-ltwtests,init-log4-properties-tests">
+	    depends="build-slastic.control,init-aop-xml-ltwtests,init-log4-properties-tests">
         <javac source="1.5"
                destDir="${build.tests.dir}"
-               classpathref="classpath.libs"
+               classpathref="slastic.control.core.classpath"
                srcdir="src/org/trustsoft/slastic/tests/bookstoreDifferentRecordTypes">
         </javac>
         <copy file="${tests.log4j.properties}"
@@ -254,6 +254,7 @@
             <jvmarg value="-Daj.weaving.verbose=true"/>
             <classpath>
                 <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+                <pathelement location="${dist.dir}/${slastic.control.jar}"/>
             </classpath>
         </java>
     </target>

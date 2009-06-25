@@ -2,6 +2,7 @@ package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
+import org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe;
 
 /**
  * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes..Bookstore.java
@@ -71,6 +72,7 @@ public class Bookstore extends Thread {
         Bookstore.searchBook();
     }
 
+    @SLAsticSLAMonitoringProbe()
     @TpmonExecutionMonitoringProbe()
     public static void searchBook() {
         for (int i = 0; i < 5; i++) {
