@@ -101,7 +101,7 @@
         <path id="slastic.control.core.classpath">
             <path refid="classpath.libs"/>
             <fileset dir="${dist.dir}">
-                <include name="${dist.dir}/${slastic.control.jar}"/>
+                <include name="${slastic.control.jar}"/>
             </fileset>
         </path>
 
@@ -204,9 +204,6 @@
               classpathref="slastic.control.core.classpath">
             <jvmarg value="-DinputDir=${inputDir}"/>
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
-            <classpath>
-                <pathelement location="${dist.dir}/${slastic.control.jar}"/>
-            </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
