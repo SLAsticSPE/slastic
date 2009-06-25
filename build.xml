@@ -208,19 +208,6 @@
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
-    <condition property="no.aop.xml.ltwtests">
-        <not>
-            <available file="${aop.xml.ltwtests}"/>
-        </not>
-    </condition>
-
-    <target name="init-aop-xml-ltwtests" if="no.aop.xml.ltwtests">
-        <!-- if no aop.xml, copy example file automatically  -->
-        <echo message="${aop.xml.ltwtests} not existing.
-                       Creating default file."/>
-        <copy file="${aop.xml.example}" tofile="${aop.xml.ltwtests}"/>
-    </target>
-
     <condition property="no.log4j.properties.tests">
         <not>
             <available file="${tests.log4j.properties}"/>
@@ -228,7 +215,7 @@
     </condition>
 
     <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
-	    depends="build-slastic.control,init-aop-xml-ltwtests,init-log4-properties-tests">
+	    depends="build-slastic.control,init-log4-properties-tests">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="slastic.control.core.classpath"
