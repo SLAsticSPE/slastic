@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control;
 
-/**
+/*
  * org.trustsoft.slastic.control.Version
  * 
  * ==================LICENCE=========================

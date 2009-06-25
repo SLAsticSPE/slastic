@@ -1,8 +1,6 @@
 package org.trustsoft.slastic.monadapt;
 
-import org.trustsoft.slastic.control.*;
-
-/**
+/*
  * org.trustsoft.slastic.control.Version
  * 
  * ==================LICENCE=========================
