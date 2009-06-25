@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.annotation;
+package org.trustsoft.slastic.monadapt.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -53,7 +53,7 @@
      <!-- Put the remaining in a comment -->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonMonitoringAnnotation"/>-->
      <aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonMonitoringAnnotationRemote"/>
-     <aspect name="org.trustsoft.slastic.control.probe.aspectJ.SLA.SLAMonitoringProbe"/>
+     <aspect name="org.trustsoft.slastic.monadapt.probe.aspectJ.SLA.SLAMonitoringProbe"/>
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonMonitoringAnnotationRemoteServlet"/>-->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonMonitoringFull"/>-->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonMonitoringFullServlet"/>-->

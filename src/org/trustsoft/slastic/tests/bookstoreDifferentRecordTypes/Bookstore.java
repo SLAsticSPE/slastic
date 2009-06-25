@@ -2,7 +2,7 @@ package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
-import org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
 
 /**
  * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes..Bookstore.java

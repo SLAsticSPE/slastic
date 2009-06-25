@@ -2,7 +2,7 @@ package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;
-import org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
 
 
 /**

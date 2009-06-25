@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.monitoringRecord.SLA;
+package org.trustsoft.slastic.monadapt.monitoringRecord.SLA;
 
 /**
  * kieker.tpmon.KiekerBranchingRecord.java

@@ -102,6 +102,7 @@
             <path refid="classpath.libs"/>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.control.jar}"/>
+                <include name="${slastic.monadapt.jar}"/>
             </fileset>
         </path>
 
@@ -111,7 +112,7 @@
         </path>
     </target>
 
-    <target name="build-slastic.monadapt" depends="clean,init">
+    <target name="build-slastic.monadapt" depends="init">
         <delete dir="${build.slastic.monadapt.dir}"/>
         <mkdir  dir="${build.slastic.monadapt.dir}"/>
         <mkdir  dir="${build.slastic.monadapt.dir}/META-INF"/>
@@ -135,7 +136,7 @@
         </jar>
     </target>
 
-    <target name="build-slastic.control" depends="clean,init">
+    <target name="build-slastic.control" depends="init,build-slastic.monadapt">
         <delete dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}/META-INF"/>
@@ -159,7 +160,7 @@
         </jar>
     </target>
     
-    <target name="build-slastic.sim" depends="clean,init">
+    <target name="build-slastic.sim" depends="init">
         <delete dir="${build.slastic.sim.dir}"/>
         <mkdir  dir="${build.slastic.sim.dir}"/>
         <mkdir  dir="${build.slastic.sim.dir}/META-INF"/>
@@ -242,6 +243,7 @@
             <classpath>
                 <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
                 <pathelement location="${dist.dir}/${slastic.control.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
             </classpath>
         </java>
     </target>
