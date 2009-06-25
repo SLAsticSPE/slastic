@@ -30,9 +30,9 @@ public class Version {
 	 * The VERSION string is updated by the Ant build file, which looks for the
 	 * pattern: VERSION = <quote>.*<quote>
 	 */
-	private static final String VERSION = "0.95-20090624";
+	private static final String VERSION = "0.01a-20090625";
 
-	static final String COPYRIGHT = "Copyright (c) 2006-2009 Matthias Rohr and the Kieker Project";
+	static final String COPYRIGHT = "Copyright (c) 2009 SLAstic Project";
 
     /**
      * Not instantiable.
