@@ -45,30 +45,31 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
     public Object retVal = null;
     
     @TpmonInternal()
-    public void initFromStringVector(Vector<String> recordVector)
+    public void initFromStringVector(String[] recordVector)
             throws IllegalArgumentException {
         // String[]
-        if(recordVector.size() > SLOMonitoringRecord.numRecordFields) {
+        if(recordVector.length > SLOMonitoringRecord.numRecordFields) {
             throw new IllegalArgumentException("Expecting vector with "+
-                    SLOMonitoringRecord.numRecordFields + " elements but found:" + recordVector.size());
+                    SLOMonitoringRecord.numRecordFields + " elements but found:" + recordVector.length);
         }
-        this.timestamp = Long.parseLong(recordVector.elementAt(0));
-        this.componentName = recordVector.elementAt(1);
-        this.operationName = recordVector.elementAt(2);
-        this.host = recordVector.elementAt(3);
-        this.rtNseconds = Integer.parseInt(recordVector.elementAt(4));
+        this.timestamp = Long.parseLong(recordVector[0]);
+        this.componentName = recordVector[1];
+        this.operationName = recordVector[2];
+        this.host = recordVector[3];
+        this.rtNseconds = Integer.parseInt(recordVector[4]);
         return;
     }
 
     @TpmonInternal()
-    public Vector<String> toStringVector() {
+    public String[] toStringVector() {
         // String[] = {....}
-        Vector<String> vec = new Vector<String>(3);
-        vec.insertElementAt(Long.toString(timestamp), 0);
-        vec.insertElementAt(this.componentName, 1);
-        vec.insertElementAt(this.operationName, 2);
-        vec.insertElementAt(this.host, 3);
-        vec.insertElementAt(Long.toString(rtNseconds), 4);
+        String[] vec = {
+            Long.toString(timestamp),
+            this.componentName,
+            this.operationName,
+            this.host,
+            Long.toString(rtNseconds)
+        };
         return vec;
     }
 
