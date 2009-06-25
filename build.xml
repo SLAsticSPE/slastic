@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SLAstic" default="build-all" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+    <property file="build.properties"/>
+
+    <path id="classpath.libs">
+        <pathelement path="${classpath}"/>
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="."/>
+    </path>
+
+    <target name="init-version">
+        <tstamp/>
+        <!-- Names of the slastic runtime libraries that will be created
+	     by the build process: -->
+        <property name="slastic.version"
+                  value="0.01a"/>
+        <property name="dist.slastic.monadapt"
+                  value="${dist.dir}/${slastic.monadapt.packagenamebase}-${slastic.version}.jar"/>
+        <property name="dist.slastic.control"
+                  value="${dist.dir}/${slastic.control.packagenamebase}-${slastic.version}.jar"/>
+        <property name="dist.slastic.sim"
+                  value="${dist.dir}/${slastic.sim.packagenamebase}-${slastic.version}.jar"/>
+    </target>
+
+    <target name="update-version" unless="version.noupdate"
+            depends="init-version">
+        <echo>Updating version string</echo>
+        <replaceregexp file="src/org/trustsoft/slastic/control/Version.java"
+                       match="VERSION = &quot;.*?&quot;"
+                       replace="VERSION = &quot;${slastic.version}-${DSTAMP}&quot;"/>
+        <replaceregexp match="&lt;version&gt;.*?&lt;/version&gt;"
+                       replace="&lt;version&gt;${slastic.version}-${DSTAMP}&lt;/version&gt;">
+            <fileset dir=".">
+                <include name="pom_ant_slastic*.xml"/>
+            </fileset>
+        </replaceregexp>
+    </target>
+
+    <target name="build-all"
+            depends="clean,init,build-slastic.monadapt,build-slastic.control,build-slastic.sim">
+    </target>
+
+    <condition property="no.slastic.monadapt.properties">
+        <not>
+            <available file="${slastic.monadapt.properties}"/>
+        </not>
+    </condition>
+
+    <target name="init-slastic.monadapt-properties" if="no.slastic.monadapt.properties">
+        <!-- if no slastic.monadapt.properties, copy example file automatically  -->
+        <echo message="${slastic.monadapt.properties} not existing.
+                       Creating default file."/>
+        <copy file="${slastic.monadapt.properties.example}" tofile="${slastic.monadapt.properties}"/>
+    </target>
+
+    <target name="init" depends="update-version,init-tpmon-properties,init-loganalysis-properties">
+        <!-- Register special aspectJ commands in ant - allow ant to use special AspectJ commands: -->
+        <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${aspectjtoolsjar}"/>
+        <fail message="Critical error: AspectJ library not found
+                       in ${aspectjtoolsjar}. 
+                       Check your build.properties.">
+            <condition>
+                <not>
+                    <available file="${aspectjtoolsjar}"/>
+                </not>
+            </condition>
+        </fail>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+        <mkdir dir="${build.tests.dir}"/>
+        <mkdir dir="tmp"/>
+
+        <!-- Classpath with Kieker Ctrl and external libs  -->
+        <path id="tpmon.core.classpath">
+            <path refid="classpath.libs"/>
+            <fileset dir="${dist.dir}">
+                <include name="${dist.tpmon.ctrl}"/>
+            </fileset>
+        </path>
+
+        <!-- Classpath with Kieker Ctrl and external libs  -->
+        <path id="loganalysis.core.classpath">
+            <path refid="classpath.libs"/>
+            <fileset dir="${dist.dir}">
+                <include name="${dist.loganalysis.ctrl}"/>
+            </fileset>
+        </path>
+
+        <path id="run.tests.classpath">
+            <path refid="tpmon.core.classpath"/>
+            <pathelement location="${build.tests.dir}/"/>
+        </path>
+    </target>
+
+    <!-- build a tpmon package that doesn't contain the aspect code (for direct invocation of tpmon) -->
+    <target name="build-tpmon-ctrl" depends="clean,init">
+        <delete dir="${build.tpmon.ctrl.dir}"/>
+        <mkdir  dir="${build.tpmon.ctrl.dir}"/>
+        <mkdir  dir="${build.tpmon.ctrl.dir}/META-INF"/>
+        <echo message="Creating the library of tpmon (${dist.tpmon.ctrl}) that is supposed for direct invocations - it doesn't contain the AOP instrumentation mechanisms."/>
+        <javac destDir="${build.tpmon.ctrl.dir}"
+               source="1.5"
+               srcdir="src"
+               debug="true"
+               classpathref="classpath.libs">
+            <compilerarg value="-Xlint:all"/>
+            <include name="kieker/tpmon/annotation/**"/>
+            <include name="kieker/tpmon/core/**"/>
+            <include name="kieker/tpmon/monitoringRecord/**"/>
+            <include name="kieker/tpmon/reader/**"/>
+            <include name="kieker/tpmon/writer/**"/>
+            <include name="kieker/tpmon/listener/**"/>
+        </javac>
+        <copy file="${tpmon.properties}" todir="${build.tpmon.ctrl.dir}/META-INF"/>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.tpmon.ctrl.dir}/">
+            <fileset dir="src">
+                <include name="kieker/tpmon/annotation/**/*.java"/>
+                <include name="kieker/tpmon/core/**/*.java"/>
+                <include name="kieker/tpmon/monitoringRecord/**/*.java"/>
+                <include name="kieker/tpmon/reader/**/*.java"/>
+                <include name="kieker/tpmon/writer/**/*.java"/>
+                <include name="kieker/tpmon/listener/**"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${dist.tpmon.ctrl}">
+            <fileset dir="${build.tpmon.ctrl.dir}"/>
+        </jar>
+    </target>
+
+    <target name="build-tpmon-ltw" depends="clean,init,build-tpmon-ctrl">
+        <delete dir="${build.tpmon.ltw.dir}"/>
+        <mkdir dir="${build.tpmon.ltw.dir}"/>
+        <iajc destDir="${build.tpmon.ltw.dir}"
+              source="1.5"
+              verbose="off"
+              srcdir="src/kieker/tpmon/probe/aspectJ"
+              debug="true"
+              classpathref="tpmon.core.classpath">
+        </iajc>
+        <javac destDir="${build.tpmon.ltw.dir}"
+               source="1.5"
+               verbose="off"
+               srcdir="src/kieker/tpmon/probe/"
+               debug="true"
+               classpathref="tpmon.core.classpath">
+            <compilerarg value="-Xlint:all"/>
+            <exclude name="kieker/tpmon/probe/aspectJ/**"/>
+        </javac>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.tpmon.ltw.dir}/">
+            <fileset dir="src">
+                <include name="kieker/tpmon/probe/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${dist.tpmon.ltw}">
+            <fileset dir="${build.tpmon.ltw.dir}"/>
+        </jar>
+    </target>
+    
+    <target name="build-tpmon-ctw" depends="clean,init,build-tpmon-ctrl">
+        <delete dir="${build.tpmon.ctw.dir}"/>
+        <mkdir  dir="${build.tpmon.ctw.dir}"/>
+        <echo message="Creating the compile-time-weaving library of tpmon (${dist.tpmon.ctw}). This library can be used in two ways: 1) for compile time instrumentation 2) via the tpmon API - if you want to invoke tpmon manually. This library cannot be used for load-time-weaving with the javaagent property!"/>
+        <javac destDir="${build.tpmon.ctw.dir}"
+               source="1.5"
+               verbose="off"
+               srcdir="src/kieker/tpmon/probe/aspectJ/"
+               debug="true"
+               classpathref="tpmon.core.classpath">
+            <compilerarg value="-Xlint:all"/>
+        </javac>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.tpmon.ctw.dir}/">
+            <fileset dir="src">
+                <include name="kieker/tpmon/probe/aspectJ/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${dist.tpmon.ctw}">
+            <fileset dir="${build.tpmon.ctw.dir}"/>
+        </jar>
+    </target>
+
+    <target name="build-tpmon-control-servlet" depends="clean,init,build-tpmon-ctrl">
+        <delete dir="${build.tpmon.controlServlet.dir}"/>
+        <mkdir dir="${build.tpmon.controlServlet.dir}"/>
+        <javac source="1.5"
+               destDir="${build.tpmon.controlServlet.dir}"
+               classpathref="tpmon.core.classpath"
+               srcdir="src/kieker/tpmon/controlServlet"
+               debug="true"/>
+        <!-- We want to include the sources in this war -->
+        <copy todir="${build.tpmon.controlServlet.dir}/">
+            <fileset dir="src">
+                <include name="kieker/tpmon/controlServlet/**/*.java"/>
+            </fileset>
+        </copy>
+        <war destfile="${dist.dir}/${dist.tpmon.controlServlet}" webxml="src/kieker/tpmon/controlServlet/WEB-INF/web.xml">
+            <classes dir="${build.tpmon.controlServlet.dir}"/>
+            <zipfileset dir="src/kieker/tpmon/controlServlet/images" prefix="images"/>
+        </war>
+    </target>
+
+    <!-- Build logAnalysis  -->
+    <target name="build-loganalysis-ctrl" depends="clean,init,build-tpmon-ctrl">
+        <delete dir="${build.loganalysis.ctrl.dir}"/>
+        <mkdir  dir="${build.loganalysis.ctrl.dir}"/>
+        <mkdir  dir="${build.loganalysis.ctrl.dir}/META-INF"/>
+        <echo message="Creating the library of loganalysis (${dist.tpmon.loganalysis.ctrl})."/>
+        <javac destDir="${build.loganalysis.ctrl.dir}"
+               source="1.5"
+               srcdir="src/kieker/loganalysis/"
+               debug="true"
+               classpathref="tpmon.core.classpath">
+            <compilerarg value="-Xlint:all"/>
+        </javac>
+        <copy file="${loganalysis.properties}" todir="${build.loganalysis.ctrl.dir}/META-INF"/>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.loganalysis.ctrl.dir}/">
+            <fileset dir="src">
+                <include name="kieker/loganalysis/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${dist.loganalysis.ctrl}">
+            <fileset dir="${build.loganalysis.ctrl.dir}"/>
+        </jar>
+    </target>
+
+    <patternset id="dist_src_files">
+        <include name="META-INF/aop.xml.example"/>
+        <include name="META-INF/tpmon.properties"/>
+        <include name="META-INF/loganalysis.properties"/>
+        <include name="src/**/*.java"/>
+        <include name="lib/**"/>
+        <include name="build.xml"/>
+        <include name="build.properties"/>
+        <include name="RELEASENOTES"/>
+    </patternset>
+
+    <target name="build-tpmon-sources" depends="clean,init">
+	<!-- Source archives -->
+        <tar destfile="${dist.dir}/${dist.kieker.srcBaseName}.tar" longfile="gnu">
+            <tarfileset dir="." prefix="${tpmon.dist.name}" excludes="${dist.executables}" defaultexcludes="yes">
+                <patternset refid="dist_src_files"/>
+            </tarfileset>
+        </tar>
+        <gzip zipfile="${dist.dir}/${dist.kieker.srcBaseName}.tgz" src="${dist.dir}/${dist.kieker.srcBaseName}.tar" />
+     	<!-- tar file no longer needed -->
+        <delete file="${dist.dir}/${dist.kieker.srcBaseName}.tar"/>
+
+        <zip  zipfile="${dist.dir}/${dist.kieker.srcBaseName}.zip">
+            <zipfileset dir="." prefix="${tpmon.dist.name}" defaultexcludes="yes">
+                <patternset refid="dist_src_files"/>
+            </zipfileset>
+        </zip>
+    </target>
+
+    <target name="clean">
+	<!-- <delete dir="tmp"/>-->
+        <delete dir="${dist.dir}"/>
+        <delete dir="${build.dir}"/>
+        <delete dir="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/aspects/"/>
+        <delete dir="src/kieker/tests/compileTimeWeaving/bookstore/aspects/"/>
+    </target>
+
+    <target name="run-test-storage" depends="clean,build-tpmon-ctrl">
+        <echo>
+            This is a small test for the part of Tpmon that
+            stores monitoring data. Tpmon's monitoring API 
+            is manually invoked to collect monitoring data. 
+            Therefore, the instrumentation and logic in the
+            monitoring points (the aspects) of Tpmon is not
+            used. 
+            
+            The main purpose of this test is to isolate configuration and 
+            installation problems and to get Tpmon running.
+            
+            If in tpmon.properties file system storage (store in database = 
+            false) is selected, a new file (tpmon*.dat) with monitoring data
+            should be created in the folder specified in tpmon.properties
+            (default: /tmp).
+        </echo>
+        <javac source="1.5"
+               destDir="${build.tests.dir}"
+               classpathref="tpmon.core.classpath"
+               srcdir="src/kieker/tests/storageOnly/"
+               verbose="off"
+               debug="true"/>
+        <copy file="src/kieker/tests/log4j.properties"
+	      todir="${build.tests.dir}/"/>
+        <java
+            dir="."
+            fork="true"
+            classpathref="run.tests.classpath"
+	    classname="kieker.tests.storageOnly.StorageOnly">
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <!-- <jvmarg value="-javaagent:../${aspectjweaverjar}"/> -->
+            <!-- <jvmarg value="-XX:+PrintGCTimeStamps"/> -->
+            <!-- <jvmarg value="-Xloggc:details.out"/> -->
+            <!-- <jvmarg value="-verbosegc"/> -->
+        </java>
+    </target>
+
+    <condition property="no.aop.xml.ltwtests">
+        <not>
+            <available file="${aop.xml.ltwtests}"/>
+        </not>
+    </condition>
+
+    <target name="init-aop-xml-ltwtests" if="no.aop.xml.ltwtests">
+        <!-- if no aop.xml, copy example file automatically  -->
+        <echo message="${aop.xml.ltwtests} not existing.
+                       Creating default file."/>
+        <copy file="${aop.xml.example}" tofile="${aop.xml.ltwtests}"/>
+    </target>
+
+    <condition property="no.log4j.properties.tests">
+        <not>
+            <available file="${tests.log4j.properties}"/>
+        </not>
+    </condition>
+
+    <target name="init-log4-properties-tests" if="no.log4j.properties.tests">
+        <!-- if no aop.xml, copy example file automatically  -->
+        <echo message="${no.log4j.properties.tests} not existing.
+                       Creating default file."/>
+        <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
+    </target>
+
+    <target name="compile-tests-loadTimeWeaving"
+	    depends="build-tpmon-ltw,init-aop-xml-ltwtests,init-log4-properties-tests">
+        <javac source="1.5"
+               destDir="${build.tests.dir}"
+               classpathref="tpmon.core.classpath"
+               srcdir="src"
+               includes="kieker/tests/loadTimeWeaving/"
+               excludes="kieker/tests/loadTimeWeaving/bookstoreDifferentRecordTypes/">
+            <!--<exclude name="src/kieker/tests/loadTimeWeaving/bookstoreDifferentRecordTypes/"/>-->
+<!--               excludes="kieker/tests/loadTimeWeaving/bookstoreDifferentRecordTypes/**">-->
+        </javac>
+        <copy file="${tests.log4j.properties}"
+              tofile="${build.tests.dir}/log4j.properties"/>
+        <copy file="${aop.xml.ltwtests}"
+	      tofile="${build.tests.dir}/META-INF/aop.xml"/>
+    </target>
+
+    <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
+	    depends="build-tpmon-ltw,init-aop-xml-ltwtests,init-log4-properties-tests">
+        <javac source="1.5"
+               destDir="${build.tests.dir}"
+               classpathref="tpmon.core.classpath"
+               srcdir="src/kieker/tests/loadTimeWeaving/">
+            <classpath> <!-- includes kieker/tpmon/probe/manual -->
+                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+            </classpath>
+        </javac>
+        <copy file="${tests.log4j.properties}"
+              tofile="${build.tests.dir}/log4j.properties"/>
+        <copy file="${aop.xml.ltwtests}"
+	      tofile="${build.tests.dir}/META-INF/aop.xml"/>
+    </target>
+    
+    <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
+            depends="clean,compile-tests-loadTimeWeavingDifferentRecordTypes">
+        <java dir="."
+              fork="true"              
+              classname="kieker.tests.loadTimeWeaving.bookstoreDifferentRecordTypes.Bookstore"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-javaagent:${aspectjweaverjar}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
+            <jvmarg value="-Daj.weaving.verbose=true"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+            </classpath>
+        </java>
+    </target>
+    
+    <target name="run-tests-loadTimeWeaving-bookstoreWithoutAnnotation"
+            depends="clean,compile-tests-loadTimeWeaving">
+        <java dir="."
+              fork="true"              
+              classname="kieker.tests.loadTimeWeaving.bookstoreWithoutAnnotation.BookstoreWA"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-javaagent:${aspectjweaverjar}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
+            <jvmarg value="-Daj.weaving.verbose=true"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="run-tests-loadTimeWeaving-executionOrderTest"
+            depends="clean,compile-tests-loadTimeWeaving">
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.loadTimeWeaving.executionOrderTest.ExecutionOrderTest"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-javaagent:${aspectjweaverjar}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
+            <jvmarg value="-Daj.weaving.verbose=true"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+            </classpath>
+        </java>
+    </target>
+    <target name="compile-tests-compileTimeWeaving-bookstore" depends="build-tpmon-ctw,init-log4-properties-tests">
+        <mkdir dir="src/kieker/tests/compileTimeWeaving/bookstore/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/AbstractKiekerTpmonMonitoring.java"
+              todir="src/kieker/tests/compileTimeWeaving/bookstore/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/AbstractKiekerTpmonMonitoringServlet.java"
+              todir="src/kieker/tests/compileTimeWeaving/bookstore/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/${KiekerTpmonTestAspect}"
+              todir="src/kieker/tests/compileTimeWeaving/bookstore/aspects/"/>        
+        <copy file="${tests.log4j.properties}"
+              tofile="${build.tests.dir}/log4j.properties"/>
+        <iajc destdir="${build.tests.dir}" source="1.5" verbose="true"
+              classpathref="tpmon.core.classpath">
+            <sourceroots>
+                <pathelement location="src/kieker/tests/compileTimeWeaving/bookstore/"/>
+            </sourceroots>
+        </iajc>
+    </target>
+    <target name="compile-tests-compileTimeWeaving-bookstoreDB" depends="build-tpmon-ctw,compile-tests-compileTimeWeaving-bookstore,init-log4-properties-tests">
+        <javac destDir="${build.tests.dir}"
+               source="1.5"
+               verbose="off"
+               srcdir="src/kieker/tests/util/"
+               debug="true"
+               classpathref="classpath.libs">
+            <compilerarg value="-Xlint:all"/>
+        </javac>
+    </target>
+
+    <target name="compile-tests-compileTimeWeaving-bookstoreBenchmark" depends="build-tpmon-ctw,init-log4-properties-tests">
+        <mkdir dir="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/AbstractKiekerTpmonMonitoring.java"
+              todir="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/AbstractKiekerTpmonMonitoringServlet.java"
+              todir="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/aspects/"/>
+        <copy file="src/kieker/tpmon/probe/aspectJ/executions/${KiekerTpmonTestAspect}"
+              todir="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/aspects/"/>
+        <copy file="${tests.log4j.properties}"
+              tofile="${build.tests.dir}/log4j.properties"/>
+        <iajc  destdir="${build.tests.dir}" source="1.5" verbose="true"
+              classpathref="tpmon.core.classpath">
+            <sourceroots>
+                <pathelement location="src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/"/>
+            </sourceroots>
+            <!--<aspectpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ctw}"/>
+            </aspectpath>-->
+        </iajc>
+    </target>
+    
+    <target name="run-tests-compileTimeWeaving-bookstore" depends="clean,compile-tests-compileTimeWeaving-bookstore">
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.compileTimeWeaving.bookstore.Bookstore"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+        </java>
+    </target>
+    
+    <target name="run-tests-compileTimeWeaving-bookstoreDB" depends="clean,compile-tests-compileTimeWeaving-bookstoreDB">
+        <delete dir="${tests.javadb.kiekerdb.path}"/> <!-- delete existing DB -->
+        <java dir="."
+              fork="true"
+              classpathref="run.tests.classpath"
+              classname="kieker.tests.util.JavaDBInitializer">
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dtpmon.dbDriverClassname="/>
+            <jvmarg value="-Dtpmon.dbConnectionAddress=jdbc:derby:${tests.javadb.kiekerdb.path};user=DBUSER;password=DBPASS"/>
+            <jvmarg value="-Dtpmon.dbTableName=APP.tpmondata"/>
+        </java>
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.compileTimeWeaving.bookstore.Bookstore"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.logMonitoringRecordTypeIds=false"/> <!-- type logging currently not supported by DB writers -->
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <jvmarg value="-Dtpmon.dbDriverClassname="/>
+            <jvmarg value="-Dtpmon.dbConnectionAddress=jdbc:derby:tmp/KIEKER;user=DBUSER;password=DBPASS"/>
+            <jvmarg value="-Dtpmon.dbTableName=APP.tpmondata"/>
+        </java>
+    </target>
+
+    <target name="run-tests-compileTimeWeaving-bookstore-synchronized" depends="clean,compile-tests-compileTimeWeaving-bookstore">
+        <echo message="Using Bookstore variant with synchronized Catalog.getBooks (its slower)."/>
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.compileTimeWeaving.bookstore.synchron.Bookstore"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+        </java>
+    </target>
+  <!--  <target name="run-tests-compileTimeWeaving-twoConcurrentMethodsExample" depends="clean,compile-tests-compileTimeWeaving-bookstore">
+      
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.compileTimeWeaving.twoConcurrentMethodsExample.Starter"
+              classpathref="run.ctwtests.classpath">
+           <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+        </java>
+    </target> -->
+
+    <target name="run-benchmark-compileTimeWeaving-bookstore" depends="clean,compile-tests-compileTimeWeaving-bookstoreBenchmark">
+        <java dir="."
+              fork="true"
+              classname="kieker.tests.compileTimeWeaving.bookstoreBenchmark.Bookstore"              
+	          classpathref="run.tests.classpath">
+            <jvmarg value="-server"/>
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.storagepath}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+        </java>
+        <exec command="bash -c &quot;echo 'opname resp_ns' &gt; tmp/benchmark-tpmon-cur.dat&quot;" failonerror="true"/>
+        <exec command="bash -c &quot;awk -F';' '{ print $2 , ($6-$5) }' tmp/tpmon-*/*.dat | sed s/'kieker.tests.compileTimeWeaving.bookstoreBenchmark.'/''/g >> tmp/benchmark-tpmon-cur.dat&quot;"
+        	failonerror="true" />
+        <exec command="bash -c &quot;R --vanilla &lt; ./src/kieker/tests/compileTimeWeaving/bookstoreBenchmark/gen-results.r&quot;"/>
+        <exec command="okular tmp/benchmark-results.pdf" spawn="true" />
+    </target>
+
+    <target name="run-reader" depends="build-tpmon-ctrl">
+        <copy file="src/kieker/tests/log4j.properties" todir="${build.tests.dir}/"/>
+        <java dir="."
+              fork="true"
+              classname="kieker.tpmon.reader.fileSystemReader.FileSystemReader"
+              classpathref="tpmon.core.classpath">
+            <jvmarg value="-DinputDir=${inputDir}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+        </java>
+        <delete file="${build.tests.dir}/log4j.properties"/>
+    </target>
+
+    <target name="run-logAnalysis" depends="build-loganalysis-ctrl">
+        <copy file="src/kieker/tests/log4j.properties" todir="${build.tests.dir}/"/>
+        <java dir="."
+              fork="true"
+              classname="kieker.loganalysis.LogAnalysisController"
+              classpathref="loganalysis.core.classpath">
+            <jvmarg value="-DinputDir=${inputDir}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.tests.dir}/log4j.properties"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ctrl}"/>
+            </classpath>
+        </java>
+        <delete file="${build.tests.dir}/log4j.properties"/>
+    </target>
+
+    <target name="mvn-init">
+        <xmlproperty file="pom.xml" prefix="pom.xml" />
+        <path id="maven-ant-tasks.classpath" path="external-libs/maven-ant-tasks-2.0.9.jar" />
+        <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+            classpathref="maven-ant-tasks.classpath" />
+    </target>
+    <target name="mvn-deploy" depends="mvn-init, mvn-deploy-ctrl, mvn-deploy-ctw, mvn-deploy-ltw" />
+    
+    <!--This target will place the tpmonctrl jar file in a maven repository alongside with its 
+        corresponding pom.xml file.
+        For real usage change the repository url to some repository of your choice.
+        To test deployment localy use something like file://localhost/xxx -->  
+    <target name="mvn-deploy-ctrl" depends="build-tpmon-ctrl, mvn-init">
+        <artifact:pom id="maven.project" file="pom_ant_kieker-tpmon-ctrl.xml" />
+        <artifact:deploy file="${dist.dir}/${dist.tpmon.ctrl}">
+            <remoteRepository url="file://localhost/maven/deploy/test"/>
+            <pom refid="maven.project"/>
+        </artifact:deploy>
+    </target>
+    
+    <target name="mvn-deploy-ctw" depends="build-tpmon-ctw, mvn-init">
+        <artifact:pom id="maven.project" file="pom_ant_kieker-tpmon-ctw.xml" />
+        <artifact:deploy file="${dist.dir}/${dist.tpmon.ctw}">
+            <remoteRepository url="file://localhost/maven/deploy/test"/>
+            <pom refid="maven.project"/>
+        </artifact:deploy>
+    </target>
+    
+    <target name="mvn-deploy-ltw" depends="build-tpmon-ltw, mvn-init">
+        <artifact:pom id="maven.project" file="pom_ant_kieker-tpmon-ltw.xml" />
+        <artifact:deploy file="${dist.dir}/${dist.tpmon.ltw}">
+            <remoteRepository url="file://localhost/maven/deploy/test"/>
+            <pom refid="maven.project"/>
+        </artifact:deploy>
+    </target>
+</project>
