@@ -37,14 +37,10 @@ public class SLAMonitoringProbe {
     protected static final TpmonController ctrlInst = TpmonController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
 
-    @Pointcut("execution(@org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe * *.*(..))"//+
-              /*" && !execution(@kieker.tpmon.annotation.TpmonInternal * *.*(..))"*/)
+    @Pointcut("execution(@org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
     public void monitoredMethod() {
     }
 
-    @Around("monitoredMethod()")
-
-    @TpmonInternal()
     protected SLOMonitoringRecord initMonitoringRecord(ProceedingJoinPoint thisJoinPoint) {
        // e.g. "getBook" 
         String methodname = thisJoinPoint.getSignature().getName();
@@ -60,7 +56,7 @@ public class SLAMonitoringProbe {
         return record;
     }
     
-    @TpmonInternal()
+    @Around("monitoredMethod()")
     public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint) throws Throwable {
        if (!ctrlInst.isMonitoringEnabled()) {
             return thisJoinPoint.proceed();
@@ -79,7 +75,6 @@ public class SLAMonitoringProbe {
         return record.retVal;
     }
     
-    @TpmonInternal()
     protected void proceedAndMeasure(ProceedingJoinPoint thisJoinPoint,
             SLOMonitoringRecord record) throws Throwable {
         record.timestamp = ctrlInst.getTime(); // startint stopwatch
