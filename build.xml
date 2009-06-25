@@ -97,6 +97,18 @@
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${build.tests.dir}"/>
         <mkdir dir="tmp"/>
+
+        <path id="slastic.control.core.classpath">
+            <path refid="classpath.libs"/>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.control.jar}"/>
+            </fileset>
+        </path>
+
+       <path id="run.tests.classpath">
+            <path refid="slastic.control.core.classpath"/>
+            <pathelement location="${build.tests.dir}/"/>
+        </path>
     </target>
 
     <target name="build-slastic.monadapt" depends="clean,init">
@@ -199,17 +211,54 @@
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
+    <condition property="no.aop.xml.ltwtests">
+        <not>
+            <available file="${aop.xml.ltwtests}"/>
+        </not>
+    </condition>
+
+    <target name="init-aop-xml-ltwtests" if="no.aop.xml.ltwtests">
+        <!-- if no aop.xml, copy example file automatically  -->
+        <echo message="${aop.xml.ltwtests} not existing.
+                       Creating default file."/>
+        <copy file="${aop.xml.example}" tofile="${aop.xml.ltwtests}"/>
+    </target>
+
+    <condition property="no.log4j.properties.tests">
+        <not>
+            <available file="${tests.log4j.properties}"/>
+        </not>
+    </condition>
+
     <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
-	    depends="build-tpmon-ltw,init-aop-xml-ltwtests,init-log4-properties-tests">
+	    depends="init,init-aop-xml-ltwtests,init-log4-properties-tests">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="classpath.libs"
-               srcdir="org.trustsoft/slastic/tests/bookstoreDifferentRecordTypes">
+               srcdir="src/org/trustsoft/slastic/tests/bookstoreDifferentRecordTypes">
         </javac>
         <copy file="${tests.log4j.properties}"
               tofile="${build.dir}/tests.log4j.properties"/>
         <copy file="${aop.xml.ltwtests}"
 	      tofile="${build.tests.dir}/META-INF/aop.xml"/>
+    </target>
+
+   <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
+            depends="compile-tests-loadTimeWeavingDifferentRecordTypes">
+        <java dir="."
+              fork="true"
+              classname="org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore"
+              classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dtpmon.customStoragePath=${tests.logdata.storagepath}"/>
+            <jvmarg value="-javaagent:${aspectjweaverjar}"/>
+            <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
+            <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
+            <jvmarg value="-Daj.weaving.verbose=true"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
+            </classpath>
+        </java>
     </target>
 
     <target name="clean">
