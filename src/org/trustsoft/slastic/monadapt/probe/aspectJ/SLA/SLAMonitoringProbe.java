@@ -37,7 +37,7 @@ public class SLAMonitoringProbe {
     protected static final TpmonController ctrlInst = TpmonController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
 
-    @Pointcut("execution(@org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
+    @Pointcut("execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
     public void monitoredMethod() {
     }
 
