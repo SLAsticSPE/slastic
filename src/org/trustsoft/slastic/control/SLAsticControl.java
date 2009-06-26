@@ -6,7 +6,7 @@ import kieker.loganalysis.datamodel.ExecutionSequence;
 import kieker.loganalysis.logReader.FSReader;
 import kieker.loganalysis.plugins.DependencyGraphPlugin;
 import kieker.loganalysis.recordConsumer.ExecutionSequenceRepositoryFiller;
-import kieker.loganalysis.recordConsumer.MonitoringRecordLogger;
+import kieker.loganalysis.recordConsumer.MonitoringRecordTypeLogger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimePlotter;
@@ -35,7 +35,7 @@ public class SLAsticControl {
         analysisInstance.setLogReader(new FSReader(inputDir));
 
         /* Dumps the record type ID */
-        analysisInstance.addConsumer(new MonitoringRecordLogger());
+        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
 
         /* Collects all executions */
         ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();

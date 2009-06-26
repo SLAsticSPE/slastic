@@ -4,8 +4,6 @@
  */
 package org.trustsoft.slastic.control.recordConsumer;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import kieker.loganalysis.recordConsumer.IMonitoringRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.SLAsticControl;
@@ -22,7 +20,7 @@ public class ResponseTimePlotter implements IMonitoringRecordConsumer {
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
 
     public String[] getRecordTypeSubscriptionList() {
-        String[] vec = {SLAsticControl.class.getCanonicalName()};
+        String[] vec = {SLOMonitoringRecord.class.getCanonicalName()};
         return vec;
     }
 

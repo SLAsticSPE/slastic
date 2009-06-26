@@ -32,7 +32,7 @@ import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
  */
 public class Bookstore extends Thread {
 
-    static int numberOfRequests = 1;
+    static int numberOfRequests = 1; // number of traces
     static int interRequestTime = 5;
 
     /**
