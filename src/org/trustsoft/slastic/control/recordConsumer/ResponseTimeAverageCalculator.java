@@ -64,4 +64,9 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 
 	}
 
+    public void terminate() {
+        /* In case we spawned a thread in execute(),
+         * we get the chance to kill it here. */
+    }
+
 }
