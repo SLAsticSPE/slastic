@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control;
 
+import java.io.File;
 import java.util.Collection;
 import kieker.common.logReader.filesystemReader.FilesystemReader;
 import kieker.loganalysis.LogAnalysisInstance;
@@ -50,7 +51,9 @@ public class SLAsticControl {
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
         Collection<ExecutionSequence> seqEnum = seqRepConsumer.getExecutionSequenceRepository().repository.values();
-        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, "/tmp/out.dot");
+        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot");
+        log.info("Wrote dependency graph to file " + inputDir+File.separator+"/dependencyGraph.dot");
+
 
         log.info("Bye, this was SLAsticControl");
         System.exit(0);
