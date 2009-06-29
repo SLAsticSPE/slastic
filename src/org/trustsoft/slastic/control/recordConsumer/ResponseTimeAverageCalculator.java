@@ -5,12 +5,12 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
+import kieker.common.logReader.IMonitoringRecordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.SLAsticControl;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
-import kieker.loganalysis.recordConsumer.IMonitoringRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer {

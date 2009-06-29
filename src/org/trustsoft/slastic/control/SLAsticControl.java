@@ -1,9 +1,9 @@
 package org.trustsoft.slastic.control;
 
-import java.util.Hashtable;
-import kieker.loganalysis.LogAnalysisController;
+import java.util.Collection;
+import kieker.common.logReader.filesystemReader.FilesystemReader;
+import kieker.loganalysis.LogAnalysisInstance;
 import kieker.loganalysis.datamodel.ExecutionSequence;
-import kieker.loganalysis.logReader.FSReader;
 import kieker.loganalysis.plugins.DependencyGraphPlugin;
 import kieker.loganalysis.recordConsumer.ExecutionSequenceRepositoryFiller;
 import kieker.loganalysis.recordConsumer.MonitoringRecordTypeLogger;
@@ -31,8 +31,8 @@ public class SLAsticControl {
             log.info("Reading all tpmon-* files from " + inputDir);
         }
 
-        LogAnalysisController analysisInstance = new LogAnalysisController();
-        analysisInstance.setLogReader(new FSReader(inputDir));
+        LogAnalysisInstance analysisInstance = new LogAnalysisInstance();
+        analysisInstance.addLogReader(new FilesystemReader(inputDir));
 
         /* Dumps the record type ID */
         analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
@@ -49,9 +49,8 @@ public class SLAsticControl {
 
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
-        Hashtable<Long, ExecutionSequence> sequenceTable = seqRepConsumer.getExecutionSequenceRepository().getRepositoryAsHashTable();
-        DependencyGraphPlugin depGraphTool = new DependencyGraphPlugin();
-        depGraphTool.processExecutionTraces(sequenceTable.values());
+        Collection<ExecutionSequence> seqEnum = seqRepConsumer.getExecutionSequenceRepository().repository.values();
+        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, "/tmp/out.dot");
 
         log.info("Bye, this was SLAsticControl");
         System.exit(0);
