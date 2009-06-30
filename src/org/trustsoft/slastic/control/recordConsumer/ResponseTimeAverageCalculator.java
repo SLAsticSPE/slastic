@@ -59,9 +59,9 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 	}
 
 	@Override
-	public void execute() {
+	public boolean execute() {
 		 /* We don't need to prepare */
-
+        return true;
 	}
 
     public void terminate() {

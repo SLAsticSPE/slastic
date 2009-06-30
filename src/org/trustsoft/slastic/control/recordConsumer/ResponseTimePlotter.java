@@ -37,8 +37,9 @@ public class ResponseTimePlotter implements IMonitoringRecordConsumer {
         }
     }
 
-    public void execute() {
+    public boolean execute() {
         /* We don't need to prepare */
+        return true;
     }
 
     public void terminate() {
