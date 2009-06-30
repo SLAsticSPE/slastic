@@ -51,7 +51,7 @@ public class SLAsticControl {
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
         Collection<ExecutionSequence> seqEnum = seqRepConsumer.getExecutionSequenceRepository().repository.values();
-        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot");
+        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot", null);
         log.info("Wrote dependency graph to file " + inputDir+File.separator+"/dependencyGraph.dot");
 
 
