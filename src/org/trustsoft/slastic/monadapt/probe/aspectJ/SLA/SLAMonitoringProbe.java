@@ -2,7 +2,6 @@ package org.trustsoft.slastic.monadapt.probe.aspectJ.SLA;
 
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.*;
-import kieker.tpmon.annotation.TpmonInternal;
 import kieker.tpmon.core.ControlFlowRegistry;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -36,6 +35,7 @@ public class SLAMonitoringProbe {
 
     protected static final TpmonController ctrlInst = TpmonController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
+    private static final String vmName = ctrlInst.getVmname();
 
     @Pointcut("execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
     public void monitoredMethod() {
@@ -52,7 +52,7 @@ public class SLAMonitoringProbe {
         SLOMonitoringRecord record = SLOMonitoringRecord.getInstance(
                 thisJoinPoint.getSignature().getDeclaringTypeName() /* component */, 
                 methodname + paramList /* operation */, 
-                "host");      
+                vmName);
         return record;
     }
     
