@@ -4,52 +4,64 @@
 package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+
+import javax.swing.event.EventListenerList;
 
 import kieker.common.logReader.IMonitoringRecordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.SLAsticControl;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+
+
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer {
 	
-	private static final Log log = LogFactory.getLog(SLAsticControl.class);
+	private static final Log log = LogFactory.getLog(ResponseTimeAverageCalculator.class);
 	private static final int defaultCapacity = 5;
-	private ArrayBlockingQueue<SLOMonitoringRecord> responseTimes;
-	private long averageResponseTime;
+	private BlockingQueue<SLOMonitoringRecord> responseTimes;
+	RecordConsumerThread consumerThread;
+	private javax.swing.event.EventListenerList listenerList;
+	private int anzahlConsumes=0;
 	
 	public ResponseTimeAverageCalculator(){
 		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);
-		this.averageResponseTime = 0; 
+		listenerList = new EventListenerList();
 	}
 	
 	@Override
 	public synchronized void  consumeMonitoringRecord(
 			AbstractKiekerMonitoringRecord monitoringRecord) {
+		this.anzahlConsumes ++;
 		if(monitoringRecord instanceof SLOMonitoringRecord){
-			while(!this.responseTimes.offer((SLOMonitoringRecord)monitoringRecord)){
-				this.responseTimes.poll();
+			//System.out.println("TIME: "+((SLOMonitoringRecord)monitoringRecord).rtNseconds);
+			synchronized(responseTimes){
+				while(!this.responseTimes.offer((SLOMonitoringRecord)monitoringRecord)){
+					this.responseTimes.poll();
+				}
 			}
-			//log.info("Record Added: "+((SLOMonitoringRecord)monitoringRecord).rtNseconds);
-			updateAverage();
+//			System.out.println("average nach feuern "+this.consumerThread.getAverage());			
 		}
-
 	}
-
-	private synchronized void updateAverage() {
-		long summedTimes = 0; 
-		for(SLOMonitoringRecord slo:responseTimes){
-			summedTimes += (slo.rtNseconds);
+	
+	private void fireCalculateAverageEvent(CalculateAverageEvent evt){
+		Object[] listeners = this.listenerList.getListenerList();
+		for(int i = 0; i<listeners.length; i+=2){
+			if(listeners[i] == ICalculateAverageListener.class){
+				((ICalculateAverageListener)listeners[i+1]).calculateAverageEventOccured(evt);
+			}
 		}
-		//log.info("summed times:"+summedTimes);
-		this.averageResponseTime = (summedTimes/responseTimes.size());
-		log.info("Average rtNseconds NOW: "+this.averageResponseTime);
+	}
+	
+	public synchronized void addCalculateAverageEventListener(ICalculateAverageListener listener){
+		listenerList.add(ICalculateAverageListener.class, listener);
 	}
 	
 	public long getAverageResponseTime(){
-		return this.averageResponseTime;
+		this.fireCalculateAverageEvent(new CalculateAverageEvent(this));
+		return this.consumerThread.getAverage();
 	}
 
 	@Override
@@ -60,7 +72,11 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 
 	@Override
 	public boolean execute() {
-		 /* We don't need to prepare */
+		 this.consumerThread = new RecordConsumerThread(this.responseTimes);
+		 this.addCalculateAverageEventListener(this.consumerThread);
+		 consumerThread.start();
+		 TestAskThread thread = new TestAskThread(this);
+		 thread.start();
         return true;
 	}
 

@@ -7,9 +7,10 @@ package org.trustsoft.slastic.control.recordConsumer;
 import kieker.common.logReader.IMonitoringRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.SLAsticControl;
+import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+
 
 /**
  *
@@ -18,6 +19,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 public class ResponseTimePlotter implements IMonitoringRecordConsumer {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
+     
 
    private final static String[] recordTypeSubscriptionList = {
         SLOMonitoringRecord.class.getCanonicalName()
@@ -30,16 +32,20 @@ public class ResponseTimePlotter implements IMonitoringRecordConsumer {
     public void consumeMonitoringRecord(AbstractKiekerMonitoringRecord monitoringRecord) {
         if (monitoringRecord instanceof SLOMonitoringRecord) {
             SLOMonitoringRecord rec = (SLOMonitoringRecord) monitoringRecord;
-            log.info(rec.componentName + "." + rec.operationName + ":" + rec.rtNseconds + "ns = "+ rec.rtNseconds/(1000*1000) + "ms" +" @ timestamp " + rec.timestamp);
-        } else {
+            log.info(rec.componentName + "." + rec.operationName + ":"
+					+ rec.rtNseconds + "ns = " + rec.rtNseconds / (1000 * 1000)
+					+ "ms" + " @ timestamp " + rec.timestamp);
+		} else {
             log.error("Can only consume records of type KiekerExecutionRecord" +
                     " but passed record is of type " + monitoringRecord.getClass().getName());
         }
     }
 
+
+
     public boolean execute() {
         /* We don't need to prepare */
-        return true;
+    	return true;
     }
 
     public void terminate() {
