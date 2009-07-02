@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
+import java.util.Random;
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;
 import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
@@ -35,12 +36,14 @@ import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
  *
  */
 public class Catalog {
+    private static final Random rnd = new Random(200);
+
     @SLAsticSLAMonitoringProbe()
     @TpmonExecutionMonitoringProbe()
     public static void getBook(boolean complexQuery) {
         if (complexQuery) {
             KiekerTpmonManualBranchProbe.monitorBranch(1,0);
-            Bookstore.waitabit(20);
+            Bookstore.waitabit(1000+rnd.nextInt(1000));
         } else {
             KiekerTpmonManualBranchProbe.monitorBranch(1,1);
             Bookstore.waitabit(2);

@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
 import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
@@ -32,8 +34,8 @@ import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
  */
 public class Bookstore extends Thread {
 
-    static int numberOfRequests = 1; // number of traces
-    static int interRequestTime = 5;
+    static int numberOfRequests = 20; // number of traces
+    static int interRequestTime = 500;
 
     /**
      *
@@ -72,12 +74,12 @@ public class Bookstore extends Thread {
         Bookstore.searchBook();
     }
 
-    @SLAsticSLAMonitoringProbe()
+    //@SLAsticSLAMonitoringProbe()
     @TpmonExecutionMonitoringProbe()
     public static void searchBook() {
-        for (int i = 0; i < 5; i++) {
-            Catalog.getBook(false);
-            CRM.getOffers();
+        for (int i = 0; i < 15; i++) {
+                Catalog.getBook(true);
+                CRM.getOffers();
         }
     }
 

@@ -37,11 +37,11 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 		this.anzahlConsumes ++;
 		if(monitoringRecord instanceof SLOMonitoringRecord){
 			//System.out.println("TIME: "+((SLOMonitoringRecord)monitoringRecord).rtNseconds);
-			synchronized(responseTimes){
+			//synchronized(responseTimes){
 				while(!this.responseTimes.offer((SLOMonitoringRecord)monitoringRecord)){
-					this.responseTimes.poll();
-				}
-			}
+                    this.responseTimes.poll();
+                }
+			//}
 //			System.out.println("average nach feuern "+this.consumerThread.getAverage());			
 		}
 	}
@@ -75,14 +75,15 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 		 this.consumerThread = new RecordConsumerThread(this.responseTimes);
 		 this.addCalculateAverageEventListener(this.consumerThread);
 		 consumerThread.start();
-		 TestAskThread thread = new TestAskThread(this);
-		 thread.start();
+//		 TestAskThread thread = new TestAskThread(this);
+//		 thread.start();
         return true;
 	}
 
     public void terminate() {
         /* In case we spawned a thread in execute(),
          * we get the chance to kill it here. */
+        consumerThread.terminate();
     }
 
 }

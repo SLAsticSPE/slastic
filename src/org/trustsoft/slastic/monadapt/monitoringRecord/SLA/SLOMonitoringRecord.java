@@ -53,7 +53,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
         this.componentName = recordVector[1];
         this.operationName = recordVector[2];
         this.host = recordVector[3];
-        this.rtNseconds = Integer.parseInt(recordVector[4]);
+        this.rtNseconds = Long.parseLong(recordVector[4]);
         return;
     }
 

@@ -1,21 +1,19 @@
 package org.trustsoft.slastic.control;
 
-import java.io.File;
-import java.util.Collection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import kieker.common.logReader.IMonitoringRecordConsumer;
 import kieker.common.logReader.filesystemReader.FilesystemReader;
 import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.loganalysis.LogAnalysisInstance;
-import kieker.loganalysis.datamodel.ExecutionSequence;
-import kieker.loganalysis.plugins.DependencyGraphPlugin;
-import kieker.loganalysis.recordConsumer.ExecutionSequenceRepositoryFiller;
 import kieker.loganalysis.recordConsumer.MonitoringRecordTypeLogger;
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimeAverageCalculator;
-import org.trustsoft.slastic.control.recordConsumer.ResponseTimePlotter;
 
 /**
  * @author Andre van Hoorn
@@ -24,31 +22,7 @@ public class SLAsticControl {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
 
-    private static final TpmonController ctrlInst = TpmonController.getInstance();
-
-    private static final IMonitoringRecordConsumer logCons = new IMonitoringRecordConsumer() {
-
-                /** Anonymous consumer class that simply passes all records to the
-                 *  controller */
-                public String[] getRecordTypeSubscriptionList() {
-                    return null; // consume all types
-                }
-
-                public void consumeMonitoringRecord(final AbstractKiekerMonitoringRecord monitoringRecord) {
-                    ctrlInst.logMonitoringRecord(monitoringRecord);
-                }
-
-                public boolean execute() {
-                    // do nothing, we are synchronous
-                    return true;
-                }
-
-                public void terminate() {
-                    ctrlInst.terminateMonitoring();
-                }
-            };
-
-    public static void main(String[] args){
+    public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
 
         String inputDir = System.getProperty("inputDir");
@@ -66,7 +40,7 @@ public class SLAsticControl {
         analysisInstance.addLogReader(new FilesystemReader(inputDir));
 
         /* Dumps the record type ID */
-        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
+//        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
 
         /* Collects all executions */
 //        ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();
@@ -75,19 +49,25 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
-        ResponseTimeAverageCalculator rtac = new ResponseTimeAverageCalculator();
-       //IMonitoringRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
-        //analysisInstance.addConsumer(rtDistributorCons);
 
-        
-        
+        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
+        final ResponseTimeAverageCalculator rtac = new ResponseTimeAverageCalculator();
         analysisInstance.addConsumer(rtac);
+        final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
+        ex.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": AVERAGE:::::::::" + rtac.getAverageResponseTime() / (1000 * 1000));
+            }
+        }, 1, 1, TimeUnit.SECONDS);
+
+        IMonitoringRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
+        analysisInstance.addConsumer(rtDistributorCons);
 
         /* Replays traces in real time */
-       
+
         analysisInstance.run();
-        
-        
+
+
 
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
@@ -100,6 +80,6 @@ public class SLAsticControl {
 
 
         log.info("Bye, this was SLAsticControl");
-        System.exit(0);
+    //System.exit(0);
     }
 }
