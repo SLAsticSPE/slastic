@@ -4,7 +4,7 @@
  */
 package org.trustsoft.slastic.control.recordConsumer;
 
-import kieker.common.logReader.IMonitoringRecordConsumer;
+import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.SLAsticControl;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class ResponseTimePlotter implements IMonitoringRecordConsumer {
+public class ResponseTimePlotter implements IKiekerRecordConsumer {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
      

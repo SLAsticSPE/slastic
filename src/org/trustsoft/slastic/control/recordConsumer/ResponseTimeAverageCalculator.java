@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 
 import javax.swing.event.EventListenerList;
 
-import kieker.common.logReader.IMonitoringRecordConsumer;
+import kieker.common.logReader.IKiekerRecordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
@@ -17,11 +17,11 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
-public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer {
+public class ResponseTimeAverageCalculator implements IKiekerRecordConsumer {
 	
 	private static final Log log = LogFactory.getLog(ResponseTimeAverageCalculator.class);
 	private static final int defaultCapacity = 5;
-	private BlockingQueue<SLOMonitoringRecord> responseTimes;
+	private final BlockingQueue<SLOMonitoringRecord> responseTimes;
 	RecordConsumerThread consumerThread;
 	private javax.swing.event.EventListenerList listenerList;
 	private int anzahlConsumes=0;
@@ -32,7 +32,7 @@ public class ResponseTimeAverageCalculator implements IMonitoringRecordConsumer 
 	}
 	
 	@Override
-	public synchronized void  consumeMonitoringRecord(
+	public void consumeMonitoringRecord(
 			AbstractKiekerMonitoringRecord monitoringRecord) {
 		this.anzahlConsumes ++;
 		if(monitoringRecord instanceof SLOMonitoringRecord){

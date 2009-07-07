@@ -20,7 +20,6 @@ package org.trustsoft.slastic.monadapt.monitoringRecord.SLA;
  * ==================================================
  */
 
-import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 /**
@@ -33,7 +32,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
    /** Used to identify the type of CSV records
     * This record type has a fixed value of 0
     */
-    private static int typeId = TpmonController.getInstance().registerMonitoringRecordType(SLOMonitoringRecord.class);
+    private static int typeId = AbstractKiekerMonitoringRecord.registerMonitoringRecordType(SLOMonitoringRecord.class);
     private static int numRecordFields = 5;
     public long timestamp = -1;
     public String componentName = null;
@@ -42,7 +41,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
     public long rtNseconds = -1;
     public Object retVal = null;
 
-    public void initFromStringVector(String[] recordVector)
+    public void initFromStringArray(String[] recordVector)
             throws IllegalArgumentException {
         // String[]
         if(recordVector.length > SLOMonitoringRecord.numRecordFields) {
@@ -57,7 +56,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
         return;
     }
 
-    public String[] toStringVector() {
+    public String[] toStringArray() {
         // String[] = {....}
         String[] vec = {
             Long.toString(timestamp),

@@ -3,6 +3,7 @@ package org.trustsoft.slastic.monadapt.probe.aspectJ.SLA;
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.*;
 import kieker.tpmon.core.ControlFlowRegistry;
+import kieker.tpmon.probe.IKiekerMonitoringProbe;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -31,7 +32,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  * @author Andre van Hoorn
  */
 @Aspect
-public class SLAMonitoringProbe {
+public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
 
     protected static final TpmonController ctrlInst = TpmonController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();

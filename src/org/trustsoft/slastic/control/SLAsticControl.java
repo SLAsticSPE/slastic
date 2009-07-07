@@ -4,13 +4,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import kieker.common.logReader.IMonitoringRecordConsumer;
-import kieker.common.logReader.filesystemReader.FilesystemReader;
+import kieker.common.logReader.IKiekerRecordConsumer;
+import kieker.common.logReader.filesystemReader.FSReader;
 import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.loganalysis.LogAnalysisInstance;
-import kieker.loganalysis.recordConsumer.MonitoringRecordTypeLogger;
-import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import kieker.loganalysis.logReader.JMSReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimeAverageCalculator;
@@ -37,7 +35,8 @@ public class SLAsticControl {
         }
 
         LogAnalysisInstance analysisInstance = new LogAnalysisInstance();
-        analysisInstance.addLogReader(new FilesystemReader(inputDir));
+        analysisInstance.setLogReader(new FSReader(inputDir));
+        new JMSReader();
 
         /* Dumps the record type ID */
 //        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
@@ -52,7 +51,7 @@ public class SLAsticControl {
 
         ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
         final ResponseTimeAverageCalculator rtac = new ResponseTimeAverageCalculator();
-        analysisInstance.addConsumer(rtac);
+        analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
         ex.scheduleAtFixedRate(new Runnable() {
             public void run() {
@@ -60,8 +59,8 @@ public class SLAsticControl {
             }
         }, 1, 1, TimeUnit.SECONDS);
 
-        IMonitoringRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
-        analysisInstance.addConsumer(rtDistributorCons);
+        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
+        analysisInstance.addRecordConsumer(rtDistributorCons);
 
         /* Replays traces in real time */
 
