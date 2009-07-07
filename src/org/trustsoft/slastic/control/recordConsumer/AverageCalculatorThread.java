@@ -16,15 +16,15 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  * @author Lena
  *
  */
-public class RecordConsumerThread extends Thread implements ICalculateAverageListener {
+public class AverageCalculatorThread extends Thread {
 
-    private static final Log log = LogFactory.getLog(RecordConsumerThread.class);
+    private static final Log log = LogFactory.getLog(AverageCalculatorThread.class);
     private final BlockingQueue<SLOMonitoringRecord> q;
     private long averageResponseTime = -1;
     private AtomicBoolean terminateRequestPending = new AtomicBoolean(false);
 
-    public RecordConsumerThread(BlockingQueue<SLOMonitoringRecord> q) {
-        log.info("New RecordConsumerThread created");
+    public AverageCalculatorThread(BlockingQueue<SLOMonitoringRecord> q) {
+        log.info("New AverageCalculatorThread created");
         this.q = q;
     }
 
@@ -35,11 +35,12 @@ public class RecordConsumerThread extends Thread implements ICalculateAverageLis
                 synchronized (this) {
                     this.wait();
                 }
+                System.out.println("Hier sollte ich niemals ankommen...");
                 if (!(q.size() > 0)) {
                     this.averageResponseTime = -1;
                     continue;
                 }
-                System.out.println("updating.............................");
+                System.out.println("updating......................."+this.q.size()+"......");
                 long summedTimes = 0;
                 synchronized (q) {
                     for (SLOMonitoringRecord slo : q) {
@@ -58,14 +59,10 @@ public class RecordConsumerThread extends Thread implements ICalculateAverageLis
     }
 
     public long getAverage() {
+    	 synchronized (this) {
+             this.notify();
+         }
         return this.averageResponseTime;
-    }
-
-    @Override
-    public synchronized void calculateAverageEventOccured(CalculateAverageEvent evt) {
-        synchronized (this) {
-            this.notify();
-        }
     }
 
     public void terminate() {

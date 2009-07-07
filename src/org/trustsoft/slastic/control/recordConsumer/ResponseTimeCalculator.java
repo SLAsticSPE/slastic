@@ -17,18 +17,17 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
-public class ResponseTimeAverageCalculator implements IKiekerRecordConsumer {
+public class ResponseTimeCalculator implements IKiekerRecordConsumer {
 	
-	private static final Log log = LogFactory.getLog(ResponseTimeAverageCalculator.class);
-	private static final int defaultCapacity = 5;
+	private static final Log log = LogFactory.getLog(ResponseTimeCalculator.class);
+	private static final int defaultCapacity = 200;
 	private final BlockingQueue<SLOMonitoringRecord> responseTimes;
-	RecordConsumerThread consumerThread;
-	private javax.swing.event.EventListenerList listenerList;
+	AverageCalculatorThread averageCalcThread;
+	QuantilCalculatorThread quantilCalcThread;
 	private int anzahlConsumes=0;
 	
-	public ResponseTimeAverageCalculator(){
+	public ResponseTimeCalculator(){
 		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);
-		listenerList = new EventListenerList();
 	}
 	
 	@Override
@@ -36,7 +35,7 @@ public class ResponseTimeAverageCalculator implements IKiekerRecordConsumer {
 			AbstractKiekerMonitoringRecord monitoringRecord) {
 		this.anzahlConsumes ++;
 		if(monitoringRecord instanceof SLOMonitoringRecord){
-			//System.out.println("TIME: "+((SLOMonitoringRecord)monitoringRecord).rtNseconds);
+			//System.out.println("TIME: "+(((SLOMonitoringRecord)monitoringRecord).rtNseconds)/(1000*1000));
 			//synchronized(responseTimes){
 				while(!this.responseTimes.offer((SLOMonitoringRecord)monitoringRecord)){
                     this.responseTimes.poll();
@@ -46,22 +45,15 @@ public class ResponseTimeAverageCalculator implements IKiekerRecordConsumer {
 		}
 	}
 	
-	private void fireCalculateAverageEvent(CalculateAverageEvent evt){
-		Object[] listeners = this.listenerList.getListenerList();
-		for(int i = 0; i<listeners.length; i+=2){
-			if(listeners[i] == ICalculateAverageListener.class){
-				((ICalculateAverageListener)listeners[i+1]).calculateAverageEventOccured(evt);
-			}
-		}
-	}
-	
-	public synchronized void addCalculateAverageEventListener(ICalculateAverageListener listener){
-		listenerList.add(ICalculateAverageListener.class, listener);
-	}
-	
 	public long getAverageResponseTime(){
-		this.fireCalculateAverageEvent(new CalculateAverageEvent(this));
-		return this.consumerThread.getAverage();
+		return this.averageCalcThread.getAverage();
+	}
+	
+	public long getMedianResponseTime(){
+		return this.quantilCalcThread.getQuantil(0.5f);
+	}
+	public long getQuantilResponseTime(float quantil){
+		return this.quantilCalcThread.getQuantil(quantil);
 	}
 
 	@Override
@@ -72,18 +64,17 @@ public class ResponseTimeAverageCalculator implements IKiekerRecordConsumer {
 
 	@Override
 	public boolean execute() {
-		 this.consumerThread = new RecordConsumerThread(this.responseTimes);
-		 this.addCalculateAverageEventListener(this.consumerThread);
-		 consumerThread.start();
-//		 TestAskThread thread = new TestAskThread(this);
-//		 thread.start();
+		 this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
+		 this.quantilCalcThread = new QuantilCalculatorThread(this.responseTimes);
+		 averageCalcThread.start();
+		 quantilCalcThread.start();
         return true;
 	}
 
     public void terminate() {
         /* In case we spawned a thread in execute(),
          * we get the chance to kill it here. */
-        consumerThread.terminate();
+        averageCalcThread.terminate();
     }
 
 }
