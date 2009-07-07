@@ -11,7 +11,7 @@ import kieker.loganalysis.LogAnalysisInstance;
 import kieker.loganalysis.logReader.JMSReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.recordConsumer.ResponseTimeAverageCalculator;
+import org.trustsoft.slastic.control.recordConsumer.ResponseTimeCalculator;
 
 /**
  * @author Andre van Hoorn
@@ -36,7 +36,7 @@ public class SLAsticControl {
 
         LogAnalysisInstance analysisInstance = new LogAnalysisInstance();
         analysisInstance.setLogReader(new FSReader(inputDir));
-        new JMSReader();
+//        new JMSReader( );
 
         /* Dumps the record type ID */
 //        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
@@ -50,12 +50,12 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
 
         ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
-        final ResponseTimeAverageCalculator rtac = new ResponseTimeAverageCalculator();
+        final ResponseTimeCalculator rtac = new ResponseTimeCalculator();
         analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
         ex.scheduleAtFixedRate(new Runnable() {
             public void run() {
-                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": AVERAGE:::::::::" + rtac.getAverageResponseTime() / (1000 * 1000));
+                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL (0.25):::::::::" + rtac.getQuantilResponseTime(0.25f) / (1000 * 1000));
             }
         }, 1, 1, TimeUnit.SECONDS);
 
