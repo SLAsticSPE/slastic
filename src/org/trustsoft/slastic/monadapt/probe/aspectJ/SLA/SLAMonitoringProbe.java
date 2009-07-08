@@ -39,10 +39,6 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
     private static final String vmName = ctrlInst.getVmname();
 
-//    @Pointcut("execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
-//    public void monitoredMethod() {
-//    }
-
     protected SLOMonitoringRecord initMonitoringRecord(ProceedingJoinPoint thisJoinPoint) {
        // e.g. "getBook" 
         String methodname = thisJoinPoint.getSignature().getName();
@@ -58,7 +54,6 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
         return record;
     }
     
-//    @Around("monitoredMethod()")
     @Around(value="execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *(..)) && @annotation(sla)", argNames="thisJoinPoint,sla")
     public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint, SLAsticSLAMonitoringProbe sla) throws Throwable {
        if (!ctrlInst.isMonitoringEnabled()) {
