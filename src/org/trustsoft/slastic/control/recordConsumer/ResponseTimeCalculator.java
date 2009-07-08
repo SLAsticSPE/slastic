@@ -6,8 +6,6 @@ package org.trustsoft.slastic.control.recordConsumer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import javax.swing.event.EventListenerList;
-
 import kieker.common.logReader.IKiekerRecordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

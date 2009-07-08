@@ -7,8 +7,7 @@ import java.util.concurrent.TimeUnit;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.filesystemReader.FSReader;
 import kieker.common.tools.logReplayer.ReplayDistributor;
-import kieker.loganalysis.LogAnalysisInstance;
-import kieker.loganalysis.logReader.JMSReader;
+import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimeCalculator;
@@ -34,7 +33,7 @@ public class SLAsticControl {
             log.info("Reading all tpmon-* files from " + inputDir);
         }
 
-        LogAnalysisInstance analysisInstance = new LogAnalysisInstance();
+        TpanInstance analysisInstance = new TpanInstance();
         analysisInstance.setLogReader(new FSReader(inputDir));
 //        new JMSReader( );
 
