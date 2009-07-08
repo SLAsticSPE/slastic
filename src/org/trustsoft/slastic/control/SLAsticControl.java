@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import kieker.common.logReader.IKiekerRecordConsumer;
+import kieker.common.logReader.LogReaderExecutionException;
+import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.common.logReader.filesystemReader.FSReader;
 import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.tpan.TpanInstance;
@@ -63,7 +65,13 @@ public class SLAsticControl {
 
         /* Replays traces in real time */
 
+        try {
         analysisInstance.run();
+        } catch (LogReaderExecutionException e){
+            log.error("LogReaderExecutionException:", e);
+        } catch (RecordConsumerExecutionException e){
+            log.error("RecordConsumerExecutionException:", e);
+        }
 
 
 

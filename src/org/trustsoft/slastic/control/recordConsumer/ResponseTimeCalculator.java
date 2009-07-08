@@ -7,6 +7,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 import kieker.common.logReader.IKiekerRecordConsumer;
+import kieker.common.logReader.RecordConsumerExecutionException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
@@ -61,7 +62,7 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
     }
 
     @Override
-    public boolean execute() {
+    public boolean execute() throws RecordConsumerExecutionException {
         this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
         this.quantileCalcThread = new QuantileCalculatorThread(this.responseTimes);
         averageCalcThread.start();
