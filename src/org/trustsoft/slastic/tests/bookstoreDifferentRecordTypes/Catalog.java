@@ -38,7 +38,7 @@ import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
 public class Catalog {
     private static final Random rnd = new Random(200);
 
-    @SLAsticSLAMonitoringProbe()
+    @SLAsticSLAMonitoringProbe(serviceId=77)
     @TpmonExecutionMonitoringProbe()
     public static void getBook(boolean complexQuery) {
         if (complexQuery) {

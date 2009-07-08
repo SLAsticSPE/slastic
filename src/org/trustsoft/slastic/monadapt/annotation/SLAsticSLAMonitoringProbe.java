@@ -31,4 +31,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface SLAsticSLAMonitoringProbe {
 	// String context();
+    int serviceId();
 }
