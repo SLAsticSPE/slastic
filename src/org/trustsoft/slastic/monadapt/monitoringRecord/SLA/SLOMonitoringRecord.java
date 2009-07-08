@@ -25,7 +25,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 /**
  * @author Andre van Hoorn
  */
-public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
+public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implements Comparable<SLOMonitoringRecord>{
 
     private static final long serialVersionUID = 1113L;
 
@@ -83,5 +83,13 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord {
         rec.operationName = operationName;
         rec.host = host;
         return rec;
+    }
+    
+    public int compareTo(SLOMonitoringRecord slo){
+      if(this.rtNseconds > slo.rtNseconds){
+    	  return 1;
+      }else{
+    	  return -1;
+      }
     }
 }
