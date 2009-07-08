@@ -5,6 +5,7 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.logging.Log;
@@ -15,29 +16,33 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  * @author Lena
  *
  */
-public class QuantilCalculatorThread extends Thread {
+public class QuantileCalculatorThread extends Thread {
 	
 	private static final Log log = LogFactory.getLog(AverageCalculatorThread.class);
     private final BlockingQueue<SLOMonitoringRecord> q;
-    private AtomicBoolean terminateRequestPending = new AtomicBoolean(false);
-    private TreeSet<SLOMonitoringRecord>treeSet;
+    private final AtomicBoolean terminateRequestPending = new AtomicBoolean(false);
+    private final ConcurrentSkipListSet<SLOMonitoringRecord>treeSet;
     float which = 0.0f;
     long quantil = -1;
     
     
-    public QuantilCalculatorThread(BlockingQueue<SLOMonitoringRecord> q){
+    public QuantileCalculatorThread(BlockingQueue<SLOMonitoringRecord> q){
     	log.info("QuantilCalculatorThread created!");
     	this.q = q;
-    	this.treeSet = new TreeSet<SLOMonitoringRecord>(this.q);
+    	this.treeSet = new ConcurrentSkipListSet<SLOMonitoringRecord>(this.q);
     }
-    
+
+    public void updateSample (SLOMonitoringRecord newRecord, SLOMonitoringRecord oldRecord){
+        this.treeSet.add(newRecord);
+        this.treeSet.remove(oldRecord);
+    }
+
     public void run(){
     	while(true){
     		try{
 	    		synchronized(this){
 	    			this.wait();
 	    		}
-	    		this.treeSet = new TreeSet<SLOMonitoringRecord>(q);
 	    		Object[] a = this.treeSet.toArray();
 	    		if(a.length%(1/this.which) != 0){
 	    			this.quantil = ((SLOMonitoringRecord)a[(int) ((a.length+1)/(1/this.which))]).rtNseconds; 
@@ -64,11 +69,11 @@ public class QuantilCalculatorThread extends Thread {
         }
     }
     
-    public long getQuantil(float quantil){
-    	if(quantil > 1.0 || quantil < 0.0){
+    public long getQuantile(float quantile){
+    	if(quantile > 1.0 || quantile < 0.0){
     		throw new IllegalArgumentException();
     	}
-    	this.which = quantil;
+    	this.which = quantile;
     	synchronized(this){
     		this.notify();
     	}
