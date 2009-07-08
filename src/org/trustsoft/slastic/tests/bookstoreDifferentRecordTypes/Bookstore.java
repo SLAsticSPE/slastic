@@ -74,7 +74,7 @@ public class Bookstore extends Thread {
         Bookstore.searchBook();
     }
 
-    //@SLAsticSLAMonitoringProbe()
+    @SLAsticSLAMonitoringProbe(serviceId=13)
     @TpmonExecutionMonitoringProbe()
     public static void searchBook() {
         for (int i = 0; i < 15; i++) {

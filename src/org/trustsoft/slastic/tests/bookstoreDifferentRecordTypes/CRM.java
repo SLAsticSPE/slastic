@@ -35,7 +35,7 @@ public class CRM {
     /**
      * This method will be monitored, since it has an annotation.
      */
-    //@SLAsticSLAMonitoringProbe()
+    @SLAsticSLAMonitoringProbe(serviceId=12)
     @TpmonExecutionMonitoringProbe()
     public static void getOffers(){
 	Catalog.getBook(true);

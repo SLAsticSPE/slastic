@@ -50,10 +50,11 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implemen
                     SLOMonitoringRecord.numRecordFields + " elements but found:" + recordVector.length);
         }
         this.timestamp = Long.parseLong(recordVector[0]);
-        this.componentName = recordVector[1];
-        this.operationName = recordVector[2];
-        this.host = recordVector[3];
-        this.rtNseconds = Long.parseLong(recordVector[4]);
+        this.serviceId=Integer.parseInt(recordVector[1]);
+        this.componentName = recordVector[2];
+        this.operationName = recordVector[3];
+        this.host = recordVector[4];
+        this.rtNseconds = Long.parseLong(recordVector[5]);
         return;
     }
 
@@ -61,6 +62,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implemen
         // String[] = {....}
         String[] vec = {
             Long.toString(timestamp),
+            Integer.toString(this.serviceId),
             this.componentName,
             this.operationName,
             this.host,

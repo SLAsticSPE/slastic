@@ -31,10 +31,10 @@ public class QuantileCalculatorThread extends Thread {
     }
 
     public void updateSample(SLOMonitoringRecord newRecord, SLOMonitoringRecord oldRecord) {
-        log.info("Adding: " + newRecord.rtNseconds);
+        log.info("Adding (serviceId="+newRecord.serviceId+"):" + newRecord.rtNseconds);
         this.treeSet.add(newRecord);
         if (oldRecord != null) {
-            log.info("Removing: " + oldRecord.rtNseconds);
+        log.info("Adding (serviceId="+oldRecord.serviceId+"):" + oldRecord.rtNseconds);
             this.treeSet.remove(oldRecord);
         }
     }

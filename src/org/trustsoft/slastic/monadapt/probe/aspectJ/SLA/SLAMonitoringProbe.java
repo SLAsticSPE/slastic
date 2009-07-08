@@ -8,6 +8,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /*
@@ -38,9 +39,9 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
     private static final String vmName = ctrlInst.getVmname();
 
-    @Pointcut("execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe(int serviceId) * *.*(..))")
-    public void monitoredMethod(int serviceId) {
-    }
+//    @Pointcut("execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *.*(..))")
+//    public void monitoredMethod() {
+//    }
 
     protected SLOMonitoringRecord initMonitoringRecord(ProceedingJoinPoint thisJoinPoint) {
        // e.g. "getBook" 
@@ -57,12 +58,14 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
         return record;
     }
     
-    @Around("monitoredMethod(int serviceId)")
-    public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint) throws Throwable {
+//    @Around("monitoredMethod()")
+    @Around(value="execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *(..)) && @annotation(sla)", argNames="thisJoinPoint,sla")
+    public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint, SLAsticSLAMonitoringProbe sla) throws Throwable {
        if (!ctrlInst.isMonitoringEnabled()) {
             return thisJoinPoint.proceed();
         }
         SLOMonitoringRecord record  = this.initMonitoringRecord(thisJoinPoint);
+         record.serviceId = sla.serviceId();
         try{
             this.proceedAndMeasure(thisJoinPoint, record);
         } catch (Exception e){
