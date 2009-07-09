@@ -50,13 +50,13 @@ public class SLAsticControl {
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
 
-        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(1);
+        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(10);
         final ResponseTimeCalculator rtac = new ResponseTimeCalculator();
         analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
         ex.scheduleAtFixedRate(new Runnable() {
             public void run() {
-                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(new float[]{0.95f,0.98f,0.99f}, 7).get(0));
+                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(new float[]{0.95f,0.98f,0.99f}, 77)[0]);
             }
         }, 1, 1, TimeUnit.SECONDS);
 

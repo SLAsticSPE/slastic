@@ -23,7 +23,7 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
     private static final int defaultCapacity = 200;
     private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
-    QuantileCalculatorThread quantileCalcThread;
+    QuantileCalculator quantileCalcThread;
     private int anzahlConsumes = 0;
 
     public ResponseTimeCalculator() {
@@ -49,11 +49,7 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
         return this.averageCalcThread.getAverage();
     }
 
-    public AtomicLongArray getMedianResponseTime() {
-        return this.quantileCalcThread.getQuantile(new float[]{0.5f});
-    }
-
-    public AtomicLongArray getQuantilResponseTime(float[] quantile, int id) {
+    public long[] getQuantilResponseTime(float[] quantile, int id) {
         return this.quantileCalcThread.getQuantile(quantile,id);
     }
 
@@ -66,9 +62,8 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
     @Override
     public boolean execute() throws RecordConsumerExecutionException {
         this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
-        this.quantileCalcThread = new QuantileCalculatorThread(this.responseTimes);
+        this.quantileCalcThread = new QuantileCalculator(this.responseTimes);
         averageCalcThread.start();
-        quantileCalcThread.start();
         return true;
     }
 
