@@ -45,28 +45,29 @@ public class QuantileCalculator {
         long[] quantile;
 
         System.out.println("Quantile Request for ServiceID: " + serviceID);
-        synchronized (this) {
-            quantile = new long[quantiles.length];
-            if (this.map.get(serviceID) == null) {
-                log.error("Not yet any serviced with this ID available");
-                return null;
-            } else {
-                Object[] a = this.map.get(serviceID).toArray();
-                for (int i = 0; i < quantiles.length; i++) {
-                    if (a.length % (1 / quantiles[i]) != 0) {
-                        quantile[i]=((SLOMonitoringRecord) a[(int) ((a.length) / (1 / quantiles[i]))]).rtNseconds;
-                        log.info("UPDATING............." + quantile[i] + "......................");
-                    } else {
-                        quantile[i] =(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / quantiles[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / quantiles[i])) + 1)])).rtNseconds);
-                        log.info("UPDATING.............." + quantile[i] + ".....................");
-                    }
+        //synchronized (this) {
+        quantile = new long[quantiles.length];
+        ConcurrentSkipListSet rtSet = this.map.get(serviceID);
+        if (rtSet == null) {
+            log.error("Not yet any serviced with this ID available");
+            return null;
+        } else {
+            Object[] a = rtSet.toArray();
+            for (int i = 0; i < quantiles.length; i++) {
+                if (a.length % (1 / quantiles[i]) != 0) {
+                    quantile[i] = ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / quantiles[i]))]).rtNseconds;
+                    log.info("UPDATING............." + quantile[i] + "......................");
+                } else {
+                    quantile[i] = (long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / quantiles[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / quantiles[i])) + 1)])).rtNseconds);
+                    log.info("UPDATING.............." + quantile[i] + ".....................");
                 }
             }
-            System.out.println("Die Quantile sehen so aus: " + quantile.length);
-            for (int i = 0; i < quantile.length; i++) {
-                System.out.println(quantile[i]);
-            }
         }
+        System.out.println("Die Quantile sehen so aus: " + quantile.length);
+        for (int i = 0; i < quantile.length; i++) {
+            System.out.println(quantile[i]);
+        }
+        //}
 
         return quantile;
     }
