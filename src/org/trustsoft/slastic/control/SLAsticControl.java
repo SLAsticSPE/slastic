@@ -13,7 +13,7 @@ import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.recordConsumer.ResponseTimeCalculator;
+import org.trustsoft.slastic.control.recordConsumer.SLAChecker;
 
 /**
  * @author Andre van Hoorn
@@ -52,7 +52,7 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
         
         
-        final ResponseTimeCalculator rtac = new ResponseTimeCalculator();
+        final SLAChecker rtac = new SLAChecker();
         analysisInstance.addRecordConsumer(rtac);
       
 

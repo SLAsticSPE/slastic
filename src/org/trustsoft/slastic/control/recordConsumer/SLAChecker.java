@@ -21,16 +21,16 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
-public class ResponseTimeCalculator implements IKiekerRecordConsumer {
+public class SLAChecker implements IKiekerRecordConsumer {
 
-    private static final Log log = LogFactory.getLog(ResponseTimeCalculator.class);
+    private static final Log log = LogFactory.getLog(SLAChecker.class);
     private static final int defaultCapacity = 200;
     private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
     QuantileCalculator quantileCalc;
     final TreeMap<Integer,TreeMap<Float,Long>> map;
 
-    public ResponseTimeCalculator() {
+    public SLAChecker() {
         this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
         this.map = new TreeMap<Integer, TreeMap<Float,Long>>();
         TreeMap<Float, Long> slo = new TreeMap<Float, Long>();
