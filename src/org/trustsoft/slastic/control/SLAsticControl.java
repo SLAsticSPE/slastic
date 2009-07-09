@@ -2,6 +2,8 @@ package org.trustsoft.slastic.control;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import kieker.common.logReader.IKiekerRecordConsumer;
@@ -12,6 +14,7 @@ import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.aspectj.org.eclipse.jdt.core.dom.ThisExpression;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimeCalculator;
 
 /**
@@ -49,16 +52,41 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
-
-        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(10);
-        final ResponseTimeCalculator rtac = new ResponseTimeCalculator();
+        final TreeMap<Integer,TreeMap<Float,Long>> map = new TreeMap<Integer, TreeMap<Float,Long>>();
+        TreeMap<Float, Long> slo = new TreeMap<Float, Long>();
+        slo.put(new Float(0.90f),new Long(1850000000));
+        slo.put(new Float(0.95), new Long(1950000000));
+        slo.put(new Float(0.99), new Long(1970000000));
+        map.put(new Integer(77), slo);
+        map.put(new Integer(12), slo);
+        
+        ScheduledThreadPoolExecutor[] exs = new ScheduledThreadPoolExecutor[map.size()];
+        
+        for(int i = 0; i< exs.length; i++){
+        	exs[i] = new ScheduledThreadPoolExecutor(1);
+        }
+        final ResponseTimeCalculator rtac = new ResponseTimeCalculator(map.keySet().toArray(new Integer[map.size()]));
         analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
-        ex.scheduleAtFixedRate(new Runnable() {
-            public void run() {
-                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(new float[]{0.95f,0.98f,0.99f}, 77)[0]);
-            }
-        }, 1, 1, TimeUnit.SECONDS);
+        
+        for(int i = 0; i< exs.length; i++){
+        	final int ID = map.keySet().toArray(new Integer[map.size()])[i];
+        	final Float[] quantile = map.get(ID).keySet().toArray(new Float[map.get(ID).size()]);
+        	exs[i].scheduleAtFixedRate(new Runnable() {
+                public void run() {
+                	long[] responseTimes = rtac.getQuantilResponseTime(quantile, ID);
+                	for(int j = 0; j<responseTimes.length; j++){
+                		if(responseTimes[j]> map.get(ID).get(quantile[j])){
+                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+map.get(ID).get(quantile[j]));
+                		}else
+                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+map.get(ID).get(quantile[j]));
+                			
+                	}
+                    //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
+                }
+            }, 1, 1, TimeUnit.SECONDS);
+        }
+        
 
         IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
         analysisInstance.addRecordConsumer(rtDistributorCons);
