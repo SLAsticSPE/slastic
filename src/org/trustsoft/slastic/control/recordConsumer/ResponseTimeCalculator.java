@@ -5,8 +5,6 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.atomic.AtomicLongArray;
-
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import org.apache.commons.logging.Log;
@@ -23,24 +21,23 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
     private static final int defaultCapacity = 200;
     private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
-    QuantileCalculator quantileCalcThread;
-    private int anzahlConsumes = 0;
+    QuantileCalculator quantileCalc;
 
-    public ResponseTimeCalculator() {
+    public ResponseTimeCalculator(Integer[] serviceIDs) {
         this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);
+        this.quantileCalc = new QuantileCalculator(serviceIDs);
     }
 
     @Override
     public void consumeMonitoringRecord(
             AbstractKiekerMonitoringRecord newMonitoringRecord) {
-        this.anzahlConsumes++;
         if (newMonitoringRecord instanceof SLOMonitoringRecord) {
             SLOMonitoringRecord oldSLORecord = null;
             SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newMonitoringRecord;
             while (!this.responseTimes.offer(newSLORecord)) {
                 oldSLORecord = this.responseTimes.poll();
             }
-            this.quantileCalcThread.updateSample(newSLORecord, oldSLORecord);
+            this.quantileCalc.updateSample(newSLORecord, oldSLORecord);
             
         }
     }
@@ -49,8 +46,8 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
         return this.averageCalcThread.getAverage();
     }
 
-    public long[] getQuantilResponseTime(float[] quantile, int id) {
-        return this.quantileCalcThread.getQuantile(quantile,id);
+    public long[] getQuantilResponseTime(Float[] quantile, int id) {
+        return this.quantileCalc.getQuantile(quantile,id);
     }
 
     @Override
@@ -62,7 +59,6 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
     @Override
     public boolean execute() throws RecordConsumerExecutionException {
         this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
-        this.quantileCalcThread = new QuantileCalculator(this.responseTimes);
         averageCalcThread.start();
         return true;
     }
