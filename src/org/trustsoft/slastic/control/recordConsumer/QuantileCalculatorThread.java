@@ -37,7 +37,7 @@ public class QuantileCalculatorThread extends Thread {
 		this.treeSet = new ConcurrentSkipListSet<SLOMonitoringRecord>();
 		this.map = new TreeMap<Integer, TreeSet<SLOMonitoringRecord>>(
 				new IntegerValueComparator());
-		this.quantile = new AtomicLongArray(3); 
+		this.quantile = new AtomicLongArray(1); 
 	}
 
 	public void updateSample(SLOMonitoringRecord newRecord,
@@ -63,21 +63,22 @@ public class QuantileCalculatorThread extends Thread {
 			try {
 				synchronized (this) {
 					this.wait();
+					//this.quantile = new AtomicLongArray(this.which.length);
 				}
 				if (this.serviceID == -1) {
 					Object[] a = this.treeSet.toArray();
-					this.quantile = new AtomicLongArray(this.which.length);
+					AtomicLongArray ar = new AtomicLongArray(this.which.length);
 					for (int i = 0; i < this.which.length; i++) {
 						if (a.length % (1 / this.which[i]) != 0) {
-							this.quantile.set(i, ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
-							log.info("UPDATING..........."+this.quantile.get(i)+"........................");
+							ar.set(i, ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
+							log.info("UPDATING..........."+ar.get(i)+"........................");
 						} else {
-							this.quantile.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
-							log.info("UPDATING..........."+this.quantile.get(i)+"........................");
+							ar.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
+							log.info("UPDATING..........."+ar.get(i)+"........................");
 						}
 					}
 				} else {
-					this.quantile = new AtomicLongArray(this.which.length);
+					AtomicLongArray ar = new AtomicLongArray(this.which.length);
 					
 					if(this.map.get(serviceID)== null){
 						log.error("Not yet any serviced with this ID available");
@@ -86,13 +87,14 @@ public class QuantileCalculatorThread extends Thread {
 						Object[] a = this.map.get(serviceID).toArray();
 						for (int i = 0; i < this.which.length; i++) {
 							if (a.length % (1 / this.which[i]) != 0) {
-								this.quantile.set(i,((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
-								log.info("UPDATING............."+this.quantile.get(i)+"......................");
+								ar.set(i,((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
+								log.info("UPDATING............."+ar.get(i)+"......................");
 							} else {
-								this.quantile.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
-								log.info("UPDATING.............."+this.quantile.get(i)+".....................");
+								ar.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
+								log.info("UPDATING.............."+ar.get(i)+".....................");
 							}
 						}
+						this.quantile = ar;
 					}
 				}
 			} catch (InterruptedException ex) {
@@ -127,10 +129,10 @@ public class QuantileCalculatorThread extends Thread {
 		this.serviceID=serviceIDs;
 		synchronized (this) {
 			this.notify();
-//			System.out.println("Die Quantile sehen so aus: "+this.quantile.length());
-//			for(int i = 0; i < this.quantile.length(); i++){
-//				System.out.println(this.quantile.get(i));
-//			}
+			System.out.println("Die Quantile sehen so aus: "+this.quantile.length());
+			for(int i = 0; i < this.quantile.length(); i++){
+				System.out.println(this.quantile.get(i));
+			}
 		}
 		
 		return this.quantile;
