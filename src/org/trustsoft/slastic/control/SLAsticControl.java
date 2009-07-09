@@ -64,11 +64,12 @@ public class SLAsticControl {
         final ResponseTimeCalculator rtac = new ResponseTimeCalculator(map.keySet().toArray(new Integer[map.size()]));
         analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
-        
-        for(int i = 0; i< map.size(); i++){
-        	final int ID = map.keySet().toArray(new Integer[map.size()])[i];
+        int numServices = map.size();
+        for(int i = 0; i<numServices ; i++){
+        	final int ID = map.keySet().toArray(new Integer[numServices])[i];
         	final Float[] quantile = map.get(ID).keySet().toArray(new Float[map.get(ID).size()]);
-        	ex.scheduleAtFixedRate(new Runnable() {
+            log.info(ID);
+            ex.scheduleAtFixedRate(new Runnable() {
                 public void run() {
                 	long[] responseTimes = rtac.getQuantilResponseTime(quantile, ID);
                 	for(int j = 0; j<responseTimes.length; j++){
@@ -80,7 +81,7 @@ public class SLAsticControl {
                 	}
                     //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
                 }
-            }, 1+i, 1, TimeUnit.SECONDS);
+            }, (1000/numServices)+i*1000, 1000, TimeUnit.MILLISECONDS);
         }
         
 
