@@ -63,23 +63,20 @@ public class QuantileCalculatorThread extends Thread {
 			try {
 				synchronized (this) {
 					this.wait();
-					//this.quantile = new AtomicLongArray(this.which.length);
 				}
+				this.quantile = new AtomicLongArray(this.which.length);
 				if (this.serviceID == -1) {
 					Object[] a = this.treeSet.toArray();
-					AtomicLongArray ar = new AtomicLongArray(this.which.length);
 					for (int i = 0; i < this.which.length; i++) {
 						if (a.length % (1 / this.which[i]) != 0) {
-							ar.set(i, ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
-							log.info("UPDATING..........."+ar.get(i)+"........................");
+							this.quantile.set(i,((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
+							log.info("UPDATING..........."+this.quantile.get(i)+"........................");
 						} else {
-							ar.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
-							log.info("UPDATING..........."+ar.get(i)+"........................");
+							this.quantile.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
+							log.info("UPDATING..........."+this.quantile.get(i)+"........................");
 						}
 					}
-				} else {
-					AtomicLongArray ar = new AtomicLongArray(this.which.length);
-					
+				} else {				
 					if(this.map.get(serviceID)== null){
 						log.error("Not yet any serviced with this ID available");
 						continue;
@@ -87,14 +84,13 @@ public class QuantileCalculatorThread extends Thread {
 						Object[] a = this.map.get(serviceID).toArray();
 						for (int i = 0; i < this.which.length; i++) {
 							if (a.length % (1 / this.which[i]) != 0) {
-								ar.set(i,((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
-								log.info("UPDATING............."+ar.get(i)+"......................");
+								this.quantile.set(i,((SLOMonitoringRecord) a[(int) ((a.length) / (1 / this.which[i]))]).rtNseconds);
+								log.info("UPDATING............."+this.quantile.get(i)+"......................");
 							} else {
-								ar.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
-								log.info("UPDATING.............."+ar.get(i)+".....................");
+								this.quantile.set(i,(long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / this.which[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / this.which[i])) + 1)])).rtNseconds));
+								log.info("UPDATING.............."+this.quantile.get(i)+".....................");
 							}
 						}
-						this.quantile = ar;
 					}
 				}
 			} catch (InterruptedException ex) {
