@@ -50,40 +50,11 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
-        final TreeMap<Integer,TreeMap<Float,Long>> map = new TreeMap<Integer, TreeMap<Float,Long>>();
-        TreeMap<Float, Long> slo = new TreeMap<Float, Long>();
-        slo.put(new Float(0.90f),new Long(1850000000));
-        slo.put(new Float(0.95), new Long(1950000000));
-        slo.put(new Float(0.99), new Long(1970000000));
-        map.put(new Integer(77), slo);
-        map.put(new Integer(12), slo);
-        
-        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(map.size());
         
         
-        final ResponseTimeCalculator rtac = new ResponseTimeCalculator(map.keySet().toArray(new Integer[map.size()]));
+        final ResponseTimeCalculator rtac = new ResponseTimeCalculator();
         analysisInstance.addRecordConsumer(rtac);
-        final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
-        int numServices = map.size();
-        for(int i = 0; i<numServices ; i++){
-        	final int ID = map.keySet().toArray(new Integer[numServices])[i];
-        	final Float[] quantile = map.get(ID).keySet().toArray(new Float[map.get(ID).size()]);
-            log.info(ID);
-            ex.scheduleAtFixedRate(new Runnable() {
-                public void run() {
-                	long[] responseTimes = rtac.getQuantilResponseTime(quantile, ID);
-                	for(int j = 0; j<responseTimes.length; j++){
-                		if(responseTimes[j]> map.get(ID).get(quantile[j])){
-                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+map.get(ID).get(quantile[j]));
-                		}else
-                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+map.get(ID).get(quantile[j]));
-                			
-                	}
-                    //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
-                }
-            }, (1000/numServices)+i*1000, 1000, TimeUnit.MILLISECONDS);
-        }
-        
+      
 
         IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
         analysisInstance.addRecordConsumer(rtDistributorCons);
