@@ -2,7 +2,6 @@ package org.trustsoft.slastic.control;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -14,7 +13,6 @@ import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.aspectj.org.eclipse.jdt.core.dom.ThisExpression;
 import org.trustsoft.slastic.control.recordConsumer.ResponseTimeCalculator;
 
 /**
