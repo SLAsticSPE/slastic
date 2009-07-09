@@ -56,7 +56,7 @@ public class SLAsticControl {
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
         ex.scheduleAtFixedRate(new Runnable() {
             public void run() {
-                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL (0.25):::::::::" + rtac.getQuantilResponseTime(0.25f) / (1000 * 1000));
+                System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(new float[]{0.95f,0.98f,0.99f}, 7).get(0));
             }
         }, 1, 1, TimeUnit.SECONDS);
 

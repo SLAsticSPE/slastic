@@ -33,7 +33,7 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implemen
     * This record type has a fixed value of 0
     */
     private static int typeId = AbstractKiekerMonitoringRecord.registerMonitoringRecordType(SLOMonitoringRecord.class);
-    private static int numRecordFields = 5;
+    private static int numRecordFields = 6;
     public long timestamp = -1;
     public int serviceId = -1;
     public String componentName = null;

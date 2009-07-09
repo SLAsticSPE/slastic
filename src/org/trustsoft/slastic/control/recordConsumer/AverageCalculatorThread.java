@@ -35,7 +35,6 @@ public class AverageCalculatorThread extends Thread {
                 synchronized (this) {
                     this.wait();
                 }
-                System.out.println("Hier sollte ich niemals ankommen...");
                 if (!(q.size() > 0)) {
                     this.averageResponseTime = -1;
                     continue;

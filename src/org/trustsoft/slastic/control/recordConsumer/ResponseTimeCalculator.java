@@ -5,6 +5,7 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicLongArray;
 
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.RecordConsumerExecutionException;
@@ -40,6 +41,7 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
                 oldSLORecord = this.responseTimes.poll();
             }
             this.quantileCalcThread.updateSample(newSLORecord, oldSLORecord);
+            
         }
     }
 
@@ -47,12 +49,12 @@ public class ResponseTimeCalculator implements IKiekerRecordConsumer {
         return this.averageCalcThread.getAverage();
     }
 
-    public long getMedianResponseTime() {
-        return this.quantileCalcThread.getQuantile(0.5f);
+    public AtomicLongArray getMedianResponseTime() {
+        return this.quantileCalcThread.getQuantile(new float[]{0.5f});
     }
 
-    public long getQuantilResponseTime(float quantil) {
-        return this.quantileCalcThread.getQuantile(quantil);
+    public AtomicLongArray getQuantilResponseTime(float[] quantile, int id) {
+        return this.quantileCalcThread.getQuantile(quantile,id);
     }
 
     @Override
