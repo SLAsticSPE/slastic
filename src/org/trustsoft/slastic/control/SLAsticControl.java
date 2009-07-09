@@ -58,19 +58,17 @@ public class SLAsticControl {
         map.put(new Integer(77), slo);
         map.put(new Integer(12), slo);
         
-        ScheduledThreadPoolExecutor[] exs = new ScheduledThreadPoolExecutor[map.size()];
+        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(map.size());
         
-        for(int i = 0; i< exs.length; i++){
-        	exs[i] = new ScheduledThreadPoolExecutor(1);
-        }
+        
         final ResponseTimeCalculator rtac = new ResponseTimeCalculator(map.keySet().toArray(new Integer[map.size()]));
         analysisInstance.addRecordConsumer(rtac);
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
         
-        for(int i = 0; i< exs.length; i++){
+        for(int i = 0; i< map.size(); i++){
         	final int ID = map.keySet().toArray(new Integer[map.size()])[i];
         	final Float[] quantile = map.get(ID).keySet().toArray(new Float[map.get(ID).size()]);
-        	exs[i].scheduleAtFixedRate(new Runnable() {
+        	ex.scheduleAtFixedRate(new Runnable() {
                 public void run() {
                 	long[] responseTimes = rtac.getQuantilResponseTime(quantile, ID);
                 	for(int j = 0; j<responseTimes.length; j++){
@@ -82,7 +80,7 @@ public class SLAsticControl {
                 	}
                     //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
                 }
-            }, 1, 1, TimeUnit.SECONDS);
+            }, 1+i, 1, TimeUnit.SECONDS);
         }
         
 
