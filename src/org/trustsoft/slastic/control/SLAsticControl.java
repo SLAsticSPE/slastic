@@ -1,7 +1,10 @@
 package org.trustsoft.slastic.control;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +16,8 @@ import kieker.common.tools.logReplayer.ReplayDistributor;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openarchitectureware.workflow.WorkflowRunner;
+import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.recordConsumer.SLAChecker;
 
 /**
@@ -50,9 +55,15 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
+        String wfFile = "/Users/Lena/Documents/workspace/SLALproject/src/SLALproject.oaw";
+        Map properties = new HashMap();
+        Map slotContents = new HashMap();
+        WorkflowRunner runner = new WorkflowRunner(); 
+        runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
+        slal.Model slas = (slal.Model)runner.getContext().get("theModel");
         
         
-        final SLAChecker rtac = new SLAChecker();
+        final SLAChecker rtac = new SLAChecker(slas);
         analysisInstance.addRecordConsumer(rtac);
       
 
@@ -69,6 +80,7 @@ public class SLAsticControl {
             log.error("RecordConsumerExecutionException:", e);
         }
 
+        
 
 
         /* Example that plots a dependency graph */
@@ -84,4 +96,4 @@ public class SLAsticControl {
         log.info("Bye, this was SLAsticControl");
     //System.exit(0);
     }
-}
+    }

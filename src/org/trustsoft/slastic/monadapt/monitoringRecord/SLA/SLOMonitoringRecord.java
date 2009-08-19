@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.monadapt.monitoringRecord.SLA;
 
+import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+
 /**
  * kieker.tpmon.KiekerBranchingRecord.java
  *
@@ -20,7 +22,7 @@ package org.trustsoft.slastic.monadapt.monitoringRecord.SLA;
  * ==================================================
  */
 
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+
 
 /**
  * @author Andre van Hoorn
