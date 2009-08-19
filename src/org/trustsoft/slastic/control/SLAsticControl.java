@@ -55,7 +55,7 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
-        String wfFile = "/Users/Lena/Documents/workspace/SLALproject/src/SLALproject.oaw";
+        String wfFile = "../../SLALproject/src/SLALproject.oaw";
         Map properties = new HashMap();
         Map slotContents = new HashMap();
         WorkflowRunner runner = new WorkflowRunner(); 
@@ -67,8 +67,8 @@ public class SLAsticControl {
         analysisInstance.addRecordConsumer(rtac);
       
 
-        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
-        analysisInstance.addRecordConsumer(rtDistributorCons);
+//        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
+//        analysisInstance.addRecordConsumer(rtDistributorCons);
 
         /* Replays traces in real time */
 

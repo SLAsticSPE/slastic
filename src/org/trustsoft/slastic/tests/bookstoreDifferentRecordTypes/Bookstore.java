@@ -4,6 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
+import kieker.tpmon.core.TpmonController;
 import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
 
 /**

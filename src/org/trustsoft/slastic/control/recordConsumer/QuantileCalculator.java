@@ -23,7 +23,7 @@ public class QuantileCalculator {
         this.map = new TreeMap<Integer, ConcurrentSkipListSet<SLOMonitoringRecord>>();
         for(int i = 0; i< serviceIDs.length; i++){
         	this.map.put(serviceIDs[i], new ConcurrentSkipListSet<SLOMonitoringRecord>());
-        	System.out.println("ID mit der Nummer: "+serviceIDs[i]+" himzugeügt.");
+        	System.out.println("ID mit der Nummer: "+serviceIDs[i]+" himzugefuegt.");
         }
     }
 
