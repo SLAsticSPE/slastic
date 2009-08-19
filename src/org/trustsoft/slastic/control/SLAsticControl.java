@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
@@ -41,8 +43,6 @@ public class SLAsticControl {
             log.info("Reading all tpmon-* files from " + inputDir);
         }
 
-        TpanInstance analysisInstance = new TpanInstance();
-        analysisInstance.setLogReader(new FSReader(inputDir));
 //        new JMSReader( );
 
         /* Dumps the record type ID */
@@ -61,16 +61,23 @@ public class SLAsticControl {
         WorkflowRunner runner = new WorkflowRunner(); 
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
         slal.Model slas = (slal.Model)runner.getContext().get("theModel");
-        
-        
+
         final SLAChecker rtac = new SLAChecker(slas);
-        analysisInstance.addRecordConsumer(rtac);
-      
-
-//        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
-//        analysisInstance.addRecordConsumer(rtDistributorCons);
-
+        try {
+            // HACK: Wir umgehen jetzt Tpan
+            rtac.execute();
+        } catch (RecordConsumerExecutionException ex) {
+            Logger.getLogger(SLAsticControl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         /* Replays traces in real time */
+        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
+
+        FSReader fsReader = new FSReader(inputDir);
+        fsReader.addConsumer(rtDistributorCons, null);
+
+        TpanInstance analysisInstance = new TpanInstance();
+        analysisInstance.setLogReader(fsReader);
+        //analysisInstance.addRecordConsumer(rtac);
 
         try {
         analysisInstance.run();

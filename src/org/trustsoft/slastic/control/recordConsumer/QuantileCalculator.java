@@ -51,21 +51,22 @@ public class QuantileCalculator {
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         quantile = new long[quantiles.length];
         ConcurrentSkipListSet<SLOMonitoringRecord> rtSet = this.map.get(serviceID);
-        
+
         if (rtSet == null) {
             log.error("Not yet any serviced with this ID available");
             return null;
         } else {
         	
             Object[] a = rtSet.toArray();
-            
+
             for (int i = 0; i < quantile.length; i++) {
-                if (a.length % (1 / quantile[i]) != 0) {
-                	
+                if (true) { //a.length % (1 / quantile[i]) != 0
+        log.info("XT" + quantiles[i]);
                     quantile[i] = ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / quantile[i]))]).rtNseconds;
                     System.out.println("Hier dann nicht mehr?");
                     log.info("UPDATING............." + quantile[i] + "......................");
                 } else {
+        log.info("XE" + quantile.length);
                     quantile[i] = (long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / quantile[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / quantile[i])) + 1)])).rtNseconds);
                     log.info("UPDATING.............." + quantile[i] + ".....................");
                 }
