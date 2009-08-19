@@ -59,14 +59,14 @@ public class QuantileCalculator {
         	
             Object[] a = rtSet.toArray();
             
-            for (int i = 0; i < q.length; i++) {
-                if (a.length % (1 / q[i]) != 0) {
+            for (int i = 0; i < quantile.length; i++) {
+                if (a.length % (1 / quantile[i]) != 0) {
                 	
-                    quantile[i] = ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / q[i]))]).rtNseconds;
+                    quantile[i] = ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / quantile[i]))]).rtNseconds;
                     System.out.println("Hier dann nicht mehr?");
                     log.info("UPDATING............." + quantile[i] + "......................");
                 } else {
-                    quantile[i] = (long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / q[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / q[i])) + 1)])).rtNseconds);
+                    quantile[i] = (long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / quantile[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / quantile[i])) + 1)])).rtNseconds);
                     log.info("UPDATING.............." + quantile[i] + ".....................");
                 }
             }
