@@ -1,20 +1,12 @@
 package org.trustsoft.slastic.control;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
-import kieker.common.logReader.filesystemReader.FSReader;
-import kieker.common.tools.logReplayer.ReplayDistributor;
+import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,37 +50,24 @@ public class SLAsticControl {
         String wfFile = "../../SLALproject/src/SLALproject.oaw";
         Map properties = new HashMap();
         Map slotContents = new HashMap();
-        WorkflowRunner runner = new WorkflowRunner(); 
+        WorkflowRunner runner = new WorkflowRunner();
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
-        slal.Model slas = (slal.Model)runner.getContext().get("theModel");
+        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
 
-        final SLAChecker rtac = new SLAChecker(slas);
-        try {
-            // HACK: Wir umgehen jetzt Tpan
-            rtac.execute();
-        } catch (RecordConsumerExecutionException ex) {
-            Logger.getLogger(SLAsticControl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        /* Replays traces in real time */
-        IKiekerRecordConsumer rtDistributorCons = new ReplayDistributor(7, rtac);
-
-        FSReader fsReader = new FSReader(inputDir);
-        fsReader.addConsumer(rtDistributorCons, null);
+        SLAChecker rtac = new SLAChecker(slas);
+        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
 
         TpanInstance analysisInstance = new TpanInstance();
-        analysisInstance.setLogReader(fsReader);
-        //analysisInstance.addRecordConsumer(rtac);
+        analysisInstance.setLogReader(fsReaderRealtime);
+        analysisInstance.addRecordConsumer(rtac);
 
         try {
-        analysisInstance.run();
-        } catch (LogReaderExecutionException e){
+            analysisInstance.run();
+        } catch (LogReaderExecutionException e) {
             log.error("LogReaderExecutionException:", e);
-        } catch (RecordConsumerExecutionException e){
+        } catch (RecordConsumerExecutionException e) {
             log.error("RecordConsumerExecutionException:", e);
         }
-
-        
-
 
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
@@ -98,9 +77,7 @@ public class SLAsticControl {
 //        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot");
 //        log.info("Wrote dependency graph to file " + inputDir+File.separator+"/dependencyGraph.dot");
 
-
-
         log.info("Bye, this was SLAsticControl");
-    //System.exit(0);
+        //System.exit(0);
     }
-    }
+}
