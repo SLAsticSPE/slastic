@@ -2,8 +2,6 @@ package org.trustsoft.slastic.control;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
