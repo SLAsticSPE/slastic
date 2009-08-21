@@ -45,9 +45,10 @@ public class SLAsticControl {
         /* Dumps response times */
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
-        String wfFile = "../../SLALproject/src/SLALproject.oaw";
-        Map properties = new HashMap();
-        Map slotContents = new HashMap();
+       //String wfFile = "../../SLALproject/src/SLALproject.oaw";
+        String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
+        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> slotContents = new HashMap<String, String>();
         WorkflowRunner runner = new WorkflowRunner();
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
         slal.Model slas = (slal.Model) runner.getContext().get("theModel");

@@ -23,7 +23,7 @@ public class QuantileCalculator {
         this.map = new TreeMap<Integer, ConcurrentSkipListSet<SLOMonitoringRecord>>();
         for(int i = 0; i< serviceIDs.length; i++){
         	this.map.put(serviceIDs[i], new ConcurrentSkipListSet<SLOMonitoringRecord>());
-        	System.out.println("ID mit der Nummer: "+serviceIDs[i]+" himzugefuegt.");
+        	System.out.println("ID mit der Nummer: "+serviceIDs[i]+" hinzugefuegt.");
         }
     }
 
@@ -45,37 +45,38 @@ public class QuantileCalculator {
 //		log.info("record added with ID: "+newRecord.serviceId);
     }
 
-    public long[] getQuantile(Float[] quantiles, int serviceID) {
-        long[] quantile;
+    public long[] getResponseTimeForQuantiles(Float[] quantiles, int serviceID) {
+        long[] responseTime;
 
         System.out.println("Quantile Request for ServiceID: " + serviceID);
-        quantile = new long[quantiles.length];
-        ConcurrentSkipListSet<SLOMonitoringRecord> rtSet = this.map.get(serviceID);
-
+        responseTime = new long[quantiles.length];
+        //log.info(quantiles.length);
+        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[this.map.get(serviceID).size()];
+        rtSet = this.map.get(serviceID).toArray(rtSet);
+        
         if (rtSet == null) {
-            log.error("Not yet any serviced with this ID available");
+            log.error("Not yet any serviced with ID: "+serviceID+" available");
             return null;
+        }else if(rtSet.length == 0){
+        	log.error("Not yet any responseTime for ID: "+serviceID+" measured");
         } else {
-        	
-            Object[] a = rtSet.toArray();
-
-            for (int i = 0; i < quantile.length; i++) {
-                if (true) { //a.length % (1 / quantile[i]) != 0
-        log.info("XT" + quantiles[i]);
-                    quantile[i] = ((SLOMonitoringRecord) a[(int) ((a.length) / (1 / quantile[i]))]).rtNseconds;
-                    System.out.println("Hier dann nicht mehr?");
-                    log.info("UPDATING............." + quantile[i] + "......................");
+            for (int i = 0; i < responseTime.length; i++) {
+                if ((rtSet.length % (1 / (quantiles[i]))) != 0.0f) {
+                	 int index = (int) ((rtSet.length)*(quantiles[i]));
+                	 responseTime[i] = rtSet[index].rtNseconds;
+                    log.info("UPDATING............." + responseTime[i] + "......................");
                 } else {
-        log.info("XE" + quantile.length);
-                    quantile[i] = (long) (0.5 * (((SLOMonitoringRecord) (a[(int) (a.length / (1 / quantile[i]))])).rtNseconds) + ((SLOMonitoringRecord) (a[(int) ((a.length / (1 / quantile[i])) + 1)])).rtNseconds);
-                    log.info("UPDATING.............." + quantile[i] + ".....................");
+                	try {
+                		int index = (int) ((rtSet.length)*(quantiles[i]));
+                		log.info(rtSet.length);
+                   	 	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
+                   	 } catch (Exception e) {
+						e.printStackTrace();
+					}
+                    log.info("UPDATING.............." + responseTime[i] + ".....................");
                 }
             }
         }
-//        System.out.println("Die Quantile sehen so aus: " + quantile.length);
-//        for (int i = 0; i < quantile.length; i++) {
-//            System.out.println(quantile[i]);
-//        }
-        return quantile;
+        return responseTime;
     }
 }

@@ -31,9 +31,8 @@ public class SLAChecker implements IKiekerRecordConsumer {
     final slal.Model slas;
 
     public SLAChecker(slal.Model m) {
-        log.info("constr SLAChecker");
-        slas = m;
-        this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);
+    	slas = m;
+        this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
 //        this.map = new TreeMap<Integer, TreeMap<Float,Long>>();
 //        TreeMap<Float, Long> slo = new TreeMap<Float, Long>();
 //        slo.put(new Float(0.90f),new Long(1850000000));
@@ -42,11 +41,11 @@ public class SLAChecker implements IKiekerRecordConsumer {
 //        map.put(new Integer(77), slo);
 //        map.put(new Integer(12), slo);
 //        this.quantileCalc = new QuantileCalculator(this.map.keySet().toArray(new Integer[this.map.size()]));
-
-        int[] serviceIDs = new int[m.getSlos().size()];
-        for (int i = 0; i < m.getSlos().size(); i++) {
-            serviceIDs[i] = m.getSlos().get(i).getServiceID();
-
+      
+        int[] serviceIDs = new int[m.getObligations().getSlo().size()];
+        for(int i = 0; i<m.getObligations().getSlo().size(); i++){
+        	serviceIDs[i]= m.getObligations().getSlo().get(i).getServiceID();
+        	
         }
         this.quantileCalc = new QuantileCalculator(serviceIDs);
     }
@@ -61,7 +60,7 @@ public class SLAChecker implements IKiekerRecordConsumer {
                 oldSLORecord = this.responseTimes.poll();
             }
             this.quantileCalc.updateSample(newSLORecord, oldSLORecord);
-
+            
         }
     }
 
@@ -70,7 +69,7 @@ public class SLAChecker implements IKiekerRecordConsumer {
     }
 
     private long[] getQuantilResponseTime(Float[] quantile, int id) {
-        return this.quantileCalc.getQuantile(quantile, id);
+        return this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
     }
 
     @Override
@@ -78,54 +77,40 @@ public class SLAChecker implements IKiekerRecordConsumer {
         String[] vec = {SLOMonitoringRecord.class.getCanonicalName()};
         return vec;
     }
-    ScheduledThreadPoolExecutor ex;
 
     @Override
     public boolean execute() throws RecordConsumerExecutionException {
-        //this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
-        //averageCalcThread.start();
-        ex = new ScheduledThreadPoolExecutor(1);
-        ex.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
-        final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");
-        for (int i = 0; i < slas.getSlos().size(); i++) {
-            final int ID = slas.getSlos().get(i).getServiceID();
-            final Float[] quantile = new Float[slas.getSlos().get(i).getPairList().getPair().size()];
-            final int[] responseTimes = new int[slas.getSlos().get(i).getPairList().getPair().size()];
-            for (int k = 0; k < slas.getSlos().get(i).getPairList().getPair().size(); k++) {
-                int pre = slas.getSlos().get(i).getPairList().getPair().get(k).getQuantile().getPre();
-                int post = slas.getSlos().get(i).getPairList().getPair().get(k).getQuantile().getPost();
-                if (!(pre >= 0 && pre <= 1)) {
-                    log.error("Quantile needs to be less than or equals 1!");
-                    return false;
-                } else {
-                    float fpre = (float) pre;
-                    float buff = (float) post;
-                    int c = ((Integer) post).toString().length();
-                    float fpost = (buff / (10 * c));
-                    fpre += fpost;
-                    quantile[k] = fpre;
-                    responseTimes[k] = slas.getSlos().get(i).getPairList().getPair().get(k).getResponseTime();
-                }
-
-            }
-            final SLO slo = slas.getSlos().get(i);
-            ex.scheduleAtFixedRate(new Runnable() {
-
+        this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
+        averageCalcThread.start();
+        ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(slas.getObligations().getSlo().size());
+        final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");    
+        for(int i = 0; i< slas.getObligations().getSlo().size(); i++){
+        	final int ID = slas.getObligations().getSlo().get(i).getServiceID();
+        	final Float[] quantile = new Float[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+        	final int[] responseTimes = new int[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+        	for(int k = 0; k<slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
+        		float quantil = ((float)slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getQuantile())/100;
+        		log.info("QUANTIL:  "+quantil);
+        		quantile[k] = quantil;
+            	
+            		responseTimes[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
+            		log.info("RESPONSETIME:"+slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime());
+            	
+        	}
+        	final SLO slo = slas.getObligations().getSlo().get(i);
+        	ex.scheduleAtFixedRate(new Runnable() {
                 public void run() {
-                    log.info("Hallo");
-                    long[] responseTimes = getQuantilResponseTime(quantile, ID);
-                    log.info("Tschüss");
-                    for (int j = 0; j < responseTimes.length; j++) {
-                        if (responseTimes[j] > slo.getPairList().getPair().get(j).getResponseTime()) {
-                            System.out.println("SLA for service " + ID + " for quantile: " + quantile[j] + " NOT satisfied : " + responseTimes[j] + " > " + slo.getPairList().getPair().get(j).getResponseTime());
-                        } else {
-                            System.out.println("SLA for service " + ID + " for quantile: " + quantile[j] + " SATISFIED: " + responseTimes[j] + " <= " + slo.getPairList().getPair().get(j).getResponseTime());
-                        }
-
-                    }
+                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
+                	for(int j = 0; j<responseTimes.length; j++){
+                		if(responseTimes[j]> slo.getValue().getPair().get(j).getResponseTime()){
+                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+slo.getValue().getPair().get(j).getResponseTime());
+                		}else
+                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+slo.getValue().getPair().get(j).getResponseTime());
+                			
+                	}
                     //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
                 }
-            }, 1000, 5000, TimeUnit.MILLISECONDS); //(1000/(slas.getSlos().size()))+i*1000
+            }, (1000/(slas.getObligations().getSlo().size()))+i*1000, 1000, TimeUnit.MILLISECONDS);
         }
         return true;
     }
@@ -133,8 +118,6 @@ public class SLAChecker implements IKiekerRecordConsumer {
     public void terminate() {
         /* In case we spawned a thread in execute(),
          * we get the chance to kill it here. */
-        //averageCalcThread.terminate();
-        ex.shutdown();
-        log.info("terminated");
+        averageCalcThread.terminate();
     }
 }
