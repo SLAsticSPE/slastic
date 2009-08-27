@@ -86,31 +86,35 @@ public class SLAChecker implements IKiekerRecordConsumer {
         final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");    
         for(int i = 0; i< slas.getObligations().getSlo().size(); i++){
         	final int ID = slas.getObligations().getSlo().get(i).getServiceID();
-        	final Float[] quantile = new Float[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
-        	final int[] responseTimes = new int[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
-        	for(int k = 0; k<slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
-        		float quantil = ((float)slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getQuantile())/100;
-        		log.info("QUANTIL:  "+quantil);
-        		quantile[k] = quantil;
-            	
-            		responseTimes[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
-            		log.info("RESPONSETIME:"+slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime());
-            	
+        	if(slas.getObligations().getSlo().get(i).getType() == slal.Type.RT_QUANTILE_TYPE){
+	        	final Float[] quantile = new Float[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+	        	final int[] responseTimes = new int[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+	        	for(int k = 0; k<slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
+	        		float quantil = ((float)slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getQuantile())/100;
+	        		log.info("QUANTIL:  "+quantil);
+	        		quantile[k] = quantil;
+	            	
+	            		responseTimes[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
+	            		log.info("RESPONSETIME:"+slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime());
+	            		log.info("NAME OF THE TYPE:"+slas.getObligations().getSlo().get(i).getType().getName());
+	        	}
+	        	final SLO slo = slas.getObligations().getSlo().get(i);
+	        	ex.scheduleAtFixedRate(new Runnable() {
+	                public void run() {
+	                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
+	                	for(int j = 0; j<responseTimes.length; j++){
+	                		if(responseTimes[j]> slo.getValue().getPair().get(j).getResponseTime()){
+	                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+slo.getValue().getPair().get(j).getResponseTime());
+	                		}else
+	                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+slo.getValue().getPair().get(j).getResponseTime());
+	                			
+	                	}
+	                    //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
+	                }
+	            }, (1000/(slas.getObligations().getSlo().size()))+i*1000, 1000, TimeUnit.MILLISECONDS);
+        	}else{
+        		log.error("No handling for this SLA-Type available");
         	}
-        	final SLO slo = slas.getObligations().getSlo().get(i);
-        	ex.scheduleAtFixedRate(new Runnable() {
-                public void run() {
-                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
-                	for(int j = 0; j<responseTimes.length; j++){
-                		if(responseTimes[j]> slo.getValue().getPair().get(j).getResponseTime()){
-                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+slo.getValue().getPair().get(j).getResponseTime());
-                		}else
-                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+slo.getValue().getPair().get(j).getResponseTime());
-                			
-                	}
-                    //System.out.println(m_ISO8601Local.format(new java.util.Date()) + ": QUANTIL:::::::::" + rtac.getQuantilResponseTime(quantile, ID)[0]);
-                }
-            }, (1000/(slas.getObligations().getSlo().size()))+i*1000, 1000, TimeUnit.MILLISECONDS);
         }
         return true;
     }
