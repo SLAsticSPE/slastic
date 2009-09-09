@@ -46,27 +46,32 @@ public class SLAsticControl {
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
-        String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
+        //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
+        String wfFile = "C:/Dokumente und Einstellungen/Lena/workspace/slastic/src/org/trustsoft/slastic/control/systemModel/reconfigurationModelReader.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
         WorkflowRunner runner = new WorkflowRunner();
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
-        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
+        //slal.Model slas = (slal.Model) runner.getContext().get("theModel");
+        reconfMM.ReconfigurationModel model = (reconfMM.ReconfigurationModel) runner.getContext().get("theModel");
+       
+        for(int i = 0; i<model.getComponents().size(); i++){
+        	System.out.println(model.getComponents().get(i).getComponent().getEntityName());        }
 
-        SLAChecker rtac = new SLAChecker(slas);
-        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
-
-        TpanInstance analysisInstance = new TpanInstance();
-        analysisInstance.setLogReader(fsReaderRealtime);
-        analysisInstance.addRecordConsumer(rtac);
-
-        try {
-            analysisInstance.run();
-        } catch (LogReaderExecutionException e) {
-            log.error("LogReaderExecutionException:", e);
-        } catch (RecordConsumerExecutionException e) {
-            log.error("RecordConsumerExecutionException:", e);
-        }
+//        SLAChecker rtac = new SLAChecker(slas);
+//        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
+//
+//        TpanInstance analysisInstance = new TpanInstance();
+//        analysisInstance.setLogReader(fsReaderRealtime);
+//        analysisInstance.addRecordConsumer(rtac);
+//
+//        try {
+//            analysisInstance.run();
+//        } catch (LogReaderExecutionException e) {
+//            log.error("LogReaderExecutionException:", e);
+//        } catch (RecordConsumerExecutionException e) {
+//            log.error("RecordConsumerExecutionException:", e);
+//        }
 
         /* Example that plots a dependency graph */
         /* generate dependency diagram */

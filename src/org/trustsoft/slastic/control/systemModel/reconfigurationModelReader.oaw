@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> 
+<workflow> 
+	<bean id='mm.reconfMM' file="C:/Dokumente und Einstellungen/Lena/workspace/slastic/src/org/trustsoft/slastic/control/systemModel/MetaModel.oaw" />
+	<component class="oaw.emf.XmiReader"> 
+		
+  		<modelFile value='C:/Dokumente und Einstellungen/Lena/workspace/test/My3.reconfMM' />
+ 		<outputSlot value="theModel"/> 
+	</component> 
+	
+</workflow>

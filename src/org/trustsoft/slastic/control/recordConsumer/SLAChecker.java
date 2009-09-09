@@ -33,15 +33,6 @@ public class SLAChecker implements IKiekerRecordConsumer {
     public SLAChecker(slal.Model m) {
     	slas = m;
         this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
-//        this.map = new TreeMap<Integer, TreeMap<Float,Long>>();
-//        TreeMap<Float, Long> slo = new TreeMap<Float, Long>();
-//        slo.put(new Float(0.90f),new Long(1850000000));
-//        slo.put(new Float(0.95), new Long(1950000000));
-//        slo.put(new Float(0.99), new Long(1970000000));
-//        map.put(new Integer(77), slo);
-//        map.put(new Integer(12), slo);
-//        this.quantileCalc = new QuantileCalculator(this.map.keySet().toArray(new Integer[this.map.size()]));
-      
         int[] serviceIDs = new int[m.getObligations().getSlo().size()];
         for(int i = 0; i<m.getObligations().getSlo().size(); i++){
         	serviceIDs[i]= m.getObligations().getSlo().get(i).getServiceID();
@@ -90,13 +81,13 @@ public class SLAChecker implements IKiekerRecordConsumer {
 	        	final Float[] quantile = new Float[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
 	        	final int[] responseTimes = new int[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
 	        	for(int k = 0; k<slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
-	        		float quantil = ((float)slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getQuantile())/100;
-	        		log.info("QUANTIL:  "+quantil);
-	        		quantile[k] = quantil;
+	        		float q = ((float)slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getQuantile())/100;
+	        		log.info("quantile:  "+q);
+	        		quantile[k] = q;
 	            	
 	            		responseTimes[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
-	            		log.info("RESPONSETIME:"+slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime());
-	            		log.info("NAME OF THE TYPE:"+slas.getObligations().getSlo().get(i).getType().getName());
+	            		log.info("current responsetime:"+slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime());
+	            		log.info("SLA-Type"+slas.getObligations().getSlo().get(i).getType().getName());
 	        	}
 	        	final SLO slo = slas.getObligations().getSlo().get(i);
 	        	ex.scheduleAtFixedRate(new Runnable() {
