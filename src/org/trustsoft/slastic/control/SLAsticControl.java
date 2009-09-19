@@ -55,27 +55,29 @@ public class SLAsticControl {
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
         slal.Model slas = (slal.Model) runner.getContext().get("theModel");
         reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
+        
+        //Das sollte nun immer gemacht werden:
         ModelUpdater.initModel(reconfigurationModel);
        
-        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
-        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
-        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
-        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
+//        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
+//        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
+//        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
+//        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
-//        SLAChecker rtac = new SLAChecker(slas);
-//        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
-//
-//        TpanInstance analysisInstance = new TpanInstance();
-//        analysisInstance.setLogReader(fsReaderRealtime);
-//        analysisInstance.addRecordConsumer(rtac);
-//
-//        try {
-//            analysisInstance.run();
-//        } catch (LogReaderExecutionException e) {
-//            log.error("LogReaderExecutionException:", e);
-//        } catch (RecordConsumerExecutionException e) {
-//            log.error("RecordConsumerExecutionException:", e);
-//        }
+        SLAChecker rtac = new SLAChecker(slas);
+        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
+
+        TpanInstance analysisInstance = new TpanInstance();
+        analysisInstance.setLogReader(fsReaderRealtime);
+        analysisInstance.addRecordConsumer(rtac);
+
+        try {
+            analysisInstance.run();
+        } catch (LogReaderExecutionException e) {
+            log.error("LogReaderExecutionException:", e);
+        } catch (RecordConsumerExecutionException e) {
+            log.error("RecordConsumerExecutionException:", e);
+        }
 
         /* Example that plots a dependency graph */
         /* generate dependency diagram */

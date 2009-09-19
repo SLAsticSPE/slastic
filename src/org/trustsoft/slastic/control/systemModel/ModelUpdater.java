@@ -34,6 +34,7 @@ public class ModelUpdater  {
 	public static void initModel(ReconfigurationModel model){
 		if(instance == null){
 			instance = new ModelUpdater(model);
+			log.info("ModelUpdater initialized!");
 		}else{
 			log.info("ModelUpdater is already initialized");
 		}
@@ -51,20 +52,26 @@ public class ModelUpdater  {
 	@SuppressWarnings("unchecked")
 	public static void updateModel(SLOMonitoringRecord newRecord, SLOMonitoringRecord oldRecord){
 		int serviceID = newRecord.serviceId;
+		boolean updated = false;
 		for(int i = 0; i< model.getComponents().size();i++){
 			for(int k = 0; k<model.getComponents().get(i).getServices().size(); k++){
 				Service service = model.getComponents().get(i).getServices().get(k);
 				if(service.getServiceID() == serviceID){
 					((ConcurrentSkipListSet<SLOMonitoringRecord>)service.getResponseTimes()).add(newRecord);
-				}
-				if(oldRecord != null){
-					if(service.getServiceID() == oldRecord.serviceId){
-						((ConcurrentSkipListSet<SLOMonitoringRecord>)service.getResponseTimes()).remove(oldRecord);
-						oldRecord = null;
+					updated = true;
+					if(oldRecord != null){
+						if(service.getServiceID() == oldRecord.serviceId){
+							((ConcurrentSkipListSet<SLOMonitoringRecord>)service.getResponseTimes()).remove(oldRecord);
+							oldRecord = null;
+						}
 					}
 				}
+				
 			}
 		}
+		if(updated)
+			log.info("Model updated for Service: "+serviceID);
+		updated = false;
 	}
 	
 	@SuppressWarnings("unchecked")

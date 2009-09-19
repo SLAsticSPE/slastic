@@ -42,7 +42,7 @@ public class QuantileCalculator {
                 if ((rtSet.length % (1 / (quantiles[i]))) != 0.0f) {
                 	 int index = (int) ((rtSet.length)*(quantiles[i]));
                 	 responseTime[i] = rtSet[index].rtNseconds;
-                    log.info("UPDATING............." + responseTime[i] + "......................");
+                    log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
                 } else {
                 	try {
                 		int index = (int) ((rtSet.length)*(quantiles[i]));
@@ -51,7 +51,7 @@ public class QuantileCalculator {
                    	 } catch (Exception e) {
 						e.printStackTrace();
 					}
-                    log.info("UPDATING.............." + responseTime[i] + ".....................");
+                    log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
                 }
             }
         }
