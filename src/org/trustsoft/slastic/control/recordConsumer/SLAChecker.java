@@ -16,6 +16,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.systemModel.ModelUpdater;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import slal.SLO;
@@ -27,15 +28,15 @@ public class SLAChecker implements IKiekerRecordConsumer {
     private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
     QuantileCalculator quantileCalc;
-//    final TreeMap<Integer,TreeMap<Float,Long>> map;
     final slal.Model slas;
+    
 
-    public SLAChecker(slal.Model m) {
-    	slas = m;
+    public SLAChecker(slal.Model SLAmodel) {
+    	slas = SLAmodel;
         this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
-        int[] serviceIDs = new int[m.getObligations().getSlo().size()];
-        for(int i = 0; i<m.getObligations().getSlo().size(); i++){
-        	serviceIDs[i]= m.getObligations().getSlo().get(i).getServiceID();
+        int[] serviceIDs = new int[SLAmodel.getObligations().getSlo().size()];
+        for(int i = 0; i<SLAmodel.getObligations().getSlo().size(); i++){
+        	serviceIDs[i]= SLAmodel.getObligations().getSlo().get(i).getServiceID();
         	
         }
         this.quantileCalc = new QuantileCalculator(serviceIDs);
@@ -50,7 +51,7 @@ public class SLAChecker implements IKiekerRecordConsumer {
             while (!this.responseTimes.offer(newSLORecord)) {
                 oldSLORecord = this.responseTimes.poll();
             }
-            this.quantileCalc.updateSample(newSLORecord, oldSLORecord);
+            ModelUpdater.updateModel(newSLORecord, oldSLORecord);
             
         }
     }

@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.recordConsumer.SLAChecker;
+import org.trustsoft.slastic.control.systemModel.ModelUpdater;
 
 /**
  * @author Andre van Hoorn
@@ -47,16 +48,19 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
         //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
-        String wfFile = "C:/Dokumente und Einstellungen/Lena/workspace/slastic/src/org/trustsoft/slastic/control/systemModel/reconfigurationModelReader.oaw";
+        String wfFile = "C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
         WorkflowRunner runner = new WorkflowRunner();
         runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
-        //slal.Model slas = (slal.Model) runner.getContext().get("theModel");
-        reconfMM.ReconfigurationModel model = (reconfMM.ReconfigurationModel) runner.getContext().get("theModel");
+        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
+        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
+        ModelUpdater.initModel(reconfigurationModel);
        
-        for(int i = 0; i<model.getComponents().size(); i++){
-        	System.out.println(model.getComponents().get(i).getComponent().getEntityName());        }
+        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
+        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
+        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
+        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
 //        SLAChecker rtac = new SLAChecker(slas);
 //        FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);

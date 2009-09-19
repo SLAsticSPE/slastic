@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="ISO-8859-1"?> 
 <workflow> 
-	<bean id='mm.reconfMM' file="C:/workspace/slastic/src/org/trustsoft/slastic/control/systemModel/MetaModel.oaw" />
-	<component class="oaw.emf.XmiReader"> 
-		
-  		<modelFile value='C:/workspace/BookstoreReconfModel/My.reconfmm' />
- 		<outputSlot value="theModel"/> 
+	<property name='metaModelLocation'/>
+	<property name='modelFile'/>
+	<property name='outputSlot'/>
+	<bean id='mm.reconfMM' file="${metaModelLocation}" />
+	<component class="oaw.emf.XmiReader"> 		
+  		<modelFile value='${modelFile}' />
+ 		<outputSlot value="${outputSlot}"/> 
+ 		
 	</component> 
 	
 </workflow>

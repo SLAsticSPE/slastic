@@ -8,7 +8,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.*;
 
-public class ModelUpdater {
+public class ModelUpdater  {
 	
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 	private static ReconfigurationModel model;
@@ -67,6 +67,7 @@ public class ModelUpdater {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(int serviceID){
 		for(int i = 0; i< model.getComponents().size();i++){
 			for(int k = 0; k< model.getComponents().get(i).getServices().size(); k++){
