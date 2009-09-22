@@ -8,14 +8,14 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.*;
 
-public class ModelUpdater  {
+public class ModelManager  {
 	
-	private static final Log log = LogFactory.getLog(ModelUpdater.class);
+	private static final Log log = LogFactory.getLog(ModelManager.class);
 	private static ReconfigurationModel model;
-	private static ModelUpdater instance;
+	private static ModelManager instance;
 	//private final static TreeMap<Integer, ConcurrentSkipListSet<SLOMonitoringRecord>> map = new TreeMap<Integer, ConcurrentSkipListSet<SLOMonitoringRecord>>();
 	
-	private  ModelUpdater(ReconfigurationModel reconfigurationModel){
+	private  ModelManager(ReconfigurationModel reconfigurationModel){
 		model = reconfigurationModel;
 		this.initSet();
 	}
@@ -33,14 +33,14 @@ public class ModelUpdater  {
 
 	public static void initModel(ReconfigurationModel model){
 		if(instance == null){
-			instance = new ModelUpdater(model);
+			instance = new ModelManager(model);
 			log.info("ModelUpdater initialized!");
 		}else{
 			log.info("ModelUpdater is already initialized");
 		}
 	}
 	
-	public synchronized static ModelUpdater getInstance(){
+	public synchronized static ModelManager getInstance(){
 		if(instance==null){
 			log.error("ModelUpdater is not yet initialized");
 			return null;
@@ -50,7 +50,7 @@ public class ModelUpdater  {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void updateModel(SLOMonitoringRecord newRecord, SLOMonitoringRecord oldRecord){
+	public void updateResponseTime(SLOMonitoringRecord newRecord, SLOMonitoringRecord oldRecord){
 		int serviceID = newRecord.serviceId;
 		boolean updated = false;
 		for(int i = 0; i< model.getComponents().size();i++){
@@ -75,7 +75,7 @@ public class ModelUpdater  {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(int serviceID){
+	public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(int serviceID){
 		for(int i = 0; i< model.getComponents().size();i++){
 			for(int k = 0; k< model.getComponents().get(i).getServices().size(); k++){
 				if(model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID){

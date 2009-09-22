@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.systemModel.ModelUpdater;
+import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
@@ -29,8 +29,8 @@ public class QuantileCalculator {
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         //log.info(quantiles.length);
-        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[ModelUpdater.getResponseTimes(serviceID).size()];
-        rtSet = ModelUpdater.getResponseTimes(serviceID).toArray(rtSet);
+        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[ModelManager.getResponseTimes(serviceID).size()];
+        rtSet = ModelManager.getResponseTimes(serviceID).toArray(rtSet);
         
         if (rtSet == null) {
             log.error("Not yet any serviced with ID: "+serviceID+" available");

@@ -10,8 +10,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.recordConsumer.SLAChecker;
-import org.trustsoft.slastic.control.systemModel.ModelUpdater;
+import org.trustsoft.slastic.control.analysis.SLAChecker;
+import org.trustsoft.slastic.control.systemModel.ModelManager;
 
 /**
  * @author Andre van Hoorn
@@ -57,7 +57,7 @@ public class SLAsticControl {
         reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
         
         //Das sollte nun immer gemacht werden:
-        ModelUpdater.initModel(reconfigurationModel);
+        ModelManager.initModel(reconfigurationModel);
        
 //        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
 //        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
