@@ -27,7 +27,7 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 	            while (!this.responseTimes.offer(newSLORecord)) {
 	                oldSLORecord = this.responseTimes.poll();
 	            }
-	            ModelManager.getInstance().updateResponseTime(newSLORecord, oldSLORecord);
+	            ModelManager.getInstance().update(newSLORecord, oldSLORecord);
 	            
 	        }
 		

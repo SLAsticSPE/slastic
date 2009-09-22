@@ -8,10 +8,12 @@ import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.aspectj.org.eclipse.jdt.internal.core.ModelUpdater;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+
 
 /**
  * @author Andre van Hoorn
@@ -65,11 +67,14 @@ public class SLAsticControl {
 //        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
         SLAChecker rtac = new SLAChecker(slas);
+        ModelManager.initModel(reconfigurationModel);
+        ModelManager mng = ModelManager.getInstance();
+        org.trustsoft.slastic.control.recordConsumer.ModelUpdater updater = new org.trustsoft.slastic.control.recordConsumer.ModelUpdater(reconfigurationModel.getMaxResponseTimes());
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
 
         TpanInstance analysisInstance = new TpanInstance();
         analysisInstance.setLogReader(fsReaderRealtime);
-        analysisInstance.addRecordConsumer(rtac);
+        analysisInstance.addRecordConsumer(updater);
 
         try {
             analysisInstance.run();

@@ -29,8 +29,8 @@ public class QuantileCalculator {
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         //log.info(quantiles.length);
-        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[ModelManager.getResponseTimes(serviceID).size()];
-        rtSet = ModelManager.getResponseTimes(serviceID).toArray(rtSet);
+        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
+        rtSet = ModelManager.getInstance().getResponseTimes(serviceID).toArray(rtSet);
         
         if (rtSet == null) {
             log.error("Not yet any serviced with ID: "+serviceID+" available");
