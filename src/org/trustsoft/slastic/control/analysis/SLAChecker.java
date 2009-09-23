@@ -73,6 +73,12 @@ public class SLAChecker extends Thread {
 	        	final SLO slo = slaslo.get(i);
 	        	ex.scheduleAtFixedRate(new Runnable() {
 	                public void run() {
+	                	try {
+							Thread.sleep(3000);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
 	                	for(int j = 0; j<responseTimes.length; j++){
 	                		int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
@@ -87,6 +93,7 @@ public class SLAChecker extends Thread {
 	            }, (1000/(slaslo.size()))+i*1000, 1000, TimeUnit.MILLISECONDS);
         	}else{
         		log.error("No handling for this SLA-Type available");
+        		
         	}
         }
     }

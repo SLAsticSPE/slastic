@@ -9,30 +9,51 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
+import reconfMM.ReconfigurationModel;
+import reconfMM.Service;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.repository.impl.RepositoryFactoryImpl;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
-import reconfMM.*;
-
 public class ModelManager extends AbstractModelManager {
 
 	private static final Log log = LogFactory.getLog(ModelManager.class);
-	private static ReconfigurationModel model;
 	private static ModelManager instance;
+	boolean firstupdate = false;
 
-	// private final static TreeMap<Integer,
-	// ConcurrentSkipListSet<SLOMonitoringRecord>> map = new TreeMap<Integer,
-	// ConcurrentSkipListSet<SLOMonitoringRecord>>();
-
+	private ModelManager(){
+		
+	}
 	private ModelManager(ReconfigurationModel reconfigurationModel) {
 		model = reconfigurationModel;
 		this.initSet();
 	}
+	
+	public void initModel(ReconfigurationModel m){
+		model = m;
+		this.initSet();
+	}
+	
+	
+	
+	public BasicComponent getComponent(int serviceID) {
+		for (int i = 0; i < model.getComponents().size(); i++) {
+			for (int k = 0; k < model.getComponents().get(i).getServices()
+					.size(); k++) {
+				if(model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID){
+					return model.getComponents().get(i).getComponent();
+				}
+				
+			}
+		}
+		log.error("No Component with ID: " + serviceID
+				+ " found! Returned NULL in getComponent()");
+		return null;
+	}
 
-	private void initSet() {
+	private synchronized void initSet() {
 		for (int i = 0; i < model.getComponents().size(); i++) {
 			for (int k = 0; k < model.getComponents().get(i).getServices()
 					.size(); k++) {
@@ -47,14 +68,16 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	public synchronized static ModelManager getInstance() {
-		if (model == null) {
-			log.error("ModelUpdater is not yet initialized");
-			return null;
-		} else if(instance == null){
-			return new ModelManager(model);
-		}else
+		if(instance == null){
+			instance = new ModelManager();
+		}
 			return instance;
+			
 	}
+	
+	
+	
+	
 
 	@Override
 	public void update(AbstractKiekerMonitoringRecord newRecord,
@@ -69,13 +92,17 @@ public class ModelManager extends AbstractModelManager {
 				Service service = model.getComponents().get(i).getServices()
 						.get(k);
 				if (service.getServiceID() == serviceID) {
-					((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-							.getResponseTimes()).add(newSLOrecord);
+					synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+							.getResponseTimes()){((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+							.getResponseTimes()).add(newSLOrecord);}
+					
 					updated = true;
 					if (oldSLOrecord != null) {
 						if (service.getServiceID() == oldSLOrecord.serviceId) {
+							synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+									.getResponseTimes()){
 							((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()).remove(oldSLOrecord);
+									.getResponseTimes()).remove(oldSLOrecord);}
 							oldSLOrecord = null;
 						}
 					}
@@ -83,22 +110,26 @@ public class ModelManager extends AbstractModelManager {
 
 			}
 		}
-		if (updated)
-			log.info("Model updated for Service: " + serviceID);
+		if (updated){
+			
+			
+			
+		}
 		updated = false;
 	}
 
 	@SuppressWarnings("unchecked")
 	public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
 			int serviceID) {
+		//log.info("getResponseTimes wurde aufgerufen");
 		for (int i = 0; i < model.getComponents().size(); i++) {
 			for (int k = 0; k < model.getComponents().get(i).getServices()
 					.size(); k++) {
 				if (model.getComponents().get(i).getServices().get(k)
 						.getServiceID() == serviceID) {
-					return (ConcurrentSkipListSet<SLOMonitoringRecord>) model
+						return ((ConcurrentSkipListSet<SLOMonitoringRecord>) model
 							.getComponents().get(i).getServices().get(k)
-							.getResponseTimes();
+							.getResponseTimes());
 				}
 			}
 		}

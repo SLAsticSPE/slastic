@@ -3,6 +3,8 @@ package org.trustsoft.slastic.control.recordConsumer;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
@@ -11,7 +13,9 @@ import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 public class ModelUpdater implements IKiekerRecordConsumer {
+	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 	private final BlockingQueue<SLOMonitoringRecord> responseTimes;
+	boolean finished;
 
 	public ModelUpdater(int defaultCapacity){
 		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);
@@ -28,26 +32,25 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 	                oldSLORecord = this.responseTimes.poll();
 	            }
 	            ModelManager.getInstance().update(newSLORecord, oldSLORecord);
-	            
+	            log.info("UPDATE F†R __________________________________________________________: "+newSLORecord.serviceId);
 	        }
 		
 	}
 
 	@Override
 	public boolean execute() throws RecordConsumerExecutionException {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public String[] getRecordTypeSubscriptionList() {
 		String[] vec = {ModelUpdater.class.getCanonicalName()};
-		return vec;
+		return null;
 	}
 
 	@Override
 	public void terminate() {
-		// TODO Auto-generated method stub
+		finished = true;
 		
 	}
 

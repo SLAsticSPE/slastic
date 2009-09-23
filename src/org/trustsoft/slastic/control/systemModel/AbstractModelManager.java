@@ -16,14 +16,9 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
 public abstract class AbstractModelManager {
-	private static final Log log = LogFactory.getLog(ModelManager.class);
-	private static ReconfigurationModel model;
+	protected ReconfigurationModel model;
 
-	public synchronized static void initModel(ReconfigurationModel initModel){
-		if(model == null){
-			model = initModel;
-		}
-	}
+	
 
 	public abstract void update(AbstractKiekerMonitoringRecord newRecord,
 			AbstractKiekerMonitoringRecord oldRecord);
@@ -84,16 +79,6 @@ public abstract class AbstractModelManager {
 	public abstract void replicate(BasicComponent component,
 			ResourceContainer destination);
 
-	public BasicComponent getComponent(int serviceID) {
-		for (int i = 0; i < model.getComponents().size(); i++) {
-			for (int k = 0; k < model.getComponents().get(i).getServices()
-					.size(); k++) {
-				return model.getComponents().get(i).getComponent();
-			}
-		}
-		log.error("No Component with ID: " + serviceID
-				+ " found! Returned NULL in getComponent()");
-		return null;
-	}
+	public abstract BasicComponent getComponent(int serviceID);
 
 }

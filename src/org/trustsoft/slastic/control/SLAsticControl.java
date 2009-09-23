@@ -50,7 +50,7 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
         //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
-        String wfFile = "C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
+        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
         WorkflowRunner runner = new WorkflowRunner();
@@ -59,7 +59,7 @@ public class SLAsticControl {
         reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
         
         //Das sollte nun immer gemacht werden:
-        ModelManager.initModel(reconfigurationModel);
+        ModelManager.getInstance().initModel(reconfigurationModel);
        
 //        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
 //        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
@@ -67,16 +67,17 @@ public class SLAsticControl {
 //        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
         SLAChecker rtac = new SLAChecker(slas);
-        ModelManager.initModel(reconfigurationModel);
-        ModelManager mng = ModelManager.getInstance();
         org.trustsoft.slastic.control.recordConsumer.ModelUpdater updater = new org.trustsoft.slastic.control.recordConsumer.ModelUpdater(reconfigurationModel.getMaxResponseTimes());
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
 
         TpanInstance analysisInstance = new TpanInstance();
         analysisInstance.setLogReader(fsReaderRealtime);
         analysisInstance.addRecordConsumer(updater);
+        
+        rtac.start();
 
         try {
+        	log.info("run sollte ausgefŸhrtwerden");
             analysisInstance.run();
         } catch (LogReaderExecutionException e) {
             log.error("LogReaderExecutionException:", e);

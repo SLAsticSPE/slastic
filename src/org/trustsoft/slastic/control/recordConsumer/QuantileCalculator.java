@@ -17,7 +17,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 public class QuantileCalculator {
 
     private static final Log log = LogFactory.getLog(QuantileCalculator.class);
-    //private final TreeMap<Integer, ConcurrentSkipListSet<SLOMonitoringRecord>> map;
+    ModelManager mng = ModelManager.getInstance();
 
     public QuantileCalculator(int[] serviceIDs) {
         log.info("QuantileCalculatorThread created!");
@@ -28,15 +28,16 @@ public class QuantileCalculator {
 
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
-        //log.info(quantiles.length);
-        SLOMonitoringRecord[] rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
-        rtSet = ModelManager.getInstance().getResponseTimes(serviceID).toArray(rtSet);
+        SLOMonitoringRecord[] rtSet;
+        synchronized(ModelManager.getInstance()){rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
+                rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);}
         
         if (rtSet == null) {
             log.error("Not yet any serviced with ID: "+serviceID+" available");
             return null;
         }else if(rtSet.length == 0){
         	log.error("Not yet any responseTime for ID: "+serviceID+" measured");
+        	
         } else {
             for (int i = 0; i < responseTime.length; i++) {
                 if ((rtSet.length % (1 / (quantiles[i]))) != 0.0f) {
