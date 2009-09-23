@@ -3,13 +3,14 @@ package org.trustsoft.slastic.control.analysis;
 import org.trustsoft.slastic.control.systemModel.AbstractModelManager;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
-public class Analysis {
+public class Analysis implements IAnalysis {
 	protected final static AbstractModelManager modelManager = ModelManager.getInstance();
 	
 	private IAdaptationAnalyzer adaptionAnalyzer;
 	private IPerformanceAnalyzer performanceAnalyzer;
 	private IPerformanceForecaster performanceForcaster;
 	private IWorkloadAnalyzer workloadAnalyzer;
+	
 	public void setAdaptionAnalyzer(IAdaptationAnalyzer adaptionAnalyzer) {
 		this.adaptionAnalyzer = adaptionAnalyzer;
 	}
