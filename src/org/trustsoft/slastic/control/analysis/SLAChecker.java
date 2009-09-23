@@ -17,7 +17,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import slal.SLO;
 
-public class SLAChecker extends Thread {
+public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
     private static final int defaultCapacity = 200;
@@ -38,7 +38,7 @@ public class SLAChecker extends Thread {
         this.quantileCalc = new QuantileCalculator(serviceIDs);
     }
 
-    public long getAverageResponseTime() {
+    private long getAverageResponseTime() {
         return this.averageCalcThread.getAverage();
     }
 
