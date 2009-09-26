@@ -21,7 +21,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
     private static final int defaultCapacity = 200;
-    private final BlockingQueue<SLOMonitoringRecord> responseTimes;
+    //private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
     QuantileCalculator quantileCalc;
     final slal.Model slas;
@@ -29,13 +29,18 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     public SLAChecker(slal.Model SLAmodel) {
     	slas = SLAmodel;
-        this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
+        //this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
         int[] serviceIDs = new int[SLAmodel.getObligations().getSlo().size()];
         for(int i = 0; i<SLAmodel.getObligations().getSlo().size(); i++){
         	serviceIDs[i]= SLAmodel.getObligations().getSlo().get(i).getServiceID();
         	
         }
         this.quantileCalc = new QuantileCalculator(serviceIDs);
+        
+        long quantile90 = slas.getObligations().getSlo().get(1).getValue().getPair().get(0).getResponseTime();
+        long quantile95 = slas.getObligations().getSlo().get(1).getValue().getPair().get(1).getResponseTime();
+        long quantile99 = slas.getObligations().getSlo().get(1).getValue().getPair().get(2).getResponseTime();
+        SLACheckerGUI.paint(quantile90, quantile95, quantile99);
     }
 
     private long getAverageResponseTime() {
@@ -49,8 +54,8 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     
     public void run() {
-        this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
-        averageCalcThread.start();
+        //this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
+        //averageCalcThread.start();
         EList<SLO> slaslo = slas.getObligations().getSlo();
 		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(slaslo.size());
         //final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");    
