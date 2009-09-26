@@ -7,6 +7,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
+import org.trustsoft.slastic.control.analysis.SLACheckerGUI;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.ReconfigurationModel;
@@ -93,16 +94,22 @@ public class ModelManager extends AbstractModelManager {
 						.get(k);
 				if (service.getServiceID() == serviceID) {
 					synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-							.getResponseTimes()){((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-							.getResponseTimes()).add(newSLOrecord);}
+							.getResponseTimes()){
+						((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+							.getResponseTimes()).add(newSLOrecord);
+						if(serviceID == 77)
+							SLACheckerGUI.addResponseTime(newSLOrecord.rtNseconds);
+					}
 					
 					updated = true;
 					if (oldSLOrecord != null) {
 						if (service.getServiceID() == oldSLOrecord.serviceId) {
 							synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
 									.getResponseTimes()){
-							((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()).remove(oldSLOrecord);}
+								((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+									.getResponseTimes()).remove(oldSLOrecord);
+								
+							}
 							oldSLOrecord = null;
 						}
 					}
