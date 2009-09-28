@@ -10,6 +10,14 @@ import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.analysis.SLACheckerGUI;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
+import ReconfigurationPlanModel.ComponentDeReplicationOP;
+import ReconfigurationPlanModel.ComponentMigrationOP;
+import ReconfigurationPlanModel.ComponentReplicationOP;
+import ReconfigurationPlanModel.NodeAllocationOP;
+import ReconfigurationPlanModel.NodeDeAllocationOP;
+import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
+
+
 import reconfMM.ReconfigurationModel;
 import reconfMM.Service;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
@@ -20,7 +28,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
 public class ModelManager extends AbstractModelManager {
 
-	private static final Log log = LogFactory.getLog(ModelManager.class);
+	private final Log log = LogFactory.getLog(ModelManager.class);
 	private static ModelManager instance;
 	boolean firstupdate = false;
 
@@ -146,13 +154,13 @@ public class ModelManager extends AbstractModelManager {
 
 
 	@Override
-	public void migrate(BasicComponent component, ResourceContainer newServer) {
+	protected void migrate(BasicComponent component, ResourceContainer newServer) {
 		this.remove(component);
 		this.add(component, newServer);
 	}
 
 	@Override
-	public void replicate(BasicComponent component) {
+	protected void replicate(BasicComponent component) {
 		BasicComponent newComponent;
 		RepositoryFactory fac = RepositoryFactoryImpl.init();
 		newComponent = fac.createBasicComponent();
@@ -183,7 +191,7 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	@Override
-	public void replicate(BasicComponent component,
+	protected void replicate(BasicComponent component,
 			ResourceContainer destination) {
 		BasicComponent newComponent;
 		RepositoryFactory fac = RepositoryFactoryImpl.init();
@@ -196,5 +204,39 @@ public class ModelManager extends AbstractModelManager {
 
 		this.add(newComponent, destination);
 
+	}
+	
+	public boolean doReconfiguration(ReconfigurationPlanModel.SLAsticReconfigurationPlan plan){
+		EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
+		for(int i = 0; i< operations.size(); i++){
+			SLAsticReconfigurationOpType op = operations.get(i);
+			Class opClass = op.getClass();
+			if(opClass == ComponentDeReplicationOP.class){
+				log.error("Operation not yet supported");
+				return false;
+			}else if(opClass == ComponentMigrationOP.class){
+				BasicComponent comp = op.getComponent();
+				ResourceContainer destination =((ComponentMigrationOP)op).getDestination();
+				this.migrate(comp, destination);	
+			}else if(opClass == ComponentReplicationOP.class){
+				BasicComponent comp = op.getComponent();
+				ResourceContainer destination = ((ComponentReplicationOP)op).getDestination();
+				if(destination!= null){
+					this.replicate(comp, destination);
+				}else{
+					this.replicate(comp);
+				}
+			}else if(opClass == NodeAllocationOP.class){
+				log.error("Operation not yet supported");
+				return false;
+			}else if(opClass == NodeDeAllocationOP.class){
+				log.error("Operation not yet supported");
+				return false;
+			}else{
+				log.error("Operationtype "+plan.getClass().getCanonicalName()+" not supported!");
+				return false;
+			}
+		}
+		return true;
 	}
 }

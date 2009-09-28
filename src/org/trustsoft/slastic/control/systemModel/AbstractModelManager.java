@@ -2,9 +2,6 @@ package org.trustsoft.slastic.control.systemModel;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
@@ -71,14 +68,14 @@ public abstract class AbstractModelManager {
 			return false;
 	}
 
-	public abstract void migrate(BasicComponent component,
+	protected abstract void migrate(BasicComponent component,
 			ResourceContainer newServer);
 
-	public abstract void replicate(BasicComponent component);
+	protected abstract void replicate(BasicComponent component);
 
-	public abstract void replicate(BasicComponent component,
+	protected abstract void replicate(BasicComponent component,
 			ResourceContainer destination);
 
-	public abstract BasicComponent getComponent(int serviceID);
+	protected abstract BasicComponent getComponent(int serviceID);
 
 }
