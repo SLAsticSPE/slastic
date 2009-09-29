@@ -215,11 +215,11 @@ public class ModelManager extends AbstractModelManager {
 				log.error("Operation not yet supported");
 				return false;
 			}else if(opClass == ComponentMigrationOP.class){
-				BasicComponent comp = op.getComponent();
+				BasicComponent comp =((ComponentMigrationOP)op).getComponent();
 				ResourceContainer destination =((ComponentMigrationOP)op).getDestination();
 				this.migrate(comp, destination);	
 			}else if(opClass == ComponentReplicationOP.class){
-				BasicComponent comp = op.getComponent();
+				BasicComponent comp = ((ComponentReplicationOP)op).getComponent();
 				ResourceContainer destination = ((ComponentReplicationOP)op).getDestination();
 				if(destination!= null){
 					this.replicate(comp, destination);
