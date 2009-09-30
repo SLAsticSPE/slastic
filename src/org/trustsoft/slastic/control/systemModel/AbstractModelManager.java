@@ -15,71 +15,32 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 public abstract class AbstractModelManager {
 	protected ReconfigurationModel model;
 
-	
-
 	public abstract void update(AbstractKiekerMonitoringRecord newRecord,
 			AbstractKiekerMonitoringRecord oldRecord);
 
-	protected boolean add(BasicComponent component, ResourceContainer container) {
-		boolean successful = false;
-		// Add to Repository
-		if (model.getComponents().size() > 0) {
-			successful = model.getComponents().get(0).getComponent()
-					.getRepository_ProvidesComponentType()
-					.getComponents__Repository().add(component);
-			if (successful) {
-				// Add to Allocation-Model
-				AllocationFactory fac = AllocationFactoryImpl.init();
-				AllocationContext con = fac.createAllocationContext();
-				con.setResourceContainer_AllocationContext(container);
-
-				CompositionFactory comFac = CompositionFactoryImpl.init();
-				AssemblyContext ass = comFac.createAssemblyContext();
-				ass.setEncapsulatedComponent_ChildComponentContext(component);
-				con.setAssemblyContext_AllocationContext(ass);
-
-				return model.getAllocation().getAllocationContexts_Allocation()
-						.add(con);
-			}
-		}
-		return false;
+	protected boolean add(AllocationContext component) {
+		return model.getAllocation().getAllocationContexts_Allocation().add(component);
+		
 	}
 
-	protected boolean remove(BasicComponent component) {
-		boolean successful = false;
-		// remove out of Allocation-Model
-		for (int i = 0; i < model.getAllocation()
-				.getAllocationContexts_Allocation().size(); i++) {
-			if (model.getAllocation().getAllocationContexts_Allocation().get(i)
-					.getAssemblyContext_AllocationContext()
-					.getEncapsulatedComponent_ChildComponentContext().getId() == component
-					.getId()) {
-				model.getAllocation().getAllocationContexts_Allocation()
-						.remove(i);
-				successful = true;
-			}
-		}
-		// remove out of Repository
-		if (successful == true)
-			return model.getComponents().get(0).getComponent()
-					.getRepository_ProvidesComponentType()
-					.getComponents__Repository().remove(component);
-		else
-			return false;
+	protected boolean remove(AllocationContext component) {
+		return model.getAllocation().getAllocationContexts_Allocation().remove(component);
 	}
 
-	protected abstract void migrate(BasicComponent component,
+	protected abstract void migrate(AllocationContext component,
 			ResourceContainer newServer);
 
-	protected abstract void replicate(BasicComponent component);
+	protected abstract void replicate(AllocationContext component);
 
-	protected abstract void replicate(BasicComponent component,
+	protected abstract void dereplicate(AllocationContext component);
+
+	protected abstract void replicate(AllocationContext component,
 			ResourceContainer destination);
 
-	protected abstract BasicComponent getComponent(int serviceID);
-	
+
+
 	protected abstract void allocate(ResourceContainer container);
-	
+
 	protected abstract void deallocate(ResourceContainer container);
 
 }

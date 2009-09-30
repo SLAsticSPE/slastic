@@ -17,7 +17,6 @@ import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 
-
 import reconfMM.ReconfigurationModel;
 import reconfMM.Service;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
@@ -25,10 +24,15 @@ import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
 import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyConnectorImpl;
 import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyContextImpl;
+import de.uka.ipd.sdq.pcm.core.composition.impl.CompositionFactoryImpl;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
+import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
+import de.uka.ipd.sdq.pcm.repository.RequiredRole;
 import de.uka.ipd.sdq.pcm.repository.impl.RepositoryFactoryImpl;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
@@ -38,35 +42,21 @@ public class ModelManager extends AbstractModelManager {
 	private static ModelManager instance;
 	boolean firstupdate = false;
 
-	private ModelManager(){
-		
+	private ModelManager() {
+
 	}
+
 	private ModelManager(ReconfigurationModel reconfigurationModel) {
 		model = reconfigurationModel;
 		this.initSet();
 	}
-	
-	public void initModel(ReconfigurationModel m){
+
+	public void initModel(ReconfigurationModel m) {
 		model = m;
 		this.initSet();
 	}
-	
-	
-	
-	public BasicComponent getComponent(int serviceID) {
-		for (int i = 0; i < model.getComponents().size(); i++) {
-			for (int k = 0; k < model.getComponents().get(i).getServices()
-					.size(); k++) {
-				if(model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID){
-					return model.getComponents().get(i).getComponent();
-				}
-				
-			}
-		}
-		log.error("No Component with ID: " + serviceID
-				+ " found! Returned NULL in getComponent()");
-		return null;
-	}
+
+
 
 	private synchronized void initSet() {
 		for (int i = 0; i < model.getComponents().size(); i++) {
@@ -83,16 +73,12 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	public synchronized static ModelManager getInstance() {
-		if(instance == null){
+		if (instance == null) {
 			instance = new ModelManager();
 		}
-			return instance;
-			
+		return instance;
+
 	}
-	
-	
-	
-	
 
 	@Override
 	public void update(AbstractKiekerMonitoringRecord newRecord,
@@ -107,22 +93,24 @@ public class ModelManager extends AbstractModelManager {
 				Service service = model.getComponents().get(i).getServices()
 						.get(k);
 				if (service.getServiceID() == serviceID) {
-					synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-							.getResponseTimes()){
+					synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+							.getResponseTimes()) {
 						((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-							.getResponseTimes()).add(newSLOrecord);
-						if(serviceID == 77)
-							SLACheckerGUI.addResponseTime(newSLOrecord.rtNseconds);
+								.getResponseTimes()).add(newSLOrecord);
+						if (serviceID == 77)
+							SLACheckerGUI
+									.addResponseTime(newSLOrecord.rtNseconds);
 					}
-					
+
 					updated = true;
 					if (oldSLOrecord != null) {
 						if (service.getServiceID() == oldSLOrecord.serviceId) {
-							synchronized((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()){
+							synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
+									.getResponseTimes()) {
 								((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()).remove(oldSLOrecord);
-								
+										.getResponseTimes())
+										.remove(oldSLOrecord);
+
 							}
 							oldSLOrecord = null;
 						}
@@ -131,10 +119,8 @@ public class ModelManager extends AbstractModelManager {
 
 			}
 		}
-		if (updated){
-			
-			
-			
+		if (updated) {
+
 		}
 		updated = false;
 	}
@@ -142,13 +128,13 @@ public class ModelManager extends AbstractModelManager {
 	@SuppressWarnings("unchecked")
 	public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
 			int serviceID) {
-		//log.info("getResponseTimes wurde aufgerufen");
+		// log.info("getResponseTimes wurde aufgerufen");
 		for (int i = 0; i < model.getComponents().size(); i++) {
 			for (int k = 0; k < model.getComponents().get(i).getServices()
 					.size(); k++) {
 				if (model.getComponents().get(i).getServices().get(k)
 						.getServiceID() == serviceID) {
-						return ((ConcurrentSkipListSet<SLOMonitoringRecord>) model
+					return ((ConcurrentSkipListSet<SLOMonitoringRecord>) model
 							.getComponents().get(i).getServices().get(k)
 							.getResponseTimes());
 				}
@@ -158,102 +144,119 @@ public class ModelManager extends AbstractModelManager {
 		return null;
 	}
 
-
 	@Override
-	protected void migrate(BasicComponent component, ResourceContainer newServer) {
+	protected void migrate(AllocationContext component,
+			ResourceContainer newServer) {
+		AllocationFactory fac = AllocationFactoryImpl.init();
+		AllocationContext newContext = fac.createAllocationContext();
+		newContext.setAssemblyContext_AllocationContext(component
+				.getAssemblyContext_AllocationContext());
+		newContext.setResourceContainer_AllocationContext(newServer);
+		newContext.setEntityName(component.getEntityName());
+		newContext.setId(component.getId());
+		this.add(component);
 		this.remove(component);
-		this.add(component, newServer);
 	}
 
 	@Override
-	protected void replicate(BasicComponent component) {
-		BasicComponent newComponent;
-		RepositoryFactory fac = RepositoryFactoryImpl.init();
-		newComponent = fac.createBasicComponent();
+	protected void replicate(AllocationContext component) {
+		AllocationFactory fac = AllocationFactoryImpl.init();
+		AllocationContext newAllocationContext = fac.createAllocationContext();
 
-		newComponent.setImplementationComponentType(component
-				.getImplementationComponentType());
-		newComponent.setRepository_ProvidesComponentType(component
-				.getRepository_ProvidesComponentType());
+		CompositionFactory compFac = CompositionFactoryImpl.init();
+		AssemblyContext newAssemblyContext = compFac.createAssemblyContext();
 
-		EList<AllocationContext> allocationContexts_Allocation = model
-				.getAllocation().getAllocationContexts_Allocation();
-		ResourceContainer container = null;
-		for (int i = 0; i < allocationContexts_Allocation.size(); i++) {
-			if (allocationContexts_Allocation.get(i)
-					.getAssemblyContext_AllocationContext()
-					.getEncapsulatedComponent_ChildComponentContext().getId() == component
-					.getId()) {
-				container = allocationContexts_Allocation.get(i)
-						.getResourceContainer_AllocationContext();
-			}
-		}
-		if (container != null)
-			this.add(newComponent, container);
-		else
-			log.error("Component with ID: " + component.getId()
-					+ " does not exist in current AllocationContext");
+		newAssemblyContext
+				.setEncapsulatedComponent_ChildComponentContext(component
+						.getAssemblyContext_AllocationContext()
+						.getEncapsulatedComponent_ChildComponentContext());
+		newAllocationContext
+				.setAssemblyContext_AllocationContext(newAssemblyContext);
 
+		newAllocationContext.setResourceContainer_AllocationContext(component
+				.getResourceContainer_AllocationContext());
 	}
 
 	@Override
-	protected void replicate(BasicComponent component,
+	protected void replicate(AllocationContext component,
 			ResourceContainer destination) {
-		BasicComponent newComponent;
-		RepositoryFactory fac = RepositoryFactoryImpl.init();
-		newComponent = fac.createBasicComponent();
+		AllocationFactory fac = AllocationFactoryImpl.init();
+		AllocationContext newAllocationContext = fac.createAllocationContext();
 
-		newComponent.setImplementationComponentType(component
-				.getImplementationComponentType());
-		newComponent.setRepository_ProvidesComponentType(component
-				.getRepository_ProvidesComponentType());
+		CompositionFactory compFac = CompositionFactoryImpl.init();
+		AssemblyContext newAssemblyContext = compFac.createAssemblyContext();
 
-		this.add(newComponent, destination);
+		newAssemblyContext
+				.setEncapsulatedComponent_ChildComponentContext(component
+						.getAssemblyContext_AllocationContext()
+						.getEncapsulatedComponent_ChildComponentContext());
+
+		newAllocationContext
+				.setAssemblyContext_AllocationContext(newAssemblyContext);
+		newAllocationContext.setResourceContainer_AllocationContext(destination);
 
 	}
-	
-	protected void allocate(ResourceContainer container){
+
+	protected void allocate(ResourceContainer container) {
 		AllocationFactory fac = AllocationFactoryImpl.init();
 		AllocationContext context = fac.createAllocationContext();
-		
-		AssemblyContext assemblyContext = AssemblyContextImpl.
-		
-		context.setAssemblyContext_AllocationContext(assemblyContext);
+
+		context.setResourceContainer_AllocationContext(container);
 		model.getAllocation().getAllocationContexts_Allocation().add(context);
 	}
-	
-	protected void deallocate(ResourceContainer container){
-		
+
+	protected void deallocate(ResourceContainer container) {
+		for (int i = 0; i < model.getAllocation()
+				.getAllocationContexts_Allocation().size(); i++) {
+			if (model.getAllocation().getAllocationContexts_Allocation().get(i)
+					.getResourceContainer_AllocationContext() == container) {
+				AllocationContext context = model.getAllocation()
+						.getAllocationContexts_Allocation().get(i);
+				model.getAllocation().getAllocationContexts_Allocation()
+						.remove(context);
+			}
+		}
 	}
-	
-	public boolean doReconfiguration(ReconfigurationPlanModel.SLAsticReconfigurationPlan plan){
+
+	protected void dereplicate(AllocationContext component) {
+		this.remove(component);
+	}
+
+	public boolean doReconfiguration(
+			ReconfigurationPlanModel.SLAsticReconfigurationPlan plan) {
 		EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-		for(int i = 0; i< operations.size(); i++){
+		for (int i = 0; i < operations.size(); i++) {
 			SLAsticReconfigurationOpType op = operations.get(i);
 			Class opClass = op.getClass();
-			if(opClass == ComponentDeReplicationOP.class){
-				log.error("Operation not yet supported");
-				return false;
-			}else if(opClass == ComponentMigrationOP.class){
-				BasicComponent comp =((ComponentMigrationOP)op).getComponent();
-				ResourceContainer destination =((ComponentMigrationOP)op).getDestination();
-				this.migrate(comp, destination);	
-			}else if(opClass == ComponentReplicationOP.class){
-				BasicComponent comp = ((ComponentReplicationOP)op).getComponent();
-				ResourceContainer destination = ((ComponentReplicationOP)op).getDestination();
-				if(destination!= null){
+			if (opClass == ComponentDeReplicationOP.class) {
+				AllocationContext comp = ((ComponentDeReplicationOP)op).getComponent();
+				this.dereplicate(comp);
+			} else if (opClass == ComponentMigrationOP.class) {
+				AllocationContext comp = ((ComponentMigrationOP) op)
+						.getComponent();
+				ResourceContainer destination = ((ComponentMigrationOP) op)
+						.getDestination();
+				this.migrate(comp, destination);
+			} else if (opClass == ComponentReplicationOP.class) {
+				AllocationContext comp = ((ComponentReplicationOP) op)
+						.getComponent();
+				ResourceContainer destination = ((ComponentReplicationOP) op)
+						.getDestination();
+				if (destination != null) {
 					this.replicate(comp, destination);
-				}else{
+				} else {
 					this.replicate(comp);
 				}
-			}else if(opClass == NodeAllocationOP.class){
-				log.error("Operation not yet supported");
-				return false;
-			}else if(opClass == NodeDeAllocationOP.class){
-				log.error("Operation not yet supported");
-				return false;
-			}else{
-				log.error("Operationtype "+plan.getClass().getCanonicalName()+" not supported!");
+			} else if (opClass == NodeAllocationOP.class) {
+				ResourceContainer container = ((NodeAllocationOP) op).getNode();
+				this.allocate(container);
+			} else if (opClass == NodeDeAllocationOP.class) {
+				ResourceContainer container = ((NodeDeAllocationOP) op)
+						.getNode();
+				this.deallocate(container);
+			} else {
+				log.error("Operationtype " + plan.getClass().getCanonicalName()
+						+ " not supported!");
 				return false;
 			}
 		}
