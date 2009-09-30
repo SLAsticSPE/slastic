@@ -77,6 +77,7 @@ public class ModelManager extends AbstractModelManager {
 		SLOMonitoringRecord oldSLOrecord = (SLOMonitoringRecord) oldRecord;
 		int serviceID = newSLOrecord.serviceId;
 		boolean updated = false;
+                synchronized(this.model){
 		for (int i = 0; i < model.getComponents().size(); i++) {
 			for (int k = 0; k < model.getComponents().get(i).getServices()
 					.size(); k++) {
@@ -106,6 +107,7 @@ public class ModelManager extends AbstractModelManager {
 
 			}
 		}
+                }
 		if (updated) {
 
 		}
@@ -146,26 +148,7 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	@Override
-	protected void replicate(AllocationContext component) {
-		AllocationFactory fac = AllocationFactoryImpl.init();
-		AllocationContext newAllocationContext = fac.createAllocationContext();
-
-		CompositionFactory compFac = CompositionFactoryImpl.init();
-		AssemblyContext newAssemblyContext = compFac.createAssemblyContext();
-
-		newAssemblyContext
-				.setEncapsulatedComponent_ChildComponentContext(component
-						.getAssemblyContext_AllocationContext()
-						.getEncapsulatedComponent_ChildComponentContext());
-		newAllocationContext
-				.setAssemblyContext_AllocationContext(newAssemblyContext);
-
-		newAllocationContext.setResourceContainer_AllocationContext(component
-				.getResourceContainer_AllocationContext());
-	}
-
-	@Override
-	protected void replicate(AllocationContext component,
+	protected void replicate(AllocationContext component, /* AssemblyContext */
 			ResourceContainer destination) {
 		AllocationFactory fac = AllocationFactoryImpl.init();
 		AllocationContext newAllocationContext = fac.createAllocationContext();
@@ -209,10 +192,10 @@ public class ModelManager extends AbstractModelManager {
 		this.remove(component);
 	}
 
-	public boolean doReconfiguration(
-			ReconfigurationPlanModel.SLAsticReconfigurationPlan plan) {
-		EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-		for (int i = 0; i < operations.size(); i++) {
+	public boolean doReconfiguration(ReconfigurationPlanModel.SLAsticReconfigurationPlan plan) {
+                EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
+                synchronized(this.model){
+                for (int i = 0; i < operations.size(); i++) {
 			SLAsticReconfigurationOpType op = operations.get(i);
 			Class opClass = op.getClass();
 			if (opClass == ComponentDeReplicationOP.class) {
@@ -229,11 +212,7 @@ public class ModelManager extends AbstractModelManager {
 						.getComponent();
 				ResourceContainer destination = ((ComponentReplicationOP) op)
 						.getDestination();
-				if (destination != null) {
 					this.replicate(comp, destination);
-				} else {
-					this.replicate(comp);
-				}
 			} else if (opClass == NodeAllocationOP.class) {
 				ResourceContainer container = ((NodeAllocationOP) op).getNode();
 				this.allocate(container);
@@ -247,6 +226,7 @@ public class ModelManager extends AbstractModelManager {
 				return false;
 			}
 		}
+                }
 		return true;
 	}
 }

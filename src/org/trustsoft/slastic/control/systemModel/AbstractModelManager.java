@@ -30,8 +30,6 @@ public abstract class AbstractModelManager {
 	protected abstract void migrate(AllocationContext component,
 			ResourceContainer newServer);
 
-	protected abstract void replicate(AllocationContext component);
-
 	protected abstract void dereplicate(AllocationContext component);
 
 	protected abstract void replicate(AllocationContext component,
