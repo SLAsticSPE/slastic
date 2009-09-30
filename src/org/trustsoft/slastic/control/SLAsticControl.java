@@ -51,6 +51,7 @@ public class SLAsticControl {
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
         //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
         String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+        //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
         WorkflowRunner runner = new WorkflowRunner();
@@ -77,7 +78,7 @@ public class SLAsticControl {
         rtac.start();
 
         try {
-        	log.info("run sollte ausgefŸhrtwerden");
+        	log.info("run sollte ausgefï¿½hrtwerden");
             analysisInstance.run();
         } catch (LogReaderExecutionException e) {
             log.error("LogReaderExecutionException:", e);
