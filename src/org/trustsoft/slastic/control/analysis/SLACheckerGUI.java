@@ -1,28 +1,27 @@
 package org.trustsoft.slastic.control.analysis;
 
-import java.awt.BasicStroke; 
-import java.awt.BorderLayout; 
-import java.awt.Color; 
-import java.awt.Font; 
-import java.awt.event.ActionEvent; 
-import java.awt.event.ActionListener; 
-import java.awt.event.WindowAdapter; 
-import java.awt.event.WindowEvent; 
-import javax.swing.BorderFactory; 
-import javax.swing.JFrame; 
-import javax.swing.JPanel; 
-import javax.swing.Timer; 
-import org.jfree.chart.ChartPanel; 
-import org.jfree.chart.JFreeChart; 
-import org.jfree.chart.axis.DateAxis; 
-import org.jfree.chart.axis.NumberAxis; 
-import org.jfree.chart.plot.XYPlot; 
-import org.jfree.chart.renderer.xy.XYItemRenderer; 
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer; 
-import org.jfree.data.time.Millisecond; 
-import org.jfree.data.time.TimeSeries; 
-import org.jfree.data.time.TimeSeriesCollection; 
-import org.jfree.ui.RectangleInsets; 
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.ui.RectangleInsets;
 
 public class SLACheckerGUI extends JPanel{
 	public static TimeSeries[] responseTimes;
@@ -47,13 +46,13 @@ public class SLACheckerGUI extends JPanel{
 		quantile99 = Newquantile99;
 		responseTimes = new TimeSeries[3];
 		for(int i = 0; i< responseTimes.length; i++){
-			responseTimes[i] = new TimeSeries("responseTime"+i, Millisecond.class);
+			responseTimes[i] = new TimeSeries("responseTime"+i);
 			responseTimes[i].setMaximumItemAge(maxAge);
 		}
 		
-		 q90 = new TimeSeries("SLA1", Millisecond.class);
-		 q95 = new TimeSeries("SLA2", Millisecond.class);
-		 q99 = new TimeSeries("SLA3", Millisecond.class);
+		 q90 = new TimeSeries("SLA1");
+		 q95 = new TimeSeries("SLA2");
+		 q99 = new TimeSeries("SLA3");
 		
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		for(int i = 0; i < responseTimes.length; i++){
@@ -74,7 +73,7 @@ public class SLACheckerGUI extends JPanel{
 		XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false); 
 		renderer.setSeriesPaint(0, Color.red); 
 		renderer.setSeriesPaint(1, Color.green); 
-		renderer.setStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, 
+		renderer.setBaseStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, 
 		BasicStroke.JOIN_BEVEL)); 
 		
 		
@@ -125,7 +124,7 @@ public class SLACheckerGUI extends JPanel{
 		frame.setVisible(true);
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e){
-				System.exit(0);
+				setVisible(false);
 			}
 		});
 		
