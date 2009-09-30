@@ -10,30 +10,20 @@ import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.analysis.SLACheckerGUI;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
+import reconfMM.ReconfigurationModel;
+import reconfMM.Service;
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
 import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
-
-import reconfMM.ReconfigurationModel;
-import reconfMM.Service;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
 import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
-import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
-import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyConnectorImpl;
-import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyContextImpl;
 import de.uka.ipd.sdq.pcm.core.composition.impl.CompositionFactoryImpl;
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
-import de.uka.ipd.sdq.pcm.repository.ProvidedRole;
-import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
-import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
-import de.uka.ipd.sdq.pcm.repository.RequiredRole;
-import de.uka.ipd.sdq.pcm.repository.impl.RepositoryFactoryImpl;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
 public class ModelManager extends AbstractModelManager {
@@ -97,9 +87,6 @@ public class ModelManager extends AbstractModelManager {
 							.getResponseTimes()) {
 						((ConcurrentSkipListSet<SLOMonitoringRecord>) service
 								.getResponseTimes()).add(newSLOrecord);
-						if (serviceID == 77)
-							SLACheckerGUI
-									.addResponseTime(newSLOrecord.rtNseconds);
 					}
 
 					updated = true;

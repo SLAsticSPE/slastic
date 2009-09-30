@@ -25,22 +25,29 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     AverageCalculatorThread averageCalcThread;
     QuantileCalculator quantileCalc;
     final slal.Model slas;
+    SLACheckerGUI[] guis;
+    int[] serviceIDs;
     
 
     public SLAChecker(slal.Model SLAmodel) {
     	slas = SLAmodel;
         //this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
-        int[] serviceIDs = new int[SLAmodel.getObligations().getSlo().size()];
+        this.serviceIDs = new int[SLAmodel.getObligations().getSlo().size()];
         for(int i = 0; i<SLAmodel.getObligations().getSlo().size(); i++){
-        	serviceIDs[i]= SLAmodel.getObligations().getSlo().get(i).getServiceID();
+        	this.serviceIDs[i]= SLAmodel.getObligations().getSlo().get(i).getServiceID();
         	
         }
-        this.quantileCalc = new QuantileCalculator(serviceIDs);
-        
-        long quantile90 = slas.getObligations().getSlo().get(1).getValue().getPair().get(0).getResponseTime();
-        long quantile95 = slas.getObligations().getSlo().get(1).getValue().getPair().get(1).getResponseTime();
-        long quantile99 = slas.getObligations().getSlo().get(1).getValue().getPair().get(2).getResponseTime();
-        SLACheckerGUI.paint(quantile90, quantile95, quantile99);
+        this.quantileCalc = new QuantileCalculator(this.serviceIDs);
+        guis = new SLACheckerGUI[slas.getObligations().getSlo().size()];
+        for(int i = 0; i < slas.getObligations().getSlo().size(); i++){
+        	long[] quantiles = new long[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+        	log.info("quantilesSize: "+quantiles.length);
+        	for(int k = 0; k < slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
+        		quantiles[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
+        	}
+        	guis[i] = new SLACheckerGUI("ServiceID: "+slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
+        	guis[i].paint();
+        }
     }
 
     private long getAverageResponseTime() {
@@ -48,7 +55,15 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     }
 
     private long[] getQuantilResponseTime(Float[] quantile, int id) {
-        return this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
+    	long[] rt = this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
+    	for(int i = 0; i < this.serviceIDs.length; i++){
+    		if(id == this.serviceIDs[i]){
+    			guis[i].addResponseTime(rt);
+    			log.info("GUI fŸr ID "+this.serviceIDs[i]+" geupdatet");
+    			return rt;
+    		}
+    	}
+        return rt;
     }
 
 

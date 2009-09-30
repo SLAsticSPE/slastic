@@ -25,40 +25,44 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.ui.RectangleInsets; 
 
 public class SLACheckerGUI extends JPanel{
-	public static TimeSeries responseTimes;
+	public static TimeSeries[] responseTimes;
 	static TimeSeries q90;
 	static long quantile90;
 	static long quantile95;
 	static long quantile99;
 	static TimeSeries q95;
 	static TimeSeries q99;
+	String name; 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public SLACheckerGUI(int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
+	public SLACheckerGUI(String name,int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
+		
 		super(new BorderLayout());
+		this.name = name;
 		quantile90 = Newquantile90;
 		quantile95 = Newquantile95;
 		quantile99 = Newquantile99;
-		responseTimes = new TimeSeries("responseTimes", Millisecond.class);
-		responseTimes.setMaximumItemAge(maxAge);
-		 q90 = new TimeSeries("quantile90", Millisecond.class);
-		 q95 = new TimeSeries("quantile95", Millisecond.class);
-		 q99 = new TimeSeries("quantile90", Millisecond.class);
+		responseTimes = new TimeSeries[3];
+		for(int i = 0; i< responseTimes.length; i++){
+			responseTimes[i] = new TimeSeries("responseTime"+i, Millisecond.class);
+			responseTimes[i].setMaximumItemAge(maxAge);
+		}
+		
+		 q90 = new TimeSeries("SLA1", Millisecond.class);
+		 q95 = new TimeSeries("SLA2", Millisecond.class);
+		 q99 = new TimeSeries("SLA3", Millisecond.class);
 		
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
-		dataset.addSeries(responseTimes);
+		for(int i = 0; i < responseTimes.length; i++){
+			dataset.addSeries(responseTimes[i]);
+		}
+		
 		dataset.addSeries(q90);
 		dataset.addSeries(q95);
 		dataset.addSeries(q99);
-//		TimeSeriesCollection datasetQ90 = new TimeSeriesCollection();
-//		datasetQ90.addSeries(q90);
-//		TimeSeriesCollection datasetQ95 = new TimeSeriesCollection();
-//		datasetQ95.addSeries(q95);
-//		TimeSeriesCollection datasetQ99 = new TimeSeriesCollection();
-//		datasetQ99.addSeries(q99);
 		
 		
 		DateAxis timeAxis = new DateAxis("Time");
@@ -103,18 +107,19 @@ public class SLACheckerGUI extends JPanel{
 		add(chartPanel); 
 	}
 	
-	public static void addResponseTime(long rt){
-		responseTimes.add(new Millisecond(), rt);
+	public void addResponseTime(long[] rt){
+		for(int i = 0; i< rt.length; i++){
+			responseTimes[i].add(new Millisecond(), rt[i]);
+		}
+		
 		q90.add(new Millisecond(), quantile90);
 		q95.add(new Millisecond(),quantile95);
 		q99.add(new Millisecond(), quantile99);
 	}
 	
-	public static void paint(long quantile90, long quantile95, long quantile99){
-		JFrame frame = new JFrame("SLAChecker Visualization"); 
-		System.out.println(quantile90+" "+quantile95+" "+quantile99);
-		SLACheckerGUI gui = new SLACheckerGUI(30000, quantile90, quantile95, quantile99);
-		frame.getContentPane().add(gui, BorderLayout.CENTER);
+	public void paint(){
+		JFrame frame = new JFrame(this.name); 
+		frame.getContentPane().add(this, BorderLayout.CENTER);
 		frame.setBounds(200, 120, 800, 400);
 		
 		frame.setVisible(true);
@@ -125,6 +130,11 @@ public class SLACheckerGUI extends JPanel{
 		});
 		
 		
+		
+	}
+
+	public static void addResponseTimes(long[] responseTime) {
+		// TODO Auto-generated method stub
 		
 	}
 }

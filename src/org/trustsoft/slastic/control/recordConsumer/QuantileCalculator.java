@@ -3,10 +3,9 @@
  */
 package org.trustsoft.slastic.control.recordConsumer;
 
-import java.util.TreeMap;
-import java.util.concurrent.ConcurrentSkipListSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.analysis.SLACheckerGUI;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
@@ -16,8 +15,9 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  */
 public class QuantileCalculator {
 
-    private static final Log log = LogFactory.getLog(QuantileCalculator.class);
+    private final Log log = LogFactory.getLog(QuantileCalculator.class);
     ModelManager mng = ModelManager.getInstance();
+    
 
     public QuantileCalculator(int[] serviceIDs) {
         log.info("QuantileCalculatorThread created!");
