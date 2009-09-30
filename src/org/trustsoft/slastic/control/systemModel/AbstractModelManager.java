@@ -77,5 +77,9 @@ public abstract class AbstractModelManager {
 			ResourceContainer destination);
 
 	protected abstract BasicComponent getComponent(int serviceID);
+	
+	protected abstract void allocate(ResourceContainer container);
+	
+	protected abstract void deallocate(ResourceContainer container);
 
 }

@@ -21,6 +21,12 @@ import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import reconfMM.ReconfigurationModel;
 import reconfMM.Service;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
+import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
+import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
+import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyConnectorImpl;
+import de.uka.ipd.sdq.pcm.core.composition.impl.AssemblyContextImpl;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
 import de.uka.ipd.sdq.pcm.repository.impl.RepositoryFactoryImpl;
@@ -204,6 +210,20 @@ public class ModelManager extends AbstractModelManager {
 
 		this.add(newComponent, destination);
 
+	}
+	
+	protected void allocate(ResourceContainer container){
+		AllocationFactory fac = AllocationFactoryImpl.init();
+		AllocationContext context = fac.createAllocationContext();
+		
+		AssemblyContext assemblyContext = AssemblyContextImpl.
+		
+		context.setAssemblyContext_AllocationContext(assemblyContext);
+		model.getAllocation().getAllocationContexts_Allocation().add(context);
+	}
+	
+	protected void deallocate(ResourceContainer container){
+		
 	}
 	
 	public boolean doReconfiguration(ReconfigurationPlanModel.SLAsticReconfigurationPlan plan){
