@@ -5,12 +5,12 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.analysis.SLACheckerGUI;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
- * @author Lena
+ * Class for calculating the given quantiles for a given service which is identified via serviceID.
+ * @author Lena Stöver
  * 
  */
 public class QuantileCalculator {
@@ -19,17 +19,26 @@ public class QuantileCalculator {
     ModelManager mng = ModelManager.getInstance();
     
 
-    public QuantileCalculator(int[] serviceIDs) {
+    /**
+     * Simple constructor of the QuantileCalculator.
+     */
+    public QuantileCalculator() {
         log.info("QuantileCalculatorThread created!");
     }
 
-    public long[] getResponseTimeForQuantiles(Float[] quantiles, int serviceID) {
+    /**
+     * The main method of this class, which is responsible for the calculation of the quantiles.
+     * @param quantiles array of that identifies the quantiles in percent
+     * @param serviceID ID that identified the services for which the quantiles should be calculated
+     * @return array of results
+     */
+    public long[] getResponseTimeForQuantiles(int[] quantiles, int serviceID) {
         long[] responseTime;
 
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         SLOMonitoringRecord[] rtSet;
-        synchronized(ModelManager.getInstance()){rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
+        synchronized(mng){rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
                 rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);}
         
         if (rtSet == null) {
