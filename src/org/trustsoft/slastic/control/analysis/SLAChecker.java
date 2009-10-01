@@ -3,8 +3,6 @@
  */
 package org.trustsoft.slastic.control.analysis;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -13,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.recordConsumer.AverageCalculatorThread;
 import org.trustsoft.slastic.control.recordConsumer.QuantileCalculator;
-import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import slal.SLO;
 
