@@ -24,18 +24,17 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
 public class SLACheckerGUI extends JPanel{
-	public static TimeSeries[] responseTimes;
-	static TimeSeries q90;
-	static long quantile90;
-	static long quantile95;
-	static long quantile99;
-	static TimeSeries q95;
-	static TimeSeries q99;
+	public TimeSeries[] responseTimes;
+	TimeSeries q90;
+	long quantile90;
+	long quantile95;
+	long quantile99;
+	TimeSeries q95;
+	TimeSeries q99;
 	String name; 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 
 	public SLACheckerGUI(String name,int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
 		
@@ -103,7 +102,7 @@ public class SLACheckerGUI extends JPanel{
 		
 
 		
-		add(chartPanel); 
+		this.add(chartPanel); 
 	}
 	
 	public void addResponseTime(long[] rt){
@@ -111,9 +110,9 @@ public class SLACheckerGUI extends JPanel{
 			responseTimes[i].add(new Millisecond(), rt[i]);
 		}
 		
-		q90.add(new Millisecond(), quantile90);
-		q95.add(new Millisecond(),quantile95);
-		q99.add(new Millisecond(), quantile99);
+		this.q90.add(new Millisecond(), quantile90);
+		this.q95.add(new Millisecond(),quantile95);
+		this.q99.add(new Millisecond(), quantile99);
 	}
 	
 	public void paint(){
@@ -129,11 +128,6 @@ public class SLACheckerGUI extends JPanel{
 		});
 		
 		
-		
-	}
-
-	public static void addResponseTimes(long[] responseTime) {
-		// TODO Auto-generated method stub
 		
 	}
 }

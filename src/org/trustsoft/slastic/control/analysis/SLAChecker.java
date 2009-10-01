@@ -17,7 +17,6 @@ import slal.SLO;
 public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
-    private static final int defaultCapacity = 200;
     //private final BlockingQueue<SLOMonitoringRecord> responseTimes;
     AverageCalculatorThread averageCalcThread;
     QuantileCalculator quantileCalc;
