@@ -31,13 +31,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     public SLAChecker(slal.Model SLAmodel) {
     	slas = SLAmodel;
-        //this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(defaultCapacity);        
-        this.serviceIDs = new int[SLAmodel.getObligations().getSlo().size()];
-        for(int i = 0; i<SLAmodel.getObligations().getSlo().size(); i++){
-        	this.serviceIDs[i]= SLAmodel.getObligations().getSlo().get(i).getServiceID();
-        	
-        }
-        this.quantileCalc = new QuantileCalculator(this.serviceIDs);
+        this.quantileCalc = new QuantileCalculator();
         guis = new SLACheckerGUI[slas.getObligations().getSlo().size()];
         for(int i = 0; i < slas.getObligations().getSlo().size(); i++){
         	long[] quantiles = new long[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
@@ -54,7 +48,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         return this.averageCalcThread.getAverage();
     }
 
-    private long[] getQuantilResponseTime(Float[] quantile, int id) {
+    private long[] getQuantilResponseTime(int[] quantile, int id) {
     	long[] rt = this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
     	for(int i = 0; i < this.serviceIDs.length; i++){
     		if(id == this.serviceIDs[i]){
@@ -78,10 +72,10 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         	final int ID = slaslo.get(i).getServiceID();
         	if(slaslo.get(i).getType() == slal.Type.RT_QUANTILE_TYPE){
 	        	int size = slaslo.get(i).getValue().getPair().size();
-				final Float[] quantile = new Float[size];
+				final int[] quantile = new int[size];
 	        	final int[] responseTimes = new int[size];
 	        	for(int k = 0; k<size; k++){
-	        		float q = ((float)slaslo.get(i).getValue().getPair().get(k).getQuantile())/100;
+	        		int q = (slaslo.get(i).getValue().getPair().get(k).getQuantile())/100;
 	        		log.info("quantile:  "+q);
 	        		quantile[k] = q;
 	            	
