@@ -13,6 +13,11 @@ import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 
+/**
+ * 
+ * @author Lena Stšver
+ *
+ */
 public class ReconfigurationPlanForwarder extends Thread {
 		private static final Log log = LogFactory.getLog(QuantileCalculator.class);
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;

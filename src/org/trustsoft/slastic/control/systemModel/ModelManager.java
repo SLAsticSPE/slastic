@@ -12,11 +12,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
 
 import reconfMM.ReconfMMPackage;
 import reconfMM.ReconfigurationModel;
@@ -27,6 +31,12 @@ import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
+import ReconfigurationPlanModel.impl.ComponentDeReplicationOPImpl;
+import ReconfigurationPlanModel.impl.ComponentMigrationOPImpl;
+import ReconfigurationPlanModel.impl.ComponentReplicationOPImpl;
+import ReconfigurationPlanModel.impl.NodeAllocationOPImpl;
+import ReconfigurationPlanModel.impl.NodeDeAllocationOPImpl;
+import ReconfigurationPlanModel.impl.SLAsticReconfigurationOpTypeImpl;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
 import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
@@ -34,7 +44,9 @@ import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
 import de.uka.ipd.sdq.pcm.core.composition.impl.CompositionFactoryImpl;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
+import de.uka.ipd.sdq.pcm.system.System;
 
 /**
  * The only ModelManager-Implementation that currently exists.
@@ -220,6 +232,7 @@ public class ModelManager extends AbstractModelManager {
 				newContext.setId(component.getId());
 				this.add(component);
 				this.remove(component);
+				log.info("Migrate-Operation successfull");
 			} else {
 				log.error("Server: " + newServer.getEntityName()
 						+ "not yet allocated, component can not be migrated");
@@ -270,6 +283,8 @@ public class ModelManager extends AbstractModelManager {
 			this.componentAllocationList.get(
 					component.getEncapsulatedComponent_ChildComponentContext())
 					.add(newAllocationContext);
+			
+			log.info("Replicate-Operation successfull");
 		} else {
 			log.error("Component of type: "
 					+ component
@@ -286,6 +301,7 @@ public class ModelManager extends AbstractModelManager {
 		if (this.notAllocatedServers.contains(container)) {
 			this.allocatedServers.add(container);
 			this.notAllocatedServers.remove(container);
+			log.info("Allocate-Operation successfull");
 		} else {
 			log.error("Server: " + container.getEntityName()
 					+ " not available for allocation");
@@ -298,6 +314,7 @@ public class ModelManager extends AbstractModelManager {
 		if (this.allocatedServers.contains(container)) {
 			this.notAllocatedServers.add(container);
 			this.allocatedServers.remove(container);
+			log.info("Deallocate-Operation successfull");
 		} else {
 			log.error("Server: " + container.getEntityName()
 					+ "cannot be deallocated, because it is not allocated");
@@ -309,6 +326,7 @@ public class ModelManager extends AbstractModelManager {
 		if (model.getAllocation().getAllocationContexts_Allocation().contains(
 				component)) {
 			this.remove(component);
+			log.info("Dereplicate-Operation successfull");
 		} else {
 			log.error("Allocation for Component: "
 					+ component.getAssemblyContext_AllocationContext()
@@ -329,34 +347,36 @@ public class ModelManager extends AbstractModelManager {
 	 *            with the ReconfigurationPlanMetaModel
 	 * @return returns false if any operation-type is not available
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean doReconfiguration(
 			ReconfigurationPlanModel.SLAsticReconfigurationPlan plan, boolean savePersistent) {
 		EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
 		synchronized (this.model) {
 			for (int i = 0; i < operations.size(); i++) {
 				SLAsticReconfigurationOpType op = operations.get(i);
-				Class opClass = op.getClass();
-				if (opClass == ComponentDeReplicationOP.class) {
+				String opname = op.toString();
+				//Class opClass = (op.eClass()).class;
+				if (op instanceof ComponentDeReplicationOPImpl) {
 					AllocationContext comp = ((ComponentDeReplicationOP) op)
 							.getComponent();
 					this.dereplicate(comp);
-				} else if (opClass == ComponentMigrationOP.class) {
+				} else if (op instanceof ComponentMigrationOPImpl) {
 					AllocationContext comp = ((ComponentMigrationOP) op)
 							.getComponent();
 					ResourceContainer destination = ((ComponentMigrationOP) op)
 							.getDestination();
 					this.migrate(comp, destination);
-				} else if (opClass == ComponentReplicationOP.class) {
+				} else if (op instanceof ComponentReplicationOPImpl) {
 					AssemblyContext comp = ((ComponentReplicationOP) op)
 							.getComponent();
 					ResourceContainer destination = ((ComponentReplicationOP) op)
 							.getDestination();
 					this.replicate(comp, destination);
-				} else if (opClass == NodeAllocationOP.class) {
+				} else if (op instanceof NodeAllocationOPImpl) {
 					ResourceContainer container = ((NodeAllocationOP) op)
 							.getNode();
 					this.allocate(container);
-				} else if (opClass == NodeDeAllocationOP.class) {
+				} else if (op instanceof NodeDeAllocationOPImpl) {
 					ResourceContainer container = ((NodeDeAllocationOP) op)
 							.getNode();
 					this.deallocate(container);
@@ -367,20 +387,12 @@ public class ModelManager extends AbstractModelManager {
 					return false;
 				}
 				if(savePersistent){
-					ResourceSet resourceSet = new ResourceSetImpl();
-					//resourceSet.getResourceFactoryRegistry().getContentTypeToFactoryMap().put("reconfMM", new XMIResourceFactoryImpl());
-					String location = "C:/workspace/BookstoreReconfModel/out.reconfMM";
-					URI uri = URI.createURI(location);
-					Resource resource = resourceSet.createResource(uri);
-					
-					resource.getContents().add(model);
-					try{
-						resource.save(null);
-						log.info("Model saved to: !"+location);
-					}catch(IOException e){
-						log.error("Couldn't store model");
+					try {
+						this.savePersistent();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					
 				}
 			}
 		}
@@ -394,5 +406,69 @@ public class ModelManager extends AbstractModelManager {
 	
 	public ConcurrentLinkedQueue<ResourceContainer> getAllocatedServers(){
 		return this.allocatedServers;
+	}
+	
+	private boolean savePersistent() throws IOException{
+		//Save ResourceEnvironment
+		ResourceSet resourceEnvironmentResourceSet = new ResourceSetImpl();
+		String resourceEnvironmentResourceLocation = "out.resourceenvironment";
+		URI resourceEnvironmentURI = URI.createURI(resourceEnvironmentResourceLocation);
+		Resource resourceEnvironmentResource = resourceEnvironmentResourceSet.createResource(resourceEnvironmentURI);
+		resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
+		
+		//Save System
+		Resource repositoryResource = null;
+		if(model.getComponents().size() > 0){
+			ResourceSet repositoryResourceSet = new ResourceSetImpl();
+			String repositoryLocation = "out.repository";
+			URI repositoryURI = URI.createURI(repositoryLocation);
+			 repositoryResource = repositoryResourceSet.createResource(repositoryURI);
+			Repository repository = model.getComponents().get(0).getComponent().getRepository_ProvidesComponentType();
+			repositoryResource.getContents().add(repository);
+			
+		}
+		
+		log.info("repository saved");
+		
+		//Save System
+		ResourceSet systemResourceSet = new ResourceSetImpl();
+		String systemLocation = "out.system";
+		URI systemURI = URI.createURI(systemLocation);
+		Resource systemResource = systemResourceSet.createResource(systemURI);
+		System systemAllocation = model.getAllocation().getSystem_Allocation();
+		EList<EObject> contents = systemResource.getContents();
+		contents.add(systemAllocation);
+
+
+		log.info("System saved");
+		//Save Allocation and AllocationContexts
+		ResourceSet allocationResourceSet = new ResourceSetImpl();
+		String allocationLocation="out.allocation";
+		URI allocationURI = URI.createURI(allocationLocation);
+		Resource allocationResource = allocationResourceSet.createResource(allocationURI);
+		allocationResource.getContents().add(model.getAllocation());
+		//allocationResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
+		for(int i = 0; i < model.getAllocation().getAllocationContexts_Allocation().size(); i++){
+			allocationResource.getContents().add(model.getAllocation().getAllocationContexts_Allocation().get(i));
+		}
+		
+		
+		
+		//Save ReconfigurationModel
+		ResourceSet reconfigurationResourceSEt = new ResourceSetImpl();
+		String reconfigurationLocation = "out.reconfMM";
+		URI reconfigurationURI = URI.createURI(reconfigurationLocation);
+		Resource reconfigurationResource = reconfigurationResourceSEt.createResource(reconfigurationURI);
+		reconfigurationResource.getContents().add(model);
+
+		
+		resourceEnvironmentResource.save(null);
+		repositoryResource.save(null);
+		systemResource.save(null);
+		allocationResource.save(null);
+		reconfigurationResource.save(null);
+		log.info("ReconfigurationModel saved");
+		
+		return true;
 	}
 }
