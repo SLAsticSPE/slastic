@@ -23,6 +23,11 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
+/**
+ * Panel that show the development of the responesTimes over the Time and the belonging SLAs
+ * @author Lena Stšver
+ *
+ */
 public class SLACheckerGUI extends JPanel{
 	public TimeSeries[] responseTimes;
 	TimeSeries q90;
@@ -32,10 +37,15 @@ public class SLACheckerGUI extends JPanel{
 	TimeSeries q95;
 	TimeSeries q99;
 	String name; 
+	
 	/**
 	 * 
+	 * @param name Name that is shown in the title of the panel. 
+	 * @param maxAge maximum age of the data that should be shown.
+	 * @param Newquantile90 SLA for the 0.9-quantile
+	 * @param Newquantile95 SLA for the 0.95-quantile
+	 * @param Newquantile99 SLA for the 0.99-quantile
 	 */
-
 	public SLACheckerGUI(String name,int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
 		
 		super(new BorderLayout());
@@ -105,6 +115,10 @@ public class SLACheckerGUI extends JPanel{
 		this.add(chartPanel); 
 	}
 	
+	/**
+	 * Method that updates the data for the plots
+	 * @param rt Array of responseTimes. One value for each quantile.
+	 */
 	public void addResponseTime(long[] rt){
 		for(int i = 0; i< rt.length; i++){
 			responseTimes[i].add(new Millisecond(), rt[i]);
@@ -115,6 +129,9 @@ public class SLACheckerGUI extends JPanel{
 		this.q99.add(new Millisecond(), quantile99);
 	}
 	
+	/**
+	 * Method that is responsible for showing the plots. 
+	 */
 	public void paint(){
 		JFrame frame = new JFrame(this.name); 
 		frame.getContentPane().add(this, BorderLayout.CENTER);

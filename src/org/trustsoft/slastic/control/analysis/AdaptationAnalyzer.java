@@ -3,6 +3,8 @@ package org.trustsoft.slastic.control.analysis;
 import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
+import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
+
 import ReconfigurationPlanModel.*;
 import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 
@@ -27,7 +29,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		
 		ComponentMigrationOP op = fac.createComponentMigrationOP();
 		op.setComponent(ModelManager.getInstance().getModel().getAllocation().getAllocationContexts_Allocation().get(0));
-		op.setDestination(ModelManager.getInstance().getAllocatedServers().peek());
+		op.setDestination((ResourceContainer) ModelManager.getInstance().getAllocatedServers().toArray()[0]);
 		
 		testPlan.getOperations().add(op);
 		this.plan = testPlan;

@@ -51,8 +51,8 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
         log.info("ABER HIERRRRR");
-        String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
-        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+        //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
+        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
@@ -78,11 +78,11 @@ public class SLAsticControl {
         analysisInstance.setLogReader(fsReaderRealtime);
         analysisInstance.addRecordConsumer(updater);
         
-//        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
-//        analyzer.analyze();
-//        log.info("Hier komme ich her");
-//        ReconfigurationPlanForwarder.getInstance().run();
-//        rtac.start();
+        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
+        analyzer.analyze();
+        log.info("Hier komme ich her");
+        ReconfigurationPlanForwarder.getInstance().run();
+        rtac.start();
 
         try {
             analysisInstance.run();

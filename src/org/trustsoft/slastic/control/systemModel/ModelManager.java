@@ -87,14 +87,9 @@ public class ModelManager extends AbstractModelManager {
 
 		// run through all allocationContexts and add the already allocated
 		// servers
-		for (int i = 0; i < model.getAllocation()
-				.getAllocationContexts_Allocation().size(); i++) {
-			if (!this.allocatedServers.contains(model.getAllocation()
-					.getAllocationContexts_Allocation().get(i)
-					.getResourceContainer_AllocationContext()))
-				this.allocatedServers.add(model.getAllocation()
-						.getAllocationContexts_Allocation().get(i)
-						.getResourceContainer_AllocationContext());
+		for (int i = 0; i < model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size(); i++) {
+			if (!this.allocatedServers.contains(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i)))
+				this.allocatedServers.add(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
 		}
 
 	}
@@ -363,8 +358,10 @@ public class ModelManager extends AbstractModelManager {
 				} else if (op instanceof ComponentMigrationOPImpl) {
 					AllocationContext comp = ((ComponentMigrationOP) op)
 							.getComponent();
+					log.info("Migration of Component:"+comp.getEntityName());
 					ResourceContainer destination = ((ComponentMigrationOP) op)
 							.getDestination();
+					log.info("Migration to ResourceContainer: "+destination.getEntityName());
 					this.migrate(comp, destination);
 				} else if (op instanceof ComponentReplicationOPImpl) {
 					AssemblyContext comp = ((ComponentReplicationOP) op)
@@ -409,12 +406,16 @@ public class ModelManager extends AbstractModelManager {
 	}
 	
 	private boolean savePersistent() throws IOException{
+		synchronized(model){
 		//Save ResourceEnvironment
 		ResourceSet resourceEnvironmentResourceSet = new ResourceSetImpl();
 		String resourceEnvironmentResourceLocation = "out.resourceenvironment";
 		URI resourceEnvironmentURI = URI.createURI(resourceEnvironmentResourceLocation);
 		Resource resourceEnvironmentResource = resourceEnvironmentResourceSet.createResource(resourceEnvironmentURI);
 		resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
+		for(int i = 0; i < model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size();i++){
+			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
+		}
 		
 		//Save System
 		Resource repositoryResource = null;
@@ -468,6 +469,7 @@ public class ModelManager extends AbstractModelManager {
 		allocationResource.save(null);
 		reconfigurationResource.save(null);
 		log.info("ReconfigurationModel saved");
+		}
 		
 		return true;
 	}
