@@ -1,5 +1,8 @@
 package org.trustsoft.slastic.control.analysis;
 
+import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
+import org.trustsoft.slastic.control.systemModel.ModelManager;
+
 import ReconfigurationPlanModel.*;
 import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 
@@ -8,19 +11,27 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	SLAsticReconfigurationPlan plan;
 
 	@Override
-	public String getAdaptationPlan() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public SLAsticReconfigurationPlan getReconfigurationPlan() {
 		return plan;
 	}
 	
 	public void analyze(){
+		/**
 		ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
 		this.plan = fac.createSLAsticReconfigurationPlan();
+		**/
+		//This is just Test-Code and has to be deleted if it works
+		SLAsticReconfigurationPlan testPlan;
+		ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
+		testPlan = fac.createSLAsticReconfigurationPlan();
+		
+		ComponentMigrationOP op = fac.createComponentMigrationOP();
+		op.setComponent(ModelManager.getInstance().getModel().getAllocation().getAllocationContexts_Allocation().get(0));
+		op.setDestination(ModelManager.getInstance().getAllocatedServers().peek());
+		
+		testPlan.getOperations().add(op);
+		this.plan = testPlan;
+		ReconfigurationPlanForwarder.getInstance().addPlan(plan);
 	}
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.org.eclipse.jdt.internal.core.ModelUpdater;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
+import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
@@ -49,8 +50,9 @@ public class SLAsticControl {
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
-        //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
-        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+        log.info("ABER HIERRRRR");
+        String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
+        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
@@ -61,7 +63,8 @@ public class SLAsticControl {
         
         //Das sollte nun immer gemacht werden:
         ModelManager.getInstance().initModel(reconfigurationModel);
-       
+        
+        
 //        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
 //        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
 //        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
@@ -75,10 +78,13 @@ public class SLAsticControl {
         analysisInstance.setLogReader(fsReaderRealtime);
         analysisInstance.addRecordConsumer(updater);
         
-        rtac.start();
+//        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
+//        analyzer.analyze();
+//        log.info("Hier komme ich her");
+//        ReconfigurationPlanForwarder.getInstance().run();
+//        rtac.start();
 
         try {
-        	log.info("run sollte ausgef�hrtwerden");
             analysisInstance.run();
         } catch (LogReaderExecutionException e) {
             log.error("LogReaderExecutionException:", e);

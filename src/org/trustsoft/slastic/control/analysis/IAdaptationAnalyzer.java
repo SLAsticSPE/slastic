@@ -4,7 +4,6 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 
 
 public interface IAdaptationAnalyzer {
-	public String getAdaptationPlan();
-	
-	SLAsticReconfigurationPlan getReconfigurationPlan();
+
+	public SLAsticReconfigurationPlan getReconfigurationPlan();
 }

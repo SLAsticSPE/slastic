@@ -49,7 +49,6 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     	for(int i = 0; i < this.serviceIDs.length; i++){
     		if(id == this.serviceIDs[i]){
     			guis[i].addResponseTime(rt);
-    			log.info("GUI fŸr ID "+this.serviceIDs[i]+" geupdatet");
     			return rt;
     		}
     	}

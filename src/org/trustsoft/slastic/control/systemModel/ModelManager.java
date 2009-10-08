@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.systemModel;
 
+import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -10,8 +11,14 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
+import reconfMM.ReconfMMPackage;
 import reconfMM.ReconfigurationModel;
 import reconfMM.Service;
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
@@ -323,7 +330,7 @@ public class ModelManager extends AbstractModelManager {
 	 * @return returns false if any operation-type is not available
 	 */
 	public boolean doReconfiguration(
-			ReconfigurationPlanModel.SLAsticReconfigurationPlan plan) {
+			ReconfigurationPlanModel.SLAsticReconfigurationPlan plan, boolean savePersistent) {
 		EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
 		synchronized (this.model) {
 			for (int i = 0; i < operations.size(); i++) {
@@ -359,8 +366,33 @@ public class ModelManager extends AbstractModelManager {
 							+ " not supported!");
 					return false;
 				}
+				if(savePersistent){
+					ResourceSet resourceSet = new ResourceSetImpl();
+					//resourceSet.getResourceFactoryRegistry().getContentTypeToFactoryMap().put("reconfMM", new XMIResourceFactoryImpl());
+					String location = "C:/workspace/BookstoreReconfModel/out.reconfMM";
+					URI uri = URI.createURI(location);
+					Resource resource = resourceSet.createResource(uri);
+					
+					resource.getContents().add(model);
+					try{
+						resource.save(null);
+						log.info("Model saved to: !"+location);
+					}catch(IOException e){
+						log.error("Couldn't store model");
+					}
+					
+				}
 			}
 		}
 		return true;
+	}
+	
+	//The following methods have to be deleted after the debugging-phase, because they can cause behavior we do not want
+	public ReconfigurationModel getModel(){
+		return model;
+	}
+	
+	public ConcurrentLinkedQueue<ResourceContainer> getAllocatedServers(){
+		return this.allocatedServers;
 	}
 }
