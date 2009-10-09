@@ -150,7 +150,6 @@ public class ModelManager extends AbstractModelManager {
 		SLOMonitoringRecord newSLOrecord = (SLOMonitoringRecord) newRecord;
 		SLOMonitoringRecord oldSLOrecord = (SLOMonitoringRecord) oldRecord;
 		int serviceID = newSLOrecord.serviceId;
-		boolean updated = false;
 		synchronized (this.model) {
 			for (int i = 0; i < model.getComponents().size(); i++) {
 				for (int k = 0; k < model.getComponents().get(i).getServices()
@@ -164,7 +163,6 @@ public class ModelManager extends AbstractModelManager {
 									.getResponseTimes()).add(newSLOrecord);
 						}
 
-						updated = true;
 						if (oldSLOrecord != null) {
 							if (service.getServiceID() == oldSLOrecord.serviceId) {
 								synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
@@ -182,7 +180,6 @@ public class ModelManager extends AbstractModelManager {
 				}
 			}
 		}
-		updated = false;
 	}
 
 	/**
@@ -406,7 +403,6 @@ public class ModelManager extends AbstractModelManager {
 	}
 	
 	private boolean savePersistent() throws IOException{
-		synchronized(model){
 		//Save ResourceEnvironment
 		ResourceSet resourceEnvironmentResourceSet = new ResourceSetImpl();
 		String resourceEnvironmentResourceLocation = "out.resourceenvironment";
@@ -469,7 +465,6 @@ public class ModelManager extends AbstractModelManager {
 		allocationResource.save(null);
 		reconfigurationResource.save(null);
 		log.info("ReconfigurationModel saved");
-		}
 		
 		return true;
 	}

@@ -82,12 +82,6 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 	        	final SLO slo = slaslo.get(i);
 	        	ex.scheduleAtFixedRate(new Runnable() {
 	                public void run() {
-	                	try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 	                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
 	                	for(int j = 0; j<responseTimes.length; j++){
 	                		int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();

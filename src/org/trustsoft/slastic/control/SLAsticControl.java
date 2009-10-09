@@ -78,10 +78,10 @@ public class SLAsticControl {
         analysisInstance.setLogReader(fsReaderRealtime);
         analysisInstance.addRecordConsumer(updater);
         
-        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
-        analyzer.analyze();
-        log.info("Hier komme ich her");
-        ReconfigurationPlanForwarder.getInstance().run();
+//        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
+//        analyzer.analyze();
+//        log.info("Hier komme ich her");
+//        ReconfigurationPlanForwarder.getInstance().run();
         rtac.start();
 
         try {
