@@ -50,7 +50,7 @@ public class SLAsticControl {
 //        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
-        log.info("ABER HIERRRRR");
+
         //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
         String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
@@ -70,19 +70,18 @@ public class SLAsticControl {
 //        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
 //        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
-        SLAChecker rtac = new SLAChecker(slas);
+        SLAChecker slaChecker = new SLAChecker(slas);
         org.trustsoft.slastic.control.recordConsumer.ModelUpdater updater = new org.trustsoft.slastic.control.recordConsumer.ModelUpdater(reconfigurationModel.getMaxResponseTimes());
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
-
+        slaChecker.start();
         TpanInstance analysisInstance = new TpanInstance();
         analysisInstance.setLogReader(fsReaderRealtime);
         analysisInstance.addRecordConsumer(updater);
         
-//        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
-//        analyzer.analyze();
-//        log.info("Hier komme ich her");
-//        ReconfigurationPlanForwarder.getInstance().run();
-        rtac.start();
+        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
+        analyzer.analyze();
+        ReconfigurationPlanForwarder.getInstance().run();
+        
 
         try {
             analysisInstance.run();

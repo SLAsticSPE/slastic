@@ -409,9 +409,14 @@ public class ModelManager extends AbstractModelManager {
 		URI resourceEnvironmentURI = URI.createURI(resourceEnvironmentResourceLocation);
 		Resource resourceEnvironmentResource = resourceEnvironmentResourceSet.createResource(resourceEnvironmentURI);
 		resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
-		for(int i = 0; i < model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size();i++){
-			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
-		}
+//		for(int i = 0; i < model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size();i++){
+//			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
+//			
+//		}
+//		for(int i = 0; i< model.getAllocation().getTargetResourceEnvironment_Allocation().getLinkingresource().size(); i++){
+//			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getLinkingresource().get(i));
+//
+//		}
 		
 		//Save System
 		Resource repositoryResource = null;

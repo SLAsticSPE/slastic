@@ -27,8 +27,10 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     public SLAChecker(slal.Model SLAmodel) {
     	slas = SLAmodel;
+    	
         this.quantileCalc = new QuantileCalculator();
         guis = new SLACheckerGUI[slas.getObligations().getSlo().size()];
+        serviceIDs = new int[slas.getObligations().getSlo().size()];
         for(int i = 0; i < slas.getObligations().getSlo().size(); i++){
         	long[] quantiles = new long[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
         	log.info("quantilesSize: "+quantiles.length);
@@ -37,6 +39,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         	}
         	guis[i] = new SLACheckerGUI("ServiceID: "+slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
         	guis[i].paint();
+        	serviceIDs[i] = slas.getObligations().getSlo().get(i).getServiceID();
         }
     }
 
@@ -44,8 +47,10 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         return this.averageCalcThread.getAverage();
     }
 
-    private long[] getQuantilResponseTime(int[] quantile, int id) {
+    private long[] getQuantilResponseTime(float[] quantile, int id) {
     	long[] rt = this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
+    	try {
+    	} catch(Exception e) {e.printStackTrace();}
     	for(int i = 0; i < this.serviceIDs.length; i++){
     		if(id == this.serviceIDs[i]){
     			guis[i].addResponseTime(rt);
@@ -67,17 +72,14 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         	final int ID = slaslo.get(i).getServiceID();
         	if(slaslo.get(i).getType() == slal.Type.RT_QUANTILE_TYPE){
 	        	int size = slaslo.get(i).getValue().getPair().size();
-				final int[] quantile = new int[size];
+				final float[] quantile = new float[size];
 	        	final int[] responseTimes = new int[size];
 	        	for(int k = 0; k<size; k++){
-	        		int q = (slaslo.get(i).getValue().getPair().get(k).getQuantile())/100;
-	        		log.info("quantile:  "+q);
+	        		float q = (slaslo.get(i).getValue().getPair().get(k).getQuantile()/100.0f);
 	        		quantile[k] = q;
 	            	
 	            		int responseTime = slaslo.get(i).getValue().getPair().get(k).getResponseTime();
 						responseTimes[k] = responseTime;
-	            		log.info("current responsetime:"+responseTime);
-	            		log.info("SLA-Type"+slaslo.get(i).getType().getName());
 	        	}
 	        	final SLO slo = slaslo.get(i);
 	        	ex.scheduleAtFixedRate(new Runnable() {

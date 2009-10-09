@@ -32,36 +32,40 @@ public class QuantileCalculator {
      * @param serviceID ID that identified the services for which the quantiles should be calculated
      * @return array of results
      */
-    public long[] getResponseTimeForQuantiles(int[] quantiles, int serviceID) {
+    public long[] getResponseTimeForQuantiles(float[] quantiles, int serviceID) {
         long[] responseTime;
-
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         SLOMonitoringRecord[] rtSet;
         rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
                 rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);
-        
+       
         if (rtSet == null) {
             log.error("Not yet any serviced with ID: "+serviceID+" available");
             return null;
         }else if(rtSet.length == 0){
-        	log.error("Not yet any responseTime for ID: "+serviceID+" measured");
-        	
+        	log.error("Not yet any responseTime for ID: "+serviceID+" measured"); 	
         } else {
+        	
             for (int i = 0; i < responseTime.length; i++) {
-                if ((rtSet.length % (1 / (quantiles[i]))) != 0.0f) {
+            	try{
+                if ((rtSet.length % (1 / (quantiles[i])) != 0.0f)) {
                 	 int index = (int) ((rtSet.length)*(quantiles[i]));
                 	 responseTime[i] = rtSet[index].rtNseconds;
                     log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
+
                 } else {
                 	try {
-                		int index = (int) ((rtSet.length)*(quantiles[i]));
+                		int index = (int) ((rtSet.length)*(quantiles[i]/100));
                 		log.info(rtSet.length);
                    	 	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
                    	 } catch (Exception e) {
 						e.printStackTrace();
 					}
                     log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
+                }
+                }catch(Exception e){
+                	e.printStackTrace();
                 }
             }
         }
