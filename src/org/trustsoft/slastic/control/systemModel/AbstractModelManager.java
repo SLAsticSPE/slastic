@@ -15,7 +15,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 /**
  * Abstract class that has to be extended by any class that should manage the ReconfigurationModel of SLAsticControl.
  * It contains all methods that represent the operations of the ReconfigurationPlanModel.
- * @author Lena Stöver
+ * @author Lena Stoever
  *
  */
 public abstract class AbstractModelManager {

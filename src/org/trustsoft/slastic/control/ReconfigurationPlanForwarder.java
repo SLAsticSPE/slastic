@@ -15,11 +15,11 @@ import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 
 /**
  * 
- * @author Lena Stšver
+ * @author Lena Stoever
  *
  */
 public class ReconfigurationPlanForwarder extends Thread {
-		private static final Log log = LogFactory.getLog(QuantileCalculator.class);
+		private static final Log log = LogFactory.getLog(ReconfigurationPlanForwarder.class);
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private static ReconfigurationPlanForwarder instance; 
 		private static int maxPlans = 20;
@@ -38,9 +38,7 @@ public class ReconfigurationPlanForwarder extends Thread {
 		public void run(){
 			while(this.reconfigurationPlans.size()!=0){
 				try {
-					log.info("Ob ich hier wohl zu lange warte?");
 					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
-					log.info("Nicht zu lange gewartet");
 					//Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

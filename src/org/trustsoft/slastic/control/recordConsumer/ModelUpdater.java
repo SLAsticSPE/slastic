@@ -16,7 +16,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
  * This class is a RecordConsumer which gets the MonitoringRecords of Kieker and
  * collects specific MonitoringRecords to forward them to the ModelManager.
  * 
- * @author Lena Stöver
+ * @author Lena Stoever
  * 
  */
 public class ModelUpdater implements IKiekerRecordConsumer {
@@ -48,7 +48,7 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 			}
 			ModelManager.getInstance().update(newSLORecord, oldSLORecord);
 //			log
-//					.info("UPDATE F†R __________________________________________________________: "
+//					.info("UPDATE FUeR __________________________________________________________: "
 //							+ newSLORecord.serviceId);
 		}
 

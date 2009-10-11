@@ -10,7 +10,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
  * Class for calculating the given quantiles for a given service which is identified via serviceID.
- * @author Lena Stöver
+ * @author Lena Stoever
  * 
  */
 public class QuantileCalculator {

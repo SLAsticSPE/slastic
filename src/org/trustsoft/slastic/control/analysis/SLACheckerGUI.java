@@ -25,7 +25,7 @@ import org.jfree.ui.RectangleInsets;
 
 /**
  * Panel that show the development of the responesTimes over the Time and the belonging SLAs
- * @author Lena Stšver
+ * @author Lena Stoever
  *
  */
 public class SLACheckerGUI extends JPanel{

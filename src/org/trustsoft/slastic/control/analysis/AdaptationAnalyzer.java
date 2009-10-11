@@ -52,6 +52,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		NodeAllocationOP nodeAllocation = fac.createNodeAllocationOP();
 		ResourceenvironmentFactory resourceFac = ResourceenvironmentFactoryImpl.init();
 		ResourceContainer newServer = resourceFac.createResourceContainer();
+		newServer.setEntityName("newServer");
 		ModelManager.getInstance().addNotAllocatedServer(newServer);
 		nodeAllocation.setNode(newServer);
 		//testPlan.getOperations().add(nodeAllocation);
