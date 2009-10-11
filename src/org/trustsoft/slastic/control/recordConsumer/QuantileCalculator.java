@@ -55,13 +55,9 @@ public class QuantileCalculator {
                     log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
 
                 } else {
-                	try {
-                		int index = (int) ((rtSet.length)*(quantiles[i]/100));
-                		log.info(rtSet.length);
-                   	 	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
-                   	 } catch (Exception e) {
-						e.printStackTrace();
-					}
+                	int index = (int) ((rtSet.length)*(quantiles[i]/100));
+                	log.info(rtSet.length);
+                   	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
                     log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
                 }
                 }catch(Exception e){

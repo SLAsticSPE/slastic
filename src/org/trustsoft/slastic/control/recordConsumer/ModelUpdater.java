@@ -47,9 +47,9 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 				oldSLORecord = this.responseTimes.poll();
 			}
 			ModelManager.getInstance().update(newSLORecord, oldSLORecord);
-			log
-					.info("UPDATE F†R __________________________________________________________: "
-							+ newSLORecord.serviceId);
+//			log
+//					.info("UPDATE F†R __________________________________________________________: "
+//							+ newSLORecord.serviceId);
 		}
 
 	}

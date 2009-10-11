@@ -93,6 +93,9 @@ public class ModelManager extends AbstractModelManager {
 		}
 
 	}
+	public synchronized void addNotAllocatedServer(ResourceContainer server){
+		this.notAllocatedServers.add(server);
+	}
 
 	private void initComponentAllocationList() {
 		this.componentAllocationList = new ConcurrentHashMap<BasicComponent, Vector<AllocationContext>>();
@@ -215,15 +218,7 @@ public class ModelManager extends AbstractModelManager {
 		if (this.model.getAllocation().getAllocationContexts_Allocation()
 				.contains(component)) {
 			if (this.allocatedServers.contains(newServer)) {
-				AllocationFactory fac = AllocationFactoryImpl.init();
-				AllocationContext newContext = fac.createAllocationContext();
-				newContext.setAssemblyContext_AllocationContext(component
-						.getAssemblyContext_AllocationContext());
-				newContext.setResourceContainer_AllocationContext(newServer);
-				newContext.setEntityName(component.getEntityName());
-				newContext.setId(component.getId());
-				this.add(component);
-				this.remove(component);
+				component.setResourceContainer_AllocationContext(newServer);
 				log.info("Migrate-Operation successfull");
 			} else {
 				log.error("Server: " + newServer.getEntityName()
@@ -355,10 +350,8 @@ public class ModelManager extends AbstractModelManager {
 				} else if (op instanceof ComponentMigrationOPImpl) {
 					AllocationContext comp = ((ComponentMigrationOP) op)
 							.getComponent();
-					log.info("Migration of Component:"+comp.getEntityName());
 					ResourceContainer destination = ((ComponentMigrationOP) op)
 							.getDestination();
-					log.info("Migration to ResourceContainer: "+destination.getEntityName());
 					this.migrate(comp, destination);
 				} else if (op instanceof ComponentReplicationOPImpl) {
 					AssemblyContext comp = ((ComponentReplicationOP) op)
@@ -409,14 +402,7 @@ public class ModelManager extends AbstractModelManager {
 		URI resourceEnvironmentURI = URI.createURI(resourceEnvironmentResourceLocation);
 		Resource resourceEnvironmentResource = resourceEnvironmentResourceSet.createResource(resourceEnvironmentURI);
 		resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
-//		for(int i = 0; i < model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size();i++){
-//			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
-//			
-//		}
-//		for(int i = 0; i< model.getAllocation().getTargetResourceEnvironment_Allocation().getLinkingresource().size(); i++){
-//			resourceEnvironmentResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation().getLinkingresource().get(i));
-//
-//		}
+
 		
 		//Save System
 		Resource repositoryResource = null;
@@ -449,10 +435,7 @@ public class ModelManager extends AbstractModelManager {
 		URI allocationURI = URI.createURI(allocationLocation);
 		Resource allocationResource = allocationResourceSet.createResource(allocationURI);
 		allocationResource.getContents().add(model.getAllocation());
-		//allocationResource.getContents().add(model.getAllocation().getTargetResourceEnvironment_Allocation());
-		for(int i = 0; i < model.getAllocation().getAllocationContexts_Allocation().size(); i++){
-			allocationResource.getContents().add(model.getAllocation().getAllocationContexts_Allocation().get(i));
-		}
+
 		
 		
 		
