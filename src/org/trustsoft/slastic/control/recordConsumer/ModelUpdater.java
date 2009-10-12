@@ -22,8 +22,6 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 public class ModelUpdater implements IKiekerRecordConsumer {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 	private final BlockingQueue<SLOMonitoringRecord> responseTimes;
-	boolean finished;
-
 	/**
 	 * The Only constructor of this class.
 	 * 
@@ -47,9 +45,6 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 				oldSLORecord = this.responseTimes.poll();
 			}
 			ModelManager.getInstance().update(newSLORecord, oldSLORecord);
-//			log
-//					.info("UPDATE FUeR __________________________________________________________: "
-//							+ newSLORecord.serviceId);
 		}
 
 	}
@@ -67,8 +62,6 @@ public class ModelUpdater implements IKiekerRecordConsumer {
 
 	@Override
 	public void terminate() {
-		finished = true;
-
 	}
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.recordConsumer.AverageCalculatorThread;
 import org.trustsoft.slastic.control.recordConsumer.QuantileCalculator;
+import org.trustsoft.slastic.control.systemModel.exceptions.ServiceIDDoesNotExistException;
 
 import slal.SLO;
 
@@ -47,7 +48,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         return this.averageCalcThread.getAverage();
     }
 
-    private long[] getQuantilResponseTime(float[] quantile, int id) {
+    private long[] getQuantilResponseTime(float[] quantile, int id) throws ServiceIDDoesNotExistException {
     	long[] rt = this.quantileCalc.getResponseTimeForQuantiles(quantile,id);
     	try {
     	} catch(Exception e) {e.printStackTrace();}
@@ -84,7 +85,12 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 	        	final SLO slo = slaslo.get(i);
 	        	ex.scheduleAtFixedRate(new Runnable() {
 	                public void run() {
-	                	long[] responseTimes = getQuantilResponseTime(quantile, ID);
+	                	long[] responseTimes = null;
+						try {
+							responseTimes = getQuantilResponseTime(quantile, ID);
+						} catch (ServiceIDDoesNotExistException e) {
+							e.printStackTrace();
+						}
 	                	for(int j = 0; j<responseTimes.length; j++){
 	                		int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
 							if(responseTimes[j]> responseTime2){

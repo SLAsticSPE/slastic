@@ -3,16 +3,22 @@ package org.trustsoft.slastic.control.analysis;
 import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
+import ReconfigurationPlanModel.ComponentMigrationOP;
+import ReconfigurationPlanModel.ComponentReplicationOP;
+import ReconfigurationPlanModel.NodeAllocationOP;
+import ReconfigurationPlanModel.NodeDeAllocationOP;
+import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
-import de.uka.ipd.sdq.pcm.repository.RepositoryFactory;
-import de.uka.ipd.sdq.pcm.repository.impl.RepositoryFactoryImpl;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImpl;
-
-import ReconfigurationPlanModel.*;
-import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
-
+/**
+ * The only Implementation of an Adaptation Analyzer that currently exists. It contains example ReconfigurationOperations.
+ * @author Lena Stoever
+ *
+ */
 public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	
 	SLAsticReconfigurationPlan plan;

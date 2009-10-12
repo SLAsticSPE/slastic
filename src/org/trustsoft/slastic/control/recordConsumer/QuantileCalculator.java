@@ -6,6 +6,7 @@ package org.trustsoft.slastic.control.recordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+import org.trustsoft.slastic.control.systemModel.exceptions.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
@@ -31,8 +32,9 @@ public class QuantileCalculator {
      * @param quantiles array of that identifies the quantiles in percent
      * @param serviceID ID that identified the services for which the quantiles should be calculated
      * @return array of results
+     * @throws ServiceIDDoesNotExistException 
      */
-    public long[] getResponseTimeForQuantiles(float[] quantiles, int serviceID) {
+    public long[] getResponseTimeForQuantiles(float[] quantiles, int serviceID) throws ServiceIDDoesNotExistException {
         long[] responseTime;
         System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
@@ -41,7 +43,7 @@ public class QuantileCalculator {
                 rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);
        
         if (rtSet == null) {
-            log.error("Not yet any serviced with ID: "+serviceID+" available");
+            log.error("Not yet any service with ID: "+serviceID+" available");
             return null;
         }else if(rtSet.length == 0){
         	log.error("Not yet any responseTime for ID: "+serviceID+" measured"); 	

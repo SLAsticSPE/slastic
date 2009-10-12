@@ -51,8 +51,8 @@ public class SLAsticControl {
 //        analysisInstance.addConsumer(rtPlotter);
        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
 
-        //String wfFile ="../../../workspace/SLALproject/src/SLALproject.oaw";
-        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+        String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
+        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
@@ -81,6 +81,7 @@ public class SLAsticControl {
         AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
         analyzer.analyze();
         ReconfigurationPlanForwarder.getInstance().run();
+        log.info("Analyzer und alles gestartet");
         
 
         try {

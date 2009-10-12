@@ -4,17 +4,15 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
-import org.trustsoft.slastic.control.recordConsumer.QuantileCalculator;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+import org.trustsoft.slastic.control.systemModel.exceptions.AllocationContextNotInModelException;
+import org.trustsoft.slastic.control.systemModel.exceptions.IllegalReconfigurationOperationException;
+import org.trustsoft.slastic.control.systemModel.exceptions.ServerNotAllocatedException;
 
-import ReconfigurationPlanModel.ComponentMigrationOP;
-import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 
 /**
- * 
+ * This Class tries to replace the simulator with forwarding the ReconfigurationPlan back to the ModelManager.
  * @author Lena Stoever
  *
  */
@@ -28,6 +26,10 @@ public class ReconfigurationPlanForwarder extends Thread {
 			this.reconfigurationPlans = new ArrayBlockingQueue<SLAsticReconfigurationPlan>(maxPlans);
 		}
 		
+		/**
+		 * Implementation of the Singleton-Pattern.
+		 * @return
+		 */
 		public static ReconfigurationPlanForwarder getInstance(){
 			if(instance == null){
 				instance = new ReconfigurationPlanForwarder();
@@ -41,6 +43,12 @@ public class ReconfigurationPlanForwarder extends Thread {
 					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
 					//Thread.sleep(500);
 				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} catch (AllocationContextNotInModelException e) {
+					e.printStackTrace();
+				} catch (ServerNotAllocatedException e) {
+					e.printStackTrace();
+				} catch (IllegalReconfigurationOperationException e) {
 					e.printStackTrace();
 				}
 			}
