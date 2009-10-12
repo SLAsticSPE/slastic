@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.systemModel.exceptions;
+package org.trustsoft.slastic.control.exceptions;
 
 public class AllocationContextNotInModelException extends Exception {
 	public AllocationContextNotInModelException() {

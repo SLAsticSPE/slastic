@@ -1,18 +1,13 @@
 package org.trustsoft.slastic.control.systemModel;
 
-import org.trustsoft.slastic.control.systemModel.exceptions.AllocationContextNotInModelException;
-import org.trustsoft.slastic.control.systemModel.exceptions.ServerNotAllocatedException;
-
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+
+import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
+import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
-import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
-import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
-import de.uka.ipd.sdq.pcm.core.composition.CompositionFactory;
-import de.uka.ipd.sdq.pcm.core.composition.impl.CompositionFactoryImpl;
-import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 
 /**

@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.recordConsumer.AverageCalculatorThread;
 import org.trustsoft.slastic.control.recordConsumer.QuantileCalculator;
-import org.trustsoft.slastic.control.systemModel.exceptions.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
 import slal.SLO;
 

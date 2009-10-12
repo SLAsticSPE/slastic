@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.trustsoft.slastic.control.systemModel.exceptions.AllocationContextNotInModelException;
-import org.trustsoft.slastic.control.systemModel.exceptions.IllegalReconfigurationOperationException;
-import org.trustsoft.slastic.control.systemModel.exceptions.ServerNotAllocatedException;
-import org.trustsoft.slastic.control.systemModel.exceptions.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
+import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
+import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
+import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.ReconfigurationModel;
@@ -346,7 +346,7 @@ public class ModelManager extends AbstractModelManager {
 
 	@Override
 	protected void dereplicate(AllocationContext component)
-			throws AllocationContextNotInModelException {
+			throws org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException {
 		// TODO dereplication muss noch getestet werden.
 		if (model.getAllocation().getAllocationContexts_Allocation().contains(
 				component)) {
@@ -368,7 +368,7 @@ public class ModelManager extends AbstractModelManager {
 											.getEncapsulatedComponent_ChildComponentContext()) - 1));
 			log.info("Dereplicate-Operation successfull");
 		} else {
-			throw new AllocationContextNotInModelException();
+			throw new org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException();
 		}
 	}
 

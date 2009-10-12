@@ -6,7 +6,7 @@ package org.trustsoft.slastic.control.recordConsumer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
-import org.trustsoft.slastic.control.systemModel.exceptions.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
