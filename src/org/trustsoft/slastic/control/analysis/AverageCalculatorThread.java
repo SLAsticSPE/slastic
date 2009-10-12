@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.trustsoft.slastic.control.recordConsumer;
+package org.trustsoft.slastic.control.analysis;
 
 import java.util.concurrent.BlockingQueue;
 

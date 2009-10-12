@@ -133,13 +133,16 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	private void initInstanceCount() {
+		this.instanceCount = new ConcurrentHashMap<BasicComponent, Integer>();
+		log.info("anzahl allocations: "+model.getAllocation().getAllocationContexts_Allocation().size());
 		for (int i = 0; i < model.getAllocation()
 				.getAllocationContexts_Allocation().size(); i++) {
 			for (int k = 0; k < model.getComponents().size(); k++) {
-				if (model.getComponents().get(k) == model.getAllocation()
+				if (model.getComponents().get(k).getComponent() == model.getAllocation()
 						.getAllocationContexts_Allocation().get(i)
 						.getAssemblyContext_AllocationContext()
 						.getEncapsulatedComponent_ChildComponentContext()) {
+					log.info("Ein Treffer");
 					if (model.getComponents().get(k).isMigratable()
 							&& !this.instanceCount.containsKey(model
 									.getComponents().get(i).getComponent())) {
@@ -154,6 +157,7 @@ public class ModelManager extends AbstractModelManager {
 				}
 			}
 		}
+		log.info("InitInstanceCount is done");
 	}
 
 	private void initSet() {
@@ -305,6 +309,8 @@ public class ModelManager extends AbstractModelManager {
 					.add(newAllocationContext);
 
 			// update number of instances
+			log.info("instanceCount "+this.instanceCount.size());
+			log.info("component "+component.getEncapsulatedComponent_ChildComponentContext().getEntityName());
 			this.instanceCount
 					.replace(
 							(BasicComponent) component
@@ -347,9 +353,13 @@ public class ModelManager extends AbstractModelManager {
 	@Override
 	protected void dereplicate(AllocationContext component)
 			throws org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException {
-		// TODO dereplication muss noch getestet werden.
+
+		//The Component can only be dereplicated if there is more than one instance and if the model contains the component.
 		if (model.getAllocation().getAllocationContexts_Allocation().contains(
-				component)) {
+				component)
+				&& (this.instanceCount.get(component
+						.getAssemblyContext_AllocationContext()
+						.getEncapsulatedComponent_ChildComponentContext()) > 1)) {
 			this.remove(component);
 			// Update Hashmap with List of AllocationContexts
 			this.componentAllocationList.get(
@@ -368,7 +378,7 @@ public class ModelManager extends AbstractModelManager {
 											.getEncapsulatedComponent_ChildComponentContext()) - 1));
 			log.info("Dereplicate-Operation successfull");
 		} else {
-			throw new org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException();
+			throw new AllocationContextNotInModelException();
 		}
 	}
 
@@ -398,7 +408,7 @@ public class ModelManager extends AbstractModelManager {
 				// Check of which type the Operation is
 				if (op instanceof ComponentDeReplicationOPImpl) {
 					AllocationContext comp = ((ComponentDeReplicationOP) op)
-							.getComponent();
+							.getClone();
 					this.dereplicate(comp);
 					log.info("dereplication");
 				} else if (op instanceof ComponentMigrationOPImpl) {

@@ -3,6 +3,7 @@ package org.trustsoft.slastic.control.analysis;
 import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
+import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
 import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
@@ -68,6 +69,10 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		nodeDeAllocation.setNode(server1);
 		//testPlan.getOperations().add(nodeDeAllocation);
 		
+		//DeReplication of Component Bookstore
+		ComponentDeReplicationOP componentDeReplication = fac.createComponentDeReplicationOP();
+		componentDeReplication.setClone(bookstore);
+		testPlan.getOperations().add(componentDeReplication);
 		
 		this.plan = testPlan;
 		ReconfigurationPlanForwarder.getInstance().addPlan(plan);

@@ -8,11 +8,11 @@ import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.aspectj.org.eclipse.jdt.internal.core.ModelUpdater;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
+import org.trustsoft.slastic.control.recordConsumer.ModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
 
@@ -63,15 +63,9 @@ public class SLAsticControl {
         
         //Das sollte nun immer gemacht werden:
         ModelManager.getInstance().initModel(reconfigurationModel);
-        
-        
-//        for(int i = 0; i<reconfigurationModel.getComponents().size(); i++){
-//        	System.out.println(reconfigurationModel.getComponents().get(i).getComponent().getEntityName());        }
-//        for(int i = 0; i<slas.getObligations().getSlo().size(); i++){
-//        	System.out.println(slas.getObligations().getSlo().get(i).getServiceID());        }
 
         SLAChecker slaChecker = new SLAChecker(slas);
-        org.trustsoft.slastic.control.recordConsumer.ModelUpdater updater = new org.trustsoft.slastic.control.recordConsumer.ModelUpdater(reconfigurationModel.getMaxResponseTimes());
+        ModelUpdater updater = new ModelUpdater(reconfigurationModel.getMaxResponseTimes());
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
         slaChecker.start();
         TpanInstance analysisInstance = new TpanInstance();
@@ -91,7 +85,6 @@ public class SLAsticControl {
         } catch (RecordConsumerExecutionException e) {
             log.error("RecordConsumerExecutionException:", e);
         }
-
         /* Example that plots a dependency graph */
         /* generate dependency diagram */
 
@@ -99,7 +92,7 @@ public class SLAsticControl {
 //        Collection<ExecutionSequence> seqEnum = seqRepConsumer.getExecutionSequenceRepository().repository.values();
 //        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot");
 //        log.info("Wrote dependency graph to file " + inputDir+File.separator+"/dependencyGraph.dot");
-
+        ReconfigurationPlanForwarder.getInstance().terminate();
         log.info("Bye, this was SLAsticControl");
         //System.exit(0);
     }

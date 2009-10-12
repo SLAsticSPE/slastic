@@ -19,6 +19,7 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 public class ReconfigurationPlanForwarder extends Thread {
 		private static final Log log = LogFactory.getLog(ReconfigurationPlanForwarder.class);
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
+		private boolean terminated = false;
 		private static ReconfigurationPlanForwarder instance; 
 		private static int maxPlans = 20;
 		
@@ -38,7 +39,7 @@ public class ReconfigurationPlanForwarder extends Thread {
 		}
 		
 		public void run(){
-			while(this.reconfigurationPlans.size()!=0){
+			while(this.reconfigurationPlans.size()!=0 && !this.terminated){
 				try {
 					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
 					//Thread.sleep(500);
@@ -60,6 +61,10 @@ public class ReconfigurationPlanForwarder extends Thread {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		public void terminate(){
+			this.terminated = true;
 		}
 		
 }
