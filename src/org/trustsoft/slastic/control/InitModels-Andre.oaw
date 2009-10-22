@@ -1,0 +1,21 @@
+<workflow>
+	<property name='slalModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/SLALproject/src/model.sla'/>
+	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
+	
+	<property name='reconfigurationModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/BookstoreReconfModel/My.reconfmm'/>
+	<property name='reconfigurationMetaModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/systemModel/MetaModel.oaw'/>
+	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>
+	
+	<component file='/home/voorn/svn_work/sw_DALenaRobert/SLALproject/src/SLALproject.oaw'>
+		<modelFile value='${slalModelLocation}' />
+		<metaModelLocation value='${slalMetaModelLocation}'/>
+		<targetDir value='src-gen' />
+	</component>
+	
+	<component file='/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/systemModel/reconfigurationModelReader.oaw'>
+		<modelFile value='${reconfigurationModelLocation}' />
+		<outputSlot value='${reconfigurationOutputslot}'/>
+		<metaModelLocation value='${reconfigurationMetaModelLocation}'/>
+		<targetDir value='src-gen' />
+	</component>
+</workflow>
