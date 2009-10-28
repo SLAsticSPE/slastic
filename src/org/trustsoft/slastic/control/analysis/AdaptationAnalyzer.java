@@ -2,6 +2,7 @@ package org.trustsoft.slastic.control.analysis;
 
 import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
@@ -22,14 +23,10 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImp
  */
 public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	
-	SLAsticReconfigurationPlan plan;
-
+	private SLAsticReconfigurationPlan plan;	
+	private IReconfigurationManager reconfigurationManager;
 	@Override
-	public SLAsticReconfigurationPlan getReconfigurationPlan() {
-		return plan;
-	}
-	
-	public void analyze(){
+	public void execute() {
 		/**
 		ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
 		this.plan = fac.createSLAsticReconfigurationPlan();
@@ -75,7 +72,22 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		testPlan.getOperations().add(componentDeReplication);
 		
 		this.plan = testPlan;
-		ReconfigurationPlanForwarder.getInstance().addPlan(plan);
+		this.reconfigurationManager.doReconfiguration(plan);
+		
+	}
+	@Override
+	public void handle(ISLAsticAnalysisEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setReconfigurationManager(IReconfigurationManager manager) {
+		this.reconfigurationManager = manager;
+		
+	}
+	@Override
+	public void terminate() {
+		
 	}
 
 }

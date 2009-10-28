@@ -8,7 +8,7 @@ import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
-
+import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 
 /**
@@ -16,7 +16,7 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  * @author Lena Stoever
  *
  */
-public class ReconfigurationPlanForwarder extends Thread {
+public class ReconfigurationPlanForwarder extends Thread implements IReconfigurationManager  {
 		private static final Log log = LogFactory.getLog(ReconfigurationPlanForwarder.class);
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private boolean terminated = false;
@@ -54,8 +54,8 @@ public class ReconfigurationPlanForwarder extends Thread {
 				}
 			}
 		}
-		
-		public synchronized void addPlan(SLAsticReconfigurationPlan plan){
+		@Override
+		public synchronized void doReconfiguration(SLAsticReconfigurationPlan plan){
 			try {
 				this.reconfigurationPlans.put(plan);
 			} catch (InterruptedException e) {

@@ -11,34 +11,32 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
+import slal.Model;
 import slal.SLO;
 
 public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
-    //private final BlockingQueue<SLOMonitoringRecord> responseTimes;
-    AverageCalculatorThread averageCalcThread;
-    QuantileCalculator quantileCalc;
-    final slal.Model slas;
-    SLACheckerGUI[] guis;
-    int[] serviceIDs;
+    private AverageCalculatorThread averageCalcThread;
+    private QuantileCalculator quantileCalc;
+    private  slal.Model slas = null;
+    private SLACheckerGUI[] guis;
+    private int[] serviceIDs;
     
 
-    public SLAChecker(slal.Model SLAmodel) {
-    	slas = SLAmodel;
-    	
+    public SLAChecker() {
         this.quantileCalc = new QuantileCalculator();
-        guis = new SLACheckerGUI[slas.getObligations().getSlo().size()];
-        serviceIDs = new int[slas.getObligations().getSlo().size()];
-        for(int i = 0; i < slas.getObligations().getSlo().size(); i++){
-        	long[] quantiles = new long[slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+        guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
+        serviceIDs = new int[this.slas.getObligations().getSlo().size()];
+        for(int i = 0; i < this.slas.getObligations().getSlo().size(); i++){
+        	long[] quantiles = new long[this.slas.getObligations().getSlo().get(i).getValue().getPair().size()];
         	log.info("quantilesSize: "+quantiles.length);
-        	for(int k = 0; k < slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
-        		quantiles[k] = slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
+        	for(int k = 0; k <this. slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
+        		quantiles[k] = this.slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
         	}
-        	guis[i] = new SLACheckerGUI("ServiceID: "+slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
+        	guis[i] = new SLACheckerGUI("ServiceID: "+this.slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
         	guis[i].paint();
-        	serviceIDs[i] = slas.getObligations().getSlo().get(i).getServiceID();
+        	serviceIDs[i] = this.slas.getObligations().getSlo().get(i).getServiceID();
         }
     }
 
@@ -112,4 +110,21 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
          * we get the chance to kill it here. */
         averageCalcThread.terminate();
     }
+
+	@Override
+	public void execute() {
+		this.run();
+	}
+
+	@Override
+	public void handle(ISLAsticAnalysisEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSLAs(Model slas) {
+		this.slas = slas;
+		
+	}
 }

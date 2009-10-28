@@ -1,9 +1,10 @@
 package org.trustsoft.slastic.control.analysis;
 
-import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-
+import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 public interface IAdaptationAnalyzer {
-
-	public SLAsticReconfigurationPlan getReconfigurationPlan();
+	public void execute();
+	public void terminate();
+	public void setReconfigurationManager(IReconfigurationManager manager);
+	public void handle(ISLAsticAnalysisEvent event);
 }

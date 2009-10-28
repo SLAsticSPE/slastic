@@ -51,13 +51,13 @@ public class QuantileCalculator {
         	
             for (int i = 0; i < responseTime.length; i++) {
             	try{
-                if ((rtSet.length % (1 / (quantiles[i])) != 0.0f)) {
-                	 int index = (int) ((rtSet.length)*(quantiles[i]));
+                if ((rtSet.length % (1.0f / (quantiles[i])) != 0.0f)) {
+                	 int index = (int) ((rtSet.length+1)*(quantiles[i]));
                 	 responseTime[i] = rtSet[index].rtNseconds;
                     log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
 
                 } else {
-                	int index = (int) ((rtSet.length)*(quantiles[i]/100));
+                	int index = (int) ((rtSet.length)*(quantiles[i]));
                 	log.info(rtSet.length);
                    	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
                     log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");

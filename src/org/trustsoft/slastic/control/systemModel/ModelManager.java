@@ -31,6 +31,7 @@ import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import ReconfigurationPlanModel.impl.ComponentDeReplicationOPImpl;
 import ReconfigurationPlanModel.impl.ComponentMigrationOPImpl;
 import ReconfigurationPlanModel.impl.ComponentReplicationOPImpl;
@@ -51,9 +52,10 @@ import de.uka.ipd.sdq.pcm.system.System;
  * @author Lena Stoever
  * 
  */
-public class ModelManager extends AbstractModelManager {
+public class ModelManager implements IModelManager {
 	private final Log log = LogFactory.getLog(ModelManager.class);
 	private static ModelManager instance;
+	private ReconfigurationModel model;
 	private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
 	private ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
 	private ConcurrentHashMap<BasicComponent, Integer> instanceCount;
@@ -71,8 +73,8 @@ public class ModelManager extends AbstractModelManager {
 	 * @param m
 	 *            ReconfigurationModel which represents the initialization-model
 	 */
-	public void initModel(ReconfigurationModel m) {
-		model = m;
+	public void setModel(ReconfigurationModel m) {
+		this.model = m;
 		this.initSet();
 		this.initComponentAllocationList();
 		this.initAllocatedServers();
@@ -85,13 +87,13 @@ public class ModelManager extends AbstractModelManager {
 
 		// run through all allocationContexts and add the already allocated
 		// servers
-		for (int i = 0; i < model.getAllocation()
+		for (int i = 0; i < this.model.getAllocation()
 				.getTargetResourceEnvironment_Allocation()
 				.getResourceContainer_ResourceEnvironment().size(); i++) {
-			if (!this.allocatedServers.contains(model.getAllocation()
+			if (!this.allocatedServers.contains(this.model.getAllocation()
 					.getTargetResourceEnvironment_Allocation()
 					.getResourceContainer_ResourceEnvironment().get(i)))
-				this.allocatedServers.add(model.getAllocation()
+				this.allocatedServers.add(this.model.getAllocation()
 						.getTargetResourceEnvironment_Allocation()
 						.getResourceContainer_ResourceEnvironment().get(i));
 		}
@@ -102,28 +104,28 @@ public class ModelManager extends AbstractModelManager {
 	// deleted when simulation works.
 	public synchronized void addNotAllocatedServer(ResourceContainer server) {
 		this.notAllocatedServers.add(server);
-		model.getAllocation().getTargetResourceEnvironment_Allocation()
+		this.model.getAllocation().getTargetResourceEnvironment_Allocation()
 				.getResourceContainer_ResourceEnvironment().add(server);
 	}
 
 	private void initComponentAllocationList() {
 		this.componentAllocationList = new ConcurrentHashMap<BasicComponent, Vector<AllocationContext>>();
 		this.componentReconfigurationSpecification = new ConcurrentHashMap<BasicComponent, ReconfigurationSpecification>();
-		for (int i = 0; i < model.getComponents().size(); i++) {
-			this.componentAllocationList.put(model.getComponents().get(i)
+		for (int i = 0; i < this.model.getComponents().size(); i++) {
+			this.componentAllocationList.put(this.model.getComponents().get(i)
 					.getComponent(), new Vector<AllocationContext>());
-			this.componentReconfigurationSpecification.put(model
-					.getComponents().get(i).getComponent(), model
+			this.componentReconfigurationSpecification.put(this.model
+					.getComponents().get(i).getComponent(), this.model
 					.getComponents().get(i));
-			for (int k = 0; k < model.getAllocation()
+			for (int k = 0; k < this.model.getAllocation()
 					.getAllocationContexts_Allocation().size(); k++) {
-				if (model.getComponents().get(i).getComponent() == model
+				if (this.model.getComponents().get(i).getComponent() == this.model
 						.getAllocation().getAllocationContexts_Allocation()
 						.get(k).getAssemblyContext_AllocationContext()
 						.getEncapsulatedComponent_ChildComponentContext()) {
 					this.componentAllocationList.get(
-							model.getComponents().get(i).getComponent()).add(
-							model.getAllocation()
+							this.model.getComponents().get(i).getComponent()).add(
+							this.model.getAllocation()
 									.getAllocationContexts_Allocation().get(k));
 
 				}
@@ -134,24 +136,24 @@ public class ModelManager extends AbstractModelManager {
 
 	private void initInstanceCount() {
 		this.instanceCount = new ConcurrentHashMap<BasicComponent, Integer>();
-		log.info("anzahl allocations: "+model.getAllocation().getAllocationContexts_Allocation().size());
-		for (int i = 0; i < model.getAllocation()
+		log.info("anzahl allocations: "+this.model.getAllocation().getAllocationContexts_Allocation().size());
+		for (int i = 0; i < this.model.getAllocation()
 				.getAllocationContexts_Allocation().size(); i++) {
-			for (int k = 0; k < model.getComponents().size(); k++) {
-				if (model.getComponents().get(k).getComponent() == model.getAllocation()
+			for (int k = 0; k < this.model.getComponents().size(); k++) {
+				if (this.model.getComponents().get(k).getComponent() == this.model.getAllocation()
 						.getAllocationContexts_Allocation().get(i)
 						.getAssemblyContext_AllocationContext()
 						.getEncapsulatedComponent_ChildComponentContext()) {
 					log.info("Ein Treffer");
-					if (model.getComponents().get(k).isMigratable()
-							&& !this.instanceCount.containsKey(model
+					if (this.model.getComponents().get(k).isMigratable()
+							&& !this.instanceCount.containsKey(this.model
 									.getComponents().get(i).getComponent())) {
-						this.instanceCount.put(model.getComponents().get(k)
+						this.instanceCount.put(this.model.getComponents().get(k)
 								.getComponent(), 1);
-					} else if (this.instanceCount.containsKey(model
+					} else if (this.instanceCount.containsKey(this.model
 							.getComponents().get(k).getComponent())) {
-						this.instanceCount.replace(model.getComponents().get(k)
-								.getComponent(), this.instanceCount.get(model
+						this.instanceCount.replace(this.model.getComponents().get(k)
+								.getComponent(), this.instanceCount.get(this.model
 								.getComponents().get(k).getComponent()) + 1);
 					}
 				}
@@ -161,13 +163,13 @@ public class ModelManager extends AbstractModelManager {
 	}
 
 	private void initSet() {
-		for (int i = 0; i < model.getComponents().size(); i++) {
-			for (int k = 0; k < model.getComponents().get(i).getServices()
+		for (int i = 0; i < this.model.getComponents().size(); i++) {
+			for (int k = 0; k <this.model.getComponents().get(i).getServices()
 					.size(); k++) {
 				// It is important not to use a Set of Longs, because of the
 				// possibility of equal values of response times
 				ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
-				model.getComponents().get(i).getServices().get(k)
+				this.model.getComponents().get(i).getServices().get(k)
 						.setResponseTimes(list);
 			}
 		}
@@ -195,10 +197,10 @@ public class ModelManager extends AbstractModelManager {
 		SLOMonitoringRecord oldSLOrecord = (SLOMonitoringRecord) oldRecord;
 		int serviceID = newSLOrecord.serviceId;
 		synchronized (this.model) {
-			for (int i = 0; i < model.getComponents().size(); i++) {
-				for (int k = 0; k < model.getComponents().get(i).getServices()
+			for (int i = 0; i < this.model.getComponents().size(); i++) {
+				for (int k = 0; k < this.model.getComponents().get(i).getServices()
 						.size(); k++) {
-					Service service = model.getComponents().get(i)
+					Service service = this.model.getComponents().get(i)
 							.getServices().get(k);
 					if (service.getServiceID() == serviceID) {
 						synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
@@ -238,13 +240,13 @@ public class ModelManager extends AbstractModelManager {
 	@SuppressWarnings("unchecked")
 	public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
 			int serviceID) throws ServiceIDDoesNotExistException {
-		synchronized (model) {
-			for (int i = 0; i < model.getComponents().size(); i++) {
-				for (int k = 0; k < model.getComponents().get(i).getServices()
+		synchronized (this.model) {
+			for (int i = 0; i < this.model.getComponents().size(); i++) {
+				for (int k = 0; k < this.model.getComponents().get(i).getServices()
 						.size(); k++) {
-					if (model.getComponents().get(i).getServices().get(k)
+					if (this.model.getComponents().get(i).getServices().get(k)
 							.getServiceID() == serviceID) {
-						return ((ConcurrentSkipListSet<SLOMonitoringRecord>) model
+						return ((ConcurrentSkipListSet<SLOMonitoringRecord>) this.model
 								.getComponents().get(i).getServices().get(k)
 								.getResponseTimes());
 					}
@@ -254,8 +256,14 @@ public class ModelManager extends AbstractModelManager {
 		throw new ServiceIDDoesNotExistException();
 	}
 
-	@Override
-	protected void migrate(AllocationContext component,
+	/**
+	 * Method that represents the migration-operation of the ReconfigurationPlanMetaModel.
+	 * @param component AllocationContext that is moved to another ResourceContainer.
+	 * @param newServer Destination to which the component is moved.
+	 * @throws ServerNotAllocatedException 
+	 * @throws AllocationContextNotInModelException 
+	 */
+	private void migrate(AllocationContext component,
 			ResourceContainer newServer) throws ServerNotAllocatedException,
 			AllocationContextNotInModelException {
 		if (this.model.getAllocation().getAllocationContexts_Allocation()
@@ -272,8 +280,15 @@ public class ModelManager extends AbstractModelManager {
 
 	}
 
-	@Override
-	protected void replicate(AssemblyContext component,
+
+	/**
+	 * Method that represents the replication-operation of the ReconfigurationPlanMetaModel.
+	 * @param component AssemblyContext which contains the type of the instance is created.
+	 * @param destination ResourceContainer to which the new instance is added.
+	 * @throws AllocationContextNotInModelException 
+	 * @throws ServerNotAllocatedException 
+	 */
+	private void replicate(AssemblyContext component,
 			ResourceContainer destination)
 			throws AllocationContextNotInModelException,
 			ServerNotAllocatedException {
@@ -325,8 +340,12 @@ public class ModelManager extends AbstractModelManager {
 
 	}
 
-	@Override
-	protected void allocate(ResourceContainer container)
+	/**
+	 * Method that represents the allocate-operation of the ReconfigurationPlanMetaModel.
+	 * @param container ResourceContainer that has to be allocated to the system.
+	 * @throws ServerNotAllocatedException 
+	 */
+	private void allocate(ResourceContainer container)
 			throws ServerNotAllocatedException {
 		if (this.notAllocatedServers.contains(container)) {
 			this.allocatedServers.add(container);
@@ -338,8 +357,12 @@ public class ModelManager extends AbstractModelManager {
 
 	}
 
-	@Override
-	protected void deallocate(ResourceContainer container)
+	/**
+	 * Method that represents the deallocation-operation of the ReconfigurationPlanMetaMode.
+	 * @param container ResourceContainer which is after the execution of this method not longer available.
+	 * @throws ServerNotAllocatedException 
+	 */
+	private void deallocate(ResourceContainer container)
 			throws ServerNotAllocatedException {
 		if (this.allocatedServers.contains(container)) {
 			this.notAllocatedServers.add(container);
@@ -350,7 +373,11 @@ public class ModelManager extends AbstractModelManager {
 		}
 	}
 
-	@Override
+	/**
+	 * Method that represents the de-replication-operation of the ReconfigurationPlanMetaModel.
+	 * @param component AllocationContext that should is removed of the model.
+	 * @throws AllocationContextNotInModelException 
+	 */
 	protected void dereplicate(AllocationContext component)
 			throws org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException {
 
@@ -360,7 +387,7 @@ public class ModelManager extends AbstractModelManager {
 				&& (this.instanceCount.get(component
 						.getAssemblyContext_AllocationContext()
 						.getEncapsulatedComponent_ChildComponentContext()) > 1)) {
-			this.remove(component);
+			model.getAllocation().getAllocationContexts_Allocation().remove(component);
 			// Update Hashmap with List of AllocationContexts
 			this.componentAllocationList.get(
 					component.getAssemblyContext_AllocationContext()
@@ -527,5 +554,11 @@ public class ModelManager extends AbstractModelManager {
 			log.info("ReconfigurationModel saved");
 		}
 
+	}
+
+	@Override
+	public void doReconfiguration(SLAsticReconfigurationPlan plan) {
+		// TODO Auto-generated method stub
+		
 	}
 }
