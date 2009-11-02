@@ -11,8 +11,10 @@ import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
+import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.recordConsumer.ModelUpdater;
+import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
 
@@ -36,46 +38,27 @@ public class SLAsticControl {
         } else {
             log.info("Reading all tpmon-* files from " + inputDir);
         }
-
-//        new JMSReader( );
-
-        /* Dumps the record type ID */
-//        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
-
-        /* Collects all executions */
-//        ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();
-//        analysisInstance.addConsumer(seqRepConsumer);
-
-        /* Dumps response times */
-//        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
-//        analysisInstance.addConsumer(rtPlotter);
-       //String wfFile = "../../SLALproject/src/SLALproject.oaw";
-
-        String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
-        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
-        //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
-        Map<String, String> properties = new HashMap<String, String>();
-        Map<String, String> slotContents = new HashMap<String, String>();
-        WorkflowRunner runner = new WorkflowRunner();
-        runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
-        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
-        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
         
-        //Das sollte nun immer gemacht werden:
-        ModelManager.getInstance().initModel(reconfigurationModel);
-
-        SLAChecker slaChecker = new SLAChecker(slas);
-        ModelUpdater updater = new ModelUpdater(reconfigurationModel.getMaxResponseTimes());
+        org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl = new org.trustsoft.slastic.control.recordConsumer.SLAsticControl();
+        Analysis ana = new Analysis();
+        SLAChecker slaChecker = new SLAChecker();
+        ana.setPerformanceAnalyzer(slaChecker);
+        AdaptationAnalyzer adapt = new AdaptationAnalyzer();
+        ana.setAdaptationAnalyzer(adapt);
+        ana.setPerformancePredictor(null);
+        ana.setWorkloadAnalyzer(null);
+        IModelUpdater updater = new org.trustsoft.slastic.control.systemModel.ModelUpdater();
+        slactrl.setAnalysis(ana);
+        slactrl.setModelManager(ModelManager.getInstance());
+        slactrl.setModelUpdater(updater);
+        slactrl.setReconfigurationManager(ReconfigurationPlanForwarder.getInstance());
+        
+        slactrl.execute();
+        
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
-        slaChecker.start();
         TpanInstance analysisInstance = new TpanInstance();
         analysisInstance.setLogReader(fsReaderRealtime);
-        analysisInstance.addRecordConsumer(updater);
-        
-        AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
-        analyzer.analyze();
-        ReconfigurationPlanForwarder.getInstance().run();
-        log.info("Analyzer und alles gestartet");
+        analysisInstance.addRecordConsumer(slactrl);
         
 
         try {

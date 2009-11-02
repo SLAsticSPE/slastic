@@ -19,7 +19,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  */
 public class ModelUpdater implements IModelUpdater {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
-	private final BlockingQueue<SLOMonitoringRecord> responseTimes;
+	private BlockingQueue<SLOMonitoringRecord> responseTimes;
 	/**
 	 * The Only constructor of this class.
 	 * 
@@ -27,9 +27,8 @@ public class ModelUpdater implements IModelUpdater {
 	 *            Capacity of the List of SLOMonitoringRecords that should be
 	 *            collected.
 	 */
-	public ModelUpdater(int defaultCapacity) {
-		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(
-				defaultCapacity);
+	public ModelUpdater() {
+		
 	}
 	@Override
 	public void update(
@@ -53,6 +52,11 @@ public class ModelUpdater implements IModelUpdater {
 
 	@Override
 	public void terminate() {
+	}
+	@Override
+	public void setMaxResponseTime(int capacity) {
+		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(capacity);
+		
 	}
 
 

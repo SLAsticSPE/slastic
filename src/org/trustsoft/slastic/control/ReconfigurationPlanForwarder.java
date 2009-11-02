@@ -63,8 +63,15 @@ public class ReconfigurationPlanForwarder extends Thread implements IReconfigura
 			}
 		}
 		
+		@Override
 		public void terminate(){
 			this.terminated = true;
+		}
+
+		@Override
+		public void execute() {
+			this.run();
+			
 		}
 		
 }

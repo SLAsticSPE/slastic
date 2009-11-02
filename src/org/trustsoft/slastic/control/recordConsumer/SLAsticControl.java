@@ -2,24 +2,17 @@ package org.trustsoft.slastic.control.recordConsumer;
 
 import java.util.HashMap;
 import java.util.Map;
-import kieker.common.logReader.LogReaderExecutionException;
+
 import kieker.common.logReader.RecordConsumerExecutionException;
-import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
-import kieker.tpan.TpanInstance;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
-import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.IAnalysis;
-import org.trustsoft.slastic.control.analysis.SLAChecker;
-import org.trustsoft.slastic.control.recordConsumer.ModelUpdater;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
-import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 
@@ -84,11 +77,13 @@ public class SLAsticControl implements IControl {
 	        runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
 	        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
 	        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
+	        this.updater.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
+	        this.updater.execute();
 	        this.manager.setModel(reconfigurationModel);
 	        this.analysis.setSLAs(slas);
 	        this.analysis.setReconfigurationManager(this.reconfigurationManager);
 	        this.analysis.execute();
-	        log.info("Analysis and IRevonfigurationManager started.");
+	        log.info("Analysis started.");
 	        return true;
 		}
 		@Override

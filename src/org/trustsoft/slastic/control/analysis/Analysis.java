@@ -5,14 +5,14 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import slal.Model;
 
 public class Analysis implements IAnalysis {	
-	private IAdaptationAnalyzer adaptionAnalyzer;
+	private IAdaptationAnalyzer adaptationAnalyzer;
 	private IPerformanceAnalyzer performanceAnalyzer;
 	private IPerformancePredictor performancePredictor;
 	private IWorkloadAnalyzer workloadAnalyzer;
 	private IReconfigurationManager reconfigurationManager;
 	
 	public IAdaptationAnalyzer getAdaptionAnalyzer() {
-		return adaptionAnalyzer;
+		return adaptationAnalyzer;
 	}
 	public void setPerformanceAnalyzer(IPerformanceAnalyzer performanceAnalyzer) {
 		this.performanceAnalyzer = performanceAnalyzer;
@@ -28,15 +28,24 @@ public class Analysis implements IAnalysis {
 	}
 	@Override
 	public void execute() {
-		this.adaptionAnalyzer.setReconfigurationManager(this.reconfigurationManager);
-		this.adaptionAnalyzer.execute();
-		this.performanceAnalyzer.execute();
-		this.performancePredictor.execute();
-		this.workloadAnalyzer.execute();
+		this.adaptationAnalyzer.setReconfigurationManager(this.reconfigurationManager);
+		//TODO hier muss noch was passieren, wenn die Testphase beendet ist.
+		if(adaptationAnalyzer != null){
+			this.adaptationAnalyzer.execute();
+		}
+		if(this.performanceAnalyzer != null){
+			this.performanceAnalyzer.execute();
+		}
+		if(this.performancePredictor != null){
+			this.performancePredictor.execute();
+		}
+		if(this.workloadAnalyzer != null){
+			this.workloadAnalyzer.execute();
+		}
 	}
 	@Override
 	public void setAdaptationAnalyzer(IAdaptationAnalyzer adaptationAnalyzer) {
-		this.adaptionAnalyzer = adaptationAnalyzer;
+		this.adaptationAnalyzer = adaptationAnalyzer;
 		
 	}
 	@Override
@@ -49,14 +58,23 @@ public class Analysis implements IAnalysis {
 	public void setReconfigurationManager(IReconfigurationManager manager) {
 		this.reconfigurationManager = manager;
 		
+		
 	}
 	@Override
 	public void terminate() {
-		this.adaptionAnalyzer.terminate();
-		this.performanceAnalyzer.terminate();
-		this.performancePredictor.terminate();
-		this.workloadAnalyzer.terminate();
-		
+		if(this.adaptationAnalyzer !=null){
+			this.adaptationAnalyzer.terminate();
+		}
+		if(this.performanceAnalyzer != null){
+			this.performanceAnalyzer.terminate();
+		}
+		if(this.performancePredictor != null){
+			this.performancePredictor.terminate();
+		}
+		if(this.workloadAnalyzer != null){
+			this.workloadAnalyzer.terminate();
+		}
+
 	}
 	@Override
 	public void setSLAs(Model slas) {

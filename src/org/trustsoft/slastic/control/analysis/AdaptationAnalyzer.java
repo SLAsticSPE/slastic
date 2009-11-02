@@ -72,6 +72,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		testPlan.getOperations().add(componentDeReplication);
 		
 		this.plan = testPlan;
+		this.reconfigurationManager.execute();
 		this.reconfigurationManager.doReconfiguration(plan);
 		
 	}
@@ -87,7 +88,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	}
 	@Override
 	public void terminate() {
-		
+		this.reconfigurationManager.terminate();
 	}
 
 }
