@@ -2,6 +2,8 @@ package org.trustsoft.slastic.control.systemModel;
 
 import java.io.IOException;
 import java.util.Vector;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -56,6 +58,7 @@ public class ModelManager implements IModelManager {
 	private final Log log = LogFactory.getLog(ModelManager.class);
 	private static ModelManager instance;
 	private ReconfigurationModel model;
+	private BlockingQueue<SLOMonitoringRecord> responseTimes;
 	private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
 	private ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
 	private ConcurrentHashMap<BasicComponent, Integer> instanceCount;
@@ -191,11 +194,13 @@ public class ModelManager implements IModelManager {
 	}
 
 	@Override
-	public void update(AbstractKiekerMonitoringRecord newRecord,
-			AbstractKiekerMonitoringRecord oldRecord) {
-		SLOMonitoringRecord newSLOrecord = (SLOMonitoringRecord) newRecord;
-		SLOMonitoringRecord oldSLOrecord = (SLOMonitoringRecord) oldRecord;
-		int serviceID = newSLOrecord.serviceId;
+	public void update(AbstractKiekerMonitoringRecord newRecord) {
+		SLOMonitoringRecord oldSLORecord = null;
+		SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
+		while (!this.responseTimes.offer(newSLORecord)) {
+			oldSLORecord = this.responseTimes.poll();
+		}
+		int serviceID = newSLORecord.serviceId;
 		synchronized (this.model) {
 			for (int i = 0; i < this.model.getComponents().size(); i++) {
 				for (int k = 0; k < this.model.getComponents().get(i).getServices()
@@ -206,19 +211,19 @@ public class ModelManager implements IModelManager {
 						synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
 								.getResponseTimes()) {
 							((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()).add(newSLOrecord);
+									.getResponseTimes()).add(newSLORecord);
 						}
 
-						if (oldSLOrecord != null) {
-							if (service.getServiceID() == oldSLOrecord.serviceId) {
+						if (oldSLORecord != null) {
+							if (service.getServiceID() == oldSLORecord.serviceId) {
 								synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
 										.getResponseTimes()) {
 									((ConcurrentSkipListSet<SLOMonitoringRecord>) service
 											.getResponseTimes())
-											.remove(oldSLOrecord);
+											.remove(oldSLORecord);
 
 								}
-								oldSLOrecord = null;
+								oldSLORecord = null;
 							}
 						}
 					}
@@ -559,6 +564,11 @@ public class ModelManager implements IModelManager {
 	@Override
 	public void doReconfiguration(SLAsticReconfigurationPlan plan) {
 		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setMaxResponseTime(int capacity) {
+		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(capacity);
 		
 	}
 }

@@ -1,12 +1,12 @@
 package org.trustsoft.slastic.control.recordConsumer;
 
+import kieker.common.logReader.IKiekerRecordConsumer;
+import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+
 import org.trustsoft.slastic.control.analysis.IAnalysis;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
-
-import kieker.common.logReader.IKiekerRecordConsumer;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 public interface IControl extends IKiekerRecordConsumer {
 

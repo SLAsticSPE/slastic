@@ -17,10 +17,11 @@ public interface IModelManager {
 	 * @param newRecord Record that updates the model
 	 * @param oldRecord Record that represents an older value that can be deleted, because of the update of the model
 	 */
-	public void update(AbstractKiekerMonitoringRecord newRecord,
-			AbstractKiekerMonitoringRecord oldRecord)throws RecordConsumerExecutionException;
+	public void update(AbstractKiekerMonitoringRecord newRecord);
 
 	public void doReconfiguration(SLAsticReconfigurationPlan plan);
 	
 	public void setModel(ReconfigurationModel model);
+
+	void setMaxResponseTime(int capacity);
 }

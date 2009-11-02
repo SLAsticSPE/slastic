@@ -5,8 +5,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 public interface IModelUpdater {
 
-	public void update(AbstractKiekerMonitoringRecord record) throws RecordConsumerExecutionException;
-	public void setMaxResponseTime(int capacity);
+	public void update(AbstractKiekerMonitoringRecord record);
 	public void execute();
 	public void terminate();
 }

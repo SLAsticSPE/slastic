@@ -1,15 +1,12 @@
 package org.trustsoft.slastic.control;
 
-import java.util.HashMap;
-import java.util.Map;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openarchitectureware.workflow.WorkflowRunner;
-import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.SLAChecker;

@@ -19,7 +19,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  */
 public class ModelUpdater implements IModelUpdater {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
-	private BlockingQueue<SLOMonitoringRecord> responseTimes;
+	
 	/**
 	 * The Only constructor of this class.
 	 * 
@@ -32,15 +32,9 @@ public class ModelUpdater implements IModelUpdater {
 	}
 	@Override
 	public void update(
-			AbstractKiekerMonitoringRecord newMonitoringRecord)
-			throws RecordConsumerExecutionException {
+			AbstractKiekerMonitoringRecord newMonitoringRecord) {
 		if (newMonitoringRecord instanceof SLOMonitoringRecord) {
-			SLOMonitoringRecord oldSLORecord = null;
-			SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newMonitoringRecord;
-			while (!this.responseTimes.offer(newSLORecord)) {
-				oldSLORecord = this.responseTimes.poll();
-			}
-			ModelManager.getInstance().update(newSLORecord, oldSLORecord);
+			ModelManager.getInstance().update(newMonitoringRecord);
 		}
 
 	}
@@ -53,11 +47,7 @@ public class ModelUpdater implements IModelUpdater {
 	@Override
 	public void terminate() {
 	}
-	@Override
-	public void setMaxResponseTime(int capacity) {
-		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(capacity);
-		
-	}
+
 
 
 }
