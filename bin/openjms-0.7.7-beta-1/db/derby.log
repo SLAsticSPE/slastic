@@ -1,0 +1,6 @@
+----------------------------------------------------------------
+2009-11-02 12:42:32.296 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.1.1.0 - (208786): instance c013800d-0124-b4eb-0783-00003348a154
+on database directory /home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/bin/openjms-0.7.7-beta-1/db/openjmsdb 
+
+Database Class Loader started - derby.database.classpath=''
