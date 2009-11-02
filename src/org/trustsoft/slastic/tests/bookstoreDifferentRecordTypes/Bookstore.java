@@ -35,8 +35,8 @@ import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
  */
 public class Bookstore extends Thread {
 
-    static int numberOfRequests = 20; // number of traces
-    static int interRequestTime = 500;
+    static int numberOfRequests = 30; // number of traces
+    static int interRequestTime = 1000;
 
     /**
      *
@@ -80,6 +80,12 @@ public class Bookstore extends Thread {
     public static void searchBook() {
         for (int i = 0; i < 15; i++) {
                 Catalog.getBook(true);
+                try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
                 CRM.getOffers();
         }
     }

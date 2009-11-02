@@ -1,8 +1,8 @@
 package org.trustsoft.slastic.control.analysis;
 
-import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
@@ -73,7 +73,12 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		
 		this.plan = testPlan;
 		this.reconfigurationManager.execute();
-		this.reconfigurationManager.doReconfiguration(plan);
+		try {
+			this.reconfigurationManager.doReconfiguration(plan);
+		} catch (ReconfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	@Override

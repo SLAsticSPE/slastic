@@ -13,6 +13,10 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  */
 public interface IReconfigurationManager {
 
-	void doReconfiguration(SLAsticReconfigurationPlan plan);
+	void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException;
+
+	void terminate();
+
+	void execute();
 
 }

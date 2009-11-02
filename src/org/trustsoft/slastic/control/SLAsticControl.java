@@ -13,7 +13,6 @@ import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
-import org.trustsoft.slastic.control.recordConsumer.ModelUpdater;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 
@@ -53,7 +52,11 @@ public class SLAsticControl {
         slactrl.setModelUpdater(updater);
         slactrl.setReconfigurationManager(ReconfigurationPlanForwarder.getInstance());
         
-        slactrl.execute();
+        try {
+			slactrl.execute();
+		} catch (RecordConsumerExecutionException e1) {
+			e1.printStackTrace();
+		}
         
         FSReaderRealtime fsReaderRealtime = new FSReaderRealtime(inputDir, 7);
         TpanInstance analysisInstance = new TpanInstance();
