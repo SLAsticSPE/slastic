@@ -5,10 +5,14 @@
 
 package org.trustsoft.slastic.reconfigurationManager;
 
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+
 /**
  *
  * @author Andre van Hoorn
  */
 public interface IReconfigurationManager {
-    public void doReconfiguration(ReconfigurationPlanModel.SLAsticReconfigurationPlan plan) throws ReconfigurationException;
+
+	void doReconfiguration(SLAsticReconfigurationPlan plan);
+
 }
