@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # -----------------------------------------------------------------------------
 # Start/Stop Script for the OpenJMS Server
 #
@@ -25,6 +25,15 @@ cygwin=false
 case "`uname`" in
 CYGWIN*) cygwin=true;;
 esac
+
+LOCALCONF_FN="$(dirname $0)/openjms.sh.localconf"
+# If local configuration file exists, use contained values
+if [ -f "${LOCALCONF_FN}" ]; then
+    # Read variables
+    echo "Reading conf from file '${LOCALCONF_FN}'"
+    cat "${LOCALCONF_FN}"
+    source "${LOCALCONF_FN}"
+fi
 
 # For Cygwin, ensure paths are in UNIX format before anything is touched
 if $cygwin; then
