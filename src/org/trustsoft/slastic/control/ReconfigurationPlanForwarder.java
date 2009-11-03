@@ -21,7 +21,7 @@ public class ReconfigurationPlanForwarder extends Thread implements IReconfigura
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private boolean terminated = false;
 		private static ReconfigurationPlanForwarder instance; 
-		private static int maxPlans = 20;
+		private final static int maxPlans = 20;
 		
 		private ReconfigurationPlanForwarder(){
 			this.reconfigurationPlans = new ArrayBlockingQueue<SLAsticReconfigurationPlan>(maxPlans);

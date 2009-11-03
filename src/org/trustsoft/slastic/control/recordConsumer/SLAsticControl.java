@@ -68,8 +68,8 @@ public class SLAsticControl implements IControl {
 		}
 		@Override
 		public boolean execute() throws RecordConsumerExecutionException {
-			String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
-	        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+			//String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
+	        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
 	        //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
 	        Map<String, String> properties = new HashMap<String, String>();
 	        Map<String, String> slotContents = new HashMap<String, String>();
@@ -78,11 +78,12 @@ public class SLAsticControl implements IControl {
 	        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
 	        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
 	        this.manager.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
-	        this.updater.execute();
+	        
 	        this.manager.setModel(reconfigurationModel);
 	        this.analysis.setSLAs(slas);
 	        this.analysis.setReconfigurationManager(this.reconfigurationManager);
 	        this.analysis.execute();
+	        this.updater.execute();
 	        log.info("Analysis started.");
 	        return true;
 		}

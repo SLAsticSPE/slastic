@@ -22,22 +22,11 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     private  slal.Model slas = null;
     private SLACheckerGUI[] guis;
     private int[] serviceIDs;
+    private IAnalysis ana;
     
 
     public SLAChecker() {
         this.quantileCalc = new QuantileCalculator();
-        guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
-        serviceIDs = new int[this.slas.getObligations().getSlo().size()];
-        for(int i = 0; i < this.slas.getObligations().getSlo().size(); i++){
-        	long[] quantiles = new long[this.slas.getObligations().getSlo().get(i).getValue().getPair().size()];
-        	log.info("quantilesSize: "+quantiles.length);
-        	for(int k = 0; k <this. slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
-        		quantiles[k] = this.slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
-        	}
-        	guis[i] = new SLACheckerGUI("ServiceID: "+this.slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
-        	guis[i].paint();
-        	serviceIDs[i] = this.slas.getObligations().getSlo().get(i).getServiceID();
-        }
     }
 
     private long getAverageResponseTime() {
@@ -91,6 +80,10 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 	                		int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
 							if(responseTimes[j]> responseTime2){
 	                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" NOT satisfied : "+responseTimes[j]+" > "+responseTime2);
+	                			log.info("try to send SLAViolation");
+	                			SLAViolationEvent evt = new SLAViolationEvent(ID);
+	                			ana.handleInternalEvent(evt);
+	                			log.info("SLAViolation sent");
 	                		}else
 	                			System.out.println("SLA for service "+ID+" for quantile: "+quantile[j]+" SATISFIED: "+responseTimes[j]+" <= "+responseTime2);
 	                			
@@ -113,6 +106,18 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 
 	@Override
 	public void execute() {
+        guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
+        serviceIDs = new int[this.slas.getObligations().getSlo().size()];
+        for(int i = 0; i < this.slas.getObligations().getSlo().size(); i++){
+        	long[] quantiles = new long[this.slas.getObligations().getSlo().get(i).getValue().getPair().size()];
+        	log.info("quantilesSize: "+quantiles.length);
+        	for(int k = 0; k <this. slas.getObligations().getSlo().get(i).getValue().getPair().size(); k++){
+        		quantiles[k] = this.slas.getObligations().getSlo().get(i).getValue().getPair().get(k).getResponseTime();
+        	}
+        	guis[i] = new SLACheckerGUI("ServiceID: "+this.slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0], quantiles[1], quantiles[2]);
+        	guis[i].paint();
+        	serviceIDs[i] = this.slas.getObligations().getSlo().get(i).getServiceID();
+        }
 		this.run();
 	}
 
@@ -125,6 +130,12 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
 	@Override
 	public void setSLAs(Model slas) {
 		this.slas = slas;
+		
+	}
+
+	@Override
+	public void setAnalysis(IAnalysis ana) {
+		this.ana=ana;
 		
 	}
 }

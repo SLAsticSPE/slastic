@@ -11,6 +11,8 @@ public interface IAnalysis {
 	public void setPerformanceAnalyzer(IPerformanceAnalyzer performanceAnalyzer);
 	public void setPerformancePredictor(IPerformancePredictor performancePredictor);
 	
+	public void handleInternalEvent(ISLAsticAnalysisEvent evt);
+	
 	public void setSLAs(slal.Model slas);
 	
 	public void execute();

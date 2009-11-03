@@ -25,6 +25,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	
 	private SLAsticReconfigurationPlan plan;	
 	private IReconfigurationManager reconfigurationManager;
+	private IAnalysis ana;
 	@Override
 	public void execute() {
 		/**
@@ -94,6 +95,10 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	@Override
 	public void terminate() {
 		this.reconfigurationManager.terminate();
+	}
+	@Override
+	public void setAnalysis(IAnalysis ana) {
+		this.ana=ana;
 	}
 
 }

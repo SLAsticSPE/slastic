@@ -9,6 +9,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.Analysis;
+import org.trustsoft.slastic.control.analysis.IAdaptationAnalyzer;
+import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
@@ -39,15 +41,15 @@ public class SLAsticControl {
         Analysis ana = new Analysis();
         SLAChecker slaChecker = new SLAChecker();
         ana.setPerformanceAnalyzer(slaChecker);
-        AdaptationAnalyzer adapt = new AdaptationAnalyzer();
+        IAdaptationAnalyzer adapt = new JPetStoreAdaptationAnalyzer();
         ana.setAdaptationAnalyzer(adapt);
         ana.setPerformancePredictor(null);
-        ana.setWorkloadAnalyzer(null);
+        ana.setWorkloadAnalyzer(null);;
         IModelUpdater updater = new org.trustsoft.slastic.control.systemModel.ModelUpdater();
         slactrl.setAnalysis(ana);
         slactrl.setModelManager(ModelManager.getInstance());
         slactrl.setModelUpdater(updater);
-        slactrl.setReconfigurationManager(ReconfigurationPlanForwarder.getInstance());
+        slactrl.setReconfigurationManager(new JPetStoreReconfigurationManager());
         
         try {
 			slactrl.execute();

@@ -1,10 +1,13 @@
 package org.trustsoft.slastic.control.analysis;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 import slal.Model;
 
 public class Analysis implements IAnalysis {	
+	private static final Log log = LogFactory.getLog(Analysis.class);
 	private IAdaptationAnalyzer adaptationAnalyzer;
 	private IPerformanceAnalyzer performanceAnalyzer;
 	private IPerformancePredictor performancePredictor;
@@ -29,6 +32,8 @@ public class Analysis implements IAnalysis {
 	@Override
 	public void execute() {
 		this.adaptationAnalyzer.setReconfigurationManager(this.reconfigurationManager);
+		this.adaptationAnalyzer.setAnalysis(this);
+		this.performanceAnalyzer.setAnalysis(this);
 		//TODO hier muss noch was passieren, wenn die Testphase beendet ist.
 		if(adaptationAnalyzer != null){
 			this.adaptationAnalyzer.execute();
@@ -79,6 +84,18 @@ public class Analysis implements IAnalysis {
 	@Override
 	public void setSLAs(Model slas) {
 		this.performanceAnalyzer.setSLAs(slas);
+		
+	}
+	@Override
+	public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
+		log.info("SLAViolation recognized");
+		if(evt instanceof SLAViolationEvent){
+			
+			this.adaptationAnalyzer.handle(evt);
+			
+		}else{
+			log.error("EventType not supported");
+		}
 		
 	}
 
