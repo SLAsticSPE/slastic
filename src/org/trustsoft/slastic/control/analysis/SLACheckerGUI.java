@@ -93,7 +93,7 @@ public class SLACheckerGUI extends JPanel{
 		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 
 		
-		timeAxis.setAutoRange(false); 
+		timeAxis.setAutoRange(true); 
 		timeAxis.setLowerMargin(0.0); 
 		timeAxis.setUpperMargin(0.0); 
 		timeAxis.setTickLabelsVisible(true); 
