@@ -102,7 +102,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     public void terminate() {
         /* In case we spawned a thread in execute(),
          * we get the chance to kill it here. */
-        averageCalcThread.terminate();
+        //averageCalcThread.terminate();
         this.quantileCalc.terminate();
         for(int i = 0; i< guis.length; i++){
         	guis[i].terminate();

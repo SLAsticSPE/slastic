@@ -3,7 +3,7 @@
 <Configuration>
 
   <!-- Optional. This represents the default configuration  -->
-  <ServerConfiguration host="localhost" embeddedJNDI="true" />
+  <ServerConfiguration host="pc-vanhoorn.informatik.uni-oldenburg.de" embeddedJNDI="true" />
   
   <Connectors>
     <Connector scheme="tcp">

@@ -95,7 +95,7 @@ public class SLAsticControl {
 			logReader = new FSReaderRealtime(inputDir, 7);
 			
 		}else if(readerType.equals("JMS")){
-			 logReader= new JMSReader("tcp://127.0.0.1:3035/","queue1");
+			 logReader= new JMSReader("tcp://pc-vanhoorn.informatik.uni-oldenburg.de:3035/","queue1");
 		}else{
 			log.error("ReaderType: "+readerType+" not found");
 			return;
