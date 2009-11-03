@@ -58,7 +58,7 @@ public class ReconfigurationManager implements IReconfigurationManager {
                 log.info("Initiating Redeployment");
                 ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
-                argList.add("wget http://pc-vanhoorn:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200");
+                argList.add("wget 'http://pc-vanhoorn:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
                 ShellExecutor.invoke(
                         "/bin/bash", /* command */
                         argList, /* arg list */
