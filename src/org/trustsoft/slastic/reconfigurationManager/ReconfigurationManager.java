@@ -55,9 +55,10 @@ public class ReconfigurationManager implements IReconfigurationManager {
 //                throw new UnsupportedOperationException();
 //            } else {
             if (op instanceof ComponentRedeploymentOP) {
+                log.info("Initiating Redeployment");
                 ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
-                argList.add("touch /home/voorn/svn_work/pub_2010ICSE-Redeployment/src/jboss-4.2.3.GA/server/default/deploy/Eval21EJBs.jar");
+                argList.add("wget http://pc-vanhoorn:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200");
                 ShellExecutor.invoke(
                         "/bin/bash", /* command */
                         argList, /* arg list */
