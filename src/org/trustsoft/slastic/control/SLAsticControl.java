@@ -33,14 +33,21 @@ public class SLAsticControl {
         String readerType = System.getProperty("reader");
         if(readerType == null || readerType.length()==0){
         	log.error("No reader-type found");
-        	log.error("Please Provide reader-type via: ant -reader=<readerType> -example=<exampleType> run-Example");
+        	log.error("Please Provide reader-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
         	log.error("Supported reader types: FSRealtime, JMS");
         }
         
         String exampleType = System.getProperty("example");
         if(exampleType == null || exampleType.length() == 0){
         	log.error("No Example-Type found");
-        	log.error("please provide an example-type via: ant -reader=<readerType> -example=<exampleType> run-Example");
+        	log.error("please provide an example-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
+        	log.error("Supported example-type: Bookstore, JPetStore");
+        }
+
+        String initWorkflow_fn = System.getProperty("initWorkflow");
+        if(exampleType == null || exampleType.length() == 0){
+        	log.error("No initWorkflow found");
+        	log.error("please provide a workflow via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
         	log.error("Supported example-type: Bookstore, JPetStore");
         }
 
@@ -57,7 +64,8 @@ public class SLAsticControl {
         }
         }
         
-        org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl = new org.trustsoft.slastic.control.recordConsumer.SLAsticControl();
+        org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl =
+                new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
         Analysis ana = new Analysis();
         SLAChecker slaChecker = new SLAChecker();
         ana.setPerformanceAnalyzer(slaChecker);

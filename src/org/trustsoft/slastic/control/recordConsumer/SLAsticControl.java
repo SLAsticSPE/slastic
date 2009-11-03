@@ -26,8 +26,10 @@ public class SLAsticControl implements IControl {
     private IModelManager manager;
     private IModelUpdater updater;
     private IReconfigurationManager reconfigurationManager;
-    
-    public SLAsticControl(){
+    private final String INIT_WORKFLOW_FN;
+
+    public SLAsticControl(String initWorkflow_fn){
+        this.INIT_WORKFLOW_FN = initWorkflow_fn;
     }        
 		@Override
 		public void setAnalysis(IAnalysis analysis) {
@@ -69,12 +71,12 @@ public class SLAsticControl implements IControl {
 		@Override
 		public boolean execute() throws RecordConsumerExecutionException {
 			//String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
-	        String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
+	        //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
 	        //String wfFile = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModels-Andre.oaw";
 	        Map<String, String> properties = new HashMap<String, String>();
 	        Map<String, String> slotContents = new HashMap<String, String>();
 	        WorkflowRunner runner = new WorkflowRunner();
-	        runner.run(wfFile, new NullProgressMonitor(), properties, slotContents);
+	        runner.run(INIT_WORKFLOW_FN, new NullProgressMonitor(), properties, slotContents);
 	        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
 	        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
 	        this.manager.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
