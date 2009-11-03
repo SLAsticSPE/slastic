@@ -37,6 +37,7 @@ public class SLACheckerGUI extends JPanel{
 	TimeSeries q95;
 	TimeSeries q99;
 	String name; 
+	private JFrame frame;
 	
 	/**
 	 * 
@@ -47,6 +48,7 @@ public class SLACheckerGUI extends JPanel{
 	 * @param Newquantile99 SLA for the 0.99-quantile
 	 */
 	public SLACheckerGUI(String name,int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
+		
 		
 		super(new BorderLayout());
 		this.name = name;
@@ -133,7 +135,7 @@ public class SLACheckerGUI extends JPanel{
 	 * Method that is responsible for showing the plots. 
 	 */
 	public void paint(){
-		JFrame frame = new JFrame(this.name); 
+		frame = new JFrame(this.name); 
 		frame.getContentPane().add(this, BorderLayout.CENTER);
 		frame.setBounds(200, 120, 800, 400);
 		
@@ -148,6 +150,6 @@ public class SLACheckerGUI extends JPanel{
 		
 	}
 	public void terminate(){
-		this.revalidate();
+		frame.dispose();
 	}
 }
