@@ -147,4 +147,7 @@ public class SLACheckerGUI extends JPanel{
 		
 		
 	}
+	public void terminate(){
+		this.revalidate();
+	}
 }

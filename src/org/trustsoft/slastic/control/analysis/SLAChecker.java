@@ -104,6 +104,9 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
          * we get the chance to kill it here. */
         averageCalcThread.terminate();
         this.quantileCalc.terminate();
+        for(int i = 0; i< guis.length; i++){
+        	guis[i].terminate();
+        }
         if(ex != null){
         	ex.shutdownNow();
         }
