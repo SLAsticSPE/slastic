@@ -88,11 +88,7 @@ public class SLAsticControl {
         slactrl.setModelUpdater(updater);
         slactrl.setReconfigurationManager(mng);
         
-        try {
-			slactrl.execute();
-		} catch (RecordConsumerExecutionException e1) {
-			e1.printStackTrace();
-		}
+		
 		TpanInstance analysisInstance = new TpanInstance();
 		IKiekerMonitoringLogReader logReader;
 		if(readerType.equals("FSRealtime")){
