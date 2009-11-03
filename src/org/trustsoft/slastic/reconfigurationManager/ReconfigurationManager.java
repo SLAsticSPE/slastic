@@ -6,6 +6,7 @@ package org.trustsoft.slastic.reconfigurationManager;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
+import ReconfigurationPlanModel.ComponentRedeploymentOP;
 import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.NodeDeAllocationOP;
@@ -39,9 +40,8 @@ public class ReconfigurationManager implements IReconfigurationManager {
     public synchronized void doReconfiguration(
             ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
             throws ReconfigurationException {
-//        EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-//        for (int i = 0; i < operations.size(); i++) {
-//            SLAsticReconfigurationOpType op = operations.get(i);
+        EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
+        for (SLAsticReconfigurationOpType op : operations) {
             // Check of which type the Operation is
 //            if (op instanceof ComponentDeReplicationOPImpl) {
 //                throw new UnsupportedOperationException();
@@ -54,16 +54,18 @@ public class ReconfigurationManager implements IReconfigurationManager {
 //            } else if (op instanceof NodeDeAllocationOPImpl) {
 //                throw new UnsupportedOperationException();
 //            } else {
-                log.warn("Ignoring operation plan -- performing redeployment");
-                ArrayList argList = new ArrayList<String>();
+            if (op instanceof ComponentRedeploymentOP) {
+                ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
-                argList.add("touch /tmp/reconfiguration");
+                argList.add("touch /home/voorn/svn_work/pub_2010ICSE-Redeployment/src/jboss-4.2.3.GA/server/default/deploy/Eval21EJBs.jar");
                 ShellExecutor.invoke(
                         "/bin/bash", /* command */
                         argList, /* arg list */
                         true);
-//            }
-//        }
+            } else {
+                throw new UnsupportedOperationException();
+            }
+        }
     }
 
 	@Override

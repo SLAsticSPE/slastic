@@ -14,6 +14,8 @@ import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
 
 
 /**
@@ -25,6 +27,12 @@ public class SLAsticControl {
 
     public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
+        
+        String exampleType = System.getProperty("example");
+        if(exampleType == null || exampleType.length() == 0){
+        	log.error("No Example-Type found");
+        	log.error("please provide an example-type via: ant -example");
+        }
 
         String inputDir = System.getProperty("inputDir");
         if (inputDir == null || inputDir.length() == 0 || inputDir.equals("${inputDir}")) {
@@ -41,7 +49,16 @@ public class SLAsticControl {
         Analysis ana = new Analysis();
         SLAChecker slaChecker = new SLAChecker();
         ana.setPerformanceAnalyzer(slaChecker);
-        IAdaptationAnalyzer adapt = new JPetStoreAdaptationAnalyzer();
+        IAdaptationAnalyzer adapt;
+        IReconfigurationManager mng;
+        if(exampleType.equals("JPetStore")){
+        	adapt = new JPetStoreAdaptationAnalyzer();
+        	mng = new ReconfigurationManager();
+        }else{
+        	adapt = new AdaptationAnalyzer();
+        	mng = ReconfigurationPlanForwarder.getInstance();
+        }
+        
         ana.setAdaptationAnalyzer(adapt);
         ana.setPerformancePredictor(null);
         ana.setWorkloadAnalyzer(null);;
@@ -49,7 +66,7 @@ public class SLAsticControl {
         slactrl.setAnalysis(ana);
         slactrl.setModelManager(ModelManager.getInstance());
         slactrl.setModelUpdater(updater);
-        slactrl.setReconfigurationManager(new JPetStoreReconfigurationManager());
+        slactrl.setReconfigurationManager(mng);
         
         try {
 			slactrl.execute();

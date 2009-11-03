@@ -12,10 +12,6 @@
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.probfunction_1.0.0.200811151014NGT.jar"/>
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.stoex_2.0.0.200811151014NGT.jar"/>
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.units_1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-common-0.95.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-tpan-0.95_ctrl.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_ctrl.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_ltw.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
@@ -91,5 +87,13 @@
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.edit_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.editor_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.tests_1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-common-0.95.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-tpan-0.95_ctrl.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_controlServlet.war"/>
+	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_ctrl.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_ctw.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_ltw.jar"/>
+	<classpathentry kind="lib" path="lib/servlet.jar"/>
+	<classpathentry kind="lib" path="lib/swtgraphics2d.jar"/>
 	<classpathentry kind="output" path="build/slastic.sim"/>
 </classpath>
