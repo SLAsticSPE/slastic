@@ -197,7 +197,7 @@
         <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
     </target>
 
-    <target name="run-SLAsticControl" depends="build-slastic.control,init-log4-properties-tests">
+    <target name="run-SLAsticControl" depends="build-slastic.control,build-slastic.monadapt,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -205,7 +205,10 @@
               classpathref="slastic.control.core.classpath">
             <jvmarg value="-DinputDir=${inputDir}"/>
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
-            <jvmarg value="-Dtpmon.configuration=${tests.jmsreader.tpmon.properties}"/>
+            <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+            </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
