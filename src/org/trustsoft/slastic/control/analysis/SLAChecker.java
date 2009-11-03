@@ -23,6 +23,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
     private SLACheckerGUI[] guis;
     private int[] serviceIDs;
     private IAnalysis ana;
+    private ScheduledThreadPoolExecutor ex;
     
 
     public SLAChecker() {
@@ -52,7 +53,7 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         //this.averageCalcThread = new AverageCalculatorThread(this.responseTimes);
         //averageCalcThread.start();
         EList<SLO> slaslo = slas.getObligations().getSlo();
-		ScheduledThreadPoolExecutor ex = new ScheduledThreadPoolExecutor(slaslo.size());
+		ex = new ScheduledThreadPoolExecutor(slaslo.size());
         //final DateFormat m_ISO8601Local = new SimpleDateFormat("yyyyMMdd'-'HHmmss");    
         for(int i = 0; i< slaslo.size(); i++){
         	final int ID = slaslo.get(i).getServiceID();
@@ -102,6 +103,8 @@ public class SLAChecker extends Thread implements IPerformanceAnalyzer {
         /* In case we spawned a thread in execute(),
          * we get the chance to kill it here. */
         averageCalcThread.terminate();
+        this.quantileCalc.terminate();
+        ex.shutdownNow();
     }
 
 	@Override

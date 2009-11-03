@@ -70,4 +70,7 @@ public class QuantileCalculator {
         }
         return responseTime;
     }
+    public void terminate(){
+    	
+    }
 }
