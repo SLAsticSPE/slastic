@@ -56,7 +56,7 @@ public class SLACheckerGUI extends JPanel{
 		responseTimes = new TimeSeries[3];
 		for(int i = 0; i< responseTimes.length; i++){
 			responseTimes[i] = new TimeSeries("responseTime"+i);
-			responseTimes[i].setMaximumItemAge(maxAge);
+//			responseTimes[i].setMaximumItemAge(maxAge);
 		}
 		
 		 q90 = new TimeSeries("SLA1");
@@ -93,7 +93,7 @@ public class SLACheckerGUI extends JPanel{
 		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 
 		
-		timeAxis.setAutoRange(true); 
+		timeAxis.setAutoRange(false); 
 		timeAxis.setLowerMargin(0.0); 
 		timeAxis.setUpperMargin(0.0); 
 		timeAxis.setTickLabelsVisible(true); 
