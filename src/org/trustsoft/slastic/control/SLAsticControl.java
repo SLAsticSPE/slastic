@@ -45,7 +45,7 @@ public class SLAsticControl {
         }
 
         String initWorkflow_fn = System.getProperty("initWorkflow");
-        if(exampleType == null || exampleType.length() == 0){
+        if(initWorkflow_fn == null || initWorkflow_fn.length() == 0){
         	log.error("No initWorkflow found");
         	log.error("please provide a workflow via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
         	log.error("Supported example-type: Bookstore, JPetStore");

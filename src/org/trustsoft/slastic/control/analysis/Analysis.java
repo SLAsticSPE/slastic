@@ -37,6 +37,7 @@ public class Analysis implements IAnalysis {
 		//TODO hier muss noch was passieren, wenn die Testphase beendet ist.
 		if(adaptationAnalyzer != null){
 			this.adaptationAnalyzer.execute();
+			log.info("AdaptationAnalyzer ausgefhr");
 		}
 		if(this.performanceAnalyzer != null){
 			this.performanceAnalyzer.execute();

@@ -42,6 +42,7 @@ public class ReconfigurationPlanForwarder extends Thread implements IReconfigura
 			while(this.reconfigurationPlans.size()!=0 && !this.terminated){
 				try {
 					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
+					log.info("ModelManager sollte die Rekonfiguration ausfuehren");
 					//Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();

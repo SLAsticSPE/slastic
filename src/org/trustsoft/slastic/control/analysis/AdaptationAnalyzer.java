@@ -84,7 +84,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	}
 	@Override
 	public void handle(ISLAsticAnalysisEvent event) {
-		// TODO Auto-generated method stub
+		//this.execute();
 		
 	}
 	@Override
