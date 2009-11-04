@@ -58,7 +58,11 @@ public class ReconfigurationManager implements IReconfigurationManager {
                 log.info("Initiating Redeployment");
                 ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
-                argList.add("wget 'http://pc-vanhoorn:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+                if(System.getProperty("os.name").contains("Mac")){
+                	argList.add("/usr/local/bin/wget 'http://pc-vanhoorn.informatik.uni-oldenburg.de:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+                }else{
+                	argList.add("wget 'http://pc-vanhoorn.informatik.uni-oldenburg.de:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+                }  
                 ShellExecutor.invoke(
                         "/bin/bash", /* command */
                         argList, /* arg list */
