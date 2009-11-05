@@ -139,15 +139,14 @@ public class ModelManager implements IModelManager {
 
 	private void initInstanceCount() {
 		this.instanceCount = new ConcurrentHashMap<BasicComponent, Integer>();
-		log.info("anzahl allocations: "+this.model.getAllocation().getAllocationContexts_Allocation().size());
+		//log.info("anzahl allocations: "+this.model.getAllocation().getAllocationContexts_Allocation().size());
 		for (int i = 0; i < this.model.getAllocation()
 				.getAllocationContexts_Allocation().size(); i++) {
 			for (int k = 0; k < this.model.getComponents().size(); k++) {
 				if (this.model.getComponents().get(k).getComponent() == this.model.getAllocation()
 						.getAllocationContexts_Allocation().get(i)
 						.getAssemblyContext_AllocationContext()
-						.getEncapsulatedComponent_ChildComponentContext()) {
-					log.info("Ein Treffer");
+						.getEncapsulatedComponent_ChildComponentContext()) {;
 					if (this.model.getComponents().get(k).isMigratable()
 							&& !this.instanceCount.containsKey(this.model
 									.getComponents().get(i).getComponent())) {
@@ -495,6 +494,7 @@ public class ModelManager implements IModelManager {
 	}
 
 	private void savePersistent() throws IOException {
+		java.lang.System.out.println("VERDAMMT SPEICHERN");
 		// Save ResourceEnvironment
 		synchronized (model) {
 			ResourceSet resourceEnvironmentResourceSet = new ResourceSetImpl();

@@ -79,8 +79,7 @@ public class SLAsticControl implements IControl {
 	        runner.run(INIT_WORKFLOW_FN, new NullProgressMonitor(), properties, slotContents);
 	        slal.Model slas = (slal.Model) runner.getContext().get("theModel");
 	        reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
-	        this.manager.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
-	        
+	        this.manager.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());  
 	        this.manager.setModel(reconfigurationModel);
 	        this.analysis.setSLAs(slas);
 	        this.analysis.setReconfigurationManager(this.reconfigurationManager);

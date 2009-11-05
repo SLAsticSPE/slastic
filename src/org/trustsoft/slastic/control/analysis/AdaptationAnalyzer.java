@@ -1,5 +1,8 @@
 package org.trustsoft.slastic.control.analysis;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
@@ -26,12 +29,14 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	private SLAsticReconfigurationPlan plan;	
 	private IReconfigurationManager reconfigurationManager;
 	private IAnalysis ana;
+	private static final Log log = LogFactory.getLog(IAdaptationAnalyzer.class);
 	@Override
 	public void execute() {
 		/**
 		ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
 		this.plan = fac.createSLAsticReconfigurationPlan();
 		**/
+		log.info("Plan wird jetzt erstellt");
 		//This is just Test-Code and has to be deleted when the simulator works
 		
 		
@@ -73,13 +78,15 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		testPlan.getOperations().add(componentDeReplication);
 		
 		this.plan = testPlan;
-		this.reconfigurationManager.execute();
 		try {
+			log.info("ReconfigurationManager ist gestartet und plan wird gesendet");
 			this.reconfigurationManager.doReconfiguration(plan);
 		} catch (ReconfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.reconfigurationManager.execute();
+
 		
 	}
 	@Override
