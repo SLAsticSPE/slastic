@@ -203,7 +203,8 @@
         <java dir="."
               fork="true"
               classname="org.trustsoft.slastic.control.SLAsticControl"
-              classpathref="slastic.control.core.classpath">
+              classpathref="slastic.control.core.classpath"
+        		maxmemory="1024m">
             <jvmarg value="-DinputDir=${inputDir}"/>
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
@@ -219,7 +220,8 @@
         <java dir="."
 	              fork="true"
 	              classname="org.trustsoft.slastic.control.SLAsticControl"
-	              classpathref="slastic.control.core.classpath">
+	              classpathref="slastic.control.core.classpath"
+        		  maxmemory="1024m">
             <jvmarg value="-Dreader=JMS"/>
             <jvmarg value="-Dexample=JPetStore"/>
             <!--<jvmarg value="-DinputDir=${inputDir}"/>-->
@@ -238,7 +240,8 @@
         <java dir="."
 	              fork="true"
 	              classname="org.trustsoft.slastic.control.SLAsticControl"
-	              classpathref="slastic.control.core.classpath">
+	              classpathref="slastic.control.core.classpath"
+        		maxmemory="1024m">
             <jvmarg value="-Dreader=FSRealtime"/>
             <jvmarg value="-Dexample=Bookstore"/>
             <jvmarg value="-DinputDir=${inputDir}"/>
