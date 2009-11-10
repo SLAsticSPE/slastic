@@ -50,7 +50,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		ComponentMigrationOP componentMigration = fac.createComponentMigrationOP();
 		componentMigration.setComponent(bookstore);
 		componentMigration.setDestination(server1);
-		//testPlan.getOperations().add(componentMigration);
+		testPlan.getOperations().add(componentMigration);
 		
 		//Replication of Component Bookstore
 		ComponentReplicationOP componentReplication = fac.createComponentReplicationOP();
@@ -75,7 +75,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 		//DeReplication of Component Bookstore
 		ComponentDeReplicationOP componentDeReplication = fac.createComponentDeReplicationOP();
 		componentDeReplication.setClone(bookstore);
-		testPlan.getOperations().add(componentDeReplication);
+		//testPlan.getOperations().add(componentDeReplication);
 		
 		this.plan = testPlan;
 		try {

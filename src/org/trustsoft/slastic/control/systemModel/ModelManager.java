@@ -146,10 +146,12 @@ public class ModelManager implements IModelManager {
 				if (this.model.getComponents().get(k).getComponent() == this.model.getAllocation()
 						.getAllocationContexts_Allocation().get(i)
 						.getAssemblyContext_AllocationContext()
-						.getEncapsulatedComponent_ChildComponentContext()) {;
+						.getEncapsulatedComponent_ChildComponentContext()) {
+					log.info("i="+i+" k="+k+" this.model.getComponente.size: "+this.model.getComponents().size());
+					log.info(this.instanceCount.size());
 					if (this.model.getComponents().get(k).isMigratable()
 							&& !this.instanceCount.containsKey(this.model
-									.getComponents().get(i).getComponent())) {
+									.getComponents().get(k).getComponent())) {
 						this.instanceCount.put(this.model.getComponents().get(k)
 								.getComponent(), 1);
 					} else if (this.instanceCount.containsKey(this.model

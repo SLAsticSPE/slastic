@@ -2,7 +2,7 @@
 	<property name='slalModelLocation' value='C:/workspace/SLALproject/src/model.sla'/>
 	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
 	
-	<property name='reconfigurationModelLocation' value='C:/workspace/BookstoreReconfModel/My.reconfmm'/>
+	<property name='reconfigurationModelLocation' value='C:/workspace/JPetStoreModel/jpetstore.reconfmm'/>
 	<property name='reconfigurationMetaModelLocation' value='C:/workspace/slastic/src/org/trustsoft/slastic/control/systemModel/MetaModel.oaw'/>
 	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>
 	
