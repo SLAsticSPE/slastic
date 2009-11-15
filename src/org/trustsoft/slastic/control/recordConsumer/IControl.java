@@ -10,7 +10,13 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 public interface IControl extends IKiekerRecordConsumer {
 
+	/**
+	 * This method gives the record to the Model Updater 
+	 * @param record current monitoring record
+	 */
 	public void update(AbstractKiekerMonitoringRecord record);
+	
+	
 	public void setAnalysis(IAnalysis analysis);
 	public void setModelManager(IModelManager mng);
 	public void setModelUpdater(IModelUpdater updater);

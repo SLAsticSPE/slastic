@@ -91,10 +91,13 @@ public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implemen
     }
     
     public int compareTo(SLOMonitoringRecord slo){
-      if(this.rtNseconds > slo.rtNseconds){
+    	if(slo == this){
+    		return 0;
+    	}else if(this.rtNseconds > slo.rtNseconds){
     	  return 1;
-      }else{
+    	}else{
     	  return -1;
       }
+      
     }
 }

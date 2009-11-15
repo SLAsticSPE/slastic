@@ -21,6 +21,7 @@ public class ReconfigurationPlanForwarder extends Thread implements IReconfigura
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private boolean terminated = false;
 		private static ReconfigurationPlanForwarder instance; 
+		//Maximum number of plans that ca be hold
 		private final static int maxPlans = 20;
 		
 		private ReconfigurationPlanForwarder(){
@@ -41,9 +42,9 @@ public class ReconfigurationPlanForwarder extends Thread implements IReconfigura
 		public void run(){
 			while(this.reconfigurationPlans.size()!=0 && !this.terminated){
 				try {
+					
+					//forward reconfiguration plan to the Model Manager. "true" for storing the result
 					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
-					log.info("ModelManager sollte die Rekonfiguration ausfuehren");
-					//Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (AllocationContextNotInModelException e) {

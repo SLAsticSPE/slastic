@@ -6,6 +6,11 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 import slal.Model;
 
+/**
+ * This class is responsible for holding different analysis components and delegating specific events to them
+ * @author Lena Stoever
+ *
+ */
 public class Analysis implements IAnalysis {	
 	private static final Log log = LogFactory.getLog(Analysis.class);
 	private IAdaptationAnalyzer adaptationAnalyzer;
@@ -34,7 +39,7 @@ public class Analysis implements IAnalysis {
 		this.adaptationAnalyzer.setReconfigurationManager(this.reconfigurationManager);
 		this.adaptationAnalyzer.setAnalysis(this);
 		this.performanceAnalyzer.setAnalysis(this);
-		//TODO hier muss noch was passieren, wenn die Testphase beendet ist.
+		//TODO At the moment not all analysis components are implemented, so this class must handle with null-arguments. normally this should not be possible
 		if(adaptationAnalyzer != null){
 			this.adaptationAnalyzer.execute();
 			log.info("AdaptationAnalyzer ausgefhr");
@@ -90,8 +95,9 @@ public class Analysis implements IAnalysis {
 	@Override
 	public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
 		log.info("SLAViolation recognized");
+		//At the moment there is only one kind of ISlasticAnalysisEvent, the SLAViolationEvent which belongs to the Adaptation Analyzer
 		if(evt instanceof SLAViolationEvent){
-			
+			//forward the event to the responsible analysis-object
 			this.adaptationAnalyzer.handle(evt);
 			
 		}else{

@@ -16,12 +16,14 @@ import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
+import org.trustsoft.slastic.control.systemModel.ModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
+import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 
 
 /**
- * @author Andre van Hoorn
+ * @author Andre van Hoorn, Lena Stoever
  */
 public class SLAsticControl {
 
@@ -64,63 +66,75 @@ public class SLAsticControl {
         }
         }
         
+        //Controller object, the main object of the SLAstic.CONTROL-Framework
         org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl =
                 new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
+        //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
         Analysis ana = new Analysis();
+        //Performance Analyzer, part of the Analysis-Object
         SLAChecker slaChecker = new SLAChecker();
         ana.setPerformanceAnalyzer(slaChecker);
+        
+        //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
         IAdaptationAnalyzer adapt;
         IReconfigurationManager mng;
         if(exampleType.equals("JPetStore")){
+        	//JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
         	adapt = new JPetStoreAdaptationAnalyzer();
+        	//Reconfiguration Manager that executes plan via network
         	mng = new ReconfigurationManager();
         }else{
+        	//Adaptation Analyzer that produces different Test-Plans
         	adapt = new AdaptationAnalyzer();
+        	//Reconfiguration Manager that sends the Plan back to the Model Manager
         	mng = ReconfigurationPlanForwarder.getInstance();
         }
         
+        
+        //set different Analyzer-Objects, set null for not implemented ones.
         ana.setAdaptationAnalyzer(adapt);
         ana.setPerformancePredictor(null);
-        ana.setWorkloadAnalyzer(null);;
-        IModelUpdater updater = new org.trustsoft.slastic.control.systemModel.ModelUpdater();
+        ana.setWorkloadAnalyzer(null);
+        
+        //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
+        IModelUpdater updater = new ModelUpdater();
+        
+        //Initalizing Controller obhect
         slactrl.setAnalysis(ana);
         slactrl.setModelManager(ModelManager.getInstance());
         slactrl.setModelUpdater(updater);
         slactrl.setReconfigurationManager(mng);
         
-		
+		//Tpan Instace for monitoring data
 		TpanInstance analysisInstance = new TpanInstance();
 		IKiekerMonitoringLogReader logReader;
 		if(readerType.equals("FSRealtime")){
+			//log reader to replay data in realtime
 			logReader = new FSReaderRealtime(inputDir, 7);
 			
 		}else if(readerType.equals("JMS")){
+			//JMS reader for reading via network in realtime
 			 //logReader= new JMSReader("tcp://pc-vanhoorn.informatik.uni-oldenburg.de:3035/","queue1");
                         logReader= new JMSReader("tcp://134.106.27.209:3035/","queue1");
 		}else{
 			log.error("ReaderType: "+readerType+" not found");
 			return;
 		}
+		
+		//initializing Tpan object
 		analysisInstance.setLogReader(logReader);
         analysisInstance.addRecordConsumer(slactrl);
         
 
         try {
+        	//starting Tpan object that starts the other objects internally
             analysisInstance.run();
         } catch (LogReaderExecutionException e) {
             log.error("LogReaderExecutionException:", e);
         } catch (RecordConsumerExecutionException e) {
             log.error("RecordConsumerExecutionException:", e);
         }
-        /* Example that plots a dependency graph */
-        /* generate dependency diagram */
-
-
-//        Collection<ExecutionSequence> seqEnum = seqRepConsumer.getExecutionSequenceRepository().repository.values();
-//        DependencyGraphPlugin.writeDotFromExecutionTraces(seqEnum, inputDir+File.separator+"/dependencyGraph.dot");
-//        log.info("Wrote dependency graph to file " + inputDir+File.separator+"/dependencyGraph.dot");
-        ReconfigurationPlanForwarder.getInstance().terminate();
+        
         log.info("Bye, this was SLAsticControl");
-        //System.exit(0);
     }
 }

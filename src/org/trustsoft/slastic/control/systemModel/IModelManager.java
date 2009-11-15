@@ -19,6 +19,11 @@ public interface IModelManager {
 	 */
 	public void update(AbstractKiekerMonitoringRecord newRecord);
 
+	
+	/**
+	 * This method is responsible for the executing of the reconfiguration plan
+	 * @param plan
+	 */
 	public void doReconfiguration(SLAsticReconfigurationPlan plan);
 	
 	public void setModel(ReconfigurationModel model);

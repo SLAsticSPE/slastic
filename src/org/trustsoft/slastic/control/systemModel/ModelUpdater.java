@@ -15,6 +15,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  */
 public class ModelUpdater implements IModelUpdater {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
+	long count = 0;
 	
 	/**
 	 * The Only constructor of this class.
@@ -29,8 +30,13 @@ public class ModelUpdater implements IModelUpdater {
 	@Override
 	public void update(
 			AbstractKiekerMonitoringRecord newMonitoringRecord) {
+		count++;
 		if (newMonitoringRecord instanceof SLOMonitoringRecord) {
 			ModelManager.getInstance().update(newMonitoringRecord);
+		}
+		//Logging the number of Records that have been processed
+		if(count%500 ==0){
+			log.info("Number of Records: "+count);
 		}
 
 	}

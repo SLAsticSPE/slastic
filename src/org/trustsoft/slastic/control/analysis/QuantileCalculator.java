@@ -36,32 +36,33 @@ public class QuantileCalculator {
      */
     public long[] getResponseTimeForQuantiles(float[] quantiles, int serviceID) throws ServiceIDDoesNotExistException {
         long[] responseTime;
-        System.out.println("Quantile Request for ServiceID: " + serviceID);
+        //System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         SLOMonitoringRecord[] rtSet;
         rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
                 rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);
        
         if (rtSet == null) {
-            log.error("Not yet any service with ID: "+serviceID+" available");
+            //log.error("Not yet any service with ID: "+serviceID+" available");
             return null;
         }else if(rtSet.length == 0){
-        	log.error("Not yet any responseTime for ID: "+serviceID+" measured"); 	
+        	//log.error("Not yet any responseTime for ID: "+serviceID+" measured"); 	
         } else {
-        	
+        	//Calculating quantiles, if there are any response times available
             for (int i = 0; i < responseTime.length; i++) {
             	try{
+            	// for the calculation check out the thesis ;)
                 if ((rtSet.length % (1.0f / (quantiles[i])) != 0.0f)) {
                 	 int index = (int) ((rtSet.length+1)*(quantiles[i]))-1;
-                	 log.info("rtsetSize"+rtSet.length+" und der Index: "+index);
+                	 //log.info("rtsetSize"+rtSet.length+" und der Index: "+index);
                 	 responseTime[i] = rtSet[index].rtNseconds;
-                    log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
+                    //log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
 
                 } else {
                 	int index = (int) ((rtSet.length)*(quantiles[i]))-1;
-                	log.info(rtSet.length);
+                	//log.info(rtSet.length);
                    	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
-                    log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
+                    //log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
                 }
                 }catch(Exception e){
                 	e.printStackTrace();

@@ -56,14 +56,21 @@ import de.uka.ipd.sdq.pcm.system.System;
  */
 public class ModelManager implements IModelManager {
 	private final Log log = LogFactory.getLog(ModelManager.class);
+	private int capacity = 0;
 	private static ModelManager instance;
 	private ReconfigurationModel model;
-	private BlockingQueue<SLOMonitoringRecord> responseTimes;
+	//map of types of components with their belonging instances within the model
 	private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
+	//map of types of components with their belonging reconfiguration information (service-IDs, responseTimes etc., see package reconfmm for more information)
 	private ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
+	//map of components with the number of instances of each type
 	private ConcurrentHashMap<BasicComponent, Integer> instanceCount;
+	//list of allocated servers
 	private ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
+	//list of not allocated models
 	private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
+	//map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
+	private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
 
 	private ModelManager() {
 		log.info("ModelManager created");
@@ -77,13 +84,17 @@ public class ModelManager implements IModelManager {
 	 *            ReconfigurationModel which represents the initialization-model
 	 */
 	public void setModel(ReconfigurationModel m) {
+		log.info(m);
 		this.model = m;
-		this.initSet();
+		this.initQueues();
 		this.initComponentAllocationList();
 		this.initAllocatedServers();
 		this.initInstanceCount();
 	}
 
+	/**
+	 * instantiating server lists and initializing them by the given model.
+	 */
 	private void initAllocatedServers() {
 		this.allocatedServers = new ConcurrentLinkedQueue<ResourceContainer>();
 		this.notAllocatedServers = new ConcurrentLinkedQueue<ResourceContainer>();
@@ -111,6 +122,9 @@ public class ModelManager implements IModelManager {
 				.getResourceContainer_ResourceEnvironment().add(server);
 	}
 
+	/**
+	 * Within this method the map with component types and the belonging instances is created initialized by the given model
+	 */
 	private void initComponentAllocationList() {
 		this.componentAllocationList = new ConcurrentHashMap<BasicComponent, Vector<AllocationContext>>();
 		this.componentReconfigurationSpecification = new ConcurrentHashMap<BasicComponent, ReconfigurationSpecification>();
@@ -120,6 +134,7 @@ public class ModelManager implements IModelManager {
 			this.componentReconfigurationSpecification.put(this.model
 					.getComponents().get(i).getComponent(), this.model
 					.getComponents().get(i));
+			log.info(this.model.getAllocation());
 			for (int k = 0; k < this.model.getAllocation()
 					.getAllocationContexts_Allocation().size(); k++) {
 				if (this.model.getComponents().get(i).getComponent() == this.model
@@ -137,6 +152,9 @@ public class ModelManager implements IModelManager {
 
 	}
 
+	/**
+	 * This method is responsible for identifying the current instances of components out of the given model and putting them into the hashmap 
+	 */
 	private void initInstanceCount() {
 		this.instanceCount = new ConcurrentHashMap<BasicComponent, Integer>();
 		//log.info("anzahl allocations: "+this.model.getAllocation().getAllocationContexts_Allocation().size());
@@ -166,13 +184,18 @@ public class ModelManager implements IModelManager {
 		log.info("InitInstanceCount is done");
 	}
 
-	private void initSet() {
+	/**
+	 * Initializing the HashMap with the response time queues 
+	 */
+	private void initQueues() {
+		this.responseTimeQueues = new ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>>();
 		for (int i = 0; i < this.model.getComponents().size(); i++) {
 			for (int k = 0; k <this.model.getComponents().get(i).getServices()
 					.size(); k++) {
 				// It is important not to use a Set of Longs, because of the
 				// possibility of equal values of response times
 				ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
+				this.responseTimeQueues.put(this.model.getComponents().get(i).getServices().get(k).getServiceID(), new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
 				this.model.getComponents().get(i).getServices().get(k)
 						.setResponseTimes(list);
 			}
@@ -196,11 +219,7 @@ public class ModelManager implements IModelManager {
 
 	@Override
 	public void update(AbstractKiekerMonitoringRecord newRecord) {
-		SLOMonitoringRecord oldSLORecord = null;
 		SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
-		while (!this.responseTimes.offer(newSLORecord)) {
-			oldSLORecord = this.responseTimes.poll();
-		}
 		int serviceID = newSLORecord.serviceId;
 		synchronized (this.model) {
 			for (int i = 0; i < this.model.getComponents().size(); i++) {
@@ -209,23 +228,19 @@ public class ModelManager implements IModelManager {
 					Service service = this.model.getComponents().get(i)
 							.getServices().get(k);
 					if (service.getServiceID() == serviceID) {
-						synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-								.getResponseTimes()) {
-							((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-									.getResponseTimes()).add(newSLORecord);
-						}
-
-						if (oldSLORecord != null) {
-							if (service.getServiceID() == oldSLORecord.serviceId) {
-								synchronized ((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-										.getResponseTimes()) {
-									((ConcurrentSkipListSet<SLOMonitoringRecord>) service
-											.getResponseTimes())
-											.remove(oldSLORecord);
-
-								}
-								oldSLORecord = null;
+						ConcurrentSkipListSet<SLOMonitoringRecord> list = (ConcurrentSkipListSet<SLOMonitoringRecord>) service
+						.getResponseTimes();
+						BlockingQueue<SLOMonitoringRecord> queue = this.responseTimeQueues.get(serviceID);
+						synchronized (list) {
+							if(list.size()<this.capacity){
+								list.add(newSLORecord);
+								queue.add(newSLORecord);
+							}else{
+								list.remove(queue.poll());
+								list.add(newSLORecord);
+								queue.add(newSLORecord);
 							}
+							//log.info("ListSize: "+list.size());
 						}
 					}
 
@@ -423,6 +438,7 @@ public class ModelManager implements IModelManager {
 	 *            Reconfiguration-Plan object which contains a list of
 	 *            operations, available operation-types have to be synchronized
 	 *            with the ReconfigurationPlanMetaModel
+	 * @param  savePersistent if this is true, it will be saved a persistent version of the model after the execution of the plan
 	 * @return returns false if any operation-type is not available
 	 * @throws AllocationContextNotInModelException
 	 * @throws ServerNotAllocatedException
@@ -438,7 +454,7 @@ public class ModelManager implements IModelManager {
 		synchronized (this.model) {
 			for (int i = 0; i < operations.size(); i++) {
 				SLAsticReconfigurationOpType op = operations.get(i);
-				// Check of which type the Operation is
+				// Check of which type the Operation is and executing belonging method
 				if (op instanceof ComponentDeReplicationOPImpl) {
 					AllocationContext comp = ((ComponentDeReplicationOP) op)
 							.getClone();
@@ -495,6 +511,10 @@ public class ModelManager implements IModelManager {
 		return this.allocatedServers;
 	}
 
+	/**
+	 * This method is responsible for saving the current version of the model.
+	 * @throws IOException
+	 */
 	private void savePersistent() throws IOException {
 		java.lang.System.out.println("VERDAMMT SPEICHERN");
 		// Save ResourceEnvironment
@@ -570,7 +590,7 @@ public class ModelManager implements IModelManager {
 	}
 	@Override
 	public void setMaxResponseTime(int capacity) {
-		this.responseTimes = new ArrayBlockingQueue<SLOMonitoringRecord>(capacity);
+		this.capacity = capacity;
 		
 	}
 }

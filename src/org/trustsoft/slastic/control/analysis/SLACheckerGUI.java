@@ -58,12 +58,11 @@ public class SLACheckerGUI extends JPanel{
 		responseTimes = new TimeSeries[3];
 		for(int i = 0; i< responseTimes.length; i++){
 			responseTimes[i] = new TimeSeries("responseTime"+i);
-//			responseTimes[i].setMaximumItemAge(maxAge);
 		}
 		
-		 q90 = new TimeSeries("SLA1");
-		 q95 = new TimeSeries("SLA2");
-		 q99 = new TimeSeries("SLA3");
+		 q90 = new TimeSeries("SLA for 0.9 quantile");
+		 q95 = new TimeSeries("SLA for 0.95 quantile");
+		 q99 = new TimeSeries("SLA for 0.99 quantile");
 		
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		for(int i = 0; i < responseTimes.length; i++){
@@ -74,39 +73,49 @@ public class SLACheckerGUI extends JPanel{
 		dataset.addSeries(q95);
 		dataset.addSeries(q99);
 		
-		
+		//create  x-axis
 		DateAxis timeAxis = new DateAxis("Time");
+		
+		//create y-axis
 		NumberAxis responseTimeAxis = new NumberAxis("responseTime");
+		
+		//initializing both axis'
 		timeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12)); 
 		responseTimeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12)); 
 		timeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14)); 
 		responseTimeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14)); 
+		
+		//create and initialize renderer for XY-Plot
 		XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false); 
 		renderer.setSeriesPaint(0, Color.red); 
 		renderer.setSeriesPaint(1, Color.green); 
 		renderer.setBaseStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, 
 		BasicStroke.JOIN_BEVEL)); 
 		
-		
+		//create and initialize plot
 		XYPlot plot = new XYPlot(dataset, timeAxis, responseTimeAxis, renderer);
 		plot.setBackgroundPaint(Color.lightGray); 
 		plot.setDomainGridlinePaint(Color.white); 
 		plot.setRangeGridlinePaint(Color.white); 
 		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 
-		
+		//configuring x-achis
 		timeAxis.setAutoRange(true); 
 		timeAxis.setLowerMargin(0.0); 
 		timeAxis.setUpperMargin(0.0); 
 		timeAxis.setTickLabelsVisible(true); 
+		
+		//configuring y-achis
 		responseTimeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		
+		//creating chart with the created plot
 		JFreeChart chart = new JFreeChart("SLAChecker", 
 				new Font("SansSerif", Font.BOLD, 24), plot, true); 
 
 		
 		chart.setBackgroundPaint(Color.white); 
 		
+		//creating chartPanel
 		ChartPanel chartPanel = new ChartPanel(chart); 
 		chartPanel.setBorder(BorderFactory.createCompoundBorder( 
 		BorderFactory.createEmptyBorder(4, 4, 4, 4), 
