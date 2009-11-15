@@ -29,6 +29,10 @@ import org.jfree.ui.RectangleInsets;
  *
  */
 public class SLACheckerGUI extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 572394L;
 	public TimeSeries[] responseTimes;
 	TimeSeries q90;
 	long quantile90;

@@ -1,7 +1,6 @@
 package org.trustsoft.slastic.control.systemModel;
 
 import reconfMM.ReconfigurationModel;
-import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 

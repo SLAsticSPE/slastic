@@ -2,7 +2,6 @@ package org.trustsoft.slastic.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.ReconfigurationPlanForwarder;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
