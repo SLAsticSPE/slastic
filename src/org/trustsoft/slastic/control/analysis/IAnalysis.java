@@ -11,7 +11,7 @@ public interface IAnalysis {
 	
 	public void setReconfigurationManager(IReconfigurationManager manager);
 	public void setAdaptationAnalyzer(IAdaptationPlanner adaptationAnalyzer);
-	public void setWorkloadAnalyzer(IWorkloadAnalyzer workloadAnalyzer);
+	public void setWorkloadAnalyzer(IWorkloadForecaster workloadAnalyzer);
 	public void setPerformanceAnalyzer(IPerformanceEvaluator performanceAnalyzer);
 	public void setPerformancePredictor(IPerformancePredictor performancePredictor);
 	

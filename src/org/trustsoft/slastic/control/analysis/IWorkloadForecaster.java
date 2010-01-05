@@ -8,7 +8,7 @@ package org.trustsoft.slastic.control.analysis;
  * @author Lena Stoever
  * 
  */
-public interface IWorkloadAnalyzer {
+public interface IWorkloadForecaster {
 	public void execute();
 
 	public void terminate();

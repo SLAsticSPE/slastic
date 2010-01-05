@@ -16,7 +16,7 @@ public class Analysis implements IAnalysis {
 	private IAdaptationPlanner adaptationAnalyzer;
 	private IPerformanceEvaluator performanceAnalyzer;
 	private IPerformancePredictor performancePredictor;
-	private IWorkloadAnalyzer workloadAnalyzer;
+	private IWorkloadForecaster workloadAnalyzer;
 	private IReconfigurationManager reconfigurationManager;
 	
 	public IAdaptationPlanner getAdaptionAnalyzer() {
@@ -28,10 +28,10 @@ public class Analysis implements IAnalysis {
 	public IPerformanceEvaluator getPerformanceAnalyzer() {
 		return performanceAnalyzer;
 	}
-	public void setWorkloadAnalyzer(IWorkloadAnalyzer workloadAnalyzer) {
+	public void setWorkloadAnalyzer(IWorkloadForecaster workloadAnalyzer) {
 		this.workloadAnalyzer = workloadAnalyzer;
 	}
-	public IWorkloadAnalyzer getWorkloadAnalyzer() {
+	public IWorkloadForecaster getWorkloadAnalyzer() {
 		return workloadAnalyzer;
 	}
 	@Override

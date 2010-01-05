@@ -18,7 +18,7 @@ import org.trustsoft.slastic.control.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.IAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.IAnalysis;
-import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
+import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
@@ -126,7 +126,7 @@ public class SLAsticControl {
             //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
             if (exampleType.equals("JPetStore")) {
                 //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
-                adaptationPlanner = new JPetStoreAdaptationAnalyzer();
+                adaptationPlanner = new JPetStoreAdaptationPlanner();
                 //Reconfiguration Manager that executes plan via network
                 mng = new ReconfigurationManager();
             } else {
