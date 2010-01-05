@@ -1,12 +1,23 @@
 package org.trustsoft.slastic.control;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import kieker.common.logReader.IKiekerMonitoringLogReader;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
+
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.ParseException;
 
 import kieker.tpan.logReader.JMSReader;
 import org.apache.commons.logging.Log;
@@ -18,8 +29,12 @@ import org.trustsoft.slastic.control.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.IAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.IAnalysis;
+import org.trustsoft.slastic.control.analysis.IPerformanceEvaluator;
+import org.trustsoft.slastic.control.analysis.IPerformancePredictor;
+import org.trustsoft.slastic.control.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
+import org.trustsoft.slastic.control.recordConsumer.IControl;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
@@ -38,19 +53,91 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
  * @author Andre van Hoorn, Lena Stoever
  */
 public class SLAsticControl {
+
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
+    private static CommandLine cmdl = null;
+    private static final CommandLineParser cmdlParser = new BasicParser();
+    private static final HelpFormatter cmdHelpFormatter = new HelpFormatter();
+    private static final Options cmdlOpts = new Options();
 
-    private static IReconfigurationManager mng = null;
-    private static IKiekerMonitoringLogReader logReader = null;
-
-    private static IModelUpdater modelUpdater = null;
-    private static IModelManager modelManager = null;
-
-    private static IAnalysis analysisComponent = null;
-    private static IAdaptationPlanner adaptationPlanner = null;
+    static {
+        cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("configuration").isRequired(true).withDescription("Configuration file").withValueSeparator('=').create("f"));
+    }
 
     public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
+
+        int retVal = 0;
+        if (!parseArgs(args)) {
+            System.exit(1);
+        }
+
+        TpanInstance tpanInstance = initInstanceFromArgs();
+        if (tpanInstance == null) {
+            log.error("init() returned null");
+            System.exit(1);
+        }
+
+        try {
+            //starting Tpan object that starts the other objects internally
+            tpanInstance.run();
+        } catch (LogReaderExecutionException e) {
+            log.error("LogReaderExecutionException:", e);
+        } catch (RecordConsumerExecutionException e) {
+            log.error("RecordConsumerExecutionException:", e);
+        }
+
+        log.info("Bye, this was SLAsticControl");
+    }
+
+    /**
+     * Initializes and returns a SLAsticControl analysis instance.
+     *
+     * @return the initialized instance; null on error
+     */
+    private static TpanInstance initInstanceFromArgs() {
+        TpanInstance tpanInstance = new TpanInstance();
+
+        String configurationFile = cmdl.getOptionValue("configuration");
+        if (configurationFile == null) {
+            log.fatal("Configuration file parameter is null");
+            return null;
+        }
+
+        // Load configuration file
+        InputStream is = null;
+        Properties prop = new Properties();
+        try {
+            is = new FileInputStream(configurationFile);
+            log.info("Loading configuration from file '" +configurationFile+"'");
+            prop.load(is);
+        } catch (Exception ex) {
+            log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
+            // TODO: introduce static variable 'terminated' or alike
+        } finally {
+            try {
+                is.close();
+            } catch (Exception ex) { /* nothing we can do */ }
+        }
+
+        // TODO: to be removed
+        tpanInstance = legacyInstance();
+
+        return tpanInstance;
+    }
+
+    private static TpanInstance legacyInstance() {
+        TpanInstance analysisInstance = null;
+        IKiekerMonitoringLogReader logReader = null;
+        IControl slasticCtrlComponent = null;
+        IReconfigurationManager reconfigurationManager = null;
+        IModelUpdater modelUpdater = null;
+        IModelManager modelManager = null;
+        IAnalysis analysisComponent = null;
+        IPerformanceEvaluator performanceEvaluator = null;
+        IWorkloadForecaster workloadForecaster = null;
+        IPerformancePredictor performancePredictor = null;
+        IAdaptationPlanner adaptationPlanner = null;
 
         String readerType = System.getProperty("reader");
         if (readerType == null || readerType.length() == 0) {
@@ -85,74 +172,45 @@ public class SLAsticControl {
                 log.info("Reading all tpmon-* files from " + inputDir);
             }
 
-            //        new JMSReader( );
-
-            /* Dumps the record type ID */
-//        analysisInstance.addConsumer(new MonitoringRecordTypeLogger());
-
-            /* Collects all executions */
-//        ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();
-//        analysisInstance.addConsumer(seqRepConsumer);
-
-            /* Dumps response times */
-//        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
-//        analysisInstance.addConsumer(rtPlotter);
-            //String wfFile = "../../SLALproject/src/SLALproject.oaw";
-
-//            IReconfigurationManager reconfigurationManager =
-//                    new ReconfigurationManager();
-//        final int NUM_RECONFIGURATIONS = 5;
-//        for (int i = 1; i <= NUM_RECONFIGURATIONS; i++) {
-//            try {
-//                log.info("Requesting reconfiguration " + i + "/" + NUM_RECONFIGURATIONS);
-//                reconfigurationManager.doReconfiguration(null);
-//                Thread.sleep(5000);
-//            } catch (Exception ex) {
-//                Logger.getLogger(SLAsticControl.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-
-            //System.exit(0);
-
             //Controller object, the main object of the SLAstic.CONTROL-Framework
-            org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl =
+            slasticCtrlComponent =
                     new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
             //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
             analysisComponent = new Analysis();
             //Performance Analyzer, part of the Analysis-Object
-            SLAChecker slaChecker = new SLAChecker();
-            analysisComponent.setPerformanceAnalyzer(slaChecker);
+            performanceEvaluator = new SLAChecker();
+            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
 
             //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
             if (exampleType.equals("JPetStore")) {
                 //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
                 adaptationPlanner = new JPetStoreAdaptationPlanner();
                 //Reconfiguration Manager that executes plan via network
-                mng = new ReconfigurationManager();
+                reconfigurationManager = new ReconfigurationManager();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
                 adaptationPlanner = new AdaptationPlanner();
                 //Reconfiguration Manager that sends the Plan back to the Model Manager
-                mng = ReconfigurationPlanForwarder.getInstance();
+                reconfigurationManager = ReconfigurationPlanForwarder.getInstance();
             }
 
             //set different Analyzer-Objects, set null for not implemented ones.
-            analysisComponent.setAdaptationAnalyzer(adaptationPlanner);
-            analysisComponent.setPerformancePredictor(null);
-            analysisComponent.setWorkloadAnalyzer(null);
+            analysisComponent.setAdaptationPlanner(adaptationPlanner);
+            analysisComponent.setPerformancePredictor(performancePredictor);
+            analysisComponent.setWorkloadForecaster(workloadForecaster);
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
             modelUpdater = new ModelUpdater();
             modelManager = ModelManager.getInstance();
 
             //Initalizing Controller object
-            slactrl.setAnalysis(analysisComponent);
-            slactrl.setModelManager(modelManager);
-            slactrl.setModelUpdater(modelUpdater);
-            slactrl.setReconfigurationManager(mng);
+            slasticCtrlComponent.setAnalysis(analysisComponent);
+            slasticCtrlComponent.setModelManager(modelManager);
+            slasticCtrlComponent.setModelUpdater(modelUpdater);
+            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
 
             //Tpan Instace for monitoring data
-            TpanInstance analysisInstance = new TpanInstance();
+            analysisInstance = new TpanInstance();
             if (readerType.equals("FSRealtime")) {
                 //log reader to replay data in realtime
                 logReader = new FSReaderRealtime(inputDir, 7);
@@ -163,34 +221,35 @@ public class SLAsticControl {
                 logReader = new JMSReader("tcp://134.106.27.209:3035/", "queue1");
             } else {
                 log.error("ReaderType: " + readerType + " not found");
-                return;
+                return null;
             }
 
             //initializing Tpan object
             analysisInstance.setLogReader(logReader);
-            analysisInstance.addRecordConsumer(slactrl);
-
-
-            //AdaptationPlanner analyzer = new AdaptationPlanner();
-            //analyzer.analyze();
-            //ReconfigurationPlanForwarder.getInstance().run();
-            //log.info("Analyzer und alles gestartet");
-
-
-            try {
-                //starting Tpan object that starts the other objects internally
-                analysisInstance.run();
-            } catch (LogReaderExecutionException e) {
-                log.error("LogReaderExecutionException:", e);
-            } catch (RecordConsumerExecutionException e) {
-                log.error("RecordConsumerExecutionException:", e);
-            }
-
-            log.info("Bye, this was SLAsticControl");
+            analysisInstance.addRecordConsumer(slasticCtrlComponent);
         }
+
+        return analysisInstance;
     }
 
-    public static void testSLAsticMetaModel() {
+    static boolean parseArgs(String[] args) {
+        try {
+            cmdl = cmdlParser.parse(cmdlOpts, args);
+        } catch (ParseException e) {
+            System.err.println("Error parsing arguments: " + e.getMessage());
+            printUsage();
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private static void printUsage() {
+        cmdHelpFormatter.printHelp(SLAsticControl.class.getName(), cmdlOpts);
+    }
+
+    private static void testSLAsticMetaModel() {
         //String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
         //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";
         final String INIT_WORKFLOW_FN = "/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/branches/20091022-Andre/META-INF/oaw/InitModels-Andre.oaw";
@@ -214,6 +273,33 @@ public class SLAsticControl {
 //            IKiekerMonitoringLogReader logReader = new JMSReader("tcp://127.0.0.1:3035/", "queue1");
 //            MonitoringRecordTypeLogger recordTypeLogger = new MonitoringRecordTypeLogger();
 //            //slaChecker.start();
+
+        /* Dumps the record type ID */
+//        tpanInstance.addConsumer(new MonitoringRecordTypeLogger());
+
+        /* Collects all executions */
+//        ExecutionSequenceRepositoryFiller seqRepConsumer = new ExecutionSequenceRepositoryFiller();
+//        tpanInstance.addConsumer(seqRepConsumer);
+
+        /* Dumps response times */
+//        ResponseTimePlotter rtPlotter = new ResponseTimePlotter();
+//        tpanInstance.addConsumer(rtPlotter);
+        //String wfFile = "../../SLALproject/src/SLALproject.oaw";
+
+//            IReconfigurationManager reconfigurationManager =
+//                    new ReconfigurationManager();
+//        final int NUM_RECONFIGURATIONS = 5;
+//        for (int i = 1; i <= NUM_RECONFIGURATIONS; i++) {
+//            try {
+//                log.info("Requesting reconfiguration " + i + "/" + NUM_RECONFIGURATIONS);
+//                reconfigurationManager.doReconfiguration(null);
+//                Thread.sleep(5000);
+//            } catch (Exception ex) {
+//                Logger.getLogger(SLAsticControl.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+
+        //System.exit(0);
 
         /* SLAsticResourceEnvironment */
         SLAsticResourceEnvironment resourceEnvironment = (SLAsticResourceEnvironment) runner.getContext().get("resourceEnvironmentModel");

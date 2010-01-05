@@ -10,9 +10,9 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 public interface IAnalysis {
 	
 	public void setReconfigurationManager(IReconfigurationManager manager);
-	public void setAdaptationAnalyzer(IAdaptationPlanner adaptationAnalyzer);
-	public void setWorkloadAnalyzer(IWorkloadForecaster workloadAnalyzer);
-	public void setPerformanceAnalyzer(IPerformanceEvaluator performanceAnalyzer);
+	public void setAdaptationPlanner(IAdaptationPlanner adaptationPlanner);
+	public void setWorkloadForecaster(IWorkloadForecaster workloadForecaster);
+	public void setPerformanceEvaluator(IPerformanceEvaluator performanceEvaluator);
 	public void setPerformancePredictor(IPerformancePredictor performancePredictor);
 	
 	/**

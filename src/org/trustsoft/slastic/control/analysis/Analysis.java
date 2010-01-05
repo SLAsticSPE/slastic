@@ -22,13 +22,13 @@ public class Analysis implements IAnalysis {
 	public IAdaptationPlanner getAdaptionAnalyzer() {
 		return adaptationAnalyzer;
 	}
-	public void setPerformanceAnalyzer(IPerformanceEvaluator performanceAnalyzer) {
+	public void setPerformanceEvaluator(IPerformanceEvaluator performanceAnalyzer) {
 		this.performanceAnalyzer = performanceAnalyzer;
 	}
 	public IPerformanceEvaluator getPerformanceAnalyzer() {
 		return performanceAnalyzer;
 	}
-	public void setWorkloadAnalyzer(IWorkloadForecaster workloadAnalyzer) {
+	public void setWorkloadForecaster(IWorkloadForecaster workloadAnalyzer) {
 		this.workloadAnalyzer = workloadAnalyzer;
 	}
 	public IWorkloadForecaster getWorkloadAnalyzer() {
@@ -55,7 +55,7 @@ public class Analysis implements IAnalysis {
 		}
 	}
 	@Override
-	public void setAdaptationAnalyzer(IAdaptationPlanner adaptationAnalyzer) {
+	public void setAdaptationPlanner(IAdaptationPlanner adaptationAnalyzer) {
 		this.adaptationAnalyzer = adaptationAnalyzer;
 		
 	}
