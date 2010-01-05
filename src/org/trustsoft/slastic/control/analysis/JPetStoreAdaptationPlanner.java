@@ -23,7 +23,7 @@ import reconfMM.ReconfigurationModel;
  * 
  */
 public class JPetStoreAdaptationPlanner implements IAdaptationPlanner {
-	private IAnalysis ana;
+	private ISLAsticAnalysis ana;
 	private IReconfigurationManager mng;
 
 	@Override
@@ -89,7 +89,7 @@ public class JPetStoreAdaptationPlanner implements IAdaptationPlanner {
 	}
 
 	@Override
-	public void setAnalysis(IAnalysis ana) {
+	public void setAnalysis(ISLAsticAnalysis ana) {
 		this.ana = ana;
 
 	}

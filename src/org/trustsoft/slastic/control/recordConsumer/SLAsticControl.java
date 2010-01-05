@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.analysis.IAnalysis;
+import org.trustsoft.slastic.control.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
@@ -18,10 +18,10 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 /**
  * @author Lena Stoever
  */
-public class SLAsticControl implements IControl {
+public class SLAsticControl implements ISLAsticControl {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
-    private IAnalysis analysis;
+    private ISLAsticAnalysis analysis;
     private IModelManager manager;
     private IModelUpdater updater;
     private IReconfigurationManager reconfigurationManager;
@@ -36,7 +36,7 @@ public class SLAsticControl implements IControl {
     }
 
     @Override
-    public void setAnalysis(IAnalysis analysis) {
+    public void setAnalysis(ISLAsticAnalysis analysis) {
         this.analysis = analysis;
 
     }
@@ -97,7 +97,7 @@ public class SLAsticControl implements IControl {
 
         //initialize Analysis object
         this.analysis.setSLAs(slas);
-        this.analysis.setReconfigurationManager(this.reconfigurationManager);
+        //this.analysis.setReconfigurationManager(this.reconfigurationManager);
 
         //execute analysis and updater object
         this.analysis.execute();

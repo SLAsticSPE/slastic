@@ -31,7 +31,7 @@ public class SLAChecker extends Thread implements IPerformanceEvaluator {
 	private slal.Model slas = null;
 	private SLACheckerGUI[] guis;
 	private int[] serviceIDs;
-	private IAnalysis ana;
+	private ISLAsticAnalysis ana;
 	private ScheduledThreadPoolExecutor ex;
 
 	public SLAChecker() {
@@ -176,7 +176,7 @@ public class SLAChecker extends Thread implements IPerformanceEvaluator {
 	}
 
 	@Override
-	public void setAnalysis(IAnalysis ana) {
+	public void setAnalysis(ISLAsticAnalysis ana) {
 		this.ana = ana;
 
 	}

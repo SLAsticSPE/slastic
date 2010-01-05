@@ -17,5 +17,5 @@ public interface IPerformanceEvaluator {
 
 	public void setSLAs(slal.Model slas);
 
-	public void setAnalysis(IAnalysis ana);
+	public void setAnalysis(ISLAsticAnalysis ana);
 }

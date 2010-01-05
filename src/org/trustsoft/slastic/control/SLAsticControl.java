@@ -28,13 +28,13 @@ import org.openarchitectureware.workflow.monitor.ProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.IAdaptationPlanner;
-import org.trustsoft.slastic.control.analysis.IAnalysis;
+import org.trustsoft.slastic.control.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.analysis.IPerformanceEvaluator;
 import org.trustsoft.slastic.control.analysis.IPerformancePredictor;
 import org.trustsoft.slastic.control.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
-import org.trustsoft.slastic.control.recordConsumer.IControl;
+import org.trustsoft.slastic.control.recordConsumer.ISLAsticControl;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
@@ -109,7 +109,7 @@ public class SLAsticControl {
         Properties prop = new Properties();
         try {
             is = new FileInputStream(configurationFile);
-            log.info("Loading configuration from file '" +configurationFile+"'");
+            log.info("Loading configuration from file '" + configurationFile + "'");
             prop.load(is);
         } catch (Exception ex) {
             log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
@@ -129,11 +129,11 @@ public class SLAsticControl {
     private static TpanInstance legacyInstance() {
         TpanInstance analysisInstance = null;
         IKiekerMonitoringLogReader logReader = null;
-        IControl slasticCtrlComponent = null;
+        ISLAsticControl slasticCtrlComponent = null;
         IReconfigurationManager reconfigurationManager = null;
         IModelUpdater modelUpdater = null;
         IModelManager modelManager = null;
-        IAnalysis analysisComponent = null;
+        ISLAsticAnalysis analysisComponent = null;
         IPerformanceEvaluator performanceEvaluator = null;
         IWorkloadForecaster workloadForecaster = null;
         IPerformancePredictor performancePredictor = null;
@@ -175,11 +175,10 @@ public class SLAsticControl {
             //Controller object, the main object of the SLAstic.CONTROL-Framework
             slasticCtrlComponent =
                     new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
-            //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
-            analysisComponent = new Analysis();
+
             //Performance Analyzer, part of the Analysis-Object
             performanceEvaluator = new SLAChecker();
-            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
+//            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
 
             //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
             if (exampleType.equals("JPetStore")) {
@@ -195,9 +194,16 @@ public class SLAsticControl {
             }
 
             //set different Analyzer-Objects, set null for not implemented ones.
-            analysisComponent.setAdaptationPlanner(adaptationPlanner);
-            analysisComponent.setPerformancePredictor(performancePredictor);
-            analysisComponent.setWorkloadForecaster(workloadForecaster);
+//            analysisComponent.setAdaptationPlanner(adaptationPlanner);
+//            analysisComponent.setPerformancePredictor(performancePredictor);
+//            analysisComponent.setWorkloadForecaster(workloadForecaster);
+
+            //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
+            analysisComponent = new Analysis(
+                    reconfigurationManager,
+                    performanceEvaluator, workloadForecaster,
+                    performancePredictor, adaptationPlanner);
+
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
             modelUpdater = new ModelUpdater();

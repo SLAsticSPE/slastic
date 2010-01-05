@@ -7,13 +7,13 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
  * @author Lena Stoever
  *
  */
-public interface IAnalysis {
+public interface ISLAsticAnalysis {
 	
-	public void setReconfigurationManager(IReconfigurationManager manager);
-	public void setAdaptationPlanner(IAdaptationPlanner adaptationPlanner);
-	public void setWorkloadForecaster(IWorkloadForecaster workloadForecaster);
-	public void setPerformanceEvaluator(IPerformanceEvaluator performanceEvaluator);
-	public void setPerformancePredictor(IPerformancePredictor performancePredictor);
+//	public void setReconfigurationManager(IReconfigurationManager manager);
+//	public void setAdaptationPlanner(IAdaptationPlanner adaptationPlanner);
+//	public void setWorkloadForecaster(IWorkloadForecaster workloadForecaster);
+//	public void setPerformanceEvaluator(IPerformanceEvaluator performanceEvaluator);
+//	public void setPerformancePredictor(IPerformancePredictor performancePredictor);
 	
 	/**
 	 * method for delegating ISlAsticAnalysisEvents to the belonging analysis objects.s

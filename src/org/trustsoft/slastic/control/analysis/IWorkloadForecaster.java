@@ -15,6 +15,6 @@ public interface IWorkloadForecaster {
 
 	public void handle(ISLAsticAnalysisEvent event);
 
-	public void setAnalysis(IAnalysis ana);
+	public void setAnalysis(ISLAsticAnalysis ana);
 
 }

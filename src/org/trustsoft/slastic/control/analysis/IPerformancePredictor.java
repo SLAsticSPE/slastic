@@ -15,6 +15,6 @@ public interface IPerformancePredictor {
 
 	public void handle(ISLAsticAnalysisEvent event);
 
-	public void setAnalysis(IAnalysis ana);
+	public void setAnalysis(ISLAsticAnalysis ana);
 
 }

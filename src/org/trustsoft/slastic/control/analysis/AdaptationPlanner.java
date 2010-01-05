@@ -30,7 +30,7 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 	//Reconfiguration Manager to which the produced plan is sent
 	private IReconfigurationManager reconfigurationManager;
 	//Analysis Component from where the event comes
-	private IAnalysis ana;
+	private ISLAsticAnalysis ana;
 	private static final Log log = LogFactory.getLog(IAdaptationPlanner.class);
 	@Override
 	public void execute() {
@@ -106,7 +106,7 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 		this.reconfigurationManager.terminate();
 	}
 	@Override
-	public void setAnalysis(IAnalysis ana) {
+	public void setAnalysis(ISLAsticAnalysis ana) {
 		this.ana=ana;
 	}
 

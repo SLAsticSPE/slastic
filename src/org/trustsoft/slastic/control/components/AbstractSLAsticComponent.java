@@ -9,14 +9,14 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class AbstractSLAsticComponent implements ISLAsticComponent {
+public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private static final Log log = LogFactory.getLog(AbstractSLAsticComponent.class);
+
+    private final HashMap<String, String> map = new HashMap<String, String>();
 
     public boolean init(String initString) {
         if (initString == null || initString.length() == 0) {
-            log.error("Invalid initString. Valid example for tpmon.properties:\n" +
-                    "monitoringDataWriterInitString=jmsProviderUrl=tcp://localhost:3035/ | jmsTopic=queue1 | jmsContextFactoryType=org.exolab.jms.jndi.InitialContextFactory | jmsFactoryLookupName=ConnectionFactory | jmsMessageTimeToLive = 10000");
-            return false;
+            return true; // Empty string is allowed
         }
 
         boolean retVal = true;
@@ -26,7 +26,7 @@ public class AbstractSLAsticComponent implements ISLAsticComponent {
                 return false;
             }
        } catch (Exception exc) {
-            log.fatal("Error initiliazing JMS Connector", exc);
+            log.fatal("Error initiliazing component", exc);
             retVal = false;
         } 
 
@@ -34,7 +34,6 @@ public class AbstractSLAsticComponent implements ISLAsticComponent {
     }
 
     private boolean initVarsFromInitString(String initString) {
-        HashMap<String, String> map = new HashMap<String, String>();
         StringTokenizer keyValListTokens = new StringTokenizer(initString, "|");
         while (keyValListTokens.hasMoreTokens()) {
             String curKeyValToken = keyValListTokens.nextToken().trim();
