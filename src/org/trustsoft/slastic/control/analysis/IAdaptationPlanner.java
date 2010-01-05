@@ -10,7 +10,7 @@ import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
  * @author Lena Stoever
  * 
  */
-public interface IAdaptationAnalyzer {
+public interface IAdaptationPlanner {
 	public void execute();
 
 	public void terminate();

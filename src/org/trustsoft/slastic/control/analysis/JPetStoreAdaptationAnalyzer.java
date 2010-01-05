@@ -22,7 +22,7 @@ import reconfMM.ReconfigurationModel;
  * @author Lena Stoever
  * 
  */
-public class JPetStoreAdaptationAnalyzer implements IAdaptationAnalyzer {
+public class JPetStoreAdaptationAnalyzer implements IAdaptationPlanner {
 	private IAnalysis ana;
 	private IReconfigurationManager mng;
 

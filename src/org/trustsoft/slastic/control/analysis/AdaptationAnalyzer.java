@@ -23,7 +23,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImp
  * @author Lena Stoever
  *
  */
-public class AdaptationAnalyzer implements IAdaptationAnalyzer {
+public class AdaptationAnalyzer implements IAdaptationPlanner {
 	
 	//Reconfiguration plan that is produced by this class
 	private SLAsticReconfigurationPlan plan;	
@@ -31,7 +31,7 @@ public class AdaptationAnalyzer implements IAdaptationAnalyzer {
 	private IReconfigurationManager reconfigurationManager;
 	//Analysis Component from where the event comes
 	private IAnalysis ana;
-	private static final Log log = LogFactory.getLog(IAdaptationAnalyzer.class);
+	private static final Log log = LogFactory.getLog(IAdaptationPlanner.class);
 	@Override
 	public void execute() {
 		/**

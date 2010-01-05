@@ -16,7 +16,8 @@ import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
 import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.Analysis;
-import org.trustsoft.slastic.control.analysis.IAdaptationAnalyzer;
+import org.trustsoft.slastic.control.analysis.IAdaptationPlanner;
+import org.trustsoft.slastic.control.analysis.IAnalysis;
 import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
@@ -36,8 +37,14 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
  * @author Andre van Hoorn, Lena Stoever
  */
 public class SLAsticControl {
-
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
+
+    private static IModelUpdater updater;
+    private static IAnalysis analysisComponent = null;
+    private static IAdaptationPlanner adaptationPlanner = null;
+    private static IReconfigurationManager mng = null;
+
+    private static IKiekerMonitoringLogReader logReader = null;
 
     public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
@@ -108,43 +115,40 @@ public class SLAsticControl {
             org.trustsoft.slastic.control.recordConsumer.SLAsticControl slactrl =
                     new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
             //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
-            Analysis ana = new Analysis();
+            analysisComponent = new Analysis();
             //Performance Analyzer, part of the Analysis-Object
             SLAChecker slaChecker = new SLAChecker();
-            ana.setPerformanceAnalyzer(slaChecker);
+            analysisComponent.setPerformanceAnalyzer(slaChecker);
 
             //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
-            IAdaptationAnalyzer adapt;
-            IReconfigurationManager mng;
             if (exampleType.equals("JPetStore")) {
                 //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
-                adapt = new JPetStoreAdaptationAnalyzer();
+                adaptationPlanner = new JPetStoreAdaptationAnalyzer();
                 //Reconfiguration Manager that executes plan via network
                 mng = new ReconfigurationManager();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
-                adapt = new AdaptationAnalyzer();
+                adaptationPlanner = new AdaptationAnalyzer();
                 //Reconfiguration Manager that sends the Plan back to the Model Manager
                 mng = ReconfigurationPlanForwarder.getInstance();
             }
 
             //set different Analyzer-Objects, set null for not implemented ones.
-            ana.setAdaptationAnalyzer(adapt);
-            ana.setPerformancePredictor(null);
-            ana.setWorkloadAnalyzer(null);
+            analysisComponent.setAdaptationAnalyzer(adaptationPlanner);
+            analysisComponent.setPerformancePredictor(null);
+            analysisComponent.setWorkloadAnalyzer(null);
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
-            IModelUpdater updater = new ModelUpdater();
+            updater = new ModelUpdater();
 
             //Initalizing Controller object
-            slactrl.setAnalysis(ana);
+            slactrl.setAnalysis(analysisComponent);
             slactrl.setModelManager(ModelManager.getInstance());
             slactrl.setModelUpdater(updater);
             slactrl.setReconfigurationManager(mng);
 
             //Tpan Instace for monitoring data
             TpanInstance analysisInstance = new TpanInstance();
-            IKiekerMonitoringLogReader logReader;
             if (readerType.equals("FSRealtime")) {
                 //log reader to replay data in realtime
                 logReader = new FSReaderRealtime(inputDir, 7);
