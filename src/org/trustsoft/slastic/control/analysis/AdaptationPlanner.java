@@ -23,7 +23,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImp
  * @author Lena Stoever
  *
  */
-public class AdaptationAnalyzer implements IAdaptationPlanner {
+public class AdaptationPlanner implements IAdaptationPlanner {
 	
 	//Reconfiguration plan that is produced by this class
 	private SLAsticReconfigurationPlan plan;	

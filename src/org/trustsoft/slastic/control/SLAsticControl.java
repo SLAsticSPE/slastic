@@ -14,12 +14,13 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
-import org.trustsoft.slastic.control.analysis.AdaptationAnalyzer;
+import org.trustsoft.slastic.control.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.Analysis;
 import org.trustsoft.slastic.control.analysis.IAdaptationPlanner;
 import org.trustsoft.slastic.control.analysis.IAnalysis;
 import org.trustsoft.slastic.control.analysis.JPetStoreAdaptationAnalyzer;
 import org.trustsoft.slastic.control.analysis.SLAChecker;
+import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.control.systemModel.ModelUpdater;
@@ -39,12 +40,14 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 public class SLAsticControl {
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
 
-    private static IModelUpdater updater;
+    private static IReconfigurationManager mng = null;
+    private static IKiekerMonitoringLogReader logReader = null;
+
+    private static IModelUpdater modelUpdater = null;
+    private static IModelManager modelManager = null;
+
     private static IAnalysis analysisComponent = null;
     private static IAdaptationPlanner adaptationPlanner = null;
-    private static IReconfigurationManager mng = null;
-
-    private static IKiekerMonitoringLogReader logReader = null;
 
     public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
@@ -128,7 +131,7 @@ public class SLAsticControl {
                 mng = new ReconfigurationManager();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
-                adaptationPlanner = new AdaptationAnalyzer();
+                adaptationPlanner = new AdaptationPlanner();
                 //Reconfiguration Manager that sends the Plan back to the Model Manager
                 mng = ReconfigurationPlanForwarder.getInstance();
             }
@@ -139,12 +142,13 @@ public class SLAsticControl {
             analysisComponent.setWorkloadAnalyzer(null);
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
-            updater = new ModelUpdater();
+            modelUpdater = new ModelUpdater();
+            modelManager = ModelManager.getInstance();
 
             //Initalizing Controller object
             slactrl.setAnalysis(analysisComponent);
-            slactrl.setModelManager(ModelManager.getInstance());
-            slactrl.setModelUpdater(updater);
+            slactrl.setModelManager(modelManager);
+            slactrl.setModelUpdater(modelUpdater);
             slactrl.setReconfigurationManager(mng);
 
             //Tpan Instace for monitoring data
@@ -167,7 +171,7 @@ public class SLAsticControl {
             analysisInstance.addRecordConsumer(slactrl);
 
 
-            //AdaptationAnalyzer analyzer = new AdaptationAnalyzer();
+            //AdaptationPlanner analyzer = new AdaptationPlanner();
             //analyzer.analyze();
             //ReconfigurationPlanForwarder.getInstance().run();
             //log.info("Analyzer und alles gestartet");
@@ -205,7 +209,7 @@ public class SLAsticControl {
 //            ModelManager.getInstance().initModel(reconfigurationModel);
 //
 //            //SLAChecker slaChecker = new SLAChecker(slas);
-//            ModelUpdater updater = new ModelUpdater(reconfigurationModel.getMaxResponseTimes());
+//            ModelUpdater modelUpdater = new ModelUpdater(reconfigurationModel.getMaxResponseTimes());
 //            //IKiekerMonitoringLogReader logReader = new FSReaderRealtime(inputDir, 7);
 //            IKiekerMonitoringLogReader logReader = new JMSReader("tcp://127.0.0.1:3035/", "queue1");
 //            MonitoringRecordTypeLogger recordTypeLogger = new MonitoringRecordTypeLogger();

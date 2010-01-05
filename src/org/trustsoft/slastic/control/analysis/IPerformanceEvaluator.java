@@ -8,7 +8,7 @@ package org.trustsoft.slastic.control.analysis;
  * @author Lena Stoever
  * 
  */
-public interface IPerformanceAnalyzer {
+public interface IPerformanceEvaluator {
 	public void execute();
 
 	public void terminate();

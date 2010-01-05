@@ -14,7 +14,7 @@ import slal.Model;
 public class Analysis implements IAnalysis {	
 	private static final Log log = LogFactory.getLog(Analysis.class);
 	private IAdaptationPlanner adaptationAnalyzer;
-	private IPerformanceAnalyzer performanceAnalyzer;
+	private IPerformanceEvaluator performanceAnalyzer;
 	private IPerformancePredictor performancePredictor;
 	private IWorkloadAnalyzer workloadAnalyzer;
 	private IReconfigurationManager reconfigurationManager;
@@ -22,10 +22,10 @@ public class Analysis implements IAnalysis {
 	public IAdaptationPlanner getAdaptionAnalyzer() {
 		return adaptationAnalyzer;
 	}
-	public void setPerformanceAnalyzer(IPerformanceAnalyzer performanceAnalyzer) {
+	public void setPerformanceAnalyzer(IPerformanceEvaluator performanceAnalyzer) {
 		this.performanceAnalyzer = performanceAnalyzer;
 	}
-	public IPerformanceAnalyzer getPerformanceAnalyzer() {
+	public IPerformanceEvaluator getPerformanceAnalyzer() {
 		return performanceAnalyzer;
 	}
 	public void setWorkloadAnalyzer(IWorkloadAnalyzer workloadAnalyzer) {

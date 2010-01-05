@@ -24,7 +24,7 @@ import slal.SLO;
  * @author Lena Stoever
  * 
  */
-public class SLAChecker extends Thread implements IPerformanceAnalyzer {
+public class SLAChecker extends Thread implements IPerformanceEvaluator {
 
 	private static final Log log = LogFactory.getLog(SLAChecker.class);
 	private QuantileCalculator quantileCalc;
