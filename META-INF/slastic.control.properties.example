@@ -10,6 +10,15 @@ modelUpdaterComponentInitString=updaterName=updaterVal
 analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
 analysisComponentInitString=analysisName=analysisVal
 
-performanceEvaluatorComponent=
-performanceEvaluatorComponentInitString=
+performanceEvaluatorComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker
+performanceEvaluatorComponentInitString=perfEvalName=perfEvalVal
+
+workloadForecasterComponent=
+workloadForecasterComponentInitString=
+
+performancePredictorComponent=
+performancePredictorComponentInitString=
+
+adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
+adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 

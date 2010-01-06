@@ -1,8 +1,6 @@
 package org.trustsoft.slastic.control.plugins.daLena.analysis;
 
-import kieker.common.logReader.RecordConsumerExecutionException;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
-import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentRedeploymentOP;

@@ -158,8 +158,32 @@ public class SLAsticInstance {
         String performanceEvaluatorComponentInitStringProperty = prop.getProperty("performanceEvaluatorComponentInitString", ""); // empty String is default
         AbstractPerformanceEvaluator performanceEvaluatorComponent;
         // Note: a performance evaluator component is not mandatory
-        if (performanceEvaluatorComponentClassnameProperty != null) {
+        if (performanceEvaluatorComponentClassnameProperty != null && performanceEvaluatorComponentClassnameProperty.length() > 0) {
             performanceEvaluatorComponent = (AbstractPerformanceEvaluator) loadAndInitComponentInstanceFromClassname(performanceEvaluatorComponentClassnameProperty, performanceEvaluatorComponentInitStringProperty);
+        }
+
+        String workloadForecasterComponentClassnameProperty = prop.getProperty("workloadForecasterComponent");
+        String workloadForecasterComponentInitStringProperty = prop.getProperty("workloadForecasterComponentInitString", ""); // empty String is default
+        AbstractWorkloadForecaster workloadForecasterComponent;
+        // Note: a workload forecaster component is not mandatory
+        if (workloadForecasterComponentClassnameProperty != null && workloadForecasterComponentClassnameProperty.length() > 0) {
+            workloadForecasterComponent = (AbstractWorkloadForecaster) loadAndInitComponentInstanceFromClassname(workloadForecasterComponentClassnameProperty, workloadForecasterComponentInitStringProperty);
+        }
+  
+        String performancePredictorComponentClassnameProperty = prop.getProperty("performancePredictorComponent");
+        String performancePredictorComponentInitStringProperty = prop.getProperty("performancePredictorComponentInitString", ""); // empty String is default
+        AbstractPerformancePredictor performancePredictorComponent;
+        // Note: a performance predictor component is not mandatory
+        if (performancePredictorComponentClassnameProperty != null && performancePredictorComponentClassnameProperty.length() > 0) {
+            performancePredictorComponent = (AbstractPerformancePredictor) loadAndInitComponentInstanceFromClassname(performancePredictorComponentClassnameProperty, performancePredictorComponentInitStringProperty);
+        }
+
+        String adaptationPlannerComponentClassnameProperty = prop.getProperty("adaptationPlannerComponent");
+        String adaptationPlannerComponentInitStringProperty = prop.getProperty("adaptationPlannerComponentInitString", ""); // empty String is default
+        AbstractAdaptationPlanner adaptationPlannerComponent;
+        // Note: a performance predictor component is not mandatory
+        if (adaptationPlannerComponentClassnameProperty != null && adaptationPlannerComponentClassnameProperty.length() > 0) {
+            adaptationPlannerComponent = (AbstractAdaptationPlanner) loadAndInitComponentInstanceFromClassname(adaptationPlannerComponentClassnameProperty, adaptationPlannerComponentInitStringProperty);
         }
 
         // TODO: to be removed
