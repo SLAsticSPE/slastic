@@ -36,7 +36,10 @@ import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.ISLAsticControl;
+import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
+import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
+import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
 import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
 import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
@@ -132,14 +135,14 @@ public class SLAsticControl {
         TpanInstance analysisInstance = null;
         IKiekerMonitoringLogReader logReader = null;
         AbstractSLAsticControl slasticCtrlComponent = null;
-        ISLAsticReconfigurationManager reconfigurationManager = null;
-        ISLAsticModelUpdater modelUpdater = null;
-        ISLAsticModelManager modelManager = null;
-        ISLAsticAnalysis analysisComponent = null;
-        IPerformanceEvaluator performanceEvaluator = null;
-        IWorkloadForecaster workloadForecaster = null;
-        IPerformancePredictor performancePredictor = null;
-        IAdaptationPlanner adaptationPlanner = null;
+        AbstractSLAsticReconfigurationManager reconfigurationManager = null;
+        AbstractSLAsticModelUpdater modelUpdater = null;
+        AbstractSLAsticModelManager modelManager = null;
+        AbstractSLAsticAnalysis analysisComponent = null;
+        AbstractPerformanceEvaluator performanceEvaluator = null;
+        AbstractWorkloadForecaster workloadForecaster = null;
+        AbstractPerformancePredictor performancePredictor = null;
+        AbstractAdaptationPlanner adaptationPlanner = null;
 
         String readerType = System.getProperty("reader");
         if (readerType == null || readerType.length() == 0) {

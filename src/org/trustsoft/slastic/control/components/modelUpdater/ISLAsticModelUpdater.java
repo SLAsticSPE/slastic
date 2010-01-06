@@ -2,7 +2,6 @@ package org.trustsoft.slastic.control.components.modelUpdater;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.components.ISLAsticComponent;
-import org.trustsoft.slastic.control.components.ISLAsticControl;
 
 public interface ISLAsticModelUpdater extends ISLAsticComponent {
 
@@ -11,8 +10,4 @@ public interface ISLAsticModelUpdater extends ISLAsticComponent {
      * @param record given monitoring record
      */
     public void update(AbstractKiekerMonitoringRecord record);
-
-    public ISLAsticControl getParentControlComponent();
-
-    public void setParentControlComponent(ISLAsticControl parentControlComponent);
 }
