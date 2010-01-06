@@ -1,8 +1,9 @@
 /**
  * @author Lena
  */
-package org.trustsoft.slastic.control.analysis;
+package org.trustsoft.slastic.control.analysis.daLena;
 
+import org.trustsoft.slastic.control.analysis.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 

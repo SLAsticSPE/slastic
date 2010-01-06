@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.trustsoft.slastic.control.components;
 
 /**
@@ -12,4 +11,8 @@ package org.trustsoft.slastic.control.components;
 public interface ISLAsticComponent {
 
     public boolean init(String initString);
+
+    public void execute();
+
+    public void terminate();
 }

@@ -41,21 +41,21 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         this.adaptationPlanner = adaptationPlanner;
     }
 
-    public IReconfigurationManager getReconfigurationManager() {
-        return reconfigurationManager;
-    }
-
-    public IPerformanceEvaluator getPerformanceEvaluator() {
-        return performanceEvaluator;
-    }
-
-    public IPerformancePredictor getPerformancePredictor() {
-        return performancePredictor;
-    }
-
-    public IAdaptationPlanner getAdaptationPlanner() {
-        return adaptationPlanner;
-    }
+//    public final IReconfigurationManager getReconfigurationManager() {
+//        return reconfigurationManager;
+//    }
+//
+//    public final IPerformanceEvaluator getPerformanceEvaluator() {
+//        return performanceEvaluator;
+//    }
+//
+//    public final IPerformancePredictor getPerformancePredictor() {
+//        return performancePredictor;
+//    }
+//
+//    public final IAdaptationPlanner getAdaptationPlanner() {
+//        return adaptationPlanner;
+//    }
 
 //    public void setReconfigurationManager(IReconfigurationManager manager) {
 //        throw new UnsupportedOperationException("Not supported yet.");
