@@ -37,6 +37,7 @@ import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.ISLAsticControl;
 import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
+import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
@@ -91,7 +92,7 @@ public class SLAsticControl {
     }
 
     /**
-     * Initializes and returns a SLAsticControl analysis instance.
+     * Initializes and returns a ControlComponent analysis instance.
      *
      * @return the initialized instance; null on error
      */
@@ -174,7 +175,7 @@ public class SLAsticControl {
 
             //Controller object, the main object of the SLAstic.CONTROL-Framework
             slasticCtrlComponent =
-                    new org.trustsoft.slastic.control.plugins.daLena.SLAsticControl(initWorkflow_fn);
+                    new ControlComponent(reconfigurationManager,modelManager,modelUpdater,analysisComponent);//(initWorkflow_fn);
 
             //Performance Analyzer, part of the Analysis-Object
             performanceEvaluator = new SLAChecker();
@@ -302,7 +303,7 @@ public class SLAsticControl {
 //                reconfigurationManager.doReconfiguration(null);
 //                Thread.sleep(5000);
 //            } catch (Exception ex) {
-//                Logger.getLogger(SLAsticControl.class.getName()).log(Level.SEVERE, null, ex);
+//                Logger.getLogger(ControlComponent.class.getName()).log(Level.SEVERE, null, ex);
 //            }
 //        }
 

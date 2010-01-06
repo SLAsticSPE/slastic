@@ -15,18 +15,24 @@ import org.trustsoft.slastic.control.components.BasicSLAsticControl;
 /**
  * @author Lena Stoever
  */
-public class SLAsticControl extends BasicSLAsticControl {
+public class ControlComponent extends BasicSLAsticControl {
 
-    private static final Log log = LogFactory.getLog(SLAsticControl.class);
-    private final String INIT_WORKFLOW_FN;
+    private static final Log log = LogFactory.getLog(ControlComponent.class);
+    private String workflow_fn;
 
-    /**
-     * Only Constructor of the SLAsticControl-class
-     * @param initWorkflow_fn location of the workflow for the initialization
-     */
-    public SLAsticControl(String initWorkflow_fn) {
-        this.INIT_WORKFLOW_FN = initWorkflow_fn;
+    @Override
+    public boolean init(String initString) {
+        boolean retVal = super.init(initString);
+
+        this.workflow_fn = this.getInitProperty("initWorkflow_fn");
+        if (this.workflow_fn == null){
+            log.error("No property 'initWorkflow_fn' defined.");
+            retVal = false;
+        }
+
+        return retVal;
     }
+
 
     @Override
     public void update(AbstractKiekerMonitoringRecord record) {
@@ -37,15 +43,7 @@ public class SLAsticControl extends BasicSLAsticControl {
         }
 
     }
-
-    @Override
-    public void consumeMonitoringRecord(
-            AbstractKiekerMonitoringRecord monitoringRecord)
-            throws RecordConsumerExecutionException {
-        this.getModelUpdater().update(monitoringRecord);
-
-    }
-
+    
     @Override
     public boolean execute() throws RecordConsumerExecutionException {
         Map<String, String> properties = new HashMap<String, String>();
@@ -53,7 +51,7 @@ public class SLAsticControl extends BasicSLAsticControl {
 
         //workflow runner of the oAW-framework
         WorkflowRunner runner = new WorkflowRunner();
-        runner.run(INIT_WORKFLOW_FN, new NullProgressMonitor(), properties, slotContents);
+        runner.run(workflow_fn, new NullProgressMonitor(), properties, slotContents);
         //reading the SLA-model
         slal.Model slas = (slal.Model) runner.getContext().get("theModel");
         //reading the reconfiguration model
