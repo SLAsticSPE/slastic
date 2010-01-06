@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import kieker.common.logReader.IKiekerMonitoringLogReader;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
@@ -25,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
+import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis;
@@ -121,10 +123,32 @@ public class SLAsticInstance {
             } catch (Exception ex) { /* nothing we can do */ }
         }
 
+        // now, we'll load the properties:
+        String controlComponentClassnameProperty = prop.getProperty("slasticControlComponent");
+        if (controlComponentClassnameProperty == null || controlComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'slasticControlComponent'");
+        }
+        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl)loadAndInitComponentInstanceFromClassname(controlComponentClassnameProperty, "");
+
         // TODO: to be removed
-        tpanInstance = legacyInstance();
+        //tpanInstance = legacyInstance();
 
         return tpanInstance;
+    }
+
+    private static AbstractSLAsticComponent loadAndInitComponentInstanceFromClassname(String classname, String initString) {
+        AbstractSLAsticComponent inst = null;
+        try {
+            inst = (AbstractSLAsticComponent) Class.forName(classname).newInstance();
+            if (!inst.init(initString)) {
+                throw new Exception("init() failed for instance of class ('" + classname + "')!");
+            }
+
+        } catch (Exception ex) {
+            inst = null;
+            log.fatal("Failed to instantiate component of class '" + classname + "'");
+        }
+        return inst;
     }
 
     private static TpanInstance legacyInstance() {
@@ -179,7 +203,7 @@ public class SLAsticInstance {
             slasticCtrlComponent.setModelManager(modelManager);
             slasticCtrlComponent.setModelUpdater(modelUpdater);
             slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
-            slasticCtrlComponent.init("initWorkflow_fn="+initWorkflow_fn);
+            slasticCtrlComponent.init("initWorkflow_fn=" + initWorkflow_fn);
 
             //Performance Analyzer, part of the Analysis-Object
             performanceEvaluator = new SLAChecker();

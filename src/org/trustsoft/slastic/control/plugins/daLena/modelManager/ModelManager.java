@@ -49,6 +49,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
+// TODO: shouldn't be singleton!
 /**
  * The only ModelManager-Implementation that currently exists.
  * 

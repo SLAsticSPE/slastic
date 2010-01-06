@@ -1,2 +1,2 @@
-slasticControlComponent=org.trustsoft.slastic.control.recordConsumer.SLAsticControl
+slasticControlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
 slasticControlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup

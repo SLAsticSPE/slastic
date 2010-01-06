@@ -20,7 +20,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
      * After this method is executed, the parameter values can be retrieved
      * using the method getInitProperty(..).
      */
-    public boolean init(String initString) {
+    public final boolean init(String initString) {
         if (initString == null || initString.length() == 0) {
             return true; // Empty string is allowed
         }
