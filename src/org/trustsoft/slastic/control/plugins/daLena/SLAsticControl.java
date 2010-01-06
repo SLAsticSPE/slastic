@@ -1,5 +1,6 @@
-package org.trustsoft.slastic.control.recordConsumer;
+package org.trustsoft.slastic.control.plugins.daLena;
 
+import org.trustsoft.slastic.control.recordConsumer.*;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -174,7 +174,7 @@ public class SLAsticControl {
 
             //Controller object, the main object of the SLAstic.CONTROL-Framework
             slasticCtrlComponent =
-                    new org.trustsoft.slastic.control.recordConsumer.SLAsticControl(initWorkflow_fn);
+                    new org.trustsoft.slastic.control.plugins.daLena.SLAsticControl(initWorkflow_fn);
 
             //Performance Analyzer, part of the Analysis-Object
             performanceEvaluator = new SLAChecker();
