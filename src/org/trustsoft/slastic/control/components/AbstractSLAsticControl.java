@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.components;
 
+import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
@@ -10,27 +11,12 @@ import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManag
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl {
+public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl, IKiekerRecordConsumer {
 
-    private final ISLAsticReconfigurationManager reconfigurationManager;
-    private final ISLAsticModelManager modelManager;
-    private final ISLAsticModelUpdater modelUpdater;
-    private final ISLAsticAnalysis analysis;
-
-    public AbstractSLAsticControl() {
-        this(null, null, null, null);
-    }
-
-    public AbstractSLAsticControl(
-            ISLAsticReconfigurationManager reconfigurationManager,
-            ISLAsticModelManager modelManager,
-            ISLAsticModelUpdater modelUpdater,
-            ISLAsticAnalysis analysis) {
-        this.reconfigurationManager = reconfigurationManager;
-        this.modelManager = modelManager;
-        this.modelUpdater = modelUpdater;
-        this.analysis = analysis;
-    }
+    private ISLAsticReconfigurationManager reconfigurationManager;
+    private ISLAsticModelManager modelManager;
+    private ISLAsticModelUpdater modelUpdater;
+    private ISLAsticAnalysis analysis;
 
     public void terminate() {
         // do not terminate the reconfiguration manager
@@ -77,5 +63,21 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
 
     public final ISLAsticReconfigurationManager getReconfigurationManager() {
         return reconfigurationManager;
+    }
+
+   public final void setAnalysis(ISLAsticAnalysis analysis) {
+        this.analysis = analysis;
+    }
+
+    public final void setModelManager(ISLAsticModelManager modelManager) {
+        this.modelManager = modelManager;
+    }
+
+    public final void setModelUpdater(ISLAsticModelUpdater modelUpdater) {
+        this.modelUpdater = modelUpdater;
+    }
+
+    public final void setReconfigurationManager(ISLAsticReconfigurationManager reconfigurationManager) {
+        this.reconfigurationManager = reconfigurationManager;
     }
 }

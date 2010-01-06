@@ -25,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
+import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis;
 import org.trustsoft.slastic.control.components.analysis.IAdaptationPlanner;
@@ -130,7 +131,7 @@ public class SLAsticControl {
     private static TpanInstance legacyInstance() {
         TpanInstance analysisInstance = null;
         IKiekerMonitoringLogReader logReader = null;
-        ISLAsticControl slasticCtrlComponent = null;
+        AbstractSLAsticControl slasticCtrlComponent = null;
         ISLAsticReconfigurationManager reconfigurationManager = null;
         ISLAsticModelUpdater modelUpdater = null;
         ISLAsticModelManager modelManager = null;
@@ -174,8 +175,12 @@ public class SLAsticControl {
             }
 
             //Controller object, the main object of the SLAstic.CONTROL-Framework
-            slasticCtrlComponent =
-                    new ControlComponent(reconfigurationManager,modelManager,modelUpdater,analysisComponent);//(initWorkflow_fn);
+            slasticCtrlComponent = new ControlComponent();
+            slasticCtrlComponent.setAnalysis(analysisComponent);
+            slasticCtrlComponent.setModelManager(modelManager);
+            slasticCtrlComponent.setModelUpdater(modelUpdater);
+            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
+            slasticCtrlComponent.init("initWorkflow_fn="+initWorkflow_fn);
 
             //Performance Analyzer, part of the Analysis-Object
             performanceEvaluator = new SLAChecker();
@@ -200,12 +205,12 @@ public class SLAsticControl {
 //            analysisComponent.setWorkloadForecaster(workloadForecaster);
 
             //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
-            analysisComponent = new Analysis(
-                    slasticCtrlComponent,
-                    reconfigurationManager,
-                    performanceEvaluator, workloadForecaster,
-                    performancePredictor, adaptationPlanner);
-
+            analysisComponent = new Analysis();
+            analysisComponent.setAdaptationPlanner(adaptationPlanner);
+            analysisComponent.setParentControlComponent(slasticCtrlComponent);
+            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
+            analysisComponent.setPerformancePredictor(performancePredictor);
+            analysisComponent.setWorkloadForecaster(workloadForecaster);
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
             modelUpdater = new ModelUpdater();

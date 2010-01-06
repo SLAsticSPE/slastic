@@ -15,69 +15,13 @@ import slal.Model;
  */
 public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent implements ISLAsticAnalysis {
 
-    protected final ISLAsticReconfigurationManager reconfigurationManager;
+    private ISLAsticControl parentControlComponent;
 
-    public IWorkloadForecaster getWorkloadForecaster() {
-        return workloadForecaster;
-    }
-    protected final IPerformanceEvaluator performanceEvaluator;
-    protected final IWorkloadForecaster workloadForecaster;
-    protected final IPerformancePredictor performancePredictor;
-    protected final IAdaptationPlanner adaptationPlanner;
+    private IPerformanceEvaluator performanceEvaluator;
+    private IWorkloadForecaster workloadForecaster;
+    private IPerformancePredictor performancePredictor;
+    private IAdaptationPlanner adaptationPlanner;
 
-    public AbstractSLAsticAnalysis() {
-        this(null, null, null, null, null, null);
-    }
-
-    public AbstractSLAsticAnalysis(
-            ISLAsticControl control,
-            ISLAsticReconfigurationManager reconfigurationManager,
-            IPerformanceEvaluator performanceEvaluator,
-            IWorkloadForecaster workloadForecaster,
-            IPerformancePredictor performancePredictor,
-            IAdaptationPlanner adaptationPlanner) {
-        this.reconfigurationManager = reconfigurationManager;
-        this.performanceEvaluator = performanceEvaluator;
-        this.workloadForecaster = workloadForecaster;
-        this.performancePredictor = performancePredictor;
-        this.adaptationPlanner = adaptationPlanner;
-    }
-
-//    public final ISLAsticReconfigurationManager getReconfigurationManager() {
-//        return reconfigurationManager;
-//    }
-//
-//    public final IPerformanceEvaluator getPerformanceEvaluator() {
-//        return performanceEvaluator;
-//    }
-//
-//    public final IPerformancePredictor getPerformancePredictor() {
-//        return performancePredictor;
-//    }
-//
-//    public final IAdaptationPlanner getAdaptationPlanner() {
-//        return adaptationPlanner;
-//    }
-
-//    public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    public void setAdaptationPlanner(IAdaptationPlanner adaptationPlanner) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    public void setWorkloadForecaster(IWorkloadForecaster workloadForecaster) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    public void setPerformanceEvaluator(IPerformanceEvaluator performanceEvaluator) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
-//
-//    public void setPerformancePredictor(IPerformancePredictor performancePredictor) {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
     public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -118,5 +62,49 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         if (this.adaptationPlanner != null) {
             this.adaptationPlanner.terminate();
         }
+    }
+
+   public final IAdaptationPlanner getAdaptationPlanner() {
+        return adaptationPlanner;
+    }
+
+    public final void setAdaptationPlanner(IAdaptationPlanner adaptationPlanner) {
+        this.adaptationPlanner = adaptationPlanner;
+    }
+
+    public final IPerformanceEvaluator getPerformanceEvaluator() {
+        return performanceEvaluator;
+    }
+
+    public final void setPerformanceEvaluator(IPerformanceEvaluator performanceEvaluator) {
+        this.performanceEvaluator = performanceEvaluator;
+    }
+
+    public final IPerformancePredictor getPerformancePredictor() {
+        return performancePredictor;
+    }
+
+    public final void setPerformancePredictor(IPerformancePredictor performancePredictor) {
+        this.performancePredictor = performancePredictor;
+    }
+
+    public final ISLAsticReconfigurationManager getReconfigurationManager() {
+        return getParentControlComponent().getReconfigurationManager();
+    }
+
+   public final ISLAsticControl getParentControlComponent() {
+        return parentControlComponent;
+    }
+
+    public final void setParentControlComponent(ISLAsticControl parentControlComponent) {
+        this.parentControlComponent = parentControlComponent;
+    }
+
+    public final IWorkloadForecaster getWorkloadForecaster() {
+        return workloadForecaster;
+    }
+
+    public final void setWorkloadForecaster(IWorkloadForecaster workloadForecaster) {
+        this.workloadForecaster = workloadForecaster;
     }
 }
