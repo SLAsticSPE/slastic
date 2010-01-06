@@ -35,8 +35,8 @@ import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.ISLAsticControl;
-import org.trustsoft.slastic.control.systemModel.IModelManager;
-import org.trustsoft.slastic.control.systemModel.IModelUpdater;
+import org.trustsoft.slastic.control.components.modelManager.IModelManager;
+import org.trustsoft.slastic.control.components.modelUpdater.IModelUpdater;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 

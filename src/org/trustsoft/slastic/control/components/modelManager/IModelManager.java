@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.systemModel;
+package org.trustsoft.slastic.control.components.modelManager;
 
 import reconfMM.ReconfigurationModel;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
