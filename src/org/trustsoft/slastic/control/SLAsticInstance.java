@@ -154,6 +154,14 @@ public class SLAsticInstance {
         }
         AbstractSLAsticAnalysis analysisComponent = (AbstractSLAsticAnalysis) loadAndInitComponentInstanceFromClassname(analysisComponentClassnameProperty, analysisComponentInitStringProperty);
 
+        String performanceEvaluatorComponentClassnameProperty = prop.getProperty("performanceEvaluatorComponent");
+        String performanceEvaluatorComponentInitStringProperty = prop.getProperty("performanceEvaluatorComponentInitString", ""); // empty String is default
+        AbstractPerformanceEvaluator performanceEvaluatorComponent;
+        // Note: a performance evaluator component is not mandatory
+        if (performanceEvaluatorComponentClassnameProperty != null) {
+            performanceEvaluatorComponent = (AbstractPerformanceEvaluator) loadAndInitComponentInstanceFromClassname(performanceEvaluatorComponentClassnameProperty, performanceEvaluatorComponentInitStringProperty);
+        }
+
         // TODO: to be removed
         tpanInstance = legacyInstance();
 

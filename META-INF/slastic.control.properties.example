@@ -9,3 +9,7 @@ modelUpdaterComponentInitString=updaterName=updaterVal
 
 analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
 analysisComponentInitString=analysisName=analysisVal
+
+performanceEvaluatorComponent=
+performanceEvaluatorComponentInitString=
+
