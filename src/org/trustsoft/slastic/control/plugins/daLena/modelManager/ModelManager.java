@@ -1,5 +1,6 @@
-package org.trustsoft.slastic.control.systemModel;
+package org.trustsoft.slastic.control.plugins.daLena.modelManager;
 
+import org.trustsoft.slastic.control.systemModel.*;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;

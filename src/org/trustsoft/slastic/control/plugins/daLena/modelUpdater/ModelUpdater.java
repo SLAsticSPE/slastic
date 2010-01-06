@@ -1,5 +1,7 @@
-package org.trustsoft.slastic.control.systemModel;
+package org.trustsoft.slastic.control.plugins.daLena.modelUpdater;
 
+import org.trustsoft.slastic.control.systemModel.*;
+import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;

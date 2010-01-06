@@ -32,13 +32,13 @@ import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.IPerformancePredictor;
 import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
-import org.trustsoft.slastic.control.components.analysis.JPetStoreAdaptationPlanner;
+import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.recordConsumer.ISLAsticControl;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
-import org.trustsoft.slastic.control.systemModel.ModelManager;
-import org.trustsoft.slastic.control.systemModel.ModelUpdater;
+import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
