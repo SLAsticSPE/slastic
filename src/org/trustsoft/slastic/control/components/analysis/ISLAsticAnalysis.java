@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.analysis;
+package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.control.components.ISLAsticComponent;
 

@@ -3,7 +3,7 @@ package org.trustsoft.slastic.control.recordConsumer;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
-import org.trustsoft.slastic.control.analysis.ISLAsticAnalysis;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.systemModel.IModelManager;
 import org.trustsoft.slastic.control.systemModel.IModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;

@@ -1,8 +1,8 @@
-package org.trustsoft.slastic.control.analysis.daLena;
+package org.trustsoft.slastic.control.components.analysis.daLena;
 
-import org.trustsoft.slastic.control.analysis.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 
 public class SLAViolationEvent implements ISLAsticAnalysisEvent {
 	private static final Log log = LogFactory.getLog(SLAViolationEvent.class);

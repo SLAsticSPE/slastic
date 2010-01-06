@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.analysis.daLena;
+package org.trustsoft.slastic.control.components.analysis.daLena;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;

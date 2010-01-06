@@ -1,9 +1,14 @@
-package org.trustsoft.slastic.control.analysis.daLena;
+package org.trustsoft.slastic.control.components.analysis.daLena;
 
-import org.trustsoft.slastic.control.analysis.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
+import org.trustsoft.slastic.control.components.analysis.IAdaptationPlanner;
+import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
+import org.trustsoft.slastic.control.components.analysis.IPerformancePredictor;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
+import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import slal.Model;
 

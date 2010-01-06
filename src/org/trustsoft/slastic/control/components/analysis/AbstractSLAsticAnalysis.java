@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.control.analysis;
+package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;

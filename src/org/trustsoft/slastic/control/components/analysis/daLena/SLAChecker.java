@@ -1,15 +1,17 @@
 /**
  * @author Lena
  */
-package org.trustsoft.slastic.control.analysis.daLena;
+package org.trustsoft.slastic.control.components.analysis.daLena;
 
-import org.trustsoft.slastic.control.analysis.*;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
+import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
 import slal.Model;

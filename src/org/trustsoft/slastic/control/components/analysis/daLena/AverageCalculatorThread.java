@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.trustsoft.slastic.control.analysis.daLena;
+package org.trustsoft.slastic.control.components.analysis.daLena;
 
 import java.util.concurrent.BlockingQueue;
 
