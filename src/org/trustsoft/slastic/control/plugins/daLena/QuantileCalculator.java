@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.trustsoft.slastic.control.components.analysis.daLena;
+package org.trustsoft.slastic.control.plugins.daLena;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
