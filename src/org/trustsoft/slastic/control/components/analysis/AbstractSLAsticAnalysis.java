@@ -5,7 +5,8 @@
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.control.components.ISLAsticControl;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import slal.Model;
 
 /**
@@ -14,7 +15,7 @@ import slal.Model;
  */
 public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent implements ISLAsticAnalysis {
 
-    protected final IReconfigurationManager reconfigurationManager;
+    protected final ISLAsticReconfigurationManager reconfigurationManager;
 
     public IWorkloadForecaster getWorkloadForecaster() {
         return workloadForecaster;
@@ -25,11 +26,12 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
     protected final IAdaptationPlanner adaptationPlanner;
 
     public AbstractSLAsticAnalysis() {
-        this(null, null, null, null, null);
+        this(null, null, null, null, null, null);
     }
 
     public AbstractSLAsticAnalysis(
-            IReconfigurationManager reconfigurationManager,
+            ISLAsticControl control,
+            ISLAsticReconfigurationManager reconfigurationManager,
             IPerformanceEvaluator performanceEvaluator,
             IWorkloadForecaster workloadForecaster,
             IPerformancePredictor performancePredictor,
@@ -41,7 +43,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         this.adaptationPlanner = adaptationPlanner;
     }
 
-//    public final IReconfigurationManager getReconfigurationManager() {
+//    public final ISLAsticReconfigurationManager getReconfigurationManager() {
 //        return reconfigurationManager;
 //    }
 //
@@ -57,7 +59,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
 //        return adaptationPlanner;
 //    }
 
-//    public void setReconfigurationManager(IReconfigurationManager manager) {
+//    public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
 //        throw new UnsupportedOperationException("Not supported yet.");
 //    }
 //
@@ -80,6 +82,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    // TODO: remove
     public void setSLAs(Model slas) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

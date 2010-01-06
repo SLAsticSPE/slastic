@@ -33,13 +33,13 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class ReconfigurationManager implements IReconfigurationManager {
+public class ReconfigurationManager implements ISLAsticReconfigurationManager {
 
     private final Log log = LogFactory.getLog(ReconfigurationManager.class);
 
     public synchronized void doReconfiguration(
             ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
-            throws ReconfigurationException {
+            throws SLAsticReconfigurationException {
         EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
         for (SLAsticReconfigurationOpType op : operations) {
             // Check of which type the Operation is

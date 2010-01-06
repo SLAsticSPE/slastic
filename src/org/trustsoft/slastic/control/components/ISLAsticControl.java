@@ -6,7 +6,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 
 public interface ISLAsticControl extends IKiekerRecordConsumer {
 
@@ -19,6 +19,6 @@ public interface ISLAsticControl extends IKiekerRecordConsumer {
 	public void setAnalysis(ISLAsticAnalysis analysis);
 	public void setModelManager(ISLAsticModelManager mng);
 	public void setModelUpdater(ISLAsticModelUpdater updater);
-	public void setReconfigurationManager(IReconfigurationManager reconfManager);
+	public void setReconfigurationManager(ISLAsticReconfigurationManager reconfManager);
 	
 }

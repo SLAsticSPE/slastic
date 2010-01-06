@@ -8,7 +8,7 @@ import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 
 /**
@@ -16,7 +16,7 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  * @author Lena Stoever
  *
  */
-public class ReconfigurationPlanForwarder extends Thread implements IReconfigurationManager  {
+public class ReconfigurationPlanForwarder extends Thread implements ISLAsticReconfigurationManager  {
 		private static final Log log = LogFactory.getLog(ReconfigurationPlanForwarder.class);
 		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private boolean terminated = false;

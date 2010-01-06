@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 
 /**
  * Interface for the Adaptation Analyzer component of the
@@ -15,7 +15,7 @@ public interface IAdaptationPlanner {
 
 	public void terminate();
 
-	public void setReconfigurationManager(IReconfigurationManager manager);
+	public void setReconfigurationManager(ISLAsticReconfigurationManager manager);
 
 	public void setAnalysis(ISLAsticAnalysis ana);
 

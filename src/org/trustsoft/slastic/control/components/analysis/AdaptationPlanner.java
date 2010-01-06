@@ -3,8 +3,8 @@ package org.trustsoft.slastic.control.components.analysis;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
-import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
@@ -28,7 +28,7 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 	//Reconfiguration plan that is produced by this class
 	private SLAsticReconfigurationPlan plan;	
 	//Reconfiguration Manager to which the produced plan is sent
-	private IReconfigurationManager reconfigurationManager;
+	private ISLAsticReconfigurationManager reconfigurationManager;
 	//Analysis Component from where the event comes
 	private ISLAsticAnalysis ana;
 	private static final Log log = LogFactory.getLog(IAdaptationPlanner.class);
@@ -83,7 +83,7 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 		try {
 			log.info("ReconfigurationManager ist gestartet und plan wird gesendet");
 			this.reconfigurationManager.doReconfiguration(plan);
-		} catch (ReconfigurationException e) {
+		} catch (SLAsticReconfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -97,7 +97,7 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 		
 	}
 	@Override
-	public void setReconfigurationManager(IReconfigurationManager manager) {
+	public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
 		this.reconfigurationManager = manager;
 		
 	}

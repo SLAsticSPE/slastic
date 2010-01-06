@@ -40,7 +40,7 @@ import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdate
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.InternalServiceResponseTimeObjective;
@@ -130,7 +130,7 @@ public class SLAsticControl {
         TpanInstance analysisInstance = null;
         IKiekerMonitoringLogReader logReader = null;
         ISLAsticControl slasticCtrlComponent = null;
-        IReconfigurationManager reconfigurationManager = null;
+        ISLAsticReconfigurationManager reconfigurationManager = null;
         ISLAsticModelUpdater modelUpdater = null;
         ISLAsticModelManager modelManager = null;
         ISLAsticAnalysis analysisComponent = null;
@@ -200,6 +200,7 @@ public class SLAsticControl {
 
             //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
             analysisComponent = new Analysis(
+                    slasticCtrlComponent,
                     reconfigurationManager,
                     performanceEvaluator, workloadForecaster,
                     performancePredictor, adaptationPlanner);
@@ -292,7 +293,7 @@ public class SLAsticControl {
 //        tpanInstance.addConsumer(rtPlotter);
         //String wfFile = "../../SLALproject/src/SLALproject.oaw";
 
-//            IReconfigurationManager reconfigurationManager =
+//            ISLAsticReconfigurationManager reconfigurationManager =
 //                    new ReconfigurationManager();
 //        final int NUM_RECONFIGURATIONS = 5;
 //        for (int i = 1; i <= NUM_RECONFIGURATIONS; i++) {

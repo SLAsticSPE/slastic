@@ -9,6 +9,6 @@ package org.trustsoft.slastic.reconfigurationManager;
  *
  * @author Andre van Hoorn
  */
-public class ReconfigurationException extends Exception {
+public class SLAsticReconfigurationException extends Exception {
 
 }

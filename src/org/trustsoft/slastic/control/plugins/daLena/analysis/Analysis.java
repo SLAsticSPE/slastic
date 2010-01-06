@@ -3,13 +3,14 @@ package org.trustsoft.slastic.control.plugins.daLena.analysis;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import org.trustsoft.slastic.control.components.ISLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
 import org.trustsoft.slastic.control.components.analysis.IAdaptationPlanner;
 import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.IPerformancePredictor;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import slal.Model;
 
 /**
@@ -22,21 +23,22 @@ public class Analysis extends AbstractSLAsticAnalysis {
     private static final Log log = LogFactory.getLog(Analysis.class);
 
     public Analysis(
-            IReconfigurationManager reconfigurationManager,
+            ISLAsticControl control,
+            ISLAsticReconfigurationManager reconfigurationManager,
             IPerformanceEvaluator performanceEvaluator,
             IWorkloadForecaster workloadForecaster,
             IPerformancePredictor performancePredictor,
             IAdaptationPlanner adaptationPlanner) {
-        super(reconfigurationManager, performanceEvaluator,
-                workloadForecaster, performancePredictor,
-                adaptationPlanner);
+        super(control, reconfigurationManager,
+                performanceEvaluator, workloadForecaster,
+                performancePredictor, adaptationPlanner);
     }
 
 //	private IAdaptationPlanner adaptationAnalyzer;
 //	private IPerformanceEvaluator performanceAnalyzer;
 //	private IPerformancePredictor performancePredictor;
 //	private IWorkloadForecaster workloadAnalyzer;
-//	private IReconfigurationManager reconfigurationManager;
+//	private ISLAsticReconfigurationManager reconfigurationManager;
 //	public void setPerformanceEvaluator(IPerformanceEvaluator performanceAnalyzer) {
 //		this.performanceAnalyzer = performanceAnalyzer;
 //	}
@@ -67,7 +69,7 @@ public class Analysis extends AbstractSLAsticAnalysis {
 //		this.performancePredictor = performancePredictor;
 //	}
 //
-//	public void setReconfigurationManager(IReconfigurationManager manager) {
+//	public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
 //		this.reconfigurationManager = manager;
 //	}
     @Override

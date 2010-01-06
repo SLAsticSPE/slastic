@@ -3,8 +3,8 @@ package org.trustsoft.slastic.control.plugins.daLena.analysis;
 import org.trustsoft.slastic.control.components.analysis.*;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAViolationEvent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
-import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentRedeploymentOP;
 import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
@@ -26,7 +26,7 @@ import reconfMM.ReconfigurationModel;
  */
 public class JPetStoreAdaptationPlanner implements IAdaptationPlanner {
 	private ISLAsticAnalysis ana;
-	private IReconfigurationManager mng;
+	private ISLAsticReconfigurationManager mng;
 
 	@Override
 	public void execute() {
@@ -83,7 +83,7 @@ public class JPetStoreAdaptationPlanner implements IAdaptationPlanner {
 			try {
 				//forward the plan to the Reconfiguration Manager that executes it.
 				this.mng.doReconfiguration(plan);
-			} catch (ReconfigurationException e) {
+			} catch (SLAsticReconfigurationException e) {
 				e.printStackTrace();
 			}
 		}
@@ -97,7 +97,7 @@ public class JPetStoreAdaptationPlanner implements IAdaptationPlanner {
 	}
 
 	@Override
-	public void setReconfigurationManager(IReconfigurationManager manager) {
+	public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
 		this.mng = manager;
 
 	}

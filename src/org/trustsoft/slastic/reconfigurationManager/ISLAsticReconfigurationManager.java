@@ -11,9 +11,9 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  *
  * @author Andre van Hoorn
  */
-public interface IReconfigurationManager {
+public interface ISLAsticReconfigurationManager {
 
-	void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException;
+	void doReconfiguration(SLAsticReconfigurationPlan plan) throws SLAsticReconfigurationException;
 
 	void terminate();
 

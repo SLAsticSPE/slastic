@@ -15,7 +15,7 @@ import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
-import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
+import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 
 /**
  * @author Lena Stoever
@@ -26,7 +26,7 @@ public class SLAsticControl implements ISLAsticControl {
     private ISLAsticAnalysis analysis;
     private ISLAsticModelManager manager;
     private ISLAsticModelUpdater updater;
-    private IReconfigurationManager reconfigurationManager;
+    private ISLAsticReconfigurationManager reconfigurationManager;
     private final String INIT_WORKFLOW_FN;
 
     /**
@@ -57,7 +57,7 @@ public class SLAsticControl implements ISLAsticControl {
 
     @Override
     public void setReconfigurationManager(
-            IReconfigurationManager reconfManager) {
+            ISLAsticReconfigurationManager reconfManager) {
         this.reconfigurationManager = reconfManager;
 
     }
