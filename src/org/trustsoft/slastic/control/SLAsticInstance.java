@@ -28,29 +28,20 @@ import org.openarchitectureware.workflow.monitor.ProgressMonitor;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis;
-import org.trustsoft.slastic.control.components.analysis.IAdaptationPlanner;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
-import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
-import org.trustsoft.slastic.control.components.analysis.IPerformancePredictor;
-import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
-import org.trustsoft.slastic.control.components.ISLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictor;
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
 import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecaster;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
-import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
-import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
 import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
 import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
-import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.InternalServiceResponseTimeObjective;
@@ -62,9 +53,9 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 /**
  * @author Andre van Hoorn, Lena Stoever
  */
-public class SLAsticControl {
+public class SLAsticInstance {
 
-    private static final Log log = LogFactory.getLog(SLAsticControl.class);
+    private static final Log log = LogFactory.getLog(SLAsticInstance.class);
     private static CommandLine cmdl = null;
     private static final CommandLineParser cmdlParser = new BasicParser();
     private static final HelpFormatter cmdHelpFormatter = new HelpFormatter();
@@ -268,7 +259,7 @@ public class SLAsticControl {
     }
 
     private static void printUsage() {
-        cmdHelpFormatter.printHelp(SLAsticControl.class.getName(), cmdlOpts);
+        cmdHelpFormatter.printHelp(SLAsticInstance.class.getName(), cmdlOpts);
     }
 
     private static void testSLAsticMetaModel() {

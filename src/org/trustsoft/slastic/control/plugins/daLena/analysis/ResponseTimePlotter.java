@@ -6,7 +6,7 @@ package org.trustsoft.slastic.control.plugins.daLena.analysis;
 
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
-import org.trustsoft.slastic.control.SLAsticControl;
+import org.trustsoft.slastic.control.SLAsticInstance;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 
@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ResponseTimePlotter implements IKiekerRecordConsumer {
 
-    private static final Log log = LogFactory.getLog(SLAsticControl.class);
+    private static final Log log = LogFactory.getLog(SLAsticInstance.class);
      
 
    private final static String[] recordTypeSubscriptionList = {
