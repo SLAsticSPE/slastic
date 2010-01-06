@@ -131,21 +131,28 @@ public class SLAsticInstance {
         if (controlComponentClassnameProperty == null || controlComponentClassnameProperty.length() <= 0) {
             log.error("Missing configuration property value for 'controlComponent'");
         }
-        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl)loadAndInitComponentInstanceFromClassname(controlComponentClassnameProperty, controlComponentInitStringProperty);
+        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl) loadAndInitComponentInstanceFromClassname(controlComponentClassnameProperty, controlComponentInitStringProperty);
 
         String modelManagerComponentClassnameProperty = prop.getProperty("modelManagerComponent");
         String modelManagerComponentInitStringProperty = prop.getProperty("modelManagerComponentInitString", ""); // empty String is default
         if (modelManagerComponentClassnameProperty == null || modelManagerComponentClassnameProperty.length() <= 0) {
             log.error("Missing configuration property value for 'modelManagerComponent'");
         }
-        AbstractSLAsticModelManager modelManagerComponent = (AbstractSLAsticModelManager)loadAndInitComponentInstanceFromClassname(modelManagerComponentClassnameProperty, modelManagerComponentInitStringProperty);
+        AbstractSLAsticModelManager modelManagerComponent = (AbstractSLAsticModelManager) loadAndInitComponentInstanceFromClassname(modelManagerComponentClassnameProperty, modelManagerComponentInitStringProperty);
 
-       String modelUpdaterComponentClassnameProperty = prop.getProperty("modelUpdaterComponent");
+        String modelUpdaterComponentClassnameProperty = prop.getProperty("modelUpdaterComponent");
         String modelUpdaterComponentInitStringProperty = prop.getProperty("modelUpdaterComponentInitString", ""); // empty String is default
         if (modelUpdaterComponentClassnameProperty == null || modelUpdaterComponentClassnameProperty.length() <= 0) {
             log.error("Missing configuration property value for 'modelUpdaterComponent'");
         }
-        AbstractSLAsticModelUpdater modelUpdaterComponent = (AbstractSLAsticModelUpdater)loadAndInitComponentInstanceFromClassname(modelUpdaterComponentClassnameProperty, modelUpdaterComponentInitStringProperty);
+        AbstractSLAsticModelUpdater modelUpdaterComponent = (AbstractSLAsticModelUpdater) loadAndInitComponentInstanceFromClassname(modelUpdaterComponentClassnameProperty, modelUpdaterComponentInitStringProperty);
+
+        String analysisComponentClassnameProperty = prop.getProperty("analysisComponent");
+        String analysisComponentInitStringProperty = prop.getProperty("analysisComponentInitString", ""); // empty String is default
+        if (analysisComponentClassnameProperty == null || analysisComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'analysisComponent'");
+        }
+        AbstractSLAsticAnalysis analysisComponent = (AbstractSLAsticAnalysis) loadAndInitComponentInstanceFromClassname(analysisComponentClassnameProperty, analysisComponentInitStringProperty);
 
         // TODO: to be removed
         tpanInstance = legacyInstance();
@@ -160,7 +167,7 @@ public class SLAsticInstance {
             if (!inst.init(initString)) {
                 throw new Exception("init() failed for instance of class ('" + classname + "')!");
             }
-            log.info("Loaded and instantiated component ('"+classname+"') with init string '"+ initString + "'");
+            log.info("Loaded and instantiated component ('" + classname + "') with init string '" + initString + "'");
         } catch (Exception ex) {
             inst = null;
             log.fatal("Failed to instantiate component of class '" + classname + "'");
