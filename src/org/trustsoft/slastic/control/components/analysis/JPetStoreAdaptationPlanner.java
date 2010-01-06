@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.control.plugins.daLena.SLAViolationEvent;
+import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAViolationEvent;
 import org.trustsoft.slastic.control.systemModel.ModelManager;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationException;
