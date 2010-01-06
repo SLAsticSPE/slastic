@@ -156,7 +156,7 @@ public class SLAsticInstance {
 
         String performanceEvaluatorComponentClassnameProperty = prop.getProperty("performanceEvaluatorComponent");
         String performanceEvaluatorComponentInitStringProperty = prop.getProperty("performanceEvaluatorComponentInitString", ""); // empty String is default
-        AbstractPerformanceEvaluator performanceEvaluatorComponent;
+        AbstractPerformanceEvaluator performanceEvaluatorComponent = null;
         // Note: a performance evaluator component is not mandatory
         if (performanceEvaluatorComponentClassnameProperty != null && performanceEvaluatorComponentClassnameProperty.length() > 0) {
             performanceEvaluatorComponent = (AbstractPerformanceEvaluator) loadAndInitComponentInstanceFromClassname(performanceEvaluatorComponentClassnameProperty, performanceEvaluatorComponentInitStringProperty);
@@ -164,15 +164,15 @@ public class SLAsticInstance {
 
         String workloadForecasterComponentClassnameProperty = prop.getProperty("workloadForecasterComponent");
         String workloadForecasterComponentInitStringProperty = prop.getProperty("workloadForecasterComponentInitString", ""); // empty String is default
-        AbstractWorkloadForecaster workloadForecasterComponent;
+        AbstractWorkloadForecaster workloadForecasterComponent = null;
         // Note: a workload forecaster component is not mandatory
         if (workloadForecasterComponentClassnameProperty != null && workloadForecasterComponentClassnameProperty.length() > 0) {
             workloadForecasterComponent = (AbstractWorkloadForecaster) loadAndInitComponentInstanceFromClassname(workloadForecasterComponentClassnameProperty, workloadForecasterComponentInitStringProperty);
         }
-  
+
         String performancePredictorComponentClassnameProperty = prop.getProperty("performancePredictorComponent");
         String performancePredictorComponentInitStringProperty = prop.getProperty("performancePredictorComponentInitString", ""); // empty String is default
-        AbstractPerformancePredictor performancePredictorComponent;
+        AbstractPerformancePredictor performancePredictorComponent = null;
         // Note: a performance predictor component is not mandatory
         if (performancePredictorComponentClassnameProperty != null && performancePredictorComponentClassnameProperty.length() > 0) {
             performancePredictorComponent = (AbstractPerformancePredictor) loadAndInitComponentInstanceFromClassname(performancePredictorComponentClassnameProperty, performancePredictorComponentInitStringProperty);
@@ -180,11 +180,33 @@ public class SLAsticInstance {
 
         String adaptationPlannerComponentClassnameProperty = prop.getProperty("adaptationPlannerComponent");
         String adaptationPlannerComponentInitStringProperty = prop.getProperty("adaptationPlannerComponentInitString", ""); // empty String is default
-        AbstractAdaptationPlanner adaptationPlannerComponent;
+        AbstractAdaptationPlanner adaptationPlannerComponent = null;
         // Note: a performance predictor component is not mandatory
         if (adaptationPlannerComponentClassnameProperty != null && adaptationPlannerComponentClassnameProperty.length() > 0) {
             adaptationPlannerComponent = (AbstractAdaptationPlanner) loadAndInitComponentInstanceFromClassname(adaptationPlannerComponentClassnameProperty, adaptationPlannerComponentInitStringProperty);
         }
+
+        /* "wire" the components */
+        slasticCtrlComponent.setReconfigurationManager(null); // TODO: fix!
+        slasticCtrlComponent.setAnalysis(analysisComponent);
+        slasticCtrlComponent.setModelManager(modelManagerComponent);
+        slasticCtrlComponent.setModelUpdater(modelUpdaterComponent);
+
+        modelManagerComponent.setParentControlComponent(slasticCtrlComponent);
+        modelUpdaterComponent.setParentControlComponent(slasticCtrlComponent);
+
+        analysisComponent.setParentControlComponent(slasticCtrlComponent);
+        analysisComponent.setPerformanceEvaluator(performanceEvaluatorComponent);
+        analysisComponent.setWorkloadForecaster(workloadForecasterComponent);
+        analysisComponent.setPerformancePredictor(performancePredictorComponent);
+        analysisComponent.setAdaptationPlanner(adaptationPlannerComponent);
+
+        IKiekerMonitoringLogReader logReader = null;
+        TODO: read log reader configuration from configuration file!!
+
+        tpanInstance = new TpanInstance();
+        tpanInstance.setLogReader(logReader);
+        tpanInstance.addRecordConsumer(slasticCtrlComponent);
 
         // TODO: to be removed
         tpanInstance = legacyInstance();
