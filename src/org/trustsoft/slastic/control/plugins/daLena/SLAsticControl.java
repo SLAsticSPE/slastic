@@ -13,8 +13,8 @@ import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
-import org.trustsoft.slastic.control.components.modelManager.IModelManager;
-import org.trustsoft.slastic.control.components.modelUpdater.IModelUpdater;
+import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
+import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.IReconfigurationManager;
 
 /**
@@ -24,8 +24,8 @@ public class SLAsticControl implements ISLAsticControl {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
     private ISLAsticAnalysis analysis;
-    private IModelManager manager;
-    private IModelUpdater updater;
+    private ISLAsticModelManager manager;
+    private ISLAsticModelUpdater updater;
     private IReconfigurationManager reconfigurationManager;
     private final String INIT_WORKFLOW_FN;
 
@@ -44,13 +44,13 @@ public class SLAsticControl implements ISLAsticControl {
     }
 
     @Override
-    public void setModelManager(IModelManager mng) {
+    public void setModelManager(ISLAsticModelManager mng) {
         this.manager = mng;
 
     }
 
     @Override
-    public void setModelUpdater(IModelUpdater updater) {
+    public void setModelUpdater(ISLAsticModelUpdater updater) {
         this.updater = updater;
 
     }

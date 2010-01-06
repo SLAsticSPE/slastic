@@ -6,9 +6,9 @@ import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractModelUpdater extends AbstractSLAsticComponent implements IModelUpdater {
+public abstract class AbstractSLAsticModelUpdater extends AbstractSLAsticComponent implements ISLAsticModelUpdater {
 
-    public void execute() { }
+    public boolean execute() { return true; }
 
     public void terminate() { }
 }

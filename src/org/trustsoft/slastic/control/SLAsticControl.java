@@ -35,8 +35,8 @@ import org.trustsoft.slastic.control.components.analysis.IWorkloadForecaster;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.ISLAsticControl;
-import org.trustsoft.slastic.control.components.modelManager.IModelManager;
-import org.trustsoft.slastic.control.components.modelUpdater.IModelUpdater;
+import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
+import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
@@ -131,8 +131,8 @@ public class SLAsticControl {
         IKiekerMonitoringLogReader logReader = null;
         ISLAsticControl slasticCtrlComponent = null;
         IReconfigurationManager reconfigurationManager = null;
-        IModelUpdater modelUpdater = null;
-        IModelManager modelManager = null;
+        ISLAsticModelUpdater modelUpdater = null;
+        ISLAsticModelManager modelManager = null;
         ISLAsticAnalysis analysisComponent = null;
         IPerformanceEvaluator performanceEvaluator = null;
         IWorkloadForecaster workloadForecaster = null;

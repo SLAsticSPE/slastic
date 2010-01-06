@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.control.plugins.daLena.modelManager;
 
-import org.trustsoft.slastic.control.components.modelManager.IModelManager;
-import org.trustsoft.slastic.control.systemModel.*;
 import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -49,6 +47,7 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
+import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
 /**
  * The only ModelManager-Implementation that currently exists.
@@ -56,7 +55,7 @@ import de.uka.ipd.sdq.pcm.system.System;
  * @author Lena Stoever
  * 
  */
-public class ModelManager implements IModelManager {
+public class ModelManager extends AbstractSLAsticModelManager {
 	private final Log log = LogFactory.getLog(ModelManager.class);
 	private int capacity = 0;
 	private static ModelManager instance;

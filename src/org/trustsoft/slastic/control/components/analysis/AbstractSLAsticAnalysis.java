@@ -84,7 +84,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void execute() {
+    public boolean execute() {
         if (this.performanceEvaluator != null) {
             this.performanceEvaluator.execute();
         }
@@ -97,6 +97,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         if (this.adaptationPlanner != null) {
             this.adaptationPlanner.execute();
         }
+        return true;
     }
 
     public void terminate() {

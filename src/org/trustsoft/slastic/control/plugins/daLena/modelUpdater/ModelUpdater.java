@@ -1,13 +1,13 @@
 package org.trustsoft.slastic.control.plugins.daLena.modelUpdater;
 
-import org.trustsoft.slastic.control.components.modelUpdater.IModelUpdater;
+import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
 
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdater;
+import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
@@ -17,7 +17,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  * @author Lena Stoever
  * 
  */
-public class ModelUpdater extends AbstractModelUpdater {
+public class ModelUpdater extends AbstractSLAsticModelUpdater {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 	long count = 0;
 	

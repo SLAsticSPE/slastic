@@ -9,7 +9,7 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  * @author Lena Stoever
  *
  */
-public interface IModelManager {
+public interface ISLAsticModelManager {
 
 	/**
 	 * Synchronized updating of the ReconfigurationModel via MonitoringRecords

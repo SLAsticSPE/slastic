@@ -49,13 +49,14 @@ public class Analysis extends AbstractSLAsticAnalysis {
 //	public IWorkloadForecaster getWorkloadAnalyzer() {
 //		return workloadAnalyzer;
 //	}
-    @Override
-    public void execute() {
-//		this.adaptationAnalyzer.setReconfigurationManager(this.reconfigurationManager);
-//		this.adaptationAnalyzer.setAnalysis(this);
-//		this.performanceAnalyzer.setAnalysis(this);
-        super.execute();
-    }
+
+//    @Override
+//    public void execute() {
+////		this.adaptationAnalyzer.setReconfigurationManager(this.reconfigurationManager);
+////		this.adaptationAnalyzer.setAnalysis(this);
+////		this.performanceAnalyzer.setAnalysis(this);
+//        super.execute();
+//    }
 
 //	public void setAdaptationPlanner(IAdaptationPlanner adaptationAnalyzer) {
 //		this.adaptationAnalyzer = adaptationAnalyzer;

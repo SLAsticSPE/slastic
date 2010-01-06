@@ -12,7 +12,7 @@ public interface ISLAsticComponent {
 
     public boolean init(String initString);
 
-    public void execute();
+    public boolean execute();
 
     public void terminate();
 }
