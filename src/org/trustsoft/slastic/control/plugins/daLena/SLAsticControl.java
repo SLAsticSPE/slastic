@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.control.plugins.daLena;
 
-import org.trustsoft.slastic.control.components.ISLAsticControl;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,21 +10,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
-import org.trustsoft.slastic.control.components.modelManager.ISLAsticModelManager;
-import org.trustsoft.slastic.control.components.modelUpdater.ISLAsticModelUpdater;
-import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
+import org.trustsoft.slastic.control.components.BasicSLAsticControl;
 
 /**
  * @author Lena Stoever
  */
-public class SLAsticControl implements ISLAsticControl {
+public class SLAsticControl extends BasicSLAsticControl {
 
     private static final Log log = LogFactory.getLog(SLAsticControl.class);
-    private ISLAsticAnalysis analysis;
-    private ISLAsticModelManager manager;
-    private ISLAsticModelUpdater updater;
-    private ISLAsticReconfigurationManager reconfigurationManager;
     private final String INIT_WORKFLOW_FN;
 
     /**
@@ -35,31 +26,6 @@ public class SLAsticControl implements ISLAsticControl {
      */
     public SLAsticControl(String initWorkflow_fn) {
         this.INIT_WORKFLOW_FN = initWorkflow_fn;
-    }
-
-    @Override
-    public void setAnalysis(ISLAsticAnalysis analysis) {
-        this.analysis = analysis;
-
-    }
-
-    @Override
-    public void setModelManager(ISLAsticModelManager mng) {
-        this.manager = mng;
-
-    }
-
-    @Override
-    public void setModelUpdater(ISLAsticModelUpdater updater) {
-        this.updater = updater;
-
-    }
-
-    @Override
-    public void setReconfigurationManager(
-            ISLAsticReconfigurationManager reconfManager) {
-        this.reconfigurationManager = reconfManager;
-
     }
 
     @Override
@@ -76,7 +42,7 @@ public class SLAsticControl implements ISLAsticControl {
     public void consumeMonitoringRecord(
             AbstractKiekerMonitoringRecord monitoringRecord)
             throws RecordConsumerExecutionException {
-        this.updater.update(monitoringRecord);
+        this.getModelUpdater().update(monitoringRecord);
 
     }
 
@@ -94,16 +60,14 @@ public class SLAsticControl implements ISLAsticControl {
         reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
 
         //intialize Model Manager object
-        this.manager.setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
-        this.manager.setModel(reconfigurationModel);
+        this.getModelManager().setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
+        this.getModelManager().setModel(reconfigurationModel);
 
         //initialize Analysis object
-        this.analysis.setSLAs(slas);
+        this.getAnalysis().setSLAs(slas);
         //this.analysis.setReconfigurationManager(this.reconfigurationManager);
 
-        //execute analysis and updater object
-        this.analysis.execute();
-        this.updater.execute();
+        super.execute();
         log.info("Analysis started.");
         return true;
     }
@@ -111,13 +75,5 @@ public class SLAsticControl implements ISLAsticControl {
     @Override
     public String[] getRecordTypeSubscriptionList() {
         return null;
-    }
-
-    @Override
-    public void terminate() {
-        this.analysis.terminate();
-        this.updater.terminate();
-        log.info("Bye, this was SLAsticControl");
-
     }
 }

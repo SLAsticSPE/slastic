@@ -100,6 +100,8 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         if (this.adaptationPlanner != null) {
             this.adaptationPlanner.execute();
         }
+
+        // TODO: consider return values of delegated execution calls
         return true;
     }
 

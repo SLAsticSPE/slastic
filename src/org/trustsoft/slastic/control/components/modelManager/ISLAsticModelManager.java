@@ -3,13 +3,14 @@ package org.trustsoft.slastic.control.components.modelManager;
 import reconfMM.ReconfigurationModel;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import org.trustsoft.slastic.control.components.ISLAsticComponent;
 
 /**
  * Interface that has to be implemented by any class that should manage the ReconfigurationModel of SLAsticControl.
  * @author Lena Stoever
  *
  */
-public interface ISLAsticModelManager {
+public interface ISLAsticModelManager extends ISLAsticComponent {
 
 	/**
 	 * Synchronized updating of the ReconfigurationModel via MonitoringRecords
