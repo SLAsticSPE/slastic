@@ -7,6 +7,7 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdater;
 import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
@@ -16,7 +17,7 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
  * @author Lena Stoever
  * 
  */
-public class ModelUpdater implements IModelUpdater {
+public class ModelUpdater extends AbstractModelUpdater {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 	long count = 0;
 	
@@ -43,16 +44,4 @@ public class ModelUpdater implements IModelUpdater {
 		}
 
 	}
-	
-	@Override
-	public void execute(){
-		
-	}
-
-	@Override
-	public void terminate() {
-	}
-
-
-
 }
