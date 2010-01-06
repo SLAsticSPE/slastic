@@ -123,15 +123,25 @@ public class SLAsticInstance {
             } catch (Exception ex) { /* nothing we can do */ }
         }
 
-        // now, we'll load the properties:
-        String controlComponentClassnameProperty = prop.getProperty("slasticControlComponent");
+        /* now, we'll load the properties: */
+
+        /* Load all components */
+        String controlComponentClassnameProperty = prop.getProperty("controlComponent");
+        String controlComponentInitStringProperty = prop.getProperty("controlComponentInitString", ""); // empty String is default
         if (controlComponentClassnameProperty == null || controlComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'slasticControlComponent'");
+            log.error("Missing configuration property value for 'controlComponent'");
         }
-        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl)loadAndInitComponentInstanceFromClassname(controlComponentClassnameProperty, "");
+        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl)loadAndInitComponentInstanceFromClassname(controlComponentClassnameProperty, controlComponentInitStringProperty);
+
+        String modelManagerComponentClassnameProperty = prop.getProperty("modelManagerComponent");
+        String modelManagerComponentInitStringProperty = prop.getProperty("modelManagerComponentInitString", ""); // empty String is default
+        if (modelManagerComponentClassnameProperty == null || modelManagerComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'modelManagerComponent'");
+        }
+        AbstractSLAsticModelManager modelManagerComponent = (AbstractSLAsticModelManager)loadAndInitComponentInstanceFromClassname(modelManagerComponentClassnameProperty, modelManagerComponentInitStringProperty);
 
         // TODO: to be removed
-        //tpanInstance = legacyInstance();
+        tpanInstance = legacyInstance();
 
         return tpanInstance;
     }
@@ -143,7 +153,7 @@ public class SLAsticInstance {
             if (!inst.init(initString)) {
                 throw new Exception("init() failed for instance of class ('" + classname + "')!");
             }
-
+            log.info("Loaded and instantiated component ('"+classname+"') with init string '"+ initString + "'");
         } catch (Exception ex) {
             inst = null;
             log.fatal("Failed to instantiate component of class '" + classname + "'");

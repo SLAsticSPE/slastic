@@ -590,7 +590,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
 		// TODO Auto-generated method stub
 		
 	}
-	@Override
+
 	public void setMaxResponseTime(int capacity) {
 		this.capacity = capacity;
 		

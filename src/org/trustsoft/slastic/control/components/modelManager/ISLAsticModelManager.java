@@ -26,10 +26,4 @@ public interface ISLAsticModelManager extends ISLAsticComponent {
      * @param plan
      */
     public void doReconfiguration(SLAsticReconfigurationPlan plan);
-
-    // TODO: remove
-    public void setModel(ReconfigurationModel model);
-
-    // TODO: remove
-    void setMaxResponseTime(int capacity);
 }
