@@ -140,6 +140,13 @@ public class SLAsticInstance {
         }
         AbstractSLAsticModelManager modelManagerComponent = (AbstractSLAsticModelManager)loadAndInitComponentInstanceFromClassname(modelManagerComponentClassnameProperty, modelManagerComponentInitStringProperty);
 
+       String modelUpdaterComponentClassnameProperty = prop.getProperty("modelUpdaterComponent");
+        String modelUpdaterComponentInitStringProperty = prop.getProperty("modelUpdaterComponentInitString", ""); // empty String is default
+        if (modelUpdaterComponentClassnameProperty == null || modelUpdaterComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'modelUpdaterComponent'");
+        }
+        AbstractSLAsticModelUpdater modelUpdaterComponent = (AbstractSLAsticModelUpdater)loadAndInitComponentInstanceFromClassname(modelUpdaterComponentClassnameProperty, modelUpdaterComponentInitStringProperty);
+
         // TODO: to be removed
         tpanInstance = legacyInstance();
 

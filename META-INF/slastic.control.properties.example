@@ -2,4 +2,7 @@ controlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
 controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
 
 modelManagerComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelManager
-modelManagerComponentInitString=name=val
+modelManagerComponentInitString=managerName=managerVal
+
+modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
+modelUpdaterComponentInitString=updaterName=updaterVal
