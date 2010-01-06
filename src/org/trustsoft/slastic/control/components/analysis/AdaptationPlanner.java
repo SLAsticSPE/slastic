@@ -23,17 +23,15 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImp
  * @author Lena Stoever
  *
  */
-public class AdaptationPlanner implements IAdaptationPlanner {
+public class AdaptationPlanner extends AbstractAdaptationPlanner {
 	
 	//Reconfiguration plan that is produced by this class
 	private SLAsticReconfigurationPlan plan;	
-	//Reconfiguration Manager to which the produced plan is sent
-	private ISLAsticReconfigurationManager reconfigurationManager;
-	//Analysis Component from where the event comes
-	private ISLAsticAnalysis ana;
+
 	private static final Log log = LogFactory.getLog(IAdaptationPlanner.class);
-	@Override
-	public void execute() {
+
+        @Override
+	public boolean execute() {
 		/**
 		ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
 		this.plan = fac.createSLAsticReconfigurationPlan();
@@ -82,32 +80,20 @@ public class AdaptationPlanner implements IAdaptationPlanner {
 		this.plan = testPlan;
 		try {
 			log.info("ReconfigurationManager ist gestartet und plan wird gesendet");
-			this.reconfigurationManager.doReconfiguration(plan);
+			this.getReconfigurationManager().doReconfiguration(plan);
 		} catch (SLAsticReconfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.reconfigurationManager.execute();
+//		this.reconfigurationManager.execute();
 
-		
+		return true;
 	}
+        
 	@Override
 	public void handle(ISLAsticAnalysisEvent event) {
 		//this.execute();
-		
-	}
-	@Override
-	public void setReconfigurationManager(ISLAsticReconfigurationManager manager) {
-		this.reconfigurationManager = manager;
-		
-	}
-	@Override
-	public void terminate() {
-		this.reconfigurationManager.terminate();
-	}
-	@Override
-	public void setAnalysis(ISLAsticAnalysis ana) {
-		this.ana=ana;
 	}
 
+    public void terminate() { }
 }

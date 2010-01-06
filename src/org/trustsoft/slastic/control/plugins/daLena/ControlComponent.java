@@ -45,7 +45,7 @@ public class ControlComponent extends BasicSLAsticControl {
     }
     
     @Override
-    public boolean execute() throws RecordConsumerExecutionException {
+    public boolean execute() {
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
 

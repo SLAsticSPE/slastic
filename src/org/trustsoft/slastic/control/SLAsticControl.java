@@ -49,6 +49,7 @@ import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
+import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
@@ -199,11 +200,12 @@ public class SLAsticControl {
                 adaptationPlanner = new JPetStoreAdaptationPlanner();
                 //Reconfiguration Manager that executes plan via network
                 reconfigurationManager = new ReconfigurationManager();
+                reconfigurationManager.execute();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
                 adaptationPlanner = new AdaptationPlanner();
                 //Reconfiguration Manager that sends the Plan back to the Model Manager
-                reconfigurationManager = ReconfigurationPlanForwarder.getInstance();
+                reconfigurationManager = new ReconfigurationPlanForwarder();
             }
 
             //set different Analyzer-Objects, set null for not implemented ones.

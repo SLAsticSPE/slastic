@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
-import org.trustsoft.slastic.control.components.analysis.IPerformanceEvaluator;
+import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
@@ -27,7 +27,7 @@ import slal.SLO;
  * @author Lena Stoever
  * 
  */
-public class SLAChecker extends Thread implements IPerformanceEvaluator {
+public class SLAChecker extends AbstractPerformanceEvaluator {
 
 	private static final Log log = LogFactory.getLog(SLAChecker.class);
 	private QuantileCalculator quantileCalc;
@@ -66,7 +66,7 @@ public class SLAChecker extends Thread implements IPerformanceEvaluator {
 		return rt;
 	}
 
-	public void run() {
+	private void startThreadPool() {
 		// this.averageCalcThread = new
 		// AverageCalculatorThread(this.responseTimes);
 		// averageCalcThread.start();
@@ -138,11 +138,9 @@ public class SLAChecker extends Thread implements IPerformanceEvaluator {
 		if (ex != null) {
 			ex.shutdownNow();
 		}
-
 	}
 
-	@Override
-	public void execute() {
+	public boolean execute() {
 		//Initialize GUIs and set of service IDs
 		guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
 		serviceIDs = new int[this.slas.getObligations().getSlo().size()];
@@ -163,24 +161,21 @@ public class SLAChecker extends Thread implements IPerformanceEvaluator {
 			serviceIDs[i] = this.slas.getObligations().getSlo().get(i)
 					.getServiceID();
 		}
-		this.run();
+		this.startThreadPool();
+                return true;
 	}
 
-	@Override
-	public void handle(ISLAsticAnalysisEvent event) {
-		//Not yet any type of event for this analysis available.
-
-	}
-
-	@Override
 	public void setSLAs(Model slas) {
 		this.slas = slas;
 
 	}
 
-	@Override
 	public void setAnalysis(ISLAsticAnalysis ana) {
 		this.ana = ana;
 
 	}
+
+    public void handle(ISLAsticAnalysisEvent event) {
+        // not interested in internal events
+    }
 }

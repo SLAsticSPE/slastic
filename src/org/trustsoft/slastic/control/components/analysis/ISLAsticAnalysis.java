@@ -9,6 +9,7 @@ import org.trustsoft.slastic.control.components.ISLAsticComponent;
  */
 public interface ISLAsticAnalysis extends ISLAsticComponent {
 
+    // TODO: should be renamed
     /**
      * method for delegating ISlAsticAnalysisEvents to the belonging analysis
      * objects

@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.control.components.modelUpdater;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
-import org.trustsoft.slastic.control.components.ISLAsticControl;
+import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
 
 /**
  *
@@ -9,17 +9,17 @@ import org.trustsoft.slastic.control.components.ISLAsticControl;
  */
 public abstract class AbstractSLAsticModelUpdater extends AbstractSLAsticComponent implements ISLAsticModelUpdater {
 
-    private ISLAsticControl parentControlComponent;
+    private AbstractSLAsticControl parentControlComponent;
 
     public boolean execute() { return true; }
 
     public void terminate() { }
 
-    public final ISLAsticControl getParentControlComponent() {
+    public final AbstractSLAsticControl getParentControlComponent() {
         return parentControlComponent;
     }
 
-    public final void setParentControlComponent(ISLAsticControl parentControlComponent) {
+    public final void setParentControlComponent(AbstractSLAsticControl parentControlComponent) {
         this.parentControlComponent = parentControlComponent;
     }
 }

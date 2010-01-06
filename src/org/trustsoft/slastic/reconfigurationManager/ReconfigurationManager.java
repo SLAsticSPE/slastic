@@ -4,27 +4,12 @@
  */
 package org.trustsoft.slastic.reconfigurationManager;
 
-import ReconfigurationPlanModel.ComponentDeReplicationOP;
-import ReconfigurationPlanModel.ComponentMigrationOP;
+
 import ReconfigurationPlanModel.ComponentRedeploymentOP;
-import ReconfigurationPlanModel.ComponentReplicationOP;
-import ReconfigurationPlanModel.NodeAllocationOP;
-import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
-import ReconfigurationPlanModel.impl.ComponentDeReplicationOPImpl;
-import ReconfigurationPlanModel.impl.ComponentMigrationOPImpl;
-import ReconfigurationPlanModel.impl.ComponentReplicationOPImpl;
-import ReconfigurationPlanModel.impl.NodeAllocationOPImpl;
-import ReconfigurationPlanModel.impl.NodeDeAllocationOPImpl;
-import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
-import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import java.util.ArrayList;
-import java.util.List;
+
 import org.eclipse.emf.common.util.EList;
-import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
-import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
-import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class ReconfigurationManager implements ISLAsticReconfigurationManager {
+public class ReconfigurationManager extends AbstractSLAsticReconfigurationManager {
 
     private final Log log = LogFactory.getLog(ReconfigurationManager.class);
 

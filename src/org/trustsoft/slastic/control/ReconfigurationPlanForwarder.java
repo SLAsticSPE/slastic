@@ -8,38 +8,26 @@ import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
-import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
 
 /**
  * This Class tries to replace the simulator with forwarding the ReconfigurationPlan back to the ModelManager.
  * @author Lena Stoever
  *
  */
-public class ReconfigurationPlanForwarder extends Thread implements ISLAsticReconfigurationManager  {
+public class ReconfigurationPlanForwarder extends AbstractSLAsticReconfigurationManager  {
 		private static final Log log = LogFactory.getLog(ReconfigurationPlanForwarder.class);
-		private ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
+		private final ArrayBlockingQueue<SLAsticReconfigurationPlan> reconfigurationPlans;
 		private boolean terminated = false;
-		private static ReconfigurationPlanForwarder instance; 
 		//Maximum number of plans that ca be hold
 		private final static int maxPlans = 20;
 		
-		private ReconfigurationPlanForwarder(){
+		public ReconfigurationPlanForwarder(){
 			this.reconfigurationPlans = new ArrayBlockingQueue<SLAsticReconfigurationPlan>(maxPlans);
 		}
 		
-		/**
-		 * Implementation of the Singleton-Pattern.
-		 * @return
-		 */
-		public static ReconfigurationPlanForwarder getInstance(){
-			if(instance == null){
-				instance = new ReconfigurationPlanForwarder();
-			}
-			return instance;
-		}
-		
-		public void run(){
+		public void forwardPlans(){
 			while(this.reconfigurationPlans.size()!=0 && !this.terminated){
 				try {
 					
@@ -56,6 +44,7 @@ public class ReconfigurationPlanForwarder extends Thread implements ISLAsticReco
 				}
 			}
 		}
+                
 		@Override
 		public synchronized void doReconfiguration(SLAsticReconfigurationPlan plan){
 			try {
@@ -72,7 +61,7 @@ public class ReconfigurationPlanForwarder extends Thread implements ISLAsticReco
 
 		@Override
 		public void execute() {
-			this.run();
+			this.forwardPlans();
 			
 		}
 		

@@ -18,10 +18,10 @@ public class Analysis extends AbstractSLAsticAnalysis {
 
     @Override
     public void setSLAs(Model slas) {
-        this.getPerformanceEvaluator().setSLAs(slas);
+        // TODO: be careful!
+        ((SLAChecker)this.getPerformanceEvaluator()).setSLAs(slas);
     }
 
-    // TODO: move this to the abstract Analysis
     @Override
     public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
         log.info("SLAViolation recognized");
