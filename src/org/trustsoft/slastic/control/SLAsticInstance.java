@@ -205,12 +205,18 @@ public class SLAsticInstance {
 
         modelManagerComponent.setParentControlComponent(slasticCtrlComponent);
         modelUpdaterComponent.setParentControlComponent(slasticCtrlComponent);
+        modelUpdaterComponent.setModelManager(modelManagerComponent);
 
         analysisComponent.setParentControlComponent(slasticCtrlComponent);
         analysisComponent.setPerformanceEvaluator(performanceEvaluatorComponent);
         analysisComponent.setWorkloadForecaster(workloadForecasterComponent);
         analysisComponent.setPerformancePredictor(performancePredictorComponent);
         analysisComponent.setAdaptationPlanner(adaptationPlannerComponent);
+
+        if (performanceEvaluatorComponent != null) performanceEvaluatorComponent.setParentAnalysisComponent(analysisComponent);
+        if (workloadForecasterComponent != null) workloadForecasterComponent.setParentAnalysisComponent(analysisComponent);
+        if (performancePredictorComponent != null) performancePredictorComponent.setParentAnalysisComponent(analysisComponent);
+        if (adaptationPlannerComponent != null) adaptationPlannerComponent.setParentAnalysisComponent(analysisComponent);
 
         // TODO: This should also be configurable from the command-line!
         String logReaderClassnameProperty = prop.getProperty("tpmon.monitoringDataReader");

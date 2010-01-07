@@ -8,7 +8,9 @@ controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  
 modelManagerComponent=org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager
 modelManagerComponentInitString=managerName=managerVal
 
-modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
+#modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
+#modelUpdaterComponentInitString=updaterName=updaterVal
+modelUpdaterComponent=org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater
 modelUpdaterComponentInitString=updaterName=updaterVal
 
 #analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis

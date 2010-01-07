@@ -58,15 +58,14 @@ public class ReconfigurationManager extends AbstractSLAsticReconfigurationManage
         }
     }
 
-	@Override
-	public void execute() {
-		// TODO Auto-generated method stub
-		
-	}
+    public void init(String initString) throws IllegalArgumentException {
+        super.initVarsFromInitString(initString);
+        // we don't expect init properties so far.
+    }
 
-	@Override
-	public void terminate() {
-		// TODO Auto-generated method stub
-		
-	}
+    public boolean execute() {
+        return true;
+    }
+
+    public void terminate() {  }
 }

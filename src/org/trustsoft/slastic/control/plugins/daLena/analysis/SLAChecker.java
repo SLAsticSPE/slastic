@@ -41,8 +41,6 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
         // we don't expect init properties so far.
-        
-        this.quantileCalc = new QuantileCalculator((ModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
     }
 
     /**
@@ -146,6 +144,8 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
             log.error("determined invalid state");
             return false;
         }
+
+        this.quantileCalc = new QuantileCalculator((ModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
 
         //Initialize GUIs and set of service IDs
         guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];

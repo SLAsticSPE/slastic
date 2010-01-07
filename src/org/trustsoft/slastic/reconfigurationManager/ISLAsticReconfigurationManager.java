@@ -14,9 +14,4 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 public interface ISLAsticReconfigurationManager {
 
 	void doReconfiguration(SLAsticReconfigurationPlan plan) throws SLAsticReconfigurationException;
-
-	void terminate();
-
-	void execute();
-
 }
