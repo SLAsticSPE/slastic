@@ -9,14 +9,17 @@ import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
 import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
 import slal.Model;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  *
  * @author Andre van Hoorn
  */
 public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent implements ISLAsticAnalysis {
 
+    private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
     private AbstractSLAsticControl parentControlComponent;
-
     private AbstractPerformanceEvaluator performanceEvaluator;
     private AbstractWorkloadForecaster workloadForecaster;
     private AbstractPerformancePredictor performancePredictor;
@@ -28,12 +31,24 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
     }
 
     public boolean execute() {
+        boolean success = true;
+
         if (this.performanceEvaluator != null) {
-            this.performanceEvaluator.execute();
+            if (!this.performanceEvaluator.execute()) {
+                log.error("Failed to execute performanceEvaluator (" + this.performanceEvaluator + ")");
+                success = false;
+            }
         }
-        if (this.workloadForecaster != null) {
-            this.workloadForecaster.execute();
+
+        if (success && this.workloadForecaster != null) {
+            if (!this.workloadForecaster.execute()) {
+                log.error("Failed to execute workloadForecaster (" + this.workloadForecaster + ")");
+                success = false;
+            }
         }
+
+
+
         if (this.performancePredictor != null) {
             this.performancePredictor.execute();
         }
@@ -41,8 +56,6 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
             this.adaptationPlanner.execute();
         }
 
-        // TODO: consider return values of delegated execution calls
-        return true;
     }
 
     public void terminate() {
@@ -60,7 +73,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         }
     }
 
-   public final AbstractAdaptationPlanner getAdaptationPlanner() {
+    public final AbstractAdaptationPlanner getAdaptationPlanner() {
         return adaptationPlanner;
     }
 
@@ -88,7 +101,7 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         return getParentControlComponent().getReconfigurationManager();
     }
 
-   public final AbstractSLAsticControl getParentControlComponent() {
+    public final AbstractSLAsticControl getParentControlComponent() {
         return parentControlComponent;
     }
 

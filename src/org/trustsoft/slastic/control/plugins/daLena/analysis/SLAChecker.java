@@ -139,7 +139,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     }
 
     public boolean execute() {
-        if (this.stateIsValid()){
+        if (!this.stateIsValid()){
             log.error("determined invalid state");
             return false;
         }
@@ -174,6 +174,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     }
 
     public void setSLAs(Model slas) {
+        log.info("called setSLAs");
         this.slas = slas;
 
     }

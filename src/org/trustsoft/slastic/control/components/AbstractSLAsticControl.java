@@ -6,11 +6,16 @@ import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticMode
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
 import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  *
  * @author Andre van Hoorn
  */
 public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl, IKiekerRecordConsumer {
+
+    private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
 
     private AbstractSLAsticReconfigurationManager reconfigurationManager;
     private AbstractSLAsticModelManager modelManager;
@@ -32,20 +37,30 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
     }
 
     public boolean execute() {
-        // do not execute the reconfiguration manager
+        boolean success = true;
 
-       if (this.modelManager != null) {
-            this.modelManager.execute();
+        // do not execute the reconfiguration manager!
+
+       if (this.modelManager == null || !this.modelManager.execute()) {
+            log.error("Failed to execute modelManager ("+this.modelManager+")");
+            success = false;
         }
-        if (this.modelUpdater != null) {
-            this.modelUpdater.execute();
+        if (success && (this.modelUpdater == null || !this.modelUpdater.execute())) {
+            log.error("Failed to execute modelUpdater ("+this.modelUpdater+")");
+            success = false;
         }
-        if (this.analysis != null) {
-            this.analysis.execute();
+        if (success && (this.analysis == null || !this.analysis.execute())) {
+            log.error("Failed to execute analysis ("+this.analysis+")");
+            success = false;
         }
 
-        // TODO: consider return values of delegated execution calls
-        return true;
+        if (!success){ // terminate all components
+            if (this.modelManager != null) this.modelManager.terminate();
+            if (this.modelUpdater != null) this.modelUpdater.terminate();
+            if (this.analysis != null) this.analysis.terminate();
+        }
+
+       return success;
     }
 
     public final AbstractSLAsticAnalysis getAnalysis() {
