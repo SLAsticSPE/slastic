@@ -2,13 +2,14 @@ package org.trustsoft.slastic.control.components.modelUpdater;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
+import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSLAsticModelUpdater extends AbstractSLAsticComponent implements ISLAsticModelUpdater {
+public abstract class AbstractSLAsticModelUpdater extends AbstractSLAsticComponent implements ISLAsticModelUpdater, ISimpleSLAsticEventServiceClient {
 
     private AbstractSLAsticControl parentControlComponent;
     private AbstractSLAsticModelManager modelManager;

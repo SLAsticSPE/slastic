@@ -11,5 +11,5 @@ package org.trustsoft.slastic.control.components.events;
  */
 public interface ISimpleSLAsticEventService {
     public void sendEvent (ISLAsticEvent ev);
-    public void addListener (ISimpleSLAsticEventListener l);
+    public void addListener (ISimpleSLAsticEventServiceClient l);
 }

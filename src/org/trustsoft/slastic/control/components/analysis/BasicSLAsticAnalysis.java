@@ -17,8 +17,7 @@ public class BasicSLAsticAnalysis extends AbstractSLAsticAnalysis {
         // we don't expect init properties so far, so just return.
     }
 
-    // TODO: implement basic event handling concept from Tpan
-    public void handleInternalEvent(ISLAsticEvent evt) {
+    public void handleSLAsticEvent(ISLAsticEvent ev) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

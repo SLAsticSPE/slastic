@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.components.ISLAsticComponent;
 
 /**
@@ -9,15 +8,6 @@ import org.trustsoft.slastic.control.components.ISLAsticComponent;
  *
  */
 public interface ISLAsticAnalysis extends ISLAsticComponent {
-
-    // TODO: should be renamed
-    /**
-     * method for delegating ISlAsticAnalysisEvents to the belonging analysis
-     * objects
-     *
-     * @param evt
-     */
-    public void handleInternalEvent(ISLAsticEvent evt);
 
     // TODO: remove
     public void setSLAs(slal.Model slas);

@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.components;
 
+import java.util.ArrayList;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
@@ -8,6 +9,8 @@ import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurati
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;
 
 /**
  *
@@ -21,6 +24,8 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
     private AbstractSLAsticModelManager modelManager;
     private AbstractSLAsticModelUpdater modelUpdater;
     private AbstractSLAsticAnalysis analysis;
+
+    private ArrayList<ISimpleSLAsticEventServiceClient> listeners = new ArrayList<ISimpleSLAsticEventServiceClient>();
 
     public void terminate() {
         // do not terminate the reconfiguration manager
@@ -93,5 +98,16 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
 
     public final void setReconfigurationManager(AbstractSLAsticReconfigurationManager reconfigurationManager) {
         this.reconfigurationManager = reconfigurationManager;
+    }
+
+
+    public void sendEvent(ISLAsticEvent ev) {
+        for (ISimpleSLAsticEventServiceClient l : this.listeners){
+            l.handleSLAsticEvent(ev);
+        }
+    }
+
+    public void addListener(ISimpleSLAsticEventServiceClient l) {
+        this.listeners.add(l);
     }
 }
