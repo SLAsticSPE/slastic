@@ -139,6 +139,11 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     }
 
     public boolean execute() {
+        if (this.stateIsValid()){
+            log.error("determined invalid state");
+            return false;
+        }
+
         //Initialize GUIs and set of service IDs
         guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
         serviceIDs = new int[this.slas.getObligations().getSlo().size()];
@@ -157,13 +162,19 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         return true;
     }
 
-    public void setSLAs(Model slas) {
-        this.slas = slas;
+    private boolean stateIsValid (){
+        boolean isValidState = true;
+        
+        if  (this.slas == null) {
+            log.error("this.slas == null");
+            isValidState = false;
+        }
 
+        return isValidState;
     }
 
-    public void setAnalysis(ISLAsticAnalysis ana) {
-        this.ana = ana;
+    public void setSLAs(Model slas) {
+        this.slas = slas;
 
     }
 

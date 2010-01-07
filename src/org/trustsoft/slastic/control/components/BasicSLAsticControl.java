@@ -24,15 +24,14 @@ public class BasicSLAsticControl extends AbstractSLAsticControl {
     }
 
     public String[] getRecordTypeSubscriptionList() {
-        // TODO: delegate to ModelManager/Updater
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null; // receive records of all types
     }
 
     @Override
     public void consumeMonitoringRecord(
             AbstractKiekerMonitoringRecord monitoringRecord)
             throws RecordConsumerExecutionException {
-        this.getModelUpdater().update(monitoringRecord);
+        this.getModelUpdater().handleEvent(monitoringRecord);
 
     }
 }

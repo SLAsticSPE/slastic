@@ -19,7 +19,7 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
         // we don't expect init properties so far, so just return.
     }
 
-    public void update(AbstractKiekerMonitoringRecord record) {
+    public void handleEvent(AbstractKiekerMonitoringRecord record) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

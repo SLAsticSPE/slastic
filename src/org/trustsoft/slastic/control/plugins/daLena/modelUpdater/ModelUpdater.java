@@ -36,7 +36,7 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
     }
 
     @Override
-    public void update(
+    public void handleEvent(
             AbstractKiekerMonitoringRecord newMonitoringRecord) {
         count++;
         if (newMonitoringRecord instanceof SLOMonitoringRecord) {

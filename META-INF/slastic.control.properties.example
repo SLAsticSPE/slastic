@@ -7,7 +7,9 @@ modelManagerComponentInitString=managerName=managerVal
 modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
 modelUpdaterComponentInitString=updaterName=updaterVal
 
-analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+#analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+#analysisComponentInitString=analysisName=analysisVal
+analysisComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis
 analysisComponentInitString=analysisName=analysisVal
 
 performanceEvaluatorComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker

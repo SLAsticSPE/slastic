@@ -71,7 +71,6 @@ public class SLAsticInstance {
     public static void main(String[] args) {
         log.info("Hi, this is SLAsticControl");
 
-        int retVal = 0;
         if (!parseArgs(args)) {
             System.exit(1);
         }
@@ -217,7 +216,7 @@ public class SLAsticInstance {
         tpanInstance.addRecordConsumer(slasticCtrlComponent);
 
         // TODO: to be removed
-        tpanInstance = legacyInstance();
+        //tpanInstance = legacyInstance();
 
         return tpanInstance;
     }
