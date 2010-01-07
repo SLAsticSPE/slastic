@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.control.plugins.daLena.analysis;
 
-import org.trustsoft.slastic.control.components.analysis.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
@@ -18,17 +17,19 @@ import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImpl;
+import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
+import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 
 /**
  * The only Implementation of an Adaptation Analyzer that currently exists. It contains example ReconfigurationOperations.
  * @author Lena Stoever
  *
  */
-public class AdaptationPlanner extends AbstractAdaptationPlanner {
+public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlanner {
 
     //Reconfiguration plan that is produced by this class
     private SLAsticReconfigurationPlan plan;
-    private static final Log log = LogFactory.getLog(AdaptationPlanner.class);
+    private static final Log log = LogFactory.getLog(AdaptationPlannerBookstoreSamplePlan.class);
 
    public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);

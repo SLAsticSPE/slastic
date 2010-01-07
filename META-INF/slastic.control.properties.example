@@ -27,6 +27,11 @@ workloadForecasterComponentInitString=
 performancePredictorComponent=
 performancePredictorComponentInitString=
 
+# ReconfigurationPlanForwarder example
+
+#
+# JPetStore example:
+#
 adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
 adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 

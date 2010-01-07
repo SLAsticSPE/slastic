@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
-import org.trustsoft.slastic.control.plugins.daLena.analysis.AdaptationPlanner;
+import org.trustsoft.slastic.control.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
 import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
@@ -326,7 +326,7 @@ public class SLAsticInstance {
                 reconfigurationManager.execute();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
-                adaptationPlanner = new AdaptationPlanner();
+                adaptationPlanner = new AdaptationPlannerBookstoreSamplePlan();
                 //Reconfiguration Manager that sends the Plan back to the Model Manager
                 reconfigurationManager = new ReconfigurationPlanForwarder();
             }
