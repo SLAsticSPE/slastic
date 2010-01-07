@@ -201,8 +201,15 @@ public class SLAsticInstance {
         analysisComponent.setPerformancePredictor(performancePredictorComponent);
         analysisComponent.setAdaptationPlanner(adaptationPlannerComponent);
 
-        IKiekerMonitoringLogReader logReader = null;
-        TODO: read log reader configuration from configuration file!!
+        // TODO: This should also be configurable from the command-line!
+        String logReaderClassnameProperty = prop.getProperty("tpmon.monitoringDataReader");
+        String logReaderInitStringProperty = prop.getProperty("tpmon.monitoringDataReaderInitString", ""); // empty String is default
+        if (logReaderClassnameProperty == null || logReaderClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'tpmon.monitoringDataReader'");
+        }
+        IKiekerMonitoringLogReader logReader =
+                (IKiekerMonitoringLogReader) loadAndInitComponentInstanceFromClassname(logReaderClassnameProperty, logReaderInitStringProperty);
+
 
         tpanInstance = new TpanInstance();
         tpanInstance.setLogReader(logReader);
