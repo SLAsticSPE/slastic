@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.control.components.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 
 /**
  * This interface represents the Performance Predictor component of the

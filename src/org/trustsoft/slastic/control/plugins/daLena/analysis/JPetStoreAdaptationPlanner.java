@@ -12,7 +12,7 @@ import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
-import org.trustsoft.slastic.control.components.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import reconfMM.ReconfigurationModel;
 
 import org.apache.commons.logging.Log;

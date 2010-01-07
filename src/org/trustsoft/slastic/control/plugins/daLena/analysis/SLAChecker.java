@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
-import org.trustsoft.slastic.control.components.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;

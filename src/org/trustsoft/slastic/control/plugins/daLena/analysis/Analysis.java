@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
-import org.trustsoft.slastic.control.components.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import slal.Model;
 
 /**

@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.components;
+package org.trustsoft.slastic.control.components.events;
 
 import org.trustsoft.slastic.control.components.analysis.*;
 
