@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
 import slal.Model;
 
 /**
@@ -28,7 +28,7 @@ public class Analysis extends AbstractSLAsticAnalysis {
     }
 
     @Override
-    public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
+    public void handleInternalEvent(ISLAsticEvent evt) {
         log.info("SLAViolation recognized");
         //At the moment there is only one kind of ISlasticAnalysisEvent, the SLAViolationEvent which belongs to the Adaptation Analyzer
         if (evt instanceof SLAViolationEvent) {

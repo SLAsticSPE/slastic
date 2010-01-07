@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,7 +18,7 @@ public class BasicSLAsticAnalysis extends AbstractSLAsticAnalysis {
     }
 
     // TODO: implement basic event handling concept from Tpan
-    public void handleInternalEvent(ISLAsticAnalysisEvent evt) {
+    public void handleInternalEvent(ISLAsticEvent evt) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

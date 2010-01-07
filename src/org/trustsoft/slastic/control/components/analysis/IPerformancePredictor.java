@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.control.components.analysis;
 
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
+
 /**
  * This interface represents the Performance Predictor component of the
  * SLAstic.CONTROL framework. It is responsible for predicting the performance
@@ -13,7 +15,7 @@ public interface IPerformancePredictor {
 
 	public void terminate();
 
-	public void handle(ISLAsticAnalysisEvent event);
+	public void handle(ISLAsticEvent event);
 
 	public void setAnalysis(ISLAsticAnalysis ana);
 

@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
 import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
 
 /**
@@ -25,5 +26,5 @@ public interface IAdaptationPlanner {
 	 * 
 	 * @param event
 	 */
-	public void handle(ISLAsticAnalysisEvent event);
+	public void handle(ISLAsticEvent event);
 }

@@ -18,7 +18,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImpl;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
 
 /**
  * The only Implementation of an Adaptation Analyzer that currently exists. It contains example ReconfigurationOperations.
@@ -98,7 +98,7 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
     }
 
     @Override
-    public void handle(ISLAsticAnalysisEvent event) {
+    public void handle(ISLAsticEvent event) {
         //this.execute();
     }
 

@@ -12,7 +12,7 @@ import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
+import org.trustsoft.slastic.control.components.ISLAsticEvent;
 import reconfMM.ReconfigurationModel;
 
 import org.apache.commons.logging.Log;
@@ -36,7 +36,7 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
     }
 
     @Override
-    public void handle(ISLAsticAnalysisEvent event) {
+    public void handle(ISLAsticEvent event) {
         //this component can only handle Events of the type SLAViolationEvent
         if (event instanceof SLAViolationEvent) {
             SLAViolationEvent evt = (SLAViolationEvent) event;
