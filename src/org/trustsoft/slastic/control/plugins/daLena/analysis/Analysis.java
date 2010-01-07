@@ -16,10 +16,15 @@ public class Analysis extends AbstractSLAsticAnalysis {
 
     private static final Log log = LogFactory.getLog(Analysis.class);
 
+   public void init(String initString) throws IllegalArgumentException {
+        super.initVarsFromInitString(initString);
+        // we don't expect init properties so far, so just return.
+    }
+
     @Override
     public void setSLAs(Model slas) {
         // TODO: be careful!
-        ((SLAChecker)this.getPerformanceEvaluator()).setSLAs(slas);
+        ((SLAChecker) this.getPerformanceEvaluator()).setSLAs(slas);
     }
 
     @Override

@@ -14,35 +14,16 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private static final Log log = LogFactory.getLog(AbstractSLAsticComponent.class);
     private final HashMap<String, String> map = new HashMap<String, String>();
 
-    /**
-     * Parses the initialization string @a initString for this component.
-     * The initilization string consists of key/value pairs.
-     * After this method is executed, the parameter values can be retrieved
-     * using the method getInitProperty(..).
-     */
-    public final boolean init(String initString) {
-        if (initString == null || initString.length() == 0) {
-            return true; // Empty string is allowed
-        }
-
-        boolean retVal = true;
-        try {
-            if (!this.initVarsFromInitString(initString)) {
-                log.error("init failed");
-                return false;
-            }
-        } catch (Exception exc) {
-            log.fatal("Error initiliazing component", exc);
-            retVal = false;
-        }
-
-        return retVal;
-    }
-
-    /** Returns the value for the initialization property @a propName or the
+   /** Returns the value for the initialization property @a propName or the
      *  the passed default value @a default if no value for this property
      *  exists. */
-    public String getInitProperty(String propName, String defaultVal) {
+    protected final String getInitProperty(String propName, String defaultVal) {
+        if (!this.initStringProcessed){
+            log.error("InitString not yet processed. "+
+                    " Call method initVarsFromInitString(..) first.");
+            return null;
+        }
+
         String retVal = this.map.get(propName);
         if (retVal == null) {
             retVal = defaultVal;
@@ -53,25 +34,40 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 
     /** Returns the value for the initialization property @a propName or null
      *  if no value for this property exists. */
-    public String getInitProperty(String propName) {
+    protected final String getInitProperty(String propName) {
         return this.getInitProperty(propName, null);
     }
+    private boolean initStringProcessed = false;
 
-    private boolean initVarsFromInitString(String initString) {
+    /**
+     * Parses the initialization string @a initString for this component.
+     * The initilization string consists of key/value pairs.
+     * After this method is executed, the parameter values can be retrieved
+     * using the method getInitProperty(..).
+     */
+    protected final void initVarsFromInitString(String initString) throws IllegalArgumentException {
+        if (initString == null || initString.length() == 0) {
+            this.initStringProcessed = true;
+            return; // Empty string is allowed
+        }
+
+        try{
         StringTokenizer keyValListTokens = new StringTokenizer(initString, "|");
         while (keyValListTokens.hasMoreTokens()) {
             String curKeyValToken = keyValListTokens.nextToken().trim();
             StringTokenizer keyValTokens = new StringTokenizer(curKeyValToken, "=");
             if (keyValTokens.countTokens() != 2) {
-                log.error("Expected key=value pair, found " + curKeyValToken);
-                return false;
+                throw new IllegalArgumentException("Expected key=value pair, found " + curKeyValToken);
             }
             String key = keyValTokens.nextToken().trim();
             String val = keyValTokens.nextToken().trim();
             log.info("Found key/value pair: " + key + "=" + val);
             map.put(key, val);
         }
+        } catch (Exception exc) {
+            throw new IllegalArgumentException("Error parsing init string '"+initString+"'", exc);
+        }
 
-        return true;
+        this.initStringProcessed = true;
     }
 }

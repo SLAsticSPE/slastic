@@ -10,7 +10,7 @@ package org.trustsoft.slastic.control.components;
  */
 public interface ISLAsticComponent {
 
-    public boolean init(String initString);
+    public void init(String initString) throws IllegalArgumentException;
 
     public boolean execute();
 

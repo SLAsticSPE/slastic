@@ -15,6 +15,9 @@ import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlann
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 import reconfMM.ReconfigurationModel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * This class is an implementation of the Adaptation Analyzer component of the
  * SLAstic.CONTROL framework. It belongs to the JPetStore example. So it created
@@ -24,6 +27,13 @@ import reconfMM.ReconfigurationModel;
  * 
  */
 public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
+
+    private static final Log log = LogFactory.getLog(AbstractAdaptationPlanner.class);
+
+    public void init(String initString) throws IllegalArgumentException {
+        super.initVarsFromInitString(initString);
+        // we don't expect init properties so far, so just return.
+    }
 
     @Override
     public void handle(ISLAsticAnalysisEvent event) {

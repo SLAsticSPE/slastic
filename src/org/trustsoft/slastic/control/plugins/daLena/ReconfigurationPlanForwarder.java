@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control;
+package org.trustsoft.slastic.control.plugins.daLena;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

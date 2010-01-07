@@ -30,17 +30,21 @@ public class ControlComponent extends BasicSLAsticControl {
         }
 
     }
-    
+
+    @Override
+    public void init(String initString) throws IllegalArgumentException {
+        super.init(initString); // throws IllegalArgumentException
+
+        this.workflow_fn = this.getInitProperty("initWorkflow_fn");
+        if (this.workflow_fn == null || this.workflow_fn.equals("")){
+            throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
+        }
+    }
+
     @Override
     public boolean execute() {
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
-
-        this.workflow_fn = this.getInitProperty("initWorkflow_fn");
-        if (this.workflow_fn == null){
-            log.error("No property 'initWorkflow_fn' defined.");
-            return false;
-        }
 
         //workflow runner of the oAW-framework
         WorkflowRunner runner = new WorkflowRunner();
