@@ -251,17 +251,23 @@ public class SLAsticInstance {
         }
 
         /* Initialize event handling */
+        slasticCtrlComponent.addListener(modelManagerComponent);
+        slasticCtrlComponent.addListener(modelUpdaterComponent);
         if (performanceEvaluatorComponent != null) {
             slasticCtrlComponent.addListener(performanceEvaluatorComponent);
+            performanceEvaluatorComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
         }
         if (workloadForecasterComponent != null) {
             slasticCtrlComponent.addListener(workloadForecasterComponent);
+            workloadForecasterComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
         }
         if (performancePredictorComponent != null) {
             slasticCtrlComponent.addListener(performancePredictorComponent);
+            performancePredictorComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
         }
         if (adaptationPlannerComponent != null) {
             slasticCtrlComponent.addListener(adaptationPlannerComponent);
+            adaptationPlannerComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
         }
 
         // TODO: This should also be configurable from the command-line!
