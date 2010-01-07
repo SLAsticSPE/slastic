@@ -39,23 +39,33 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
                 success = false;
             }
         }
-
         if (success && this.workloadForecaster != null) {
             if (!this.workloadForecaster.execute()) {
                 log.error("Failed to execute workloadForecaster (" + this.workloadForecaster + ")");
                 success = false;
             }
         }
-
-
-
-        if (this.performancePredictor != null) {
-            this.performancePredictor.execute();
+       if (success && this.performancePredictor != null) {
+            if (!this.performancePredictor.execute()) {
+                log.error("Failed to execute performancePredictor (" + this.performancePredictor + ")");
+                success = false;
+            }
         }
-        if (this.adaptationPlanner != null) {
-            this.adaptationPlanner.execute();
+       if (success && this.adaptationPlanner != null) {
+            if (!this.adaptationPlanner.execute()) {
+                log.error("Failed to execute adaptationPlanner (" + this.adaptationPlanner + ")");
+                success = false;
+            }
         }
 
+        if (!success){ // terminate all components
+            if (this.performanceEvaluator != null) this.performanceEvaluator.terminate();
+            if (this.workloadForecaster != null) this.workloadForecaster.terminate();
+            if (this.performancePredictor != null) this.performancePredictor.terminate();
+            if (this.adaptationPlanner != null) this.adaptationPlanner.terminate();
+        }
+
+        return success;
     }
 
     public void terminate() {
