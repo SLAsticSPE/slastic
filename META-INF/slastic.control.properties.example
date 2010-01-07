@@ -35,12 +35,12 @@ reconfigurationManagerComponentInitString=
 
 # Configuration of reader to use:
 # Filesystem: 
-tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
-tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
+#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
+#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
 #
 # Filesystem (real-time replay mode):
-#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
-#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
+tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
+tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
 #
 # Java Messaging (JMS):
 #
