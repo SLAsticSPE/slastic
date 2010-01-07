@@ -60,7 +60,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
     private final Log log = LogFactory.getLog(ModelManager.class);
     private int capacity = 0;
-    private static ModelManager instance;
+//    private static ModelManager instance;
     private ReconfigurationModel model;
     //map of types of components with their belonging instances within the model
     private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
@@ -75,11 +75,10 @@ public class ModelManager extends AbstractSLAsticModelManager {
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
     private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
 
-    private ModelManager() {
-        log.info("ModelManager created");
+    public ModelManager() {
     }
 
-   public void init(String initString) throws IllegalArgumentException {
+    public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
         // we don't expect init properties so far, so just return.
     }
@@ -185,20 +184,19 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
     }
 
-    /**
-     * Singleton implementation. Don't forget to call the initModel()-method
-     * before using the returned Instance
-     *
-     * @return returns the only instance of the ModelManager
-     */
-    public synchronized static ModelManager getInstance() {
-        if (instance == null) {
-            instance = new ModelManager();
-        }
-        return instance;
-
-    }
-
+//    /**
+//     * Singleton implementation. Don't forget to call the initModel()-method
+//     * before using the returned Instance
+//     *
+//     * @return returns the only instance of the ModelManager
+//     */
+//    public synchronized static ModelManager getInstance() {
+//        if (instance == null) {
+//            instance = new ModelManager();
+//        }
+//        return instance;
+//
+//    }
     @Override
     public void update(AbstractKiekerMonitoringRecord newRecord) {
         SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;

@@ -1,7 +1,11 @@
-controlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
+#controlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
+#controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
+controlComponent=org.trustsoft.slastic.control.plugins.daLena.ControlComponent
 controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
 
-modelManagerComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelManager
+#modelManagerComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelManager
+#modelManagerComponentInitString=managerName=managerVal
+modelManagerComponent=org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager
 modelManagerComponentInitString=managerName=managerVal
 
 modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
@@ -23,6 +27,9 @@ performancePredictorComponentInitString=
 
 adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
 adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
+
+reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder
+reconfigurationManagerComponentInitString=
 
 # Configuration of reader to use:
 # Filesystem: 

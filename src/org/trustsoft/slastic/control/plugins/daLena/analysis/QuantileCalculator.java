@@ -17,14 +17,15 @@ import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
 public class QuantileCalculator {
 
     private final Log log = LogFactory.getLog(QuantileCalculator.class);
-    ModelManager mng = ModelManager.getInstance();
+    private final ModelManager mng;
     
 
     /**
      * Simple constructor of the QuantileCalculator.
      */
-    public QuantileCalculator() {
+    public QuantileCalculator(final ModelManager mng) {
         log.info("QuantileCalculatorThread created!");
+        this.mng = mng;
     }
 
     /**
@@ -39,7 +40,7 @@ public class QuantileCalculator {
         //System.out.println("Quantile Request for ServiceID: " + serviceID);
         responseTime = new long[quantiles.length];
         SLOMonitoringRecord[] rtSet;
-        rtSet= new SLOMonitoringRecord[ModelManager.getInstance().getResponseTimes(serviceID).size()];
+        rtSet= new SLOMonitoringRecord[this.mng.getResponseTimes(serviceID).size()];
                 rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);
        
         if (rtSet == null) {

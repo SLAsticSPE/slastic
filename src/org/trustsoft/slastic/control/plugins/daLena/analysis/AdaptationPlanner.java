@@ -48,8 +48,9 @@ public class AdaptationPlanner extends AbstractAdaptationPlanner {
         SLAsticReconfigurationPlan testPlan;
         ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
         testPlan = fac.createSLAsticReconfigurationPlan();
-        AllocationContext bookstore = ModelManager.getInstance().getModel().getAllocation().getAllocationContexts_Allocation().get(0);
-        ResourceContainer server1 = (ResourceContainer) ModelManager.getInstance().getAllocatedServers().toArray()[0];
+        ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
+        AllocationContext bookstore = modelManager.getModel().getAllocation().getAllocationContexts_Allocation().get(0);
+        ResourceContainer server1 = (ResourceContainer) modelManager.getAllocatedServers().toArray()[0];
 
         //Migration of Bookstore-Allocation-Assembly to ResourceContainer Server1
         ComponentMigrationOP componentMigration = fac.createComponentMigrationOP();
@@ -68,7 +69,7 @@ public class AdaptationPlanner extends AbstractAdaptationPlanner {
         ResourceenvironmentFactory resourceFac = ResourceenvironmentFactoryImpl.init();
         ResourceContainer newServer = resourceFac.createResourceContainer();
         newServer.setEntityName("newServer");
-        ModelManager.getInstance().addNotAllocatedServer(newServer);
+        modelManager.addNotAllocatedServer(newServer);
         nodeAllocation.setNode(newServer);
         //testPlan.getOperations().add(nodeAllocation);
 

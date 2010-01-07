@@ -30,9 +30,8 @@ public class ReconfigurationPlanForwarder extends AbstractSLAsticReconfiguration
 		public void forwardPlans(){
 			while(this.reconfigurationPlans.size()!=0 && !this.terminated){
 				try {
-					
 					//forward reconfiguration plan to the Model Manager. "true" for storing the result
-					ModelManager.getInstance().doReconfiguration(this.reconfigurationPlans.take(),true);
+					((ModelManager)this.getControlComponent().getModelManager()).doReconfiguration(this.reconfigurationPlans.take(),true);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (AllocationContextNotInModelException e) {

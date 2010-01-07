@@ -186,8 +186,19 @@ public class SLAsticInstance {
             adaptationPlannerComponent = (AbstractAdaptationPlanner) loadAndInitInstanceFromClassname(adaptationPlannerComponentClassnameProperty, adaptationPlannerComponentInitStringProperty);
         }
 
+        String reconfigurationManagerComponentClassnameProperty = prop.getProperty("reconfigurationManagerComponent");
+        String reconfigurationManagerComponentInitStringProperty = prop.getProperty("reconfigurationManagerComponentInitString", ""); // empty String is default
+        if (reconfigurationManagerComponentClassnameProperty == null || reconfigurationManagerComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for 'reconfigurationManagerComponent'");
+        }
+        AbstractSLAsticReconfigurationManager reconfigurationManagerComponent = (AbstractSLAsticReconfigurationManager) loadAndInitInstanceFromClassname(reconfigurationManagerComponentClassnameProperty, reconfigurationManagerComponentInitStringProperty);
+
+
+
         /* "wire" the components */
-        slasticCtrlComponent.setReconfigurationManager(null); // TODO: fix!
+        reconfigurationManagerComponent.setControlComponent(slasticCtrlComponent);
+
+        slasticCtrlComponent.setReconfigurationManager(reconfigurationManagerComponent); // TODO: fix!
         slasticCtrlComponent.setAnalysis(analysisComponent);
         slasticCtrlComponent.setModelManager(modelManagerComponent);
         slasticCtrlComponent.setModelUpdater(modelUpdaterComponent);
@@ -209,7 +220,6 @@ public class SLAsticInstance {
         }
         IKiekerMonitoringLogReader logReader =
                 (IKiekerMonitoringLogReader) loadAndInitInstanceFromClassname(logReaderClassnameProperty, logReaderInitStringProperty);
-
 
         tpanInstance = new TpanInstance();
         tpanInstance.setLogReader(logReader);
@@ -315,6 +325,8 @@ public class SLAsticInstance {
                 reconfigurationManager = new ReconfigurationPlanForwarder();
             }
 
+            reconfigurationManager.setControlComponent(slasticCtrlComponent);
+
             //set different Analyzer-Objects, set null for not implemented ones.
 //            analysisComponent.setAdaptationPlanner(adaptationPlanner);
 //            analysisComponent.setPerformancePredictor(performancePredictor);
@@ -330,7 +342,7 @@ public class SLAsticInstance {
 
             //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
             modelUpdater = new ModelUpdater();
-            modelManager = ModelManager.getInstance();
+            modelManager = new ModelManager();
 
             //Initalizing Controller object
             slasticCtrlComponent.setAnalysis(analysisComponent);

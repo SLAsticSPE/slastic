@@ -14,6 +14,7 @@ import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysisEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
+import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import slal.Model;
 import slal.SLO;
 
@@ -30,7 +31,7 @@ import slal.SLO;
 public class SLAChecker extends AbstractPerformanceEvaluator {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
-    private final QuantileCalculator quantileCalc = new QuantileCalculator();
+    private QuantileCalculator quantileCalc;
     private slal.Model slas = null;
     private SLACheckerGUI[] guis;
     private int[] serviceIDs;
@@ -39,7 +40,9 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
 
     public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
+        // we don't expect init properties so far.
+        
+        this.quantileCalc = new QuantileCalculator((ModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
     }
 
     /**
@@ -130,7 +133,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
          */
         // averageCalcThread.terminate();
         this.quantileCalc.terminate();
-        for (int i = 0; i < guis.length; i++) {
+        for (int i = 0; guis != null && i < guis.length; i++) {
             guis[i].terminate();
         }
         if (ex != null) {

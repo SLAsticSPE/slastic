@@ -38,9 +38,10 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
     @Override
     public void handleEvent(
             AbstractKiekerMonitoringRecord newMonitoringRecord) {
+
         count++;
         if (newMonitoringRecord instanceof SLOMonitoringRecord) {
-            ModelManager.getInstance().update(newMonitoringRecord);
+            ((ModelManager)this.getModelManager()).update(newMonitoringRecord);
         }
         //Logging the number of Records that have been processed
         if (count % 500 == 0) {
