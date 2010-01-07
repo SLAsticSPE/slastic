@@ -193,7 +193,31 @@ public class SLAsticInstance {
         }
         AbstractSLAsticReconfigurationManager reconfigurationManagerComponent = (AbstractSLAsticReconfigurationManager) loadAndInitInstanceFromClassname(reconfigurationManagerComponentClassnameProperty, reconfigurationManagerComponentInitStringProperty);
 
-
+        /* Assert that mandatory components are available */
+        boolean success = true;
+        if (reconfigurationManagerComponent == null){
+            log.error("reconfigurationManagerComponent is null");
+            success = false;
+        }
+        if (slasticCtrlComponent == null){
+            log.error("slasticCtrlComponent is null");
+            success = false;
+        }
+        if (modelManagerComponent == null){
+            log.error("modelManagerComponent is null");
+            success = false;
+        }
+        if (modelUpdaterComponent == null){
+            log.error("modelUpdaterComponent is null");
+            success = false;
+        }
+        if (analysisComponent == null){
+            log.error("analysisComponent is null");
+            success = false;
+        }
+        if (!success){
+            return null;
+        }
 
         /* "wire" the components */
         reconfigurationManagerComponent.setControlComponent(slasticCtrlComponent);

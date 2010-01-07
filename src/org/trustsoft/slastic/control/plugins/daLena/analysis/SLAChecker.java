@@ -106,9 +106,8 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
                                 for (int j = 0; j < responseTimes.length; j++) {
                                     int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
                                     if (responseTimes[j] > responseTime2) {
-                                        //if response time quantile if too big, send an event to the Analysis component.
-                                        SLAViolationEvent evt = new SLAViolationEvent(
-                                                ID);
+                                        //if response time quantile violates SLA, send an event to the Analysis component.
+                                        SLAViolationEvent evt = new SLAViolationEvent(ID);
                                         ana.handleInternalEvent(evt);
                                         // log.info("SLAViolation sent");
                                     }
