@@ -27,16 +27,20 @@ workloadForecasterComponentInitString=
 performancePredictorComponent=
 performancePredictorComponentInitString=
 
-# ReconfigurationPlanForwarder example
-
+# Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder
+reconfigurationManagerComponentInitString=
+adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analys.AdaptationPlannerBookstoreSamplePlan
+adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 #
 # JPetStore example:
 #
-adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
-adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
+#reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget
+#reconfigurationManagerComponentInitString=
+#adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
+#adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 
-reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder
-reconfigurationManagerComponentInitString=
+
 
 # Configuration of reader to use:
 # Filesystem: 

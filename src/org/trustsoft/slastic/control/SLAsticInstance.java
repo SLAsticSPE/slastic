@@ -45,7 +45,7 @@ import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
 import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
-import org.trustsoft.slastic.reconfigurationManager.ReconfigurationManager;
+import org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget;
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.InternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.QoSObjective;
@@ -322,7 +322,7 @@ public class SLAsticInstance {
                 //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
                 adaptationPlanner = new JPetStoreAdaptationPlanner();
                 //Reconfiguration Manager that executes plan via network
-                reconfigurationManager = new ReconfigurationManager();
+                reconfigurationManager = new ReconfigurationManagerWget();
                 reconfigurationManager.execute();
             } else {
                 //Adaptation Analyzer that produces different Test-Plans
@@ -434,7 +434,7 @@ public class SLAsticInstance {
         //String wfFile = "../../SLALproject/src/SLALproject.oaw";
 
 //            ISLAsticReconfigurationManager reconfigurationManager =
-//                    new ReconfigurationManager();
+//                    new ReconfigurationManagerWget();
 //        final int NUM_RECONFIGURATIONS = 5;
 //        for (int i = 1; i <= NUM_RECONFIGURATIONS; i++) {
 //            try {

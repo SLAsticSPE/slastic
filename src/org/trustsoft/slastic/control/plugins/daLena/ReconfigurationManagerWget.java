@@ -2,9 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.reconfigurationManager;
+package org.trustsoft.slastic.control.plugins.daLena;
 
 
+import org.trustsoft.slastic.reconfigurationManager.*;
 import ReconfigurationPlanModel.ComponentRedeploymentOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import java.util.ArrayList;
@@ -18,9 +19,9 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class ReconfigurationManager extends AbstractSLAsticReconfigurationManager {
+public class ReconfigurationManagerWget extends AbstractSLAsticReconfigurationManager {
 
-    private final Log log = LogFactory.getLog(ReconfigurationManager.class);
+    private final Log log = LogFactory.getLog(ReconfigurationManagerWget.class);
 
     public synchronized void doReconfiguration(
             ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
