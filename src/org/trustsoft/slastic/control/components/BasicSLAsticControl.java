@@ -32,7 +32,7 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
     public void consumeMonitoringRecord(
             AbstractKiekerMonitoringRecord monitoringRecord)
             throws RecordConsumerExecutionException {
-        this.getModelUpdater().handleEvent(monitoringRecord);
+        this.getModelUpdater().consumeMonitoringRecord(monitoringRecord);
 
     }
 }

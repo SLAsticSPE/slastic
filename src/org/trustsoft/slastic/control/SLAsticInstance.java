@@ -195,27 +195,27 @@ public class SLAsticInstance {
 
         /* Assert that mandatory components are available */
         boolean success = true;
-        if (reconfigurationManagerComponent == null){
+        if (reconfigurationManagerComponent == null) {
             log.error("reconfigurationManagerComponent is null");
             success = false;
         }
-        if (slasticCtrlComponent == null){
+        if (slasticCtrlComponent == null) {
             log.error("slasticCtrlComponent is null");
             success = false;
         }
-        if (modelManagerComponent == null){
+        if (modelManagerComponent == null) {
             log.error("modelManagerComponent is null");
             success = false;
         }
-        if (modelUpdaterComponent == null){
+        if (modelUpdaterComponent == null) {
             log.error("modelUpdaterComponent is null");
             success = false;
         }
-        if (analysisComponent == null){
+        if (analysisComponent == null) {
             log.error("analysisComponent is null");
             success = false;
         }
-        if (!success){
+        if (!success) {
             return null;
         }
 
@@ -237,10 +237,32 @@ public class SLAsticInstance {
         analysisComponent.setPerformancePredictor(performancePredictorComponent);
         analysisComponent.setAdaptationPlanner(adaptationPlannerComponent);
 
-        if (performanceEvaluatorComponent != null) performanceEvaluatorComponent.setParentAnalysisComponent(analysisComponent);
-        if (workloadForecasterComponent != null) workloadForecasterComponent.setParentAnalysisComponent(analysisComponent);
-        if (performancePredictorComponent != null) performancePredictorComponent.setParentAnalysisComponent(analysisComponent);
-        if (adaptationPlannerComponent != null) adaptationPlannerComponent.setParentAnalysisComponent(analysisComponent);
+        if (performanceEvaluatorComponent != null) {
+            performanceEvaluatorComponent.setParentAnalysisComponent(analysisComponent);
+        }
+        if (workloadForecasterComponent != null) {
+            workloadForecasterComponent.setParentAnalysisComponent(analysisComponent);
+        }
+        if (performancePredictorComponent != null) {
+            performancePredictorComponent.setParentAnalysisComponent(analysisComponent);
+        }
+        if (adaptationPlannerComponent != null) {
+            adaptationPlannerComponent.setParentAnalysisComponent(analysisComponent);
+        }
+
+        /* Initialize event handling */
+        if (performanceEvaluatorComponent != null) {
+            slasticCtrlComponent.addListener(performanceEvaluatorComponent);
+        }
+        if (workloadForecasterComponent != null) {
+            slasticCtrlComponent.addListener(workloadForecasterComponent);
+        }
+        if (performancePredictorComponent != null) {
+            slasticCtrlComponent.addListener(performancePredictorComponent);
+        }
+        if (adaptationPlannerComponent != null) {
+            slasticCtrlComponent.addListener(adaptationPlannerComponent);
+        }
 
         // TODO: This should also be configurable from the command-line!
         String logReaderClassnameProperty = prop.getProperty("tpmon.monitoringDataReader");

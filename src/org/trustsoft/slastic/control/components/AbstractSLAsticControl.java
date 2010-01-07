@@ -10,13 +10,14 @@ import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurati
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventService;
 import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl, IKiekerRecordConsumer {
+public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl, IKiekerRecordConsumer, ISimpleSLAsticEventService {
 
     private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
 

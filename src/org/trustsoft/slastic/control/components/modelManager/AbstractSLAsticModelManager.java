@@ -2,6 +2,7 @@ package org.trustsoft.slastic.control.components.modelManager;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
+import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventService;
 import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;
 
 /**
@@ -11,6 +12,7 @@ import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServic
 public abstract class AbstractSLAsticModelManager extends AbstractSLAsticComponent implements ISLAsticModelManager, ISimpleSLAsticEventServiceClient {
 
     private AbstractSLAsticControl parentControlComponent;
+    private ISimpleSLAsticEventService simpleSLAsticEventService;
 
     public boolean execute() {
         return true;
@@ -25,5 +27,13 @@ public abstract class AbstractSLAsticModelManager extends AbstractSLAsticCompone
 
     public final void setParentControlComponent(AbstractSLAsticControl parentControlComponent) {
         this.parentControlComponent = parentControlComponent;
+    }
+
+    public final ISimpleSLAsticEventService getSimpleSLAsticEventService() {
+        return simpleSLAsticEventService;
+    }
+
+    public final void setSimpleSLAsticEventService(ISimpleSLAsticEventService simpleSLAsticEventService) {
+        this.simpleSLAsticEventService = simpleSLAsticEventService;
     }
 }

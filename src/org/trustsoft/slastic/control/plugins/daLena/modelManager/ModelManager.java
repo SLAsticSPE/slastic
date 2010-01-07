@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
@@ -526,4 +527,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
         this.capacity = capacity;
 
     }
+
+    public void handleSLAsticEvent(ISLAsticEvent ev) { }
 }

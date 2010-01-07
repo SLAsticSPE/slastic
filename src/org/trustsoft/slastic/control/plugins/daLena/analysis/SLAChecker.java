@@ -108,7 +108,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
                                     if (responseTimes[j] > responseTime2) {
                                         //if response time quantile violates SLA, send an event to the Analysis component.
                                         SLAViolationEvent evt = new SLAViolationEvent(ID);
-                                        ana.handleInternalEvent(evt);
+                                        getSimpleSLAsticEventService().sendEvent(evt);
                                         // log.info("SLAViolation sent");
                                     }
 
@@ -181,7 +181,5 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
 
     }
 
-    public void handle(ISLAsticEvent event) {
-        // not interested in internal events
-    }
+    public void handleSLAsticEvent(ISLAsticEvent ev) { }
 }

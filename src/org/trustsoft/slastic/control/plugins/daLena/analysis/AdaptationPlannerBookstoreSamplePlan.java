@@ -97,11 +97,8 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
         return true;
     }
 
-    @Override
-    public void handle(ISLAsticEvent event) {
-        //this.execute();
-    }
-
     public void terminate() {
     }
+
+    public void handleSLAsticEvent(ISLAsticEvent ev) { }
 }

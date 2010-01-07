@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
 /**
@@ -30,5 +31,9 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
     public void doReconfiguration(SLAsticReconfigurationPlan plan) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void handleSLAsticEvent(ISLAsticEvent ev) {
+        
     }
 }

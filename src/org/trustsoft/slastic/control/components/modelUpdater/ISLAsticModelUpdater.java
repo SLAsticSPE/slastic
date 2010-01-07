@@ -9,5 +9,5 @@ public interface ISLAsticModelUpdater extends ISLAsticComponent {
      * Handler for incoming events.
      * @param record given monitoring record
      */
-    public void handleEvent(AbstractKiekerMonitoringRecord record);
+    public void consumeMonitoringRecord(AbstractKiekerMonitoringRecord record);
 }

@@ -26,17 +26,4 @@ public class Analysis extends AbstractSLAsticAnalysis {
         // TODO: be careful!
         ((SLAChecker) this.getPerformanceEvaluator()).setSLAs(slas);
     }
-
-    @Override
-    public void handleInternalEvent(ISLAsticEvent evt) {
-        log.info("SLAViolation recognized");
-        //At the moment there is only one kind of ISlasticAnalysisEvent, the SLAViolationEvent which belongs to the Adaptation Analyzer
-        if (evt instanceof SLAViolationEvent) {
-            //forward the event to the responsible analysis-object
-            this.getAdaptationPlanner().handle(evt);
-        } else {
-            log.error("EventType not supported");
-        }
-
-    }
 }

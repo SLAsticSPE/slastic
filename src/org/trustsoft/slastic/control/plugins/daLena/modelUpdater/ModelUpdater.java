@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control.plugins.daLena.modelUpdater;
 
+import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
@@ -36,7 +37,7 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
     }
 
     @Override
-    public void handleEvent(
+    public void consumeMonitoringRecord(
             AbstractKiekerMonitoringRecord newMonitoringRecord) {
 
         count++;
@@ -49,4 +50,6 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
         }
 
     }
+
+    public void handleSLAsticEvent(ISLAsticEvent ev) {  }
 }
