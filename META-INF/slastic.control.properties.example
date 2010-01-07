@@ -24,8 +24,8 @@ adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 
 # Configuration of reader to use:
 # Filesystem: 
-#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
-#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
+tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
+tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
 #
 # Filesystem (real-time replay mode):
 #tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
@@ -33,6 +33,6 @@ adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
 #
 # Java Messaging (JMS):
 #
-tpmon.monitoringDataReader=kieker.tpan.logReader.JMSReader
-tpmon.monitoringDataReaderInitString=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
+#tpmon.monitoringDataReader=kieker.tpan.logReader.JMSReader
+#tpmon.monitoringDataReaderInitString=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
 
