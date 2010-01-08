@@ -45,9 +45,9 @@ public class ReconfigurationManagerWget extends AbstractSLAsticReconfigurationMa
                 ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
                 if(System.getProperty("os.name").contains("Mac")){
-                	argList.add("/usr/local/bin/wget 'http://134.106.27.205:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+                	argList.add("/usr/local/bin/wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
                 }else{
-                	argList.add("wget 'http://134.106.27.205:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+                	argList.add("wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
                 }  
                 ShellExecutor.invoke(
                         "/bin/bash", /* command */
