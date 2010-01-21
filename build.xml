@@ -14,15 +14,15 @@
     <target name="init-version">
         <tstamp/>
         <!-- Names of the slastic runtime libraries that will be created
-	     by the build process: -->
+             by the build process: -->
         <property name="slastic.version"
                   value="0.01a"/>
         <property name="slastic.monitoring.jar"
                   value="${slastic.monitoring.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.control.jar"
                   value="${slastic.control.packagenamebase}-${slastic.version}.jar"/>
-        <property name="slastic.sim.jar"
-                  value="${slastic.sim.packagenamebase}-${slastic.version}.jar"/>
+        <property name="slastic.simulation.jar"
+                  value="${slastic.simulation.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.reconfiguration.jar"
                   value="${slastic.reconfiguration.packagenamebase}-${slastic.version}.jar"/>
     </target>
@@ -42,7 +42,7 @@
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.sim,build-slastic.reconfiguration">
+            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.simulation,build-slastic.reconfiguration">
     </target>
 
     <condition property="no.slastic.monitoring.properties">
@@ -54,11 +54,11 @@
     <target name="init-slastic.monitoring-properties" if="no.slastic.monitoring.properties">
         <!-- if no slastic.monitoring.properties, copy example file automatically  -->
         <echo message="${slastic.monitoring.properties} not existing.
-                       Creating default file."/>
+              Creating default file."/>
         <copy file="${slastic.monitoring.properties.example}" tofile="${slastic.monitoring.properties}"/>
     </target>
 
-<condition property="no.slastic.reconfiguration.properties">
+    <condition property="no.slastic.reconfiguration.properties">
         <not>
             <available file="${slastic.reconfiguration.properties}"/>
         </not>
@@ -67,7 +67,7 @@
     <target name="init-slastic.reconfiguration-properties" if="no.slastic.reconfiguration.properties">
         <!-- if no slastic.reconfiguration.properties, copy example file automatically  -->
         <echo message="${slastic.reconfiguration.properties} not existing.
-                       Creating default file."/>
+              Creating default file."/>
         <copy file="${slastic.reconfiguration.properties.example}" tofile="${slastic.reconfiguration.properties}"/>
     </target>
 
@@ -80,29 +80,29 @@
     <target name="init-slastic.control-properties" if="no.slastic.control.properties">
         <!-- if no slastic.control.properties, copy example file automatically  -->
         <echo message="${slastic.control.properties} not existing.
-                       Creating default file."/>
+              Creating default file."/>
         <copy file="${slastic.control.properties.example}" tofile="${slastic.control.properties}"/>
     </target>
 
-    <condition property="no.slastic.sim.properties">
+    <condition property="no.slastic.simulation.properties">
         <not>
-            <available file="${slastic.sim.properties}"/>
+            <available file="${slastic.simulation.properties}"/>
         </not>
     </condition>
 
-    <target name="init-slastic.sim-properties" if="no.slastic.sim.properties">
-        <!-- if no slastic.sim.properties, copy example file automatically  -->
-        <echo message="${slastic.sim.properties} not existing.
-                       Creating default file."/>
-        <copy file="${slastic.sim.properties.example}" tofile="${slastic.sim.properties}"/>
+    <target name="init-slastic.simulation-properties" if="no.slastic.simulation.properties">
+        <!-- if no slastic.simulation.properties, copy example file automatically  -->
+        <echo message="${slastic.simulation.properties} not existing.
+              Creating default file."/>
+        <copy file="${slastic.simulation.properties.example}" tofile="${slastic.simulation.properties}"/>
     </target>
 
-    <target name="init" depends="update-version,init-slastic.monitoring-properties,init-slastic.control-properties,init-slastic.sim-properties">
+    <target name="init" depends="update-version,init-slastic.monitoring-properties,init-slastic.control-properties,init-slastic.simulation-properties,init-slastic.reconfiguration-properties">
         <!-- Register special aspectJ commands in ant - allow ant to use special AspectJ commands: -->
         <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${aspectjtoolsjar}"/>
         <fail message="Critical error: AspectJ library not found
-                       in ${aspectjtoolsjar}. 
-                       Check your build.properties.">
+              in ${aspectjtoolsjar}.
+              Check your build.properties.">
             <condition>
                 <not>
                     <available file="${aspectjtoolsjar}"/>
@@ -115,7 +115,7 @@
         <mkdir dir="tmp"/>
 
         <path id="slastic.control.core.classpath">
-            <path refid="classpath.libs"/>
+        <path refid="classpath.libs"/>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.control.jar}"/>
                 <include name="${slastic.monitoring.jar}"/>
@@ -123,7 +123,7 @@
         </path>
 
         <path id="run.tests.classpath">
-            <path refid="slastic.control.core.classpath"/>
+        <path refid="slastic.control.core.classpath"/>
             <pathelement location="${build.tests.dir}/"/>
         </path>
     </target>
@@ -175,12 +175,12 @@
             <fileset dir="${build.slastic.control.dir}"/>
         </jar>
     </target>
-    
-    <target name="build-slastic.sim" depends="init">
-        <delete dir="${build.slastic.sim.dir}"/>
-        <mkdir  dir="${build.slastic.sim.dir}"/>
-        <mkdir  dir="${build.slastic.sim.dir}/META-INF"/>
-        <javac destDir="${build.slastic.sim.dir}"
+
+    <target name="build-slastic.simulation" depends="init">
+        <delete dir="${build.slastic.simulation.dir}"/>
+        <mkdir  dir="${build.slastic.simulation.dir}"/>
+        <mkdir  dir="${build.slastic.simulation.dir}/META-INF"/>
+        <javac destDir="${build.slastic.simulation.dir}"
                source="1.5"
                srcdir="src"
                debug="true"
@@ -188,15 +188,39 @@
             <compilerarg value="-Xlint:all"/>
             <include name="org/trustsoft/slastic/simulation/**"/>
         </javac>
-        <copy file="${slastic.sim.properties}" todir="${build.slastic.sim.dir}/META-INF"/>
+        <copy file="${slastic.simulation.properties}" todir="${build.slastic.simulation.dir}/META-INF"/>
         <!-- We want to include the sources in this jar -->
-        <copy todir="${build.slastic.sim.dir}/">
+        <copy todir="${build.slastic.simulation.dir}/">
             <fileset dir="src">
                 <include name="org/trustsoft/slastic/simulation/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.sim.jar}">
-            <fileset dir="${build.slastic.sim.dir}"/>
+        <jar destfile="${dist.dir}/${slastic.simulation.jar}">
+            <fileset dir="${build.slastic.simulation.dir}"/>
+        </jar>
+    </target>
+
+   <target name="build-slastic.reconfiguration" depends="init">
+        <delete dir="${build.slastic.reconfiguration.dir}"/>
+        <mkdir  dir="${build.slastic.reconfiguration.dir}"/>
+        <mkdir  dir="${build.slastic.reconfiguration.dir}/META-INF"/>
+        <javac destDir="${build.slastic.reconfiguration.dir}"
+               source="1.5"
+               srcdir="src"
+               debug="true"
+               classpathref="classpath.libs">
+            <compilerarg value="-Xlint:all"/>
+            <include name="org/trustsoft/slastic/reconfiguration/**"/>
+        </javac>
+        <copy file="${slastic.reconfiguration.properties}" todir="${build.slastic.reconfiguration.dir}/META-INF"/>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.slastic.reconfiguration.dir}/">
+            <fileset dir="src">
+                <include name="org/trustsoft/slastic/reconfiguration/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${slastic.reconfiguration.jar}">
+            <fileset dir="${build.slastic.reconfiguration.dir}"/>
         </jar>
     </target>
 
@@ -209,7 +233,7 @@
     <target name="init-log4-properties-tests" if="no.log4j.properties.tests">
         <!-- if no aop.xml, copy example file automatically  -->
         <echo message="${no.log4j.properties.tests} not existing.
-                       Creating default file."/>
+              Creating default file."/>
         <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
     </target>
 
@@ -219,7 +243,7 @@
               fork="true"
               classname="org.trustsoft.slastic.control.SLAsticInstance"
               classpathref="slastic.control.core.classpath"
-        		maxmemory="1024m">
+              maxmemory="1024m">
             <jvmarg value="-DinputDir=${inputDir}"/>
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
@@ -229,14 +253,14 @@
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
-	
+
     <target name="run-Example-jpetstore" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
-	              fork="true"
-	              classname="org.trustsoft.slastic.control.SLAsticInstance"
-	              classpathref="slastic.control.core.classpath"
-        		  maxmemory="1024m">
+              fork="true"
+              classname="org.trustsoft.slastic.control.SLAsticInstance"
+              classpathref="slastic.control.core.classpath"
+              maxmemory="1024m">
             <jvmarg value="-Dreader=JMS"/>
             <jvmarg value="-Dexample=JPetStore"/>
             <!--<jvmarg value="-DinputDir=${inputDir}"/>-->
@@ -253,10 +277,10 @@
     <target name="run-Example-bookstore" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
-	              fork="true"
-	              classname="org.trustsoft.slastic.control.SLAsticInstance"
-	              classpathref="slastic.control.core.classpath"
-        		maxmemory="1024m">
+              fork="true"
+              classname="org.trustsoft.slastic.control.SLAsticInstance"
+              classpathref="slastic.control.core.classpath"
+              maxmemory="1024m">
             <jvmarg value="-Dreader=FSRealtime"/>
             <jvmarg value="-Dexample=Bookstore"/>
             <jvmarg value="-DinputDir=${inputDir}"/>
@@ -273,10 +297,10 @@
     <target name="run-SLAsticControl-plain" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
-	              fork="true"
-	              classname="org.trustsoft.slastic.control.SLAsticInstance"
-	              classpathref="slastic.control.core.classpath"
-                      maxmemory="1024m">
+              fork="true"
+              classname="org.trustsoft.slastic.control.SLAsticInstance"
+              classpathref="slastic.control.core.classpath"
+              maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <arg line="--configuration META-INF/slastic.control.properties.example"/>
@@ -294,7 +318,7 @@
     </condition>
 
     <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
-	    depends="build-slastic.control,init-log4-properties-tests">
+            depends="build-slastic.control,init-log4-properties-tests">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="slastic.control.core.classpath"
@@ -303,7 +327,7 @@
         <copy file="${tests.log4j.properties}"
               tofile="${build.dir}/tests.log4j.properties"/>
         <copy file="${aop.xml.ltwtests}"
-	      tofile="${build.tests.dir}/META-INF/aop.xml"/>
+              tofile="${build.tests.dir}/META-INF/aop.xml"/>
     </target>
 
     <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
@@ -327,7 +351,7 @@
     </target>
 
     <target name="clean">
-	    <!-- <delete dir="tmp"/>-->
+        <!-- <delete dir="tmp"/>-->
         <delete dir="${dist.dir}"/>
         <delete dir="${build.dir}"/>
     </target>
