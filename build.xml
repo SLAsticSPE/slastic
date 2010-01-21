@@ -171,13 +171,13 @@
                debug="true"
                classpathref="classpath.libs">
             <compilerarg value="-Xlint:all"/>
-            <include name="org/trustsoft/slastic/sim/**"/>
+            <include name="org/trustsoft/slastic/sim-robert/**"/>
         </javac>
         <copy file="${slastic.sim.properties}" todir="${build.slastic.sim.dir}/META-INF"/>
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.sim.dir}/">
             <fileset dir="src">
-                <include name="org/trustsoft/slastic/sim/**/*.java"/>
+                <include name="org/trustsoft/slastic/sim-robert/**/*.java"/>
             </fileset>
         </copy>
         <jar destfile="${dist.dir}/${slastic.sim.jar}">
