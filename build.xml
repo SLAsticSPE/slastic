@@ -17,8 +17,8 @@
 	     by the build process: -->
         <property name="slastic.version"
                   value="0.01a"/>
-        <property name="slastic.monadapt.jar"
-                  value="${slastic.monadapt.packagenamebase}-${slastic.version}.jar"/>
+        <property name="slastic.monitoring.jar"
+                  value="${slastic.monitoring.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.control.jar"
                   value="${slastic.control.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.sim.jar"
@@ -40,20 +40,20 @@
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.monadapt,build-slastic.control,build-slastic.sim">
+            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.sim">
     </target>
 
-    <condition property="no.slastic.monadapt.properties">
+    <condition property="no.slastic.monitoring.properties">
         <not>
-            <available file="${slastic.monadapt.properties}"/>
+            <available file="${slastic.monitoring.properties}"/>
         </not>
     </condition>
 
-    <target name="init-slastic.monadapt-properties" if="no.slastic.monadapt.properties">
-        <!-- if no slastic.monadapt.properties, copy example file automatically  -->
-        <echo message="${slastic.monadapt.properties} not existing.
+    <target name="init-slastic.monitoring-properties" if="no.slastic.monitoring.properties">
+        <!-- if no slastic.monitoring.properties, copy example file automatically  -->
+        <echo message="${slastic.monitoring.properties} not existing.
                        Creating default file."/>
-        <copy file="${slastic.monadapt.properties.example}" tofile="${slastic.monadapt.properties}"/>
+        <copy file="${slastic.monitoring.properties.example}" tofile="${slastic.monitoring.properties}"/>
     </target>
 
     <condition property="no.slastic.control.properties">
@@ -82,7 +82,7 @@
         <copy file="${slastic.sim.properties.example}" tofile="${slastic.sim.properties}"/>
     </target>
 
-    <target name="init" depends="update-version,init-slastic.monadapt-properties,init-slastic.control-properties,init-slastic.sim-properties">
+    <target name="init" depends="update-version,init-slastic.monitoring-properties,init-slastic.control-properties,init-slastic.sim-properties">
         <!-- Register special aspectJ commands in ant - allow ant to use special AspectJ commands: -->
         <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${aspectjtoolsjar}"/>
         <fail message="Critical error: AspectJ library not found
@@ -103,7 +103,7 @@
             <path refid="classpath.libs"/>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.control.jar}"/>
-                <include name="${slastic.monadapt.jar}"/>
+                <include name="${slastic.monitoring.jar}"/>
             </fileset>
         </path>
 
@@ -113,31 +113,31 @@
         </path>
     </target>
 
-    <target name="build-slastic.monadapt" depends="init">
-        <delete dir="${build.slastic.monadapt.dir}"/>
-        <mkdir  dir="${build.slastic.monadapt.dir}"/>
-        <mkdir  dir="${build.slastic.monadapt.dir}/META-INF"/>
-        <javac destDir="${build.slastic.monadapt.dir}"
+    <target name="build-slastic.monitoring" depends="init">
+        <delete dir="${build.slastic.monitoring.dir}"/>
+        <mkdir  dir="${build.slastic.monitoring.dir}"/>
+        <mkdir  dir="${build.slastic.monitoring.dir}/META-INF"/>
+        <javac destDir="${build.slastic.monitoring.dir}"
                source="1.5"
                srcdir="src"
                debug="true"
                classpathref="classpath.libs">
             <compilerarg value="-Xlint:all"/>
-            <include name="org/trustsoft/slastic/monadapt/**"/>
+            <include name="org/trustsoft/slastic/monitoring/**"/>
         </javac>
-        <copy file="${slastic.monadapt.properties}" todir="${build.slastic.monadapt.dir}/META-INF"/>
+        <copy file="${slastic.monitoring.properties}" todir="${build.slastic.monitoring.dir}/META-INF"/>
         <!-- We want to include the sources in this jar -->
-        <copy todir="${build.slastic.monadapt.dir}/">
+        <copy todir="${build.slastic.monitoring.dir}/">
             <fileset dir="src">
-                <include name="org/trustsoft/slastic/monadapt/**/*.java"/>
+                <include name="org/trustsoft/slastic/monitoring/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.monadapt.jar}">
-            <fileset dir="${build.slastic.monadapt.dir}"/>
+        <jar destfile="${dist.dir}/${slastic.monitoring.jar}">
+            <fileset dir="${build.slastic.monitoring.dir}"/>
         </jar>
     </target>
 
-    <target name="build-slastic.control" depends="init,build-slastic.monadapt">
+    <target name="build-slastic.control" depends="init,build-slastic.monitoring">
         <delete dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}"/>
         <mkdir  dir="${build.slastic.control.dir}/META-INF"/>
@@ -171,13 +171,13 @@
                debug="true"
                classpathref="classpath.libs">
             <compilerarg value="-Xlint:all"/>
-            <include name="org/trustsoft/slastic/sim-robert/**"/>
+            <include name="org/trustsoft/slastic/simulation/**"/>
         </javac>
         <copy file="${slastic.sim.properties}" todir="${build.slastic.sim.dir}/META-INF"/>
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.sim.dir}/">
             <fileset dir="src">
-                <include name="org/trustsoft/slastic/sim-robert/**/*.java"/>
+                <include name="org/trustsoft/slastic/simulation/**/*.java"/>
             </fileset>
         </copy>
         <jar destfile="${dist.dir}/${slastic.sim.jar}">
@@ -198,7 +198,7 @@
         <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
     </target>
 
-    <target name="run-SLAsticControl" depends="build-slastic.control,build-slastic.monadapt,init-log4-properties-tests">
+    <target name="run-SLAsticControl" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -209,13 +209,13 @@
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <classpath>
-                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monitoring.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 	
-    <target name="run-Example-jpetstore" depends="build-slastic.control,build-slastic.monadapt,init-log4-properties-tests">
+    <target name="run-Example-jpetstore" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
 	              fork="true"
@@ -229,13 +229,13 @@
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <classpath>
-                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monitoring.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
-    <target name="run-Example-bookstore" depends="build-slastic.control,build-slastic.monadapt,init-log4-properties-tests">
+    <target name="run-Example-bookstore" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
 	              fork="true"
@@ -249,13 +249,13 @@
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <classpath>
-                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monitoring.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
-    <target name="run-SLAsticControl-plain" depends="build-slastic.control,build-slastic.monadapt,init-log4-properties-tests">
+    <target name="run-SLAsticControl-plain" depends="build-slastic.control,build-slastic.monitoring,init-log4-properties-tests">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
 	              fork="true"
@@ -266,7 +266,7 @@
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <arg line="--configuration META-INF/slastic.control.properties.example"/>
             <classpath>
-                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monitoring.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>
@@ -306,7 +306,7 @@
             <classpath>
                 <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
                 <pathelement location="${dist.dir}/${slastic.control.jar}"/>
-                <pathelement location="${dist.dir}/${slastic.monadapt.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.monitoring.jar}"/>
             </classpath>
         </java>
     </target>
