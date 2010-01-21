@@ -23,6 +23,8 @@
                   value="${slastic.control.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.sim.jar"
                   value="${slastic.sim.packagenamebase}-${slastic.version}.jar"/>
+        <property name="slastic.reconfiguration.jar"
+                  value="${slastic.reconfiguration.packagenamebase}-${slastic.version}.jar"/>
     </target>
 
     <target name="update-version" unless="version.noupdate"
@@ -40,7 +42,7 @@
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.sim">
+            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.sim,build-slastic.reconfiguration">
     </target>
 
     <condition property="no.slastic.monitoring.properties">
@@ -54,6 +56,19 @@
         <echo message="${slastic.monitoring.properties} not existing.
                        Creating default file."/>
         <copy file="${slastic.monitoring.properties.example}" tofile="${slastic.monitoring.properties}"/>
+    </target>
+
+<condition property="no.slastic.reconfiguration.properties">
+        <not>
+            <available file="${slastic.reconfiguration.properties}"/>
+        </not>
+    </condition>
+
+    <target name="init-slastic.reconfiguration-properties" if="no.slastic.reconfiguration.properties">
+        <!-- if no slastic.reconfiguration.properties, copy example file automatically  -->
+        <echo message="${slastic.reconfiguration.properties} not existing.
+                       Creating default file."/>
+        <copy file="${slastic.reconfiguration.properties.example}" tofile="${slastic.reconfiguration.properties}"/>
     </target>
 
     <condition property="no.slastic.control.properties">
