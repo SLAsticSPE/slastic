@@ -5,7 +5,7 @@
 package org.trustsoft.slastic.control.plugins.daLena;
 
 
-import org.trustsoft.slastic.reconfigurationManager.*;
+import org.trustsoft.slastic.reconfiguration.*;
 import ReconfigurationPlanModel.ComponentRedeploymentOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import java.util.ArrayList;

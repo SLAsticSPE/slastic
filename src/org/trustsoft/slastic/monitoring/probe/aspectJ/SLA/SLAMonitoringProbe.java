@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monadapt.probe.aspectJ.SLA;
+package org.trustsoft.slastic.monitoring.probe.aspectJ.SLA;
 
 import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.*;
@@ -8,8 +8,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
-import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.monitoring.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /*
  * org.trustsoft.slastic.control.probe.aspectJ.SLA.SLAMonitoringProbe

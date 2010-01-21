@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monadapt.monitoringRecord.redeployment;
+package org.trustsoft.slastic.monitoring.monitoringRecord.redeployment;
 
 /**
  *

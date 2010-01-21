@@ -44,7 +44,7 @@ import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
 
-import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 import org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget;
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.InternalServiceResponseTimeObjective;

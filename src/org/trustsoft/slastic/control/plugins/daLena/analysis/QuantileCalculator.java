@@ -7,7 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
-import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
  * Class for calculating the given quantiles for a given service which is identified via serviceID.

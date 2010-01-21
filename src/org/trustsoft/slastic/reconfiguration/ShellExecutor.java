@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.trustsoft.slastic.reconfigurationManager;
+package org.trustsoft.slastic.reconfiguration;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monadapt;
+package org.trustsoft.slastic.simulation;
 
 /*
  * org.trustsoft.slastic.control.Version
@@ -32,7 +32,7 @@ public class Version {
 	 */
 	private static final String VERSION = "0.95-20090624";
 
-	static final String COPYRIGHT = "Copyright (c) 2009 SLAstic Project";
+	static final String COPYRIGHT = "2009 SLAstic Project";
 
     /**
      * Not instantiable.

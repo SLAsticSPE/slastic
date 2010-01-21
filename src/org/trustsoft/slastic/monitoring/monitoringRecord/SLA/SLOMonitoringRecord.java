@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monadapt.monitoringRecord.SLA;
+package org.trustsoft.slastic.monitoring.monitoringRecord.SLA;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 

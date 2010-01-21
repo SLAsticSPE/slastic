@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
-import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monitoring.annotation.SLAsticSLAMonitoringProbe;
 
 /**
  * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.CRM.java

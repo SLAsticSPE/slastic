@@ -23,7 +23,7 @@ import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelExcep
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
-import org.trustsoft.slastic.monadapt.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;

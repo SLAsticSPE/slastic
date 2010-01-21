@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
 import kieker.tpmon.core.TpmonController;
-import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monitoring.annotation.SLAsticSLAMonitoringProbe;
 
 /**
  * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes..Bookstore.java

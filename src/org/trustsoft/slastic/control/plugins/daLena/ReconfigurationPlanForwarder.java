@@ -9,7 +9,7 @@ import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelExcep
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 
 /**
  * This Class tries to replace the simulator with forwarding the ReconfigurationPlan back to the ModelManager.

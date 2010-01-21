@@ -2,7 +2,7 @@ package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import java.util.Random;
 
-import org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.monitoring.annotation.SLAsticSLAMonitoringProbe;
 
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;

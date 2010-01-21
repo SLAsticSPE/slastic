@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
-import org.trustsoft.slastic.reconfigurationManager.ISLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.ISLAsticReconfigurationManager;
 
 /**
  * Interface for the Adaptation Analyzer component of the

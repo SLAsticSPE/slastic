@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 
 /**
  *

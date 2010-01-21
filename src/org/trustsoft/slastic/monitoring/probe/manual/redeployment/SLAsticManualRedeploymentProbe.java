@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monadapt.probe.manual.redeployment;
+package org.trustsoft.slastic.monitoring.probe.manual.redeployment;
 
 /*
  * kieker.tpmon.KiekerTpmonManualBranchProbe
@@ -24,7 +24,7 @@ import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.probe.IKiekerMonitoringProbe;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.monadapt.monitoringRecord.redeployment.SLAsticRedeploymentRecord;
+import org.trustsoft.slastic.monitoring.monitoringRecord.redeployment.SLAsticRedeploymentRecord;
 
 /**
  * Convenience class which provides a static method to log branching.

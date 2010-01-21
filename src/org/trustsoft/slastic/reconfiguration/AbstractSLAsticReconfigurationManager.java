@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.reconfigurationManager;
+package org.trustsoft.slastic.reconfiguration;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;

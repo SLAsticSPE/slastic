@@ -5,7 +5,7 @@ import kieker.common.logReader.IKiekerRecordConsumer;
 import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
-import org.trustsoft.slastic.reconfigurationManager.AbstractSLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
