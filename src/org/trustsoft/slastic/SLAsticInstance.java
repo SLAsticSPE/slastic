@@ -9,6 +9,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
 import org.trustsoft.slastic.control.AbstractSLAsticControl;
+import org.trustsoft.slastic.monitoring.AbstractSLAsticMonitoringManager;
 import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
@@ -25,11 +26,13 @@ public class SLAsticInstance {
     private static final Log log = LogFactory.getLog(SLAsticInstance.class);
 
     private final AbstractSLAsticControl controller;
+    private final AbstractSLAsticMonitoringManager monitoringManager;
     private final AbstractSLAsticReconfigurationManager reconfigurationMgr;
 
-    private SLAsticInstance(){
-        this.controller = null;
-        this.reconfigurationMgr = null;
+    private SLAsticInstance(final AbstractSLAsticControl controller, final AbstractSLAsticMonitoringManager monitoringManager, final AbstractSLAsticReconfigurationManager reconfigurationMgr){
+        this.controller = controller;
+        this.monitoringManager = monitoringManager;
+        this.reconfigurationMgr = reconfigurationMgr;
     }
 
     private static void testSLAsticMetaModel() {
