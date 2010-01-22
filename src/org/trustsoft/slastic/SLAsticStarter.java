@@ -1,6 +1,6 @@
 package org.trustsoft.slastic;
 
-import org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder;
+import org.trustsoft.slastic.plugins.daLena.ReconfigurationPlanForwarder;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -27,10 +27,10 @@ import org.apache.commons.cli.ParseException;
 import kieker.tpan.logReader.JMSReader;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
-import org.trustsoft.slastic.control.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan;
-import org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis;
-import org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
-import org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker;
+import org.trustsoft.slastic.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan;
+import org.trustsoft.slastic.plugins.daLena.analysis.Analysis;
+import org.trustsoft.slastic.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
+import org.trustsoft.slastic.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictor;
@@ -38,12 +38,12 @@ import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis
 import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecaster;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
-import org.trustsoft.slastic.control.plugins.daLena.ControlComponent;
-import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
-import org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater;
+import org.trustsoft.slastic.plugins.daLena.ControlComponent;
+import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.modelUpdater.ModelUpdater;
 
 import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
-import org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget;
+import org.trustsoft.slastic.plugins.daLena.ReconfigurationManagerWget;
 
 /**
  *

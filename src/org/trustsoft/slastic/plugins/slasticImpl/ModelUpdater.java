@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.plugins.slasticImpl;
+package org.trustsoft.slastic.plugins.slasticImpl;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;

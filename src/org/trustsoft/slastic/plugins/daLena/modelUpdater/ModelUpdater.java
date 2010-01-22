@@ -1,7 +1,7 @@
-package org.trustsoft.slastic.control.plugins.daLena.modelUpdater;
+package org.trustsoft.slastic.plugins.daLena.modelUpdater;
 
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
-import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;

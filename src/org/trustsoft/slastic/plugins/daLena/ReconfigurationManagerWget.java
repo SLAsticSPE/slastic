@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.control.plugins.daLena;
+package org.trustsoft.slastic.plugins.daLena;
 
 
 import org.trustsoft.slastic.reconfiguration.*;

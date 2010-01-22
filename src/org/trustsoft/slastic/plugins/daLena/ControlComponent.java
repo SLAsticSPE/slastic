@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.plugins.daLena;
+package org.trustsoft.slastic.plugins.daLena;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.components.BasicSLAsticControl;
-import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
 
 /**
  * @author Lena Stoever

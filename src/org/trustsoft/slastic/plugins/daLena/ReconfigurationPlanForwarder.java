@@ -1,10 +1,10 @@
-package org.trustsoft.slastic.control.plugins.daLena;
+package org.trustsoft.slastic.plugins.daLena;
 
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;

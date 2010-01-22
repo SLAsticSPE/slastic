@@ -241,7 +241,7 @@
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="org.trustsoft.slastic.SLAsticInstance"
+              classname="org.trustsoft.slastic.SLAsticStarter"
               classpathref="slastic.control.core.classpath"
               maxmemory="1024m">
             <jvmarg value="-DinputDir=${inputDir}"/>
@@ -258,7 +258,7 @@
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="org.trustsoft.slastic.SLAsticInstance"
+              classname="org.trustsoft.slastic.SLAsticStarter"
               classpathref="slastic.control.core.classpath"
               maxmemory="1024m">
             <jvmarg value="-Dreader=JMS"/>
@@ -278,7 +278,7 @@
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="org.trustsoft.slastic.SLAsticInstance"
+              classname="org.trustsoft.slastic.SLAsticStarter"
               classpathref="slastic.control.core.classpath"
               maxmemory="1024m">
             <jvmarg value="-Dreader=FSRealtime"/>
@@ -298,7 +298,7 @@
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="org.trustsoft.slastic.SLAsticInstance"
+              classname="org.trustsoft.slastic.SLAsticStarter"
               classpathref="slastic.control.core.classpath"
               maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>

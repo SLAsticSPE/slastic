@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.control.plugins.slasticImpl;
+package org.trustsoft.slastic.plugins.slasticImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
