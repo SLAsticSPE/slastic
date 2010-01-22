@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.control.components.ISLAsticComponent;
+import org.trustsoft.slastic.common.ISLAsticComponent;
 
 /**
  *

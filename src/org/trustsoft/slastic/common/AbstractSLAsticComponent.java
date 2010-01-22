@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.components;
+package org.trustsoft.slastic.common;
 
 import java.util.HashMap;
 import java.util.StringTokenizer;

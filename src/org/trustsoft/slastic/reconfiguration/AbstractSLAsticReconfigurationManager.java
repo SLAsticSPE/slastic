@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.reconfiguration;
 
-import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
+import org.trustsoft.slastic.common.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.AbstractSLAsticControl;
 
 /**

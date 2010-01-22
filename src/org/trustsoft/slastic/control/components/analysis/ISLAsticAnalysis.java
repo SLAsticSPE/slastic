@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.control.components.ISLAsticComponent;
+import org.trustsoft.slastic.common.ISLAsticComponent;
 
 /**
  * This Interface represents the Analysis component of the SLAstic.CONTROL framework. It holds different componente that are responsible for different analysis'.
