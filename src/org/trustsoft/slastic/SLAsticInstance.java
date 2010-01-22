@@ -29,10 +29,31 @@ public class SLAsticInstance {
     private final AbstractSLAsticMonitoringManager monitoringManager;
     private final AbstractSLAsticReconfigurationManager reconfigurationMgr;
 
+    /* Avoid construction via default constructor */
+    private SLAsticInstance(){
+        this.controller = null;
+        this.monitoringManager = null;
+        this.reconfigurationMgr = null;
+    }
+
     private SLAsticInstance(final AbstractSLAsticControl controller, final AbstractSLAsticMonitoringManager monitoringManager, final AbstractSLAsticReconfigurationManager reconfigurationMgr){
         this.controller = controller;
         this.monitoringManager = monitoringManager;
         this.reconfigurationMgr = reconfigurationMgr;
+    }
+
+    /** Start instance. The method returns immediately. */
+    public void run(){
+        this.controller.execute();
+        this.monitoringManager.execute();
+        this.reconfigurationMgr.execute();
+    }
+
+    /** Terminate instance */
+    public void terminate(){
+        this.controller.terminate();
+        this.monitoringManager.terminate();
+        this.reconfigurationMgr.terminate();
     }
 
     private static void testSLAsticMetaModel() {
