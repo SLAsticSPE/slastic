@@ -5,7 +5,7 @@
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
-import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
+import org.trustsoft.slastic.control.AbstractSLAsticControl;
 import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 import slal.Model;
 

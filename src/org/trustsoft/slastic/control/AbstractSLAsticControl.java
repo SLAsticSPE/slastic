@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.components;
+package org.trustsoft.slastic.control;
 
 import java.util.ArrayList;
 import kieker.common.logReader.IKiekerRecordConsumer;
@@ -9,6 +9,7 @@ import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManag
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.components.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventService;
 import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;

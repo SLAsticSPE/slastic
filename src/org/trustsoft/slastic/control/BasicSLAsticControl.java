@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.components;
+package org.trustsoft.slastic.control;
 
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;

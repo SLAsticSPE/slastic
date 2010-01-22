@@ -22,6 +22,8 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 public class SLAsticInstance {
     private static final Log log = LogFactory.getLog(SLAsticInstance.class);
 
+    private 
+
     private static void testSLAsticMetaModel() {
         //String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
         //String wfFile = "../../../workspace2/SLAstic-Framework/trunk/src/org/trustsoft/slastic/control/InitModelsMac.oaw";

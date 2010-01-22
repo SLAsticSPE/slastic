@@ -1,6 +1,7 @@
-package org.trustsoft.slastic.control.components;
+package org.trustsoft.slastic.control;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import org.trustsoft.slastic.control.components.ISLAsticComponent;
 
 public interface ISLAsticControl extends ISLAsticComponent {
 

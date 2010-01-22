@@ -26,7 +26,7 @@ import org.apache.commons.cli.ParseException;
 
 import kieker.tpan.logReader.JMSReader;
 
-import org.trustsoft.slastic.control.components.AbstractSLAsticControl;
+import org.trustsoft.slastic.control.AbstractSLAsticControl;
 import org.trustsoft.slastic.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan;
 import org.trustsoft.slastic.plugins.daLena.analysis.Analysis;
 import org.trustsoft.slastic.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
