@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
+import org.trustsoft.slastic.control.AbstractSLAsticControl;
 
 import org.trustsoft.slastic.slasticqosannotations.ExternalServiceResponseTimeObjective;
 import org.trustsoft.slastic.slasticqosannotations.InternalServiceResponseTimeObjective;
@@ -22,7 +23,11 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 public class SLAsticInstance {
     private static final Log log = LogFactory.getLog(SLAsticInstance.class);
 
-    private 
+    private final AbstractSLAsticControl controller;
+
+    private SLAsticInstance(){
+        this.controller = null;
+    }
 
     private static void testSLAsticMetaModel() {
         //String wfFile ="C:/workspace/slastic/src/org/trustsoft/slastic/control/InitModels.oaw";
