@@ -37,8 +37,8 @@ import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManag
  * @author Andre van Hoorn
  */
 public class SLAsticStarter {
-    private static final Log log = LogFactory.getLog(SLAsticStarter.class);
 
+    private static final Log log = LogFactory.getLog(SLAsticStarter.class);
     private static CommandLine cmdl = null;
     private static final CommandLineParser cmdlParser = new BasicParser();
     private static final HelpFormatter cmdHelpFormatter = new HelpFormatter();
@@ -60,22 +60,26 @@ public class SLAsticStarter {
         if (isnewconfigStrg != null && isnewconfigStrg.trim().toLowerCase().equals("true")) {
             log.info("New configuration file format");
             SLAsticInstance inst = initNewInstanceFromArgs();
-            System.exit(0);
-        }
-        
-        TpanInstance tpanInstance = initInstanceFromArgs();
-        if (tpanInstance == null) {
-            log.error("init() returned null");
-            System.exit(1);
-        }
+            if (inst == null) {
+                log.error("initNewInstanceFromArgs() returned null");
+                System.exit(1);
+            }
+            inst.run();
+        } else { // TODO: remove
+            TpanInstance tpanInstance = initInstanceFromArgs();
+            if (tpanInstance == null) {
+                log.error("init() returned null");
+                System.exit(1);
+            }
 
-        try {
-            //starting Tpan object that starts the other objects internally
-            tpanInstance.run();
-        } catch (LogReaderExecutionException e) {
-            log.error("LogReaderExecutionException:", e);
-        } catch (RecordConsumerExecutionException e) {
-            log.error("RecordConsumerExecutionException:", e);
+            try {
+                //starting Tpan object that starts the other objects internally
+                tpanInstance.run();
+            } catch (LogReaderExecutionException e) {
+                log.error("LogReaderExecutionException:", e);
+            } catch (RecordConsumerExecutionException e) {
+                log.error("RecordConsumerExecutionException:", e);
+            }
         }
 
         log.info("Bye, this was SLAsticControl");
@@ -86,7 +90,7 @@ public class SLAsticStarter {
      *
      * @return the initialized instance; null on error
      */
-    private static SLAsticInstance initNewInstanceFromArgs() throws IllegalArgumentException {       
+    private static SLAsticInstance initNewInstanceFromArgs() throws IllegalArgumentException {
         String configurationFile = cmdl.getOptionValue("configuration");
         if (configurationFile == null) {
             log.fatal("Configuration file parameter is null");
@@ -102,7 +106,7 @@ public class SLAsticStarter {
             prop.load(is);
         } catch (Exception ex) {
             log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
-            // TODO: introduce static variable 'terminated' or alike
+        // TODO: introduce static variable 'terminated' or alike
         } finally {
             try {
                 is.close();
@@ -110,7 +114,7 @@ public class SLAsticStarter {
         }
         return new SLAsticInstance(prop);
     }
-    
+
     /**
      * Initializes and returns a ControlComponent analysis instance.
      *
@@ -134,7 +138,7 @@ public class SLAsticStarter {
             prop.load(is);
         } catch (Exception ex) {
             log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
-            // TODO: introduce static variable 'terminated' or alike
+        // TODO: introduce static variable 'terminated' or alike
         } finally {
             try {
                 is.close();
@@ -448,7 +452,6 @@ public class SLAsticStarter {
 //
 //        return analysisInstance;
 //    }
-
     static boolean parseArgs(String[] args) {
         try {
             cmdl = cmdlParser.parse(cmdlOpts, args);

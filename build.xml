@@ -142,7 +142,7 @@
                source="1.5"
                srcdir="src/plugins"
                debug="true"
-               classpathref="slastic.control.core.classpath">
+               classpathref="slastic.core.classpath">
             <compilerarg value="-Xlint:-path"/>
             <!--<include name="org/trustsoft/slastic/plugins/**"/>-->
         </javac>
@@ -280,7 +280,11 @@
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <arg line="--isnewconfig true"/>
             <arg line="--configuration META-INF/slastic.properties.example"/>
+            <classpath>
+                <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
+            </classpath>
         </java>
+        <echo message="CP: ${dist.dir}/${slastic.plugins.jar}"/>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
     

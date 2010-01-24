@@ -35,9 +35,9 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 public class SLAsticInstance {
 
     private static final Log log = LogFactory.getLog(SLAsticInstance.class);
-    private final AbstractSLAsticControl controller;
-    private final AbstractSLAsticMonitoringManager monitoringManager;
-    private final AbstractSLAsticReconfigurationManager reconfigurationMgr;
+    private AbstractSLAsticControl controller;
+    private AbstractSLAsticMonitoringManager monitoringManager;
+    private AbstractSLAsticReconfigurationManager reconfigurationMgr;
     private final Properties controllerProps = new Properties();
     private final Properties monitoringProps = new Properties();
     private final Properties reconfigurationProps = new Properties();
@@ -65,9 +65,6 @@ public class SLAsticInstance {
     }
 
     public SLAsticInstance(Properties prop) {
-        this.controller = null;
-        this.monitoringManager = null;
-        this.reconfigurationMgr = null;
         loadProperties(prop);
     }
 
@@ -115,7 +112,7 @@ public class SLAsticInstance {
                 this.reconfigurationProps.setProperty(curPropName, prop.getProperty(curPropName));
             }
             if (!storedProp) {
-                log.error("Unknown property name '" + curPropName + "");
+                log.warn("Unknown property name '" + curPropName + "");
             }
         }
     }
@@ -124,27 +121,34 @@ public class SLAsticInstance {
         this.initProperties(prop);
 
         /* Load all components */
+        String monitoringComponentClassnameProperty = this.controllerProps.getProperty(AbstractSLAsticMonitoringManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+        if (monitoringComponentClassnameProperty == null || monitoringComponentClassnameProperty.length() <= 0) {
+            log.error("Missing configuration property value for '"+AbstractSLAsticMonitoringManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
+        }
+        this.monitoringManager = (AbstractSLAsticMonitoringManager) loadAndInitInstanceFromClassname(monitoringComponentClassnameProperty, this.controllerProps);
+
+        
         String controlComponentClassnameProperty = this.controllerProps.getProperty(AbstractSLAsticControl.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
         if (controlComponentClassnameProperty == null || controlComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'controlComponent'");
+            log.error("Missing configuration property value for '"+AbstractSLAsticControl.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
         }
-        AbstractSLAsticControl slasticCtrlComponent = (AbstractSLAsticControl) loadAndInitInstanceFromClassname(controlComponentClassnameProperty, this.controllerProps);
+        this.controller = (AbstractSLAsticControl) loadAndInitInstanceFromClassname(controlComponentClassnameProperty, this.controllerProps);
 
         String modelManagerComponentClassnameProperty = this.modelManagerProps.getProperty(AbstractSLAsticModelManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
         if (modelManagerComponentClassnameProperty == null || modelManagerComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'modelManagerComponent'");
+            log.error("Missing configuration property value for '"+AbstractSLAsticModelManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
         }
         AbstractSLAsticModelManager modelManagerComponent = (AbstractSLAsticModelManager) loadAndInitInstanceFromClassname(modelManagerComponentClassnameProperty, this.modelManagerProps);
 
         String modelUpdaterComponentClassnameProperty = this.modelUpdaterProps.getProperty(AbstractSLAsticModelUpdater.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
         if (modelUpdaterComponentClassnameProperty == null || modelUpdaterComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'modelUpdaterComponent'");
+            log.error("Missing configuration property value for '"+AbstractSLAsticModelUpdater.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
         }
         AbstractSLAsticModelUpdater modelUpdaterComponent = (AbstractSLAsticModelUpdater) loadAndInitInstanceFromClassname(modelUpdaterComponentClassnameProperty, this.modelUpdaterProps);
 
         String analysisComponentClassnameProperty = this.analysisProps.getProperty(AbstractSLAsticAnalysis.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
         if (analysisComponentClassnameProperty == null || analysisComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'analysisComponent'");
+            log.error("Missing configuration property value for '"+AbstractSLAsticAnalysis.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
         }
         AbstractSLAsticAnalysis analysisComponent = (AbstractSLAsticAnalysis) loadAndInitInstanceFromClassname(analysisComponentClassnameProperty, this.analysisProps);
 
@@ -178,17 +182,17 @@ public class SLAsticInstance {
 
         String reconfigurationManagerComponentClassnameProperty = this.reconfigurationProps.getProperty(AbstractSLAsticReconfigurationManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
         if (reconfigurationManagerComponentClassnameProperty == null || reconfigurationManagerComponentClassnameProperty.length() <= 0) {
-            log.error("Missing configuration property value for 'reconfigurationManagerComponent'");
+            log.error("Missing configuration property value for "+AbstractSLAsticReconfigurationManager.PROP_PREFIX+"."+SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME+"'");
         }
-        AbstractSLAsticReconfigurationManager reconfigurationManagerComponent = (AbstractSLAsticReconfigurationManager) loadAndInitInstanceFromClassname(reconfigurationManagerComponentClassnameProperty, this.reconfigurationProps);
+        this.reconfigurationMgr = (AbstractSLAsticReconfigurationManager) loadAndInitInstanceFromClassname(reconfigurationManagerComponentClassnameProperty, this.reconfigurationProps);
 
         /* Assert that mandatory components are available */
         boolean success = true;
-        if (reconfigurationManagerComponent == null) {
+        if (this.reconfigurationMgr == null) {
             log.error("reconfigurationManagerComponent is null");
             success = false;
         }
-        if (slasticCtrlComponent == null) {
+        if (this.controller == null) {
             log.error("slasticCtrlComponent is null");
             success = false;
         }
@@ -209,18 +213,18 @@ public class SLAsticInstance {
         }
 
         /* "wire" the components */
-        reconfigurationManagerComponent.setControlComponent(slasticCtrlComponent);
+        this.reconfigurationMgr.setControlComponent(this.controller);
 
-        slasticCtrlComponent.setReconfigurationManager(reconfigurationManagerComponent); // TODO: fix!
-        slasticCtrlComponent.setAnalysis(analysisComponent);
-        slasticCtrlComponent.setModelManager(modelManagerComponent);
-        slasticCtrlComponent.setModelUpdater(modelUpdaterComponent);
+        this.controller.setReconfigurationManager(this.reconfigurationMgr); // TODO: fix!
+        this.controller.setAnalysis(analysisComponent);
+        this.controller.setModelManager(modelManagerComponent);
+        this.controller.setModelUpdater(modelUpdaterComponent);
 
-        modelManagerComponent.setParentControlComponent(slasticCtrlComponent);
-        modelUpdaterComponent.setParentControlComponent(slasticCtrlComponent);
+        modelManagerComponent.setParentControlComponent(this.controller);
+        modelUpdaterComponent.setParentControlComponent(this.controller);
         modelUpdaterComponent.setModelManager(modelManagerComponent);
 
-        analysisComponent.setParentControlComponent(slasticCtrlComponent);
+        analysisComponent.setParentControlComponent(this.controller);
         analysisComponent.setPerformanceEvaluator(performanceEvaluatorComponent);
         analysisComponent.setWorkloadForecaster(workloadForecasterComponent);
         analysisComponent.setPerformancePredictor(performancePredictorComponent);
@@ -240,23 +244,23 @@ public class SLAsticInstance {
         }
 
         /* Initialize event handling */
-        slasticCtrlComponent.addListener(modelManagerComponent);
-        slasticCtrlComponent.addListener(modelUpdaterComponent);
+        this.controller.addListener(modelManagerComponent);
+        this.controller.addListener(modelUpdaterComponent);
         if (performanceEvaluatorComponent != null) {
-            slasticCtrlComponent.addListener(performanceEvaluatorComponent);
-            performanceEvaluatorComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
+            this.controller.addListener(performanceEvaluatorComponent);
+            performanceEvaluatorComponent.setSimpleSLAsticEventService(this.controller);
         }
         if (workloadForecasterComponent != null) {
-            slasticCtrlComponent.addListener(workloadForecasterComponent);
-            workloadForecasterComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
+            this.controller.addListener(workloadForecasterComponent);
+            workloadForecasterComponent.setSimpleSLAsticEventService(this.controller);
         }
         if (performancePredictorComponent != null) {
-            slasticCtrlComponent.addListener(performancePredictorComponent);
-            performancePredictorComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
+            this.controller.addListener(performancePredictorComponent);
+            performancePredictorComponent.setSimpleSLAsticEventService(this.controller);
         }
         if (adaptationPlannerComponent != null) {
-            slasticCtrlComponent.addListener(adaptationPlannerComponent);
-            adaptationPlannerComponent.setSimpleSLAsticEventService(slasticCtrlComponent);
+            this.controller.addListener(adaptationPlannerComponent);
+            adaptationPlannerComponent.setSimpleSLAsticEventService(this.controller);
         }
 
         // TODO: This should also be configurable from the command-line!
@@ -311,7 +315,7 @@ public class SLAsticInstance {
         try {
             Class cl = Class.forName(classname);
             inst = cl.newInstance();
-            Method m = cl.getMethod("init", String.class);
+            Method m = cl.getMethod("setProperties", Properties.class);
             m.invoke(inst, props);
             log.info("Loaded and instantiated component ('" + classname + "') with init string '" + props + "'");
         } catch (Exception ex) {

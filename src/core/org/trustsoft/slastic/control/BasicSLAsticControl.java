@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.control;
 
+import java.util.Properties;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
@@ -34,5 +35,9 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
             throws RecordConsumerExecutionException {
         this.getModelUpdater().consumeMonitoringRecord(monitoringRecord);
 
+    }
+
+    public void init(Properties props) throws IllegalArgumentException {
+        // we don't expect init properties so far, so just return.
     }
 }
