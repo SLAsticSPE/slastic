@@ -12,6 +12,8 @@ import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticMode
  */
 public abstract class AbstractSLAsticModelUpdater extends AbstractSLAsticComponent implements ISLAsticModelUpdater, ISimpleSLAsticEventServiceClient {
 
+    public static final String PROP_PREFIX = "slastic.control.modelupdating";
+    
     private AbstractSLAsticControl parentControlComponent;
     private AbstractSLAsticModelManager modelManager;
     private ISimpleSLAsticEventService simpleSLAsticEventService;

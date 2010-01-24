@@ -8,7 +8,8 @@ import org.trustsoft.slastic.control.AbstractSLAsticControl;
  * @author Andre van Hoorn
  */
 public class AbstractSLAsticMonitoringManager extends AbstractSLAsticComponent implements ISLAsticMonitoringManager {
-
+    public static final String PROP_PREFIX = "slastic.monitoring";
+    
     private AbstractSLAsticControl controller;
 
     public void init(String initString) throws IllegalArgumentException {

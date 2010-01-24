@@ -19,6 +19,9 @@ import org.apache.commons.logging.LogFactory;
 public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent implements ISLAsticAnalysis {
 
     private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
+
+    public static final String PROP_PREFIX = "slastic.control.analysis";
+    
     private AbstractSLAsticControl parentControlComponent;
     private AbstractPerformanceEvaluator performanceEvaluator;
     private AbstractWorkloadForecaster workloadForecaster;

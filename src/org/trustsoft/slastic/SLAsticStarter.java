@@ -59,6 +59,7 @@ public class SLAsticStarter {
 
     static {
         cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("configuration").isRequired(true).withDescription("Configuration file").withValueSeparator('=').create("f"));
+        cmdlOpts.addOption(OptionBuilder.withArgName("isnewconfig").hasArg().withLongOpt("isnewconfig").isRequired(false).withDescription("Is new configuration type (true|false)").withValueSeparator('=').create("n"));
     }
 
     public static void main(String[] args) {
@@ -68,6 +69,15 @@ public class SLAsticStarter {
             System.exit(1);
         }
 
+        String isnewconfigStrg = cmdl.getOptionValue("isnewconfig");
+        if (isnewconfigStrg != null) {
+            log.info("New configuration file format");
+            SLAsticInstance inst;            
+            
+         inst = initNewInstanceFromArgs();
+            System.exit(0);
+        }
+        
         TpanInstance tpanInstance = initInstanceFromArgs();
         if (tpanInstance == null) {
             log.error("init() returned null");
@@ -86,6 +96,36 @@ public class SLAsticStarter {
         log.info("Bye, this was SLAsticControl");
     }
 
+    /**
+     * Initializes and returns a ControlComponent analysis instance.
+     *
+     * @return the initialized instance; null on error
+     */
+    private static SLAsticInstance initNewInstanceFromArgs() throws IllegalArgumentException {       
+        String configurationFile = cmdl.getOptionValue("configuration");
+        if (configurationFile == null) {
+            log.fatal("Configuration file parameter is null");
+            return null;
+        }
+
+        // Load configuration file
+        InputStream is = null;
+        Properties prop = new Properties();
+        try {
+            is = new FileInputStream(configurationFile);
+            log.info("Loading configuration from file '" + configurationFile + "'");
+            prop.load(is);
+        } catch (Exception ex) {
+            log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
+            // TODO: introduce static variable 'terminated' or alike
+        } finally {
+            try {
+                is.close();
+            } catch (Exception ex) { /* nothing we can do */ }
+        }
+        return new SLAsticInstance(prop);
+    }
+    
     /**
      * Initializes and returns a ControlComponent analysis instance.
      *

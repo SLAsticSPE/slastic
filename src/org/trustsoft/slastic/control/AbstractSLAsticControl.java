@@ -22,6 +22,8 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
 
     private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
 
+    public static final String PROP_PREFIX = "slastic.control";
+    
     private AbstractSLAsticReconfigurationManager reconfigurationManager;
     private AbstractSLAsticModelManager modelManager;
     private AbstractSLAsticModelUpdater modelUpdater;

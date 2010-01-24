@@ -8,6 +8,8 @@ import org.trustsoft.slastic.control.AbstractSLAsticControl;
  * @author Andre van Hoorn
  */
 public abstract class AbstractSLAsticReconfigurationManager extends AbstractSLAsticComponent implements ISLAsticReconfigurationManager {
+    public static final String PROP_PREFIX = "slastic.reconfiguration";
+    
     private AbstractSLAsticControl controlComponent;
 
     public final AbstractSLAsticControl getControlComponent() {

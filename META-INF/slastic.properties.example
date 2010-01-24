@@ -1,0 +1,79 @@
+slastic.control.classname=org.trustsoft.slastic.control.plugins.daLena.ControlComponent
+slastic.control.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
+
+slastic.control.modelmanagement.classname=org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager
+
+slastic.control.modelupdating.classname=org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater
+
+slastic.control.analysis.classname=org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis
+
+slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker
+
+slastic.control.analysis.workloadforecasting.classname=
+slastic.control.analysis.performanceprediction.classname=
+slastic.control.analysis.monitoring.classname=
+
+#
+# JPetStore example:
+#
+slastic.control.analysis.reconfiguration.classname=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget
+slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
+
+# Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+#slastic.control.analysis.reconfiguration.classname=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder
+#slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.control.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan
+
+# Configuration of reader to use:
+# Filesystem: 
+#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
+#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
+#
+# Filesystem (real-time replay mode):
+#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
+#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
+#
+# Java Messaging (JMS):
+#
+tpmon.monitoringDataReader=kieker.tpan.logReader.JMSReader
+tpmon.monitoringDataReaderInitString=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
+#controlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
+#controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
+#controlComponent=org.trustsoft.slastic.control.plugins.daLena.ControlComponent
+#controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
+
+#modelManagerComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelManager
+#modelManagerComponentInitString=managerName=managerVal
+#modelManagerComponent=org.trustsoft.slastic.control.plugins.daLena.modelManager.ModelManager
+#modelManagerComponentInitString=managerName=managerVal
+
+#modelUpdaterComponent=org.trustsoft.slastic.control.plugins.slasticImpl.ModelUpdater
+#modelUpdaterComponentInitString=updaterName=updaterVal
+#modelUpdaterComponent=org.trustsoft.slastic.control.plugins.daLena.modelUpdater.ModelUpdater
+#modelUpdaterComponentInitString=updaterName=updaterVal
+
+#analysisComponent=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+#analysisComponentInitString=analysisName=analysisVal
+#analysisComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.Analysis
+#analysisComponentInitString=analysisName=analysisVal
+
+#performanceEvaluatorComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.SLAChecker
+#performanceEvaluatorComponentInitString=perfEvalName=perfEvalVal
+
+#workloadForecasterComponent=
+#workloadForecasterComponentInitString=
+
+#performancePredictorComponent=
+#performancePredictorComponentInitString=
+
+# Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+#reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationPlanForwarder
+#reconfigurationManagerComponentInitString=
+#adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan
+#adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
+#
+# JPetStore example:
+#
+#reconfigurationManagerComponent=org.trustsoft.slastic.control.plugins.daLena.ReconfigurationManagerWget
+#reconfigurationManagerComponentInitString=
+#adaptationPlannerComponent=org.trustsoft.slastic.control.plugins.daLena.analysis.JPetStoreAdaptationPlanner
+#adaptationPlannerComponentInitString=adaptationPlannerName=adaptationPlannerVal
