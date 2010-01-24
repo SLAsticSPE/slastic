@@ -17,6 +17,8 @@
              by the build process: -->
         <property name="slastic.version"
                   value="0.01a"/>
+        <property name="slastic.common.jar"
+                  value="${slastic.common.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.monitoring.jar"
                   value="${slastic.monitoring.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.control.jar"
@@ -42,7 +44,7 @@
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.monitoring,build-slastic.control,build-slastic.simulation,build-slastic.reconfiguration">
+            depends="clean,init,build-slastic.common,build-slastic.monitoring,build-slastic.control,build-slastic.simulation,build-slastic.reconfiguration">
     </target>
 
     <condition property="no.slastic.monitoring.properties">
@@ -128,6 +130,30 @@
         </path>
     </target>
 
+    <target name="build-slastic.common" depends="init">
+        <delete dir="${build.slastic.common.dir}"/>
+        <mkdir  dir="${build.slastic.common.dir}"/>
+        <mkdir  dir="${build.slastic.common.dir}/META-INF"/>
+        <javac destDir="${build.slastic.common.dir}"
+               source="1.5"
+               srcdir="src"
+               debug="true"
+               classpathref="classpath.libs">
+            <compilerarg value="-Xlint:all"/>
+            <include name="org/trustsoft/slastic/common/**"/>
+        </javac>
+        <!--<copy file="${slastic.common.properties}" todir="${build.slastic.common.dir}/META-INF"/>-->
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.slastic.common.dir}/">
+            <fileset dir="src">
+                <include name="org/trustsoft/slastic/common/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${slastic.common.jar}">
+            <fileset dir="${build.slastic.common.dir}"/>
+        </jar>
+    </target>
+    
     <target name="build-slastic.monitoring" depends="init">
         <delete dir="${build.slastic.monitoring.dir}"/>
         <mkdir  dir="${build.slastic.monitoring.dir}"/>
