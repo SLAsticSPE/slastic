@@ -1,4 +1,4 @@
-package org.trustsoft.slastic;
+package org.trustsoft.slastic.common;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

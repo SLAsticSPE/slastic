@@ -1,5 +1,6 @@
-package org.trustsoft.slastic;
+package org.trustsoft.slastic.common;
 
+import org.trustsoft.slastic.common.SLAsticInstance;
 import org.trustsoft.slastic.plugins.daLena.ReconfigurationPlanForwarder;
 
 import java.io.FileInputStream;
