@@ -27,12 +27,14 @@
                   value="${slastic.simulation.packagenamebase}-${slastic.version}.jar"/>
         <!--<property name="slastic.reconfiguration.jar"
                   value="${slastic.reconfiguration.packagenamebase}-${slastic.version}.jar"/>-->
-    </target>
+        <property name="slastic.plugins.jar"
+                  value="${slastic.plugins.packagenamebase}-${slastic.version}.jar"/>
+        </target>
 
     <target name="update-version" unless="version.noupdate"
             depends="init-version">
         <echo>Updating version string</echo>
-        <replaceregexp file="src/org/trustsoft/slastic/control/Version.java"
+        <replaceregexp file="src/core/org/trustsoft/slastic/common/Version.java"
                        match="VERSION = &quot;.*?&quot;"
                        replace="VERSION = &quot;${slastic.version}-${DSTAMP}&quot;"/>
         <replaceregexp match="&lt;version&gt;.*?&lt;/version&gt;"
@@ -49,7 +51,7 @@
 
     <!-- TODO: plugins -->
     <target name="build-all"
-            depends="clean,init,build-slastic.core,build-slastic.simulation">
+            depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.plugins">
     </target>
     
     <condition property="no.slastic.properties">
@@ -117,7 +119,7 @@
                srcdir="src/core"
                debug="true"
                classpathref="classpath.libs">
-            <compilerarg value="-Xlint:all"/>
+            <compilerarg value="-Xlint:-path"/>
             <!--<include name="org/trustsoft/slastic/core/**"/>-->
         </javac>
         <!--<copy file="${slastic.core.properties}" todir="${build.slastic.core.dir}/META-INF"/>-->
@@ -132,6 +134,30 @@
         </jar>
     </target>
     
+    <target name="build-slastic.plugins" depends="init">
+        <delete dir="${build.slastic.plugins.dir}"/>
+        <mkdir  dir="${build.slastic.plugins.dir}"/>
+        <mkdir  dir="${build.slastic.plugins.dir}/META-INF"/>
+        <javac destDir="${build.slastic.plugins.dir}"
+               source="1.5"
+               srcdir="src/plugins"
+               debug="true"
+               classpathref="classpath.libs">
+            <compilerarg value="-Xlint:-path"/>
+            <!--<include name="org/trustsoft/slastic/plugins/**"/>-->
+        </javac>
+        <!--<copy file="${slastic.plugins.properties}" todir="${build.slastic.plugins.dir}/META-INF"/>-->
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.slastic.plugins.dir}/">
+            <fileset dir="src/plugins">
+                <include name="org/trustsoft/slastic/plugins/**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${slastic.plugins.jar}">
+            <fileset dir="${build.slastic.plugins.dir}"/>
+        </jar>
+    </target>
+    
     <target name="build-slastic.simulation" depends="init">
         <delete dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}"/>
@@ -141,7 +167,7 @@
                srcdir="src/simulation"
                debug="true"
                classpathref="classpath.libs">
-            <compilerarg value="-Xlint:all"/>
+            <compilerarg value="-Xlint:-path"/>
             <include name="org/trustsoft/slastic/simulation/**"/>
         </javac>
         <copy file="${slastic.simulation.properties}" todir="${build.slastic.simulation.dir}/META-INF"/>
@@ -230,7 +256,7 @@
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
-              classname="org.trustsoft.slastic.SLAsticStarter"
+              classname="org.trustsoft.slastic.common.SLAsticStarter"
               classpathref="slastic.control.core.classpath"
               maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
@@ -243,6 +269,21 @@
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
+    <target name="run-SLAsticControl-newconfig" depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
+        <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
+        <java dir="."
+              fork="true"
+              classname="org.trustsoft.slastic.common.SLAsticStarter"
+              classpathref="slastic.core.classpath"
+              maxmemory="1024m">
+            <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
+            <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
+            <arg line="--isnewconfig true"/>
+            <arg line="--configuration META-INF/slastic.properties.example"/>
+        </java>
+        <delete file="${build.tests.dir}/log4j.properties"/>
+    </target>
+    
     <condition property="no.log4j.properties.tests">
         <not>
             <available file="${tests.log4j.properties}"/>

@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control;
+package org.trustsoft.slastic.common;
 
 /*
  * org.trustsoft.slastic.control.Version

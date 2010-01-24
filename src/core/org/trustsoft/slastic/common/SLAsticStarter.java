@@ -1,8 +1,5 @@
 package org.trustsoft.slastic.common;
 
-import org.trustsoft.slastic.common.SLAsticInstance;
-import org.trustsoft.slastic.plugins.daLena.ReconfigurationPlanForwarder;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -14,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import kieker.common.logReader.IKiekerMonitoringLogReader;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.common.logReader.RecordConsumerExecutionException;
-import kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime;
 import kieker.tpan.TpanInstance;
 
 import org.apache.commons.cli.BasicParser;
@@ -25,13 +21,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
 
-import kieker.tpan.logReader.JMSReader;
-
 import org.trustsoft.slastic.control.AbstractSLAsticControl;
-import org.trustsoft.slastic.plugins.daLena.analysis.AdaptationPlannerBookstoreSamplePlan;
-import org.trustsoft.slastic.plugins.daLena.analysis.Analysis;
-import org.trustsoft.slastic.plugins.daLena.analysis.JPetStoreAdaptationPlanner;
-import org.trustsoft.slastic.plugins.daLena.analysis.SLAChecker;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictor;
@@ -39,12 +29,8 @@ import org.trustsoft.slastic.control.components.analysis.AbstractSLAsticAnalysis
 import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecaster;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
-import org.trustsoft.slastic.plugins.daLena.ControlComponent;
-import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
-import org.trustsoft.slastic.plugins.daLena.modelUpdater.ModelUpdater;
 
 import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
-import org.trustsoft.slastic.plugins.daLena.ReconfigurationManagerWget;
 
 /**
  *
@@ -71,11 +57,9 @@ public class SLAsticStarter {
         }
 
         String isnewconfigStrg = cmdl.getOptionValue("isnewconfig");
-        if (isnewconfigStrg != null) {
+        if (isnewconfigStrg != null && isnewconfigStrg.trim().toLowerCase().equals("true")) {
             log.info("New configuration file format");
-            SLAsticInstance inst;            
-            
-         inst = initNewInstanceFromArgs();
+            SLAsticInstance inst = initNewInstanceFromArgs();
             System.exit(0);
         }
         
@@ -345,125 +329,125 @@ public class SLAsticStarter {
         return inst;
     }
 
-    private static TpanInstance legacyInstance() {
-        TpanInstance analysisInstance = null;
-        IKiekerMonitoringLogReader logReader = null;
-        AbstractSLAsticControl slasticCtrlComponent = null;
-        AbstractSLAsticReconfigurationManager reconfigurationManager = null;
-        AbstractSLAsticModelUpdater modelUpdater = null;
-        AbstractSLAsticModelManager modelManager = null;
-        AbstractSLAsticAnalysis analysisComponent = null;
-        AbstractPerformanceEvaluator performanceEvaluator = null;
-        AbstractWorkloadForecaster workloadForecaster = null;
-        AbstractPerformancePredictor performancePredictor = null;
-        AbstractAdaptationPlanner adaptationPlanner = null;
-
-        String readerType = System.getProperty("reader");
-        if (readerType == null || readerType.length() == 0) {
-            log.error("No reader-type found");
-            log.error("Please Provide reader-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
-            log.error("Supported reader types: FSRealtime, JMS");
-        }
-
-        String exampleType = System.getProperty("example");
-        if (exampleType == null || exampleType.length() == 0) {
-            log.error("No Example-Type found");
-            log.error("please provide an example-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
-            log.error("Supported example-type: Bookstore, JPetStore");
-        }
-
-        String initWorkflow_fn = System.getProperty("initWorkflow");
-        if (initWorkflow_fn == null || initWorkflow_fn.length() == 0) {
-            log.error("No initWorkflow found");
-            log.error("please provide a workflow via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
-            log.error("Supported example-type: Bookstore, JPetStore");
-        }
-
-        String inputDir = System.getProperty("inputDir");
-        if (readerType.equals("FSRealtime") || readerType.equals("FSReader")) {
-            if (inputDir == null || inputDir.length() == 0 || inputDir.equals("${inputDir}")) {
-                log.error("No input dir found!");
-                log.error("Provide an input dir as system property.");
-                log.error("Example to read all tpmon-* files from /tmp:\n" +
-                        "                    ant -DinputDir=/tmp/ run-SLAsticControl    ");
-                System.exit(1);
-            } else {
-                log.info("Reading all tpmon-* files from " + inputDir);
-            }
-
-            //Controller object, the main object of the SLAstic.CONTROL-Framework
-            slasticCtrlComponent = new ControlComponent();
-            slasticCtrlComponent.setAnalysis(analysisComponent);
-            slasticCtrlComponent.setModelManager(modelManager);
-            slasticCtrlComponent.setModelUpdater(modelUpdater);
-            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
-            slasticCtrlComponent.init("initWorkflow_fn=" + initWorkflow_fn);
-
-            //Performance Analyzer, part of the Analysis-Object
-            performanceEvaluator = new SLAChecker();
-//            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
-
-            //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
-            if (exampleType.equals("JPetStore")) {
-                //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
-                adaptationPlanner = new JPetStoreAdaptationPlanner();
-                //Reconfiguration Manager that executes plan via network
-                reconfigurationManager = new ReconfigurationManagerWget();
-                reconfigurationManager.execute();
-            } else {
-                //Adaptation Analyzer that produces different Test-Plans
-                adaptationPlanner = new AdaptationPlannerBookstoreSamplePlan();
-                //Reconfiguration Manager that sends the Plan back to the Model Manager
-                reconfigurationManager = new ReconfigurationPlanForwarder();
-            }
-
-            reconfigurationManager.setControlComponent(slasticCtrlComponent);
-
-            //set different Analyzer-Objects, set null for not implemented ones.
+//    private static TpanInstance legacyInstance() {
+//        TpanInstance analysisInstance = null;
+//        IKiekerMonitoringLogReader logReader = null;
+//        AbstractSLAsticControl slasticCtrlComponent = null;
+//        AbstractSLAsticReconfigurationManager reconfigurationManager = null;
+//        AbstractSLAsticModelUpdater modelUpdater = null;
+//        AbstractSLAsticModelManager modelManager = null;
+//        AbstractSLAsticAnalysis analysisComponent = null;
+//        AbstractPerformanceEvaluator performanceEvaluator = null;
+//        AbstractWorkloadForecaster workloadForecaster = null;
+//        AbstractPerformancePredictor performancePredictor = null;
+//        AbstractAdaptationPlanner adaptationPlanner = null;
+//
+//        String readerType = System.getProperty("reader");
+//        if (readerType == null || readerType.length() == 0) {
+//            log.error("No reader-type found");
+//            log.error("Please Provide reader-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
+//            log.error("Supported reader types: FSRealtime, JMS");
+//        }
+//
+//        String exampleType = System.getProperty("example");
+//        if (exampleType == null || exampleType.length() == 0) {
+//            log.error("No Example-Type found");
+//            log.error("please provide an example-type via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
+//            log.error("Supported example-type: Bookstore, JPetStore");
+//        }
+//
+//        String initWorkflow_fn = System.getProperty("initWorkflow");
+//        if (initWorkflow_fn == null || initWorkflow_fn.length() == 0) {
+//            log.error("No initWorkflow found");
+//            log.error("please provide a workflow via: ant -Dreader=<readerType> -Dexample=<exampleType> -DinitWorkflow=<filename> run-Example");
+//            log.error("Supported example-type: Bookstore, JPetStore");
+//        }
+//
+//        String inputDir = System.getProperty("inputDir");
+//        if (readerType.equals("FSRealtime") || readerType.equals("FSReader")) {
+//            if (inputDir == null || inputDir.length() == 0 || inputDir.equals("${inputDir}")) {
+//                log.error("No input dir found!");
+//                log.error("Provide an input dir as system property.");
+//                log.error("Example to read all tpmon-* files from /tmp:\n" +
+//                        "                    ant -DinputDir=/tmp/ run-SLAsticControl    ");
+//                System.exit(1);
+//            } else {
+//                log.info("Reading all tpmon-* files from " + inputDir);
+//            }
+//
+//            //Controller object, the main object of the SLAstic.CONTROL-Framework
+//            slasticCtrlComponent = new ControlComponent();
+//            slasticCtrlComponent.setAnalysis(analysisComponent);
+//            slasticCtrlComponent.setModelManager(modelManager);
+//            slasticCtrlComponent.setModelUpdater(modelUpdater);
+//            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
+//            slasticCtrlComponent.init("initWorkflow_fn=" + initWorkflow_fn);
+//
+//            //Performance Analyzer, part of the Analysis-Object
+//            performanceEvaluator = new SLAChecker();
+////            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
+//
+//            //Adaptation Analyzer, different implementations for JPetStore-Example and other examples
+//            if (exampleType.equals("JPetStore")) {
+//                //JPetStore Adaptation Analyzer for handling SLAViolation-Events by sending a Component-Redeployment-OP to the Reconfiguration Manager
+//                adaptationPlanner = new JPetStoreAdaptationPlanner();
+//                //Reconfiguration Manager that executes plan via network
+//                reconfigurationManager = new ReconfigurationManagerWget();
+//                reconfigurationManager.execute();
+//            } else {
+//                //Adaptation Analyzer that produces different Test-Plans
+//                adaptationPlanner = new AdaptationPlannerBookstoreSamplePlan();
+//                //Reconfiguration Manager that sends the Plan back to the Model Manager
+//                reconfigurationManager = new ReconfigurationPlanForwarder();
+//            }
+//
+//            reconfigurationManager.setControlComponent(slasticCtrlComponent);
+//
+//            //set different Analyzer-Objects, set null for not implemented ones.
+////            analysisComponent.setAdaptationPlanner(adaptationPlanner);
+////            analysisComponent.setPerformancePredictor(performancePredictor);
+////            analysisComponent.setWorkloadForecaster(workloadForecaster);
+//
+//            //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
+//            analysisComponent = new Analysis();
 //            analysisComponent.setAdaptationPlanner(adaptationPlanner);
+//            analysisComponent.setParentControlComponent(slasticCtrlComponent);
+//            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
 //            analysisComponent.setPerformancePredictor(performancePredictor);
 //            analysisComponent.setWorkloadForecaster(workloadForecaster);
-
-            //Analysis object, which belongs to the Controller-Object. It is responsible for the analysis of the Monitoring-Data
-            analysisComponent = new Analysis();
-            analysisComponent.setAdaptationPlanner(adaptationPlanner);
-            analysisComponent.setParentControlComponent(slasticCtrlComponent);
-            analysisComponent.setPerformanceEvaluator(performanceEvaluator);
-            analysisComponent.setPerformancePredictor(performancePredictor);
-            analysisComponent.setWorkloadForecaster(workloadForecaster);
-
-            //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
-            modelUpdater = new ModelUpdater();
-            modelManager = new ModelManager();
-
-            //Initalizing Controller object
-            slasticCtrlComponent.setAnalysis(analysisComponent);
-            slasticCtrlComponent.setModelManager(modelManager);
-            slasticCtrlComponent.setModelUpdater(modelUpdater);
-            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
-
-            //Tpan Instace for monitoring data
-            analysisInstance = new TpanInstance();
-            if (readerType.equals("FSRealtime")) {
-                //log reader to replay data in realtime
-                logReader = new FSReaderRealtime(inputDir, 7);
-
-            } else if (readerType.equals("JMS")) {
-                //JMS reader for reading via network in realtime
-                //logReader= new JMSReader("tcp://pc-vanhoorn.informatik.uni-oldenburg.de:3035/","queue1");
-                logReader = new JMSReader("tcp://134.106.27.209:3035/", "queue1");
-            } else {
-                log.error("ReaderType: " + readerType + " not found");
-                return null;
-            }
-
-            //initializing Tpan object
-            analysisInstance.setLogReader(logReader);
-            analysisInstance.addRecordConsumer(slasticCtrlComponent);
-        }
-
-        return analysisInstance;
-    }
+//
+//            //Instantiate ModelUpdater that is responsible for distributing incoming monitoring data
+//            modelUpdater = new ModelUpdater();
+//            modelManager = new ModelManager();
+//
+//            //Initalizing Controller object
+//            slasticCtrlComponent.setAnalysis(analysisComponent);
+//            slasticCtrlComponent.setModelManager(modelManager);
+//            slasticCtrlComponent.setModelUpdater(modelUpdater);
+//            slasticCtrlComponent.setReconfigurationManager(reconfigurationManager);
+//
+//            //Tpan Instace for monitoring data
+//            analysisInstance = new TpanInstance();
+//            if (readerType.equals("FSRealtime")) {
+//                //log reader to replay data in realtime
+//                logReader = new FSReaderRealtime(inputDir, 7);
+//
+//            } else if (readerType.equals("JMS")) {
+//                //JMS reader for reading via network in realtime
+//                //logReader= new JMSReader("tcp://pc-vanhoorn.informatik.uni-oldenburg.de:3035/","queue1");
+//                logReader = new JMSReader("tcp://134.106.27.209:3035/", "queue1");
+//            } else {
+//                log.error("ReaderType: " + readerType + " not found");
+//                return null;
+//            }
+//
+//            //initializing Tpan object
+//            analysisInstance.setLogReader(logReader);
+//            analysisInstance.addRecordConsumer(slasticCtrlComponent);
+//        }
+//
+//        return analysisInstance;
+//    }
 
     static boolean parseArgs(String[] args) {
         try {
