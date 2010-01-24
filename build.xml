@@ -142,7 +142,7 @@
                source="1.5"
                srcdir="src/plugins"
                debug="true"
-               classpathref="classpath.libs">
+               classpathref="slastic.control.core.classpath">
             <compilerarg value="-Xlint:-path"/>
             <!--<include name="org/trustsoft/slastic/plugins/**"/>-->
         </javac>
