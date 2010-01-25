@@ -7,7 +7,7 @@ import org.trustsoft.slastic.control.AbstractSLAsticControl;
  *
  * @author Andre van Hoorn
  */
-public class AbstractSLAsticMonitoringManager extends AbstractSLAsticComponent implements ISLAsticMonitoringManager {
+public abstract class AbstractSLAsticMonitoringManager extends AbstractSLAsticComponent implements ISLAsticMonitoringManager {
     public static final String PROP_PREFIX = "slastic.monitoring";
     
     private AbstractSLAsticControl controller;
@@ -16,13 +16,9 @@ public class AbstractSLAsticMonitoringManager extends AbstractSLAsticComponent i
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public boolean execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract boolean execute();
 
-    public void terminate() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public abstract void terminate();
 
     public final AbstractSLAsticControl getController() {
         return this.controller;

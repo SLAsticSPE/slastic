@@ -38,10 +38,12 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     private ISLAsticAnalysis ana;
     private ScheduledThreadPoolExecutor ex;
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far.
-    }
+    private boolean initialized = false;
+
+//    public void init(String initString) throws IllegalArgumentException {
+//        super.initVarsFromInitString(initString);
+//        // we don't expect init properties so far.
+//    }
 
     /**
      * Delegating the calculation to the QuantileCalculator object.
@@ -138,10 +140,17 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         }
     }
 
+    private void init() throws IllegalArgumentException {
+        if  (this.slas == null) {
+            log.error("this.slas == null");
+            throw new IllegalArgumentException("this.slas == null");
+        }
+        this.initialized = true;
+    }
+
     public boolean execute() {
-        if (!this.stateIsValid()){
-            log.error("determined invalid state");
-            return false;
+        if (!this.initialized){
+            this.init();
         }
 
         this.quantileCalc = new QuantileCalculator((ModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
@@ -162,17 +171,6 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         }
         this.startThreadPool();
         return true;
-    }
-
-    private boolean stateIsValid (){
-        boolean isValidState = true;
-        
-        if  (this.slas == null) {
-            log.error("this.slas == null");
-            isValidState = false;
-        }
-
-        return isValidState;
     }
 
     public void setSLAs(Model slas) {

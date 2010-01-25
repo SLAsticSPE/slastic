@@ -94,8 +94,10 @@ public class SLAsticStarter {
         String configurationFile = cmdl.getOptionValue("configuration");
         if (configurationFile == null) {
             log.fatal("Configuration file parameter is null");
-            return null;
+            throw new IllegalArgumentException("Configuration file parameter is null");
         }
+
+        SLAsticInstance inst = null;
 
         // Load configuration file
         InputStream is = null;
@@ -104,15 +106,17 @@ public class SLAsticStarter {
             is = new FileInputStream(configurationFile);
             log.info("Loading configuration from file '" + configurationFile + "'");
             prop.load(is);
+            inst = new SLAsticInstance(prop);
         } catch (Exception ex) {
-            log.error("Error loading tpmon.properties file '" + configurationFile + "'", ex);
+            log.error("Error creating SLAsticInstance", ex);
+            throw new IllegalArgumentException("Error creating SLAsticInstance", ex);
         // TODO: introduce static variable 'terminated' or alike
         } finally {
             try {
                 is.close();
             } catch (Exception ex) { /* nothing we can do */ }
         }
-        return new SLAsticInstance(prop);
+        return inst;
     }
 
     /**

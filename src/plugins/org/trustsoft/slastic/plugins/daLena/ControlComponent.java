@@ -20,6 +20,7 @@ public class ControlComponent extends BasicSLAsticControl {
 
     private static final Log log = LogFactory.getLog(ControlComponent.class);
     private String workflow_fn;
+    private boolean isInitialized = false;
 
     @Override
     public void update(AbstractKiekerMonitoringRecord record) {
@@ -31,18 +32,20 @@ public class ControlComponent extends BasicSLAsticControl {
 
     }
 
-    @Override
-    public void init(String initString) throws IllegalArgumentException {
-        super.init(initString); // throws IllegalArgumentException
-
+    private void init() throws IllegalArgumentException {
         this.workflow_fn = this.getInitProperty("initWorkflow_fn");
         if (this.workflow_fn == null || this.workflow_fn.equals("")){
             throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
         }
+        this.isInitialized = true;
     }
 
     @Override
     public boolean execute() {
+        if (!this.isInitialized){
+            this.init();
+        }
+        
         Map<String, String> properties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
 

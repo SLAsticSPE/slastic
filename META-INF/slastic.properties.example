@@ -11,7 +11,8 @@ slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.p
 
 slastic.control.analysis.workloadforecasting.classname=
 slastic.control.analysis.performanceprediction.classname=
-slastic.control.analysis.monitoring.classname=
+
+slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
 
 #
 # JPetStore example:

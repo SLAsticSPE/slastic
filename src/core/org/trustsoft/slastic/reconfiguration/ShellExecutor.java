@@ -17,6 +17,7 @@ import org.omg.CORBA.SystemException;
  * @author Andre van Hoorn
  */
 public class ShellExecutor {
+
     public static boolean invoke(String command, List<String> args, boolean spawn) {
         int errorCode;
 

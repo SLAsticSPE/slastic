@@ -46,7 +46,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 
     /** Returns the value for the initialization property @a propName or null
      *  if no value for this property exists. */
-    protected final String getInitProperty(String propName) {
+    protected final String getInitProperty(final String propName) {
         if (this.properties != null){
             return this.properties.getProperty(propName, null);
         } else { // TODO: remove

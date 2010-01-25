@@ -16,10 +16,10 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
 
     private static final Log log = LogFactory.getLog(BasicSLAsticControl.class);
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
-    }
+//    public void init(String initString) throws IllegalArgumentException {
+//        super.initVarsFromInitString(initString);
+//        // we don't expect init properties so far, so just return.
+//    }
 
     public void update(AbstractKiekerMonitoringRecord record) {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -35,9 +35,5 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
             throws RecordConsumerExecutionException {
         this.getModelUpdater().consumeMonitoringRecord(monitoringRecord);
 
-    }
-
-    public void init(Properties props) throws IllegalArgumentException {
-        // we don't expect init properties so far, so just return.
     }
 }
