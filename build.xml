@@ -284,7 +284,6 @@
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
             </classpath>
         </java>
-        <echo message="CP: ${dist.dir}/${slastic.plugins.jar}"/>
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
     

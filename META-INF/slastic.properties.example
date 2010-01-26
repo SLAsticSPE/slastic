@@ -30,13 +30,13 @@ slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plug
 #tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
 #
 # Filesystem (real-time replay mode):
-#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
-#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
+#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
 #
 # Java Messaging (JMS):
 #
-tpmon.monitoringDataReader=kieker.tpan.logReader.JMSReader
-tpmon.monitoringDataReaderInitString=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
+slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
+slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
 #controlComponent=org.trustsoft.slastic.control.components.BasicSLAsticControl
 #controlComponentInitString=initWorkflow_fn = META-INF/oaw/InitModels-Andre.oaw  | bla = blup
 #controlComponent=org.trustsoft.slastic.plugins.daLena.ControlComponent

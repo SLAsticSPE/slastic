@@ -164,7 +164,7 @@ public class SLAsticInstance {
 						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			}
 			this.monitoringManager = (AbstractSLAsticMonitoringManager) loadAndInitInstanceFromClassname(
-					monitoringComponentClassnameProperty, this.controllerProps);
+					monitoringComponentClassnameProperty, this.monitoringProps);
 
 			String controlComponentClassnameProperty = this.controllerProps
 					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
@@ -367,58 +367,10 @@ public class SLAsticInstance {
 						.setSimpleSLAsticEventService(this.controller);
 			}
 
-			// TODO: This should also be configurable from the command-line!
-			String logReaderClassnameProperty = prop
-					.getProperty("tpmon.monitoringDataReader");
-			String logReaderInitStringProperty = prop.getProperty(
-					"tpmon.monitoringDataReaderInitString", ""); // empty String
-																	// is
-																	// default
-			if (logReaderClassnameProperty == null
-					|| logReaderClassnameProperty.length() <= 0) {
-				log
-						.error("Missing configuration property value for 'tpmon.monitoringDataReader'");
-			}
-			IKiekerMonitoringLogReader logReader = (IKiekerMonitoringLogReader) loadAndInitInstanceFromClassname(
-					logReaderClassnameProperty, logReaderInitStringProperty);
-
-			// tpanInstance = new TpanInstance();
-			// tpanInstance.setLogReader(logReader);
-			// tpanInstance.addRecordConsumer(slasticCtrlComponent);
-
-			// TODO: to be removed
-			// tpanInstance = legacyInstance();
-			// return tpanInstance;
 		} catch (Exception exc) {
 			log.error("An error occured", exc);
 			throw new IllegalArgumentException("An error occured", exc);
 		}
-	}
-
-	/**
-	 * An object of the class with name @classname is instantiated, its method
-	 * init(String initString) is called with parameter @a initString and the
-	 * object is returned. This implies, that the class for @a classname provide
-	 * the method init(String initString).
-	 * 
-	 * @return the instance; null in case an error occured.
-	 */
-	private Object loadAndInitInstanceFromClassname(String classname,
-			String initString) {
-		Object inst = null;
-		try {
-			Class cl = Class.forName(classname);
-			inst = cl.newInstance();
-			Method m = cl.getMethod("init", String.class);
-			m.invoke(inst, initString);
-			log.info("Loaded and instantiated component ('" + classname
-					+ "') with init string '" + initString + "'");
-		} catch (Exception ex) {
-			inst = null;
-			log.fatal("Failed to instantiate component of class '" + classname
-					+ "'", ex);
-		}
-		return inst;
 	}
 
 	/**
