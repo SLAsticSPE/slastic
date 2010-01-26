@@ -11,7 +11,7 @@ import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServic
  *
  * @author Andre van Hoorn
  */
-public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimpleSLAsticEventService{
+public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimpleSLAsticEventService {
 
     private static final Log log = LogFactory.getLog(BasicSLAsticControl.class);
 
@@ -19,7 +19,6 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
 //        super.initVarsFromInitString(initString);
 //        // we don't expect init properties so far, so just return.
 //    }
-
     public void update(AbstractKiekerMonitoringRecord record) {
         try {
             this.consumeMonitoringRecord(record);

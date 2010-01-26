@@ -8,31 +8,33 @@ slastic.control.analysis.performanceprediction.classname=
 
 slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
 
-#
-# JPetStore example:
-#
+##
+## JPetStore example:
+##
 slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
 slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
 
 slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.slachecker.reconfiguration.ReconfigurationManagerWget
 slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
 
-# Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+##
+## Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+##
 #slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.SLOModelManager
 #slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
 #slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.reconfiguration.ReconfigurationPlanForwarder
 #slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.control.analysis.AdaptationPlannerBookstoreSamplePlan
 
 # Configuration of reader to use:
-# Filesystem: 
-#tpmon.monitoringDataReader=kieker.common.logReader.filesystemReader.FSReader
-#tpmon.monitoringDataReaderInitString=inputDirName=tmp/tpmon-20090820-133916521/
+# Filesystem (normal mode): 
+#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
 #
 # Filesystem (real-time replay mode):
-#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
-#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20090820-133916521/ | numWorkers=5
+slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
+slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
 #
 # Java Messaging (JMS):
 #
-slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
-slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
+#slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
+#slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 

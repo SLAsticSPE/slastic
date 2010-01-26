@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA;
+package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 

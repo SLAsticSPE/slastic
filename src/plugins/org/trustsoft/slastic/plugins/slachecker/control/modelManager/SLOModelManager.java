@@ -1,16 +1,14 @@
 package org.trustsoft.slastic.plugins.slachecker.control.modelManager;
 
-import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
-import reconfMM.ReconfigurationModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 import reconfMM.Service;
 import slal.Model;
@@ -30,16 +28,13 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfigur
     @Override
     public boolean execute() {
         boolean success = super.execute();
-
         //reading the SLA-model
         this.slas = (slal.Model) runner.getContext().get("theModel");
 
         //intialize Model Manager object
         this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
 
-        //initialize Analysis object
-        //this.getAnalysis().setSLAs(slas);
-        //this.analysis.setReconfigurationManager(this.reconfigurationManager);
+        this.initQueues();
 
         return success;
     }
@@ -102,12 +97,6 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfigur
                 }
             }
         }
-    }
-
-    @Override
-    public void setModel(ReconfigurationModel m) {
-        super.setModel(m);
-        this.initQueues();
     }
 
     /**

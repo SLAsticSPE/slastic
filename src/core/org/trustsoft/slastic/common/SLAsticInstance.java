@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import java.util.Properties;
-import kieker.common.logReader.IKiekerMonitoringLogReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -305,6 +304,7 @@ public class SLAsticInstance {
 			}
 
 			/* "wire" the components */
+                        this.monitoringManager.setController(this.controller);
 			this.reconfigurationMgr.setControlComponent(this.controller);
 
 			this.controller.setReconfigurationManager(this.reconfigurationMgr); // TODO:

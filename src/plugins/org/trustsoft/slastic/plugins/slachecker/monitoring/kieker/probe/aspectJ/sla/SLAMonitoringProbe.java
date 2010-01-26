@@ -1,15 +1,13 @@
-package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.SLA;
+package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla;
 
 import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.*;
 import kieker.tpmon.core.ControlFlowRegistry;
 import kieker.tpmon.probe.IKiekerMonitoringProbe;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
-import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 /*
  * org.trustsoft.slastic.control.probe.aspectJ.SLA.SLAMonitoringProbe
@@ -54,7 +52,7 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
         return record;
     }
     
-    @Around(value="execution(@org.trustsoft.slastic.monadapt.annotation.SLAsticSLAMonitoringProbe * *(..)) && @annotation(sla)", argNames="thisJoinPoint,sla")
+    @Around(value="execution(@org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe * *(..)) && @annotation(sla)", argNames="thisJoinPoint,sla")
     public Object doBasicProfiling(ProceedingJoinPoint thisJoinPoint, SLAsticSLAMonitoringProbe sla) throws Throwable {
        if (!ctrlInst.isMonitoringEnabled()) {
             return thisJoinPoint.proceed();

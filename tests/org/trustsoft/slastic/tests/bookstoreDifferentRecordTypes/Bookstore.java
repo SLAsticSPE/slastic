@@ -1,11 +1,8 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
-import kieker.tpmon.core.TpmonController;
-import org.trustsoft.slastic.monitoring.annotation.SLAsticSLAMonitoringProbe;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
 
 /**
  * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes..Bookstore.java

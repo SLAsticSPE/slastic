@@ -8,7 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
-import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 /**
  * Class for calculating the given quantiles for a given service which is identified via serviceID.

@@ -54,9 +54,12 @@ public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
 			public void consumeMonitoringRecord(
 					AbstractKiekerMonitoringRecord monitoringRecord)
 					throws RecordConsumerExecutionException {
+                            try{
 				// simply forward records to controller
 				getController().consumeMonitoringRecord(monitoringRecord);
-
+                            }catch (Exception exc){
+                                log.error("Failed to forward record", exc);
+                            }
 			}
 
 			@Override
