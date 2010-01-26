@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.slachecker.reconfiguration;
+package org.trustsoft.slastic.plugins.pcmreconfiguration.reconfiguration;
 
 import java.util.concurrent.ArrayBlockingQueue;
 

@@ -1,8 +1,5 @@
 package org.trustsoft.slastic.control;
 
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
