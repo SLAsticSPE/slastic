@@ -12,6 +12,7 @@ import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.BasicSLAsticControl;
 import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
 
 /**
  * @author Lena Stoever
@@ -58,8 +59,8 @@ public class ControlComponent extends BasicSLAsticControl {
         reconfMM.ReconfigurationModel reconfigurationModel = (reconfMM.ReconfigurationModel) runner.getContext().get("reconfigurationModel");
 
         //intialize Model Manager object
-        ((ModelManager)this.getModelManager()).setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
-        ((ModelManager)this.getModelManager()).setModel(reconfigurationModel);
+        ((SLOModelManager)this.getModelManager()).setMaxResponseTime(reconfigurationModel.getMaxResponseTimes());
+        ((SLOModelManager)this.getModelManager()).setModel(reconfigurationModel);
 
         //initialize Analysis object
         this.getAnalysis().setSLAs(slas);

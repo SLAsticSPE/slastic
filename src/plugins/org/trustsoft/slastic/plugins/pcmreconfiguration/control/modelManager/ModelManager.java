@@ -2,8 +2,6 @@ package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
 
 import java.io.IOException;
 import java.util.Vector;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -27,7 +25,6 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
 
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;
-import reconfMM.Service;
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
 import ReconfigurationPlanModel.ComponentReplicationOP;
@@ -59,9 +56,9 @@ import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticMode
 public class ModelManager extends AbstractSLAsticModelManager {
 
     private final Log log = LogFactory.getLog(ModelManager.class);
-    private int capacity = 0;
+
 //    private static ModelManager instance;
-    private ReconfigurationModel model;
+    protected ReconfigurationModel model;
     //map of types of components with their belonging instances within the model
     private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
     //map of types of components with their belonging reconfiguration information (service-IDs, responseTimes etc., see package reconfmm for more information)
@@ -72,15 +69,8 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
     //list of not allocated models
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
-    //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
-    private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
 
     public ModelManager() {
-    }
-
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
     }
 
     /**
@@ -93,7 +83,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
     public void setModel(ReconfigurationModel m) {
         log.info(m);
         this.model = m;
-        this.initQueues();
         this.initComponentAllocationList();
         this.initAllocatedServers();
         this.initInstanceCount();
@@ -167,23 +156,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
         log.info("InitInstanceCount is done");
     }
 
-    /**
-     * Initializing the HashMap with the response time queues
-     */
-    private void initQueues() {
-        this.responseTimeQueues = new ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>>();
-        for (int i = 0; i < this.model.getComponents().size(); i++) {
-            for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
-                // It is important not to use a Set of Longs, because of the
-                // possibility of equal values of response times
-                ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
-                this.responseTimeQueues.put(this.model.getComponents().get(i).getServices().get(k).getServiceID(), new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
-                this.model.getComponents().get(i).getServices().get(k).setResponseTimes(list);
-            }
-        }
-
-    }
-
 //    /**
 //     * Singleton implementation. Don't forget to call the initModel()-method
 //     * before using the returned Instance
@@ -199,31 +171,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
 //    }
     @Override
     public void update(AbstractKiekerMonitoringRecord newRecord) {
-        SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
-        int serviceID = newSLORecord.serviceId;
-        synchronized (this.model) {
-            for (int i = 0; i < this.model.getComponents().size(); i++) {
-                for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
-                    Service service = this.model.getComponents().get(i).getServices().get(k);
-                    if (service.getServiceID() == serviceID) {
-                        ConcurrentSkipListSet<SLOMonitoringRecord> list = (ConcurrentSkipListSet<SLOMonitoringRecord>) service.getResponseTimes();
-                        BlockingQueue<SLOMonitoringRecord> queue = this.responseTimeQueues.get(serviceID);
-                        synchronized (list) {
-                            if (list.size() < this.capacity) {
-                                list.add(newSLORecord);
-                                queue.add(newSLORecord);
-                            } else {
-                                list.remove(queue.poll());
-                                list.add(newSLORecord);
-                                queue.add(newSLORecord);
-                            }
-                            //log.info("ListSize: "+list.size());
-                        }
-                    }
-
-                }
-            }
-        }
+        // do nothing
     }
 
     /**
@@ -520,11 +468,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
     @Override
     public void doReconfiguration(SLAsticReconfigurationPlan plan) {
         // TODO Auto-generated method stub
-    }
-
-    public void setMaxResponseTime(int capacity) {
-        this.capacity = capacity;
-
     }
 
     public void handleSLAsticEvent(ISLAsticEvent ev) { }
