@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.daLena;
+package org.trustsoft.slastic.plugins.daLena.control;
 
 import java.util.HashMap;
 import java.util.Map;
