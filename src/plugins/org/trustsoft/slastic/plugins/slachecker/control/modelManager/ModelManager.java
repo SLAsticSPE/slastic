@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.daLena.control.modelManager;
+package org.trustsoft.slastic.plugins.slachecker.control.modelManager;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -23,7 +23,7 @@ import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelExcep
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
-import org.trustsoft.slastic.plugins.daLena.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;

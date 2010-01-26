@@ -1,6 +1,6 @@
-package org.trustsoft.slastic.plugins.daLena.control.analysis;
+package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
-import org.trustsoft.slastic.plugins.daLena.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.slachecker.control.modelManager.ModelManager;
 import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentRedeploymentOP;

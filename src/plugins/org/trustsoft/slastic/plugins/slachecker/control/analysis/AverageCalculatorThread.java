@@ -1,14 +1,14 @@
 /**
  * 
  */
-package org.trustsoft.slastic.plugins.daLena.control.analysis;
+package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
 import java.util.concurrent.BlockingQueue;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.daLena.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
  * @author Lena

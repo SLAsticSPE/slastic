@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.daLena.control.analysis;
+package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
