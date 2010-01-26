@@ -3,10 +3,11 @@
  */
 package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
+import java.util.concurrent.ConcurrentSkipListSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
-import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 /**
@@ -17,13 +18,12 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
 public class QuantileCalculator {
 
     private final Log log = LogFactory.getLog(QuantileCalculator.class);
-    private final ModelManager mng;
-    
+    private final SLOModelManager mng;
 
     /**
      * Simple constructor of the QuantileCalculator.
      */
-    public QuantileCalculator(final ModelManager mng) {
+    public QuantileCalculator(final SLOModelManager mng) {
         log.info("QuantileCalculatorThread created!");
         this.mng = mng;
     }
@@ -35,44 +35,41 @@ public class QuantileCalculator {
      * @return array of results
      * @throws ServiceIDDoesNotExistException 
      */
-    public long[] getResponseTimeForQuantiles(float[] quantiles, int serviceID) throws ServiceIDDoesNotExistException {
-        long[] responseTime;
+    public long[] getResponseTimeQuantiles(float[] quantiles, int serviceID) throws ServiceIDDoesNotExistException {
+        long[] retVal;
         //System.out.println("Quantile Request for ServiceID: " + serviceID);
-        responseTime = new long[quantiles.length];
-        SLOMonitoringRecord[] rtSet;
-        rtSet= new SLOMonitoringRecord[this.mng.getResponseTimes(serviceID).size()];
-                rtSet = mng.getResponseTimes(serviceID).toArray(rtSet);
-       
-        if (rtSet == null) {
-            //log.error("Not yet any service with ID: "+serviceID+" available");
-            return null;
-        }else if(rtSet.length == 0){
-        	//log.error("Not yet any responseTime for ID: "+serviceID+" measured"); 	
-        } else {
-        	//Calculating quantiles, if there are any response times available
-            for (int i = 0; i < responseTime.length; i++) {
-            	try{
-            	// for the calculation check out the thesis ;)
-                if ((rtSet.length % (1.0f / (quantiles[i])) != 0.0f)) {
-                	 int index = (int) ((rtSet.length+1)*(quantiles[i]))-1;
-                	 //log.info("rtsetSize"+rtSet.length+" und der Index: "+index);
-                	 responseTime[i] = rtSet[index].rtNseconds;
-                    //log.info("NEW Quantiles calculated............." + responseTime[i] + "......................");
+        retVal = new long[quantiles.length];
+
+        //rtArr = new SLOMonitoringRecord[this.mng.getResponseTimes(serviceID).size()];
+        ConcurrentSkipListSet<SLOMonitoringRecord> rtSet = mng.getResponseTimes(serviceID); // never null
+        SLOMonitoringRecord[] rtArr = rtSet.toArray(new SLOMonitoringRecord[0]);
+        //Calculating quantiles, if there are any response times available
+        for (int i = 0; i < retVal.length; i++) {
+            try {
+                // for the calculation check out the thesis ;)
+                if (rtArr.length == 0){
+                    retVal[i] = -1;
+                    continue;
+                }
+                if ((rtArr.length % (1.0f / (quantiles[i])) != 0.0f)) {
+                    int index = (int) ((rtArr.length + 1) * (quantiles[i])) - 1;
+                    //log.info("rtsetSize"+rtArr.length+" und der Index: "+index);
+                    retVal[i] = rtArr[index].rtNseconds;
+                    //log.info("NEW Quantiles calculated............." + retVal[i] + "......................");
 
                 } else {
-                	int index = (int) ((rtSet.length)*(quantiles[i]))-1;
-                	//log.info(rtSet.length);
-                   	responseTime[i] =(long) (0.5* (rtSet[index].rtNseconds + rtSet[index+1].rtNseconds));
-                    //log.info("NEW Quantile calculated.............." + responseTime[i] + ".....................");
+                    int index = (int) ((rtArr.length) * (quantiles[i])) - 1;
+                    //log.info(rtArr.length);
+                    retVal[i] = (long) (0.5 * (rtArr[index].rtNseconds + rtArr[index + 1].rtNseconds));
+                    //log.info("NEW Quantile calculated.............." + retVal[i] + ".....................");
                 }
-                }catch(Exception e){
-                	e.printStackTrace();
-                }
+            } catch (Exception e) {
+                log.error(e);
             }
         }
-        return responseTime;
+        return retVal;
     }
-    public void terminate(){
-    	
+
+    public void terminate() {
     }
 }

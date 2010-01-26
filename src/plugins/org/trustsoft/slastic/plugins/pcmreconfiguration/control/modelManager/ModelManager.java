@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
@@ -20,8 +19,6 @@ import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
-import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
-import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
@@ -208,30 +205,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
     @Override
     public void update(AbstractKiekerMonitoringRecord newRecord) {
         // do nothing
-    }
-
-    /**
-     * runs through the model and returns the set of responsetimes that belongs
-     * to the given service
-     *
-     * @param serviceID
-     *            identifies the service
-     * @return
-     * @throws ServiceIDDoesNotExistException
-     */
-    @SuppressWarnings("unchecked")
-    public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
-            int serviceID) throws ServiceIDDoesNotExistException {
-        synchronized (this.model) {
-            for (int i = 0; i < this.model.getComponents().size(); i++) {
-                for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
-                    if (this.model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
-                        return ((ConcurrentSkipListSet<SLOMonitoringRecord>) this.model.getComponents().get(i).getServices().get(k).getResponseTimes());
-                    }
-                }
-            }
-        }
-        throw new ServiceIDDoesNotExistException();
     }
 
     /**

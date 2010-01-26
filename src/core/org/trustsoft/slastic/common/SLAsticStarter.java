@@ -65,6 +65,7 @@ public class SLAsticStarter {
                 System.exit(1);
             }
             inst.run();
+            log.info("SLAsticInstance started");
         } else { // TODO: remove
             TpanInstance tpanInstance = initInstanceFromArgs();
             if (tpanInstance == null) {

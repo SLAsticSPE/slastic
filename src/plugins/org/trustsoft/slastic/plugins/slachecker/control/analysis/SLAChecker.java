@@ -3,7 +3,6 @@
  */
 package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
-import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -13,11 +12,10 @@ import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
 import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
-import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
+import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 
 import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
 import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
-import slal.Model;
 import slal.SLO;
 
 /**
@@ -39,14 +37,12 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     private int[] serviceIDs;
     private ISLAsticAnalysis ana;
     private ScheduledThreadPoolExecutor ex;
-
     private boolean initialized = false;
 
 //    public void init(String initString) throws IllegalArgumentException {
 //        super.initVarsFromInitString(initString);
 //        // we don't expect init properties so far.
 //    }
-
     /**
      * Delegating the calculation to the QuantileCalculator object.
      * @param quantile array for identifying the quantiles that should be calculated
@@ -57,7 +53,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     private long[] getQuantilResponseTime(float[] quantile, int id)
             throws ServiceIDDoesNotExistException {
         //Delegation to the Quantile Calculator
-        long[] rt = this.quantileCalc.getResponseTimeForQuantiles(quantile, id);
+        long[] rt = this.quantileCalc.getResponseTimeQuantiles(quantile, id);
         try {
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,25 +96,25 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
                         new Runnable() {
 
                             public void run() {
-                                long[] responseTimes = null;
                                 try {
+                                    long[] responseTimes = null;
                                     responseTimes = getQuantilResponseTime(
                                             quantile, ID);
-                                } catch (ServiceIDDoesNotExistException e) {
-                                    e.printStackTrace();
-                                }
-                                for (int j = 0; j < responseTimes.length; j++) {
-                                    int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
-                                    if (responseTimes[j] > responseTime2) {
-                                        //if response time quantile violates SLA, send an event to the Analysis component.
-                                        SLAViolationEvent evt = new SLAViolationEvent(ID);
-                                        getSimpleSLAsticEventService().sendEvent(evt);
-                                        // log.info("SLAViolation sent");
+                                    for (int j = 0; j < responseTimes.length; j++) {
+                                        int responseTime2 = slo.getValue().getPair().get(j).getResponseTime();
+                                        if (responseTimes[j] > responseTime2) {
+                                            //if response time quantile violates SLA, send an event to the Analysis component.
+                                            SLAViolationEvent evt = new SLAViolationEvent(ID);
+                                            getSimpleSLAsticEventService().sendEvent(evt);
+                                            // log.info("SLAViolation sent");
+                                        }
                                     }
-
+                                } catch (Exception exc) {
+                                    log.fatal("Exception occured in executor pool. Will rethrow exception", exc);
+                                    throw new RuntimeException(exc); // rethrow
                                 }
                             }
-                        }, (1000 / (slaslo.size())) + i * 1000, 1000,
+                        }, (1000 / slaslo.size()) + i * 1000, 1000,
                         TimeUnit.MILLISECONDS);
             } else {
                 log.error("No handling for this SLA-Type available");
@@ -128,6 +124,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
     }
 
     public void terminate() {
+        log.info("Terminating");
         /*
          * In case we spawned a thread in execute(), we get the chance to kill
          * it here.
@@ -142,27 +139,22 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         }
     }
 
-    @Override
-    public void setProperties(Properties properties) {
-        super.setProperties(properties);
-    }
-
-
     private void init() throws IllegalArgumentException {
-        this.slas = ((SLOModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager()).getSlas();
-        if  (this.slas == null) {
+        this.slas = ((SLOModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager()).getSlas();
+        if (this.slas == null) {
             log.error("this.slas == null");
             throw new IllegalArgumentException("this.slas == null");
         }
+        log.info(this.slas);
         this.initialized = true;
     }
 
     public boolean execute() {
-        if (!this.initialized){
+        if (!this.initialized) {
             this.init();
         }
 
-        this.quantileCalc = new QuantileCalculator((ModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
+        this.quantileCalc = new QuantileCalculator((SLOModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
 
         //Initialize GUIs and set of service IDs
         guis = new SLACheckerGUI[this.slas.getObligations().getSlo().size()];
@@ -175,18 +167,15 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
             guis[i] = new SLACheckerGUI(
                     "ServiceID: " + this.slas.getObligations().getSlo().get(i).getServiceID(), 30000, quantiles[0],
                     quantiles[1], quantiles[2]);
+            log.info("SLOS[" + i + "]:" + quantiles[0] + ";" + quantiles[1] + ";" + quantiles[2]);
             guis[i].paint();
             serviceIDs[i] = this.slas.getObligations().getSlo().get(i).getServiceID();
         }
         this.startThreadPool();
+        log.info("Started " + SLAChecker.class);
         return true;
     }
 
-    public void setSLAs(Model slas) {
-        log.info("called setSLAs");
-        this.slas = slas;
-
+    public void handleSLAsticEvent(ISLAsticEvent ev) {
     }
-
-    public void handleSLAsticEvent(ISLAsticEvent ev) { }
 }

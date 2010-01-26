@@ -402,8 +402,8 @@ public class SLAsticInstance {
 	/** Start instance. The method returns immediately. */
 	public void run() {
 		this.controller.execute();
-		this.monitoringManager.execute();
 		this.reconfigurationMgr.execute();
+		this.monitoringManager.execute();
 	}
 
 	/** Terminate instance */

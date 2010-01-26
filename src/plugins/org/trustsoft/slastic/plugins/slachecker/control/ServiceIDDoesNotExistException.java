@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.exceptions;
+package org.trustsoft.slastic.plugins.slachecker.control;
 
 public class ServiceIDDoesNotExistException extends Exception {
 	public ServiceIDDoesNotExistException(){

@@ -6,27 +6,30 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 import reconfMM.ReconfigurationModel;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.Service;
 import slal.Model;
+
 /**
  *
  * @author Andre van Hoorn, Lena Stoever
  */
 public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager {
 
+    private static final Log log = LogFactory.getLog(SLOModelManager.class);
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
     private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
     private int capacity = 0;
-
     private slal.Model slas = null;
 
     @Override
-    public void setProperties(Properties properties) {
-        super.setProperties(properties);
+    public boolean execute() {
+        boolean success = super.execute();
 
         //reading the SLA-model
         this.slas = (slal.Model) runner.getContext().get("theModel");
@@ -37,16 +40,38 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfigur
         //initialize Analysis object
         //this.getAnalysis().setSLAs(slas);
         //this.analysis.setReconfigurationManager(this.reconfigurationManager);
-    }
 
-    @Override
-    public boolean execute() {
-        return super.execute();
+        return success;
     }
-
 
     public Model getSlas() {
         return slas;
+    }
+
+    /**
+     * runs through the model and returns the set of responsetimes that belongs
+     * to the given service
+     *
+     * @param serviceID
+     *            identifies the service
+     * @return
+     * @throws ServiceIDDoesNotExistException
+     */
+    @SuppressWarnings("unchecked")
+    public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
+            int serviceID) throws ServiceIDDoesNotExistException {
+        synchronized (this.model) {
+            for (int i = 0; i < this.model.getComponents().size(); i++) {
+                for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
+                    if (this.model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
+                        ConcurrentSkipListSet<SLOMonitoringRecord> rtList = (ConcurrentSkipListSet<SLOMonitoringRecord>)this.model.getComponents().get(i).getServices().get(k).getResponseTimes();
+                        if (rtList == null) { rtList = new ConcurrentSkipListSet<SLOMonitoringRecord>(); }
+                        return rtList;
+                    }
+                }
+            }
+        }
+        throw new ServiceIDDoesNotExistException();
     }
 
     @Override
