@@ -5,9 +5,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
-import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
+import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
-import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
+import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ServerNotAllocatedException;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
 

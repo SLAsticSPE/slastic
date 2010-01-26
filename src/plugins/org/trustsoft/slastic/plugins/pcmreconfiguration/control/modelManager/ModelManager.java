@@ -16,9 +16,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
-import org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
-import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
@@ -318,7 +316,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
      * @throws AllocationContextNotInModelException
      */
     protected void dereplicate(AllocationContext component)
-            throws org.trustsoft.slastic.control.exceptions.AllocationContextNotInModelException {
+            throws org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.AllocationContextNotInModelException {
 
         //The Component can only be dereplicated if there is more than one instance and if the model contains the component.
         if (model.getAllocation().getAllocationContexts_Allocation().contains(

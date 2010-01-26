@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.control.exceptions;
+package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
 
 public class AllocationContextNotInModelException extends Exception {
 	public AllocationContextNotInModelException() {
