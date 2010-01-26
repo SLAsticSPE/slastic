@@ -11,11 +11,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
-import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 import reconfMM.ReconfigurationModel;
 
-import org.openarchitectureware.workflow.WorkflowRunner;
-import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 import reconfMM.Service;
 import slal.Model;
