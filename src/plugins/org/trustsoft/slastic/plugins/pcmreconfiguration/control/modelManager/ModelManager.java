@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.slachecker.control.modelManager;
+package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -50,7 +50,6 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
-// TODO: shouldn't be singleton!
 /**
  * The only ModelManager-Implementation that currently exists.
  * 

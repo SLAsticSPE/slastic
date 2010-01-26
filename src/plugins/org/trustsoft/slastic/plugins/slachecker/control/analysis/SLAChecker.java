@@ -14,7 +14,7 @@ import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
-import org.trustsoft.slastic.plugins.slachecker.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
 import slal.Model;
 import slal.SLO;
 

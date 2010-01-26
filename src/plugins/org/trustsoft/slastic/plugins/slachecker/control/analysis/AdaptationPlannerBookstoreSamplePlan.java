@@ -2,7 +2,7 @@ package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.slachecker.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
 import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
