@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.trustsoft.slastic.plugins.daLena.analysis;
+package org.trustsoft.slastic.plugins.daLena.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.control.modelManager.ModelManager;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 

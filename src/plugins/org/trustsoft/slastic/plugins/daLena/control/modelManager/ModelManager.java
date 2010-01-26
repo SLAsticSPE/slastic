@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.daLena.modelManager;
+package org.trustsoft.slastic.plugins.daLena.control.modelManager;
 
 import java.io.IOException;
 import java.util.Vector;

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.plugins.daLena.analysis;
+package org.trustsoft.slastic.plugins.daLena.control.analysis;
 
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;

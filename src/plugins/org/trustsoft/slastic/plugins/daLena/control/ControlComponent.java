@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 import org.trustsoft.slastic.control.BasicSLAsticControl;
-import org.trustsoft.slastic.plugins.daLena.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.daLena.control.modelManager.ModelManager;
 
 /**
  * @author Lena Stoever
