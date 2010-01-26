@@ -1,6 +1,8 @@
 package org.trustsoft.slastic.control;
 
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
@@ -22,7 +24,11 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
 //    }
 
     public void update(AbstractKiekerMonitoringRecord record) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            this.consumeMonitoringRecord(record);
+        } catch (RecordConsumerExecutionException ex) {
+            log.error(ex);
+        }
     }
 
     public String[] getRecordTypeSubscriptionList() {
@@ -34,6 +40,5 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
             AbstractKiekerMonitoringRecord monitoringRecord)
             throws RecordConsumerExecutionException {
         this.getModelUpdater().consumeMonitoringRecord(monitoringRecord);
-
     }
 }

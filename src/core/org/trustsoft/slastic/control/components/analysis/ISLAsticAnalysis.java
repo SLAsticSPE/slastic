@@ -9,6 +9,4 @@ import org.trustsoft.slastic.common.ISLAsticComponent;
  */
 public interface ISLAsticAnalysis extends ISLAsticComponent {
 
-    // TODO: remove
-    public void setSLAs(slal.Model slas);
 }

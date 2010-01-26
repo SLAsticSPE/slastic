@@ -42,7 +42,7 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
             SLAViolationEvent evt = (SLAViolationEvent) event;
             int serviceID = evt.getServiceID();
             ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
-            ReconfigurationModel model = modelManager.getModel();
+            ReconfigurationModel model = modelManager.getReconfigurationModel();
             BasicComponent comp = null;
             AssemblyContext context = null;
 

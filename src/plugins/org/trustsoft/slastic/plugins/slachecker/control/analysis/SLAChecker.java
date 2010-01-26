@@ -3,6 +3,7 @@
  */
 package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
+import java.util.Properties;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 
 import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
 import slal.Model;
 import slal.SLO;
 
@@ -140,7 +142,14 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         }
     }
 
+    @Override
+    public void setProperties(Properties properties) {
+        super.setProperties(properties);
+    }
+
+
     private void init() throws IllegalArgumentException {
+        this.slas = ((SLOModelManager)this.getParentAnalysisComponent().getParentControlComponent().getModelManager()).getSlas();
         if  (this.slas == null) {
             log.error("this.slas == null");
             throw new IllegalArgumentException("this.slas == null");

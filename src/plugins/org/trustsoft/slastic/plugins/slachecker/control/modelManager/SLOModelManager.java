@@ -5,6 +5,7 @@
 
 package org.trustsoft.slastic.plugins.slachecker.control.modelManager;
 
+import java.util.Properties;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,8 +14,11 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
 import reconfMM.ReconfigurationModel;
 
-import reconfMM.Service;
+import org.openarchitectureware.workflow.WorkflowRunner;
+import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 
+import reconfMM.Service;
+import slal.Model;
 /**
  *
  * @author Andre van Hoorn, Lena Stoever
@@ -24,6 +28,33 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfigur
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
     private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
     private int capacity = 0;
+
+    private slal.Model slas = null;
+
+    @Override
+    public void setProperties(Properties properties) {
+        super.setProperties(properties);
+
+        //reading the SLA-model
+        this.slas = (slal.Model) runner.getContext().get("theModel");
+
+        //intialize Model Manager object
+        this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
+
+        //initialize Analysis object
+        //this.getAnalysis().setSLAs(slas);
+        //this.analysis.setReconfigurationManager(this.reconfigurationManager);
+    }
+
+    @Override
+    public boolean execute() {
+        return super.execute();
+    }
+
+
+    public Model getSlas() {
+        return slas;
+    }
 
     @Override
     public void update(AbstractKiekerMonitoringRecord newRecord) {

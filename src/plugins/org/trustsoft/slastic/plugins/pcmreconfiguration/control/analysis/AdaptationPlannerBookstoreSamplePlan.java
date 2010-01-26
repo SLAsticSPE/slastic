@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.slachecker.control.analysis;
+package org.trustsoft.slastic.plugins.pcmreconfiguration.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,7 +50,7 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
         ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
         testPlan = fac.createSLAsticReconfigurationPlan();
         ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
-        AllocationContext bookstore = modelManager.getModel().getAllocation().getAllocationContexts_Allocation().get(0);
+        AllocationContext bookstore = modelManager.getReconfigurationModel().getAllocation().getAllocationContexts_Allocation().get(0);
         ResourceContainer server1 = (ResourceContainer) modelManager.getAllocatedServers().toArray()[0];
 
         //Migration of Bookstore-Allocation-Assembly to ResourceContainer Server1

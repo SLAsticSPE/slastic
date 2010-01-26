@@ -23,6 +23,9 @@ import org.trustsoft.slastic.control.exceptions.ServerNotAllocatedException;
 import org.trustsoft.slastic.control.exceptions.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
+import org.openarchitectureware.workflow.WorkflowRunner;
+import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
+
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
@@ -45,6 +48,8 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
+import java.util.HashMap;
+import java.util.Map;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 
 /**
@@ -70,8 +75,39 @@ public class ModelManager extends AbstractSLAsticModelManager {
     //list of not allocated models
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
 
+    private String workflow_fn;
+    private boolean isInitialized = false;
+
+    protected final WorkflowRunner runner = new WorkflowRunner();
+
     public ModelManager() {
     }
+
+    private void init() throws IllegalArgumentException{
+        this.workflow_fn = this.getInitProperty("initWorkflow_fn");
+        if (this.workflow_fn == null || this.workflow_fn.equals("")){
+            throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
+        }
+
+        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> slotContents = new HashMap<String, String>();
+
+        //workflow runner of the oAW-framework
+        runner.run(workflow_fn, new NullProgressMonitor(), properties, slotContents);
+        //reading the reconfiguration model
+        this.model = (ReconfigurationModel) runner.getContext().get("reconfigurationModel");
+        this.isInitialized = true;
+    }
+
+    @Override
+    public boolean execute() {
+        if (!this.isInitialized){
+            this.init();
+        }
+
+        return super.execute();
+    }
+
 
     /**
      * This method has to be called before the instance of this ModelManager can
@@ -392,9 +428,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
         return true;
     }
 
-    // The following two methods have to be deleted after the debugging-phase,
-    // because they can cause behavior we do not want
-    public ReconfigurationModel getModel() {
+    public ReconfigurationModel getReconfigurationModel() {
         return model;
     }
 

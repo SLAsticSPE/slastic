@@ -28,11 +28,6 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
     private AbstractPerformancePredictor performancePredictor;
     private AbstractAdaptationPlanner adaptationPlanner;
 
-    // TODO: remove
-    public void setSLAs(Model slas) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public boolean execute() {
         boolean success = true;
 
