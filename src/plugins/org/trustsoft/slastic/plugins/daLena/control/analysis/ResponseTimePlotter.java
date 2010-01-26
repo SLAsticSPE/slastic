@@ -7,7 +7,7 @@ package org.trustsoft.slastic.plugins.daLena.control.analysis;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import org.trustsoft.slastic.common.SLAsticInstance;
-import org.trustsoft.slastic.monitoring.monitoringRecord.SLA.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.daLena.monitoring.kieker.monitoringRecord.SLA.SLOMonitoringRecord;
 
 
 import org.apache.commons.logging.Log;

@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.monitoring.annotation;
+package org.trustsoft.slastic.plugins.daLena.monitoring.kieker.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
