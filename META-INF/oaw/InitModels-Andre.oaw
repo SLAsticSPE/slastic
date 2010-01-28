@@ -1,22 +1,21 @@
 <workflow>
-        <property name='METAINF.oaw.dir' value='/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/branches/20091022-Andre/META-INF/oaw'/>
-
-	<property name='slalModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/SLALproject/src/model.sla'/>
+	<property name='METAINF.oaw.dir' value='../branches/20091022-Andre/META-INF/oaw'/>
+	<property name='slalModelLocation' value='../../SLALproject/src/model.sla'/>
 	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
 	
-	<property name='reconfigurationModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/BookstoreReconfModel/My.reconfmm'/>
+	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>
 	<property name='reconfigurationMetaModelLocation' value='${METAINF.oaw.dir}/ReconfigurationMM.oaw'/>
 	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>
 
-	<property name='resourceEnvironmentModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/BookstoreReconfModel/My2.slasticresourceenvironment'/>
+	<property name='resourceEnvironmentModelLocation' value='../../BookstoreReconfModel/My2.slasticresourceenvironment'/>
 	<property name='resourceEnvironmentMetaModelLocation' value='${METAINF.oaw.dir}/ResourceEnvironmentMM.oaw'/>
 	<property name='resourceEnvironmentOutputslot' value='resourceEnvironmentModel'/>
 
-	<property name='qosAnnotationsModelLocation' value='/home/voorn/svn_work/sw_DALenaRobert/BookstoreReconfModel/My.slasticqosannotations'/>
+	<property name='qosAnnotationsModelLocation' value='../../BookstoreReconfModel/My.slasticqosannotations'/>
 	<property name='qosAnnotationsMetaModelLocation' value='${METAINF.oaw.dir}/QoSAnnotationsMM.oaw'/>
 	<property name='qosAnnotationsOutputslot' value='qosAnnotationsModel'/>
 	
-	<component file='/home/voorn/svn_work/sw_DALenaRobert/SLALproject/src/SLALproject.oaw'>
+	<component file='../../SLALproject/src/SLALproject.oaw'>
 		<modelFile value='${slalModelLocation}' />
 		<metaModelLocation value='${slalMetaModelLocation}'/>
 		<targetDir value='src-gen' />
