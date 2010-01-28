@@ -54,17 +54,17 @@
             depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.plugins">
     </target>
     
-    <condition property="no.slastic.properties">
+    <condition property="no.slastic.framework.properties">
         <not>
             <available file="${slastic.monitoring.properties}"/>
         </not>
     </condition>
 
-    <target name="init-slastic.properties" if="no.slastic.properties">
-        <!-- if no slastic.properties, copy example file automatically  -->
-        <echo message="${slastic.properties} not existing.
+    <target name="init-slastic.framework.properties" if="no.slastic.framework.properties">
+        <!-- if no slastic.framework.properties, copy example file automatically  -->
+        <echo message="${slastic.framework.properties} not existing.
               Creating default file."/>
-        <copy file="${slastic.properties.example}" tofile="${slastic.properties}"/>
+        <copy file="${slastic.framework.properties.example}" tofile="${slastic.framework.properties}"/>
     </target>
 
     <condition property="no.slastic.simulation.properties">
@@ -80,7 +80,7 @@
         <copy file="${slastic.simulation.properties.example}" tofile="${slastic.simulation.properties}"/>
     </target>
 
-    <target name="init" depends="update-version,init-slastic.properties,init-slastic.simulation-properties">
+    <target name="init" depends="update-version,init-slastic.framework.properties,init-slastic.simulation-properties">
         <!-- Register special aspectJ commands in ant - allow ant to use special AspectJ commands: -->
         <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${aspectjtoolsjar}"/>
         <fail message="Critical error: AspectJ library not found
@@ -205,8 +205,8 @@
               maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.simulation.tpmon.properties}"/>
-            <arg line="--start-framework META-INF/slastic.properties.example"/>
-            <arg line="--start-simulation META-INF/slastic.properties.example"/>
+            <arg line="--start-framework META-INF/slastic.framework.properties.example"/>
+            <arg line="--start-simulation META-INF/slastic.simulation.properties.example"/>
             <classpath>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
             </classpath>

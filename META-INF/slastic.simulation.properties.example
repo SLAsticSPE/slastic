@@ -1,1 +1,5 @@
+slastic.simulation.fsreader.inputdir=tmp/tpmon-20100126-154804106/
+slastic.simulation.fsreader.rtmode=true
+slastic.simulation.fsreader.rtnumthreads=5
+
 slastic.simulation.reconfplanreceiver.pipeName=reconfpipe0
