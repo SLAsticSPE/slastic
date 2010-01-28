@@ -56,14 +56,6 @@ public class SLAsticInstance {
 		this.reconfigurationMgr = null;
 	}
 
-	public SLAsticInstance(final AbstractSLAsticControl controller,
-			final AbstractSLAsticMonitoringManager monitoringManager,
-			final AbstractSLAsticReconfigurationManager reconfigurationMgr) {
-		this.controller = controller;
-		this.monitoringManager = monitoringManager;
-		this.reconfigurationMgr = reconfigurationMgr;
-	}
-
 	public SLAsticInstance(Properties prop) {
 		loadProperties(prop);
 	}
