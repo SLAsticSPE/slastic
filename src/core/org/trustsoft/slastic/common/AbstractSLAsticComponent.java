@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.common;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -16,7 +17,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private final HashMap<String, String> map = new HashMap<String, String>();
     private Properties properties;
 
-    public void setProperties(Properties properties) {
+    public void init(Properties properties) {
         this.properties = properties;
     }
 
@@ -86,4 +87,30 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 
         this.initStringProcessed = true;
     }
+
+	/**
+	 * An object of the class with name @classname is instantiated, its method
+	 * init(String initString) is called with parameter @a initString and the
+	 * object is returned. This implies, that the class for @a classname provide
+	 * the method init(String initString).
+	 *
+	 * @return the instance; null in case an error occured.
+	 */
+	public static AbstractSLAsticComponent loadAndInitSLAsticComponentFromClassname(String classname,
+			Properties props) {
+		AbstractSLAsticComponent inst = null;
+		try {
+			Class cl = Class.forName(classname);
+			inst = (AbstractSLAsticComponent)cl.newInstance();
+			Method m = cl.getMethod("init", Properties.class);
+			m.invoke(inst, props);
+			log.info("Loaded and instantiated component ('" + classname
+					+ "') with init string '" + props + "'");
+		} catch (Exception ex) {
+			inst = null;
+			log.fatal("Failed to instantiate component of class '" + classname
+					+ "'", ex);
+		}
+		return inst;
+	}
 }

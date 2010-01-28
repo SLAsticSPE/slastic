@@ -21,7 +21,7 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
 
     public PipeReader(final String pipeName){
         this.pipeName = pipeName;
-        this.pipe = Broker.getInstance().getPipe(pipeName);
+        this.pipe = Broker.getInstance().acquirePipe(pipeName);
         if (pipe == null){
             log.error("Failed to get Pipe with name " + this.pipeName);
             throw new IllegalArgumentException("Failed to get Pipe with name " + this.pipeName);

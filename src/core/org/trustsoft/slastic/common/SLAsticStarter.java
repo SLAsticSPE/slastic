@@ -26,9 +26,14 @@ public class SLAsticStarter {
     private static final CommandLineParser cmdlParser = new BasicParser();
     private static final HelpFormatter cmdHelpFormatter = new HelpFormatter();
     private static final Options cmdlOpts = new Options();
+    private static final String CMD_LONG_OPT_START_FRAMEWORK = "start-framework";
+    private static final String CMD_LONG_OPT_START_SIMULATION = "start-simulation";
+
 
     static {
-        cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt("configuration").isRequired(true).withDescription("Configuration file").withValueSeparator('=').create("f"));
+        // TODO: options as constant variables!
+        cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt(CMD_LONG_OPT_START_FRAMEWORK).isRequired(true).withDescription("SLAstic.Framework configuration file").withValueSeparator('=').create("f"));
+        cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt(CMD_LONG_OPT_START_SIMULATION).isRequired(false).withDescription("SLAstic.Simulator configuration file").withValueSeparator('=').create("s"));
     }
 
     public static void main(String[] args) {
@@ -38,69 +43,93 @@ public class SLAsticStarter {
             System.exit(1);
         }
 
-        SLAsticInstance inst = initSLAsticInstanceFromArgs();
-        if (inst == null) {
-            log.error("initNewInstanceFromArgs() returned null");
-            System.exit(1);
+        // start framework?
+        // TODO: wait until framework ist initialized
+        if (cmdl.hasOption(CMD_LONG_OPT_START_FRAMEWORK)) {
+            SLAsticAdaptationFrameworkInstance frameworkInst = initSLAsticInstanceFromArgs();
+            if (frameworkInst == null) {
+                log.error("initNewInstanceFromArgs() returned null");
+                System.exit(1);
+            }
+            frameworkInst.run();
+            log.info("SLAsticFramework instance started");
         }
-        inst.run();
-        log.info("SLAsticInstance started");
+
+        // start simulation?
+        if (cmdl.hasOption(CMD_LONG_OPT_START_SIMULATION)) {
+            SLAsticSimulatorInstance simInst = initSLAsticSimulationInstanceFromArgs();
+        }
 
         log.info("Bye, this was SLAsticControl");
     }
 
     /**
-     * Initializes and returns a ControlComponent analysis instance.
+     * Initializes and returns a SLAstic simulation instance.
      *
      * @return the initialized instance; null on error
      */
-    private static SLAsticInstance initSLAsticInstanceFromArgs() throws IllegalArgumentException {
-        String configurationFile = cmdl.getOptionValue("configuration");
+    private static SLAsticSimulatorInstance initSLAsticSimulationInstanceFromArgs() throws IllegalArgumentException {
+        String simulationConfigurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_SIMULATION);
 
-
-        if (configurationFile == null) {
-            log.fatal("Configuration file parameter is null");
-
-
-            throw new IllegalArgumentException("Configuration file parameter is null");
-
-
+        if (simulationConfigurationFile == null) {
+            log.fatal("Missing value for command line option '" + CMD_LONG_OPT_START_SIMULATION + "'");
+            throw new IllegalArgumentException("Missing value for command line option '" + CMD_LONG_OPT_START_SIMULATION + "'");
         }
 
-        SLAsticInstance inst = null;
+        SLAsticSimulatorInstance inst = null;
+        try {
+            inst = new SLAsticSimulatorInstance(loadProperties(simulationConfigurationFile));
+        } catch (Exception exc) {
+            log.error("Error creating SLAsticInstance", exc);
+            throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
+        }
+        return inst;
+    }
 
+    /**
+     * Initializes and returns a SLAstic instance.
+     *
+     * @return the initialized instance; null on error
+     */
+    private static SLAsticAdaptationFrameworkInstance initSLAsticInstanceFromArgs() throws IllegalArgumentException {
+        String configurationFile = cmdl.getOptionValue("configuration");
+
+        if (configurationFile == null) {
+            log.fatal("Missing value for command line option '" + CMD_LONG_OPT_START_FRAMEWORK + "'");
+            throw new IllegalArgumentException("Missing value for command line option '" + CMD_LONG_OPT_START_FRAMEWORK + "'");
+        }
+
+        SLAsticAdaptationFrameworkInstance inst = null;
+        try {
+            inst = new SLAsticAdaptationFrameworkInstance(loadProperties(configurationFile));
+        } catch (Exception exc) {
+            log.error("Error creating SLAsticInstance", exc);
+            throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
+        }
+        return inst;
+    }
+
+    private static Properties loadProperties(String fn) throws IllegalArgumentException {
         // Load configuration file
         InputStream is = null;
         Properties prop = new Properties();
 
-
         try {
-            is = new FileInputStream(configurationFile);
-            log.info("Loading configuration from file '" + configurationFile + "'");
+            is = new FileInputStream(fn);
+            log.info("Loading properties from file '" + fn + "'");
             prop.load(is);
-            inst = new SLAsticInstance(prop);
-
-
         } catch (Exception ex) {
-            log.error("Error creating SLAsticInstance", ex);
-
-
-            throw new IllegalArgumentException("Error creating SLAsticInstance", ex);
-            // TODO: introduce static variable 'terminated' or alike
-
-
+            log.error("Failed to load properties from file '" + fn + "'", ex);
+            throw new IllegalArgumentException("Failed to load properties from file '" + fn + "'", ex);
         } finally {
             try {
                 is.close();
-
-
-            } catch (Exception ex) { /* nothing we can do */ }
+            } catch (Exception ex) {
+                log.error("Failed to close property input stream", ex);
+            }
         }
-        return inst;
-
-
+        return prop;
     }
-
 
     static boolean parseArgs(String[] args) {
         try {
@@ -110,21 +139,13 @@ public class SLAsticStarter {
         } catch (ParseException e) {
             System.err.println("Error parsing arguments: " + e.getMessage());
             printUsage();
-
-
-
             return false;
-
-
         }
 
         return true;
-
-
-
     }
-    
+
     private static void printUsage() {
-        cmdHelpFormatter.printHelp(SLAsticInstance.class.getName(), cmdlOpts);
+        cmdHelpFormatter.printHelp(SLAsticAdaptationFrameworkInstance.class.getName(), cmdlOpts);
     }
 }

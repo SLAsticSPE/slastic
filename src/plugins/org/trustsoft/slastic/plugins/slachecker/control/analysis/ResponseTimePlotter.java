@@ -6,13 +6,11 @@ package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
-import org.trustsoft.slastic.common.SLAsticInstance;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 
 /**
  *
@@ -20,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ResponseTimePlotter implements IKiekerRecordConsumer {
 
-    private static final Log log = LogFactory.getLog(SLAsticInstance.class);
+    private static final Log log = LogFactory.getLog(ResponseTimePlotter.class);
      
 
    private final static String[] recordTypeSubscriptionList = {

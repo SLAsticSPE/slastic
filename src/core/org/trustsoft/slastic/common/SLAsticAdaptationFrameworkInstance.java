@@ -31,9 +31,9 @@ import org.trustsoft.slastic.slasticresourceenvironment.ServerNode;
 /**
  * @author Andre van Hoorn, Lena Stoever
  */
-public class SLAsticInstance {
+public class SLAsticAdaptationFrameworkInstance {
 
-	private static final Log log = LogFactory.getLog(SLAsticInstance.class);
+	private static final Log log = LogFactory.getLog(SLAsticAdaptationFrameworkInstance.class);
 	private AbstractSLAsticControl controller;
 	private AbstractSLAsticMonitoringManager monitoringManager;
 	private AbstractSLAsticReconfigurationManager reconfigurationMgr;
@@ -50,13 +50,13 @@ public class SLAsticInstance {
 	private final static String COMPONENT_CLASSNAME_PROPNAME = "classname";
 
 	/* Avoid construction via default constructor */
-	private SLAsticInstance() {
+	private SLAsticAdaptationFrameworkInstance() {
 		this.controller = null;
 		this.monitoringManager = null;
 		this.reconfigurationMgr = null;
 	}
 
-	public SLAsticInstance(Properties prop) {
+	public SLAsticAdaptationFrameworkInstance(Properties prop) {
 		loadProperties(prop);
 	}
 
@@ -147,124 +147,124 @@ public class SLAsticInstance {
 
 			/* Load all components */
 			String monitoringComponentClassnameProperty = this.monitoringProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (monitoringComponentClassnameProperty == null
 					|| monitoringComponentClassnameProperty.length() <= 0) {
 				log.error("Missing configuration property value for '"
 						+ AbstractSLAsticMonitoringManager.PROP_PREFIX + "."
-						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+						+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			}
-			this.monitoringManager = (AbstractSLAsticMonitoringManager) loadAndInitInstanceFromClassname(
+			this.monitoringManager = (AbstractSLAsticMonitoringManager) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 					monitoringComponentClassnameProperty, this.monitoringProps);
 
 			String controlComponentClassnameProperty = this.controllerProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (controlComponentClassnameProperty == null
 					|| controlComponentClassnameProperty.length() <= 0) {
 				log.error("Missing configuration property value for '"
 						+ AbstractSLAsticControl.PROP_PREFIX + "."
-						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+						+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			} else {
-				this.controller = (AbstractSLAsticControl) loadAndInitInstanceFromClassname(
+				this.controller = (AbstractSLAsticControl) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						controlComponentClassnameProperty, this.controllerProps);
 			}
 
 			AbstractSLAsticModelManager modelManagerComponent = null;
 			String modelManagerComponentClassnameProperty = this.modelManagerProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (modelManagerComponentClassnameProperty == null
 					|| modelManagerComponentClassnameProperty.length() <= 0) {
 				log.error("Missing configuration property value for '"
 						+ AbstractSLAsticModelManager.PROP_PREFIX + "."
-						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+						+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			} else {
-				modelManagerComponent = (AbstractSLAsticModelManager) loadAndInitInstanceFromClassname(
+				modelManagerComponent = (AbstractSLAsticModelManager) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						modelManagerComponentClassnameProperty,
 						this.modelManagerProps);
 			}
 
 			AbstractSLAsticModelUpdater modelUpdaterComponent = null;
 			String modelUpdaterComponentClassnameProperty = this.modelUpdaterProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (modelUpdaterComponentClassnameProperty == null
 					|| modelUpdaterComponentClassnameProperty.length() <= 0) {
 				log.error("Missing configuration property value for '"
 						+ AbstractSLAsticModelUpdater.PROP_PREFIX + "."
-						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+						+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			} else {
-				modelUpdaterComponent = (AbstractSLAsticModelUpdater) loadAndInitInstanceFromClassname(
+				modelUpdaterComponent = (AbstractSLAsticModelUpdater) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						modelUpdaterComponentClassnameProperty,
 						this.modelUpdaterProps);
 			}
 
 			AbstractSLAsticAnalysis analysisComponent = null;
 			String analysisComponentClassnameProperty = this.analysisProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (analysisComponentClassnameProperty == null
 					|| analysisComponentClassnameProperty.length() <= 0) {
 				log.error("Missing configuration property value for '"
 						+ AbstractSLAsticAnalysis.PROP_PREFIX + "."
-						+ SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+						+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
 			} else {
-				analysisComponent = (AbstractSLAsticAnalysis) loadAndInitInstanceFromClassname(
+				analysisComponent = (AbstractSLAsticAnalysis) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						analysisComponentClassnameProperty, this.analysisProps);
 			}
 
 			String performanceEvaluatorComponentClassnameProperty = this.performanceEvaluatorProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			AbstractPerformanceEvaluator performanceEvaluatorComponent = null;
 			// Note: a performance evaluator component is not mandatory
 			if (performanceEvaluatorComponentClassnameProperty != null
 					&& performanceEvaluatorComponentClassnameProperty.length() > 0) {
-				performanceEvaluatorComponent = (AbstractPerformanceEvaluator) loadAndInitInstanceFromClassname(
+				performanceEvaluatorComponent = (AbstractPerformanceEvaluator) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						performanceEvaluatorComponentClassnameProperty,
 						this.performanceEvaluatorProps);
 			}
 
 			String workloadForecasterComponentClassnameProperty = this.workloadForecasterProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			AbstractWorkloadForecaster workloadForecasterComponent = null;
 			// Note: a workload forecaster component is not mandatory
 			if (workloadForecasterComponentClassnameProperty != null
 					&& workloadForecasterComponentClassnameProperty.length() > 0) {
-				workloadForecasterComponent = (AbstractWorkloadForecaster) loadAndInitInstanceFromClassname(
+				workloadForecasterComponent = (AbstractWorkloadForecaster) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						workloadForecasterComponentClassnameProperty,
 						this.workloadForecasterProps);
 			}
 
 			String performancePredictorComponentClassnameProperty = this.performancePredictorProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			AbstractPerformancePredictor performancePredictorComponent = null;
 			// Note: a performance predictor component is not mandatory
 			if (performancePredictorComponentClassnameProperty != null
 					&& performancePredictorComponentClassnameProperty.length() > 0) {
-				performancePredictorComponent = (AbstractPerformancePredictor) loadAndInitInstanceFromClassname(
+				performancePredictorComponent = (AbstractPerformancePredictor) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						performancePredictorComponentClassnameProperty,
 						this.performancePredictorProps);
 			}
 
 			String adaptationPlannerComponentClassnameProperty = this.adaptationPlannerProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			AbstractAdaptationPlanner adaptationPlannerComponent = null;
 			// Note: a performance predictor component is not mandatory
 			if (adaptationPlannerComponentClassnameProperty != null
 					&& adaptationPlannerComponentClassnameProperty.length() > 0) {
-				adaptationPlannerComponent = (AbstractAdaptationPlanner) loadAndInitInstanceFromClassname(
+				adaptationPlannerComponent = (AbstractAdaptationPlanner) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 						adaptationPlannerComponentClassnameProperty,
 						this.adaptationPlannerProps);
 			}
 
 			String reconfigurationManagerComponentClassnameProperty = this.reconfigurationProps
-					.getProperty(SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME);
+					.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 			if (reconfigurationManagerComponentClassnameProperty == null
 					|| reconfigurationManagerComponentClassnameProperty
 							.length() <= 0) {
 				log.error("Missing configuration property value for "
 						+ AbstractSLAsticReconfigurationManager.PROP_PREFIX
-						+ "." + SLAsticInstance.COMPONENT_CLASSNAME_PROPNAME
+						+ "." + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME
 						+ "'");
 			}
-			this.reconfigurationMgr = (AbstractSLAsticReconfigurationManager) loadAndInitInstanceFromClassname(
+			this.reconfigurationMgr = (AbstractSLAsticReconfigurationManager) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
 					reconfigurationManagerComponentClassnameProperty,
 					this.reconfigurationProps);
 
@@ -363,32 +363,6 @@ public class SLAsticInstance {
 			log.error("An error occured", exc);
 			throw new IllegalArgumentException("An error occured", exc);
 		}
-	}
-
-	/**
-	 * An object of the class with name @classname is instantiated, its method
-	 * init(String initString) is called with parameter @a initString and the
-	 * object is returned. This implies, that the class for @a classname provide
-	 * the method init(String initString).
-	 * 
-	 * @return the instance; null in case an error occured.
-	 */
-	private Object loadAndInitInstanceFromClassname(String classname,
-			Properties props) {
-		Object inst = null;
-		try {
-			Class cl = Class.forName(classname);
-			inst = cl.newInstance();
-			Method m = cl.getMethod("setProperties", Properties.class);
-			m.invoke(inst, props);
-			log.info("Loaded and instantiated component ('" + classname
-					+ "') with init string '" + props + "'");
-		} catch (Exception ex) {
-			inst = null;
-			log.fatal("Failed to instantiate component of class '" + classname
-					+ "'", ex);
-		}
-		return inst;
 	}
 
 	/** Start instance. The method returns immediately. */

@@ -12,8 +12,7 @@ import java.util.Properties;
  */
 public interface ISLAsticComponent {
 
-//    public void init(String initString) throws IllegalArgumentException;
-    public void setProperties(Properties props) throws IllegalArgumentException;
+    public void init(Properties props) throws IllegalArgumentException;
     
     public boolean execute();
 

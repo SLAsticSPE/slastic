@@ -14,9 +14,9 @@ public class SLAsticSimConnector extends AbstractSLAsticReconfigurationManager {
     private ReconfigurationPipe reconfigurationPipe;
 
     @Override
-    // TODO: rename setProperties to init(..)
-    public void setProperties(Properties properties) {
-        super.setProperties(properties);
+    // TODO: rename init to init(..)
+    public void init(Properties properties) {
+        super.init(properties);
         // TODO: acquire pipe
     }
 

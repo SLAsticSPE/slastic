@@ -24,7 +24,7 @@ public class Broker {
      * Returns a connection with name @a pipeName. If a connection with
      * this name does not exist prior to the call, it is created.
      */
-    public Pipe getPipe(final String pipeName) throws IllegalArgumentException{
+    public synchronized Pipe acquirePipe(final String pipeName) throws IllegalArgumentException{
         if (pipeName == null || pipeName.length()==0){
             log.error("Invalid connection name " + pipeName);
             throw new IllegalArgumentException("Invalid connection name "+pipeName);
