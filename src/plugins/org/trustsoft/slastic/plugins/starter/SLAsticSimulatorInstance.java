@@ -76,11 +76,11 @@ public class SLAsticSimulatorInstance {
         FilesystemLogReplayer player = new FilesystemLogReplayer(this.fsReaderInputDir, this.fsReaderRTMode, this.fsReaderRTNumThreads);
         player.execute();
 
-        IReconfPlanReceiver reconfPlanReceiver = new SLAsticSimPlanReceiver(this.reconfPipeName, new IReconfPlanReceiver() {
+        SLAsticSimPlanReceiver reconfPlanReceiver = new SLAsticSimPlanReceiver(this.reconfPipeName, new IReconfPlanReceiver() {
 
             public void reconfigure(SLAsticReconfigurationPlan plan, ReconfEventListener listener) {
                 log.info("Received plan " + plan);
-                // here, we would delegate to the simulator
+                // TODO: here, we would delegate to the simulator
                 log.info("Sending confirmation to listener " + listener);
             }
 

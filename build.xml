@@ -209,6 +209,7 @@
             <arg line="--start-simulation META-INF/slastic.simulation.properties.example"/>
             <classpath>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
+                <pathelement location="${dist.dir}/${slastic.simulation.jar}"/>
             </classpath>
         </java>
         <delete file="${build.tests.dir}/log4j.properties"/>

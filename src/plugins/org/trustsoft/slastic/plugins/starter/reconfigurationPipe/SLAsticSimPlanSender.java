@@ -38,21 +38,26 @@ public class SLAsticSimPlanSender extends AbstractSLAsticReconfigurationManager 
     }
 
     public boolean execute() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return true;
     }
 
     public void terminate() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void doReconfiguration(SLAsticReconfigurationPlan plan) throws SLAsticReconfigurationException {
+        try {
+            this.reconfigurationPipe.reconfigure(plan, this);
+        } catch (ReconfigurationPipeException ex) {
+            log.error("reconfiguration failed", ex);
+            throw new SLAsticReconfigurationException("reconfiguration failed", ex);
+        }
     }
 
     public void notifyPlanDone(SLAsticReconfigurationPlan plan) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        log.info("notifyPlanDone received");
     }
 
     public void notifyOpFailed(SLAsticReconfigurationPlan plan, SLAsticReconfigurationOpType reconfOp) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        log.info("notifyOpFailed received");
     }
 }
