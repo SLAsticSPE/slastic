@@ -241,6 +241,7 @@
               fork="true"
               classname="org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore"
               classpathref="run.tests.classpath">
+            <jvmarg value="-Dtpmon.configuration=${tests.tpmon.properties}"/>
             <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
             <jvmarg value="-Dtpmon.customStoragePath=${tests.logdata.storagepath}"/>
             <jvmarg value="-javaagent:${aspectjweaverjar}"/>
