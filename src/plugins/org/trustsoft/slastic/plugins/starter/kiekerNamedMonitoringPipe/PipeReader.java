@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
+package org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe;
 
 import kieker.common.logReader.AbstractKiekerMonitoringLogReader;
 import kieker.common.logReader.LogReaderExecutionException;

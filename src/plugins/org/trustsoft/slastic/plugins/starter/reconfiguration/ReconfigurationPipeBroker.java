@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.reconfiguration;
+package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
 import java.util.HashMap;
 

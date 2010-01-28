@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
+package org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe;
 
 import java.util.Vector;
 import org.apache.commons.logging.Log;

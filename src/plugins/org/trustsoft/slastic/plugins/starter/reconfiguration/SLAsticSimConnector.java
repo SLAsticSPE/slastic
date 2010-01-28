@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.reconfiguration;
+package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import java.util.Properties;
