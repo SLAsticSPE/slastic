@@ -21,7 +21,7 @@ slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitorin
 #slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
 
 ## Pipe
-slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe.PipeReader
+slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe.PipeReader
 slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 
 ##

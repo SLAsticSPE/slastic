@@ -31,6 +31,7 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
             log.error("Failed to get Pipe with name " + this.pipeName);
             throw new IllegalArgumentException("Failed to get Pipe with name " + this.pipeName);
         }
+        pipe.setPipeReader(this);
     }
 
     @Override
@@ -42,10 +43,11 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
     public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
         this.initPipe(super.getInitProperty(PROPERTY_PIPE_NAME));
-        log.info("Connected to pipe '" + this.pipeName + "'");
+        log.info("Connected to pipe '" + this.pipeName + "'"+ " ("+this.pipe+")");
     }
 
     public void newRecord(AbstractKiekerMonitoringRecord rec) throws LogReaderExecutionException {
             super.deliverRecordToConsumers(rec);
+            log.info("Received record: " + rec);
     }
 }

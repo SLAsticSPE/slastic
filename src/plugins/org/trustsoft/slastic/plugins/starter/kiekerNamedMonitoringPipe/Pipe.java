@@ -21,8 +21,9 @@ public final class Pipe {
     private PipeReader pipeReader;
     private boolean closed;
 
-    public void setPipeReader(PipeReader pipeReader) {
+    public void setPipeReader(final PipeReader pipeReader) {
         this.pipeReader = pipeReader;
+        log.info("PipeReader initialized");
     }
 
     public String getName() {

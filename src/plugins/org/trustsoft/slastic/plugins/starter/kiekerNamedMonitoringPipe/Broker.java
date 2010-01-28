@@ -32,6 +32,7 @@ public class Broker {
         Pipe conn = this.pipeMap.get(pipeName);
         if (conn == null){
             conn = new Pipe(pipeName);
+            this.pipeMap.put(pipeName, conn);
         }
 
         return conn;

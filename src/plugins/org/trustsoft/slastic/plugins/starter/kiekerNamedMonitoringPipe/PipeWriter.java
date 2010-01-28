@@ -14,6 +14,7 @@ import kieker.tpmon.writer.util.async.AbstractWorkerThread;
 public final class PipeWriter extends AbstractKiekerMonitoringLogWriter {
     private static final Log log = LogFactory.getLog(PipeWriter.class);
 
+    private static final String PROPERTY_PIPE_NAME = "pipeName";
     private Pipe pipe;
     private String pipeName;
 
@@ -35,9 +36,9 @@ public final class PipeWriter extends AbstractKiekerMonitoringLogWriter {
 
     public boolean init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
-        this.pipeName = super.getInitProperty(pipeName);
+        this.pipeName = super.getInitProperty(PROPERTY_PIPE_NAME);
         if (this.pipeName == null || this.pipeName.length() == 0) {
-            log.error("Invalid or missing pipeName value:" + this.pipeName);
+            log.error("Invalid or missing pipeName value for property '" + PROPERTY_PIPE_NAME+"'");
             throw new IllegalArgumentException("Invalid or missing pipeName value:" + this.pipeName);
         }
         this.pipe = Broker.getInstance().acquirePipe(pipeName);
@@ -45,6 +46,7 @@ public final class PipeWriter extends AbstractKiekerMonitoringLogWriter {
             log.error("Failed to get pipe with name:" + this.pipeName);
             throw new IllegalArgumentException("Failed to get pipe with name:" + this.pipeName);            
         }
+        log.info("Connected to pipe '"+this.pipeName+"'"+ " ("+this.pipe+")");
         return true;
     }
 
