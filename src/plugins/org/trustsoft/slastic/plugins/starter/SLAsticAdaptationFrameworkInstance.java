@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.common;
+package org.trustsoft.slastic.plugins.starter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.openarchitectureware.workflow.WorkflowRunner;
 import org.openarchitectureware.workflow.monitor.ProgressMonitor;
+import org.trustsoft.slastic.common.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.AbstractSLAsticControl;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;

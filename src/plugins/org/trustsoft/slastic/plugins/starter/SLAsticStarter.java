@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.common;
+package org.trustsoft.slastic.plugins.starter;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
