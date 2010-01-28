@@ -1,0 +1,42 @@
+slastic.control.classname=org.trustsoft.slastic.control.BasicSLAsticControl
+
+slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
+slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.SLAChecker
+slastic.control.analysis.workloadforecasting.classname=
+slastic.control.analysis.performanceprediction.classname=
+
+slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
+# Configuration of Kieker reader to use:
+# Filesystem (normal mode): 
+#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
+#
+# Filesystem (real-time replay mode):
+#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
+
+## Java Messaging (JMS):
+#slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
+#slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
+
+## Pipe
+slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe.PipeReader
+slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
+
+##
+## JPetStore example:
+##
+slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
+slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
+
+slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.slachecker.reconfiguration.ReconfigurationManagerWget
+slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
+
+##
+## Bookstore example with sample reconfiguration plan creation and forwarding to model manager
+##
+#slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.SLOModelManager
+#slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
+#slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.reconfiguration.ReconfigurationPlanForwarder
+#slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.pcmreconfiguration.control.analysis.AdaptationPlannerBookstoreSamplePlan

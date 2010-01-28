@@ -19,7 +19,6 @@ public class SLAsticSimulatorInstance {
     private SLAsticSimulatorInstance(){}
 
     public SLAsticSimulatorInstance(Properties props){
-
     }
 
     public void run(){
