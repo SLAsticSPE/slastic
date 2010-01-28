@@ -82,6 +82,7 @@ public class SLAsticSimulatorInstance {
                 log.info("Received plan " + plan);
                 // TODO: here, we would delegate to the simulator
                 log.info("Sending confirmation to listener " + listener);
+                listener.notifyPlanDone(plan);
             }
 
             public void reconfigure(SLAsticReconfigurationPlan plan) {

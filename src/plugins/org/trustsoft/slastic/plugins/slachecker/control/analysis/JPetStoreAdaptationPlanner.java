@@ -38,6 +38,7 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
     @Override
     public void handleSLAsticEvent(ISLAsticEvent event) {
         //this component can only handle Events of the type SLAViolationEvent
+            log.info("Received an event");
         if (event instanceof SLAViolationEvent) {
             SLAViolationEvent evt = (SLAViolationEvent) event;
             int serviceID = evt.getServiceID();

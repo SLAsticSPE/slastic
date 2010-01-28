@@ -106,7 +106,6 @@ public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent im
 
 
     public void sendEvent(ISLAsticEvent ev) {
-        log.info("Sending event:"+ ev);
         for (ISimpleSLAsticEventServiceClient l : this.listeners){
             l.handleSLAsticEvent(ev);
         }
