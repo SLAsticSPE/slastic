@@ -15,8 +15,6 @@ public class SLAsticSimulatorInstance {
     //private SimulationController simCtrl;
     //    SimPlanReceiver // delegiert an ctrl.
 
-    
-
     /** No construction via default constructor. */
     private SLAsticSimulatorInstance(){}
 
