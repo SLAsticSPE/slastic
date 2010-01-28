@@ -46,16 +46,22 @@ public class SLAsticStarter {
         if (cmdl.hasOption(CMD_LONG_OPT_START_FRAMEWORK)) {
             SLAsticAdaptationFrameworkInstance frameworkInst = initSLAsticInstanceFromArgs();
             if (frameworkInst == null) {
-                log.error("initNewInstanceFromArgs() returned null");
+                log.error("Failed to init SLAstic framework instance");
                 System.exit(1);
             }
             frameworkInst.run();
-            log.info("SLAsticFramework instance started");
+            log.info("SLAstic framework instance started");
         }
 
         // start simulation?
         if (cmdl.hasOption(CMD_LONG_OPT_START_SIMULATION)) {
             SLAsticSimulatorInstance simInst = initSLAsticSimulationInstanceFromArgs();
+            if (simInst == null) {
+                log.error("Failed to init SLAstic simulator instance");
+                System.exit(1);
+            }
+            simInst.run();
+            log.info("SLAstic simulator instance started");
         }
 
         log.info("Bye, this was SLAsticControl");

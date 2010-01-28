@@ -263,6 +263,7 @@
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.control.tpmon.properties}"/>
             <arg line="--start-framework META-INF/slastic.properties.example"/>
+            <arg line="--start-simulation META-INF/slastic.properties.example"/>
             <classpath>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
             </classpath>
