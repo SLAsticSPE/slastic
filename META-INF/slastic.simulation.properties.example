@@ -1,4 +1,4 @@
-slastic.simulation.fsreader.inputdir=tmp/tpmon-20100126-154804106/
+slastic.simulation.fsreader.inputdir=testdata/tpmon-20100128-221341878
 slastic.simulation.fsreader.rtmode=true
 slastic.simulation.fsreader.rtnumthreads=5
 

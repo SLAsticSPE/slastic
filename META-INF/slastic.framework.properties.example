@@ -10,11 +10,11 @@ slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitorin
 # Configuration of Kieker reader to use:
 # Filesystem (normal mode): 
 #slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
-#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=testdata/tpmon-20100128-221341878 | numWorkers=5
 #
 # Filesystem (real-time replay mode):
 #slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
-#slastic.monitoring.tpmon.reader.initstring=inputDirName=tmp/tpmon-20100126-154804106/ | numWorkers=5
+#slastic.monitoring.tpmon.reader.initstring=inputDirName=testdata/tpmon-20100128-221341878 | numWorkers=5
 
 ## Java Messaging (JMS):
 #slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
