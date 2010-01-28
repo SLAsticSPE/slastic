@@ -29,9 +29,7 @@ public class SLAsticStarter {
     private static final String CMD_LONG_OPT_START_FRAMEWORK = "start-framework";
     private static final String CMD_LONG_OPT_START_SIMULATION = "start-simulation";
 
-
     static {
-        // TODO: options as constant variables!
         cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt(CMD_LONG_OPT_START_FRAMEWORK).isRequired(true).withDescription("SLAstic.Framework configuration file").withValueSeparator('=').create("f"));
         cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt(CMD_LONG_OPT_START_SIMULATION).isRequired(false).withDescription("SLAstic.Simulator configuration file").withValueSeparator('=').create("s"));
     }
@@ -92,7 +90,7 @@ public class SLAsticStarter {
      * @return the initialized instance; null on error
      */
     private static SLAsticAdaptationFrameworkInstance initSLAsticInstanceFromArgs() throws IllegalArgumentException {
-        String configurationFile = cmdl.getOptionValue("configuration");
+        String configurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_FRAMEWORK);
 
         if (configurationFile == null) {
             log.fatal("Missing value for command line option '" + CMD_LONG_OPT_START_FRAMEWORK + "'");

@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import kieker.common.logReader.AbstractKiekerMonitoringLogReader;
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
@@ -14,12 +12,19 @@ import org.apache.commons.logging.LogFactory;
  * @author Andre van Hoorn
  */
 public final class PipeReader extends AbstractKiekerMonitoringLogReader implements IPipeReader {
+    private static final String PROPERTY_PIPE_NAME = "pipeName";
     private static final Log log = LogFactory.getLog(PipeReader.class);
 
     private Pipe pipe;
     private String pipeName;
 
+    public PipeReader(){ }
+
     public PipeReader(final String pipeName){
+        this.initPipe(pipeName);
+    }
+
+    private void initPipe(String pipeName) throws IllegalArgumentException{
         this.pipeName = pipeName;
         this.pipe = Broker.getInstance().acquirePipe(pipeName);
         if (pipe == null){
@@ -34,14 +39,13 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
         return true;
     }
 
-    // TODO: allow initialization using init String
     public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
+        this.initPipe(super.getInitProperty(PROPERTY_PIPE_NAME));
+        log.info("Connected to pipe '" + this.pipeName + "'");
     }
 
     public void newRecord(AbstractKiekerMonitoringRecord rec) throws LogReaderExecutionException {
             super.deliverRecordToConsumers(rec);
     }
-
-    
 }

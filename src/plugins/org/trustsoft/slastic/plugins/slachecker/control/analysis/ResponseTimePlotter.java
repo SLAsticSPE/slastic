@@ -41,8 +41,6 @@ public class ResponseTimePlotter implements IKiekerRecordConsumer {
         }
     }
 
-
-
     public boolean execute() {
         /* We don't need to prepare */
     	return true;
