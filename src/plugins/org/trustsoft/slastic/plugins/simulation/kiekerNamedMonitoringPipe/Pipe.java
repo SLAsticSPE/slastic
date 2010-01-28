@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.kiekerReaderWriterPipe;
+package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.trustsoft.slastic.plugins.simulation.kiekerReaderWriterPipe;
+package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
 
 import kieker.common.logReader.LogReaderExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;

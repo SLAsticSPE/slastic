@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.kiekerReaderWriterPipe;
+package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
 
 import java.util.Vector;
 import org.apache.commons.logging.Log;
@@ -40,7 +40,7 @@ public final class PipeWriter extends AbstractKiekerMonitoringLogWriter {
             log.error("Invalid or missing pipeName value:" + this.pipeName);
             throw new IllegalArgumentException("Invalid or missing pipeName value:" + this.pipeName);
         }
-        this.pipe = MonitoringReaderWriterBroker.getInstance().getPipe(pipeName);
+        this.pipe = Broker.getInstance().getPipe(pipeName);
         if (this.pipe == null){
             log.error("Failed to get pipe with name:" + this.pipeName);
             throw new IllegalArgumentException("Failed to get pipe with name:" + this.pipeName);            

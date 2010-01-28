@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.simulation.kiekerReaderWriterPipe;
+package org.trustsoft.slastic.plugins.simulation.kiekerNamedMonitoringPipe;
 
 import java.util.HashMap;
 
@@ -9,15 +9,15 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class MonitoringReaderWriterBroker {
-    private static final MonitoringReaderWriterBroker INSTANCE = new MonitoringReaderWriterBroker();
-    private static final Log log = LogFactory.getLog(MonitoringReaderWriterBroker.class);
+public class Broker {
+    private static final Broker INSTANCE = new Broker();
+    private static final Log log = LogFactory.getLog(Broker.class);
 
     /* Not synchronized! */
     private HashMap<String, Pipe> pipeMap = new HashMap<String,Pipe>();
 
-    public static MonitoringReaderWriterBroker getInstance(){
-        return MonitoringReaderWriterBroker.INSTANCE;
+    public static Broker getInstance(){
+        return Broker.INSTANCE;
     }
 
     /**
