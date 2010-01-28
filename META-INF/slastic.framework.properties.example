@@ -25,13 +25,21 @@ slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.starter.
 slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 
 ##
-## JPetStore example:
+## Simulation
 ##
 slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
 slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
-
-slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.slachecker.reconfiguration.ReconfigurationManagerWget
+slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimSender
+slastic.reconfiguration.pipeName=reconfpipe0
 slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
+
+##
+## JPetStore example:
+##
+#slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
+#slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
+#slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.slachecker.reconfiguration.ReconfigurationManagerWget
+#slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
 
 ##
 ## Bookstore example with sample reconfiguration plan creation and forwarding to model manager

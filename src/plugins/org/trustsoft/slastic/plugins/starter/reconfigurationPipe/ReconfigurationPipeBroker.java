@@ -24,16 +24,17 @@ public class ReconfigurationPipeBroker {
      * Returns a connection with name @a pipeName. If a connection with
      * this name does not exist prior to the call, it is created.
      */
-    public ReconfigurationPipe getPipe(final String pipeName) throws IllegalArgumentException{
+    public synchronized ReconfigurationPipe acquirePipe(final String pipeName) throws IllegalArgumentException{
         if (pipeName == null || pipeName.length()==0){
-            log.error("Invalid pipe name " + pipeName);
-            throw new IllegalArgumentException("Invalid pipe name "+pipeName);
+            log.error("Invalid connection name " + pipeName);
+            throw new IllegalArgumentException("Invalid connection name "+pipeName);
         }
-        ReconfigurationPipe pipe = this.pipeMap.get(pipeName);
-        if (pipe == null){
-            pipe = new ReconfigurationPipe(pipeName);
+        ReconfigurationPipe conn = this.pipeMap.get(pipeName);
+        if (conn == null){
+            conn = new ReconfigurationPipe(pipeName);
+            this.pipeMap.put(pipeName, conn);
         }
 
-        return pipe;
+        return conn;
     }
 }
