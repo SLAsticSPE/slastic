@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class PipeReader extends AbstractKiekerMonitoringLogReader implements IPipeReader {
+public final class PipeReader extends AbstractKiekerMonitoringLogReader implements IPipeReader {
     private static final Log log = LogFactory.getLog(PipeReader.class);
 
     private Pipe pipe;

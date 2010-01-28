@@ -1,9 +1,12 @@
 package org.trustsoft.slastic.plugins.simulation.kiekerReaderWriterPipe;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import kieker.common.logReader.LogReaderExecutionException;
+import kieker.tpmon.core.TpmonController;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 
@@ -11,19 +14,15 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
  *
  * @author Andre van Hoorn
  */
-public class Pipe {
+public final class Pipe {
     private static final Log log = LogFactory.getLog(Pipe.class);
 
     private final String name;
     private PipeReader pipeReader;
-    private PipeWriter pipeWriter;
+    private boolean closed;
 
     public void setPipeReader(PipeReader pipeReader) {
         this.pipeReader = pipeReader;
-    }
-
-    public void setPipeWriter(PipeWriter pipeWriter) {
-        this.pipeWriter = pipeWriter;
     }
 
     public String getName() {
@@ -34,28 +33,31 @@ public class Pipe {
         this.name = name;
     }
 
-
-    //TODO: do we need execute / terminate?
-
     public void writeMonitoringRecord(AbstractKiekerMonitoringRecord monitoringRecord) throws PipeException {
+        if (this.closed){
+            log.error("trying to write to closed pipe");
+            throw new PipeException("trying to write to closed pipe"); 
+        }
         try {
             this.pipeReader.newRecord(monitoringRecord);
         } catch (LogReaderExecutionException ex) {
-            // TODO: close pipe?
-            log.error("LogReaderExecutionException occured", ex);
-            throw new PipeException("LogReaderExecutionException occured", ex);
+            this.close();
+            log.error("LogReaderExecutionException occured. Closing pipe.", ex);
+            throw new PipeException("LogReaderExecutionException occured. Closing pipe.", ex);
         }
     }
 
     public void registerMonitoringRecordType(int id, String className) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // we don't need such a regsitry since we pass the record objects directly
     }
 
-    public boolean isWriteRecordTypeIds() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setWriteRecordTypeIds(boolean writeRecordTypeIds) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void close(){
+        this.closed = true;
+        try {
+            this.writeMonitoringRecord(TpmonController.END_OF_MONITORING_MARKER);
+        } catch (PipeException ex) {
+            log.error("Failed to send END_OF_MONITORING_MARKER", ex);
+            // we can't do anything more
+        }
     }
 }
