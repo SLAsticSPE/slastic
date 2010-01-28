@@ -1,8 +1,7 @@
 package org.trustsoft.slastic.plugins.starter;
 
 import java.util.Properties;
-import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.monitoringRecord.KiekerBranchingRecord;
+import kieker.common.tools.logReplayer.FilesystemLogReplayer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +31,7 @@ public class SLAsticSimulatorInstance {
     }
 
     private void test() {
-        TpmonController tpmonCtrl = TpmonController.getInstance();
-        tpmonCtrl.logMonitoringRecord(KiekerBranchingRecord.getInstance(17, 333, 6));
+        FilesystemLogReplayer player = new FilesystemLogReplayer("tmp/tpmon-20100126-154804106/", true, 5);
+        player.execute();
     }
 }

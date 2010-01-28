@@ -48,6 +48,5 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
 
     public void newRecord(AbstractKiekerMonitoringRecord rec) throws LogReaderExecutionException {
             super.deliverRecordToConsumers(rec);
-            log.info("Received record: " + rec);
     }
 }
