@@ -29,6 +29,9 @@ public final class Pipe {
         return this.name;
     }
 
+  /** No construction employing default constructor */
+    private Pipe(){ name = null; }
+
     public Pipe(final String name){
         this.name = name;
     }

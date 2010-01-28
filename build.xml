@@ -134,7 +134,7 @@
         </jar>
     </target>
     
-    <target name="build-slastic.plugins" depends="init">
+    <target name="build-slastic.plugins" depends="init,build-slastic.core,build-slastic.simulation">
         <delete dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}/META-INF"/>
@@ -142,6 +142,7 @@
                source="1.5"
                srcdir="src/plugins"
                debug="true"
+               classpath="${dist.dir}/${slastic.simulation.jar}"
                classpathref="slastic.core.classpath">
             <compilerarg value="-Xlint:-path"/>
             <!--<include name="org/trustsoft/slastic/plugins/**"/>-->
@@ -158,7 +159,7 @@
         </jar>
     </target>
     
-    <target name="build-slastic.simulation" depends="init">
+    <target name="build-slastic.simulation" depends="init,build-slastic.core">
         <delete dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}/META-INF"/>
