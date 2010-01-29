@@ -1,7 +1,7 @@
 slastic.control.classname=org.trustsoft.slastic.control.BasicSLAsticControl
 
-slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
 slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
 slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.SLAChecker
 slastic.control.analysis.workloadforecasting.classname=
 slastic.control.analysis.performanceprediction.classname=
@@ -30,6 +30,8 @@ slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
 #slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
 slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre-onefile.oaw
+slastic.control.modelmanagement.reconfigurationmodel=../../BookstoreReconfModel/My.reconfmm
+
 slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanSender
 slastic.reconfiguration.pipeName=reconfpipe0
 slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
