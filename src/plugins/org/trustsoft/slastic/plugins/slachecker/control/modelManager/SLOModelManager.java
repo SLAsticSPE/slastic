@@ -29,7 +29,7 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfigur
     public boolean execute() {
         boolean success = super.execute();
         //reading the SLA-model
-        this.slas = (slal.Model) runner.getContext().get("theModel");
+        this.slas = (slal.Model) runner.getContext().get(OAW_SLAM_OUTPUTSLOT_PROP_VAL);
 
         //intialize Model Manager object
         this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());

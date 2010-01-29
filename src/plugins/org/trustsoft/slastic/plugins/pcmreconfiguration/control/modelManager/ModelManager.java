@@ -74,17 +74,31 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private String workflow_fn;
 
     protected final WorkflowRunner runner = new WorkflowRunner();
-    private static final String OAW_RECONFM_FN_PROP_NAME = "reconfigurationmodel_fn";
-    private static final String OAW_RECONFMM_PACKAGE_PROP_NAME = "reconfigurationMetaModelPackage";
-    private static final String OAW_RECONFMM_PACKAGE_PROP_VAL = reconfMM.ReconfMMPackage.class.getName();
-    private static final String OAW_RECONFM_OUTPUTSLOT_PROP_NAME = "reconfigurationModelOutputslot";
-    private static final String OAW_RECONFM_OUTPUTSLOT_PROP_VAL = "reconfigurationModel";
+    
+    protected static final String OAW_SLAM_FN_PROP_NAME = "slamodel_fn";
+    protected static final String OAW_SLAMM_PARSER_PROP_NAME = "slaParserClass";
+    protected static final String OAW_SLAMM_PARSER_PROP_VAL = org.trustsoft.slastic.control.sla.parser.ParserComponent.class.getName();
+    protected static final String OAW_SLAM_OUTPUTSLOT_PROP_NAME = "slaModelOutputslot";
+    protected static final String OAW_SLAM_OUTPUTSLOT_PROP_VAL = "slaModel";
 
-    private static final String OAW_RESOURCEENVM_FN_PROP_NAME = "resourceEnvironmentModel_fn";
-    private static final String OAW_RESOURCEENVMM_PACKAGE_PROP_NAME = "resourceEnvironmentMetaModelPackage";
-    private static final String OAW_RESOURCEENVMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName();
-    private static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME = "resourceEnvironmentModelOutputslot";
-    private static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL = "resourceEnvironmentModel";
+    protected static final String OAW_RECONFM_FN_PROP_NAME = "reconfigurationmodel_fn";
+    protected static final String OAW_RECONFMM_PACKAGE_PROP_NAME = "reconfigurationMetaModelPackage";
+    protected static final String OAW_RECONFMM_PACKAGE_PROP_VAL = reconfMM.ReconfMMPackage.class.getName();
+    protected static final String OAW_RECONFM_OUTPUTSLOT_PROP_NAME = "reconfigurationModelOutputslot";
+    protected static final String OAW_RECONFM_OUTPUTSLOT_PROP_VAL = "reconfigurationModel";
+
+    protected static final String OAW_RESOURCEENVM_FN_PROP_NAME = "resourceenvironmentmodel_fn";
+    protected static final String OAW_RESOURCEENVMM_PACKAGE_PROP_NAME = "resourceEnvironmentMetaModelPackage";
+    protected static final String OAW_RESOURCEENVMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName();
+    protected static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME = "resourceEnvironmentModelOutputslot";
+    protected static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL = "resourceEnvironmentModel";
+
+    protected static final String OAW_QOSANNOTATIONSM_FN_PROP_NAME = "qosannotationsmodel_fn";
+    protected static final String OAW_QOSANNOTATIONSMM_PACKAGE_PROP_NAME = "qosAnnotationsMetaModelPackage";
+    protected static final String OAW_QOSANNOTATIONSMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName();
+    protected static final String OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_NAME = "qosAnnotationsModelOutputslot";
+    protected static final String OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_VAL = "qosAnnotationsModel";
+
 
     public ModelManager() {
     }
@@ -98,13 +112,37 @@ public class ModelManager extends AbstractSLAsticModelManager {
             throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
         }
 
-        Map<String, String> oawProperties = new HashMap<String, String>();
+        Map<String, String> oawProperties = this.initOawProperties();
         Map<String, String> slotContents = new HashMap<String, String>();
 
         //workflow runner of the oAW-framework
         runner.run(workflow_fn, new NullProgressMonitor(), oawProperties, slotContents);
         //reading the reconfiguration model
         this.model = (ReconfigurationModel) runner.getContext().get("reconfigurationModel");
+    }
+
+    private HashMap<String,String> initOawProperties(){
+        HashMap<String,String> oawProperties = new HashMap<String,String>();
+        /* SLA model properties */
+        oawProperties.put(OAW_SLAMM_PARSER_PROP_NAME, OAW_SLAMM_PARSER_PROP_VAL);
+        oawProperties.put(OAW_SLAM_OUTPUTSLOT_PROP_NAME, OAW_SLAM_OUTPUTSLOT_PROP_VAL);
+        oawProperties.put(OAW_SLAM_FN_PROP_NAME, this.getInitProperty(OAW_SLAM_FN_PROP_NAME));
+        /* Reconfiguration model properties */
+        oawProperties.put(OAW_RECONFMM_PACKAGE_PROP_NAME, OAW_RECONFMM_PACKAGE_PROP_VAL);
+        oawProperties.put(OAW_RECONFM_OUTPUTSLOT_PROP_NAME, OAW_RECONFM_OUTPUTSLOT_PROP_VAL);
+        oawProperties.put(OAW_RECONFM_FN_PROP_NAME, this.getInitProperty(OAW_RECONFM_FN_PROP_NAME));
+        /* Resource environment model properties */
+        oawProperties.put(OAW_RESOURCEENVMM_PACKAGE_PROP_NAME, OAW_RESOURCEENVMM_PACKAGE_PROP_VAL);
+        oawProperties.put(OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME, OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL);
+        oawProperties.put(OAW_RESOURCEENVM_FN_PROP_NAME, this.getInitProperty(OAW_RESOURCEENVM_FN_PROP_NAME));
+        /* QoS Annotations model properties */
+        oawProperties.put(OAW_QOSANNOTATIONSMM_PACKAGE_PROP_NAME, OAW_QOSANNOTATIONSMM_PACKAGE_PROP_VAL);
+        oawProperties.put(OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_NAME, OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_VAL);
+        oawProperties.put(OAW_QOSANNOTATIONSM_FN_PROP_NAME, this.getInitProperty(OAW_QOSANNOTATIONSM_FN_PROP_NAME));
+
+        log.info("Initialized oaw properties:" + oawProperties);
+
+        return oawProperties;
     }
 
     @Override
