@@ -1,5 +1,6 @@
 <workflow>
 	<property name='slalModelLocation' value='../../SLALproject/src/model.sla'/>
+	<property name='slalMetaModelPackage' value='slal.SlalPackage'/>
 	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
 	
 	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>
@@ -14,24 +15,37 @@
 	<property name='qosAnnotationsMetaModelPackage' value='org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage'/>
 	<property name='qosAnnotationsOutputslot' value='qosAnnotationsModel'/>
 	
-	<component file='../../SLALproject/src/SLALproject.oaw'>
-		<modelFile value='${slalModelLocation}' />
-		<metaModelLocation value='${slalMetaModelLocation}'/>
-		<targetDir value='src-gen' />
+<!-- Read SLAs -->
+	<bean class="org.eclipse.mwe.emf.StandaloneSetup">
+	      <platformUri value=".."/>
+	</bean>
+	<component id='SLAL-parser' class="org.trustsoft.slastic.control.sla.parser.ParserComponent">
+	      <modelFile value='${slalModelLocation}' />
+	      <outputSlot value='theModel'/>
+	</component>
+	<property name='targetDir' value='src-gen/'/>
+  	<component class='oaw.workflow.common.DirectoryCleaner' directory='${targetDir}'/>
+	<component class='oaw.xpand2.Generator'>
+		<metaModel id='mm' class='org.eclipse.m2t.type.emf.EmfRegistryMetaModel'/>
+		<expand value='org::trustsoft::slastic::control::sla::Main::main FOR theModel'/>
+		<genPath value='${targetDir}'/>
 	</component>
 
+<!-- Read Reconfiguration Model -->
         <component id="reconfigurationModelReader" class="oaw.emf.XmiReader">
                 <modelFile value='${reconfigurationModelLocation}' />
 		<metaModelPackage value='${reconfigurationMetaModelPackage}'/>
                 <outputSlot value="${reconfigurationOutputslot}"/>
         </component>
 
+<!-- Read SLAstic Resource Environment Model -->
         <component id="resourceEnvironmentModelReader" class="oaw.emf.XmiReader">
                 <modelFile value='${resourceEnvironmentModelLocation}' />
 		<metaModelPackage value='${resourceEnvironmentMetaModelPackage}'/>
                 <outputSlot value="${resourceEnvironmentOutputslot}"/>
         </component>
 
+<!-- Read QoS Annotation Model -->
         <component id="qosAnnotationsModelReader" class="oaw.emf.XmiReader">
                 <modelFile value='${qosAnnotationsModelLocation}' />
 		<metaModelPackage value='${qosAnnotationsMetaModelPackage}'/>
