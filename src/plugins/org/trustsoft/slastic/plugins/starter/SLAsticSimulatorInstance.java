@@ -7,6 +7,7 @@ import kieker.common.tools.logReplayer.FilesystemLogReplayer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
+import org.trustsoft.slastic.simulation.SimulationController;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 
@@ -30,7 +31,7 @@ public class SLAsticSimulatorInstance {
     private int fsReaderRTNumThreads = -1;
     private String reconfPipeName;
 
-    //private SimulationController simCtrl;
+    private SimulationController simCtrl;
     //    SimPlanReceiver // delegiert an ctrl.
 
     /** No construction via default constructor. */
@@ -67,6 +68,12 @@ public class SLAsticSimulatorInstance {
     }
 
     public void run(){
+//final String name, final Repository repos,
+//final System struct, final ResourceEnvironment resourceEnv,
+//final Allocation initAllocation,
+//final ReconfigurationModel reconfModel) {
+        this.simCtrl = new SimulationController(reconfPipeName, null, null, null, null, null);
+
         log.info("Simulator instance started");
         test();
     }
