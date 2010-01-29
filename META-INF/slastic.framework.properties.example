@@ -30,7 +30,8 @@ slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
 #slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
 slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre-onefile.oaw
-slastic.control.modelmanagement.reconfigurationmodel=../../BookstoreReconfModel/My.reconfmm
+slastic.control.modelmanagement.reconfigurationmodel_fn=../../BookstoreReconfModel/My.reconfmm
+
 
 slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanSender
 slastic.reconfiguration.pipeName=reconfpipe0

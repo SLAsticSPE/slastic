@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
 
 import java.io.IOException;
+import java.util.Properties;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -71,35 +72,43 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
 
     private String workflow_fn;
-    private boolean isInitialized = false;
 
     protected final WorkflowRunner runner = new WorkflowRunner();
+    private static final String OAW_RECONFM_FN_PROP_NAME = "reconfigurationmodel_fn";
+    private static final String OAW_RECONFMM_PACKAGE_PROP_NAME = "reconfigurationMetaModelPackage";
+    private static final String OAW_RECONFMM_PACKAGE_PROP_VAL = reconfMM.ReconfMMPackage.class.getName();
+    private static final String OAW_RECONFM_OUTPUTSLOT_PROP_NAME = "reconfigurationModelOutputslot";
+    private static final String OAW_RECONFM_OUTPUTSLOT_PROP_VAL = "reconfigurationModel";
+
+    private static final String OAW_RESOURCEENVM_FN_PROP_NAME = "resourceEnvironmentModel_fn";
+    private static final String OAW_RESOURCEENVMM_PACKAGE_PROP_NAME = "resourceEnvironmentMetaModelPackage";
+    private static final String OAW_RESOURCEENVMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName();
+    private static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME = "resourceEnvironmentModelOutputslot";
+    private static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL = "resourceEnvironmentModel";
 
     public ModelManager() {
     }
 
-    private void init() throws IllegalArgumentException{
+    @Override
+    public void init(final Properties properties) {
+        super.init(properties);
+ 
         this.workflow_fn = this.getInitProperty("initWorkflow_fn");
         if (this.workflow_fn == null || this.workflow_fn.equals("")){
             throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
         }
 
-        Map<String, String> properties = new HashMap<String, String>();
+        Map<String, String> oawProperties = new HashMap<String, String>();
         Map<String, String> slotContents = new HashMap<String, String>();
 
         //workflow runner of the oAW-framework
-        runner.run(workflow_fn, new NullProgressMonitor(), properties, slotContents);
+        runner.run(workflow_fn, new NullProgressMonitor(), oawProperties, slotContents);
         //reading the reconfiguration model
         this.model = (ReconfigurationModel) runner.getContext().get("reconfigurationModel");
-        this.isInitialized = true;
     }
 
     @Override
     public boolean execute() {
-        if (!this.isInitialized){
-            this.init();
-        }
-
         return super.execute();
     }
 

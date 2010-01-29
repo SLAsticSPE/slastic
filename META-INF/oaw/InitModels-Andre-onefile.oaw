@@ -3,9 +3,9 @@
 	<property name='slalMetaModelPackage' value='slal.SlalPackage'/>
 	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
 	
-	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>
-	<property name='reconfigurationMetaModelPackage' value='reconfMM.ReconfMMPackage'/>
-	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>
+<!--	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>-->
+<!--	<property name='reconfigurationMetaModelPackage' value='reconfMM.ReconfMMPackage'/>-->
+<!--	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>-->
 
 	<property name='resourceEnvironmentModelLocation' value='../../BookstoreReconfModel/My2.slasticresourceenvironment'/>
 	<property name='resourceEnvironmentMetaModelPackage' value='org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage'/>
@@ -33,7 +33,7 @@
 
 <!-- Read Reconfiguration Model -->
         <component id="reconfigurationModelReader" class="oaw.emf.XmiReader">
-                <modelFile value='${reconfigurationModelLocation}' />
+                <modelFile value='${reconfigurationmodel_fn}' />
 		<metaModelPackage value='${reconfigurationMetaModelPackage}'/>
                 <outputSlot value="${reconfigurationOutputslot}"/>
         </component>
