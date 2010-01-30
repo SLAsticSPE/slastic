@@ -9,6 +9,7 @@ import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistExc
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
+import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 
 import reconfMM.Service;
 import slal.Model;
@@ -19,6 +20,8 @@ import slal.Model;
  */
 public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager {
 
+    protected static final String PROPERTY_SLAMODEL_FN = "slamodel_fn";
+
     private static final Log log = LogFactory.getLog(SLOModelManager.class);
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
     private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
@@ -28,8 +31,8 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
     @Override
     public boolean execute() {
         boolean success = super.execute();
-        //reading the SLA-model
-        this.slas = (slal.Model) runner.getContext().get(OAW_SLAM_OUTPUTSLOT_PROP_VAL);
+        //reading the SLA-reconfigurationModel
+        this.slas = SLAsticModelReader.getInstance().readSLAModel(this.getInitProperty(PROPERTY_SLAMODEL_FN));
 
         //intialize Model Manager object
         this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
@@ -44,7 +47,7 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
     }
 
     /**
-     * runs through the model and returns the set of responsetimes that belongs
+     * runs through the reconfigurationModel and returns the set of responsetimes that belongs
      * to the given service
      *
      * @param serviceID
@@ -55,11 +58,11 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
     @SuppressWarnings("unchecked")
     public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
             int serviceID) throws ServiceIDDoesNotExistException {
-        synchronized (this.model) {
-            for (int i = 0; i < this.model.getComponents().size(); i++) {
-                for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
-                    if (this.model.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
-                        ConcurrentSkipListSet<SLOMonitoringRecord> rtList = (ConcurrentSkipListSet<SLOMonitoringRecord>)this.model.getComponents().get(i).getServices().get(k).getResponseTimes();
+        synchronized (this.reconfigurationModel) {
+            for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+                for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
+                    if (this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
+                        ConcurrentSkipListSet<SLOMonitoringRecord> rtList = (ConcurrentSkipListSet<SLOMonitoringRecord>)this.reconfigurationModel.getComponents().get(i).getServices().get(k).getResponseTimes();
                         if (rtList == null) { rtList = new ConcurrentSkipListSet<SLOMonitoringRecord>(); }
                         return rtList;
                     }
@@ -74,10 +77,10 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
         super.update(newRecord);
         SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
         int serviceID = newSLORecord.serviceId;
-        synchronized (this.model) {
-            for (int i = 0; i < this.model.getComponents().size(); i++) {
-                for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
-                    Service service = this.model.getComponents().get(i).getServices().get(k);
+        synchronized (this.reconfigurationModel) {
+            for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+                for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
+                    Service service = this.reconfigurationModel.getComponents().get(i).getServices().get(k);
                     if (service.getServiceID() == serviceID) {
                         ConcurrentSkipListSet<SLOMonitoringRecord> list = (ConcurrentSkipListSet<SLOMonitoringRecord>) service.getResponseTimes();
                         BlockingQueue<SLOMonitoringRecord> queue = this.responseTimeQueues.get(serviceID);
@@ -104,13 +107,13 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
      */
     private void initQueues() {
         this.responseTimeQueues = new ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>>();
-        for (int i = 0; i < this.model.getComponents().size(); i++) {
-            for (int k = 0; k < this.model.getComponents().get(i).getServices().size(); k++) {
+        for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+            for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
                 // It is important not to use a Set of Longs, because of the
                 // possibility of equal values of response times
                 ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
-                this.responseTimeQueues.put(this.model.getComponents().get(i).getServices().get(k).getServiceID(), new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
-                this.model.getComponents().get(i).getServices().get(k).setResponseTimes(list);
+                this.responseTimeQueues.put(this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID(), new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
+                this.reconfigurationModel.getComponents().get(i).getServices().get(k).setResponseTimes(list);
             }
         }
 

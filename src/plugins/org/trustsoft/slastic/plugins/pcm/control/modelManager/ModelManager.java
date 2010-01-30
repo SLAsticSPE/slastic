@@ -44,8 +44,6 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
-import java.util.HashMap;
-import java.util.Map;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 
@@ -59,8 +57,8 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
     private final Log log = LogFactory.getLog(ModelManager.class);
 //    private static ModelManager instance;
-    protected ReconfigurationModel model;
-    //map of types of components with their belonging instances within the model
+    protected ReconfigurationModel reconfigurationModel;
+    //map of types of components with their belonging instances within the reconfigurationModel
     private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
     //map of types of components with their belonging reconfiguration information (service-IDs, responseTimes etc., see package reconfmm for more information)
     private ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
@@ -70,16 +68,10 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
     //list of not allocated models
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
-    private String workflow_fn;
-    protected final WorkflowRunner runner = new WorkflowRunner();
-    protected static final String OAW_SLAM_FN_PROP_NAME = "slamodel_fn";
-    protected static final String OAW_SLAMM_PARSER_PROP_NAME = "slaParserClass";
-    protected static final String OAW_SLAMM_PARSER_PROP_VAL = org.trustsoft.slastic.control.sla.parser.ParserComponent.class.getName();
-    protected static final String OAW_SLAM_OUTPUTSLOT_PROP_NAME = "slaModelOutputslot";
-    protected static final String OAW_SLAM_OUTPUTSLOT_PROP_VAL = "slaModel";
-    protected static final String OAW_RECONFM_FN_PROP_NAME = "reconfigurationmodel_fn";
-    protected static final String OAW_RESOURCEENVM_FN_PROP_NAME = "resourceenvironmentmodel_fn";
-    protected static final String OAW_QOSANNOTATIONSM_FN_PROP_NAME = "qosannotationsmodel_fn";
+
+    private static final String PROPERTY_RECONFIGURATIONMODEL_FN = "reconfigurationmodel_fn";
+    private static final String PROPERTY_RESOURCEENVIRONMENTMODEL_FN = "resourceenvironmentmodel_fn";
+    private static final String PROPERTY_QOSANNOTATIONSMODEL_FN = "qosannotationsmodel_fn";
 
     public ModelManager() {
     }
@@ -87,7 +79,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
     @Override
     public void init(final Properties properties) {
         super.init(properties);
-        this.model = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(OAW_RECONFM_FN_PROP_NAME));
+        this.reconfigurationModel = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(PROPERTY_RECONFIGURATIONMODEL_FN));
         this.initComponentAllocationList();
         this.initAllocatedServers();
         this.initInstanceCount();
@@ -99,7 +91,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
     }
 
     /**
-     * instantiating server lists and initializing them by the given model.
+     * instantiating server lists and initializing them by the given reconfigurationModel.
      */
     private void initAllocatedServers() {
         this.allocatedServers = new ConcurrentLinkedQueue<ResourceContainer>();
@@ -107,9 +99,9 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
         // run through all allocationContexts and add the already allocated
         // servers
-        for (int i = 0; i < this.model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size(); i++) {
-            if (!this.allocatedServers.contains(this.model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i))) {
-                this.allocatedServers.add(this.model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
+        for (int i = 0; i < this.reconfigurationModel.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().size(); i++) {
+            if (!this.allocatedServers.contains(this.reconfigurationModel.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i))) {
+                this.allocatedServers.add(this.reconfigurationModel.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().get(i));
             }
         }
 
@@ -119,24 +111,24 @@ public class ModelManager extends AbstractSLAsticModelManager {
     // deleted when simulation works.
     public synchronized void addNotAllocatedServer(ResourceContainer server) {
         this.notAllocatedServers.add(server);
-        this.model.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().add(server);
+        this.reconfigurationModel.getAllocation().getTargetResourceEnvironment_Allocation().getResourceContainer_ResourceEnvironment().add(server);
     }
 
     /**
-     * Within this method the map with component types and the belonging instances is created initialized by the given model
+     * Within this method the map with component types and the belonging instances is created initialized by the given reconfigurationModel
      */
     private void initComponentAllocationList() {
         this.componentAllocationList = new ConcurrentHashMap<BasicComponent, Vector<AllocationContext>>();
         this.componentReconfigurationSpecification = new ConcurrentHashMap<BasicComponent, ReconfigurationSpecification>();
-        for (int i = 0; i < this.model.getComponents().size(); i++) {
-            this.componentAllocationList.put(this.model.getComponents().get(i).getComponent(), new Vector<AllocationContext>());
-            this.componentReconfigurationSpecification.put(this.model.getComponents().get(i).getComponent(), this.model.getComponents().get(i));
-            log.info(this.model.getAllocation());
-            for (int k = 0; k < this.model.getAllocation().getAllocationContexts_Allocation().size(); k++) {
-                if (this.model.getComponents().get(i).getComponent() == this.model.getAllocation().getAllocationContexts_Allocation().get(k).getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()) {
+        for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+            this.componentAllocationList.put(this.reconfigurationModel.getComponents().get(i).getComponent(), new Vector<AllocationContext>());
+            this.componentReconfigurationSpecification.put(this.reconfigurationModel.getComponents().get(i).getComponent(), this.reconfigurationModel.getComponents().get(i));
+            log.info(this.reconfigurationModel.getAllocation());
+            for (int k = 0; k < this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().size(); k++) {
+                if (this.reconfigurationModel.getComponents().get(i).getComponent() == this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().get(k).getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()) {
                     this.componentAllocationList.get(
-                            this.model.getComponents().get(i).getComponent()).add(
-                            this.model.getAllocation().getAllocationContexts_Allocation().get(k));
+                            this.reconfigurationModel.getComponents().get(i).getComponent()).add(
+                            this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().get(k));
 
                 }
             }
@@ -145,20 +137,20 @@ public class ModelManager extends AbstractSLAsticModelManager {
     }
 
     /**
-     * This method is responsible for identifying the current instances of components out of the given model and putting them into the hashmap
+     * This method is responsible for identifying the current instances of components out of the given reconfigurationModel and putting them into the hashmap
      */
     private void initInstanceCount() {
         this.instanceCount = new ConcurrentHashMap<BasicComponent, Integer>();
-        //log.info("anzahl allocations: "+this.model.getAllocation().getAllocationContexts_Allocation().size());
-        for (int i = 0; i < this.model.getAllocation().getAllocationContexts_Allocation().size(); i++) {
-            for (int k = 0; k < this.model.getComponents().size(); k++) {
-                if (this.model.getComponents().get(k).getComponent() == this.model.getAllocation().getAllocationContexts_Allocation().get(i).getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()) {
-                    log.info("i=" + i + " k=" + k + " this.model.getComponente.size: " + this.model.getComponents().size());
+        //log.info("anzahl allocations: "+this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().size());
+        for (int i = 0; i < this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().size(); i++) {
+            for (int k = 0; k < this.reconfigurationModel.getComponents().size(); k++) {
+                if (this.reconfigurationModel.getComponents().get(k).getComponent() == this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().get(i).getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()) {
+                    log.info("i=" + i + " k=" + k + " this.model.getComponente.size: " + this.reconfigurationModel.getComponents().size());
                     log.info(this.instanceCount.size());
-                    if (this.model.getComponents().get(k).isMigratable() && !this.instanceCount.containsKey(this.model.getComponents().get(k).getComponent())) {
-                        this.instanceCount.put(this.model.getComponents().get(k).getComponent(), 1);
-                    } else if (this.instanceCount.containsKey(this.model.getComponents().get(k).getComponent())) {
-                        this.instanceCount.replace(this.model.getComponents().get(k).getComponent(), this.instanceCount.get(this.model.getComponents().get(k).getComponent()) + 1);
+                    if (this.reconfigurationModel.getComponents().get(k).isMigratable() && !this.instanceCount.containsKey(this.reconfigurationModel.getComponents().get(k).getComponent())) {
+                        this.instanceCount.put(this.reconfigurationModel.getComponents().get(k).getComponent(), 1);
+                    } else if (this.instanceCount.containsKey(this.reconfigurationModel.getComponents().get(k).getComponent())) {
+                        this.instanceCount.replace(this.reconfigurationModel.getComponents().get(k).getComponent(), this.instanceCount.get(this.reconfigurationModel.getComponents().get(k).getComponent()) + 1);
                     }
                 }
             }
@@ -194,7 +186,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private void migrate(AllocationContext component,
             ResourceContainer newServer) throws ServerNotAllocatedException,
             AllocationContextNotInModelException {
-        if (this.model.getAllocation().getAllocationContexts_Allocation().contains(component)) {
+        if (this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().contains(component)) {
             if (this.allocatedServers.contains(newServer)) {
                 component.setResourceContainer_AllocationContext(newServer);
                 log.info("Migrate-Operation successfull");
@@ -219,8 +211,8 @@ public class ModelManager extends AbstractSLAsticModelManager {
             throws AllocationContextNotInModelException,
             ServerNotAllocatedException {
         boolean componentExists = false;
-        for (int i = 0; i < model.getAllocation().getAllocationContexts_Allocation().size(); i++) {
-            if (model.getAllocation().getAllocationContexts_Allocation().get(i).getAssemblyContext_AllocationContext() == component) {
+        for (int i = 0; i < reconfigurationModel.getAllocation().getAllocationContexts_Allocation().size(); i++) {
+            if (reconfigurationModel.getAllocation().getAllocationContexts_Allocation().get(i).getAssemblyContext_AllocationContext() == component) {
                 componentExists = true;
                 break;
             }
@@ -236,7 +228,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
             newAllocationContext.setResourceContainer_AllocationContext(destination);
 
             // add new AllocationContext-Object to the AllocationModel
-            this.model.getAllocation().getAllocationContexts_Allocation().add(
+            this.reconfigurationModel.getAllocation().getAllocationContexts_Allocation().add(
                     newAllocationContext);
 
             // update HashMap of AllocationContexts
@@ -291,16 +283,16 @@ public class ModelManager extends AbstractSLAsticModelManager {
 
     /**
      * Method that represents the de-replication-operation of the ReconfigurationPlanMetaModel.
-     * @param component AllocationContext that should is removed of the model.
+     * @param component AllocationContext that should is removed of the reconfigurationModel.
      * @throws AllocationContextNotInModelException
      */
     protected void dereplicate(AllocationContext component)
             throws org.trustsoft.slastic.plugins.pcm.control.modelManager.AllocationContextNotInModelException {
 
-        //The Component can only be dereplicated if there is more than one instance and if the model contains the component.
-        if (model.getAllocation().getAllocationContexts_Allocation().contains(
+        //The Component can only be dereplicated if there is more than one instance and if the reconfigurationModel contains the component.
+        if (reconfigurationModel.getAllocation().getAllocationContexts_Allocation().contains(
                 component) && (this.instanceCount.get(component.getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()) > 1)) {
-            model.getAllocation().getAllocationContexts_Allocation().remove(component);
+            reconfigurationModel.getAllocation().getAllocationContexts_Allocation().remove(component);
             // Update Hashmap with List of AllocationContexts
             this.componentAllocationList.get(
                     component.getAssemblyContext_AllocationContext().getEncapsulatedComponent_ChildComponentContext()).remove(component);
@@ -322,7 +314,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
      *            Reconfiguration-Plan object which contains a list of
      *            operations, available operation-types have to be synchronized
      *            with the ReconfigurationPlanMetaModel
-     * @param  savePersistent if this is true, it will be saved a persistent version of the model after the execution of the plan
+     * @param  savePersistent if this is true, it will be saved a persistent version of the reconfigurationModel after the execution of the plan
      * @return returns false if any operation-type is not available
      * @throws AllocationContextNotInModelException
      * @throws ServerNotAllocatedException
@@ -335,7 +327,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
             ServerNotAllocatedException,
             IllegalReconfigurationOperationException {
         EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-        synchronized (this.model) {
+        synchronized (this.reconfigurationModel) {
             for (int i = 0; i < operations.size(); i++) {
                 SLAsticReconfigurationOpType op = operations.get(i);
                 // Check of which type the Operation is and executing belonging method
@@ -379,7 +371,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
     }
 
     public ReconfigurationModel getReconfigurationModel() {
-        return model;
+        return reconfigurationModel;
     }
 
     public ConcurrentLinkedQueue<ResourceContainer> getAllocatedServers() {
@@ -387,28 +379,28 @@ public class ModelManager extends AbstractSLAsticModelManager {
     }
 
     /**
-     * This method is responsible for saving the current version of the model.
+     * This method is responsible for saving the current version of the reconfigurationModel.
      * @throws IOException
      */
     private void savePersistent() throws IOException {
         java.lang.System.out.println("VERDAMMT SPEICHERN");
         // Save ResourceEnvironment
-        synchronized (model) {
+        synchronized (reconfigurationModel) {
             ResourceSet resourceEnvironmentResourceSet = new ResourceSetImpl();
             String resourceEnvironmentResourceLocation = "out.resourceenvironment";
             URI resourceEnvironmentURI = URI.createURI(resourceEnvironmentResourceLocation);
             Resource resourceEnvironmentResource = resourceEnvironmentResourceSet.createResource(resourceEnvironmentURI);
             resourceEnvironmentResource.getContents().add(
-                    model.getAllocation().getTargetResourceEnvironment_Allocation());
+                    reconfigurationModel.getAllocation().getTargetResourceEnvironment_Allocation());
 
             // Save System
             Resource repositoryResource = null;
-            if (model.getComponents().size() > 0) {
+            if (reconfigurationModel.getComponents().size() > 0) {
                 ResourceSet repositoryResourceSet = new ResourceSetImpl();
                 String repositoryLocation = "out.repository";
                 URI repositoryURI = URI.createURI(repositoryLocation);
                 repositoryResource = repositoryResourceSet.createResource(repositoryURI);
-                Repository repository = model.getComponents().get(0).getComponent().getRepository_ProvidesComponentType();
+                Repository repository = reconfigurationModel.getComponents().get(0).getComponent().getRepository_ProvidesComponentType();
                 repositoryResource.getContents().add(repository);
 
             }
@@ -420,7 +412,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
             String systemLocation = "out.system";
             URI systemURI = URI.createURI(systemLocation);
             Resource systemResource = systemResourceSet.createResource(systemURI);
-            System systemAllocation = model.getAllocation().getSystem_Allocation();
+            System systemAllocation = reconfigurationModel.getAllocation().getSystem_Allocation();
             EList<EObject> contents = systemResource.getContents();
             contents.add(systemAllocation);
 
@@ -430,14 +422,14 @@ public class ModelManager extends AbstractSLAsticModelManager {
             String allocationLocation = "out.allocation";
             URI allocationURI = URI.createURI(allocationLocation);
             Resource allocationResource = allocationResourceSet.createResource(allocationURI);
-            allocationResource.getContents().add(model.getAllocation());
+            allocationResource.getContents().add(reconfigurationModel.getAllocation());
 
             // Save ReconfigurationModel
             ResourceSet reconfigurationResourceSEt = new ResourceSetImpl();
             String reconfigurationLocation = "out.reconfMM";
             URI reconfigurationURI = URI.createURI(reconfigurationLocation);
             Resource reconfigurationResource = reconfigurationResourceSEt.createResource(reconfigurationURI);
-            reconfigurationResource.getContents().add(model);
+            reconfigurationResource.getContents().add(reconfigurationModel);
 
             resourceEnvironmentResource.save(null);
             repositoryResource.save(null);
