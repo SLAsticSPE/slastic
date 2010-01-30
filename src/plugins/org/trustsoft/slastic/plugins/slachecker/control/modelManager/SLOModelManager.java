@@ -17,7 +17,7 @@ import slal.Model;
  *
  * @author Andre van Hoorn, Lena Stoever
  */
-public class SLOModelManager extends org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager {
+public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager {
 
     private static final Log log = LogFactory.getLog(SLOModelManager.class);
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.

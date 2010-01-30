@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.pcmreconfiguration;
+package org.trustsoft.slastic.plugins.pcm;
 
 /**
  *

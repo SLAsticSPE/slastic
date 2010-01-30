@@ -1,8 +1,8 @@
-package org.trustsoft.slastic.plugins.pcmreconfiguration.control.analysis;
+package org.trustsoft.slastic.plugins.pcm.control.analysis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
 import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;

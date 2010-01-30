@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
+package org.trustsoft.slastic.plugins.pcm.control.modelManager;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -363,7 +363,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
      * @throws AllocationContextNotInModelException
      */
     protected void dereplicate(AllocationContext component)
-            throws org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager.AllocationContextNotInModelException {
+            throws org.trustsoft.slastic.plugins.pcm.control.modelManager.AllocationContextNotInModelException {
 
         //The Component can only be dereplicated if there is more than one instance and if the model contains the component.
         if (model.getAllocation().getAllocationContexts_Allocation().contains(

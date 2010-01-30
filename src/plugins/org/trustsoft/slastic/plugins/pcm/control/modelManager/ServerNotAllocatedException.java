@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.pcmreconfiguration.control.modelManager;
+package org.trustsoft.slastic.plugins.pcm.control.modelManager;
 
 public class ServerNotAllocatedException extends Exception {
 	public ServerNotAllocatedException(){
