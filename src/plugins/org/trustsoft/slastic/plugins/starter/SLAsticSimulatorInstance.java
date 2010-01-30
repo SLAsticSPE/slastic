@@ -1,15 +1,21 @@
 package org.trustsoft.slastic.plugins.starter;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.uka.ipd.sdq.pcm.allocation.Allocation;
+import de.uka.ipd.sdq.pcm.repository.Repository;
+import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import java.util.Properties;
 import kieker.common.tools.logReplayer.FilesystemLogReplayer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
+import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
 import org.trustsoft.slastic.simulation.SimulationController;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
+import reconfMM.ReconfigurationModel;
 
 /**
  *
@@ -44,6 +50,12 @@ public class SLAsticSimulatorInstance {
     private String pcmAllocationModel_fn;
     private String slasticReconfigurationModel_fn;
 
+    private Repository pcmRepository;
+    private System pcmSystem;
+    private Allocation pcmAllocation;
+    private ResourceEnvironment pcmResourceEnvironment;
+    private ReconfigurationModel slasticReconfigurationModel;
+
     private SimulationController simCtrl;
     //    SimPlanReceiver // delegiert an ctrl.
 
@@ -74,6 +86,18 @@ public class SLAsticSimulatorInstance {
             throw new IllegalArgumentException("Missing or empty property "+PROP_NAME_RECONF_PIPENAME);
         }
 
+        this.pcmRespositoryModel_fn = props.getProperty(PROP_NAME_PCM_REPOSITORY_FN);
+        this.pcmSystemModel_fn = props.getProperty(PROP_NAME_PCM_SYSTEM_FN);
+        this.pcmAllocationModel_fn = props.getProperty(PROP_NAME_PCM_ALLOCATION_FN);
+        this.pcmResourceEnvironmentModel_fn = props.getProperty(PROP_NAME_PCM_RESOURCEENV_FN);
+        this.slasticReconfigurationModel_fn = props.getProperty(PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN);
+
+        this.pcmRepository = PCMModelReader.getInstance().readRepository(this.pcmRespositoryModel_fn);
+        this.pcmSystem = PCMModelReader.getInstance().readSystem(this.pcmSystemModel_fn);
+        this.pcmAllocation = PCMModelReader.getInstance().readAllocation(this.pcmAllocationModel_fn);
+        this.pcmResourceEnvironment = PCMModelReader.getInstance().readResourceEnvironment(this.pcmResourceEnvironmentModel_fn);
+        this.slasticReconfigurationModel = SLAsticModelReader.getInstance().readReconfigurationModel(this.slasticReconfigurationModel_fn);
+
         } catch (Exception exc){
             log.error("Init error", exc);
             throw new IllegalArgumentException("Init error", exc);
@@ -85,7 +109,8 @@ public class SLAsticSimulatorInstance {
 //final System struct, final ResourceEnvironment resourceEnv,
 //final Allocation initAllocation,
 //final ReconfigurationModel reconfModel) {
-        this.simCtrl = new SimulationController(reconfPipeName, null, null, null, null, null);
+        this.simCtrl = new SimulationController(reconfPipeName, 
+                this.pcmRepository, this.pcmSystem, this.pcmResourceEnvironment, this.pcmAllocation, this.slasticReconfigurationModel);
 
         log.info("Simulator instance started");
         test();
