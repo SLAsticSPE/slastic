@@ -38,6 +38,12 @@ public class SLAsticSimulatorInstance {
     private int fsReaderRTNumThreads = -1;
     private String reconfPipeName;
 
+    private String pcmRespositoryModel_fn;
+    private String pcmSystemModel_fn;
+    private String pcmResourceEnvironmentModel_fn;
+    private String pcmAllocationModel_fn;
+    private String slasticReconfigurationModel_fn;
+
     private SimulationController simCtrl;
     //    SimPlanReceiver // delegiert an ctrl.
 

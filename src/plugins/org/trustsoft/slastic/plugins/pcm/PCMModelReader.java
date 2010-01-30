@@ -21,19 +21,19 @@ public class PCMModelReader {
     }
 
     public Repository readRepository (final String model_fn){
-        return (Repository)this.readXMIModel(model_fn, model_fn);
+        return (Repository)this.readXMIModel(model_fn, de.uka.ipd.sdq.pcm.repository.RepositoryPackage.class.getName());
     }
 
     public System readSystem (final String model_fn){
-        return (System)this.readXMIModel(model_fn, model_fn);
+        return (System)this.readXMIModel(model_fn, de.uka.ipd.sdq.pcm.system.SystemPackage.class.getName());
     }
 
     public Allocation readAllocation (final String model_fn){
-        return (Allocation)this.readXMIModel(model_fn, model_fn);
+        return (Allocation)this.readXMIModel(model_fn, de.uka.ipd.sdq.pcm.allocation.AllocationPackage.class.getName());
     }
 
     public ResourceEnvironment readResourceEnvironment (final String model_fn){
-        return (ResourceEnvironment)this.readXMIModel(model_fn, model_fn);
+        return (ResourceEnvironment)this.readXMIModel(model_fn, de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentPackage.class.getName());
     }
 
     private Object readXMIModel (final String model_fn, final String metaModelPackage){
