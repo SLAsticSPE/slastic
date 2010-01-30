@@ -21,12 +21,15 @@ public class SLAsticSimPlanReceiver implements IReconfigurationPipePlanReceiver 
     private String pipeName;
 
     public SLAsticSimPlanReceiver (final String pipeName, final IReconfPlanReceiver delegate){
-        this.initPipe(pipeName);
+        this.pipeName = pipeName;
         this.delegate = delegate;
     }
 
-    private void initPipe(String pipeName) throws IllegalArgumentException{
-        this.pipeName = pipeName;
+    public void execute(){
+        this.connect();
+    }
+
+    private void connect() throws IllegalArgumentException{
         this.pipe = ReconfigurationPipeBroker.getInstance().acquirePipe(pipeName);
         if (pipe == null){
             log.error("Failed to get Pipe with name " + this.pipeName);

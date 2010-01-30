@@ -19,9 +19,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 
-import org.openarchitectureware.workflow.WorkflowRunner;
-import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
