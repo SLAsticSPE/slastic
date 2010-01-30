@@ -1,3 +1,9 @@
+slastic.simulation.pcmrepository_fn=../../BookstoreReconfModel/bookstore.repository
+slastic.simulation.pcmsystem_fn=../../BookstoreReconfModel/bookstore.system
+slastic.simulation.pcmresourceenv_fn=../../BookstoreReconfModel/bookstore.resourceenvironment
+slastic.simulation.pcmallocation_fn=../../BookstoreReconfModel/bookstore.allocation
+slastic.simulation.slasticreconfigurationmodel_fn=../../BookstoreReconfModel/My.reconfmm
+
 slastic.simulation.fsreader.inputdir=testdata/tpmon-20100128-221341878
 slastic.simulation.fsreader.rtmode=true
 slastic.simulation.fsreader.rtnumthreads=5

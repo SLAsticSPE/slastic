@@ -20,7 +20,7 @@ import slal.Model;
  */
 public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager {
 
-    protected static final String PROPERTY_SLAMODEL_FN = "slamodel_fn";
+    private static final String PROP_NAME_SLAMODEL_FN = "slamodel_fn";
 
     private static final Log log = LogFactory.getLog(SLOModelManager.class);
     //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
@@ -32,7 +32,7 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
     public boolean execute() {
         boolean success = super.execute();
         //reading the SLA-reconfigurationModel
-        this.slas = SLAsticModelReader.getInstance().readSLAModel(this.getInitProperty(PROPERTY_SLAMODEL_FN));
+        this.slas = SLAsticModelReader.getInstance().readSLAModel(this.getInitProperty(PROP_NAME_SLAMODEL_FN));
 
         //intialize Model Manager object
         this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());

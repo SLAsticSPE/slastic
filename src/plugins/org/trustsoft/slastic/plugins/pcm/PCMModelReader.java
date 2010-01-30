@@ -3,6 +3,11 @@ package org.trustsoft.slastic.plugins.pcm;
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
+import org.openarchitectureware.emf.XmiReader;
+import org.openarchitectureware.workflow.WorkflowContext;
+import org.openarchitectureware.workflow.WorkflowContextDefaultImpl;
+import org.openarchitectureware.workflow.issues.IssuesImpl;
+import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
 
 /**
  *
@@ -16,18 +21,29 @@ public class PCMModelReader {
     }
 
     public Repository readRepository (final String model_fn){
-        return null;
+        return (Repository)this.readXMIModel(model_fn, model_fn);
     }
 
     public System readSystem (final String model_fn){
-        return null;
+        return (System)this.readXMIModel(model_fn, model_fn);
     }
 
     public Allocation readAllocation (final String model_fn){
-        return null;
+        return (Allocation)this.readXMIModel(model_fn, model_fn);
     }
 
     public ResourceEnvironment readResourceEnvironment (final String model_fn){
-        return null;
+        return (ResourceEnvironment)this.readXMIModel(model_fn, model_fn);
+    }
+
+    private Object readXMIModel (final String model_fn, final String metaModelPackage){
+        final String OUTPUT_SLOT_NAME = "theModel";
+        XmiReader r = new XmiReader();
+        r.setModelFile(model_fn);
+        r.setMetaModelPackage(metaModelPackage);
+        r.setOutputSlot(OUTPUT_SLOT_NAME);
+        WorkflowContext ctx = new WorkflowContextDefaultImpl();
+        r.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
+        return ctx.get(OUTPUT_SLOT_NAME);
     }
 }

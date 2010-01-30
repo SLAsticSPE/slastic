@@ -69,9 +69,9 @@ public class ModelManager extends AbstractSLAsticModelManager {
     //list of not allocated models
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
 
-    private static final String PROPERTY_RECONFIGURATIONMODEL_FN = "reconfigurationmodel_fn";
-    private static final String PROPERTY_RESOURCEENVIRONMENTMODEL_FN = "resourceenvironmentmodel_fn";
-    private static final String PROPERTY_QOSANNOTATIONSMODEL_FN = "qosannotationsmodel_fn";
+    private static final String PROP_NAME_RECONFIGURATIONMODEL_FN = "reconfigurationmodel_fn";
+    private static final String PROP_NAME_RESOURCEENVIRONMENTMODEL_FN = "resourceenvironmentmodel_fn";
+    private static final String PROP_NAME_QOSANNOTATIONSMODEL_FN = "qosannotationsmodel_fn";
 
     public ModelManager() {
     }
@@ -79,7 +79,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
     @Override
     public void init(final Properties properties) {
         super.init(properties);
-        this.reconfigurationModel = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(PROPERTY_RECONFIGURATIONMODEL_FN));
+        this.reconfigurationModel = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
         this.initComponentAllocationList();
         this.initAllocatedServers();
         this.initInstanceCount();

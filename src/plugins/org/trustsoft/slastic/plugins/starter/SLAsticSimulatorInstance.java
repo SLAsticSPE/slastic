@@ -26,6 +26,13 @@ public class SLAsticSimulatorInstance {
 
     private static final String PROP_NAME_RECONF_PIPENAME=PROP_NAME_PREFIX+".reconfplanreceiver.pipeName";
 
+    private static final String PROP_NAME_PCM_REPOSITORY_FN = PROP_NAME_PREFIX+".pcmrepository_fn";
+    private static final String PROP_NAME_PCM_SYSTEM_FN = PROP_NAME_PREFIX+".pcmsystem_fn";
+    private static final String PROP_NAME_PCM_RESOURCEENV_FN = PROP_NAME_PREFIX+".pcmresourceenv_fn";
+    private static final String PROP_NAME_PCM_ALLOCATION_FN = PROP_NAME_PREFIX+".pcmallocation_fn";
+
+    private static final String PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN = PROP_NAME_PREFIX+".slasticreconfigurationmodel_fn";
+
     private String fsReaderInputDir;
     private boolean fsReaderRTMode = false;
     private int fsReaderRTNumThreads = -1;
