@@ -47,6 +47,7 @@ import de.uka.ipd.sdq.pcm.system.System;
 import java.util.HashMap;
 import java.util.Map;
 import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 
 /**
  * The only ModelManager-Implementation that currently exists.
@@ -57,7 +58,6 @@ import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticMode
 public class ModelManager extends AbstractSLAsticModelManager {
 
     private final Log log = LogFactory.getLog(ModelManager.class);
-
 //    private static ModelManager instance;
     protected ReconfigurationModel model;
     //map of types of components with their belonging instances within the model
@@ -70,35 +70,16 @@ public class ModelManager extends AbstractSLAsticModelManager {
     private ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
     //list of not allocated models
     private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
-
     private String workflow_fn;
-
     protected final WorkflowRunner runner = new WorkflowRunner();
-    
     protected static final String OAW_SLAM_FN_PROP_NAME = "slamodel_fn";
     protected static final String OAW_SLAMM_PARSER_PROP_NAME = "slaParserClass";
     protected static final String OAW_SLAMM_PARSER_PROP_VAL = org.trustsoft.slastic.control.sla.parser.ParserComponent.class.getName();
     protected static final String OAW_SLAM_OUTPUTSLOT_PROP_NAME = "slaModelOutputslot";
     protected static final String OAW_SLAM_OUTPUTSLOT_PROP_VAL = "slaModel";
-
     protected static final String OAW_RECONFM_FN_PROP_NAME = "reconfigurationmodel_fn";
-    protected static final String OAW_RECONFMM_PACKAGE_PROP_NAME = "reconfigurationMetaModelPackage";
-    protected static final String OAW_RECONFMM_PACKAGE_PROP_VAL = reconfMM.ReconfMMPackage.class.getName();
-    protected static final String OAW_RECONFM_OUTPUTSLOT_PROP_NAME = "reconfigurationModelOutputslot";
-    protected static final String OAW_RECONFM_OUTPUTSLOT_PROP_VAL = "reconfigurationModel";
-
     protected static final String OAW_RESOURCEENVM_FN_PROP_NAME = "resourceenvironmentmodel_fn";
-    protected static final String OAW_RESOURCEENVMM_PACKAGE_PROP_NAME = "resourceEnvironmentMetaModelPackage";
-    protected static final String OAW_RESOURCEENVMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName();
-    protected static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME = "resourceEnvironmentModelOutputslot";
-    protected static final String OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL = "resourceEnvironmentModel";
-
     protected static final String OAW_QOSANNOTATIONSM_FN_PROP_NAME = "qosannotationsmodel_fn";
-    protected static final String OAW_QOSANNOTATIONSMM_PACKAGE_PROP_NAME = "qosAnnotationsMetaModelPackage";
-    protected static final String OAW_QOSANNOTATIONSMM_PACKAGE_PROP_VAL = org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName();
-    protected static final String OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_NAME = "qosAnnotationsModelOutputslot";
-    protected static final String OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_VAL = "qosAnnotationsModel";
-
 
     public ModelManager() {
     }
@@ -106,64 +87,15 @@ public class ModelManager extends AbstractSLAsticModelManager {
     @Override
     public void init(final Properties properties) {
         super.init(properties);
- 
-        this.workflow_fn = this.getInitProperty("initWorkflow_fn");
-        if (this.workflow_fn == null || this.workflow_fn.equals("")){
-            throw new IllegalArgumentException("No property 'initWorkflow_fn' defined.");
-        }
-
-        Map<String, String> oawProperties = this.initOawProperties();
-        Map<String, String> slotContents = new HashMap<String, String>();
-
-        //workflow runner of the oAW-framework
-        runner.run(workflow_fn, new NullProgressMonitor(), oawProperties, slotContents);
-        //reading the reconfiguration model
-        this.model = (ReconfigurationModel) runner.getContext().get("reconfigurationModel");
-    }
-
-    private HashMap<String,String> initOawProperties(){
-        HashMap<String,String> oawProperties = new HashMap<String,String>();
-        /* SLA model properties */
-        oawProperties.put(OAW_SLAMM_PARSER_PROP_NAME, OAW_SLAMM_PARSER_PROP_VAL);
-        oawProperties.put(OAW_SLAM_OUTPUTSLOT_PROP_NAME, OAW_SLAM_OUTPUTSLOT_PROP_VAL);
-        oawProperties.put(OAW_SLAM_FN_PROP_NAME, this.getInitProperty(OAW_SLAM_FN_PROP_NAME));
-        /* Reconfiguration model properties */
-        oawProperties.put(OAW_RECONFMM_PACKAGE_PROP_NAME, OAW_RECONFMM_PACKAGE_PROP_VAL);
-        oawProperties.put(OAW_RECONFM_OUTPUTSLOT_PROP_NAME, OAW_RECONFM_OUTPUTSLOT_PROP_VAL);
-        oawProperties.put(OAW_RECONFM_FN_PROP_NAME, this.getInitProperty(OAW_RECONFM_FN_PROP_NAME));
-        /* Resource environment model properties */
-        oawProperties.put(OAW_RESOURCEENVMM_PACKAGE_PROP_NAME, OAW_RESOURCEENVMM_PACKAGE_PROP_VAL);
-        oawProperties.put(OAW_RESOURCEENVM_OUTPUTSLOT_PROP_NAME, OAW_RESOURCEENVM_OUTPUTSLOT_PROP_VAL);
-        oawProperties.put(OAW_RESOURCEENVM_FN_PROP_NAME, this.getInitProperty(OAW_RESOURCEENVM_FN_PROP_NAME));
-        /* QoS Annotations model properties */
-        oawProperties.put(OAW_QOSANNOTATIONSMM_PACKAGE_PROP_NAME, OAW_QOSANNOTATIONSMM_PACKAGE_PROP_VAL);
-        oawProperties.put(OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_NAME, OAW_QOSANNOTATIONSM_OUTPUTSLOT_PROP_VAL);
-        oawProperties.put(OAW_QOSANNOTATIONSM_FN_PROP_NAME, this.getInitProperty(OAW_QOSANNOTATIONSM_FN_PROP_NAME));
-
-        log.info("Initialized oaw properties:" + oawProperties);
-
-        return oawProperties;
+        this.model = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(OAW_RECONFM_FN_PROP_NAME));
+        this.initComponentAllocationList();
+        this.initAllocatedServers();
+        this.initInstanceCount();
     }
 
     @Override
     public boolean execute() {
         return super.execute();
-    }
-
-
-    /**
-     * This method has to be called before the instance of this ModelManager can
-     * be used. Otherwise the Reconfigurationmodel is not initialized.
-     *
-     * @param m
-     *            ReconfigurationModel which represents the initialization-model
-     */
-    public void setModel(ReconfigurationModel m) {
-        log.info(m);
-        this.model = m;
-        this.initComponentAllocationList();
-        this.initAllocatedServers();
-        this.initInstanceCount();
     }
 
     /**
@@ -522,5 +454,6 @@ public class ModelManager extends AbstractSLAsticModelManager {
         // TODO Auto-generated method stub
     }
 
-    public void handleSLAsticEvent(ISLAsticEvent ev) { }
+    public void handleSLAsticEvent(ISLAsticEvent ev) {
+    }
 }
