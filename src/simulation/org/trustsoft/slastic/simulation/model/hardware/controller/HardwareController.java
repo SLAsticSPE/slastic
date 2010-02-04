@@ -28,30 +28,31 @@ public class HardwareController extends Reportable {
 	private final Hashtable<String, Server> serversById = new Hashtable<String, Server>();
 	private int allocatedServers = 0;
 
-	public HardwareController(final ResourceEnvironment ressources,
+	public HardwareController(final ResourceEnvironment resources,
 			final Model model) {
-		super(model, "Resource Controler", Constants.DEBUG, Constants.DEBUG);
+		super(model, "Resource Controller", Constants.DEBUG, Constants.DEBUG);
 		this.model = model;
-		generateEnvironment(ressources, model);
+		this.generateEnvironment(resources, model);
 	}
 
 	private void generateEnvironment(final ResourceEnvironment re, final Model m) {
+
 		for (final ResourceContainer rc : re
 				.getResourceContainer_ResourceEnvironment()) {
-			final Server server = createServer(rc.getId(), m);
+			final Server server = this.createServer(rc.getId(), m);
 			final List<ProcessingResourceSpecification> prslist = rc
 					.getActiveResourceSpecifications_ResourceContainer();
 			for (final ProcessingResourceSpecification prs : prslist) {
 				final ProcessingResourceType prt = prs
 						.getActiveResourceType_ActiveResourceSpecification();
 				if (prt.getEntityName().equals("CPU")) {
-					genCPU(m, rc, server, prs);
+					this.genCPU(m, rc, server, prs);
 				} else if (prt.getEntityName().equals("HDD")) {
-					genHDD(m, rc, server, prs);
+					this.genHDD(m, rc, server, prs);
 				}
 
 			}
-			serversById.put(rc.getId().toString(), server);
+			this.serversById.put(rc.getId().toString(), server);
 		}
 	}
 
@@ -87,34 +88,34 @@ public class HardwareController extends Reportable {
 	}
 
 	public boolean isAllocated(final String id) {
-		return serversById.get(id).isAllocated();
+		return this.serversById.get(id).isAllocated();
 	}
 
 	public boolean allocate(final String id) {
-		if (!serversById.get(id).isAllocated()) {
-			serversById.get(id).setAllocated(true);
-			allocatedServers++;
+		if (!this.serversById.get(id).isAllocated()) {
+			this.serversById.get(id).setAllocated(true);
+			this.allocatedServers++;
 			return true;
 		}
 		return false;
 	}
 
 	public boolean delocate(final String id) {
-		if (allocatedServers > 1
+		if (this.allocatedServers > 1
 				&& !ModelManager.getInstance().getAllocCont().serverIsUsed(id)) {
-			serversById.get(id).setAllocated(false);
-			allocatedServers--;
+			this.serversById.get(id).setAllocated(false);
+			this.allocatedServers--;
 			return true;
 		}
 		return false;
 	}
 
 	public Collection<Server> getServers() {
-		return serversById.values();
+		return this.serversById.values();
 	}
 
 	public Server getServer(final String server) {
-		return serversById.get(server);
+		return this.serversById.get(server);
 	}
 
 }

@@ -99,7 +99,7 @@
 	<classpathentry kind="lib" path="lib/swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="lib/concurrent-1.3.4.jar"/>
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.simucomframework.variables_1.0.0.200811151014NGT.jar"/>
-	<classpathentry kind="lib" path="lib/desmoj-2.1.4b-core-bin.jar"/>
+	<classpathentry kind="lib" path="lib/desmoj-2.1.4b-core-bin.jar" sourcepath="/home/skomp/desmoj-2.1.4b-complete-src.zip"/>
 	<classpathentry kind="lib" path="lib/jms-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/jndi-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/kieker-common-1.0.jar"/>

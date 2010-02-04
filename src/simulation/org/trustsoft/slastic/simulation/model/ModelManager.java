@@ -3,6 +3,7 @@ package org.trustsoft.slastic.simulation.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.hardware.controller.HardwareController;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
@@ -21,82 +22,91 @@ import desmoj.core.simulator.Model;
 
 public class ModelManager implements IReconfPlanReceiver {
 
-    private final AllocationController allocCont;
-    private final HardwareController hwCont;
-    private final ComponentController compCont;
-    private final AssemblyController assemblyCont;
-    private final ReconfigurationController reconfCont;
-    private static ModelManager instance;
-    private final List<SLAsticReconfigurationPlan> plans = new LinkedList<SLAsticReconfigurationPlan>();
-    private final Model model;
+	private final AllocationController allocCont;
+	private final HardwareController hwCont;
+	private final ComponentController compCont;
+	private final AssemblyController assemblyCont;
+	private final ReconfigurationController reconfCont;
+	private static ModelManager instance;
+	private final List<SLAsticReconfigurationPlan> plans = new LinkedList<SLAsticReconfigurationPlan>();
+	private final Model model;
+	private final Log log;
 
-    public ModelManager(final Repository repository, final System system,
-            final ResourceEnvironment resources, final Allocation allocation,
-            final ReconfigurationModel reconfModel, final Model model) {
-        compCont = new ComponentController(repository, reconfModel, model);
-        assemblyCont = new AssemblyController(system, model);
-        hwCont = new HardwareController(resources, model);
-        allocCont = new AllocationController(allocation, model);
-        reconfCont = new ReconfigurationController(reconfModel, model);
-        instance = this;
-        this.model = model;
-    }
+	public ModelManager(final Repository repository, final System system,
+			final ResourceEnvironment resources, final Allocation allocation,
+			final ReconfigurationModel reconfModel, final Model model,
+			final Log log) {
+		ModelManager.instance = this;
+		this.model = model;
+		this.log = log;
+		log.info("Model is " + model);
+		this.compCont = new ComponentController(repository, reconfModel, model);
+		this.assemblyCont = new AssemblyController(system, model);
+		this.hwCont = new HardwareController(resources, model);
+		this.allocCont = new AllocationController(allocation, model);
+		this.reconfCont = new ReconfigurationController(reconfModel, model);
+	}
 
-    public AllocationController getAllocCont() {
-        return allocCont;
-    }
+	public AllocationController getAllocCont() {
+		return this.allocCont;
+	}
 
-    public HardwareController getHwCont() {
-        return hwCont;
-    }
+	public HardwareController getHwCont() {
+		return this.hwCont;
+	}
 
-    public ComponentController getCompCont() {
-        return compCont;
-    }
+	public ComponentController getCompCont() {
+		return this.compCont;
+	}
 
-    public AssemblyController getAssemblyCont() {
-        return assemblyCont;
-    }
+	public AssemblyController getAssemblyCont() {
+		return this.assemblyCont;
+	}
 
-    public static ModelManager getInstance() {
-        return ModelManager.instance;
-    }
+	public static ModelManager getInstance() {
+		return ModelManager.instance;
+	}
 
-    @Override
-    public void reconfigure(final SLAsticReconfigurationPlan plan) {
-        if (plans.isEmpty() && reconfCont.checkValidity(plan)) {
-            reconfCont.schedulePlan(plan);
-        }
-    }
+	@Override
+	public void reconfigure(final SLAsticReconfigurationPlan plan) {
+		if (this.plans.isEmpty() && this.reconfCont.checkValidity(plan)) {
+			this.reconfCont.schedulePlan(plan);
+		}
+	}
 
-    public ReconfigurationController getReconfController() {
-        return reconfCont;
-    }
+	public ReconfigurationController getReconfController() {
+		return this.reconfCont;
+	}
 
-    public void addReconfEventListener(final ReconfEventListener listener) {
-        reconfCont.addReconfEventListener(listener);
-    }
+	public void addReconfEventListener(final ReconfEventListener listener) {
+		this.reconfCont.addReconfEventListener(listener);
+	}
 
-    public Model getModel() {
-        return model;
-    }
+	public Model getModel() {
+		return this.model;
+	}
 
-    @Override
-    public void addReconfigurationEventListener(
-            final ReconfEventListener listener) {
-        reconfCont.addReconfEventListener(listener);
-    }
+	@Override
+	public void addReconfigurationEventListener(
+			final ReconfEventListener listener) {
+		this.reconfCont.addReconfEventListener(listener);
+	}
 
-    @Override
-    public void removeReconfigurationEventListener(
-            final ReconfEventListener listener) {
-        reconfCont.removeReconfEventListener(listener);
-    }
+	@Override
+	public void removeReconfigurationEventListener(
+			final ReconfEventListener listener) {
+		this.reconfCont.removeReconfEventListener(listener);
+	}
 
-    public void reconfigure(SLAsticReconfigurationPlan plan, ReconfEventListener listener) {
-        // Von Andre: Hi Robert, ich schlage vor, an einen abgeschickten Plan
-        // immer genau einen listener zu binden. Dann brauchen wir die
-        // add/remove-Listener-Teile auch nicht im Interface
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	public void reconfigure(final SLAsticReconfigurationPlan plan,
+			final ReconfEventListener listener) {
+		// Von Andre: Hi Robert, ich schlage vor, an einen abgeschickten Plan
+		// immer genau einen listener zu binden. Dann brauchen wir die
+		// add/remove-Listener-Teile auch nicht im Interface
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	public Log getLogger() {
+		return this.log;
+	}
 }
