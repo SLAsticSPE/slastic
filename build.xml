@@ -205,8 +205,8 @@
               maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.simulation.tpmon.properties}"/>
-            <arg line="--start-framework META-INF/slastic.framework.properties.example"/>
-            <arg line="--start-simulation META-INF/slastic.simulation.properties.example"/>
+            <arg line="--start-framework META-INF/slastic.framework.properties"/>
+            <arg line="--start-simulation META-INF/slastic.simulation.properties"/>
             <classpath>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
                 <pathelement location="${dist.dir}/${slastic.simulation.jar}"/>
@@ -224,7 +224,7 @@
               maxmemory="1024m">
             <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
             <jvmarg value="-Dtpmon.configuration=${slastic.simulation.tpmon.properties}"/>
-            <arg line="--start-framework META-INF/slastic.framework.properties.example"/>
+            <arg line="--start-framework META-INF/slastic.framework.properties"/>
             <classpath>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
                 <pathelement location="${dist.dir}/${slastic.simulation.jar}"/>
