@@ -21,6 +21,7 @@ import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreate
 import org.trustsoft.slastic.simulation.util.Interval;
 
 import de.uka.ipd.sdq.pcm.repository.Parameter;
+import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition;
 import de.uka.ipd.sdq.pcm.seff.AbstractLoopAction;
@@ -53,11 +54,11 @@ public class CallHandler {
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
 	public CallHandler() {
-		instance = this;
+		CallHandler.instance = this;
 	}
 
 	public static CallHandler getInstance() {
-		return instance;
+		return CallHandler.instance;
 	}
 
 	/**
@@ -78,9 +79,15 @@ public class CallHandler {
 	 * @throws BranchException
 	 * @throws SumGreaterXException
 	 */
-	public void call(final String service, final String userId,
+	public void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
+
+		for (final String seff : ComponentController.getInstance().getSeffs()) {
+			ModelManager.getInstance().getLogger().info(seff);
+		}
+		service = service.replaceAll("\\(.*\\)", "");
+
 		final ResourceDemandingBehaviour rdseff = ComponentController
 				.getInstance().getSeffById(service);
 		if (rdseff != null) {
@@ -88,22 +95,23 @@ public class CallHandler {
 			final String asmContext = ModelManager.getInstance()
 					.getAssemblyCont().getASMContextBySystemService(service);
 			final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
-			ExternalCallEnterNode entryCallNode;
-			nodes.add(entryCallNode = new ExternalCallEnterNode(ModelManager
-					.getInstance().getAssemblyCont()
-					.getSignatureByExternalServiceName(service), ModelManager
-					.getInstance().getAssemblyCont()
-					.getASMContextBySystemService(service), userId));
-			nodes.addAll(generateControlFlow(rdseff, userId, asmContext));
+			final Signature signature = ModelManager.getInstance()
+					.getAssemblyCont().getSignatureByExternalServiceName(
+							service);
+			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(
+					signature, ModelManager.getInstance().getAssemblyCont()
+							.getASMContextBySystemService(service), userId);
+			nodes.add(entryCallNode);
+			nodes.addAll(this.generateControlFlow(rdseff, userId, asmContext));
 			nodes.add(new ExternalCallReturnNode(entryCallNode));
 			// add control flow to active traces
-			activeTraces.put(userId, nodes);
+			this.activeTraces.put(userId, nodes);
 			// push initial stack frame
 			final Stack<StackFrame> stack = new Stack<StackFrame>();
 			final StackFrame frame = new StackFrame(userId, service,
 					asmContext, null, time);
 			stack.push(frame);
-			stacks.put(userId, stack);
+			this.stacks.put(userId, stack);
 			// schedule
 			nodes
 					.get(0)
@@ -159,8 +167,9 @@ public class CallHandler {
 		while (!((next = next.getSuccessor_AbstractAction()) instanceof StopAction)) {
 			if (next instanceof BranchAction) {
 				final BranchAction ba = (BranchAction) next;
-				final AbstractBranchTransition abt = handleProbilisticBranch(ba);
-				ret.addAll(generateControlFlow(abt
+				final AbstractBranchTransition abt = this
+						.handleProbilisticBranch(ba);
+				ret.addAll(this.generateControlFlow(abt
 						.getBranchBehaviour_BranchTransition(), userId,
 						asmContextCurrent));
 
@@ -181,7 +190,7 @@ public class CallHandler {
 				final String componentByASMId = ModelManager.getInstance()
 						.getAssemblyCont()
 						.getComponentByASMId(ece.getASMCont());
-				ret.addAll(generateControlFlow(ModelManager.getInstance()
+				ret.addAll(this.generateControlFlow(ModelManager.getInstance()
 						.getCompCont().getSeffById(componentByASMId), userId,
 						ece.getASMCont()));
 				// mark return
@@ -233,7 +242,7 @@ public class CallHandler {
 		// the random used to branch probabilistic branches
 		final double randomResult = Math.random();
 		// branch not in cache? cache it
-		if (probabilisticBranchIntervalCache.get(ba) == null) {
+		if (this.probabilisticBranchIntervalCache.get(ba) == null) {
 			final List<AbstractBranchTransition> branches = ba
 					.getBranches_Branch();
 			final LinkedList<Interval<ProbabilisticBranchTransition>> probs = new LinkedList<Interval<ProbabilisticBranchTransition>>();
@@ -258,13 +267,13 @@ public class CallHandler {
 				throw new SumGreaterXException(ba.getEntityName());
 			}
 			if (probs.size() > 0) {
-				probabilisticBranchIntervalCache.put(ba, probs);
+				this.probabilisticBranchIntervalCache.put(ba, probs);
 			} else {
 				throw new NoBranchProbabilitiesException(ba.getEntityName());
 			}
 		}
 		{
-			for (final Interval<ProbabilisticBranchTransition> i : probabilisticBranchIntervalCache
+			for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
 					.get(ba)) {
 				if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
 					return i.getAbt();
@@ -275,29 +284,29 @@ public class CallHandler {
 	}
 
 	public String getCurrentServer(final String traceId) {
-		return stacks.get(traceId).peek().getServerId();
+		return this.stacks.get(traceId).peek().getServerId();
 	}
 
 	public void pushContext(final String traceId, final StackFrame stackFrame) {
-		final Stack<StackFrame> curStack = stacks.get(traceId);
+		final Stack<StackFrame> curStack = this.stacks.get(traceId);
 		int eoi = curStack.peek().getEoi();
 		stackFrame.setEoi(++eoi);
 		curStack.push(stackFrame);
 	}
 
 	public StackFrame popContext(final String traceId) {
-		return stacks.get(traceId).pop();
+		return this.stacks.get(traceId).pop();
 	}
 
 	public int getStackDepth(final String traceId) {
-		return stacks.get(traceId).size();
+		return this.stacks.get(traceId).size();
 	}
 
 	public void actionReturn(final String traceId) {
-		final List<ControlFlowNode> nodes = activeTraces.get(traceId);
+		final List<ControlFlowNode> nodes = this.activeTraces.get(traceId);
 		if (nodes.size() > 1) {
 			nodes.remove(0);
-			activeTraces.get(traceId).get(0).schedule(new SimTime(0));
+			this.activeTraces.get(traceId).get(0).schedule(new SimTime(0));
 		} // else this.
 	}
 }

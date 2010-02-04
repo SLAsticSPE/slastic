@@ -2,6 +2,10 @@ package org.trustsoft.slastic.simulation.model.software.repository;
 
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
@@ -24,18 +28,22 @@ public class ComponentController {
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
 	private List<DataType> types;
 	private final Model model;
+	private final Log log;
 
 	public ComponentController(final Repository repository,
 			final ReconfigurationModel reconfModel, final Model model) {
+		this.log = ModelManager.getInstance().getLogger();
 		for (final ProvidesComponentType component : repository
 				.getComponents__Repository()) {
+			this.log.info("Adding Component " + component
+					+ " to simulation model");
 			this.put(component, reconfModel);
 		}
 		for (final DataType dataType : repository.getDatatypes_Repository()) {
 			this.put(dataType);
 		}
 		this.model = model;
-		instance = this;
+		ComponentController.instance = this;
 	}
 
 	/**
@@ -47,23 +55,29 @@ public class ComponentController {
 	 */
 	private void put(final ProvidesComponentType pct,
 			final ReconfigurationModel reconfModel) {
-		components.put(pct.getEntityName(), pct);
-		if (components instanceof BasicComponent) {
-			final BasicComponent bc = (BasicComponent) components;
+		this.components.put(pct.getEntityName(), pct);
+		if (pct instanceof BasicComponent) {
+			final BasicComponent bc = (BasicComponent) pct;
 			for (final ServiceEffectSpecification seff : bc
 					.getServiceEffectSpecifications__BasicComponent()) {
 				if (seff instanceof ResourceDemandingSEFF) {
 					final ResourceDemandingSEFF rdseff = (ResourceDemandingSEFF) seff;
-					if (seffsByComponent.get(bc) == null) {
-						seffsByComponent
+					this.log.info("Adding RDSEFF "
+							+ rdseff
+							+ " for service "
+							+ rdseff.getDescribedService__SEFF()
+									.getServiceName());
+					if (this.seffsByComponent.get(bc) == null) {
+						this.seffsByComponent
 								.put(
 										bc,
 										new Hashtable<Signature, ResourceDemandingSEFF>());
 					}
-					seffsByComponent.get(bc).put(
+					this.seffsByComponent.get(bc).put(
 							rdseff.getDescribedService__SEFF(), rdseff);
-					seffsByServiceName.put(rdseff.getDescribedService__SEFF()
-							.getServiceName(), rdseff);
+					this.seffsByServiceName.put(rdseff
+							.getDescribedService__SEFF().getServiceName(),
+							rdseff);
 				}
 			}
 
@@ -71,15 +85,20 @@ public class ComponentController {
 	}
 
 	public void put(final DataType datatype) {
-		types.add(datatype);
+		this.types.add(datatype);
 	}
 
 	public static ComponentController getInstance() {
-		return instance;
+		return ComponentController.instance;
 	}
 
 	public ResourceDemandingBehaviour getSeffById(final String seff) {
-		return seffsByServiceName.get(seff);
+		return this.seffsByServiceName.get(seff);
+	}
+
+	public Set<String> getSeffs() {
+		// TODO Auto-generated method stub
+		return this.seffsByServiceName.keySet();
 	}
 
 }

@@ -52,6 +52,8 @@ public class DynamicSimulationModel extends Model {
 		synchronized (this.buffer) {
 			for (final EntryCall call : this.buffer) {
 				try {
+					this.log.info("Calling " + call.getComponentName() + "."
+							+ call.getOpname());
 					this.callHandler.call(call.getOpname(), call.getTraceId()
 							+ "", call.getComponentName(), call.getTin());
 				} catch (final NoSuchSeffException e) {

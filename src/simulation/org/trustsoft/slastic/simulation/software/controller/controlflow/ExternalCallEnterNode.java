@@ -18,18 +18,17 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 
 	public ExternalCallEnterNode(final Signature calledService_ExternalService,
 			final String asmContextCurrent, final String traceId) {
-		super(calledService_ExternalService.getServiceName()
-				+ " from "
-				+ asmContextCurrent
-				+ " to "
-				+ (ModelManager.getInstance().getAssemblyCont()
-						.getServiceASMContextConnectedWithContext(
-								calledService_ExternalService.getServiceName(),
-								asmContextCurrent)), traceId);
-		calledServiceName = calledService_ExternalService.getServiceName();
+		super(calledService_ExternalService.getServiceName() + " from "
+				+ asmContextCurrent + " to "
+		// + (ModelManager.getInstance().getAssemblyCont()
+				// .getServiceASMContextConnectedWithContext(
+				// calledService_ExternalService.getServiceName(),
+				// asmContextCurrent)),
+				, traceId);
+		this.calledServiceName = calledService_ExternalService.getServiceName();
 		this.traceId = traceId;
-		asmContextFrom = asmContextCurrent;
-		asmContextTo = ModelManager.getInstance().getAssemblyCont()
+		this.asmContextFrom = asmContextCurrent;
+		this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
 				.getServiceASMContextConnectedWithContext(
 						calledService_ExternalService.getServiceName(),
 						asmContextCurrent);
@@ -37,35 +36,36 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 
 	@Override
 	public void eventRoutine() {
-		serverId = ModelManager.getInstance().getAllocCont().getServer(
-				asmContextTo);
-		ModelManager.getInstance().getAllocCont().addUser(asmContextTo,
-				serverId);
+		this.serverId = ModelManager.getInstance().getAllocCont().getServer(
+				this.asmContextTo);
+		ModelManager.getInstance().getAllocCont().addUser(this.asmContextTo,
+				this.serverId);
 		// TODO Start monitoring here!
-		enterTime = getModel().currentTime();
+		this.enterTime = this.getModel().currentTime();
 		CallHandler.getInstance().pushContext(
-				traceId,
-				new StackFrame(traceId, calledServiceName, asmContextTo,
-						serverId, enterTime.getTimeValue()));
+				this.traceId,
+				new StackFrame(this.traceId, this.calledServiceName,
+						this.asmContextTo, this.serverId, this.enterTime
+								.getTimeValue()));
 	}
 
 	public String getASMCont() {
-		return asmContextTo;
+		return this.asmContextTo;
 	}
 
 	public String getTraceId() {
-		return traceId;
+		return this.traceId;
 	}
 
 	public String getServerId() {
-		return serverId;
+		return this.serverId;
 	}
 
 	public SimTime getEnterTime() {
-		return enterTime;
+		return this.enterTime;
 	}
 
 	public String getCalledService() {
-		return calledServiceName;
+		return this.calledServiceName;
 	}
 }
