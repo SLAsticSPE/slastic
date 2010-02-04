@@ -28,10 +28,15 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		this.calledServiceName = calledService_ExternalService.getServiceName();
 		this.traceId = traceId;
 		this.asmContextFrom = asmContextCurrent;
-		this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
-				.getServiceASMContextConnectedWithContext(
-						calledService_ExternalService.getServiceName(),
-						asmContextCurrent);
+		if (asmContextCurrent != null) {
+			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
+					.getServiceASMContextConnectedWithContext(
+							calledService_ExternalService.getServiceName(),
+							asmContextCurrent);
+		} else {
+			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
+					.getASMContextBySystemService(this.calledServiceName);
+		}
 	}
 
 	@Override

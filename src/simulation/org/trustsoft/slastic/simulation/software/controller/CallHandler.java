@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
@@ -50,6 +52,8 @@ public class CallHandler {
 	private final Hashtable<String, Stack<StackFrame>> stacks = new Hashtable<String, Stack<StackFrame>>();
 
 	private static CallHandler instance;
+
+	private final Log log = LogFactory.getLog(CallHandler.class);
 
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
@@ -98,9 +102,16 @@ public class CallHandler {
 			final Signature signature = ModelManager.getInstance()
 					.getAssemblyCont().getSignatureByExternalServiceName(
 							service);
+			this.log.info("Creating call with service "
+					+ service
+					+ " -> "
+					+ signature
+					+ " "
+					+ ModelManager.getInstance().getAssemblyCont()
+							.getASMContextBySystemService(service)
+					+ " for trace " + userId);
 			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(
-					signature, ModelManager.getInstance().getAssemblyCont()
-							.getASMContextBySystemService(service), userId);
+					signature, null, userId);
 			nodes.add(entryCallNode);
 			nodes.addAll(this.generateControlFlow(rdseff, userId, asmContext));
 			nodes.add(new ExternalCallReturnNode(entryCallNode));

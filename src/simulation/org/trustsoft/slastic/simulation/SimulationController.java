@@ -65,7 +65,7 @@ public class SimulationController implements IKiekerRecordConsumer {
 			throws RecordConsumerExecutionException {
 		if (monitoringRecord instanceof KiekerExecutionRecord) {
 			final KiekerExecutionRecord ker = (KiekerExecutionRecord) monitoringRecord;
-			if (ker.eoi == 1) {
+			if (ker.eoi == 0) {
 				this.log.info("Received record " + ker.componentName);
 				synchronized (this.buffer) {
 					// we buffer entry calls until the last call will return

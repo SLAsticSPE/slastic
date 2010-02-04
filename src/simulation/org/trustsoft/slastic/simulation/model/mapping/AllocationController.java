@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
@@ -27,6 +29,7 @@ public final class AllocationController {
 	private final Hashtable<String, Collection<String>> serverToAllocationContextsMapping = new Hashtable<String, Collection<String>>();
 	private final Hashtable<String, Hashtable<String, Boolean>> serverToAsmToBlockState = new Hashtable<String, Hashtable<String, Boolean>>();
 	private final Hashtable<String, Hashtable<String, Integer>> serverToAsmToUserCount = new Hashtable<String, Hashtable<String, Integer>>();
+	private final Log log = LogFactory.getLog(AllocationController.class);
 
 	private final LoadBalancer loadBalancer;
 
@@ -34,15 +37,15 @@ public final class AllocationController {
 	// TODO: active process count would probably best places here
 
 	public AllocationController(final Allocation allocation, final Model model) {
-		genAllocationModel(allocation);
-		loadBalancer = new RandomBalancer();
+		this.genAllocationModel(allocation);
+		this.loadBalancer = new RandomBalancer();
 		this.model = model;
 	}
 
 	public AllocationController(final Allocation allocation,
 			final LoadBalancer lb, final Model model) {
-		genAllocationModel(allocation);
-		loadBalancer = lb;
+		this.genAllocationModel(allocation);
+		this.loadBalancer = lb;
 		this.model = model;
 
 	}
@@ -58,24 +61,28 @@ public final class AllocationController {
 		final Collection<Server> servers = ModelManager.getInstance()
 				.getHwCont().getServers();
 		for (final Server server : servers) {
-			serverToAllocationContextsMapping.put(server.getId(),
+			this.serverToAllocationContextsMapping.put(server.getId(),
 					new HashSet<String>());
 		}
 		final Collection<AssemblyContext> asmContexts = ModelManager
 				.getInstance().getAssemblyCont().getAllASMContexts();
 		for (final AssemblyContext assemblyContext : asmContexts) {
-			assemblyContextToServerMapping.put(assemblyContext.getId(),
+			this.assemblyContextToServerMapping.put(assemblyContext.getId(),
 					new HashSet<String>());
 		}
 		for (final AllocationContext allocContext : contexts) {
-			assemblyContextToServerMapping
+			this.log.info("Adding initial Allocation: "
+					+ allocContext.getAssemblyContext_AllocationContext()
+					+ " to "
+					+ allocContext.getResourceContainer_AllocationContext());
+			this.assemblyContextToServerMapping
 					.get(
 							allocContext.getAssemblyContext_AllocationContext()
 									.getId()).add(
 							allocContext
 									.getResourceContainer_AllocationContext()
 									.getId());
-			serverToAllocationContextsMapping.get(
+			this.serverToAllocationContextsMapping.get(
 					allocContext.getResourceContainer_AllocationContext()
 							.getId())
 					.add(
@@ -95,17 +102,19 @@ public final class AllocationController {
 	 * @return true if a server is used (i.e. asm contexts are mapped to it)
 	 */
 	public boolean serverIsUsed(final String id) {
-		return !serverToAllocationContextsMapping.get(id).isEmpty();
+		return !this.serverToAllocationContextsMapping.get(id).isEmpty();
 	}
 
 	public String getServer(final AssemblyContext asmContext) {
-		return loadBalancer.getServerMapping(asmContext.getId(),
-				assemblyContextToServerMapping.get(asmContext.getId()));
+		return this.loadBalancer.getServerMapping(asmContext.getId(),
+				this.assemblyContextToServerMapping.get(asmContext.getId()));
 	}
 
 	public String getServer(final String asmContext) {
-		return loadBalancer.getServerMapping(asmContext,
-				assemblyContextToServerMapping.get(asmContext));
+		this.log.info("Getting Ressource Container for ASM Context: "
+				+ asmContext);
+		return this.loadBalancer.getServerMapping(asmContext,
+				this.assemblyContextToServerMapping.get(asmContext));
 	}
 
 	/**
@@ -116,7 +125,7 @@ public final class AllocationController {
 	 * @return true on success
 	 */
 	public boolean blockInstance(final String asmContext, final String server) {
-		final Hashtable<String, Boolean> blockState = serverToAsmToBlockState
+		final Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
 		if (blockState != null) {
 			Boolean blocked = blockState.get(asmContext);
@@ -136,7 +145,7 @@ public final class AllocationController {
 	 * @return
 	 */
 	public boolean unblockInstance(final String asmContext, final String server) {
-		final Hashtable<String, Boolean> blockState = serverToAsmToBlockState
+		final Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
 		if (blockState != null) {
 			Boolean blocked = blockState.get(asmContext);
@@ -156,7 +165,7 @@ public final class AllocationController {
 	 * @return true if component has users left
 	 */
 	public boolean hasUsers(final String asmContext, final String server) {
-		final Hashtable<String, Integer> users = serverToAsmToUserCount
+		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
 			final Integer cUser = users.get(asmContext);
@@ -168,7 +177,7 @@ public final class AllocationController {
 	}
 
 	public int addUser(final String asmContext, final String server) {
-		final Hashtable<String, Integer> users = serverToAsmToUserCount
+		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
 			final Integer cUser = users.get(asmContext);
@@ -181,7 +190,7 @@ public final class AllocationController {
 	}
 
 	public int remUser(final String asmContext, final String server) {
-		final Hashtable<String, Integer> users = serverToAsmToUserCount
+		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
 			final Integer cUser = users.get(asmContext);
@@ -189,7 +198,7 @@ public final class AllocationController {
 				final int nextCUserCount = cUser - 1;
 				users.put(asmContext, nextCUserCount);
 				if (nextCUserCount == 0) {
-					notifyReconfController(asmContext, server);
+					this.notifyReconfController(asmContext, server);
 				}
 				return nextCUserCount;
 			}
@@ -210,7 +219,7 @@ public final class AllocationController {
 	private final void notifyReconfController(final String asmContext,
 			final String server) {
 		// TODO Auto-generated method stub
-		if (serverToAsmToBlockState.get(server).get(asmContext)) {
+		if (this.serverToAsmToBlockState.get(server).get(asmContext)) {
 			ReconfigurationController.getInstrance().markUnusedAndBlocked(
 					server, asmContext);
 		}
