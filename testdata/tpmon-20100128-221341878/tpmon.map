@@ -1,3 +1,0 @@
-$1=kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord
-$2=org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord
-$3=kieker.tpmon.monitoringRecord.KiekerBranchingRecord

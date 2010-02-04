@@ -34,6 +34,7 @@ public class Bookstore extends Thread {
 
     static int numberOfRequests = 30; // number of traces
     static int interRequestTime = 1000;
+    public static final Vector<Bookstore> bookstoreScenarios = new Vector<Bookstore>();
 
     /**
      *
@@ -50,10 +51,7 @@ public class Bookstore extends Thread {
      * This will be monitored by Tpmon, since it has the
      * TpmonExecutionMonitoringProbe() annotation.
      */
-    @TpmonExecutionMonitoringProbe()
-    public static void main(String[] args) {
-
-        Vector<Bookstore> bookstoreScenarios = new Vector<Bookstore>();
+    public static void main(String[] args) throws InterruptedException {
 
         for (int i = 0; i < numberOfRequests; i++) {
             System.out.println("Bookstore.main: Starting request " + i);
@@ -63,27 +61,34 @@ public class Bookstore extends Thread {
             Bookstore.waitabit(interRequestTime);
         }
         System.out.println("Bookstore.main: Finished with starting all requests.");
-        System.out.println("Bookstore.main: Waiting 5 secs before calling system.exit");
-        waitabit(5000);
-        System.exit(0);
+        System.out.println("Bookstore.main: Waiting for threads to terminate");
+        synchronized (bookstoreScenarios) {
+            while (!bookstoreScenarios.isEmpty()) {
+                bookstoreScenarios.wait();
+            }
+        }
     }
 
     public void run() {
         Bookstore.searchBook();
+        synchronized (bookstoreScenarios) {
+            bookstoreScenarios.remove(this);
+            bookstoreScenarios.notify();
+        }
     }
 
-    @SLAsticSLAMonitoringProbe(serviceId=13)
+    @SLAsticSLAMonitoringProbe(serviceId = 13)
     @TpmonExecutionMonitoringProbe()
     public static void searchBook() {
         for (int i = 0; i < 15; i++) {
-                Catalog.getBook(true);
-                try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                CRM.getOffers();
+            Catalog.getBook(true);
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            CRM.getOffers();
         }
     }
 

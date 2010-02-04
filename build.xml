@@ -267,7 +267,6 @@
             <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
             <jvmarg value="-Daj.weaving.verbose=true"/>
             <classpath>
-                <pathelement location="${dist.dir}/${dist.tpmon.ltw}"/>
                 <pathelement location="${dist.dir}/${slastic.core.jar}"/>
                 <pathelement location="${dist.dir}/${slastic.plugins.jar}"/>
             </classpath>
