@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
@@ -34,6 +36,7 @@ public class AssemblyController {
 	private final Hashtable<String, Signature> systemProvidedServicesToSignature = new Hashtable<String, Signature>();
 
 	private final Model model;
+	private final Log log = LogFactory.getLog(this.getClass());
 
 	public AssemblyController(final System system, final Model model) {
 		this.genAssembly(system);
@@ -104,6 +107,8 @@ public class AssemblyController {
 
 	public final String getComponentByASMId(final String asmId) {
 		final ProvidesComponentType asmC = this.asmIdToComponent.get(asmId);
+		this.log.info("Looked up Component " + asmC + " for asm context "
+				+ asmId);
 		if (asmC != null) {
 			return asmC.getId();
 		} else {

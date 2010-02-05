@@ -3,6 +3,8 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.engine;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPUSchedulableProcess;
 import org.trustsoft.slastic.simulation.model.hardware.controller.hd.HardDrive;
@@ -16,25 +18,27 @@ public class Server extends Entity {
 	private final Set<HardDrive> hdds;
 	private boolean allocated = false;
 	private final String id;
+	private final Log log;
 
 	public Server(final Model owner, final String name,
 			final boolean showInTrace) {
 		super(owner, name, showInTrace);
-		hdds = new HashSet<HardDrive>();
-		cpus = new HashSet<CPU>();
-		id = name;
+		this.hdds = new HashSet<HardDrive>();
+		this.cpus = new HashSet<CPU>();
+		this.id = name;
+		this.log = LogFactory.getLog("Server " + name);
 	}
 
 	public void addCPU(final CPU cpu) {
-		cpus.add(cpu);
+		this.cpus.add(cpu);
 	}
 
 	public void addHDD(final HardDrive hdd) {
-		hdds.add(hdd);
+		this.hdds.add(hdd);
 	}
 
 	public boolean isAllocated() {
-		return allocated;
+		return this.allocated;
 	}
 
 	public void setAllocated(final boolean allocated) {
@@ -42,20 +46,21 @@ public class Server extends Entity {
 	}
 
 	public Set<CPU> getCpus() {
-		return cpus;
+		return this.cpus;
 	}
 
 	public Set<HardDrive> getHdds() {
-		return hdds;
+		return this.hdds;
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void addCPUTask(final CPUSchedulableProcess process) {
 		// Maybe do smp balancing later here
-		cpus.iterator().next().schedule(process);
+		this.log.info("Added CPU Task");
+		this.cpus.iterator().next().schedule(process);
 	}
 
 }

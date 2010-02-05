@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
@@ -27,6 +29,7 @@ public class HardwareController extends Reportable {
 	private final Model model;
 	private final Hashtable<String, Server> serversById = new Hashtable<String, Server>();
 	private int allocatedServers = 0;
+	private final Log log = LogFactory.getLog(this.getClass());
 
 	public HardwareController(final ResourceEnvironment resources,
 			final Model model) {
@@ -43,6 +46,11 @@ public class HardwareController extends Reportable {
 			final List<ProcessingResourceSpecification> prslist = rc
 					.getActiveResourceSpecifications_ResourceContainer();
 			for (final ProcessingResourceSpecification prs : prslist) {
+				this.log
+						.info("Adding Processing Resource "
+								+ prs
+										.getActiveResourceType_ActiveResourceSpecification()
+								+ " for " + rc.getId());
 				final ProcessingResourceType prt = prs
 						.getActiveResourceType_ActiveResourceSpecification();
 				if (prt.getEntityName().equals("CPU")) {

@@ -193,17 +193,21 @@ public class CallHandler {
 								asmContextCurrent,
 								eca.getCalledService_ExternalService()
 										.getServiceName());
+				this.log.info("Generating external call node for: "
+						+ eca.getCalledService_ExternalService()
+								.getServiceName() + " from asm context "
+						+ asmContextCurrent);
 				final ExternalCallEnterNode ece = new ExternalCallEnterNode(eca
 						.getCalledService_ExternalService(), asmContextCurrent,
 						userId);
 				ret.add(ece);
 				// generate control flow for the called service recursively
-				final String componentByASMId = ModelManager.getInstance()
-						.getAssemblyCont()
-						.getComponentByASMId(ece.getASMCont());
+				// final String componentByASMId = ModelManager.getInstance()
+				// .getAssemblyCont()
+				// .getComponentByASMId(ece.getASMCont());
 				ret.addAll(this.generateControlFlow(ModelManager.getInstance()
-						.getCompCont().getSeffById(componentByASMId), userId,
-						ece.getASMCont()));
+						.getCompCont().getSeffById(ece.getCalledService()),
+						userId, ece.getASMCont()));
 				// mark return
 				ret.add(new ExternalCallReturnNode(ece));
 
@@ -223,13 +227,28 @@ public class CallHandler {
 							.getSpecification_ParametericResourceDemand()
 							.getSpecification();
 					currentIA.add(requiredResource, demand);
+					this.log.info("Added demand: " + requiredResource + " "
+							+ demand);
 				}
 
 			} else if (next instanceof AbstractLoopAction) {
 				if (next instanceof LoopAction) {
 					final LoopAction la = (LoopAction) next;
-					// int max = la.getIterationCount_LoopAction()
-					// FIXME Evaluation framework for stochistic expressions
+					this.log.info("Loop's iteration count is "
+							+ la.getIterationCount_LoopAction()
+									.getSpecification());
+					final int max = // (Integer) EvaluationProxy.evaluate(
+					Integer.parseInt(la.getIterationCount_LoopAction()
+							.getSpecification().replaceAll("\\s", ""));
+					final List<ControlFlowNode> body = this
+							.generateControlFlow(la.getBodyBehaviour_Loop(),
+									userId, asmContextCurrent);
+					for (int i = 0; i < max; i++) {
+						ret.addAll(body);
+					}
+					// , Integer.class, null);
+					// TODO: eval loop body, add to list
+					// FIXME Evaluation framework for stochastic expressions
 				} else if (next instanceof CollectionIteratorAction) {
 					final CollectionIteratorAction cia = (CollectionIteratorAction) next;
 					final Parameter para = cia
