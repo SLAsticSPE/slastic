@@ -1,6 +1,8 @@
 package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import java.util.HashSet;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;

@@ -1,6 +1,8 @@
 package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import java.util.HashSet;
+import java.util.Set;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 
@@ -19,6 +21,7 @@ public class SLAsticSimPlanReceiver implements IReconfigurationPipePlanReceiver 
     private IReconfPlanReceiver delegate;
     private ReconfigurationPipe pipe;
     private String pipeName;
+    private Set<ReconfEventListener> registeredListeners = new HashSet<ReconfEventListener>();
 
     public SLAsticSimPlanReceiver (final String pipeName, final IReconfPlanReceiver delegate){
         this.pipeName = pipeName;
@@ -40,18 +43,11 @@ public class SLAsticSimPlanReceiver implements IReconfigurationPipePlanReceiver 
 
     public void reconfigure(SLAsticReconfigurationPlan plan, ReconfEventListener listener) {
         log.info("Delegating reconfiguration plan" + plan);
+        /* Register only once */
+        if (!registeredListeners.contains(listener)){
+            this.registeredListeners.add(listener);
+            this.delegate.addReconfigurationEventListener(listener);
+        }
         this.delegate.reconfigure(plan, listener);
-    }
-
-    public void addReconfigurationEventListener(ReconfEventListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void removeReconfigurationEventListener(ReconfEventListener listener) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void reconfigure(SLAsticReconfigurationPlan plan) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
