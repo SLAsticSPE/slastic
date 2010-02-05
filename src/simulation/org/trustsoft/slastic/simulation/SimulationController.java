@@ -18,9 +18,9 @@ import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
+import kieker.tpmon.monitoringRecord.KiekerDummyMonitoringRecord;
 
 public class SimulationController implements IKiekerRecordConsumer {
-
 	private final DynamicSimulationModel model;
 	private final Experiment exp;
 	private StopCondition stopCond;
@@ -34,6 +34,8 @@ public class SimulationController implements IKiekerRecordConsumer {
 
 			});
 	private final Log log;
+
+        public final static AbstractKiekerMonitoringRecord TERMINATION_RECORD = new KiekerDummyMonitoringRecord();
 
 	public SimulationController(final String name, final Repository repos,
 			final System struct, final ResourceEnvironment resourceEnv,
@@ -63,6 +65,9 @@ public class SimulationController implements IKiekerRecordConsumer {
 	public void consumeMonitoringRecord(
 			final AbstractKiekerMonitoringRecord monitoringRecord)
 			throws RecordConsumerExecutionException {
+
+            // TODO: handle TERMINATION_RECORD
+
 		if (monitoringRecord instanceof KiekerExecutionRecord) {
 			final KiekerExecutionRecord ker = (KiekerExecutionRecord) monitoringRecord;
 			if (ker.eoi == 0) {

@@ -48,6 +48,6 @@ public class SLAsticSimPlanReceiver implements IReconfigurationPipePlanReceiver 
             this.registeredListeners.add(listener);
             this.delegate.addReconfigurationEventListener(listener);
         }
-        this.delegate.reconfigure(plan, listener);
+        this.delegate.reconfigure(plan);
     }
 }
