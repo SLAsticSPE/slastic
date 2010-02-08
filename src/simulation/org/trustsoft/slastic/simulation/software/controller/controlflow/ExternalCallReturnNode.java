@@ -7,7 +7,6 @@ import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
 import desmoj.core.simulator.SimTime;
 import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
 
 public class ExternalCallReturnNode extends ControlFlowNode {
