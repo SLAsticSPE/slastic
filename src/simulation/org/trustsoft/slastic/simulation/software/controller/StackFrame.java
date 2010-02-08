@@ -3,8 +3,13 @@ package org.trustsoft.slastic.simulation.software.controller;
 import org.trustsoft.slastic.simulation.config.Constants;
 
 import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
+import org.trustsoft.slastic.simulation.model.ModelManager;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class StackFrame {
+	private final static Log log = LogFactory.getLog(StackFrame.class);
 
 	private final String calledServiceName;
 	private final String asmContextTo;
@@ -42,11 +47,12 @@ public class StackFrame {
 	public KiekerExecutionRecord createRecord(final double timeExit,
 			final int depth, final int eoi) {
 		final KiekerExecutionRecord rec = KiekerExecutionRecord.getInstance(
-				asmContextTo, calledServiceName, Long.parseLong(traceId),
+				ModelManager.getInstance().getAssemblyCont().getASMInstanceAndComponentNameById(asmContextTo), calledServiceName, Long.parseLong(traceId),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeEnter),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
 		rec.ess = depth;
 		rec.eoi = eoi;
+                rec.vmName = serverId;
 		return rec;
 	}
 

@@ -101,4 +101,8 @@ public class ComponentController {
 		return this.seffsByServiceName.keySet();
 	}
 
+        public String getComponentNameById(String id){
+            return components.get(id).getEntityName();
+        }
+
 }

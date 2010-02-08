@@ -122,13 +122,6 @@ public class SimulationController implements IKiekerRecordConsumer,
 	}
 
 	@Override
-	public void reconfigure(final SLAsticReconfigurationPlan plan,
-			final ReconfEventListener listener) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void reconfigure(final SLAsticReconfigurationPlan plan) {
 		// TODO Auto-generated method stub
 

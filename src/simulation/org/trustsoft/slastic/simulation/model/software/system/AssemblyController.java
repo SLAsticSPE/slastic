@@ -154,4 +154,8 @@ public class AssemblyController {
 		}
 		return this.systemProvidedServicesToSignature.get(serviceName);
 	}
+
+        public String getASMInstanceAndComponentNameById(String id){
+            return this.idToASMContext.get(id).getEntityName()+":"+asmIdToComponent.get(id).getEntityName();
+        }
 }
