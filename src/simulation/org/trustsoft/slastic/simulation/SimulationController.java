@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import kieker.common.logReader.IKiekerRecordConsumer;
 import kieker.common.logReader.RecordConsumerExecutionException;
 import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import kieker.tpmon.monitoringRecord.KiekerDummyMonitoringRecord;
 import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
 
 import org.apache.commons.logging.Log;
@@ -22,7 +23,6 @@ import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
-import kieker.tpmon.monitoringRecord.KiekerDummyMonitoringRecord;
 
 public class SimulationController implements IKiekerRecordConsumer,
 		IReconfPlanReceiver {
@@ -40,7 +40,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 			});
 	private final Log log = LogFactory.getLog(this.getClass());
 
-        public final static AbstractKiekerMonitoringRecord TERMINATION_RECORD = new KiekerDummyMonitoringRecord();
+	public final static AbstractKiekerMonitoringRecord TERMINATION_RECORD = new KiekerDummyMonitoringRecord();
 
 	public SimulationController(final String name, final Repository repos,
 			final System struct, final ResourceEnvironment resourceEnv,
@@ -69,7 +69,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 			final AbstractKiekerMonitoringRecord monitoringRecord)
 			throws RecordConsumerExecutionException {
 
-            // TODO: handle TERMINATION_RECORD
+		// TODO: handle TERMINATION_RECORD
 
 		if (monitoringRecord instanceof KiekerExecutionRecord) {
 			final KiekerExecutionRecord ker = (KiekerExecutionRecord) monitoringRecord;

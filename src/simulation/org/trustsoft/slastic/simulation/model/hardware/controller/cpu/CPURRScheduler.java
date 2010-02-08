@@ -6,15 +6,22 @@ import org.trustsoft.slastic.simulation.config.Constants;
 
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
+import desmoj.core.simulator.QueueBased;
 import desmoj.core.simulator.SimTime;
 
 public class CPURRScheduler extends CPUScheduler {
 
 	private static Log log = LogFactory.getLog(CPURRScheduler.class);
 
+	private final Queue<CPUSchedulableProcess> activeProcess;
+
+	private long cyclesPerSlice;
+
 	public CPURRScheduler(final Model model, final String name) {
 		super(model, name, new Queue<CPUSchedulableProcess>(model, name
 				+ "JobQueue", Constants.DEBUG, Constants.DEBUG));
+		this.activeProcess = new Queue<CPUSchedulableProcess>(model, name,
+				QueueBased.FIFO, 1, Constants.DEBUG, Constants.DEBUG);
 	}
 
 	@Override
@@ -24,6 +31,7 @@ public class CPURRScheduler extends CPUScheduler {
 		if (this.queue.length() == 1) {
 			super.getTickEventGenerator().resume(this.tick());
 		}
+		this.cyclesPerSlice = 50 * 1000 * this.getOwner().getCapacity();
 
 	}
 
@@ -34,23 +42,33 @@ public class CPURRScheduler extends CPUScheduler {
 		if (this.queue.length() > 0) {
 			final CPUSchedulableProcess p = this.queue.first();
 			this.queue.remove(p);
-			final long cyclesPerSlice = 50 * 1000 * this.getOwner()
-					.getCapacity();
+
 			final long prun = p.getCyclesRemaining();
-			CPURRScheduler.log.info("It needs " + prun + " cycles to finish");
+			CPURRScheduler.log.info("It needs " + prun
+					+ " cycles to finish, we have " + this.cyclesPerSlice
+					+ " cycles per slice");
 			// cycles per slice = slice in ms * capacity in MHz * 1000
 			// <=> ms = cycles / cap
-			if (prun > cyclesPerSlice) {
+
+			if (prun > this.cyclesPerSlice) {
 				ret = this.getTickSimTime();
-				p.substractFromRemaining(cyclesPerSlice);
 				this.queue.insert(p);
-				CPURRScheduler.log.info("Readding task " + p + ", needs "
-						+ prun + " to finish");
+				this.activeProcess.insert(p);
 			} else {
 				ret = new SimTime(prun);
-				p.substractFromRemaining(prun);
-				CPURRScheduler.log.info("Done Processings task " + p);
+				this.activeProcess.insert(p);
+
 			}
+		}
+		final CPUSchedulableProcess p1 = this.activeProcess.first();
+		CPURRScheduler.log.info("Active processes: "
+				+ (this.activeProcess.isEmpty() ? 0 : 1));
+		this.activeProcess.remove(p1);
+		if (p1 != null) {
+			p1.substractFromRemaining(this.cyclesPerSlice);
+			CPURRScheduler.log.info("Substracting " + this.cyclesPerSlice
+					+ " from " + p1 + ", now " + p1.getCyclesRemaining()
+					+ " are remaining");
 		}
 		return ret;
 	}

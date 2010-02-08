@@ -30,8 +30,9 @@ public abstract class AbstractSchedulableProcess extends Entity {
 	public void substractFromRemaining(final long ticksRemaining) {
 		if (ticksRemaining > 0) {
 			this.ticksRemaining -= ticksRemaining;
-			if (ticksRemaining > 0) {
-				this.ticksRemaining -= ticksRemaining;
+			if (this.ticksRemaining <= 0) {
+				AbstractSchedulableProcess.log.info("Done Processing " + this
+						+ " at sim time " + this.currentTime());
 				this.getBelongs().returned(SimTime.NOW, this);
 			}
 		}

@@ -21,6 +21,15 @@ public class TickEventGenerator extends ExternalEvent {
 		this.scheduler = ressource.getScheduler();
 	}
 
+	public TickEventGenerator(
+			final Model owner,
+			final String name,
+			final boolean showInTrace,
+			final AbstractScheduler<?, ? extends AbstractSchedulableProcess> sched) {
+		super(owner, name, showInTrace);
+		this.scheduler = sched;
+	}
+
 	/**
 	 * Schedule next tick event
 	 * 
@@ -35,14 +44,19 @@ public class TickEventGenerator extends ExternalEvent {
 		} else {
 			final SimTime nextTick = this.scheduler.tick();
 			if (nextTick != null) {
-				this.schedule(nextTick);
+				final TickEventGenerator teg = new TickEventGenerator(this
+						.getModel(), this.getName(), super
+						.currentlySendTraceNotes(), this.scheduler);
+				teg.schedule(nextTick);
 			}
 		}
 	}
 
 	public void resume(final SimTime tick) {
 		// TODO make some noise for "here comes the time" versus simtime
-		this.schedule(tick);
+		final TickEventGenerator teg = new TickEventGenerator(this.getModel(),
+				this.getName(), super.currentlySendTraceNotes(), this.scheduler);
+		teg.schedule(tick);
 	}
 
 }
