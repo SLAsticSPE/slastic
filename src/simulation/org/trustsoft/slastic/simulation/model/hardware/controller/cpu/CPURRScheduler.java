@@ -27,11 +27,11 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public synchronized void schedule(final CPUSchedulableProcess process) {
 		this.queue.insert(process);
+		this.cyclesPerSlice = 50 * 1000 * this.getOwner().getCapacity();
 		CPURRScheduler.log.info("Task arrived: " + process);
 		if (this.queue.length() == 1) {
 			super.getTickEventGenerator().resume(this.tick());
 		}
-		this.cyclesPerSlice = 50 * 1000 * this.getOwner().getCapacity();
 
 	}
 
@@ -39,8 +39,9 @@ public class CPURRScheduler extends CPUScheduler {
 	public synchronized SimTime tick() {
 		SimTime ret = null;
 		CPURRScheduler.log.info("Got " + this.queue.length() + " processes");
+		final CPUSchedulableProcess p1 = this.activeProcess.first();
+		final CPUSchedulableProcess p = this.queue.first();
 		if (this.queue.length() > 0) {
-			final CPUSchedulableProcess p = this.queue.first();
 			this.queue.remove(p);
 
 			final long prun = p.getCyclesRemaining();
@@ -53,23 +54,24 @@ public class CPURRScheduler extends CPUScheduler {
 			if (prun > this.cyclesPerSlice) {
 				ret = this.getTickSimTime();
 				this.queue.insert(p);
-				this.activeProcess.insert(p);
 			} else {
-				ret = new SimTime(prun);
-				this.activeProcess.insert(p);
-
+				ret = new SimTime(prun
+						/ (double) (this.getOwner().getCapacity() * 1000));
 			}
 		}
-		final CPUSchedulableProcess p1 = this.activeProcess.first();
-		CPURRScheduler.log.info("Active processes: "
-				+ (this.activeProcess.isEmpty() ? 0 : 1));
-		this.activeProcess.remove(p1);
 		if (p1 != null) {
+			this.activeProcess.remove(p1);
 			p1.substractFromRemaining(this.cyclesPerSlice);
 			CPURRScheduler.log.info("Substracting " + this.cyclesPerSlice
 					+ " from " + p1 + ", now " + p1.getCyclesRemaining()
 					+ " are remaining");
 		}
+		if (p != null) {
+			this.activeProcess.insert(p);
+		}
+		CPURRScheduler.log.info("Active processes: "
+				+ (this.activeProcess.isEmpty() ? 0 : 1));
+		CPURRScheduler.log.info("Next slice will be started at " + ret);
 		return ret;
 	}
 

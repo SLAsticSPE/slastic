@@ -52,7 +52,7 @@ public class CallHandler {
 
 	private final Hashtable<String, Stack<StackFrame>> stacks = new Hashtable<String, Stack<StackFrame>>();
 
-        private final Hashtable<String, Integer> eoi = new Hashtable<String, Integer>();
+	private final Hashtable<String, Integer> eoi = new Hashtable<String, Integer>();
 
 	private static CallHandler instance;
 
@@ -323,13 +323,13 @@ public class CallHandler {
 
 	public void pushContext(final String traceId, final StackFrame stackFrame) {
 		final Stack<StackFrame> curStack = this.stacks.get(traceId);
-                Integer eoi = this.eoi.get(traceId);
-                if(eoi == null){
-                    this.eoi.put(traceId, eoi = 0);
-                }
-		//int eoi = curStack.peek().getEoi();
+		Integer eoi = this.eoi.get(traceId);
+		if (eoi == null) {
+			this.eoi.put(traceId, eoi = 0);
+		}
+		// int eoi = curStack.peek().getEoi();
 		stackFrame.setEoi(eoi);
-                this.eoi.put(traceId, eoi +1 );
+		this.eoi.put(traceId, eoi + 1);
 		curStack.push(stackFrame);
 	}
 
@@ -338,7 +338,7 @@ public class CallHandler {
 	}
 
 	public int getStackDepth(final String traceId) {
-		return this.stacks.get(traceId).size()-1;
+		return this.stacks.get(traceId).size() - 1;
 	}
 
 	public void actionReturn(final String traceId) {
@@ -347,7 +347,7 @@ public class CallHandler {
 			nodes.remove(0);
 			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
 			this.log.info("Attempting to schedule " + node.getClass());
-			node.schedule(new SimTime(0));
+			node.schedule(SimTime.NOW);
 		} // else this.
 	}
 

@@ -45,7 +45,7 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 	public void setTickRate(final long l) {
 		if (!this.tickRateSet) {
 			this.tickRate = l;
-			this.tickSimTime = new SimTime(l);
+			this.tickSimTime = new SimTime(l / 1000.0);
 			this.tickRateSet = true;
 		}
 	}

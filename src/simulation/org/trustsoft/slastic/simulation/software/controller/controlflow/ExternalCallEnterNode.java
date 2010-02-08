@@ -53,7 +53,7 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		ExternalCallEnterNode.log.info("External Call from "
 				+ this.asmContextFrom + " to Service " + this.calledServiceName
 				+ " on asm context " + this.asmContextTo + " at simtime "
-				+ SimTime.NOW);
+				+ this.currentTime());
 		CallHandler.getInstance().pushContext(
 				this.traceId,
 				new StackFrame(this.traceId, this.calledServiceName,

@@ -6,7 +6,6 @@ import org.trustsoft.slastic.simulation.software.controller.controlflow.Internal
 
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
-import desmoj.core.simulator.SimTime;
 
 public abstract class AbstractSchedulableProcess extends Entity {
 
@@ -33,7 +32,7 @@ public abstract class AbstractSchedulableProcess extends Entity {
 			if (this.ticksRemaining <= 0) {
 				AbstractSchedulableProcess.log.info("Done Processing " + this
 						+ " at sim time " + this.currentTime());
-				this.getBelongs().returned(SimTime.NOW, this);
+				this.getBelongs().returned(this.currentTime(), this);
 			}
 		}
 	}

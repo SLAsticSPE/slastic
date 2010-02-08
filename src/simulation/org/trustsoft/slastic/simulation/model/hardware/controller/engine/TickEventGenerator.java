@@ -37,8 +37,8 @@ public class TickEventGenerator extends ExternalEvent {
 	 */
 	@Override
 	public void eventRoutine() {
+		TickEventGenerator.log.info("CPU ticks at " + this.currentTime());
 		this.scheduler.tick();
-		TickEventGenerator.log.info("CPU ticked");
 		if (this.scheduler.isIdle()) {
 			return;
 		} else {
