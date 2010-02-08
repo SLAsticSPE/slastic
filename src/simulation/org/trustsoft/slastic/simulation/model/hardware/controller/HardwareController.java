@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
@@ -48,13 +49,19 @@ public class HardwareController extends Reportable {
 			for (final ProcessingResourceSpecification prs : prslist) {
 				this.log
 						.info("Adding Processing Resource "
-								+ prs
-										.getActiveResourceType_ActiveResourceSpecification()
-								+ " for " + rc.getId());
+								+ ((InternalEObject) prs
+										.getActiveResourceType_ActiveResourceSpecification())
+										.eProxyURI() + " for " + rc.getId());
 				final ProcessingResourceType prt = prs
 						.getActiveResourceType_ActiveResourceSpecification();
-				if (prt.getEntityName().equals("CPU")) {
+				if (((InternalEObject) (prs
+						.getActiveResourceType_ActiveResourceSpecification()))
+						.eProxyURI()
+						.toString()
+						.equals(
+								"pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ")) {
 					this.genCPU(m, rc, server, prs);
+
 				} else if (prt.getEntityName().equals("HDD")) {
 					this.genHDD(m, rc, server, prs);
 				}
@@ -77,12 +84,14 @@ public class HardwareController extends Reportable {
 
 	private void genCPU(final Model m, final ResourceContainer rc,
 			final Server server, final ProcessingResourceSpecification prs) {
-		final int prate = (Integer) EvaluationProxy.evaluate(prs
+		final int prate = Integer.parseInt(prs
 				.getProcessingRate_ProcessingResourceSpecification()
-				.getSpecification(), Integer.class, null);
+				.getSpecification().replaceAll("\\s*", ""));
 		final CPU cpu = new CPU(m, rc.getEntityName() + "CPU", Constants.DEBUG,
 				new CPURRScheduler(m, rc.getEntityName() + "CPUScheduler"),
 				prate);
+		cpu.getScheduler().setTickRate(
+				Constants.SIM_TIME_TO_MON_TIME * 1000 * 50);
 		server.addCPU(cpu);
 	}
 

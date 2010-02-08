@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
-import org.trustsoft.slastic.simulation.stoexeval.EvaluationProxy;
 
 public class Demand<T extends Number> {
 
@@ -14,7 +13,7 @@ public class Demand<T extends Number> {
 	}
 
 	public boolean isDone() {
-		return done;
+		return this.done;
 	}
 
 	public void setDone(final boolean done) {
@@ -27,10 +26,11 @@ public class Demand<T extends Number> {
 	 * 
 	 * @return
 	 */
-	public T getDemand() {
-		final Object ret = EvaluationProxy.evaluate(demand, clazzToCast, null);
-		final T evaluate = clazzToCast.cast(ret);
-		return evaluate;
+	public Integer getDemand() {
+		// final Object ret = EvaluationProxy.evaluate(demand, clazzToCast,
+		// null);
+		// final T evaluate = clazzToCast.cast(ret);
+		return Integer.parseInt(this.demand);
 	}
 
 }

@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
@@ -9,6 +11,7 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 
 	private final ExternalCallEnterNode ece;
 	private SimTime exitTime;
+	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
 
 	public ExternalCallReturnNode(final ExternalCallEnterNode ece) {
 		super("Return from " + ece.getName(), ece.getTraceId());
@@ -18,14 +21,19 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	@Override
 	public void eventRoutine() {
 		// TODO monitor!
-		exitTime = getModel().currentTime();
+
+		this.exitTime = this.getModel().currentTime();
 		// spawn record!
 		// tell simulator to schedule next action in this trace
 		final StackFrame f = CallHandler.getInstance().popContext(
-				ece.getTraceId());
-		f.createRecord(getModel().currentTime().getTimeValue(), CallHandler
-				.getInstance().getStackDepth(ece.getTraceId()), f.getEoi());
-		CallHandler.getInstance().actionReturn(ece.getTraceId());
-	}
+				this.ece.getTraceId());
+		f.createRecord(this.getModel().currentTime().getTimeValue(),
+				CallHandler.getInstance().getStackDepth(this.ece.getTraceId()),
+				f.getEoi());
+		ExternalCallReturnNode.log.info("Returned from "
+				+ this.ece.getCalledService() + " on "
+				+ this.ece.getASMContTo());
+		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
 
+	}
 }

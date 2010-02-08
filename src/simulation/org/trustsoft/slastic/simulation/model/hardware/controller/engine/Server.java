@@ -30,6 +30,7 @@ public class Server extends Entity {
 	}
 
 	public void addCPU(final CPU cpu) {
+		this.log.info("Added CPU " + cpu);
 		this.cpus.add(cpu);
 	}
 

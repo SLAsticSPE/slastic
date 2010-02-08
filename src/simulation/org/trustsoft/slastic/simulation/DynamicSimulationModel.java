@@ -3,6 +3,7 @@ package org.trustsoft.slastic.simulation;
 import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
@@ -24,19 +25,17 @@ public class DynamicSimulationModel extends Model {
 	private final ModelManager manager;
 	private final CallHandler callHandler;
 	private final TreeSet<EntryCall> buffer;
-	private final Log log;
+	private final Log log = LogFactory.getLog(this.getClass());
 
 	public DynamicSimulationModel(final String name, final Repository repos,
 			final System struct, final ResourceEnvironment resourceEnv,
 			final Allocation initAllocation,
 			final ReconfigurationModel reconfModel,
-			final TreeSet<EntryCall> buffer, final Log log,
-			final Experiment experiment) {
+			final TreeSet<EntryCall> buffer, final Experiment experiment) {
 		super(null, name, Constants.DEBUG, Constants.DEBUG);
 		this.connectToExperiment(experiment);
-		this.log = log;
 		this.manager = new ModelManager(repos, struct, resourceEnv,
-				initAllocation, reconfModel, this, log);
+				initAllocation, reconfModel, this, this.log);
 		this.buffer = buffer;
 		this.callHandler = new CallHandler();
 	}
@@ -62,6 +61,9 @@ public class DynamicSimulationModel extends Model {
 					e.printStackTrace();
 				} catch (final SumGreaterXException e) {
 					e.printStackTrace();
+				}
+				if (Constants.SINGLE_TRACE) {
+					break;
 				}
 			}
 		}

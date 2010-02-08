@@ -7,16 +7,9 @@ import desmoj.core.simulator.Model;
 
 public class CPUSchedulableProcess extends AbstractSchedulableProcess {
 
-	private final InternalActionNode belongs;
-
 	public CPUSchedulableProcess(final Model owner, final boolean showInTrace,
 			final long ticks, final InternalActionNode belongs) {
-		super(owner, "CPU", showInTrace, ticks);
-		this.belongs = belongs;
-	}
-
-	public InternalActionNode getBelongs() {
-		return belongs;
+		super(owner, "CPU", showInTrace, ticks, belongs);
 	}
 
 }

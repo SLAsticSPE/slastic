@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
@@ -15,6 +17,7 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 	private final String traceId;
 	private SimTime enterTime;
 	private final String calledServiceName;
+	private static Log log = LogFactory.getLog(ExternalCallEnterNode.class);
 
 	public ExternalCallEnterNode(final Signature calledService_ExternalService,
 			final String asmContextCurrent, final String traceId) {
@@ -47,14 +50,19 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 				this.serverId);
 		// TODO Start monitoring here!
 		this.enterTime = this.getModel().currentTime();
+		ExternalCallEnterNode.log.info("External Call from "
+				+ this.asmContextFrom + " to Service " + this.calledServiceName
+				+ " on asm context " + this.asmContextTo + " at simtime "
+				+ SimTime.NOW);
 		CallHandler.getInstance().pushContext(
 				this.traceId,
 				new StackFrame(this.traceId, this.calledServiceName,
 						this.asmContextTo, this.serverId, this.enterTime
 								.getTimeValue()));
+		CallHandler.getInstance().actionReturn(this.traceId);
 	}
 
-	public String getASMCont() {
+	public String getASMContTo() {
 		return this.asmContextTo;
 	}
 
@@ -73,4 +81,5 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 	public String getCalledService() {
 		return this.calledServiceName;
 	}
+
 }

@@ -1,5 +1,8 @@
 package org.trustsoft.slastic.simulation.model.hardware.controller.engine;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
@@ -7,6 +10,7 @@ import desmoj.core.simulator.SimTime;
 public class TickEventGenerator extends ExternalEvent {
 
 	private final AbstractScheduler<?, ? extends AbstractSchedulableProcess> scheduler;
+	static private Log log = LogFactory.getLog(TickEventGenerator.class);
 
 	public TickEventGenerator(
 			final Model owner,
@@ -14,7 +18,7 @@ public class TickEventGenerator extends ExternalEvent {
 			final boolean showInTrace,
 			final ProcessingResource<? extends AbstractSchedulableProcess> ressource) {
 		super(owner, name, showInTrace);
-		scheduler = ressource.getScheduler();
+		this.scheduler = ressource.getScheduler();
 	}
 
 	/**
@@ -24,20 +28,21 @@ public class TickEventGenerator extends ExternalEvent {
 	 */
 	@Override
 	public void eventRoutine() {
-		scheduler.tick();
-		if (scheduler.isIdle()) {
+		this.scheduler.tick();
+		TickEventGenerator.log.info("CPU ticked");
+		if (this.scheduler.isIdle()) {
 			return;
 		} else {
-			final SimTime nextTick = scheduler.tick();
+			final SimTime nextTick = this.scheduler.tick();
 			if (nextTick != null) {
-				schedule(nextTick);
+				this.schedule(nextTick);
 			}
 		}
 	}
 
 	public void resume(final SimTime tick) {
 		// TODO make some noise for "here comes the time" versus simtime
-		schedule(tick);
+		this.schedule(tick);
 	}
 
 }

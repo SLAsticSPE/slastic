@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 
 import desmoj.core.simulator.Model;
@@ -8,6 +10,8 @@ import desmoj.core.simulator.SimTime;
 
 public class CPURRScheduler extends CPUScheduler {
 
+	private static Log log = LogFactory.getLog(CPURRScheduler.class);
+
 	public CPURRScheduler(final Model model, final String name) {
 		super(model, name, new Queue<CPUSchedulableProcess>(model, name
 				+ "JobQueue", Constants.DEBUG, Constants.DEBUG));
@@ -15,30 +19,37 @@ public class CPURRScheduler extends CPUScheduler {
 
 	@Override
 	public synchronized void schedule(final CPUSchedulableProcess process) {
-		if (queue.length() == 0) {
-			super.getTickEventGenerator().resume(tick());
+		this.queue.insert(process);
+		CPURRScheduler.log.info("Task arrived: " + process);
+		if (this.queue.length() == 1) {
+			super.getTickEventGenerator().resume(this.tick());
 		}
-		queue.insert(process);
+
 	}
 
 	@Override
 	public synchronized SimTime tick() {
 		SimTime ret = null;
-		if (queue.length() > 0) {
-			final CPUSchedulableProcess p = queue.first();
-			queue.remove(p);
-			final long prun = p.getCyclesRemaining()
-					/ super.getOwner().getCapacity();
+		CPURRScheduler.log.info("Got " + this.queue.length() + " processes");
+		if (this.queue.length() > 0) {
+			final CPUSchedulableProcess p = this.queue.first();
+			this.queue.remove(p);
+			final long cyclesPerSlice = 50 * 1000 * this.getOwner()
+					.getCapacity();
+			final long prun = p.getCyclesRemaining();
+			CPURRScheduler.log.info("It needs " + prun + " cycles to finish");
 			// cycles per slice = slice in ms * capacity in MHz * 1000
 			// <=> ms = cycles / cap
-			if (prun > getTickRate()) {
-				ret = getTickSimTime();
-				p.substractFromRemaining(getTickRate());
-				queue.insert(p);
+			if (prun > cyclesPerSlice) {
+				ret = this.getTickSimTime();
+				p.substractFromRemaining(cyclesPerSlice);
+				this.queue.insert(p);
+				CPURRScheduler.log.info("Readding task " + p + ", needs "
+						+ prun + " to finish");
 			} else {
 				ret = new SimTime(prun);
 				p.substractFromRemaining(prun);
-				p.getBelongs();
+				CPURRScheduler.log.info("Done Processings task " + p);
 			}
 		}
 		return ret;
@@ -46,6 +57,6 @@ public class CPURRScheduler extends CPUScheduler {
 
 	@Override
 	public Queue<CPUSchedulableProcess> getQueue() {
-		return queue;
+		return this.queue;
 	}
 }

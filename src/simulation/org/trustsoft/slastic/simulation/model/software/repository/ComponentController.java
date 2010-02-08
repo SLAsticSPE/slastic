@@ -92,8 +92,8 @@ public class ComponentController {
 		return ComponentController.instance;
 	}
 
-	public ResourceDemandingBehaviour getSeffById(final String seff) {
-		return this.seffsByServiceName.get(seff);
+	public ResourceDemandingBehaviour getSeffById(final String serviceName) {
+		return this.seffsByServiceName.get(serviceName);
 	}
 
 	public Set<String> getSeffs() {

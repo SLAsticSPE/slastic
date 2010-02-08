@@ -9,6 +9,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
@@ -86,9 +87,8 @@ public class CallHandler {
 	public void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
-
-		for (final String seff : ComponentController.getInstance().getSeffs()) {
-			ModelManager.getInstance().getLogger().info(seff);
+		if (this.activeTraces.size() > 0) {
+			return;
 		}
 		service = service.replaceAll("\\(.*\\)", "");
 
@@ -196,7 +196,8 @@ public class CallHandler {
 				this.log.info("Generating external call node for: "
 						+ eca.getCalledService_ExternalService()
 								.getServiceName() + " from asm context "
-						+ asmContextCurrent);
+						+ asmContextCurrent + " to asm context "
+						+ calledContext);
 				final ExternalCallEnterNode ece = new ExternalCallEnterNode(eca
 						.getCalledService_ExternalService(), asmContextCurrent,
 						userId);
@@ -207,7 +208,7 @@ public class CallHandler {
 				// .getComponentByASMId(ece.getASMCont());
 				ret.addAll(this.generateControlFlow(ModelManager.getInstance()
 						.getCompCont().getSeffById(ece.getCalledService()),
-						userId, ece.getASMCont()));
+						userId, ece.getASMContTo()));
 				// mark return
 				ret.add(new ExternalCallReturnNode(ece));
 
@@ -220,9 +221,9 @@ public class CallHandler {
 				final InternalActionNode currentIA = new InternalActionNode(ia
 						.getId(), userId);
 				for (final ParametricResourceDemand resDemand : resourceDemands) {
-					final String requiredResource = resDemand
-							.getRequiredResource_ParametricResourceDemand()
-							.getId();
+					final String requiredResource = ((InternalEObject) (resDemand
+							.getRequiredResource_ParametricResourceDemand()))
+							.eProxyURI().toString();
 					final String demand = resDemand
 							.getSpecification_ParametericResourceDemand()
 							.getSpecification();
@@ -230,7 +231,7 @@ public class CallHandler {
 					this.log.info("Added demand: " + requiredResource + " "
 							+ demand);
 				}
-
+				ret.add(currentIA);
 			} else if (next instanceof AbstractLoopAction) {
 				if (next instanceof LoopAction) {
 					final LoopAction la = (LoopAction) next;
@@ -240,10 +241,11 @@ public class CallHandler {
 					final int max = // (Integer) EvaluationProxy.evaluate(
 					Integer.parseInt(la.getIterationCount_LoopAction()
 							.getSpecification().replaceAll("\\s", ""));
-					final List<ControlFlowNode> body = this
-							.generateControlFlow(la.getBodyBehaviour_Loop(),
-									userId, asmContextCurrent);
 					for (int i = 0; i < max; i++) {
+						final List<ControlFlowNode> body = this
+								.generateControlFlow(
+										la.getBodyBehaviour_Loop(), userId,
+										asmContextCurrent);
 						ret.addAll(body);
 					}
 					// , Integer.class, null);
@@ -336,7 +338,10 @@ public class CallHandler {
 		final List<ControlFlowNode> nodes = this.activeTraces.get(traceId);
 		if (nodes.size() > 1) {
 			nodes.remove(0);
-			this.activeTraces.get(traceId).get(0).schedule(new SimTime(0));
+			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
+			this.log.info("Attempting to schedule " + node.getClass());
+			node.schedule(new SimTime(0));
 		} // else this.
 	}
+
 }

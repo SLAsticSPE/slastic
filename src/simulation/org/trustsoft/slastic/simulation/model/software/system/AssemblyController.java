@@ -61,11 +61,13 @@ public class AssemblyController {
 			final AssemblyContext srcContext = connector
 					.getRequiringChildComponentContext_CompositeAssemblyConnector();
 			Hashtable<String, String> srcIdMapping = this.requiringProvidingConnector
-					.get(srcContext);
+					.get(srcContext.getId());
 			if (srcIdMapping == null) {
 				srcIdMapping = new Hashtable<String, String>();
 				this.requiringProvidingConnector.put(srcContext.getId(),
 						srcIdMapping);
+				this.log.info("Creating Lookup Table for Required Services of "
+						+ srcContext.getId());
 			}
 			for (final ProvidedRole role : targetContext
 					.getEncapsulatedComponent_ChildComponentContext()
@@ -74,6 +76,9 @@ public class AssemblyController {
 						.getProvidedInterface__ProvidedRole()
 						.getSignatures__Interface()) {
 					srcIdMapping.put(i.getServiceName(), targetContext.getId());
+					this.log.info("Service " + i.getServiceName()
+							+ " required by " + srcContext.getId()
+							+ " maps to " + targetContext.getId());
 				}
 			}
 		}

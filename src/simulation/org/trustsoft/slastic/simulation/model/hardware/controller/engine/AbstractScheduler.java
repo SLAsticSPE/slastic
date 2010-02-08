@@ -10,11 +10,11 @@ import desmoj.core.simulator.SimTime;
 public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess>
 		extends Entity {
 	private PRType owner;
-	private int tickRate;
+	private long tickRate;
 	private SimTime tickSimTime;
 	private boolean timeUnitSet, tickRateSet;
 	private TimeUnit unit;
-	private final TickEventGenerator tickEventGenerator;
+	private TickEventGenerator tickEventGenerator;
 
 	protected final Queue<SPType> queue;
 
@@ -22,36 +22,36 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 			final Queue<SPType> queue) {
 		super(model, name, Constants.DEBUG);
 		this.queue = queue;
-		this.tickEventGenerator = new TickEventGenerator(model, name,
-				Constants.DEBUG, this.owner);
 	}
 
 	public void setOwner(final PRType owner) {
 		if (this.owner == null) {
 			this.owner = owner;
+			this.tickEventGenerator = new TickEventGenerator(this.getModel(),
+					this.getName(), Constants.DEBUG, this.owner);
 		}
 	}
 
 	public PRType getOwner() {
-		return owner;
+		return this.owner;
 	}
 
 	public abstract void schedule(SPType process);
 
-	public int getTickRate() {
-		return tickRate;
+	public long getTickRate() {
+		return this.tickRate;
 	}
 
-	public void setTickRate(final int tickRate) {
+	public void setTickRate(final long l) {
 		if (!this.tickRateSet) {
-			this.tickRate = tickRate;
-			tickSimTime = new SimTime(tickRate);
-			tickRateSet = true;
+			this.tickRate = l;
+			this.tickSimTime = new SimTime(l);
+			this.tickRateSet = true;
 		}
 	}
 
 	public TimeUnit getUnit() {
-		return unit;
+		return this.unit;
 	}
 
 	public void setUnit(final TimeUnit unit) {
@@ -62,27 +62,27 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 	}
 
 	public boolean isTimeUnitSet() {
-		return timeUnitSet;
+		return this.timeUnitSet;
 	}
 
 	public boolean isTickRateSet() {
-		return tickRateSet;
+		return this.tickRateSet;
 	}
 
 	public abstract SimTime tick();
 
 	public boolean isIdle() {
-		return queue.isEmpty();
+		return this.queue.isEmpty();
 	}
 
 	public TickEventGenerator getTickEventGenerator() {
-		return tickEventGenerator;
+		return this.tickEventGenerator;
 	}
 
 	public abstract Queue<? extends AbstractSchedulableProcess> getQueue();
 
 	public SimTime getTickSimTime() {
-		return tickSimTime;
+		return this.tickSimTime;
 	}
 
 }
