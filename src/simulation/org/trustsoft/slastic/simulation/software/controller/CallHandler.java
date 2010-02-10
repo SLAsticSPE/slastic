@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.trustsoft.slastic.simulation.DynamicSimulationModel;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
@@ -60,8 +61,11 @@ public class CallHandler {
 
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
-	public CallHandler() {
+	private final DynamicSimulationModel model;
+
+	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
 		CallHandler.instance = this;
+		this.model = dynamicSimulationModel;
 	}
 
 	public static CallHandler getInstance() {
@@ -89,7 +93,7 @@ public class CallHandler {
 	public void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
-		if (this.activeTraces.size() > 0) {
+		if (this.activeTraces.size() > 0 && Constants.SINGLE_TRACE) {
 			return;
 		}
 		service = service.replaceAll("\\(.*\\)", "");
@@ -343,12 +347,21 @@ public class CallHandler {
 
 	public void actionReturn(final String traceId) {
 		final List<ControlFlowNode> nodes = this.activeTraces.get(traceId);
+		if (nodes == null) {
+			return;
+		}
 		if (nodes.size() > 1) {
 			nodes.remove(0);
 			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
 			this.log.info("Attempting to schedule " + node.getClass());
 			node.schedule(SimTime.NOW);
-		} // else this.
+		} else {
+			nodes.clear();
+			this.activeTraces.remove(traceId);
+			this.stacks.remove(traceId);
+			this.eoi.remove(traceId);
+			this.model.callReturns(traceId);
+		}
 	}
 
 }

@@ -79,7 +79,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 					// we buffer entry calls until the last call will return
 					// BEFORE the next one starts
 					while (this.buffer.size() > Constants.PRE_BUFFER
-							&& this.buffer.first().getTout() < ker.tin) {
+							|| this.buffer.first().getTout() < ker.tin) {
 						try {
 							// we need to schedule next calls on return
 							this.buffer.wait();
@@ -89,9 +89,12 @@ public class SimulationController implements IKiekerRecordConsumer,
 					}
 					this.buffer.add(new EntryCall(ker.componentName,
 							ker.opname, ker.traceId, ker.tin, ker.tout));
-
+					this.buffer.notify();
 				}
 			}
+		} else if (monitoringRecord instanceof KiekerDummyMonitoringRecord) {
+			final KiekerDummyMonitoringRecord kdr = (KiekerDummyMonitoringRecord) monitoringRecord;
+
 		}
 	}
 

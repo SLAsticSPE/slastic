@@ -37,7 +37,7 @@ public class DynamicSimulationModel extends Model {
 		this.manager = new ModelManager(repos, struct, resourceEnv,
 				initAllocation, reconfModel, this, this.log);
 		this.buffer = buffer;
-		this.callHandler = new CallHandler();
+		this.callHandler = new CallHandler(this);
 	}
 
 	@Override
@@ -66,6 +66,8 @@ public class DynamicSimulationModel extends Model {
 					break;
 				}
 			}
+			this.buffer.clear();
+			this.buffer.notify();
 		}
 	}
 
@@ -75,17 +77,16 @@ public class DynamicSimulationModel extends Model {
 	}
 
 	public void callReturns(final String traceId) {
-		EntryCall remove = null;
-		for (final EntryCall ec : this.buffer) {
-			if (traceId.equals(ec.getTraceId())) {
-				remove = ec;
-				break;
-			}
-		}
-		this.buffer.remove(remove);
 		synchronized (this.buffer) {
 			this.buffer.notify();
+			try {
+				this.buffer.wait();
+			} catch (final InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+
 	}
 
 }
