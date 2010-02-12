@@ -26,6 +26,7 @@ public class DynamicSimulationModel extends Model {
 	private final CallHandler callHandler;
 	private final TreeSet<EntryCall> buffer;
 	private final Log log = LogFactory.getLog(this.getClass());
+	private boolean terminating;
 
 	public DynamicSimulationModel(final String name, final Repository repos,
 			final System struct, final ResourceEnvironment resourceEnv,
@@ -76,17 +77,42 @@ public class DynamicSimulationModel extends Model {
 
 	}
 
+	/*
+	 * call returns algo<br/> let the next entry call be scheduled
+	 * 
+	 */
 	public void callReturns(final String traceId) {
+		final EntryCall call;
 		synchronized (this.buffer) {
-			this.buffer.notify();
-			try {
-				this.buffer.wait();
-			} catch (final InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			this.log.info("Attempting to fetch next call");
+			call = this.buffer.first();
+			if (call != null) {
+				this.buffer.remove(call);
 			}
+			this.buffer.notify();
+
+		}
+		if (call == null) {
+			this.log.info("No call in queue");
+			return;
+		}
+		this.log.info("Calling " + call.getComponentName() + "."
+				+ call.getOpname());
+		try {
+			this.callHandler.call(call.getOpname(), call.getTraceId() + "",
+					call.getComponentName(), call.getTin());
+		} catch (final NoSuchSeffException e) {
+			e.printStackTrace();
+		} catch (final BranchException e) {
+			e.printStackTrace();
+		} catch (final SumGreaterXException e) {
+			e.printStackTrace();
 		}
 
+	}
+
+	public void setTerminating(final boolean b) {
+		this.terminating = b;
 	}
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.trustsoft.slastic.simulation.DynamicSimulationModel;
+import org.trustsoft.slastic.simulation.StopCondition;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
@@ -62,6 +63,8 @@ public class CallHandler {
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
 	private final DynamicSimulationModel model;
+
+	private StopCondition stopCond;
 
 	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
 		CallHandler.instance = this;
@@ -362,6 +365,17 @@ public class CallHandler {
 			this.eoi.remove(traceId);
 			this.model.callReturns(traceId);
 		}
+		if (this.activeTraces.isEmpty()) {
+			this.stopCond.setStopped(true);
+
+		}
+	}
+
+	public void setStopCond(final StopCondition stopCond) {
+		this.stopCond = stopCond;
+	}
+
+	public void setTerminating(final boolean b) {
 	}
 
 }
