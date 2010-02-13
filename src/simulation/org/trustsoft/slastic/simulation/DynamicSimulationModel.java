@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.simulation;
 
-import java.util.TreeSet;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
@@ -11,6 +9,7 @@ import org.trustsoft.slastic.simulation.software.controller.EntryCall;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.BranchException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoSuchSeffException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreaterXException;
+import org.trustsoft.slastic.simulation.util.SimulatedThreadQueue;
 
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
@@ -24,7 +23,7 @@ public class DynamicSimulationModel extends Model {
 
 	private final ModelManager manager;
 	private final CallHandler callHandler;
-	private final TreeSet<EntryCall> buffer;
+	private final SimulatedThreadQueue buffer;
 	private final Log log = LogFactory.getLog(this.getClass());
 	private boolean terminating;
 
@@ -32,12 +31,13 @@ public class DynamicSimulationModel extends Model {
 			final System struct, final ResourceEnvironment resourceEnv,
 			final Allocation initAllocation,
 			final ReconfigurationModel reconfModel,
-			final TreeSet<EntryCall> buffer, final Experiment experiment) {
+			final SimulatedThreadQueue simulatedThreadQueue,
+			final Experiment experiment) {
 		super(null, name, Constants.DEBUG, Constants.DEBUG);
 		this.connectToExperiment(experiment);
 		this.manager = new ModelManager(repos, struct, resourceEnv,
 				initAllocation, reconfModel, this, this.log);
-		this.buffer = buffer;
+		this.buffer = simulatedThreadQueue;
 		this.callHandler = new CallHandler(this);
 	}
 
@@ -83,15 +83,8 @@ public class DynamicSimulationModel extends Model {
 	 */
 	public void callReturns(final String traceId) {
 		final EntryCall call;
-		synchronized (this.buffer) {
-			this.log.info("Attempting to fetch next call");
-			call = this.buffer.first();
-			if (call != null) {
-				this.buffer.remove(call);
-			}
-			this.buffer.notify();
-
-		}
+		this.log.info("Attempting to fetch next call");
+		call = this.buffer.removeFirstBlocking();
 		if (call == null) {
 			this.log.info("No call in queue");
 			return;

@@ -16,6 +16,7 @@ import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.EntryCall;
+import org.trustsoft.slastic.simulation.util.SimulatedThreadQueue;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
@@ -39,6 +40,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 				}
 
 			});
+	private final SimulatedThreadQueue queue = new SimulatedThreadQueue();
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	public final static AbstractKiekerMonitoringRecord TERMINATION_RECORD = new KiekerDummyMonitoringRecord();
@@ -49,7 +51,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 			final ReconfigurationModel reconfModel) {
 		this.exp = new Experiment(name);
 		this.model = new DynamicSimulationModel(name, repos, struct,
-				resourceEnv, initAllocation, reconfModel, this.buffer, this.exp);
+				resourceEnv, initAllocation, reconfModel, this.queue, this.exp);
 	}
 
 	public synchronized void init() {
@@ -79,24 +81,26 @@ public class SimulationController implements IKiekerRecordConsumer,
 				// this.log.info("Received record " + ker.componentName);
 				// we buffer entry calls until the last call will return
 				// BEFORE the next one starts
-				while (this.buffer.size() > Constants.PRE_BUFFER
-						&& this.buffer.first().getTout() < ker.tin) {
-					try {
-						// we need to schedule next calls on return
-						synchronized (this.buffer) {
-							this.log.info("Queue full, waiting");
-							this.buffer.wait();
-						}
-					} catch (final InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				this.buffer.add(new EntryCall(ker.componentName, ker.opname,
-						ker.traceId, ker.tin, ker.tout));
+				final EntryCall ec = new EntryCall(ker.componentName,
+						ker.opname, ker.traceId, ker.tin, ker.tout);
+				this.queue.add(ec);
+				// while (this.buffer.size() > Constants.PRE_BUFFER
+				// && this.buffer.first().getTout() < ker.tin) {
+				// try {
+				// // we need to schedule next calls on return
+				// synchronized (this.buffer) {
+				// this.log.info("Queue full, waiting");
+				// this.buffer.wait();
+				// }
+				// } catch (final InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// }
+				// this.buffer.add(ec);
 			}
-		} else if (monitoringRecord instanceof KiekerDummyMonitoringRecord) {
-			final KiekerDummyMonitoringRecord kdr = (KiekerDummyMonitoringRecord) monitoringRecord;
+		} else if (monitoringRecord == SimulationController.TERMINATION_RECORD) {
 			this.log.info("Last record read, marking termination");
+			this.queue.finish();
 			CallHandler.getInstance().setTerminating(true);
 		}
 	}
