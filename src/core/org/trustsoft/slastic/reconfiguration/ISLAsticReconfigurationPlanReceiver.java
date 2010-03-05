@@ -6,7 +6,7 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  *
  * @author Andre van Hoorn
  */
-public interface ISLAsticReconfigurationManager {
+public interface ISLAsticReconfigurationPlanReceiver {
 
 	void doReconfiguration(SLAsticReconfigurationPlan plan) throws SLAsticReconfigurationException;
 }

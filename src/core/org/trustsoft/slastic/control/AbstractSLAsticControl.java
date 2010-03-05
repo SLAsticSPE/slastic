@@ -18,7 +18,7 @@ import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServic
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticControl, IKiekerRecordConsumer, ISimpleSLAsticEventService {
+public abstract class AbstractSLAsticControl extends AbstractSLAsticComponent implements ISLAsticEventReceiver, IKiekerRecordConsumer, ISimpleSLAsticEventService {
 
     private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
 

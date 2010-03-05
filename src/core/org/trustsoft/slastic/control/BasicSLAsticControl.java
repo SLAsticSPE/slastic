@@ -19,7 +19,7 @@ public class BasicSLAsticControl extends AbstractSLAsticControl implements ISimp
 //        super.initVarsFromInitString(initString);
 //        // we don't expect init properties so far, so just return.
 //    }
-    public void update(AbstractKiekerMonitoringRecord record) {
+    public void newEvent(AbstractKiekerMonitoringRecord record) {
         try {
             this.consumeMonitoringRecord(record);
         } catch (RecordConsumerExecutionException ex) {
