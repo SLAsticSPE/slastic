@@ -28,7 +28,13 @@ public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 
 	@Override
 	public Queue<IOOperation> getQueue() {
-		return queue;
+		return this.queue;
+	}
+
+	@Override
+	public float getBusiness() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

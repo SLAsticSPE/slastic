@@ -1,11 +1,13 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
-import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,6 +16,9 @@ import org.trustsoft.slastic.simulation.DynamicSimulationModel;
 import org.trustsoft.slastic.simulation.StopCondition;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
+import org.trustsoft.slastic.simulation.model.hardware.controller.HardwareController;
+import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
+import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
@@ -46,8 +51,6 @@ import desmoj.core.simulator.SimTime;
 
 public class CallHandler {
 
-	private final Map<String, List<ControlFlowAction<? extends AbstractAction>>> actionList = new TreeMap<String, List<ControlFlowAction<? extends AbstractAction>>>();
-
 	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
 	private final ComponentController cc = ComponentController.getInstance();
@@ -65,6 +68,10 @@ public class CallHandler {
 	private final DynamicSimulationModel model;
 
 	private StopCondition stopCond;
+
+	private int maxUsers = 0;
+
+	private long ltime;
 
 	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
 		CallHandler.instance = this;
@@ -143,6 +150,7 @@ public class CallHandler {
 															/ (double) Constants.SIM_TIME_TO_MON_TIME)),
 											ModelManager.getInstance()
 													.getModel().currentTime()));
+			this.ltime = System.nanoTime();
 			return;
 		} else {
 			throw new NoSuchSeffException(service);
@@ -358,6 +366,17 @@ public class CallHandler {
 			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
 			this.log.info("Attempting to schedule " + node.getClass());
 			node.schedule(SimTime.NOW);
+			final HardwareController hw = ModelManager.getInstance()
+					.getHwCont();
+			int users = 0;
+			for (final Server s : hw.getServers()) {
+				for (final CPU cpu : s.getCpus()) {
+					users += cpu.getScheduler().getProcessCount();
+				}
+			}
+			if (users > this.maxUsers) {
+				this.maxUsers = users;
+			}
 		} else {
 			nodes.clear();
 			this.activeTraces.remove(traceId);
@@ -365,14 +384,27 @@ public class CallHandler {
 			this.eoi.remove(traceId);
 			this.model.callReturns(traceId);
 		}
+
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
-
+			ModelManager.markEnd(this.ltime);
+			try {
+				final File f = File.createTempFile("maxU", ".dat");
+				final PrintWriter pw = new PrintWriter(new FileWriter(f));
+				pw.println(this.maxUsers);
+				pw.flush();
+				pw.close();
+				System.exit(0);
+			} catch (final IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void setStopCond(final StopCondition stopCond) {
 		this.stopCond = stopCond;
+
 	}
 
 	public void setTerminating(final boolean b) {

@@ -90,7 +90,7 @@ public class HardwareController extends Reportable {
 		final CPU cpu = new CPU(m, rc.getEntityName() + "CPU", Constants.DEBUG,
 				new CPURRScheduler(m, rc.getEntityName() + "CPUScheduler"),
 				prate);
-		cpu.getScheduler().setTickRate(50);
+		cpu.getScheduler().setTickRate(Constants.PS_SLICE);
 		server.addCPU(cpu);
 	}
 

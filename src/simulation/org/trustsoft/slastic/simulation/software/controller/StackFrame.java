@@ -1,12 +1,11 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
-import org.trustsoft.slastic.simulation.config.Constants;
-
 import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
-import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.simulation.config.Constants;
+import org.trustsoft.slastic.simulation.model.ModelManager;
 
 public class StackFrame {
 	private final static Log log = LogFactory.getLog(StackFrame.class);
@@ -25,43 +24,45 @@ public class StackFrame {
 		this.calledServiceName = calledServiceName;
 		this.asmContextTo = asmContextTo;
 		this.serverId = serverId;
-		timeEnter = time;
+		this.timeEnter = time;
 	}
 
 	public String getCalledServiceName() {
-		return calledServiceName;
+		return this.calledServiceName;
 	}
 
 	public String getAsmContextTo() {
-		return asmContextTo;
+		return this.asmContextTo;
 	}
 
 	public String getServerId() {
-		return serverId;
+		return this.serverId;
 	}
 
 	public double getTimeEnter() {
-		return timeEnter;
+		return this.timeEnter;
 	}
 
 	public KiekerExecutionRecord createRecord(final double timeExit,
 			final int depth, final int eoi) {
 		final KiekerExecutionRecord rec = KiekerExecutionRecord.getInstance(
-				ModelManager.getInstance().getAssemblyCont().getASMInstanceAndComponentNameById(asmContextTo), calledServiceName, Long.parseLong(traceId),
-				(long) (Constants.SIM_TIME_TO_MON_TIME * timeEnter),
+				ModelManager.getInstance().getAssemblyCont()
+						.getASMInstanceAndComponentNameById(this.asmContextTo),
+				this.calledServiceName, Long.parseLong(this.traceId),
+				(long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
 		rec.ess = depth;
 		rec.eoi = eoi;
-                rec.vmName = serverId;
+		rec.vmName = this.serverId;
 		return rec;
 	}
 
 	public String getTraceId() {
-		return traceId;
+		return this.traceId;
 	}
 
 	public int getEoi() {
-		return eoi;
+		return this.eoi;
 	}
 
 	public void setEoi(final int eoi) {

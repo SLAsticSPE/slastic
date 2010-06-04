@@ -224,4 +224,27 @@ public final class AllocationController {
 					server, asmContext);
 		}
 	}
+
+	public boolean hasAllocation(final String server, final String asmContext) {
+		return this.assemblyContextToServerMapping.get(asmContext).contains(
+				server);
+	}
+
+	/**
+	 * Adds the asmContext to the server (used for replication)
+	 * 
+	 * @param server
+	 * @param asmContext
+	 */
+	public void add(final String server, final String asmContext) {
+		this.assemblyContextToServerMapping.get(asmContext).add(server);
+	}
+
+	public void del(final AllocationContext component) {
+		this.assemblyContextToServerMapping.get(
+				component.getAssemblyContext_AllocationContext().getId())
+				.remove(
+						component.getResourceContainer_AllocationContext()
+								.getId());
+	}
 }

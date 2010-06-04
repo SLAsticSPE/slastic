@@ -41,7 +41,7 @@ public class TickEventGenerator {
 	 */
 	public void tick() {
 		TickEventGenerator.log.info("CPU ticks at " + this.owner.currentTime());
-		this.scheduler.tick();
+		// this.scheduler.tick();
 		if (this.scheduler.isIdle()) {
 			return;
 		} else {

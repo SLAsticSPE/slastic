@@ -13,14 +13,14 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 	public CPU(final Model owner, final String myName, final boolean debugMode,
 			final CPUScheduler scheduler, final int capacity) {
 		super(owner, myName, debugMode, scheduler, capacity);
-		queue = scheduler.getQueue();
+		this.queue = scheduler.getQueue();
 		scheduler.setOwner(this);
 		this.capacity = capacity;
 	}
 
 	@Override
 	public float getBusiness() {
-		return 0;
+		return this.getScheduler().getBusiness();
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 
 	@Override
 	public int getCapacity() {
-		return capacity;
+		return this.capacity;
 	}
 
 }

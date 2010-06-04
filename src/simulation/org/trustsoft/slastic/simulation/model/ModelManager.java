@@ -1,5 +1,9 @@
 package org.trustsoft.slastic.simulation.model;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +35,10 @@ public class ModelManager implements IReconfPlanReceiver {
 	private final List<SLAsticReconfigurationPlan> plans = new LinkedList<SLAsticReconfigurationPlan>();
 	private final Model model;
 	private final Log log;
+	private final ResourceEnvironment re;
+
+	private static File f;
+	private static long time;
 
 	public ModelManager(final Repository repository, final System system,
 			final ResourceEnvironment resources, final Allocation allocation,
@@ -45,6 +53,8 @@ public class ModelManager implements IReconfPlanReceiver {
 		this.hwCont = new HardwareController(resources, model);
 		this.allocCont = new AllocationController(allocation, model);
 		this.reconfCont = new ReconfigurationController(reconfModel, model);
+		this.re = resources;
+
 	}
 
 	public AllocationController getAllocCont() {
@@ -108,5 +118,27 @@ public class ModelManager implements IReconfPlanReceiver {
 
 	public Log getLogger() {
 		return this.log;
+	}
+
+	public ResourceEnvironment getResources() {
+		return this.re;
+	}
+
+	public static void markStart() {
+		ModelManager.time = java.lang.System.nanoTime();
+	}
+
+	public static void markEnd(final long ltime) {
+		PrintWriter pw;
+		try {
+			final File f = File.createTempFile("sim", ".len");
+			pw = new PrintWriter(new FileWriter(f));
+			pw.println(ltime - ModelManager.time);
+			pw.flush();
+			pw.close();
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

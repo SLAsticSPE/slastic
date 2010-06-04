@@ -19,8 +19,6 @@ import desmoj.core.simulator.Model;
 
 public class AssemblyController {
 
-	private final Hashtable<String, SimSystem> nameToSystemMap = new Hashtable<String, SimSystem>();
-	private final Hashtable<String, SimSystem> idToSystemMap = new Hashtable<String, SimSystem>();
 	private final Hashtable<String, AssemblyContext> idToASMContext = new Hashtable<String, AssemblyContext>();
 
 	/**
@@ -44,12 +42,9 @@ public class AssemblyController {
 	}
 
 	private void genAssembly(final System system) {
-		final SimSystem simSystem = SimSystem.getInstance();
 		final List<AssemblyContext> structures = system
 				.getChildComponentContexts_ComposedStructure();
 		for (final AssemblyContext structure : structures) {
-			simSystem.addComponent(system.getEntityName(), structure
-					.getEncapsulatedComponent_ChildComponentContext());
 			this.idToASMContext.put(structure.getId().toString(), structure);
 			this.asmIdToComponent.put(structure.getId().toString(), structure
 					.getEncapsulatedComponent_ChildComponentContext());
@@ -102,14 +97,6 @@ public class AssemblyController {
 		// TODO: find solution for simsystem
 	}
 
-	public final SimSystem getSystemById(final String id) {
-		return this.idToSystemMap.get(id);
-	}
-
-	public final SimSystem getSystemByName(final String name) {
-		return this.nameToSystemMap.get(name);
-	}
-
 	public final String getComponentByASMId(final String asmId) {
 		final ProvidesComponentType asmC = this.asmIdToComponent.get(asmId);
 		this.log.info("Looked up Component " + asmC + " for asm context "
@@ -123,6 +110,10 @@ public class AssemblyController {
 
 	public final Collection<AssemblyContext> getAllASMContexts() {
 		return this.idToASMContext.values();
+	}
+
+	public final AssemblyContext getASMContextById(final String id) {
+		return this.idToASMContext.get(id);
 	}
 
 	public String asmContextForServiceCall(final String asmContextCaller,
@@ -155,7 +146,8 @@ public class AssemblyController {
 		return this.systemProvidedServicesToSignature.get(serviceName);
 	}
 
-        public String getASMInstanceAndComponentNameById(String id){
-            return this.idToASMContext.get(id).getEntityName()+":"+asmIdToComponent.get(id).getEntityName();
-        }
+	public String getASMInstanceAndComponentNameById(final String id) {
+		return this.idToASMContext.get(id).getEntityName() + ":"
+				+ this.asmIdToComponent.get(id).getEntityName();
+	}
 }

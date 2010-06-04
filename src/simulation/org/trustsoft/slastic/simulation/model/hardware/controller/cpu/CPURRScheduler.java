@@ -29,11 +29,10 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public synchronized void schedule(final CPUSchedulableProcess process) {
 		this.queue.insert(process);
-		this.cyclesPerSlice = 50 * 1000 * this.getOwner().getCapacity();
+		this.cyclesPerSlice = (Constants.PS_SLICE * Constants.CPU_SCALE * this
+				.getOwner().getCapacity()) / 1000;
 		CPURRScheduler.log.info("Task arrived: " + process);
 		if (this.idle) {
-			// FIXME some stuff goes terribly wrong
-			// final SimTime t = this.tick();
 			CPURRScheduler.log.info("Resuming scheduler with tick at "
 					+ " with " + this.cyclesPerSlice + " cycles per slice");
 			super.getTickEventGenerator().resume();
@@ -80,12 +79,10 @@ public class CPURRScheduler extends CPUScheduler {
 				this.queue.insert(np);
 				CPURRScheduler.log.info("Next slice will be started at " + ret);
 			} else {
-				ret = new SimTime(prun
-						/ (double) (this.getOwner().getCapacity() * 1000000)); // MHz
-				// =>
-				// divide
-				// by
-				// 1Mega
+				ret = new SimTime(
+						prun
+								/ (double) (this.getOwner().getCapacity() * Constants.CPU_SCALE)); // MHz
+				// => divide by 1Mega
 				CPURRScheduler.log.info("Finishing job in " + ret);
 			}
 		}
@@ -94,35 +91,6 @@ public class CPURRScheduler extends CPUScheduler {
 		} else {
 			this.idle = false;
 		}
-		/*
-		 * final CPUSchedulableProcess p = this.queue.first(); if
-		 * (this.queue.length() > 0) { this.queue.remove(p);
-		 * 
-		 * final long prun = p.getCyclesRemaining(); CPURRScheduler.log.info("It
-		 * needs " + prun + " cycles to finish, we have " + this.cyclesPerSlice + "
-		 * cycles per slice"); // cycles per slice = slice in ms * capacity in
-		 * MHz * 1000 // <=> ms = cycles / cap
-		 * 
-		 * if (prun > this.cyclesPerSlice) { ret = this.getTickSimTime();
-		 * this.queue.insert(p); } else { ret = new SimTime(prun / (double)
-		 * (this.getOwner().getCapacity() * 1000)); } } else if (p1 != null &&
-		 * p1.getCyclesRemaining() > 0) { final long prun =
-		 * p1.getCyclesRemaining(); CPURRScheduler.log.info("It needs " + prun + "
-		 * cycles to finish, we have " + this.cyclesPerSlice + " cycles per
-		 * slice"); // cycles per slice = slice in ms * capacity in MHz * 1000 //
-		 * <=> ms = cycles / cap
-		 * 
-		 * if (prun > this.cyclesPerSlice) { ret = this.getTickSimTime(); } else {
-		 * ret = new SimTime(prun / (double) (this.getOwner().getCapacity() *
-		 * 1000)); } } if (p1 != null) { this.activeProcess.remove(p1);
-		 * p1.substractFromRemaining(this.cyclesPerSlice);
-		 * CPURRScheduler.log.info("Substracting " + this.cyclesPerSlice + "
-		 * from " + p1 + ", now " + p1.getCyclesRemaining() + " are remaining"); }
-		 * if (p != null) { this.activeProcess.insert(p); } else {
-		 * this.activeProcess.insert(p); } CPURRScheduler.log.info("Active
-		 * processes: " + (this.activeProcess.isEmpty() ? 0 : 1));
-		 * CPURRScheduler.log.info("Next slice will be started at " + ret);
-		 */
 		return ret;
 	}
 
@@ -134,5 +102,15 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public boolean isIdle() {
 		return this.queue.isEmpty() && this.activeProcess.isEmpty();
+	}
+
+	@Override
+	public float getBusiness() {
+		return (float) this.activeProcess.averageLength();
+	}
+
+	@Override
+	public int getProcessCount() {
+		return this.queue.length() + this.activeProcess.length();
 	}
 }

@@ -13,10 +13,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
+import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.EntryCall;
-import org.trustsoft.slastic.simulation.util.SimulatedThreadQueue;
+import org.trustsoft.slastic.simulation.util.ExternalCallQueue;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
@@ -40,7 +41,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 				}
 
 			});
-	private final SimulatedThreadQueue queue = new SimulatedThreadQueue();
+	private final ExternalCallQueue queue = new ExternalCallQueue();
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	public final static AbstractKiekerMonitoringRecord TERMINATION_RECORD = new KiekerDummyMonitoringRecord();
@@ -65,6 +66,7 @@ public class SimulationController implements IKiekerRecordConsumer,
 		this.exp.stop(this.stopCond = new StopCondition(this.model, this.model
 				.getName(), Constants.DEBUG));
 		CallHandler.getInstance().setStopCond(this.stopCond);
+		ModelManager.markStart();
 		this.exp.start();
 	}
 
@@ -127,20 +129,18 @@ public class SimulationController implements IKiekerRecordConsumer,
 	@Override
 	public void addReconfigurationEventListener(
 			final ReconfEventListener listener) {
-		// TODO Auto-generated method stub
-
+		ModelManager.getInstance().addReconfEventListener(listener);
 	}
 
 	@Override
 	public void reconfigure(final SLAsticReconfigurationPlan plan) {
-		// TODO Auto-generated method stub
+		ModelManager.getInstance().reconfigure(plan);
 
 	}
 
 	@Override
 	public void removeReconfigurationEventListener(
 			final ReconfEventListener listener) {
-		// TODO Auto-generated method stub
-
+		ModelManager.getInstance().removeReconfigurationEventListener(listener);
 	}
 }
