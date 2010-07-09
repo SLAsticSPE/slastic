@@ -15,13 +15,13 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public class ReconfigurationManagerWget extends AbstractSLAsticReconfigurationManager {
+public class ReconfigurationManagerWget extends AbstractReconfigurationManagerComponent {
 
     private final Log log = LogFactory.getLog(ReconfigurationManagerWget.class);
 
     public synchronized void doReconfiguration(
             ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
-            throws SLAsticReconfigurationException {
+            throws ReconfigurationException {
         EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
         for (SLAsticReconfigurationOpType op : operations) {
             // Check of which type the Operation is
@@ -60,9 +60,11 @@ public class ReconfigurationManagerWget extends AbstractSLAsticReconfigurationMa
         // we don't expect init properties so far.
     }
 
+    @Override
     public boolean execute() {
         return true;
     }
 
-    public void terminate() {  }
+    @Override
+    public void terminate(final boolean error) {  }
 }

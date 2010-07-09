@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.common.AbstractSLAsticComponent;
-import org.trustsoft.slastic.control.AbstractSLAsticControl;
-import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
-import slal.Model;
+import org.trustsoft.slastic.control.AbstractControlComponent;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,18 +11,19 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent implements ISLAsticAnalysis {
+public abstract class AbstractAnalysisComponent extends AbstractSLAsticComponent {
 
-    private static final Log log = LogFactory.getLog(AbstractSLAsticControl.class);
+    private static final Log log = LogFactory.getLog(AbstractControlComponent.class);
 
     public static final String PROP_PREFIX = "slastic.control.analysis";
     
-    private AbstractSLAsticControl parentControlComponent;
-    private AbstractPerformanceEvaluator performanceEvaluator;
-    private AbstractWorkloadForecaster workloadForecaster;
-    private AbstractPerformancePredictor performancePredictor;
-    private AbstractAdaptationPlanner adaptationPlanner;
+    private AbstractControlComponent parentControlComponent;
+    private AbstractPerformanceEvaluatorComponent performanceEvaluator;
+    private AbstractWorkloadForecasterComponent workloadForecaster;
+    private AbstractPerformancePredictorComponent performancePredictor;
+    private AbstractAdaptationPlannerComponent adaptationPlanner;
 
+    @Override
     public boolean execute() {
         boolean success = true;
 
@@ -57,71 +53,72 @@ public abstract class AbstractSLAsticAnalysis extends AbstractSLAsticComponent i
         }
 
         if (!success){ // terminate all components
-            if (this.performanceEvaluator != null) this.performanceEvaluator.terminate();
-            if (this.workloadForecaster != null) this.workloadForecaster.terminate();
-            if (this.performancePredictor != null) this.performancePredictor.terminate();
-            if (this.adaptationPlanner != null) this.adaptationPlanner.terminate();
+            if (this.performanceEvaluator != null) this.performanceEvaluator.terminate(false);
+            if (this.workloadForecaster != null) this.workloadForecaster.terminate(false);
+            if (this.performancePredictor != null) this.performancePredictor.terminate(false);
+            if (this.adaptationPlanner != null) this.adaptationPlanner.terminate(false);
         }
 
         return success;
     }
 
-    public void terminate() {
+    @Override
+    public void terminate(final boolean error) {
         if (this.performanceEvaluator != null) {
-            this.performanceEvaluator.terminate();
+            this.performanceEvaluator.terminate(error);
         }
         if (this.workloadForecaster != null) {
-            this.workloadForecaster.terminate();
+            this.workloadForecaster.terminate(error);
         }
         if (this.performancePredictor != null) {
-            this.performancePredictor.terminate();
+            this.performancePredictor.terminate(error);
         }
         if (this.adaptationPlanner != null) {
-            this.adaptationPlanner.terminate();
+            this.adaptationPlanner.terminate(error);
         }
     }
 
-    public final AbstractAdaptationPlanner getAdaptationPlanner() {
+    public final AbstractAdaptationPlannerComponent getAdaptationPlanner() {
         return adaptationPlanner;
     }
 
-    public final void setAdaptationPlanner(AbstractAdaptationPlanner adaptationPlanner) {
+    public final void setAdaptationPlanner(final AbstractAdaptationPlannerComponent adaptationPlanner) {
         this.adaptationPlanner = adaptationPlanner;
     }
 
-    public final AbstractPerformanceEvaluator getPerformanceEvaluator() {
+    public final AbstractPerformanceEvaluatorComponent getPerformanceEvaluator() {
         return performanceEvaluator;
     }
 
-    public final void setPerformanceEvaluator(AbstractPerformanceEvaluator performanceEvaluator) {
+    public final void setPerformanceEvaluator(final AbstractPerformanceEvaluatorComponent performanceEvaluator) {
         this.performanceEvaluator = performanceEvaluator;
     }
 
-    public final AbstractPerformancePredictor getPerformancePredictor() {
+    public final AbstractPerformancePredictorComponent getPerformancePredictor() {
         return performancePredictor;
     }
 
-    public final void setPerformancePredictor(AbstractPerformancePredictor performancePredictor) {
+    public final void setPerformancePredictor(final AbstractPerformancePredictorComponent performancePredictor) {
         this.performancePredictor = performancePredictor;
     }
 
-    public final AbstractSLAsticReconfigurationManager getReconfigurationManager() {
+    public final AbstractReconfigurationManagerComponent getReconfigurationManager() {
         return getParentControlComponent().getReconfigurationManager();
     }
 
-    public final AbstractSLAsticControl getParentControlComponent() {
+    public final AbstractControlComponent getParentControlComponent() {
         return parentControlComponent;
     }
 
-    public final void setParentControlComponent(AbstractSLAsticControl parentControlComponent) {
+    public final void setParentControlComponent(final AbstractControlComponent parentControlComponent) {
         this.parentControlComponent = parentControlComponent;
     }
 
-    public final AbstractWorkloadForecaster getWorkloadForecaster() {
+    public final AbstractWorkloadForecasterComponent getWorkloadForecaster() {
         return workloadForecaster;
     }
 
-    public final void setWorkloadForecaster(AbstractWorkloadForecaster workloadForecaster) {
+    public final void setWorkloadForecaster(final AbstractWorkloadForecasterComponent workloadForecaster) {
         this.workloadForecaster = workloadForecaster;
     }
 }

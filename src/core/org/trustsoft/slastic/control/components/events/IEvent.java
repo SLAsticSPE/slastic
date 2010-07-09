@@ -5,6 +5,6 @@ package org.trustsoft.slastic.control.components.events;
  * @author Lena Stoever
  *
  */
-public interface ISLAsticEvent {
+public interface IEvent {
 
 }

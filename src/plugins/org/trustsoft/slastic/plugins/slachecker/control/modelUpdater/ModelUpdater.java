@@ -1,12 +1,14 @@
 package org.trustsoft.slastic.plugins.slachecker.control.modelUpdater;
 
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
+import kieker.common.record.IMonitoringRecord;
 import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
+import org.trustsoft.slastic.common.event.IObservationEvent;
+import org.trustsoft.slastic.control.components.events.IEvent;
+import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurementEvent;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 /**
@@ -16,7 +18,7 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
  * @author Lena Stoever
  * 
  */
-public class ModelUpdater extends AbstractSLAsticModelUpdater {
+public class ModelUpdater extends AbstractModelUpdaterComponent {
 
     private static final Log log = LogFactory.getLog(ModelUpdater.class);
     long count = 0;
@@ -31,25 +33,31 @@ public class ModelUpdater extends AbstractSLAsticModelUpdater {
     public ModelUpdater() {
     }
 
-   public void init(String initString) throws IllegalArgumentException {
+    public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
         // we don't expect init properties so far, so just return.
     }
 
     @Override
-    public void consumeMonitoringRecord(
-            AbstractKiekerMonitoringRecord newMonitoringRecord) {
+    public void handleEvent(IEvent ev) {
+    }
 
+    @Override
+    public void newObservation(IObservationEvent ev) {
         count++;
-        if (newMonitoringRecord instanceof SLOMonitoringRecord) {
-            ((ModelManager)this.getModelManager()).update(newMonitoringRecord);
+        if (ev instanceof KiekerMeasurementEvent) {
+            IMonitoringRecord kiekerRecord = ((KiekerMeasurementEvent) ev).getKiekerRecord();
+            if (kiekerRecord == null) {
+                log.error("kiekerRecord field of event is null!");
+                return;
+            }
+            if (kiekerRecord instanceof SLOMonitoringRecord) {
+                ((ModelManager) this.getModelManager()).newObservation(ev);
+            }
         }
         //Logging the number of Records that have been processed
         if (count % 500 == 0) {
             log.info("Number of Records: " + count);
         }
-
     }
-
-    public void handleSLAsticEvent(ISLAsticEvent ev) {  }
 }

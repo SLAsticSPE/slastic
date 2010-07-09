@@ -1,31 +1,31 @@
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.common.AbstractSLAsticComponent;
-import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventService;
-import org.trustsoft.slastic.control.components.events.ISimpleSLAsticEventServiceClient;
+import org.trustsoft.slastic.control.components.events.ISimpleEventService;
+import org.trustsoft.slastic.control.components.events.ISimpleEventServiceClient;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractAnalysisSubComponent extends AbstractSLAsticComponent implements ISLAsticAnalysisSubComponent, ISimpleSLAsticEventServiceClient {
+public abstract class AbstractAnalysisSubComponent extends AbstractSLAsticComponent implements ISimpleEventServiceClient {
 
-    private AbstractSLAsticAnalysis parentAnalysisComponent;
-    private ISimpleSLAsticEventService simpleSLAsticEventService;
+    private AbstractAnalysisComponent parentAnalysisComponent;
+    private ISimpleEventService simpleSLAsticEventService;
 
-    public final AbstractSLAsticAnalysis getParentAnalysisComponent() {
+    public final AbstractAnalysisComponent getParentAnalysisComponent() {
         return parentAnalysisComponent;
     }
 
-    public final void setParentAnalysisComponent(AbstractSLAsticAnalysis parentAnalysisComponent) {
+    public final void setParentAnalysisComponent(final AbstractAnalysisComponent parentAnalysisComponent) {
         this.parentAnalysisComponent = parentAnalysisComponent;
     }
 
-    public final ISimpleSLAsticEventService getSimpleSLAsticEventService() {
+    public final ISimpleEventService getSimpleSLAsticEventService() {
         return simpleSLAsticEventService;
     }
 
-    public final void setSimpleSLAsticEventService(ISimpleSLAsticEventService simpleSLAsticEventService) {
+    public final void setSimpleSLAsticEventService(final ISimpleEventService simpleSLAsticEventService) {
         this.simpleSLAsticEventService = simpleSLAsticEventService;
     }
 

@@ -1,6 +1,8 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
-import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
+
+import kieker.common.record.OperationExecutionRecord;
+import org.trustsoft.slastic.simulation.config.Constants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,9 +45,9 @@ public class StackFrame {
 		return this.timeEnter;
 	}
 
-	public KiekerExecutionRecord createRecord(final double timeExit,
+	public OperationExecutionRecord createRecord(final double timeExit,
 			final int depth, final int eoi) {
-		final KiekerExecutionRecord rec = KiekerExecutionRecord.getInstance(
+		final OperationExecutionRecord rec = new OperationExecutionRecord(
 				ModelManager.getInstance().getAssemblyCont()
 						.getASMInstanceAndComponentNameById(this.asmContextTo),
 				this.calledServiceName, Long.parseLong(this.traceId),

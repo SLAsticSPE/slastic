@@ -1,8 +1,9 @@
 package org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe;
 
-import kieker.common.logReader.AbstractKiekerMonitoringLogReader;
-import kieker.common.logReader.LogReaderExecutionException;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import kieker.analysis.reader.AbstractMonitoringLogReader;
+import kieker.analysis.reader.MonitoringLogReaderException;
+import kieker.common.record.IMonitoringRecord;
+import kieker.common.util.PropertyMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author Andre van Hoorn
  */
-public final class PipeReader extends AbstractKiekerMonitoringLogReader implements IPipeReader {
+public final class PipeReader extends AbstractMonitoringLogReader implements IPipeReader {
     private static final String PROPERTY_PIPE_NAME = "pipeName";
     private static final Log log = LogFactory.getLog(PipeReader.class);
 
@@ -35,18 +36,20 @@ public final class PipeReader extends AbstractKiekerMonitoringLogReader implemen
     }
 
     @Override
-    public boolean execute() throws LogReaderExecutionException {
+    public boolean read() throws MonitoringLogReaderException {
         // No need to initialize since we receive asynchronously
         return true;
     }
 
+    @Override
     public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        this.initPipe(super.getInitProperty(PROPERTY_PIPE_NAME));
+        PropertyMap propertyMap = new PropertyMap(initString, "|", "="); // throws IllegalArgumentException
+        this.initPipe(propertyMap.getProperty(PROPERTY_PIPE_NAME));
         log.info("Connected to pipe '" + this.pipeName + "'"+ " ("+this.pipe+")");
     }
 
-    public void newRecord(AbstractKiekerMonitoringRecord rec) throws LogReaderExecutionException {
-            super.deliverRecordToConsumers(rec);
+    @Override
+    public boolean newMonitoringRecord(IMonitoringRecord rec) {
+            return super.deliverRecord(rec);
     }
 }

@@ -1,6 +1,6 @@
-slastic.control.classname=org.trustsoft.slastic.control.BasicSLAsticControl
+slastic.control.classname=org.trustsoft.slastic.control.BasicControlComponent
 
-slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicSLAsticAnalysis
+slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent
 slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
 slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.SLAChecker
 slastic.control.analysis.workloadforecasting.classname=
@@ -10,29 +10,29 @@ slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitorin
 # Configuration of Kieker reader to use:
 # Filesystem (normal mode): 
 #slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
-#slastic.monitoring.tpmon.reader.initstring=inputDirName=testdata/tpmon-20100128-221341878 | numWorkers=5
+#slastic.monitoring.tpmon.reader.initstring=inputDirs=testdata/tpmon-20100331-142642242-UTC | numWorkers=5
 #
 # Filesystem (real-time replay mode):
-#slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.realtime.FSReaderRealtime
-#slastic.monitoring.tpmon.reader.initstring=inputDirName=testdata/tpmon-20100128-221341878 | numWorkers=5
+slastic.monitoring.tpmon.reader.classname=kieker.tools.logReplayer.FSReaderRealtime
+slastic.monitoring.tpmon.reader.initstring=inputDirs=testdata/tpmon-20100331-142642242-UTC | numWorkers=5
 
 ## Java Messaging (JMS):
 #slastic.monitoring.tpmon.reader.classname=kieker.tpan.logReader.JMSReader
 #slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
 
 ## Pipe
-slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe.PipeReader
-slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
+#slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe.PipeReader
+#slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 
 ##
 ## Simulation
 ##
 slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
 slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre-onefile.oaw
-slastic.control.modelmanagement.reconfigurationmodel_fn=../../BookstoreReconfModel/My.reconfmm
-slastic.control.modelmanagement.resourceenvironmentmodel_fn=../../BookstoreReconfModel/My2.slasticresourceenvironment
-slastic.control.modelmanagement.qosannotationsmodel_fn=../../BookstoreReconfModel/My.slasticqosannotations
-slastic.control.modelmanagement.slamodel_fn=../../SLALproject/src/model.sla
+slastic.control.modelmanagement.reconfigurationmodel_fn=../../../BookstoreReconfModel/My.reconfmm
+slastic.control.modelmanagement.resourceenvironmentmodel_fn=../../../BookstoreReconfModel/My2.slasticresourceenvironment
+slastic.control.modelmanagement.qosannotationsmodel_fn=../../../BookstoreReconfModel/My.slasticqosannotations
+slastic.control.modelmanagement.slamodel_fn=../../../SLALproject/src/model.sla
 
 slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanSender
 slastic.reconfiguration.pipeName=reconfpipe0

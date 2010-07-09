@@ -1,9 +1,8 @@
 package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla;
 
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import kieker.common.record.AbstractMonitoringRecord;
 
-/**
- * kieker.tpmon.KiekerBranchingRecord.java
+/*
  *
  * ==================LICENCE=========================
  * Copyright 2006-2009 Kieker Project
@@ -21,83 +20,79 @@ import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
  * limitations under the License.
  * ==================================================
  */
-
-
-
 /**
  * @author Andre van Hoorn
  */
-public class SLOMonitoringRecord extends AbstractKiekerMonitoringRecord implements Comparable<SLOMonitoringRecord>{
+public class SLOMonitoringRecord extends AbstractMonitoringRecord implements Comparable<SLOMonitoringRecord> {
 
     private static final long serialVersionUID = 1113L;
-
-   /** Used to identify the type of CSV records
-    * This record type has a fixed value of 0
-    */
-    private static int typeId = AbstractKiekerMonitoringRecord.registerMonitoringRecordType(SLOMonitoringRecord.class);
     private static int numRecordFields = 6;
     public long timestamp = -1;
     public int serviceId = -1;
     public String componentName = null;
     public String operationName = null;
-    public String host= null;
+    public String host = null;
     public long rtNseconds = -1;
     public Object retVal = null;
 
-    public void initFromStringArray(String[] recordVector)
-            throws IllegalArgumentException {
-        // String[]
-        if(recordVector.length > SLOMonitoringRecord.numRecordFields) {
-            throw new IllegalArgumentException("Expecting vector with "+
-                    SLOMonitoringRecord.numRecordFields + " elements but found:" + recordVector.length);
+    public Class[] getValueTypes() {
+        return new Class[] {
+          long.class, // timestamp
+          int.class,  // serviceId
+          String.class, // componentName
+          String.class, // operationName
+          String.class, // host
+          long.class   // rtNseconds
+        };
+    }
+
+    public void initFromArray(Object[] values) throws IllegalArgumentException {
+        try {
+            if (values.length != SLOMonitoringRecord.numRecordFields) {
+                throw new IllegalArgumentException("Expecting vector with "
+                        + SLOMonitoringRecord.numRecordFields + " elements but found:" + values.length);
+            }
+            this.timestamp = (Long) values[0];
+            this.serviceId = (Integer) values[1];
+            this.componentName = (String) values[2];
+            this.operationName = (String) values[3];
+            this.host = (String) values[4];
+            this.rtNseconds = (Long) values[5];
+        } catch (Exception exc) {
+            throw new IllegalArgumentException("Failed to init", exc);
         }
-        this.timestamp = Long.parseLong(recordVector[0]);
-        this.serviceId=Integer.parseInt(recordVector[1]);
-        this.componentName = recordVector[2];
-        this.operationName = recordVector[3];
-        this.host = recordVector[4];
-        this.rtNseconds = Long.parseLong(recordVector[5]);
         return;
     }
 
-    public String[] toStringArray() {
-        // String[] = {....}
-        String[] vec = {
-            Long.toString(timestamp),
-            Integer.toString(this.serviceId),
+    public Object[] toArray() {
+        return new Object[] {
+            this.timestamp,
+            this.serviceId,
             this.componentName,
             this.operationName,
             this.host,
-            Long.toString(rtNseconds)
+            rtNseconds
         };
-        return vec;
     }
 
-    public int getRecordTypeId() {
-        return typeId;
+    public SLOMonitoringRecord() {
     }
 
-    public static AbstractKiekerMonitoringRecord getInstance() {
-        return new SLOMonitoringRecord();
+    public SLOMonitoringRecord(String componentName,
+            String operationName, String host) {
+        this.componentName = componentName;
+        this.operationName = operationName;
+        this.host = host;
     }
 
-    public static SLOMonitoringRecord getInstance(String componentName,
-            String operationName, String host){
-        SLOMonitoringRecord rec = (SLOMonitoringRecord)SLOMonitoringRecord.getInstance();
-        rec.componentName = componentName;
-        rec.operationName = operationName;
-        rec.host = host;
-        return rec;
-    }
-    
-    public int compareTo(SLOMonitoringRecord slo){
-    	if(slo == this){
-    		return 0;
-    	}else if(this.rtNseconds > slo.rtNseconds){
-    	  return 1;
-    	}else{
-    	  return -1;
-      }
-      
+    public int compareTo(SLOMonitoringRecord slo) {
+        if (slo == this) {
+            return 0;
+        } else if (this.rtNseconds > slo.rtNseconds) {
+            return 1;
+        } else {
+            return -1;
+        }
+
     }
 }

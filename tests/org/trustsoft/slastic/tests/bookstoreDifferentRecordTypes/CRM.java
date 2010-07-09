@@ -1,10 +1,9 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
-import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
+import kieker.monitoring.annotation.OperationExecutionMonitoringProbe;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
 
-/**
- * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.CRM.java
+/*
  *
  * ==================LICENCE=========================
  * Copyright 2006-2009 Kieker Project
@@ -36,7 +35,7 @@ public class CRM {
      * This method will be monitored, since it has an annotation.
      */
     @SLAsticSLAMonitoringProbe(serviceId=12)
-    @TpmonExecutionMonitoringProbe()
+    @OperationExecutionMonitoringProbe()
     public static void getOffers(){
 	Catalog.getBook(true);
 	try {

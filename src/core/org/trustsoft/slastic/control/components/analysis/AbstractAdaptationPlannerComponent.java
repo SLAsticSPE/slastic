@@ -1,15 +1,15 @@
 package org.trustsoft.slastic.control.components.analysis;
 
-import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractAdaptationPlanner extends AbstractAnalysisSubComponent {
+public abstract class AbstractAdaptationPlannerComponent extends AbstractAnalysisSubComponent {
     public static final String PROP_PREFIX = "slastic.control.analysis.adaptationplanning";
     
-    public final AbstractSLAsticReconfigurationManager getReconfigurationManager(){
+    public final AbstractReconfigurationManagerComponent getReconfigurationManager(){
         return this.getParentAnalysisComponent().getReconfigurationManager();
     }
 }

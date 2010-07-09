@@ -1,25 +1,26 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import java.lang.reflect.Method;
-
-import kieker.common.logReader.IKiekerMonitoringLogReader;
-import kieker.common.logReader.IKiekerRecordConsumer;
-import kieker.common.logReader.RecordConsumerExecutionException;
-import kieker.tpan.TpanInstance;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import java.util.Collection;
+import kieker.analysis.AnalysisInstance;
+import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
+import kieker.analysis.reader.IMonitoringLogReader;
+import kieker.common.record.IMonitoringRecord;
+import kieker.common.record.MonitoringRecordReceiverException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.monitoring.AbstractSLAsticMonitoringManager;
+import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurementEvent;
 
 /**
  * 
  * @author Andre van Hoorn
  */
-public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
+public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent {
 
     private static final Log log = LogFactory.getLog(KiekerMonitoringManager.class);
-    private TpanInstance tpanInstance = null;
+    private AnalysisInstance tpanInstance = null;
     private boolean initialized = false;
     private final static String TPMON_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
     private final static String TPMON_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
@@ -29,7 +30,7 @@ public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
         if (logReaderClassnameProperty == null
                 || logReaderClassnameProperty.length() <= 0) {
             log.error("Missing configuration property value for '"
-                    + AbstractSLAsticMonitoringManager.PROP_PREFIX + "."
+                    + AbstractMonitoringManagerComponent.PROP_PREFIX + "."
                     + TPMON_LOG_READER_CLASSNAME_PROPERTY + "'");
         }
         String logReaderInitStringProperty = this.getInitProperty(
@@ -37,44 +38,42 @@ public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
         if (logReaderInitStringProperty == null
                 || logReaderInitStringProperty.length() <= 0) {
             log.warn("Missing configuration property value for '"
-                    + AbstractSLAsticMonitoringManager.PROP_PREFIX + "."
+                    + AbstractMonitoringManagerComponent.PROP_PREFIX + "."
                     + TPMON_LOG_READER_INIT_STRING_PROPERTY + "'");
         }
-        IKiekerMonitoringLogReader logReader = (IKiekerMonitoringLogReader) loadAndInitTpmonLogReaderInstanceFromClassname(
+        IMonitoringLogReader logReader = (IMonitoringLogReader) loadAndInitTpmonLogReaderInstanceFromClassname(
                 logReaderClassnameProperty, logReaderInitStringProperty);
 
-        tpanInstance = new TpanInstance();
+        tpanInstance = new AnalysisInstance();
         tpanInstance.setLogReader(logReader);
-        tpanInstance.addRecordConsumer(new IKiekerRecordConsumer() {
+        tpanInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 
             @Override
-            public void consumeMonitoringRecord(
-                    AbstractKiekerMonitoringRecord monitoringRecord)
-                    throws RecordConsumerExecutionException {
+            public boolean newMonitoringRecord(IMonitoringRecord record) {
                 try {
-                    // simply forward records to controller
-                    getController().consumeMonitoringRecord(monitoringRecord);
+                    // simply forward (wrapped) records to controller
+                    getController().getMonitoringClientPort().newObservation(new KiekerMeasurementEvent(record));
                 } catch (Exception exc) {
                     log.error("Failed to forward record", exc);
+                    return false;
                 }
+                return true;
             }
 
             @Override
-            public String[] getRecordTypeSubscriptionList() {
+            public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
                 // TODO: needs to be refined
                 return null; // receive events of any type
             }
 
             @Override
-            public boolean execute() throws RecordConsumerExecutionException {
+            public boolean execute() {
                 // TODO: needs to be refined
                 return true;
             }
 
             @Override
-            public void terminate() {
-                // TODO Auto-generated method stub
-            }
+            public void terminate(boolean error) { }
         });
         this.initialized = true;
     }
@@ -88,11 +87,11 @@ public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
      * @return the instance; null in case an error occured.
      */
     @SuppressWarnings("unchecked")
-    private IKiekerMonitoringLogReader loadAndInitTpmonLogReaderInstanceFromClassname(
+    private IMonitoringLogReader loadAndInitTpmonLogReaderInstanceFromClassname(
             String classname, String initString) {
-        IKiekerMonitoringLogReader inst = null;
+        IMonitoringLogReader inst = null;
         try {
-            Class<IKiekerMonitoringLogReader> cl = (Class<IKiekerMonitoringLogReader>) Class.forName(classname);
+            Class<IMonitoringLogReader> cl = (Class<IMonitoringLogReader>) Class.forName(classname);
             inst = cl.newInstance();
             Method m = cl.getMethod("init", String.class);
             m.invoke(inst, initString);
@@ -123,7 +122,7 @@ public class KiekerMonitoringManager extends AbstractSLAsticMonitoringManager {
     }
 
     @Override
-    public void terminate() {
+    public void terminate(final boolean error) {
         log.info("KiekerMonitoringManager now terminating");
     }
 }

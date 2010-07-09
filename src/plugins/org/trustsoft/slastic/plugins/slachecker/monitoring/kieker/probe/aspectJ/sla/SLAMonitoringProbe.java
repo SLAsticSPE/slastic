@@ -1,8 +1,8 @@
 package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla;
 
-import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.core.ControlFlowRegistry;
-import kieker.tpmon.probe.IKiekerMonitoringProbe;
+import kieker.monitoring.core.ControlFlowRegistry;
+import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.probe.IMonitoringProbe;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,7 +10,6 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLA
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 
 /*
- * org.trustsoft.slastic.control.probe.aspectJ.SLA.SLAMonitoringProbe
  *
  * ==================LICENCE=========================
  * Copyright 2006-2009 Kieker Project
@@ -31,11 +30,11 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
  * @author Andre van Hoorn
  */
 @Aspect
-public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
+public class SLAMonitoringProbe implements IMonitoringProbe {
 
-    protected static final TpmonController ctrlInst = TpmonController.getInstance();
+    protected static final MonitoringController ctrlInst = MonitoringController.getInstance();
     protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.getInstance();
-    private static final String vmName = ctrlInst.getVmname();
+    private static final String vmName = ctrlInst.getVmName();
 
     protected SLOMonitoringRecord initMonitoringRecord(ProceedingJoinPoint thisJoinPoint) {
        // e.g. "getBook" 
@@ -45,7 +44,7 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
         int paranthIndex = paramList.lastIndexOf('(');
         paramList = paramList.substring(paranthIndex); // paramList is now e.g.,  "()"
 
-        SLOMonitoringRecord record = SLOMonitoringRecord.getInstance(
+        SLOMonitoringRecord record = new SLOMonitoringRecord(
                 thisJoinPoint.getSignature().getDeclaringTypeName() /* component */, 
                 methodname + paramList /* operation */, 
                 vmName);
@@ -67,7 +66,7 @@ public class SLAMonitoringProbe implements IKiekerMonitoringProbe {
             /* note that proceedAndMeasure(...) even sets the variable name
              * in case the execution of the joint point resulted in an
              * exception! */
-            ctrlInst.logMonitoringRecord(record);
+            ctrlInst.newMonitoringRecord(record);
         }
         return record.retVal;
     }

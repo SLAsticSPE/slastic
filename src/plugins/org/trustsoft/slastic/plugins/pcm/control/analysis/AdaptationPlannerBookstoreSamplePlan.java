@@ -3,7 +3,7 @@ package org.trustsoft.slastic.plugins.pcm.control.analysis;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
-import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
+import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.ComponentMigrationOP;
@@ -17,15 +17,15 @@ import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceenvironmentFactory;
 import de.uka.ipd.sdq.pcm.resourceenvironment.impl.ResourceenvironmentFactoryImpl;
-import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
+import org.trustsoft.slastic.control.components.events.IEvent;
 
 /**
  * The only Implementation of an Adaptation Analyzer that currently exists. It contains example ReconfigurationOperations.
  * @author Lena Stoever
  *
  */
-public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlanner {
+public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlannerComponent {
 
     //Reconfiguration plan that is produced by this class
     private SLAsticReconfigurationPlan plan;
@@ -88,7 +88,7 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
         try {
             log.info("ReconfigurationManager ist gestartet und plan wird gesendet");
             this.getReconfigurationManager().doReconfiguration(plan);
-        } catch (SLAsticReconfigurationException e) {
+        } catch (ReconfigurationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -97,8 +97,10 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
         return true;
     }
 
-    public void terminate() {
+    @Override
+    public void terminate(final boolean error) {
     }
 
-    public void handleSLAsticEvent(ISLAsticEvent ev) { }
+    @Override
+    public void handleEvent(IEvent ev) { }
 }

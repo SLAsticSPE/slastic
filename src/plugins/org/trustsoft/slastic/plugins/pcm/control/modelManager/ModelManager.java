@@ -6,8 +6,6 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
@@ -16,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import org.trustsoft.slastic.control.exceptions.IllegalReconfigurationOperationException;
 
 import reconfMM.ReconfigurationModel;
@@ -41,7 +38,9 @@ import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.system.System;
-import org.trustsoft.slastic.control.components.modelManager.AbstractSLAsticModelManager;
+import org.trustsoft.slastic.common.event.IObservationEvent;
+import org.trustsoft.slastic.control.components.events.IEvent;
+import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 
 /**
@@ -50,21 +49,21 @@ import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
  * @author Lena Stoever
  * 
  */
-public class ModelManager extends AbstractSLAsticModelManager {
+public class ModelManager extends AbstractModelManagerComponent {
 
     private final Log log = LogFactory.getLog(ModelManager.class);
 //    private static ModelManager instance;
-    protected ReconfigurationModel reconfigurationModel;
+    protected volatile ReconfigurationModel reconfigurationModel;
     //map of types of components with their belonging instances within the reconfigurationModel
-    private ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
+    private volatile ConcurrentHashMap<BasicComponent, Vector<AllocationContext>> componentAllocationList;
     //map of types of components with their belonging reconfiguration information (service-IDs, responseTimes etc., see package reconfmm for more information)
-    private ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
+    private volatile ConcurrentHashMap<BasicComponent, ReconfigurationSpecification> componentReconfigurationSpecification;
     //map of components with the number of instances of each type
-    private ConcurrentHashMap<BasicComponent, Integer> instanceCount;
+    private volatile ConcurrentHashMap<BasicComponent, Integer> instanceCount;
     //list of allocated servers
-    private ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
+    private volatile ConcurrentLinkedQueue<ResourceContainer> allocatedServers;
     //list of not allocated models
-    private ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
+    private volatile ConcurrentLinkedQueue<ResourceContainer> notAllocatedServers;
 
     private static final String PROP_NAME_RECONFIGURATIONMODEL_FN = "reconfigurationmodel_fn";
     private static final String PROP_NAME_RESOURCEENVIRONMENTMODEL_FN = "resourceenvironmentmodel_fn";
@@ -169,7 +168,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
 //
 //    }
     @Override
-    public void update(AbstractKiekerMonitoringRecord newRecord) {
+    public void newObservation(IObservationEvent ime) {
         // do nothing
     }
 
@@ -443,6 +442,7 @@ public class ModelManager extends AbstractSLAsticModelManager {
         // TODO Auto-generated method stub
     }
 
-    public void handleSLAsticEvent(ISLAsticEvent ev) {
+    @Override
+    public void handleEvent(IEvent ev) {
     }
 }

@@ -9,9 +9,9 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
-import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluator;
-import org.trustsoft.slastic.control.components.analysis.ISLAsticAnalysis;
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.analysis.AbstractAnalysisComponent;
+import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluatorComponent;
+import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 
 import org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager;
@@ -27,14 +27,14 @@ import slal.SLO;
  * @author Lena Stoever
  * 
  */
-public class SLAChecker extends AbstractPerformanceEvaluator {
+public class SLAChecker extends AbstractPerformanceEvaluatorComponent {
 
     private static final Log log = LogFactory.getLog(SLAChecker.class);
     private QuantileCalculator quantileCalc;
     private slal.Model slas = null;
     private SLACheckerGUI[] guis;
     private int[] serviceIDs;
-    private ISLAsticAnalysis ana;
+    private AbstractAnalysisComponent ana;
     private ScheduledThreadPoolExecutor ex;
     private boolean initialized = false;
 
@@ -122,7 +122,8 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         }
     }
 
-    public void terminate() {
+    @Override
+    public void terminate(final boolean error) {
         log.info("Terminating");
         /*
          * In case we spawned a thread in execute(), we get the chance to kill
@@ -148,6 +149,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         this.initialized = true;
     }
 
+    @Override
     public boolean execute() {
         if (!this.initialized) {
             this.init();
@@ -175,6 +177,7 @@ public class SLAChecker extends AbstractPerformanceEvaluator {
         return true;
     }
 
-    public void handleSLAsticEvent(ISLAsticEvent ev) {
+    @Override
+    public void handleEvent(IEvent ev) {
     }
 }

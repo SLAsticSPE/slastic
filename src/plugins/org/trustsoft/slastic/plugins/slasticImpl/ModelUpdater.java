@@ -1,30 +1,31 @@
 package org.trustsoft.slastic.plugins.slasticImpl;
 
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
-import org.trustsoft.slastic.control.components.modelUpdater.AbstractSLAsticModelUpdater;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.common.event.IObservationEvent;
+import org.trustsoft.slastic.control.components.events.IEvent;
+import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class ModelUpdater extends AbstractSLAsticModelUpdater {
+public class ModelUpdater extends AbstractModelUpdaterComponent {
 
     private static final Log log = LogFactory.getLog(ModelUpdater.class);
 
-   public void init(String initString) throws IllegalArgumentException {
+    public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
         // we don't expect init properties so far, so just return.
     }
 
-    public void consumeMonitoringRecord(AbstractKiekerMonitoringRecord record) {
-
+    @Override
+    public void handleEvent(IEvent ev) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void handleSLAsticEvent(ISLAsticEvent ev) {
+    @Override
+    public void newObservation(IObservationEvent ime) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -1,13 +1,9 @@
 package org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import kieker.common.record.IMonitoringRecord;
+import kieker.monitoring.core.MonitoringController;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import kieker.common.logReader.LogReaderExecutionException;
-import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
 
 
 /**
@@ -37,18 +33,12 @@ public final class Pipe {
         this.name = name;
     }
 
-    public void writeMonitoringRecord(AbstractKiekerMonitoringRecord monitoringRecord) throws PipeException {
+    public void writeMonitoringRecord(IMonitoringRecord monitoringRecord) throws PipeException {
         if (this.closed){
             log.error("trying to write to closed pipe");
             throw new PipeException("trying to write to closed pipe"); 
         }
-        try {
-            this.pipeReader.newRecord(monitoringRecord);
-        } catch (LogReaderExecutionException ex) {
-            this.close();
-            log.error("LogReaderExecutionException occured. Closing pipe.", ex);
-            throw new PipeException("LogReaderExecutionException occured. Closing pipe.", ex);
-        }
+            this.pipeReader.newMonitoringRecord(monitoringRecord);
     }
 
     public void registerMonitoringRecordType(int id, String className) {
@@ -58,7 +48,7 @@ public final class Pipe {
     public void close(){
         this.closed = true;
         try {
-            this.writeMonitoringRecord(TpmonController.END_OF_MONITORING_MARKER);
+            this.writeMonitoringRecord(MonitoringController.END_OF_MONITORING_MARKER);
         } catch (PipeException ex) {
             log.error("Failed to send END_OF_MONITORING_MARKER", ex);
             // we can't do anything more

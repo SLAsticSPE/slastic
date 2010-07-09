@@ -1,12 +1,10 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
-import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
 import java.util.Vector;
+import kieker.monitoring.annotation.OperationExecutionMonitoringProbe;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
 
-/**
- * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes..Bookstore.java
- *
+/*
  * ==================LICENCE=========================
  * Copyright 2006-2009 Kieker Project
  *
@@ -22,8 +20,9 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLA
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ==================================================
- *
- * @author Matthias Rohr
+ */
+
+/** @author Matthias Rohr
  * History:
  * 2008/01/09: Refactoring for the first release of
  *             Kieker and publication under an open source licence
@@ -78,7 +77,7 @@ public class Bookstore extends Thread {
     }
 
     @SLAsticSLAMonitoringProbe(serviceId = 13)
-    @TpmonExecutionMonitoringProbe()
+    @OperationExecutionMonitoringProbe()
     public static void searchBook() {
         for (int i = 0; i < 15; i++) {
             Catalog.getBook(true);

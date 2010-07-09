@@ -1,16 +1,13 @@
 package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
 
 import java.util.Random;
+import kieker.monitoring.annotation.OperationExecutionMonitoringProbe;
+import kieker.monitoring.probe.manual.BranchingProbe;
 
-
-import kieker.tpmon.annotation.TpmonExecutionMonitoringProbe;
-import kieker.tpmon.probe.manual.KiekerTpmonManualBranchProbe;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
 
 
-/**
- * org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Catalog.java
- *
+/*
  * ==================LICENCE=========================
  * Copyright 2009 Kieker Project
  *
@@ -41,13 +38,13 @@ public class Catalog {
     private static final Random rnd = new Random(200);
 
     @SLAsticSLAMonitoringProbe(serviceId=77)
-    @TpmonExecutionMonitoringProbe()
+    @OperationExecutionMonitoringProbe()
     public static void getBook(boolean complexQuery) {
         if (complexQuery) {
-            KiekerTpmonManualBranchProbe.monitorBranch(1,0);
+            BranchingProbe.monitorBranch(1,0);
             Bookstore.waitabit(1000+rnd.nextInt(1000));
         } else {
-            KiekerTpmonManualBranchProbe.monitorBranch(1,1);
+            BranchingProbe.monitorBranch(1,1);
             Bookstore.waitabit(2);
         }
     }

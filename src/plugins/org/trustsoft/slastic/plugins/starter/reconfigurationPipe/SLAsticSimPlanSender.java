@@ -3,18 +3,18 @@ package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import java.util.Properties;
-import org.trustsoft.slastic.reconfiguration.AbstractSLAsticReconfigurationManager;
-import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
+import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class SLAsticSimPlanSender extends AbstractSLAsticReconfigurationManager implements ReconfEventListener {
+public class SLAsticSimPlanSender extends AbstractReconfigurationManagerComponent implements ReconfEventListener {
 
     private static final Log log = LogFactory.getLog(SLAsticSimPlanSender.class);
     private ReconfigurationPipe reconfigurationPipe;
@@ -41,15 +41,15 @@ public class SLAsticSimPlanSender extends AbstractSLAsticReconfigurationManager 
         return true;
     }
 
-    public void terminate() {
+    public void terminate(final boolean error) {
     }
 
-    public void doReconfiguration(SLAsticReconfigurationPlan plan) throws SLAsticReconfigurationException {
+    public void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException {
         try {
             this.reconfigurationPipe.reconfigure(plan, this);
         } catch (ReconfigurationPipeException ex) {
             log.error("reconfiguration failed", ex);
-            throw new SLAsticReconfigurationException("reconfiguration failed", ex);
+            throw new ReconfigurationException("reconfiguration failed", ex);
         }
     }
 

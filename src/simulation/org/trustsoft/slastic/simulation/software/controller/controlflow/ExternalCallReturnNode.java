@@ -1,22 +1,20 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
-import kieker.tpmon.core.TpmonController;
-import kieker.tpmon.monitoringRecord.executions.KiekerExecutionRecord;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
 import desmoj.core.simulator.SimTime;
+import kieker.common.record.OperationExecutionRecord;
+import kieker.monitoring.core.MonitoringController;
 
 public class ExternalCallReturnNode extends ControlFlowNode {
 
 	private final ExternalCallEnterNode ece;
 	private SimTime exitTime;
 	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
-	private final static TpmonController tpmonCtrl = TpmonController
-			.getInstance();
+        private final static MonitoringController tpmonCtrl = MonitoringController.getInstance();
 
 	public ExternalCallReturnNode(final ExternalCallEnterNode ece) {
 		super("Return from " + ece.getName(), ece.getTraceId());
@@ -32,10 +30,10 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		// tell simulator to schedule next action in this trace
 		final StackFrame f = CallHandler.getInstance().popContext(
 				this.ece.getTraceId());
-		final KiekerExecutionRecord erec = f.createRecord(this.getModel()
+		final OperationExecutionRecord erec = f.createRecord(this.getModel()
 				.currentTime().getTimeValue(), CallHandler.getInstance()
 				.getStackDepth(this.ece.getTraceId()), f.getEoi());
-		ExternalCallReturnNode.tpmonCtrl.logMonitoringRecord(erec);
+		ExternalCallReturnNode.tpmonCtrl.newMonitoringRecord(erec);
 		// ExternalCallReturnNode.log.info(f.getAsmContextTo() + " resides on "
 		// + f.getServerId());
 		// ExternalCallReturnNode.log.info(erec);
@@ -43,6 +41,5 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		// + this.ece.getCalledService() + " on "
 		// + this.ece.getASMContTo());
 		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
-
 	}
 }

@@ -4,10 +4,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
-import kieker.tpmon.monitoringRecord.AbstractKiekerMonitoringRecord;
+import kieker.common.record.IMonitoringRecord;
 import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.common.event.IObservationEvent;
+import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurementEvent;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
 
@@ -18,7 +21,7 @@ import slal.Model;
  *
  * @author Andre van Hoorn, Lena Stoever
  */
-public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager {
+public class SLOModelManager extends ModelManager {
 
     private static final String PROP_NAME_SLAMODEL_FN = "slamodel_fn";
 
@@ -73,8 +76,15 @@ public class SLOModelManager extends org.trustsoft.slastic.plugins.pcm.control.m
     }
 
     @Override
-    public void update(AbstractKiekerMonitoringRecord newRecord) {
-        super.update(newRecord);
+    public void newObservation(IObservationEvent ev) {
+        super.newObservation(ev);
+
+        if (! (ev instanceof KiekerMeasurementEvent)){
+            log.error("Can only handle records of type" + KiekerMeasurementEvent.class.getName());
+            return;
+        }
+
+        IMonitoringRecord newRecord = ((KiekerMeasurementEvent)ev).getKiekerRecord();
         SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
         int serviceID = newSLORecord.serviceId;
         synchronized (this.reconfigurationModel) {

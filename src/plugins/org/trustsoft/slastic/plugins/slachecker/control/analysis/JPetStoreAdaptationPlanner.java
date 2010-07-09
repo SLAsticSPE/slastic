@@ -1,7 +1,6 @@
 package org.trustsoft.slastic.plugins.slachecker.control.analysis;
 
 import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
-import org.trustsoft.slastic.reconfiguration.SLAsticReconfigurationException;
 
 import ReconfigurationPlanModel.ComponentRedeploymentOP;
 import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
@@ -11,12 +10,14 @@ import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 
-import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlanner;
-import org.trustsoft.slastic.control.components.events.ISLAsticEvent;
 import reconfMM.ReconfigurationModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.common.event.ISLAsticEvent;
+import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
+import org.trustsoft.slastic.control.components.events.IEvent;
+import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
 /**
  * This class is an implementation of the Adaptation Analyzer component of the
@@ -26,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
  * @author Lena Stoever
  * 
  */
-public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
+public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlannerComponent {
 
-    private static final Log log = LogFactory.getLog(AbstractAdaptationPlanner.class);
+    private static final Log log = LogFactory.getLog(JPetStoreAdaptationPlanner.class);
 
     public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);
@@ -36,7 +37,7 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
     }
 
     @Override
-    public void handleSLAsticEvent(ISLAsticEvent event) {
+    public void handleEvent(IEvent event) {
         //this component can only handle Events of the type SLAViolationEvent
             log.info("Received an event");
         if (event instanceof SLAViolationEvent) {
@@ -77,17 +78,19 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlanner {
             try {
                 //forward the plan to the Reconfiguration Manager that executes it.
                 this.getReconfigurationManager().doReconfiguration(plan);
-            } catch (SLAsticReconfigurationException e) {
+            } catch (ReconfigurationException e) {
                 e.printStackTrace();
             }
         }
 
     }
 
+    @Override
     public boolean execute() {
         return true;
     }
 
-    public void terminate() {
+    @Override
+    public void terminate(final boolean error) {
     }
 }
