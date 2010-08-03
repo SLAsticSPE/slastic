@@ -18,7 +18,7 @@ import org.trustsoft.slastic.control.components.modelManager.AbstractModelManage
  */
 public class ModelManager extends AbstractModelManagerComponent {
 
-    private static final Log log = LogFactory.getLog(ModelManager.class);
+   private static final Log log = LogFactory.getLog(ModelManager.class);
 
    public void init(String initString) throws IllegalArgumentException {
         super.initVarsFromInitString(initString);

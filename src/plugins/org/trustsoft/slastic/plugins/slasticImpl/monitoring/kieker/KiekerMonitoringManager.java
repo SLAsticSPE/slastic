@@ -6,7 +6,6 @@ import kieker.analysis.AnalysisInstance;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.analysis.reader.IMonitoringLogReader;
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.MonitoringRecordReceiverException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
