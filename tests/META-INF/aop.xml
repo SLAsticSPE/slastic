@@ -4,6 +4,9 @@
     <weaver options=""> <!-- options="-verbose" -->	
 	<!-- instrument the kieker.tests -->
         <include within="org.trustsoft.slastic.tests..*"/>
+
+        <!-- probe needs to be included -->
+        <include within="org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla..*"/>
     </weaver>
 
     <aspects>

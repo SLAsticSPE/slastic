@@ -76,6 +76,7 @@
        <path id="slastic.tests-run-classpath">
             <fileset dir="${lib.dir}">
                 <include name="*.jar"/>
+                <exclude name="log4j-*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
@@ -331,11 +332,11 @@
               fork="true"
               classname="org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore"
               classpathref="slastic.tests-run-classpath">
-            <jvmarg value="-Dtpmon.configuration=${tests.tpmon.properties}"/>
-            <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
-            <jvmarg value="-Dtpmon.customStoragePath=${tests.logdata.storagepath}"/>
+            <jvmarg value="-Dkieker.monitoring.configuration=${tests.kieker.monitoring.properties}"/>
+            <jvmarg value="-Dkieker.monitoring.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
+            <jvmarg value="-Dkieker.monitoring.customStoragePath=${tests.logdata.storagepath}"/>
             <jvmarg value="-javaagent:${aspectjweaverjar}"/>
-            <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
+            <!--<jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>-->
             <jvmarg value="-Dorg.aspectj.weaver.showWeaveInfo=true"/>
             <jvmarg value="-Daj.weaving.verbose=true"/>
             <classpath>
