@@ -28,11 +28,6 @@ public class ReconfigurationPlanForwarder extends AbstractReconfigurationManager
         this.reconfigurationPlans = new ArrayBlockingQueue<SLAsticReconfigurationPlan>(maxPlans);
     }
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far.
-    }
-
     public void forwardPlans() {
         while (this.reconfigurationPlans.size() != 0 && !this.terminated) {
             try {

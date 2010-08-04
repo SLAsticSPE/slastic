@@ -55,11 +55,6 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
         }
     }
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far.
-    }
-
     @Override
     public boolean execute() {
         return true;

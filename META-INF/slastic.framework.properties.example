@@ -1,12 +1,12 @@
 slastic.control.classname=org.trustsoft.slastic.control.BasicControlComponent
-
 slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent
-slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
-slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.SLAChecker
+slastic.control.modelupdating.classname=
+slastic.control.analysis.performanceevaluation.classname=
 slastic.control.analysis.workloadforecasting.classname=
 slastic.control.analysis.performanceprediction.classname=
 
 slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
+
 # Configuration of Kieker reader to use:
 # Filesystem (normal mode): 
 #slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
@@ -25,18 +25,27 @@ slastic.monitoring.tpmon.reader.initstring=inputDirs=testdata/tpmon-20100331-142
 #slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0
 
 ##
+## Workload Characterization
+##
+slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slasticImpl.ModelManager
+slastic.control.modelmanagement.typeRepository_inputfn=
+slastic.control.modelmanagement.typeRepository_outputfn="typeRepository.out"
+
+slastic.reconfiguration.classname=
+
+##
 ## Simulation
 ##
-slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
-slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre-onefile.oaw
-slastic.control.modelmanagement.reconfigurationmodel_fn=../../BookstoreReconfModel/My.reconfmm
-slastic.control.modelmanagement.resourceenvironmentmodel_fn=../../BookstoreReconfModel/My2.slasticresourceenvironment
-slastic.control.modelmanagement.qosannotationsmodel_fn=../../BookstoreReconfModel/My.slasticqosannotations
-slastic.control.modelmanagement.slamodel_fn=../../SLALproject/src/model.sla
+#slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slachecker.control.modelManager.SLOModelManager
+#slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre-onefile.oaw
+#slastic.control.modelmanagement.reconfigurationmodel_fn=../../BookstoreReconfModel/My.reconfmm
+#slastic.control.modelmanagement.resourceenvironmentmodel_fn=../../BookstoreReconfModel/My2.slasticresourceenvironment
+#slastic.control.modelmanagement.qosannotationsmodel_fn=../../BookstoreReconfModel/My.slasticqosannotations
+#slastic.control.modelmanagement.slamodel_fn=../../SLALproject/src/model.sla
 
-slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanSender
-slastic.reconfiguration.pipeName=reconfpipe0
-slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
+#slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanSender
+#slastic.reconfiguration.pipeName=reconfpipe0
+#slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
 
 ##
 ## JPetStore example:
@@ -45,6 +54,8 @@ slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plug
 #slastic.control.modelmanagement.initWorkflow_fn=META-INF/oaw/InitModels-Andre.oaw
 #slastic.reconfiguration.classname=org.trustsoft.slastic.plugins.slachecker.reconfiguration.ReconfigurationManagerWget
 #slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.JPetStoreAdaptationPlanner
+#slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.plugins.slachecker.control.analysis.SLAChecker
+#slastic.control.modelupdating.classname=org.trustsoft.slastic.plugins.slachecker.control.modelUpdater.ModelUpdater
 
 ##
 ## Bookstore example with sample reconfiguration plan creation and forwarding to model manager

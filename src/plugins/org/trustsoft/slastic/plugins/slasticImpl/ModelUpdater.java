@@ -14,11 +14,6 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 
     private static final Log log = LogFactory.getLog(ModelUpdater.class);
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
-    }
-
     @Override
     public void handleEvent(IEvent ev) {
         throw new UnsupportedOperationException("Not supported yet.");

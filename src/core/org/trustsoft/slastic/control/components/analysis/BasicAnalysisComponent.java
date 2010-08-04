@@ -12,11 +12,6 @@ public class BasicAnalysisComponent extends AbstractAnalysisComponent {
 
     private static final Log log = LogFactory.getLog(BasicAnalysisComponent.class);
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
-    }
-
     public void handleSLAsticEvent(IEvent ev) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

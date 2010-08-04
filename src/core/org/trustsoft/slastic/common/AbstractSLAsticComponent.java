@@ -3,7 +3,6 @@ package org.trustsoft.slastic.common;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -26,12 +25,6 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
      *  the passed default value @a default if no value for this property
      *  exists. */
     protected final String getInitProperty(String propName, String defaultVal) {
-        if (!this.initStringProcessed) {
-            log.error("InitString not yet processed. " +
-                    " Call method initVarsFromInitString(..) first.");
-            return null;
-        }
-
         String retVal;
 
         if (this.properties != null) {
@@ -49,69 +42,36 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     /** Returns the value for the initialization property @a propName or null
      *  if no value for this property exists. */
     protected final String getInitProperty(final String propName) {
-        if (this.properties != null){
+        if (this.properties != null) {
             return this.properties.getProperty(propName, null);
         } else { // TODO: remove
-            return this.getInitProperty(propName, null);   
+            return this.getInitProperty(propName, null);
         }
     }
-    private boolean initStringProcessed = false;
 
     /**
-     * Parses the initialization string @a initString for this component.
-     * The initilization string consists of key/value pairs.
-     * After this method is executed, the parameter values can be retrieved
-     * using the method getInitProperty(..).
+     * An object of the class with name @classname is instantiated, its method
+     * init(String initString) is called with parameter @a initString and the
+     * object is returned. This implies, that the class for @a classname provide
+     * the method init(String initString).
+     *
+     * @return the instance; null in case an error occured.
      */
-    protected final void initVarsFromInitString(String initString) throws IllegalArgumentException {
-        if (initString == null || initString.length() == 0) {
-            this.initStringProcessed = true;
-            return; // Empty string is allowed
-        }
-
+    public static AbstractSLAsticComponent loadAndInitSLAsticComponentFromClassname(String classname,
+            Properties props) {
+        AbstractSLAsticComponent inst = null;
         try {
-            StringTokenizer keyValListTokens = new StringTokenizer(initString, "|");
-            while (keyValListTokens.hasMoreTokens()) {
-                String curKeyValToken = keyValListTokens.nextToken().trim();
-                StringTokenizer keyValTokens = new StringTokenizer(curKeyValToken, "=");
-                if (keyValTokens.countTokens() != 2) {
-                    throw new IllegalArgumentException("Expected key=value pair, found " + curKeyValToken);
-                }
-                String key = keyValTokens.nextToken().trim();
-                String val = keyValTokens.nextToken().trim();
-                log.info("Found key/value pair: " + key + "=" + val);
-                map.put(key, val);
-            }
-        } catch (Exception exc) {
-            throw new IllegalArgumentException("Error parsing init string '" + initString + "'", exc);
+            Class cl = Class.forName(classname);
+            inst = (AbstractSLAsticComponent) cl.newInstance();
+            Method m = cl.getMethod("init", Properties.class);
+            m.invoke(inst, props);
+            log.info("Loaded and instantiated component ('" + classname
+                    + "') with init string '" + props + "'");
+        } catch (Exception ex) {
+            inst = null;
+            log.fatal("Failed to instantiate component of class '" + classname
+                    + "'", ex);
         }
-
-        this.initStringProcessed = true;
+        return inst;
     }
-
-	/**
-	 * An object of the class with name @classname is instantiated, its method
-	 * init(String initString) is called with parameter @a initString and the
-	 * object is returned. This implies, that the class for @a classname provide
-	 * the method init(String initString).
-	 *
-	 * @return the instance; null in case an error occured.
-	 */
-	public static AbstractSLAsticComponent loadAndInitSLAsticComponentFromClassname(String classname,
-			Properties props) {
-		AbstractSLAsticComponent inst = null;
-		try {
-			Class cl = Class.forName(classname);
-			inst = (AbstractSLAsticComponent)cl.newInstance();
-			Method m = cl.getMethod("init", Properties.class);
-			m.invoke(inst, props);
-			log.info("Loaded and instantiated component ('" + classname
-					+ "') with init string '" + props + "'");
-		} catch (Exception ex) {
-			inst = null;
-			log.fatal("Failed to instantiate component of class '" + classname
-					+ "'", ex);
-		}
-		return inst;
-	}
 }

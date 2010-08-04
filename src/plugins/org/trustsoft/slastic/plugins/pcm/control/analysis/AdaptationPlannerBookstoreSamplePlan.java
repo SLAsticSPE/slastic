@@ -31,11 +31,6 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
     private SLAsticReconfigurationPlan plan;
     private static final Log log = LogFactory.getLog(AdaptationPlannerBookstoreSamplePlan.class);
 
-   public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
-    }
-
     @Override
     public boolean execute() {
         /**

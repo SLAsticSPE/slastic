@@ -31,11 +31,6 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
     private static final Log log = LogFactory.getLog(JPetStoreAdaptationPlanner.class);
 
-    public void init(String initString) throws IllegalArgumentException {
-        super.initVarsFromInitString(initString);
-        // we don't expect init properties so far, so just return.
-    }
-
     @Override
     public void handleEvent(IEvent event) {
         //this component can only handle Events of the type SLAViolationEvent
