@@ -202,20 +202,7 @@
         </jar>
     </target>
 
-    <condition property="no.log4j.properties.tests">
-        <not>
-            <available file="${tests.log4j.properties}"/>
-        </not>
-    </condition>
-
-    <target name="init-log4-properties-tests" if="no.log4j.properties.tests">
-        <!-- if no aop.xml, copy example file automatically  -->
-        <echo message="${no.log4j.properties.tests} not existing.
-              Creating default file."/>
-        <copy file="${log4j.properties.example}" tofile="${tests.log4j.properties}"/>
-    </target>
-
-    <target name="run-SLAsticStarter-simulation" depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
+    <target name="run-SLAsticStarter-simulation" depends="build-slastic.core,build-slastic.plugins">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -234,7 +221,7 @@
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
-    <target name="run-SLAsticStarter" depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
+    <target name="run-SLAsticStarter" depends="build-slastic.core,build-slastic.plugins">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -252,7 +239,7 @@
         <delete file="${build.tests.dir}/log4j.properties"/>
     </target>
 
-    <target name="run-rTest" depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
+    <target name="run-rTest" depends="build-slastic.core,build-slastic.plugins">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -277,37 +264,23 @@
         </not>
     </condition>
 
-    <target name="compile-tests-loadTimeWeavingDifferentRecordTypes"
-            depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
+    <target name="compile-tests"
+            depends="build-slastic.core,build-slastic.plugins">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="slastic.tests-compile-classpath"
-               srcdir="tests/org/trustsoft/slastic/tests/bookstoreDifferentRecordTypes">
+               srcdir="tests/">
         </javac>
     </target>
 
     <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
 
-    <target name="run-tests-junit"> <!-- depends="compile-all-tests"-->
-        <path id="kieker.test-junit-run-classpath">
-            <fileset dir="${lib.dir}">
-                <include name="commons-logging-*.jar"/>
-                <include name="junit-*.jar"/>
-            </fileset>
-            <pathelement location="${build.tests.dir}/"/>
-            <fileset dir="${dist.dir}">
-                <include name="${dist.kieker.common.jar}"/>
-                <include name="${dist.kieker.monitoring.jar}"/>
-                <include name="${dist.kieker.analysis.jar}"/>
-                <include name="${dist.kieker.tools.jar}"/>
-            </fileset>
-        </path>
-
+    <target name="run-tests-junit" depends="compile-tests">
         <delete dir="${tests.junit-results.dir}"/>
         <mkdir  dir="${tests.junit-results.dir}"/>
 
         <junit printsummary="yes" haltonfailure="no">
-            <classpath refid="kieker.test-junit-run-classpath"/>
+            <classpath refid="slastic.tests-run-classpath"/>
 
             <formatter type="xml"/>
 
@@ -322,8 +295,19 @@
         <antcall target="test.junit.report"/>
     </target>
 
+    <target name="test.junit.report" depends="" >
+        <junitreport todir="${tests.junit-results.dir}">
+            <fileset dir="${tests.junit-results.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${tests.junit-results.dir}"/>
+        </junitreport>
+
+        <echo message="To see the test report, open ${tests.junit-results.dir}/index.html in your Web browser."/>
+    </target>
+
     <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
-            depends="compile-tests-loadTimeWeavingDifferentRecordTypes">
+            depends="compile-tests">
         <copy file="${tests.log4j.properties}"
               tofile="${build.dir}/tests.log4j.properties"/>
         <copy file="${aop.xml.ltwtests}"
