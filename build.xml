@@ -3,13 +3,13 @@
     <property file="build.properties"/>
     <property file="examples.properties"/>
 
-    <path id="classpath.libs">
+    <!--<path id="classpath.libs">
         <pathelement path="${classpath}"/>
         <fileset dir="lib">
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="."/>
-    </path>
+    </path>-->
 
     <target name="init-version">
         <tstamp/>
@@ -19,17 +19,11 @@
                   value="0.01a"/>
         <property name="slastic.core.jar"
                   value="${slastic.core.packagenamebase}-${slastic.version}.jar"/>
-        <!--<property name="slastic.monitoring.jar"
-                  value="${slastic.monitoring.packagenamebase}-${slastic.version}.jar"/>
-        <property name="slastic.control.jar"
-                  value="${slastic.control.packagenamebase}-${slastic.version}.jar"/>-->
         <property name="slastic.simulation.jar"
                   value="${slastic.simulation.packagenamebase}-${slastic.version}.jar"/>
-        <!--<property name="slastic.reconfiguration.jar"
-                  value="${slastic.reconfiguration.packagenamebase}-${slastic.version}.jar"/>-->
         <property name="slastic.plugins.jar"
                   value="${slastic.plugins.packagenamebase}-${slastic.version}.jar"/>
-        </target>
+    </target>
 
     <target name="update-version" unless="version.noupdate"
             depends="init-version">
@@ -45,15 +39,57 @@
         </replaceregexp>
     </target>
 
-<!--    <target name="build-all"
-            depends="clean,init,build-slastic.core,build-slastic.monitoring,build-slastic.control,build-slastic.simulation,build-slastic.reconfiguration">
-    </target>-->
+    <!-- Compile classpaths used for javac and javadoc -->
+    <target name="init-compile-classpaths">
+        <path id="slastic.core-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+        <path id="slastic.plugins-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.core.jar}"/>
+                <include name="${slastic.simulation.jar}"/>
+            </fileset>
+        </path>
+        <path id="slastic.simulation-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.core.jar}"/>
+            </fileset>
+        </path>
+        <path id="slastic.tests-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.core.jar}"/>
+                <include name="${slastic.plugins.jar}"/>
+                <include name="${slastic.simulation.jar}"/>
+            </fileset>
+        </path>
+       <path id="slastic.tests-run-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.core.jar}"/>
+                <include name="${slastic.plugins.jar}"/>
+                <include name="${slastic.simulation.jar}"/>
+            </fileset>
+            <pathelement location="${build.tests.dir}/"/>
+        </path>
+    </target>
 
-    <!-- TODO: plugins -->
     <target name="build-all"
             depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.plugins">
     </target>
-    
+
     <condition property="no.slastic.framework.properties">
         <not>
             <available file="${slastic.monitoring.properties}"/>
@@ -80,7 +116,7 @@
         <copy file="${slastic.simulation.properties.example}" tofile="${slastic.simulation.properties}"/>
     </target>
 
-    <target name="init" depends="update-version,init-slastic.framework.properties,init-slastic.simulation-properties">
+    <target name="init" depends="update-version,init-compile-classpaths,init-slastic.framework.properties,init-slastic.simulation-properties">
         <!-- Register special aspectJ commands in ant - allow ant to use special AspectJ commands: -->
         <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties" classpath="${aspectjtoolsjar}"/>
         <fail message="Critical error: AspectJ library not found
@@ -96,18 +132,6 @@
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${build.tests.dir}"/>
         <mkdir dir="tmp"/>
-
-        <path id="slastic.core.classpath">
-        <path refid="classpath.libs"/>
-            <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-            </fileset>
-        </path>
-
-        <path id="run.tests.classpath">
-        <path refid="slastic.core.classpath"/>
-            <pathelement location="${build.tests.dir}/"/>
-        </path>
     </target>
 
     <target name="build-slastic.core" depends="init">
@@ -118,11 +142,9 @@
                source="1.5"
                srcdir="src/core"
                debug="true"
-               classpathref="classpath.libs">
+               classpathref="slastic.core-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
-            <!--<include name="org/trustsoft/slastic/core/**"/>-->
         </javac>
-        <!--<copy file="${slastic.core.properties}" todir="${build.slastic.core.dir}/META-INF"/>-->
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.core.dir}/">
             <fileset dir="src/core">
@@ -133,7 +155,7 @@
             <fileset dir="${build.slastic.core.dir}"/>
         </jar>
     </target>
-    
+
     <target name="build-slastic.plugins" depends="init,build-slastic.core,build-slastic.simulation">
         <delete dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}"/>
@@ -142,12 +164,9 @@
                source="1.5"
                srcdir="src/plugins"
                debug="true"
-               classpath="${dist.dir}/${slastic.simulation.jar}"
-               classpathref="slastic.core.classpath">
+               classpathref="slastic.plugins-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
-            <!--<include name="org/trustsoft/slastic/plugins/**"/>-->
         </javac>
-        <!--<copy file="${slastic.plugins.properties}" todir="${build.slastic.plugins.dir}/META-INF"/>-->
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.plugins.dir}/">
             <fileset dir="src/plugins">
@@ -158,7 +177,7 @@
             <fileset dir="${build.slastic.plugins.dir}"/>
         </jar>
     </target>
-    
+
     <target name="build-slastic.simulation" depends="init,build-slastic.core">
         <delete dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}"/>
@@ -167,11 +186,10 @@
                source="1.5"
                srcdir="src/simulation"
                debug="true"
-               classpathref="classpath.libs">
+               classpathref="slastic.simulation-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
-            <include name="org/trustsoft/slastic/simulation/**"/>
         </javac>
-        <copy file="${slastic.simulation.properties}" todir="${build.slastic.simulation.dir}/META-INF"/>
+        <!--<copy file="${slastic.simulation.properties}" todir="${build.slastic.simulation.dir}/META-INF"/>-->
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.simulation.dir}/">
             <fileset dir="src/simulation">
@@ -262,22 +280,57 @@
             depends="build-slastic.core,build-slastic.plugins,init-log4-properties-tests">
         <javac source="1.5"
                destDir="${build.tests.dir}"
-               classpath="${dist.dir}/${slastic.plugins.jar}"
-               classpathref="slastic.core.classpath"
+               classpathref="slastic.tests-compile-classpath"
                srcdir="tests/org/trustsoft/slastic/tests/bookstoreDifferentRecordTypes">
         </javac>
-        <copy file="${tests.log4j.properties}"
-              tofile="${build.dir}/tests.log4j.properties"/>
-        <copy file="${aop.xml.ltwtests}"
-              tofile="${build.tests.dir}/META-INF/aop.xml"/>
+    </target>
+
+    <taskdef name="junit" classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+
+    <target name="run-tests-junit"> <!-- depends="compile-all-tests"-->
+        <path id="kieker.test-junit-run-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="commons-logging-*.jar"/>
+                <include name="junit-*.jar"/>
+            </fileset>
+            <pathelement location="${build.tests.dir}/"/>
+            <fileset dir="${dist.dir}">
+                <include name="${dist.kieker.common.jar}"/>
+                <include name="${dist.kieker.monitoring.jar}"/>
+                <include name="${dist.kieker.analysis.jar}"/>
+                <include name="${dist.kieker.tools.jar}"/>
+            </fileset>
+        </path>
+
+        <delete dir="${tests.junit-results.dir}"/>
+        <mkdir  dir="${tests.junit-results.dir}"/>
+
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath refid="kieker.test-junit-run-classpath"/>
+
+            <formatter type="xml"/>
+
+            <batchtest fork="yes" todir="${tests.junit-results.dir}">
+                <fileset dir="${build.tests.dir}/">
+                    <include name="**/junit/**/*Test*.class"/>
+                    <exclude name="**/*$*.class"/>
+                </fileset>
+            </batchtest>
+        </junit>
+
+        <antcall target="test.junit.report"/>
     </target>
 
     <target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes"
             depends="compile-tests-loadTimeWeavingDifferentRecordTypes">
+        <copy file="${tests.log4j.properties}"
+              tofile="${build.dir}/tests.log4j.properties"/>
+        <copy file="${aop.xml.ltwtests}"
+              tofile="${build.tests.dir}/META-INF/aop.xml"/>
         <java dir="."
               fork="true"
               classname="org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore"
-              classpathref="run.tests.classpath">
+              classpathref="slastic.tests-run-classpath">
             <jvmarg value="-Dtpmon.configuration=${tests.tpmon.properties}"/>
             <jvmarg value="-Dtpmon.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}"/>
             <jvmarg value="-Dtpmon.customStoragePath=${tests.logdata.storagepath}"/>
