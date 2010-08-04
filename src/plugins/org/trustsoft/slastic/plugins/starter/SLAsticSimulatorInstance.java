@@ -149,7 +149,7 @@ public class SLAsticSimulatorInstance {
                         "Failed to read PCM resource environment from file '"
                         + this.pcmResourceEnvironmentModel_fn + "'");
             }
-            this.slasticReconfigurationModel = ModelReader.getInstance().readReconfigurationModel(
+            this.slasticReconfigurationModel = ModelReader.readOLDReconfigurationModel(
                     this.slasticReconfigurationModel_fn);
             if (this.slasticReconfigurationModel == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read SLAstic reconfiguration model from file '"

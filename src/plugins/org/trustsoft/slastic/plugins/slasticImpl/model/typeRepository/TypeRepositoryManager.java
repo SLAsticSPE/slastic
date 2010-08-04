@@ -17,15 +17,11 @@ public class TypeRepositoryManager implements IComponentTypeManager, IConnectorT
     private final ConnectorTypeManager connectorTypeManager;
     private final ExecutionContainerTypeManager executionContainerTypeManager;
 
-    public TypeRepositoryManager() {
-        this.typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
-        this.componentTypeManager =
-                new ComponentTypeManager(this.typeRepositoryModel.getComponentTypes());
-        this.connectorTypeManager =
-                new ConnectorTypeManager(this.typeRepositoryModel.getConnectorTypes());
-        this.executionContainerTypeManager =
-                new ExecutionContainerTypeManager(this.typeRepositoryModel.getExecutionContainerTypes());
+    private TypeRepositoryManager() {
+        this.typeRepositoryModel = null;
+        this.componentTypeManager = null;
+        this.connectorTypeManager = null;
+        this.executionContainerTypeManager = null;
     }
 
     public TypeRepositoryManager(final TypeRepository typeRepositoryModel) {
