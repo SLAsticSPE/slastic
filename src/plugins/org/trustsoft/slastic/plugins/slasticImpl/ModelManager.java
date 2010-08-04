@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import java.io.IOException;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
@@ -66,6 +67,16 @@ public class ModelManager extends AbstractModelManagerComponent {
     @Override
     public void terminate(boolean error) {
         super.terminate(error);
-        // TODO: store models
+        this.saveModels();
+    }
+
+    private final void saveModels() {
+        try {
+            if (!this.typeRepository_outputFile.isEmpty()) {
+                ModelReader.saveTypeRepositoryModel(this.typeRepositoryModel, this.typeRepository_outputFile);
+            }
+        } catch (IOException exc) {
+            log.error("An IOException occured while saving models", exc);
+        }
     }
 }
