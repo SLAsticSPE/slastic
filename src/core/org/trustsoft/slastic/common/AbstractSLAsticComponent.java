@@ -17,6 +17,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private final HashMap<String, String> map = new HashMap<String, String>();
     private Properties properties;
 
+    @Override
     public void init(Properties properties) {
         this.properties = properties;
     }

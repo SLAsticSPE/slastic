@@ -41,7 +41,7 @@ import de.uka.ipd.sdq.pcm.system.System;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
-import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelReader;
 
 /**
  * The only ModelManager-Implementation that currently exists.
@@ -75,7 +75,7 @@ public class ModelManager extends AbstractModelManagerComponent {
     @Override
     public void init(final Properties properties) {
         super.init(properties);
-        this.reconfigurationModel = SLAsticModelReader.getInstance().readReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
+        this.reconfigurationModel = ModelReader.readOLDReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
         this.initComponentAllocationList();
         this.initAllocatedServers();
         this.initInstanceCount();

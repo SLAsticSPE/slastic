@@ -19,33 +19,33 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurem
 public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent {
 
     private static final Log log = LogFactory.getLog(KiekerMonitoringManager.class);
-    private AnalysisInstance tpanInstance = null;
+    private AnalysisInstance analysisInstance = null;
     private boolean initialized = false;
-    private final static String TPMON_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
-    private final static String TPMON_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
+    private final static String KIEKER_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
+    private final static String KIEKER_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
 
     private void init() throws IllegalArgumentException {
-        String logReaderClassnameProperty = this.getInitProperty(TPMON_LOG_READER_CLASSNAME_PROPERTY);
+        String logReaderClassnameProperty = this.getInitProperty(KIEKER_LOG_READER_CLASSNAME_PROPERTY);
         if (logReaderClassnameProperty == null
                 || logReaderClassnameProperty.length() <= 0) {
             log.error("Missing configuration property value for '"
                     + AbstractMonitoringManagerComponent.PROP_PREFIX + "."
-                    + TPMON_LOG_READER_CLASSNAME_PROPERTY + "'");
+                    + KIEKER_LOG_READER_CLASSNAME_PROPERTY + "'");
         }
         String logReaderInitStringProperty = this.getInitProperty(
-                TPMON_LOG_READER_INIT_STRING_PROPERTY);
+                KIEKER_LOG_READER_INIT_STRING_PROPERTY);
         if (logReaderInitStringProperty == null
                 || logReaderInitStringProperty.length() <= 0) {
             log.warn("Missing configuration property value for '"
                     + AbstractMonitoringManagerComponent.PROP_PREFIX + "."
-                    + TPMON_LOG_READER_INIT_STRING_PROPERTY + "'");
+                    + KIEKER_LOG_READER_INIT_STRING_PROPERTY + "'");
         }
         IMonitoringLogReader logReader = (IMonitoringLogReader) loadAndInitTpmonLogReaderInstanceFromClassname(
                 logReaderClassnameProperty, logReaderInitStringProperty);
 
-        tpanInstance = new AnalysisInstance();
-        tpanInstance.setLogReader(logReader);
-        tpanInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
+        analysisInstance = new AnalysisInstance();
+        analysisInstance.setLogReader(logReader);
+        analysisInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 
             @Override
             public boolean newMonitoringRecord(IMonitoringRecord record) {
@@ -110,9 +110,9 @@ public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent 
         }
 
         try {
-            this.tpanInstance.run();
+            this.analysisInstance.run();
         } catch (Exception e) {
-            log.fatal("TpanInstance threw exception: ", e);
+            log.fatal("AnalysisInstance threw exception: ", e);
             return false;
         }
 

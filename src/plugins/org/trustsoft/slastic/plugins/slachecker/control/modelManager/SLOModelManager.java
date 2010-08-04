@@ -12,7 +12,7 @@ import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurementEvent;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
-import org.trustsoft.slastic.plugins.slasticImpl.SLAsticModelReader;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelReader;
 
 import reconfMM.Service;
 import slal.Model;
@@ -35,7 +35,7 @@ public class SLOModelManager extends ModelManager {
     public boolean execute() {
         boolean success = super.execute();
         //reading the SLA-reconfigurationModel
-        this.slas = SLAsticModelReader.getInstance().readSLAModel(this.getInitProperty(PROP_NAME_SLAMODEL_FN));
+        this.slas = ModelReader.readSLAModel(this.getInitProperty(PROP_NAME_SLAMODEL_FN));
 
         //intialize Model Manager object
         this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
