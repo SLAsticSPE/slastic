@@ -1,9 +1,5 @@
 package org.trustsoft.slastic.plugins.starter;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -14,6 +10,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
+import org.trustsoft.slastic.plugins.util.PropertiesFileReader;
 
 /**
  *
@@ -82,7 +79,7 @@ public class SLAsticStarter {
 
         SLAsticSimulatorInstance inst = null;
         try {
-            inst = new SLAsticSimulatorInstance(loadProperties(simulationConfigurationFile));
+            inst = new SLAsticSimulatorInstance(PropertiesFileReader.loadPropertiesFile(simulationConfigurationFile));
         } catch (Exception exc) {
             log.error("Error creating SLAsticInstance", exc);
             throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
@@ -105,34 +102,12 @@ public class SLAsticStarter {
 
         SLAsticAdaptationFrameworkInstance inst = null;
         try {
-            inst = new SLAsticAdaptationFrameworkInstance(loadProperties(configurationFile));
+            inst = new SLAsticAdaptationFrameworkInstance(PropertiesFileReader.loadPropertiesFile(configurationFile));
         } catch (Exception exc) {
             log.error("Error creating SLAsticInstance", exc);
             throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
         }
         return inst;
-    }
-
-    private static Properties loadProperties(String fn) throws IllegalArgumentException {
-        // Load configuration file
-        InputStream is = null;
-        Properties prop = new Properties();
-
-        try {
-            is = new FileInputStream(fn);
-            log.info("Loading properties from file '" + fn + "'");
-            prop.load(is);
-        } catch (Exception ex) {
-            log.error("Failed to load properties from file '" + fn + "'", ex);
-            throw new IllegalArgumentException("Failed to load properties from file '" + fn + "'", ex);
-        } finally {
-            try {
-                is.close();
-            } catch (Exception ex) {
-                log.error("Failed to close property input stream", ex);
-            }
-        }
-        return prop;
     }
 
     static boolean parseArgs(String[] args) {

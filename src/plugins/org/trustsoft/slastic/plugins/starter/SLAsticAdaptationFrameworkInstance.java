@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.starter;
 
+import java.lang.reflect.Method;
 import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,6 +14,7 @@ import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecas
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
+import org.trustsoft.slastic.plugins.util.PropertiesFileReader;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 /**
@@ -23,17 +25,21 @@ public class SLAsticAdaptationFrameworkInstance {
     private static final Log log = LogFactory.getLog(SLAsticAdaptationFrameworkInstance.class);
     private SLAsticAdaptationFrameworkConfiguration configuration =
             new SLAsticAdaptationFrameworkConfiguration();
-    
-    private final static String COMPONENT_CLASSNAME_PROPNAME = "classname";
+    public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
 
     /* Avoid construction via default constructor */
-    private SLAsticAdaptationFrameworkInstance() { }
-
-    public SLAsticAdaptationFrameworkInstance(Properties prop) {
-        loadProperties(prop);
+    private SLAsticAdaptationFrameworkInstance() {
     }
 
-    private void initProperties(final Properties prop)
+    public SLAsticAdaptationFrameworkInstance(final String configurationFilename) {
+        this(PropertiesFileReader.loadPropertiesFile(configurationFilename));
+    }
+
+    public SLAsticAdaptationFrameworkInstance(final Properties prop) {
+        initConfiguration(prop);
+    }
+
+    private void initComponentProperties(final Properties prop)
             throws IllegalArgumentException {
         for (String curPropName : prop.stringPropertyNames()) {
             boolean storedProp = false;
@@ -82,7 +88,7 @@ public class SLAsticAdaptationFrameworkInstance {
             }
             if (curPropName.startsWith(AbstractMonitoringManagerComponent.PROP_PREFIX)) {
                 storedProp = true;
-                this.configuration.monitoringManagerComponentProperties.setProperty(
+                this.configuration.monitoringComponentProperties.setProperty(
                         curPropName.replaceFirst(
                         AbstractMonitoringManagerComponent.PROP_PREFIX
                         + ".", ""), prop.getProperty(curPropName));
@@ -100,199 +106,87 @@ public class SLAsticAdaptationFrameworkInstance {
         }
     }
 
-    private void loadProperties(Properties prop)
+    /**
+     *
+     * @return the instance; null in case an error occured.
+     */
+    private AbstractSLAsticComponent loadComponent(final String componentPropertiesPrefix, final Properties componentProperties) {
+        String classname = componentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
+        if (classname == null
+                || classname.length() <= 0) {
+            log.error("Missing configuration property value for '"
+                    + componentPropertiesPrefix + "."
+                    + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
+            return null;
+        }
+
+        AbstractSLAsticComponent inst = null;
+        try {
+            Class cl = Class.forName(classname);
+            // FIXME: assert cl instanceof AbstractSLAsticComponent?
+            inst = (AbstractSLAsticComponent) cl.newInstance();
+            Method m = cl.getMethod("init", Properties.class);
+            m.invoke(inst, componentProperties);
+            log.info("Loaded and instantiated component ('" + classname
+                    + "') with init string '" + componentProperties + "'");
+        } catch (Exception ex) {
+            inst = null;
+            log.fatal("Failed to instantiate component of class '" + classname
+                    + "'", ex);
+        }
+        return inst;
+    }
+
+    private void initConfiguration(Properties prop)
             throws IllegalArgumentException {
         try {
-            this.initProperties(prop);
+            this.initComponentProperties(prop);
 
             /* Load all components */
-            String monitoringComponentClassnameProperty = this.configuration.monitoringManagerComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (monitoringComponentClassnameProperty == null
-                    || monitoringComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for '"
-                        + AbstractMonitoringManagerComponent.PROP_PREFIX + "."
-                        + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
-            }
-            this.configuration.monitoringManagerComponent = (AbstractMonitoringManagerComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                    monitoringComponentClassnameProperty, this.configuration.monitoringManagerComponentProperties);
+            this.configuration.monitoringManagerComponent =
+                    (AbstractMonitoringManagerComponent) loadComponent(AbstractMonitoringManagerComponent.PROP_PREFIX, this.configuration.monitoringComponentProperties);
 
-            String controlComponentClassnameProperty = this.configuration.controlComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (controlComponentClassnameProperty == null
-                    || controlComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for '"
-                        + AbstractControlComponent.PROP_PREFIX + "."
-                        + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
-            } else {
-                this.configuration.controlComponent = (AbstractControlComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        controlComponentClassnameProperty, this.configuration.controlComponentProperties);
-            }
+            this.configuration.controlComponent =
+                    (AbstractControlComponent) loadComponent(AbstractControlComponent.PROP_PREFIX, this.configuration.controlComponentProperties);
 
-            String modelManagerComponentClassnameProperty = this.configuration.modelManagerComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (modelManagerComponentClassnameProperty == null
-                    || modelManagerComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for '"
-                        + AbstractModelManagerComponent.PROP_PREFIX + "."
-                        + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
-            } else {
-                this.configuration.modelManagerComponent = (AbstractModelManagerComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        modelManagerComponentClassnameProperty,
-                        this.configuration.modelManagerComponentProperties);
-            }
+            this.configuration.modelManagerComponent =
+                    (AbstractModelManagerComponent) loadComponent(AbstractModelManagerComponent.PROP_PREFIX, this.configuration.modelManagerComponentProperties);
 
-            String modelUpdaterComponentClassnameProperty = this.configuration.modelUpdaterComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (modelUpdaterComponentClassnameProperty == null
-                    || modelUpdaterComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for '"
-                        + AbstractModelUpdaterComponent.PROP_PREFIX + "."
-                        + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
-            } else {
-                this.configuration.modelUpdaterComponent = (AbstractModelUpdaterComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        modelUpdaterComponentClassnameProperty,
-                        this.configuration.modelUpdaterComponentProperties);
-            }
+            this.configuration.modelUpdaterComponent =
+                    (AbstractModelUpdaterComponent) loadComponent(AbstractModelUpdaterComponent.PROP_PREFIX, this.configuration.modelUpdaterComponentProperties);
 
-            String analysisComponentClassnameProperty = this.configuration.analysisComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (analysisComponentClassnameProperty == null
-                    || analysisComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for '"
-                        + AbstractAnalysisComponent.PROP_PREFIX + "."
-                        + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME + "'");
-            } else {
-                this.configuration.analysisComponent = (AbstractAnalysisComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        analysisComponentClassnameProperty, this.configuration.analysisComponentProperties);
-            }
+            this.configuration.analysisComponent =
+                    (AbstractAnalysisComponent) loadComponent(AbstractAnalysisComponent.PROP_PREFIX, this.configuration.analysisComponentProperties);
 
-            String performanceEvaluatorComponentClassnameProperty = this.configuration.performanceEvaluatorComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            // Note: a performance evaluator component is not mandatory
-            if (performanceEvaluatorComponentClassnameProperty != null
-                    && performanceEvaluatorComponentClassnameProperty.length() > 0) {
-                this.configuration.performanceEvaluatorComponent = (AbstractPerformanceEvaluatorComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        performanceEvaluatorComponentClassnameProperty,
-                        this.configuration.performanceEvaluatorComponentProperties);
-            }
+            this.configuration.performanceEvaluatorComponent =
+                    (AbstractPerformanceEvaluatorComponent) loadComponent(AbstractPerformanceEvaluatorComponent.PROP_PREFIX, this.configuration.performanceEvaluatorComponentProperties);
 
-            String workloadForecasterComponentClassnameProperty = this.configuration.workloadForecasterProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            // Note: a workload forecaster component is not mandatory
-            if (workloadForecasterComponentClassnameProperty != null
-                    && workloadForecasterComponentClassnameProperty.length() > 0) {
-                this.configuration.workloadForecasterComponent = (AbstractWorkloadForecasterComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        workloadForecasterComponentClassnameProperty,
-                        this.configuration.workloadForecasterProperties);
-            }
+            this.configuration.workloadForecasterComponent =
+                    (AbstractWorkloadForecasterComponent) loadComponent(AbstractWorkloadForecasterComponent.PROP_PREFIX, this.configuration.workloadForecasterProperties);
 
-            String performancePredictorComponentClassnameProperty = this.configuration.performancePredictorComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            // Note: a performance predictor component is not mandatory
-            if (performancePredictorComponentClassnameProperty != null
-                    && performancePredictorComponentClassnameProperty.length() > 0) {
-                this.configuration.performancePredictorComponent = (AbstractPerformancePredictorComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        performancePredictorComponentClassnameProperty,
-                        this.configuration.performancePredictorComponentProperties);
-            }
+            this.configuration.performancePredictorComponent =
+                    (AbstractPerformancePredictorComponent) loadComponent(AbstractPerformancePredictorComponent.PROP_PREFIX, this.configuration.performancePredictorComponentProperties);
 
-            String adaptationPlannerComponentClassnameProperty = this.configuration.adaptationPlannerComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            // Note: a performance predictor component is not mandatory
-            if (adaptationPlannerComponentClassnameProperty != null
-                    && adaptationPlannerComponentClassnameProperty.length() > 0) {
-                this.configuration.adaptationPlannerComponent = (AbstractAdaptationPlannerComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                        adaptationPlannerComponentClassnameProperty,
-                        this.configuration.adaptationPlannerComponentProperties);
-            }
+            this.configuration.adaptationPlannerComponent =
+                    (AbstractAdaptationPlannerComponent) loadComponent(AbstractAdaptationPlannerComponent.PROP_PREFIX, this.configuration.adaptationPlannerComponentProperties);
 
-            String reconfigurationManagerComponentClassnameProperty = this.configuration.reconfigurationManagerComponentProperties.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
-            if (reconfigurationManagerComponentClassnameProperty == null
-                    || reconfigurationManagerComponentClassnameProperty.length() <= 0) {
-                log.error("Missing configuration property value for "
-                        + AbstractReconfigurationManagerComponent.PROP_PREFIX
-                        + "." + SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME
-                        + "'");
-            }
-            this.configuration.reconfigurationManagerComponent = (AbstractReconfigurationManagerComponent) AbstractSLAsticComponent.loadAndInitSLAsticComponentFromClassname(
-                    reconfigurationManagerComponentClassnameProperty,
-                    this.configuration.reconfigurationManagerComponentProperties);
+            this.configuration.reconfigurationManagerComponent =
+                    (AbstractReconfigurationManagerComponent) loadComponent(AbstractReconfigurationManagerComponent.PROP_PREFIX, this.configuration.reconfigurationManagerComponentProperties);
 
-            /* Assert that ALL components are available */
-            boolean success = true;
-            if (this.configuration.reconfigurationManagerComponent == null) {
-                log.error("reconfigurationManagerComponent is null");
-                success = false;
-            }
-            if (this.configuration.controlComponent == null) {
-                log.error("slasticCtrlComponent is null");
-                success = false;
-            }
-            if (this.configuration.modelManagerComponent == null) {
-                log.error("modelManagerComponent is null");
-                success = false;
-            }
-            if (this.configuration.modelUpdaterComponent == null) {
-                log.error("modelUpdaterComponent is null");
-                success = false;
-            }
-            if (this.configuration.analysisComponent == null) {
-                log.error("analysisComponent is null");
-                success = false;
-            }
-            if (!success) {
+
+            if (!this.configuration.allComponentsInitialized()) {
                 throw new IllegalArgumentException(
-                        "Failed to load at least one component");
+                        "At least one component could not be initialized");
             }
 
-            /* "wire" the components */
-            this.configuration.monitoringManagerComponent.setController(this.configuration.controlComponent);
-            this.configuration.reconfigurationManagerComponent.setControlComponent(this.configuration.controlComponent);
-
-            this.configuration.controlComponent.setReconfigurationManager(this.configuration.reconfigurationManagerComponent); // TODO:
-            // fix!
-            this.configuration.controlComponent.setAnalysis(this.configuration.analysisComponent);
-            this.configuration.controlComponent.setModelManager(this.configuration.modelManagerComponent);
-            this.configuration.controlComponent.setModelUpdater(this.configuration.modelUpdaterComponent);
-
-            this.configuration.modelManagerComponent.setParentControlComponent(this.configuration.controlComponent);
-            this.configuration.modelUpdaterComponent.setParentControlComponent(this.configuration.controlComponent);
-            this.configuration.modelUpdaterComponent.setModelManager(this.configuration.modelManagerComponent);
-
-            this.configuration.analysisComponent.setParentControlComponent(this.configuration.controlComponent);
-            this.configuration.analysisComponent.setPerformanceEvaluator(this.configuration.performanceEvaluatorComponent);
-            this.configuration.analysisComponent.setWorkloadForecaster(this.configuration.workloadForecasterComponent);
-            this.configuration.analysisComponent.setPerformancePredictor(this.configuration.performancePredictorComponent);
-            this.configuration.analysisComponent.setAdaptationPlanner(this.configuration.adaptationPlannerComponent);
-
-            if (this.configuration.performanceEvaluatorComponent != null) {
-                this.configuration.performanceEvaluatorComponent.setParentAnalysisComponent(this.configuration.analysisComponent);
-            }
-            if (this.configuration.workloadForecasterComponent != null) {
-                this.configuration.workloadForecasterComponent.setParentAnalysisComponent(this.configuration.analysisComponent);
-            }
-            if (this.configuration.performancePredictorComponent != null) {
-                this.configuration.performancePredictorComponent.setParentAnalysisComponent(this.configuration.analysisComponent);
-            }
-            if (this.configuration.adaptationPlannerComponent != null) {
-                this.configuration.adaptationPlannerComponent.setParentAnalysisComponent(this.configuration.analysisComponent);
-            }
-
-            /* Initialize event handling */
-            this.configuration.controlComponent.addListener(this.configuration.modelManagerComponent);
-            this.configuration.controlComponent.addListener(this.configuration.modelUpdaterComponent);
-            if (this.configuration.performanceEvaluatorComponent != null) {
-                this.configuration.controlComponent.addListener(this.configuration.performanceEvaluatorComponent);
-                this.configuration.performanceEvaluatorComponent.setSimpleSLAsticEventService(this.configuration.controlComponent);
-            }
-            if (this.configuration.workloadForecasterComponent != null) {
-                this.configuration.controlComponent.addListener(this.configuration.workloadForecasterComponent);
-                this.configuration.workloadForecasterComponent.setSimpleSLAsticEventService(this.configuration.controlComponent);
-            }
-            if (this.configuration.performancePredictorComponent != null) {
-                this.configuration.controlComponent.addListener(this.configuration.performancePredictorComponent);
-                this.configuration.performancePredictorComponent.setSimpleSLAsticEventService(this.configuration.controlComponent);
-            }
-            if (this.configuration.adaptationPlannerComponent != null) {
-                this.configuration.controlComponent.addListener(this.configuration.adaptationPlannerComponent);
-                this.configuration.adaptationPlannerComponent.setSimpleSLAsticEventService(this.configuration.controlComponent);
+            if (!this.configuration.wireComponents()) {
+                throw new IllegalArgumentException(
+                        "Failed to wire the components. See log for details");
             }
 
         } catch (Exception exc) {
             log.error("An error occured", exc);
-            throw new IllegalArgumentException("An error occured", exc);
+            throw new IllegalArgumentException("An error occured: " + exc.getMessage() + " (see log for details)", exc);
         }
     }
 
