@@ -10,7 +10,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.ParseException;
-import org.trustsoft.slastic.plugins.util.PropertiesFileReader;
+import org.trustsoft.slastic.plugins.util.PropertiesFileUtils;
 
 /**
  *
@@ -79,7 +79,7 @@ public class SLAsticStarter {
 
         SLAsticSimulatorInstance inst = null;
         try {
-            inst = new SLAsticSimulatorInstance(PropertiesFileReader.loadPropertiesFile(simulationConfigurationFile));
+            inst = new SLAsticSimulatorInstance(PropertiesFileUtils.loadPropertiesFile(simulationConfigurationFile));
         } catch (Exception exc) {
             log.error("Error creating SLAsticInstance", exc);
             throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
@@ -102,7 +102,7 @@ public class SLAsticStarter {
 
         SLAsticAdaptationFrameworkInstance inst = null;
         try {
-            inst = new SLAsticAdaptationFrameworkInstance(PropertiesFileReader.loadPropertiesFile(configurationFile));
+            inst = new SLAsticAdaptationFrameworkInstance(PropertiesFileUtils.loadPropertiesFile(configurationFile));
         } catch (Exception exc) {
             log.error("Error creating SLAsticInstance", exc);
             throw new IllegalArgumentException("Error creating SLAsticInstance", exc);

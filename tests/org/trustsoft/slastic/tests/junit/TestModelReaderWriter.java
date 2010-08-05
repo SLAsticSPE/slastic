@@ -8,7 +8,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.slasticImpl.ModelReader;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryManager;
 
 /**
@@ -47,12 +47,12 @@ public class TestModelReaderWriter extends TestCase {
         final ComponentType componentType1 =
                 typeRepositoryManager.createAndRegisterComponentType(fqnComponentType1);
         log.info("Saving type repository to file " + tmpFile.getAbsolutePath());
-        ModelReader.saveTypeRepositoryModel(typeRepositoryModel, tmpFile.getAbsolutePath());
+        ModelIOUtils.saveTypeRepositoryModel(typeRepositoryModel, tmpFile.getAbsolutePath());
 
         /* Load the model from the file */
         log.info("Loading repository from file " + tmpFile.getAbsolutePath());
         final TypeRepository typeRepositoryModelLoaded =
-                ModelReader.loadTypeRepositoryModel(tmpFile.getAbsolutePath());
+                ModelIOUtils.loadTypeRepositoryModel(tmpFile.getAbsolutePath());
 
         final TypeRepositoryManager typeRepositoryManagerLoadedModel =
                 new TypeRepositoryManager(typeRepositoryModelLoaded);

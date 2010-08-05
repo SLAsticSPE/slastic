@@ -2,7 +2,6 @@ package org.trustsoft.slastic.plugins.slasticImpl;
 
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
-import de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl;
 import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,7 +11,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.openarchitectureware.emf.XmiReader;
 import org.openarchitectureware.workflow.WorkflowContext;
@@ -28,9 +26,9 @@ import reconfMM.ReconfigurationModel;
  *
  * @author Andre van Hoorn
  */
-public class ModelReader {
+public class ModelIOUtils {
 
-    private static final Log log = LogFactory.getLog(ModelReader.class);
+    private static final Log log = LogFactory.getLog(ModelIOUtils.class);
 
     public final static slal.Model readSLAModel(final String model_fn) {
         final String OUTPUT_SLOT_NAME = "theModel";

@@ -44,7 +44,7 @@ public class ModelManager extends AbstractModelManagerComponent {
             this.typeRepositoryModel = TypeRepositoryFactory.eINSTANCE.createTypeRepository();
         } else {
             log.info("Loading type repository model from file " + this.typeRepository_inputFile);
-            this.typeRepositoryModel = ModelReader.readTypeRepositoryModel(this.typeRepository_inputFile);
+            this.typeRepositoryModel = ModelIOUtils.readTypeRepositoryModel(this.typeRepository_inputFile);
         }
         this.typeRepositoryManager =
                 new TypeRepositoryManager(this.typeRepositoryModel);
@@ -73,7 +73,7 @@ public class ModelManager extends AbstractModelManagerComponent {
     private final void saveModels() {
         try {
             if (!this.typeRepository_outputFile.isEmpty()) {
-                ModelReader.saveTypeRepositoryModel(this.typeRepositoryModel, this.typeRepository_outputFile);
+                ModelIOUtils.saveTypeRepositoryModel(this.typeRepositoryModel, this.typeRepository_outputFile);
             }
         } catch (IOException exc) {
             log.error("An IOException occured while saving models", exc);

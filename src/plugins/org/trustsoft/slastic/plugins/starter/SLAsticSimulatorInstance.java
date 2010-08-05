@@ -7,7 +7,7 @@ import kieker.common.record.MonitoringRecordReceiverException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
-import org.trustsoft.slastic.plugins.slasticImpl.ModelReader;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
 import org.trustsoft.slastic.simulation.SimulationController;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
@@ -149,7 +149,7 @@ public class SLAsticSimulatorInstance {
                         "Failed to read PCM resource environment from file '"
                         + this.pcmResourceEnvironmentModel_fn + "'");
             }
-            this.slasticReconfigurationModel = ModelReader.readOLDReconfigurationModel(
+            this.slasticReconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(
                     this.slasticReconfigurationModel_fn);
             if (this.slasticReconfigurationModel == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read SLAstic reconfiguration model from file '"
