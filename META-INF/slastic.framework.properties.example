@@ -1,3 +1,9 @@
+
+
+
+
+
+
 slastic.control.classname=org.trustsoft.slastic.control.BasicControlComponent
 slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent
 slastic.control.modelupdating.classname=org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent

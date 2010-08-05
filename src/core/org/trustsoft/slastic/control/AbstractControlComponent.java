@@ -22,14 +22,11 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
         implements ISimpleEventService {
 
     private static final Log log = LogFactory.getLog(AbstractControlComponent.class);
-
     public static final String PROP_PREFIX = "slastic.control";
-    
     private AbstractReconfigurationManagerComponent reconfigurationManager;
     private AbstractModelManagerComponent modelManager;
     private AbstractModelUpdaterComponent modelUpdater;
     private AbstractAnalysisComponent analysis;
-
     private final ArrayList<ISimpleEventServiceClient> listeners =
             new ArrayList<ISimpleEventServiceClient>();
 
@@ -56,26 +53,32 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 
         // do not execute the reconfiguration manager!
 
-       if (this.modelManager == null || !this.modelManager.execute()) {
-            log.error("Failed to execute modelManager ("+this.modelManager+")");
+        if (this.modelManager == null || !this.modelManager.execute()) {
+            log.error("Failed to execute modelManager (" + this.modelManager + ")");
             success = false;
         }
         if (success && (this.modelUpdater == null || !this.modelUpdater.execute())) {
-            log.error("Failed to execute modelUpdater ("+this.modelUpdater+")");
+            log.error("Failed to execute modelUpdater (" + this.modelUpdater + ")");
             success = false;
         }
         if (success && (this.analysis == null || !this.analysis.execute())) {
-            log.error("Failed to execute analysis ("+this.analysis+")");
+            log.error("Failed to execute analysis (" + this.analysis + ")");
             success = false;
         }
 
-        if (!success){ // terminate all components
-            if (this.modelManager != null) this.modelManager.terminate(false);
-            if (this.modelUpdater != null) this.modelUpdater.terminate(false);
-            if (this.analysis != null) this.analysis.terminate(false);
+        if (!success) { // terminate all components
+            if (this.modelManager != null) {
+                this.modelManager.terminate(false);
+            }
+            if (this.modelUpdater != null) {
+                this.modelUpdater.terminate(false);
+            }
+            if (this.analysis != null) {
+                this.analysis.terminate(false);
+            }
         }
 
-       return success;
+        return success;
     }
 
     public final AbstractAnalysisComponent getAnalysis() {
@@ -94,7 +97,7 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
         return reconfigurationManager;
     }
 
-   public final void setAnalysis(final AbstractAnalysisComponent analysis) {
+    public final void setAnalysis(final AbstractAnalysisComponent analysis) {
         this.analysis = analysis;
     }
 
@@ -112,7 +115,7 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 
     @Override
     public void sendEvent(final IEvent ev) {
-        for (ISimpleEventServiceClient l : this.listeners){
+        for (ISimpleEventServiceClient l : this.listeners) {
             l.handleEvent(ev);
         }
     }

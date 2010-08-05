@@ -12,10 +12,6 @@ public abstract class AbstractMonitoringManagerComponent extends AbstractSLAstic
     
     private AbstractControlComponent controller;
 
-    public void init(String initString) throws IllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public final AbstractControlComponent getController() {
         return this.controller;
     }
