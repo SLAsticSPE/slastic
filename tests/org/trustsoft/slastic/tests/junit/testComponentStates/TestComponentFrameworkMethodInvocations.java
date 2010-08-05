@@ -5,32 +5,28 @@ import java.util.List;
 import java.util.Properties;
 import junit.framework.TestCase;
 import org.trustsoft.slastic.control.AbstractControlComponent;
-import org.trustsoft.slastic.control.BasicControlComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAnalysisComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluatorComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictorComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecasterComponent;
-import org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyAdaptationPlannerComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyPerformanceEvaluatorComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
-import org.trustsoft.slastic.control.components.modelManager.DummyModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
-import org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
 import org.trustsoft.slastic.plugins.starter.SLAsticAdaptationFrameworkConfiguration;
 import org.trustsoft.slastic.plugins.starter.SLAsticAdaptationFrameworkInstance;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
-import org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
 public class TestComponentFrameworkMethodInvocations extends TestCase {
+
+    /**
+     * Tests whether on a successful run of a SLAstic instance, the framework
+     * calls the methods init, execute, and terminate (in this order).
+     */
     public void testAllFrameworkMethodsCalledSuccess(){
         Properties configuration = genTrackingConfiguration();
 
@@ -43,6 +39,11 @@ public class TestComponentFrameworkMethodInvocations extends TestCase {
         checkComponentStateSequences(slasticInstance.getConfiguration());
     }
 
+    /**
+     * Make sure that all components had the desired sequence of method invocations.
+     *
+     * @param configuration the configuration containing the instantiated framework components
+     */
     private void checkComponentStateSequences(SLAsticAdaptationFrameworkConfiguration configuration){
         final List<ComponentStateTracker.States> expectedSequence =
                 new ArrayList<ComponentStateTracker.States>();
