@@ -1,6 +1,6 @@
 slastic.control.classname=org.trustsoft.slastic.control.BasicControlComponent
 slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent
-slastic.control.modelupdating.classname=
+slastic.control.modelupdating.classname=org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent
 slastic.control.analysis.performanceevaluation.classname=
 slastic.control.analysis.workloadforecasting.classname=
 slastic.control.analysis.performanceprediction.classname=
@@ -31,7 +31,7 @@ slastic.control.modelmanagement.classname=org.trustsoft.slastic.plugins.slasticI
 slastic.control.modelmanagement.typeRepository_inputfn=
 slastic.control.modelmanagement.typeRepository_outputfn="typeRepository.out"
 
-slastic.reconfiguration.classname=
+slastic.reconfiguration.classname=org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent
 
 ##
 ## Simulation
