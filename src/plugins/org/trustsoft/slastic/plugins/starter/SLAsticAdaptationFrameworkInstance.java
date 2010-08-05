@@ -35,9 +35,20 @@ public class SLAsticAdaptationFrameworkInstance {
     private static final Log log = LogFactory.getLog(SLAsticAdaptationFrameworkInstance.class);
     private SLAsticAdaptationFrameworkConfiguration configuration =
             new SLAsticAdaptationFrameworkConfiguration();
+
+    /**
+     * Returns the framework configuration.
+     * 
+     * @return the framework configuration
+     */
+    public SLAsticAdaptationFrameworkConfiguration getConfiguration() {
+        return configuration;
+    }
     public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
 
-    /* Avoid construction via default constructor */
+    /**
+     * Avoid construction via default constructor
+     */
     private SLAsticAdaptationFrameworkInstance() {
     }
 
@@ -135,7 +146,7 @@ public class SLAsticAdaptationFrameworkInstance {
             Class cl = Class.forName(classname);
             // FIXME: assert cl instanceof AbstractSLAsticComponent?
             inst = (AbstractSLAsticComponent) cl.newInstance();
-            Method m = cl.getMethod("init", Properties.class);
+            Method m = cl.getMethod("setProperties", Properties.class);
             m.invoke(inst, componentProperties);
             log.info("Loaded and instantiated component ('" + classname
                     + "') with init string '" + componentProperties + "'");
@@ -201,8 +212,8 @@ public class SLAsticAdaptationFrameworkInstance {
     }
 
    private boolean initComponent(AbstractSLAsticComponent component, String componentType) {
-        if (component == null || component.init()) {
-            log.error(componentType + " failed to init");
+        if (component == null || !component.init()) {
+            log.error(componentType + " failed on init");
             return false;
         }
         return true;
@@ -222,7 +233,7 @@ public class SLAsticAdaptationFrameworkInstance {
     }
 
     private void terminateComponent(AbstractSLAsticComponent component, String componentType, boolean error) {
-        if (component == null)
+        if (component != null)
             component.terminate(error);
     }
 
@@ -240,7 +251,7 @@ public class SLAsticAdaptationFrameworkInstance {
     }
 
     private boolean executeComponent(AbstractSLAsticComponent component, String componentType) {
-        if (component == null || component.execute()) {
+        if (component == null || !component.execute()) {
             log.error(componentType + " failed to execute");
             return false;
         }
