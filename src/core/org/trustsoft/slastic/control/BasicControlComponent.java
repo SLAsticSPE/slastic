@@ -24,4 +24,18 @@ public class BasicControlComponent extends AbstractControlComponent {
     public IObservationEventReceiver getMonitoringClientPort() {
         return this.monitoringClientPort;
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
+    }
+
+    public void terminate(boolean error) {
+        // do nothing
+    }
 }

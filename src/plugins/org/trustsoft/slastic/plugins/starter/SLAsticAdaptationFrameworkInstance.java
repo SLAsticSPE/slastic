@@ -200,14 +200,83 @@ public class SLAsticAdaptationFrameworkInstance {
         }
     }
 
-    /** Start instance. The method returns immediately.
+   private boolean initComponent(AbstractSLAsticComponent component, String componentType) {
+        if (component == null || component.init()) {
+            log.error(componentType + " failed to init");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean initAllComponents(){
+        return  initComponent(this.configuration.monitoringManagerComponent, "MonitoringManagerComponent")
+                && initComponent(this.configuration.controlComponent, "ControlComponent")
+                && initComponent(this.configuration.modelManagerComponent, "ModelManagerComponent")
+                && initComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent")
+                && initComponent(this.configuration.analysisComponent, "AnalysisComponent")
+                && initComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent")
+                && initComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent")
+                && initComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent")
+                && initComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent")
+                && initComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent");
+    }
+
+    private void terminateComponent(AbstractSLAsticComponent component, String componentType, boolean error) {
+        if (component == null)
+            component.terminate(error);
+    }
+
+    private void terminateAllComponents(final boolean error){
+            terminateComponent(this.configuration.monitoringManagerComponent, "MonitoringManagerComponent", error);
+            terminateComponent(this.configuration.controlComponent, "ControlComponent", error);
+            terminateComponent(this.configuration.modelManagerComponent, "ModelManagerComponent", error);
+            terminateComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent", error);
+            terminateComponent(this.configuration.analysisComponent, "AnalysisComponent", error);
+            terminateComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent", error);
+            terminateComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent", error);
+            terminateComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent", error);
+            terminateComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent", error);
+            terminateComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent", error);
+    }
+
+    private boolean executeComponent(AbstractSLAsticComponent component, String componentType) {
+        if (component == null || component.execute()) {
+            log.error(componentType + " failed to execute");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean executeAllComponents(){
+        return  executeComponent(this.configuration.monitoringManagerComponent, "MonitoringManagerComponent")
+                && executeComponent(this.configuration.controlComponent, "ControlComponent")
+                && executeComponent(this.configuration.modelManagerComponent, "ModelManagerComponent")
+                && executeComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent")
+                && executeComponent(this.configuration.analysisComponent, "AnalysisComponent")
+                && executeComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent")
+                && executeComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent")
+                && executeComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent")
+                && executeComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent")
+                && executeComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent");
+    }
+
+    /**
+     * Start instance. The method returns immediately.
      * 
      * @return true on success; false otherwise.
      */
     public boolean run() {
-        return this.configuration.controlComponent.execute()
-                && this.configuration.reconfigurationManagerComponent.execute()
-                && this.configuration.monitoringManagerComponent.execute();
+        if (!initAllComponents()){
+            log.error("init of at least one component failed");
+            return false;
+        }
+        if (executeAllComponents()){
+            return true;
+        }
+        
+        log.error("execute of at least one component failed. Will terminare all components.");
+        terminateAllComponents(true); // terminate error
+        return false;
     }
 
     /**
@@ -217,9 +286,7 @@ public class SLAsticAdaptationFrameworkInstance {
      * @param error true iff an error occured.
      */
     public void terminate(final boolean error) {
-        this.configuration.controlComponent.terminate(error);
-        this.configuration.monitoringManagerComponent.terminate(error);
-        this.configuration.reconfigurationManagerComponent.terminate(error);
+        this.terminateAllComponents(error);
     }
 
    /**
