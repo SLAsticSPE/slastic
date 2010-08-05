@@ -23,4 +23,19 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
     public void newObservation(IObservationEvent ime) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
+    }
+
+    @Override
+    public void terminate(boolean error) {
+        // do nothing
+    }
 }

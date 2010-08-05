@@ -34,7 +34,7 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
     @Override
     public boolean execute() {
         /**
-        ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.init();
+        ReconfigurationPlanModelFactory fac = ReconfigurationPlanModelFactoryImpl.setProperties();
         this.plan = fac.createSLAsticReconfigurationPlan();
          **/
         log.info("Plan wird jetzt erstellt");
@@ -98,4 +98,9 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
 
     @Override
     public void handleEvent(IEvent ev) { }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
 }

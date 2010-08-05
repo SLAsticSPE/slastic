@@ -19,15 +19,6 @@ public abstract class AbstractModelUpdaterComponent extends AbstractSLAsticCompo
     private AbstractModelManagerComponent modelManager;
     private ISimpleEventService simpleSLAsticEventService;
 
-    @Override
-    public boolean execute() {
-        return true;
-    }
-
-    @Override
-    public void terminate(final boolean error) {
-    }
-
     public final AbstractControlComponent getParentControlComponent() {
         return parentControlComponent;
     }

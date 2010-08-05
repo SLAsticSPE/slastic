@@ -24,4 +24,9 @@ public class DummyAdaptationPlannerComponent extends AbstractAdaptationPlannerCo
         // do nothing
     }
 
+    @Override
+    public boolean init() {
+        return true;
+    }
+
 }

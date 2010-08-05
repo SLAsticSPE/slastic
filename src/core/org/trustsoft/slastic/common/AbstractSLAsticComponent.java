@@ -16,7 +16,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private Properties properties;
 
     @Override
-    public void init(Properties properties) {
+    public final void setProperties(Properties properties) {
         this.properties = properties;
     }
 

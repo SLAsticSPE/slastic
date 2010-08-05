@@ -62,4 +62,9 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
 
     @Override
     public void terminate(final boolean error) {  }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
 }

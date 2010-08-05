@@ -15,12 +15,28 @@ import org.trustsoft.slastic.control.components.events.IEvent;
  */
 public class DummyModelUpdaterComponent extends AbstractModelUpdaterComponent {
 
+    @Override
     public void newObservation(IObservationEvent event) {
         // do nothing
     }
 
+    @Override
     public void handleEvent(IEvent ev) {
         // do nothing
     }
 
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
+    }
+
+    @Override
+    public void terminate(boolean error) {
+        // do nothing
+    }
 }

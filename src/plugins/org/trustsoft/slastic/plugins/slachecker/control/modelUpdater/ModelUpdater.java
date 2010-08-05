@@ -55,4 +55,19 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
             log.info("Number of Records: " + count);
         }
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
+    }
+
+    @Override
+    public void terminate(boolean error) {
+        // do nothing
+    }
 }

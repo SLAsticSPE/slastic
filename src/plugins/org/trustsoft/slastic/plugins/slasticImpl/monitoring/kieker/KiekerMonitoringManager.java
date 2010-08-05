@@ -20,11 +20,10 @@ public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent 
 
     private static final Log log = LogFactory.getLog(KiekerMonitoringManager.class);
     private AnalysisInstance analysisInstance = null;
-    private boolean initialized = false;
     private final static String KIEKER_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
     private final static String KIEKER_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
 
-    private void init() throws IllegalArgumentException {
+    public boolean init() {
         String logReaderClassnameProperty = this.getInitProperty(KIEKER_LOG_READER_CLASSNAME_PROPERTY);
         if (logReaderClassnameProperty == null
                 || logReaderClassnameProperty.length() <= 0) {
@@ -74,14 +73,14 @@ public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent 
             @Override
             public void terminate(boolean error) { }
         });
-        this.initialized = true;
+        return true;
     }
 
     /**
      * An object of the class with name @classname is instantiated, its method
-     * init(String initString) is called with parameter @a initString and the
+     * setProperties(String initString) is called with parameter @a initString and the
      * object is returned. This implies, that the class for @a classname provide
-     * the method init(String initString).
+     * the method setProperties(String initString).
      *
      * @return the instance; null in case an error occured.
      */
@@ -105,10 +104,6 @@ public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent 
 
     @Override
     public boolean execute() {
-        if (!this.initialized) {
-            this.init();
-        }
-
         try {
             this.analysisInstance.run();
         } catch (Exception e) {

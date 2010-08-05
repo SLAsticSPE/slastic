@@ -9,16 +9,24 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  */
 public class DummyReconfigurationManagerComponent extends AbstractReconfigurationManagerComponent {
 
+    @Override
     public boolean execute() {
         return true;
     }
 
+    @Override
     public void terminate(boolean error) {
         // do nothing
     }
 
+    @Override
     public void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException {
         // do nothing
+    }
+
+    @Override
+    public boolean init() {
+        return true;
     }
 
 }

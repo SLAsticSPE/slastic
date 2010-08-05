@@ -12,15 +12,30 @@ import java.util.Properties;
  */
 public interface ISLAsticComponent {
 
-    public void init(Properties props) throws IllegalArgumentException;
-    
+    /**
+     * Sets the properties of the component.
+     * 
+     * This is a method used by the framework and must not be called by users.
+     *
+     * @param properties the component properties
+     */
+    public void setProperties(Properties props) throws IllegalArgumentException;
+
+    /**
+     * Initializes the component before it is started by a call to the execute
+     * method.
+     * 
+     * @return true on success; false otherwise
+     */
+    public boolean init();
+
     /**
      * Initiates the start of a component.
      * This method is called once and must not be blocking!
      * Asynchronous components would spawn (an) aynchronous thread(s) in this
      * method.
      *
-     * @return true on success; false otherwise.
+     * @return true on success; false otherwise
      */
     public boolean execute();
 
@@ -28,7 +43,7 @@ public interface ISLAsticComponent {
      * Initiates a termination of the component. The value of the parameter
      * error indicates whether an error occured.
      *
-     * @param error true iff an error occured.
+     * @param error true iff an error occured
      */
     public void terminate(boolean error);
 }

@@ -36,7 +36,6 @@ public class SLAChecker extends AbstractPerformanceEvaluatorComponent {
     private int[] serviceIDs;
     private AbstractAnalysisComponent ana;
     private ScheduledThreadPoolExecutor ex;
-    private boolean initialized = false;
 
 //    public void init(String initString) throws IllegalArgumentException {
 //        super.initVarsFromInitString(initString);
@@ -139,22 +138,19 @@ public class SLAChecker extends AbstractPerformanceEvaluatorComponent {
         }
     }
 
-    private void init() throws IllegalArgumentException {
+    @Override
+    public boolean init() {
         this.slas = ((SLOModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager()).getSlas();
         if (this.slas == null) {
             log.error("this.slas == null");
             throw new IllegalArgumentException("this.slas == null");
         }
         log.info(this.slas);
-        this.initialized = true;
+        return true;
     }
 
     @Override
     public boolean execute() {
-        if (!this.initialized) {
-            this.init();
-        }
-
         this.quantileCalc = new QuantileCalculator((SLOModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager());
 
         //Initialize GUIs and set of service IDs

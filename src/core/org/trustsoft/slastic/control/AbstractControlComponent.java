@@ -48,6 +48,28 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
     }
 
     @Override
+    public boolean init() {
+        boolean success = true;
+
+        // do not init the reconfiguration manager!
+
+        if (this.modelManager == null || !this.modelManager.init()) {
+            log.error("Failed to init modelManager (" + this.modelManager + ")");
+            success = false;
+        }
+        if (success && (this.modelUpdater == null || !this.modelUpdater.init())) {
+            log.error("Failed to init modelUpdater (" + this.modelUpdater + ")");
+            success = false;
+        }
+        if (success && (this.analysis == null || !this.analysis.init())) {
+            log.error("Failed to init analysis (" + this.analysis + ")");
+            success = false;
+        }
+
+        return success;
+    }
+
+    @Override
     public boolean execute() {
         boolean success = true;
 

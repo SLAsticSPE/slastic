@@ -1,7 +1,6 @@
 package org.trustsoft.slastic.plugins.pcm.control.modelManager;
 
 import java.io.IOException;
-import java.util.Properties;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -73,17 +72,17 @@ public class ModelManager extends AbstractModelManagerComponent {
     }
 
     @Override
-    public void init(final Properties properties) {
-        super.init(properties);
+    public boolean init() {
         this.reconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
         this.initComponentAllocationList();
         this.initAllocatedServers();
         this.initInstanceCount();
+        return true;
     }
 
     @Override
     public boolean execute() {
-        return super.execute();
+        return true;
     }
 
     /**
@@ -444,5 +443,9 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     @Override
     public void handleEvent(IEvent ev) {
+    }
+
+    public void terminate(boolean error) {
+        // do nothing
     }
 }

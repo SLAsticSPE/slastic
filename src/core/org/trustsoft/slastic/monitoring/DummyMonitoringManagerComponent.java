@@ -15,4 +15,8 @@ public class DummyMonitoringManagerComponent extends AbstractMonitoringManagerCo
         // do nothing
     }
 
+    public boolean init() {
+        return true;
+    }
+
 }

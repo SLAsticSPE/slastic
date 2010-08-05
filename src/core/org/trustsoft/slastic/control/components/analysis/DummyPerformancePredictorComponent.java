@@ -23,4 +23,9 @@ public class DummyPerformancePredictorComponent extends AbstractPerformancePredi
     public void handleEvent(IEvent ev) {
         // do nothing
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
 }

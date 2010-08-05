@@ -64,4 +64,9 @@ public class ReconfigurationPlanForwarder extends AbstractReconfigurationManager
         this.forwardPlans();
         return true;
     }
+
+    @Override
+    public boolean init() {
+        return true;
+    }
 }

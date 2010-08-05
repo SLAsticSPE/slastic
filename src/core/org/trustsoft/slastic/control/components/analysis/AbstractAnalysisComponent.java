@@ -14,9 +14,7 @@ import org.apache.commons.logging.LogFactory;
 public abstract class AbstractAnalysisComponent extends AbstractSLAsticComponent {
 
     private static final Log log = LogFactory.getLog(AbstractControlComponent.class);
-
     public static final String PROP_PREFIX = "slastic.control.analysis";
-    
     private AbstractControlComponent parentControlComponent;
     private AbstractPerformanceEvaluatorComponent performanceEvaluator;
     private AbstractWorkloadForecasterComponent workloadForecaster;
@@ -24,39 +22,62 @@ public abstract class AbstractAnalysisComponent extends AbstractSLAsticComponent
     private AbstractAdaptationPlannerComponent adaptationPlanner;
 
     @Override
+    public boolean init() {
+        boolean success = true;
+
+        if (this.performanceEvaluator != null || !this.performanceEvaluator.init()) {
+            log.error("Failed to init performanceEvaluator (" + this.performanceEvaluator + ")");
+            success = false;
+        }
+        if (success && (this.workloadForecaster != null  || !this.workloadForecaster.init())) {
+                log.error("Failed to init workloadForecaster (" + this.workloadForecaster + ")");
+                success = false;
+        }
+        if (success && (this.performancePredictor != null || !this.performancePredictor.init())) {
+                log.error("Failed to init performancePredictor (" + this.performancePredictor + ")");
+                success = false;
+        }
+        if (success && (this.adaptationPlanner != null || !this.adaptationPlanner.init())) {
+                log.error("Failed to init adaptationPlanner (" + this.adaptationPlanner + ")");
+                success = false;
+        }
+        return success;
+    }
+
+    @Override
     public boolean execute() {
         boolean success = true;
 
-        if (this.performanceEvaluator != null) {
-            if (!this.performanceEvaluator.execute()) {
-                log.error("Failed to execute performanceEvaluator (" + this.performanceEvaluator + ")");
-                success = false;
-            }
+        if (this.performanceEvaluator != null || !this.performanceEvaluator.execute()) {
+            log.error("Failed to execute performanceEvaluator (" + this.performanceEvaluator + ")");
+            success = false;
         }
-        if (success && this.workloadForecaster != null) {
-            if (!this.workloadForecaster.execute()) {
+        if (success && (this.workloadForecaster != null  || !this.workloadForecaster.execute())) {
                 log.error("Failed to execute workloadForecaster (" + this.workloadForecaster + ")");
                 success = false;
-            }
         }
-       if (success && this.performancePredictor != null) {
-            if (!this.performancePredictor.execute()) {
+        if (success && (this.performancePredictor != null || !this.performancePredictor.execute())) {
                 log.error("Failed to execute performancePredictor (" + this.performancePredictor + ")");
                 success = false;
-            }
         }
-       if (success && this.adaptationPlanner != null) {
-            if (!this.adaptationPlanner.execute()) {
+        if (success && (this.adaptationPlanner != null || !this.adaptationPlanner.execute())) {
                 log.error("Failed to execute adaptationPlanner (" + this.adaptationPlanner + ")");
                 success = false;
-            }
         }
 
-        if (!success){ // terminate all components
-            if (this.performanceEvaluator != null) this.performanceEvaluator.terminate(false);
-            if (this.workloadForecaster != null) this.workloadForecaster.terminate(false);
-            if (this.performancePredictor != null) this.performancePredictor.terminate(false);
-            if (this.adaptationPlanner != null) this.adaptationPlanner.terminate(false);
+        if (!success) { // terminate all components
+            if (this.performanceEvaluator != null) {
+                this.performanceEvaluator.terminate(false);
+            }
+            if (this.workloadForecaster != null) {
+                this.workloadForecaster.terminate(false);
+            }
+            if (this.performancePredictor != null) {
+                this.performancePredictor.terminate(false);
+            }
+            if (this.adaptationPlanner != null) {
+                this.adaptationPlanner.terminate(false);
+            }
         }
 
         return success;

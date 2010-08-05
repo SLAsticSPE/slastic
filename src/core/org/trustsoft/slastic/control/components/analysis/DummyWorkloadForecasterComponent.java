@@ -24,4 +24,8 @@ public class DummyWorkloadForecasterComponent extends AbstractWorkloadForecaster
         // do nothing
     }
 
+    @Override
+    public boolean init() {
+        return true;
+    }
 }

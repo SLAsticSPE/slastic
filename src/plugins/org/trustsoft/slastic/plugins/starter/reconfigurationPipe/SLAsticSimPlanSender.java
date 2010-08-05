@@ -22,8 +22,7 @@ public class SLAsticSimPlanSender extends AbstractReconfigurationManagerComponen
     private String pipeName;
 
     @Override
-    public void init(Properties properties) {
-        super.init(properties);
+    public boolean init() {
         this.pipeName = super.getInitProperty(PROPERTY_PIPE_NAME);
         if (this.pipeName == null || this.pipeName.length() == 0) {
             log.error("Invalid or missing pipeName value for property '" + PROPERTY_PIPE_NAME + "'");
@@ -35,6 +34,7 @@ public class SLAsticSimPlanSender extends AbstractReconfigurationManagerComponen
             throw new IllegalArgumentException("Failed to get pipe with name:" + this.pipeName);
         }
         log.info("Connected to pipe '" + this.pipeName + "'" + " (" + this.reconfigurationPipe + ")");
+        return true;
     }
 
     public boolean execute() {

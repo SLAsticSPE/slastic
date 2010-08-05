@@ -32,8 +32,7 @@ public class ModelManager extends AbstractModelManagerComponent {
     }
 
     @Override
-    public void init(Properties properties) {
-        super.init(properties);
+    public boolean init() {
         this.typeRepository_inputFile =
                 super.getInitProperty(PROP_NAME_TYPE_REPOSITORY__INPUT_FN, "");
         this.typeRepository_outputFile =
@@ -48,6 +47,7 @@ public class ModelManager extends AbstractModelManagerComponent {
         }
         this.typeRepositoryManager =
                 new TypeRepositoryManager(this.typeRepositoryModel);
+        return true;
     }
 
     @Override
@@ -66,7 +66,6 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     @Override
     public void terminate(boolean error) {
-        super.terminate(error);
         this.saveModels();
     }
 
@@ -78,5 +77,10 @@ public class ModelManager extends AbstractModelManagerComponent {
         } catch (IOException exc) {
             log.error("An IOException occured while saving models", exc);
         }
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
     }
 }

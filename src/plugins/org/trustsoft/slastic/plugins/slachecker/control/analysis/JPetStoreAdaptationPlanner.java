@@ -14,7 +14,6 @@ import reconfMM.ReconfigurationModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.common.event.ISLAsticEvent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
@@ -87,5 +86,10 @@ public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
     @Override
     public void terminate(final boolean error) {
+    }
+
+    @Override
+    public boolean init() {
+        return true;
     }
 }

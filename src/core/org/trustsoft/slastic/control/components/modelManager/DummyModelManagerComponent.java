@@ -27,4 +27,18 @@ public class DummyModelManagerComponent extends AbstractModelManagerComponent {
         // do nothing
     }
 
+    @Override
+    public boolean init() {
+        return true;
+    }
+
+    @Override
+    public boolean execute() {
+        return true;
+    }
+
+    @Override
+    public void terminate(boolean error) {
+        // do nothing
+    }
 }
