@@ -170,9 +170,12 @@ public class ModelManager extends AbstractModelManagerComponent {
     }
 
     /**
-     * Creates a new system model with initialized (but empty) type repository
-     * model, component assembly model, execution environment model, and
-     * component deployment model.
+     * Creates a new system model with initialized (but empty) submodels type
+     * repository model, component assembly model, execution environment model,
+     * and component deployment model.
+     *
+     * This method was created because the EMF factory method does not create
+     * instances of the contained objects (in this case the submodels).
      *
      * @return the new system model
      */
