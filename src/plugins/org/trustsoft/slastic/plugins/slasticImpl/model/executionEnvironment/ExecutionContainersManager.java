@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import java.util.List;
 
@@ -27,8 +28,11 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 
     @Override
     public ExecutionContainer createAndRegisterExecutionContainer(
-            final String fullyQualifiedName) {
-        return this.createAndRegister(fullyQualifiedName);
+            final String fullyQualifiedName, final ExecutionContainerType executionContainerType) {
+        ExecutionContainer executionContainer = 
+                this.createAndRegister(fullyQualifiedName);
+        executionContainer.setExecutionContainerType(executionContainerType);
+        return executionContainer;
     }
 
     @Override

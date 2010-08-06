@@ -3,7 +3,8 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
-import de.cau.se.slastic.metamodel.core.SLAsticModel;
+import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
@@ -12,48 +13,52 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
  */
 public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel> implements IAssemblyComponentsManager, IAssemblyConnectorsManager {
 
-    private final AssemblyComponentsManager AssemblyComponentsManager;
-    private final AssemblyConnectorsManager AssemblyConnectorsManager;
+    private final AssemblyComponentsManager assemblyComponentsManager;
+    private final AssemblyConnectorsManager assemblyConnectorsManager;
 
     private ComponentAssemblyModelManager() {
         super(null);
-        this.AssemblyComponentsManager = null;
-        this.AssemblyConnectorsManager = null;
+        this.assemblyComponentsManager = null;
+        this.assemblyConnectorsManager = null;
     }
 
     public ComponentAssemblyModelManager(final ComponentAssemblyModel componentAssemblyModel){
         super(componentAssemblyModel);
-        this.AssemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
-        this.AssemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyConnectors());
+        this.assemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
+        this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyConnectors());
     }
 
     @Override
-    public AssemblyComponent lookupAssemblyComponent(String fullyQualifiedName) {
-        return this.AssemblyComponentsManager.lookup(fullyQualifiedName);
+    public AssemblyComponent lookupAssemblyComponent(final String fullyQualifiedName) {
+        return this.assemblyComponentsManager.lookup(fullyQualifiedName);
     }
 
     @Override
-    public AssemblyComponent lookupAssemblyComponent(long id) {
-        return this.AssemblyComponentsManager.lookupAssemblyComponent(id);
+    public AssemblyComponent lookupAssemblyComponent(final long id) {
+        return this.assemblyComponentsManager.lookupAssemblyComponent(id);
     }
 
     @Override
-    public AssemblyComponent createAndRegisterAssemblyComponent(String fullyQualifiedName) {
-        return this.AssemblyComponentsManager.createAndRegisterAssemblyComponent(fullyQualifiedName);
+    public AssemblyComponent createAndRegisterAssemblyComponent(
+            final String fullyQualifiedName,
+            final ComponentType componentType) {
+        return this.assemblyComponentsManager.createAndRegisterAssemblyComponent(fullyQualifiedName, componentType);
     }
 
     @Override
-    public AssemblyConnector lookupAssemblyConnector(String fullyQualifiedName) {
-        return this.AssemblyConnectorsManager.lookupAssemblyConnector(fullyQualifiedName);
+    public AssemblyConnector lookupAssemblyConnector(final String fullyQualifiedName) {
+        return this.assemblyConnectorsManager.lookupAssemblyConnector(fullyQualifiedName);
     }
 
     @Override
-    public AssemblyConnector lookupAssemblyConnector(long id) {
-        return this.AssemblyConnectorsManager.lookupAssemblyConnector(id);
+    public AssemblyConnector lookupAssemblyConnector(final long id) {
+        return this.assemblyConnectorsManager.lookupAssemblyConnector(id);
     }
 
     @Override
-    public AssemblyConnector createAndRegisterAssemblyConnector(String fullyQualifiedName) {
-        return this.AssemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName);
+    public AssemblyConnector createAndRegisterAssemblyConnector(
+            final String fullyQualifiedName,
+            final ConnectorType connectorType) {
+        return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName, connectorType);
     }
 }

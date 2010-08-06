@@ -1,7 +1,9 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment;
 
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentModel;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
@@ -23,17 +25,20 @@ public class ComponentDeploymentModelManager extends AbstractModelManager<Compon
     }
 
     @Override
-    public DeploymentComponent lookupDeploymentComponent(String fullyQualifiedName) {
+    public DeploymentComponent lookupDeploymentComponent(final String fullyQualifiedName) {
         return this.DeploymentComponentsManager.lookup(fullyQualifiedName);
     }
 
     @Override
-    public DeploymentComponent lookupDeploymentComponent(long id) {
+    public DeploymentComponent lookupDeploymentComponent(final long id) {
         return this.DeploymentComponentsManager.lookupDeploymentComponent(id);
     }
 
     @Override
-    public DeploymentComponent createAndRegisterDeploymentComponent(String fullyQualifiedName) {
-        return this.DeploymentComponentsManager.createAndRegisterDeploymentComponent(fullyQualifiedName);
+    public DeploymentComponent createAndRegisterDeploymentComponent(
+            final String fullyQualifiedName,
+            final AssemblyComponent assemblyComponent,
+            final ExecutionContainer executionContainer) {
+        return this.DeploymentComponentsManager.createAndRegisterDeploymentComponent(fullyQualifiedName, assemblyComponent, executionContainer);
     }
 }

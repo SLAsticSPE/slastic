@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 
 /**
  *
@@ -29,12 +30,15 @@ public interface IAssemblyComponentsManager {
 
     /**
      * Creates and registers a new assembly component with the given
-     * full-qualified name fullyQualifiedName.
+     * full-qualified name fullyQualifiedName and the type componentType.
      *
      * @param fullyQualifiedName
+     * @param componentType 
      * @return the new assembly component
      * @throws IllegalArgumentException if an assembly component with the given
      * fully-qualified name has already been registered
      */
-    public AssemblyComponent createAndRegisterAssemblyComponent (final String fullyQualifiedName);
+    public AssemblyComponent createAndRegisterAssemblyComponent (
+            final String fullyQualifiedName,
+            final ComponentType componentType);
 }

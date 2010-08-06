@@ -8,6 +8,8 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
@@ -42,8 +44,8 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
     }
 
     @Override
-    public ExecutionContainer createAndRegisterExecutionContainer(String fullyQualifiedName) {
-        return this.executionContainersManager.createAndRegisterExecutionContainer(fullyQualifiedName);
+    public ExecutionContainer createAndRegisterExecutionContainer(String fullyQualifiedName, ExecutionContainerType executionContainerType) {
+        return this.executionContainersManager.createAndRegisterExecutionContainer(fullyQualifiedName, executionContainerType);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
     }
 
     @Override
-    public NetworkLink createAndRegisterNetworkLink(String fullyQualifiedName) {
-        return this.networkLinksManager.createAndRegisterNetworkLink(fullyQualifiedName);
+    public NetworkLink createAndRegisterNetworkLink(String fullyQualifiedName, NetworkLinkType networkLinkType) {
+        return this.networkLinksManager.createAndRegisterNetworkLink(fullyQualifiedName, networkLinkType);
     }
 }

@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 
 /**
  *
@@ -29,12 +30,15 @@ public interface IAssemblyConnectorsManager {
 
     /**
      * Creates and registers a new assembly connector with the given
-     * full-qualified name fullyQualifiedName.
+     * full-qualified name fullyQualifiedName and of type connectorType.
      *
      * @param fullyQualifiedName
+     * @param connectorType
      * @return the new assembly connector
      * @throws IllegalArgumentException if an assembly connector with the given
      * fully-qualified name has already been registered
      */
-    public AssemblyConnector createAndRegisterAssemblyConnector (final String fullyQualifiedName);
+    public AssemblyConnector createAndRegisterAssemblyConnector (
+            final String fullyQualifiedName,
+            final ConnectorType connectorType);
 }

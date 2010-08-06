@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
  *
@@ -28,12 +29,15 @@ public interface IExecutionContainersManager {
 
     /**
      * Creates and registers a new execution container with the given
-     * full-qualified name fullyQualifiedName.
+     * full-qualified name fullyQualifiedName and the type executionContainerType.
      *
      * @param fullyQualifiedName
+     * @param executionContainerType
      * @return the new execution container
      * @throws IllegalArgumentException if an execution container with the given
      * fully-qualified name has already been registered
      */
-    public ExecutionContainer createAndRegisterExecutionContainer (final String fullyQualifiedName);
+    public ExecutionContainer createAndRegisterExecutionContainer (
+            final String fullyQualifiedName,
+            final ExecutionContainerType executionContainerType);
 }

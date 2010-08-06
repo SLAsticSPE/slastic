@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
+import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import java.util.List;
 
@@ -25,10 +26,14 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
         return this.lookup(id);
     }
 
-    @Override
+   @Override
     public AssemblyConnector createAndRegisterAssemblyConnector(
-            final String fullyQualifiedName) {
-        return this.createAndRegister(fullyQualifiedName);
+            final String fullyQualifiedName,
+            final ConnectorType connectorType) {
+        AssemblyConnector assemblyConnector =
+                this.createAndRegister(fullyQualifiedName);
+        assemblyConnector.setConnectorType(connectorType);
+        return assemblyConnector;
     }
 
     @Override

@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
+import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class NetworkLinksManager extends AbstractFQNamedEntityManager<NetworkLin
 
     @Override
     public NetworkLink createAndRegisterNetworkLink(
-            final String fullyQualifiedName) {
+            final String fullyQualifiedName,
+            final NetworkLinkType networkLinkType) {
         return this.createAndRegister(fullyQualifiedName);
     }
 

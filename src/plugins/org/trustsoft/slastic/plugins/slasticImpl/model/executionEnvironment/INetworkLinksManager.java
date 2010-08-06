@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink;
+import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
 
 /**
  *
@@ -29,12 +30,13 @@ public interface INetworkLinksManager {
 
     /**
      * Creates and registers a new network link with the given
-     * full-qualified name fullyQualifiedName.
+     * full-qualified name fullyQualifiedName and the type networkLinkType.
      *
      * @param fullyQualifiedName
+     * @param networkLinkType 
      * @return the new network link
      * @throws IllegalArgumentException if an network link with the given
      * fully-qualified name has already been registered
      */
-    public NetworkLink createAndRegisterNetworkLink (final String fullyQualifiedName);
+    public NetworkLink createAndRegisterNetworkLink (final String fullyQualifiedName, final NetworkLinkType networkLinkType);
 }
