@@ -32,11 +32,11 @@ public class TestModelReaderWriter extends TestCase {
         /* Create a tmp file the type repository model will be saved to
          * and mark the file to be deleted on jvm termination */
         final File tmpFile =
-                File.createTempFile("typeRepository-", "");
+                File.createTempFile("systemModel-", "");
         tmpFile.deleteOnExit();
 
-        /* Create a type repository model with two components and save it
-         * to the tmp file */
+        /* Create a system model with two components types and save it to the
+         * tmp file */
         final ModelManager systemModelManager =
                 new ModelManager(); // the manager creates a new system model
         final ComponentType componentType0 =
