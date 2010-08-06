@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
+package org.trustsoft.slastic.plugins.slasticImpl.model;
 
 import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 import java.util.HashMap;

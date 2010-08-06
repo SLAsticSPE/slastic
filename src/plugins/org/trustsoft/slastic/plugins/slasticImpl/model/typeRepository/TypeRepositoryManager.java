@@ -4,7 +4,6 @@ import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 
 /**
  *

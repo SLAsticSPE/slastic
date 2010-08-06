@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.util.List;
