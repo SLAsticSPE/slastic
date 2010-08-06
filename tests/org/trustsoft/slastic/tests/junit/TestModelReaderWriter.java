@@ -41,10 +41,9 @@ public class TestModelReaderWriter extends TestCase {
          * to the tmp file */
         final SystemModel systemModel =
                 CoreFactory.eINSTANCE.createSystemModel();
+        assertNotNull(systemModel.getTypeRepositoryModel());
         final ModelManager systemModelManager =
                 new ModelManager(systemModel);
-        assertTrue("Test invalid since systemModelManager.init() returned false",
-                systemModelManager.init()); // force manager to create an empty model
         final ComponentType componentType0 =
                 systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType0);
         final ComponentType componentType1 =

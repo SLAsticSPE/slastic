@@ -78,6 +78,7 @@ public class ModelManager extends AbstractModelManagerComponent {
             throw new IllegalStateException("this.systemModel is null");
         }
 
+        try {
         this.typeRepositoryManager =
                 new TypeRepositoryModelManager(systemModel.getTypeRepositoryModel());
         this.assemblyModelManager =
@@ -86,6 +87,10 @@ public class ModelManager extends AbstractModelManagerComponent {
                 new ExecutionEnvironmentModelManager(systemModel.getExecutionEnvironmentModel());
         this.componentDeploymentModelManager =
                 new ComponentDeploymentModelManager(systemModel.getComponentDeploymentModel());
+        } catch (Exception exc) {
+            log.error("Error initializing managers", exc);
+            return false;
+        }
         return true;
     }
 
@@ -97,7 +102,7 @@ public class ModelManager extends AbstractModelManagerComponent {
                 super.getInitProperty(PROP_NAME_SYSTEM_MODEL__OUTPUT_FN, "");
 
         if (systemModel_inputFile.isEmpty()) {
-            log.info("No input filename for type repository model given --- creating new model");
+            log.info("No input filename for system model given --- creating new model");
             this.systemModel = CoreFactory.eINSTANCE.createSystemModel();
         } else {
             log.info("Loading system model from file " + systemModel_inputFile);
