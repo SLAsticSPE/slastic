@@ -54,11 +54,8 @@ public class TestModelReaderWriter extends TestCase {
 
         /* Load the model from the file */
         log.info("Loading repository from file " + tmpFile.getAbsolutePath());
-        final SystemModel systemModelLoaded =
-                ModelIOUtils.loadSystemModel(tmpFile.getAbsolutePath());
-
         final ModelManager systemModelManagerLoadedModel =
-                new ModelManager(systemModelLoaded);
+                new ModelManager(tmpFile.getAbsolutePath());
         final ComponentType componentType0Loaded =
                 systemModelManagerLoadedModel.getTypeRepositoryManager().lookupComponentType(fqnComponentType0);
         final ComponentType componentType1Loaded =

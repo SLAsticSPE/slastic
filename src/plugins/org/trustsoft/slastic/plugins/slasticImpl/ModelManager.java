@@ -26,8 +26,8 @@ public class ModelManager extends AbstractModelManagerComponent {
     /* fields related to the type repository */
     private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN = "systemModel-inputfn";
     private static final String PROP_NAME_SYSTEM_MODEL__OUTPUT_FN = "systemModel-outputputfn";
-    private volatile String systemModel_inputFile;
-    private volatile String systemModel_outputFile;
+    //private volatile String systemModel_inputFile;
+    private volatile String systemModel_outputFile = "";
     private volatile SystemModel systemModel;
 
     /* Managers for the submodels */
@@ -38,6 +38,11 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     public ModelManager(final SystemModel systemModel) {
         this.systemModel = systemModel;
+        this.initManagers();
+    }
+
+    public ModelManager(final String systemModel_inputFile) throws IOException {
+        this.systemModel = loadModel(systemModel_inputFile);
         this.initManagers();
     }
 
@@ -86,25 +91,30 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     @Override
     public boolean init() {
-        this.systemModel_inputFile =
+        String systemModel_inputFile =
                 super.getInitProperty(PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
         this.systemModel_outputFile =
                 super.getInitProperty(PROP_NAME_SYSTEM_MODEL__OUTPUT_FN, "");
 
-        if (this.systemModel_inputFile.isEmpty()) {
+        if (systemModel_inputFile.isEmpty()) {
             log.info("No input filename for type repository model given --- creating new model");
             this.systemModel = CoreFactory.eINSTANCE.createSystemModel();
         } else {
-            log.info("Loading system model from file " + this.systemModel_inputFile);
+            log.info("Loading system model from file " + systemModel_inputFile);
             try {
-                this.systemModel = ModelIOUtils.loadSystemModel(this.systemModel_inputFile);
+                this.systemModel = loadModel(systemModel_inputFile);
             } catch (IOException ex) {
-                log.error("Failed to load system model from " + this.systemModel_inputFile, ex);
+                log.error("Failed to load system model from " + systemModel_inputFile, ex);
                 return false;
             }
         }
         this.initManagers();
         return true;
+    }
+
+    private SystemModel loadModel(final String systemModel_inputFile) throws IOException {
+        log.info("Loading system model from file " + systemModel_inputFile);
+        return ModelIOUtils.loadSystemModel(systemModel_inputFile);
     }
 
     @Override
@@ -123,14 +133,14 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     @Override
     public void terminate(boolean error) {
-        this.saveModels();
+        this.saveModel();
     }
 
     public void saveModel(final String outputFn) throws IOException {
         ModelIOUtils.saveSystemModel(this.systemModel, outputFn);
     }
 
-    private void saveModels() {
+    private void saveModel() {
         try {
             if (!this.systemModel_outputFile.isEmpty()) {
                 this.saveModel(this.systemModel_outputFile);
