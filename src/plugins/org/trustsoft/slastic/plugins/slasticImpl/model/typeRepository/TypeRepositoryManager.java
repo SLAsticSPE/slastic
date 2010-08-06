@@ -6,6 +6,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
 
 /**
+ * TODO: interfaces, network link types
  *
  * @author Andre van Hoorn
  */
