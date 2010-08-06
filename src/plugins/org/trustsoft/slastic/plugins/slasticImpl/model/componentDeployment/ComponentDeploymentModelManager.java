@@ -2,20 +2,23 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment;
 
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentModel;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class ComponentDeploymentModelManager implements IDeploymentComponentsManager {
+public class ComponentDeploymentModelManager extends AbstractModelManager<ComponentDeploymentModel> implements IDeploymentComponentsManager {
 
     private final DeploymentComponentsManager DeploymentComponentsManager;
 
     private ComponentDeploymentModelManager() {
+        super(null);
         this.DeploymentComponentsManager = null;
     }
 
     public ComponentDeploymentModelManager(final ComponentDeploymentModel ComponentDeploymentModel){
+        super(ComponentDeploymentModel);
         this.DeploymentComponentsManager = new DeploymentComponentsManager(ComponentDeploymentModel.getDeploymentComponents());
     }
 

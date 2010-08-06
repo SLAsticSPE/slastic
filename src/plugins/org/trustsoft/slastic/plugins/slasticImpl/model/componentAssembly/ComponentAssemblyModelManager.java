@@ -3,24 +3,28 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
+import de.cau.se.slastic.metamodel.core.SLAsticModel;
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class ComponentAssemblyModelManager implements IAssemblyComponentsManager, IAssemblyConnectorsManager {
+public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel> implements IAssemblyComponentsManager, IAssemblyConnectorsManager {
 
     private final AssemblyComponentsManager AssemblyComponentsManager;
     private final AssemblyConnectorsManager AssemblyConnectorsManager;
 
     private ComponentAssemblyModelManager() {
+        super(null);
         this.AssemblyComponentsManager = null;
         this.AssemblyConnectorsManager = null;
     }
 
-    public ComponentAssemblyModelManager(final ComponentAssemblyModel ComponentAssemblyModel){
-        this.AssemblyComponentsManager = new AssemblyComponentsManager(ComponentAssemblyModel.getAssemblyComponents());
-        this.AssemblyConnectorsManager = new AssemblyConnectorsManager(ComponentAssemblyModel.getAssemblyConnectors());
+    public ComponentAssemblyModelManager(final ComponentAssemblyModel componentAssemblyModel){
+        super(componentAssemblyModel);
+        this.AssemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
+        this.AssemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyConnectors());
     }
 
     @Override

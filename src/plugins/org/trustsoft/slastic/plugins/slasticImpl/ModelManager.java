@@ -19,6 +19,8 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
 public class ModelManager extends AbstractModelManagerComponent {
 
     private static final Log log = LogFactory.getLog(ModelManager.class);
+
+    /* fields related to the type repository */
     private static final String PROP_NAME_TYPE_REPOSITORY__INPUT_FN = "typeRepository_inputfn";
     private static final String PROP_NAME_TYPE_REPOSITORY__OUTPUT_FN = "typeRepository_outputputfn";
     private volatile String typeRepository_inputFile;

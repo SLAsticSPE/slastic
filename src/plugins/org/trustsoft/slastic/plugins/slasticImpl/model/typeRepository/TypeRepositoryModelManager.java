@@ -1,37 +1,38 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
+import de.cau.se.slastic.metamodel.core.SLAsticModel;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  * TODO: interfaces, network link types
  *
  * @author Andre van Hoorn
  */
-public class TypeRepositoryModelManager implements IComponentTypesManager, IConnectorTypesManager, IExecutionContainerTypesManager {
+public class TypeRepositoryModelManager extends AbstractModelManager<TypeRepositoryModel> implements IComponentTypesManager, IConnectorTypesManager, IExecutionContainerTypesManager {
 
-    private final TypeRepositoryModel typeRepositoryModel;
     private final ComponentTypesManager componentTypeManager;
     private final ConnectorTypesManager connectorTypeManager;
     private final ExecutionContainerTypesManager executionContainerTypeManager;
 
     private TypeRepositoryModelManager() {
-        this.typeRepositoryModel = null;
+        super(null);
         this.componentTypeManager = null;
         this.connectorTypeManager = null;
         this.executionContainerTypeManager = null;
     }
 
     public TypeRepositoryModelManager(final TypeRepositoryModel typeRepositoryModel) {
-        this.typeRepositoryModel = typeRepositoryModel;
+        super(typeRepositoryModel);
         this.componentTypeManager =
-                new ComponentTypesManager(this.typeRepositoryModel.getComponentTypes());
+                new ComponentTypesManager(typeRepositoryModel.getComponentTypes());
         this.connectorTypeManager =
-                new ConnectorTypesManager(this.typeRepositoryModel.getConnectorTypes());
+                new ConnectorTypesManager(typeRepositoryModel.getConnectorTypes());
        this.executionContainerTypeManager =
-                new ExecutionContainerTypesManager(this.typeRepositoryModel.getExecutionContainerTypes());
+                new ExecutionContainerTypesManager(typeRepositoryModel.getExecutionContainerTypes());
     }
 
     @Override

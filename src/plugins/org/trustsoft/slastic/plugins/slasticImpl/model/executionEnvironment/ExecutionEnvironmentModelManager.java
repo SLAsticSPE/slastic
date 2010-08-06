@@ -8,22 +8,25 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink;
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class ExecutionEnvironmentModelManager implements IExecutionContainersManager, INetworkLinksManager {
+public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements IExecutionContainersManager, INetworkLinksManager {
 
     private final ExecutionContainersManager executionContainersManager;
     private final NetworkLinksManager networkLinksManager;
 
     private ExecutionEnvironmentModelManager() {
+        super(null);
         this.executionContainersManager = null;
         this.networkLinksManager = null;
     }
 
     public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel){
+        super(executionEnvironmentModel);
         this.executionContainersManager = new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
         this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
     }
