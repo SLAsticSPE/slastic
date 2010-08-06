@@ -9,12 +9,12 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
  *
  * @author Andre van Hoorn
  */
-public class TypeRepositoryManager implements IComponentTypeManager, IConnectorTypeManager, IExecutionContainerTypeManager {
+public class TypeRepositoryManager implements IComponentTypesManager, IConnectorTypesManager, IExecutionContainerTypesManager {
 
     private final TypeRepository typeRepositoryModel;
-    private final ComponentTypeManager componentTypeManager;
-    private final ConnectorTypeManager connectorTypeManager;
-    private final ExecutionContainerTypeManager executionContainerTypeManager;
+    private final ComponentTypesManager componentTypeManager;
+    private final ConnectorTypesManager connectorTypeManager;
+    private final ExecutionContainerTypesManager executionContainerTypeManager;
 
     private TypeRepositoryManager() {
         this.typeRepositoryModel = null;
@@ -26,11 +26,11 @@ public class TypeRepositoryManager implements IComponentTypeManager, IConnectorT
     public TypeRepositoryManager(final TypeRepository typeRepositoryModel) {
         this.typeRepositoryModel = typeRepositoryModel;
         this.componentTypeManager =
-                new ComponentTypeManager(this.typeRepositoryModel.getComponentTypes());
+                new ComponentTypesManager(this.typeRepositoryModel.getComponentTypes());
         this.connectorTypeManager =
-                new ConnectorTypeManager(this.typeRepositoryModel.getConnectorTypes());
+                new ConnectorTypesManager(this.typeRepositoryModel.getConnectorTypes());
        this.executionContainerTypeManager =
-                new ExecutionContainerTypeManager(this.typeRepositoryModel.getExecutionContainerTypes());
+                new ExecutionContainerTypesManager(this.typeRepositoryModel.getExecutionContainerTypes());
     }
 
     @Override

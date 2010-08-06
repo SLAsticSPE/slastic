@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.util.List;
 
@@ -9,30 +9,30 @@ import java.util.List;
  *
  * @author Andre van Hoorn
  */
-public class ConnectorTypeManager extends AbstractFQNamedEntityManager<ConnectorType> implements IConnectorTypeManager {
-    public ConnectorTypeManager(final List<ConnectorType> componentTypes){
+public class ComponentTypesManager extends AbstractFQNamedEntityManager<ComponentType> implements IComponentTypesManager {
+    public ComponentTypesManager(final List<ComponentType> componentTypes){
         super(componentTypes);
     }
 
     @Override
-    public ConnectorType lookupConnectorType(
+    public ComponentType lookupComponentType(
             final String fullyQualifiedName) {
         return this.lookup(fullyQualifiedName);
     }
 
     @Override
-    public ConnectorType lookupConnectorType(final long id){
+    public ComponentType lookupComponentType(final long id){
         return this.lookup(id);
     }
 
     @Override
-    public ConnectorType createAndRegisterConnectorType(
+    public ComponentType createAndRegisterComponentType(
             final String fullyQualifiedName) {
         return this.createAndRegister(fullyQualifiedName);
     }
 
     @Override
-    protected ConnectorType createEntity() {
-        return TypeRepositoryFactory.eINSTANCE.createConnectorType();
+    protected ComponentType createEntity() {
+        return TypeRepositoryFactory.eINSTANCE.createComponentType();
     }
 }

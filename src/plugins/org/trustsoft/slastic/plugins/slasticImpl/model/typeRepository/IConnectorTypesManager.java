@@ -6,7 +6,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
  *
  * @author Andre van Hoorn
  */
-public interface IConnectorTypeManager {
+public interface IConnectorTypesManager {
 
     /**
      * Returns the connector type with the given fully-qualified name or null

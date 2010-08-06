@@ -6,7 +6,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
  *
  * @author Andre van Hoorn
  */
-public interface IComponentTypeManager {
+public interface IComponentTypesManager {
 
     /**
      * Returns the component type with the given fully-qualified name or null

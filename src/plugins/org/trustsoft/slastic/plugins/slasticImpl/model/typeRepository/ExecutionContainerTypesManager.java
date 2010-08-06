@@ -9,8 +9,8 @@ import java.util.List;
  *
  * @author Andre van Hoorn
  */
-public class ExecutionContainerTypeManager extends AbstractFQNamedEntityManager<ExecutionContainerType> implements IExecutionContainerTypeManager {
-    public ExecutionContainerTypeManager(final List<ExecutionContainerType> componentTypes){
+public class ExecutionContainerTypesManager extends AbstractFQNamedEntityManager<ExecutionContainerType> implements IExecutionContainerTypesManager {
+    public ExecutionContainerTypesManager(final List<ExecutionContainerType> componentTypes){
         super(componentTypes);
     }
 

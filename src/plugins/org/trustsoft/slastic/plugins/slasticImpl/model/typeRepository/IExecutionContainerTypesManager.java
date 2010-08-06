@@ -6,7 +6,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  *
  * @author Andre van Hoorn
  */
-public interface IExecutionContainerTypeManager {
+public interface IExecutionContainerTypesManager {
 
     /**
      * Returns the execution container type with the given fully-qualified name or null
