@@ -1,14 +1,15 @@
 package org.trustsoft.slastic.tests.junit;
 
+import de.cau.se.slastic.metamodel.core.CoreFactory;
+import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.io.File;
 import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
@@ -20,12 +21,12 @@ public class TestModelReaderWriter extends TestCase {
     private static final Log log = LogFactory.getLog(TestModelReaderWriter.class);
 
     /**
-     * Tests whether a type repository model gets properly saved to a
+     * Tests whether a system model gets properly saved to a
      * file and can subsequently be reloaded from the file.
      *
      * @throws IOException
      */
-    public void testSaveReadTypeRepositoryModel() throws IOException {
+    public void testSaveReadSystemModel() throws IOException {
         /* Two fully-qualified  component type names used in the test */
         final String fqnComponentType0 = "a.b.C";
         final String fqnComponentType1 = "a.b.D";
@@ -38,20 +39,22 @@ public class TestModelReaderWriter extends TestCase {
 
         /* Create a type repository model with two components and save it
          * to the tmp file */
-        final TypeRepository typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
-        final TypeRepositoryModelManager typeRepositoryManager =
-                new TypeRepositoryModelManager(typeRepositoryModel);
+        final SystemModel systemModel =
+                CoreFactory.eINSTANCE.createSystemModel();
+        final ModelManager systemModelManager =
+                new ModelManager(systemModel);
+        assertTrue("Test invalid since systemModelManager.init() returned false",
+                systemModelManager.init()); // force manager to create an empty model
         final ComponentType componentType0 =
-                typeRepositoryManager.createAndRegisterComponentType(fqnComponentType0);
+                systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType0);
         final ComponentType componentType1 =
-                typeRepositoryManager.createAndRegisterComponentType(fqnComponentType1);
+                systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType1);
         log.info("Saving type repository to file " + tmpFile.getAbsolutePath());
-        ModelIOUtils.saveTypeRepositoryModel(typeRepositoryModel, tmpFile.getAbsolutePath());
+        systemModelManager.saveModel(tmpFile.getAbsolutePath());
 
         /* Load the model from the file */
         log.info("Loading repository from file " + tmpFile.getAbsolutePath());
-        final TypeRepository typeRepositoryModelLoaded =
+        final SystemModel systemModelLoaded =
                 ModelIOUtils.loadTypeRepositoryModel(tmpFile.getAbsolutePath());
 
         final TypeRepositoryModelManager typeRepositoryManagerLoadedModel =

@@ -5,7 +5,7 @@
 package org.trustsoft.slastic.tests.junit;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
@@ -25,8 +25,8 @@ public class TestTypeRepositoryComponentTypes extends TestCase {
      * package name and identifier.
      */
     public void testFullQualifiedNameSplit() {
-        final TypeRepository typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
+        final TypeRepositoryModel typeRepositoryModel =
+                TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
         final TypeRepositoryModelManager repoMgr = new TypeRepositoryModelManager(typeRepositoryModel);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "ComponentTypeName";
@@ -41,8 +41,8 @@ public class TestTypeRepositoryComponentTypes extends TestCase {
      * package name and identifier. In this test, an empty package name is used.
      */
     public void testFullQualifiedNameSplitEmptyPackage() {
-       final TypeRepository typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
+       final TypeRepositoryModel typeRepositoryModel =
+                TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
         final TypeRepositoryModelManager repoMgr = new TypeRepositoryModelManager(typeRepositoryModel);
         final String packageName = "";
         final String componentTypeName = "ComponentTypeName";
@@ -56,8 +56,8 @@ public class TestTypeRepositoryComponentTypes extends TestCase {
      * Tests whether the lookup functions work properly.
      */
     public void testRegisterNewAndLookup() {
-       final TypeRepository typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
+       final TypeRepositoryModel typeRepositoryModel =
+                TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
         final TypeRepositoryModelManager repoMgr = new TypeRepositoryModelManager(typeRepositoryModel);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "ComponentTypeName";
@@ -79,8 +79,8 @@ public class TestTypeRepositoryComponentTypes extends TestCase {
      * with a name that is already registered.
      */
     public void testRegisterNewExistingName() {
-       final TypeRepository typeRepositoryModel =
-                TypeRepositoryFactory.eINSTANCE.createTypeRepository();
+       final TypeRepositoryModel typeRepositoryModel =
+                TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
         final TypeRepositoryModelManager repoMgr = new TypeRepositoryModelManager(typeRepositoryModel);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "ComponentTypeName";

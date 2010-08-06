@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl;
 
+import de.cau.se.slastic.metamodel.core.CorePackage;
+import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 import java.io.IOException;
@@ -88,12 +90,12 @@ public class ModelIOUtils {
         return resource.getContents().get(0);
     }
 
-    public static void saveTypeRepositoryModel(final TypeRepositoryModel typeRepository, final String outputFn) throws IOException {
-        log.info("Trying to save type repository model " + typeRepository + " to file " + outputFn);
-        saveModel(typeRepository, outputFn);
+    public static void saveSystemModel(final SystemModel systemModel, final String outputFn) throws IOException {
+        log.info("Trying to save system model " + systemModel + " to file " + outputFn);
+        saveModel(systemModel, outputFn);
     }
 
-    public static TypeRepositoryModel loadTypeRepositoryModel(final String inputFn) throws IOException{
-        return (TypeRepositoryModel) loadModel(TypeRepositoryPackage.eINSTANCE, inputFn);
+    public static SystemModel loadSystemModel(final String inputFn) throws IOException{
+        return (SystemModel) loadModel(CorePackage.eINSTANCE, inputFn);
     }
 }

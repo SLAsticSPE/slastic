@@ -4,12 +4,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import de.cau.se.slastic.metamodel.core.CoreFactory;
+import de.cau.se.slastic.metamodel.core.SystemModel;
 import java.io.IOException;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
+import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment.ComponentDeploymentModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.ExecutionEnvironmentModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
@@ -21,33 +24,86 @@ public class ModelManager extends AbstractModelManagerComponent {
     private static final Log log = LogFactory.getLog(ModelManager.class);
 
     /* fields related to the type repository */
-    private static final String PROP_NAME_TYPE_REPOSITORY__INPUT_FN = "typeRepository_inputfn";
-    private static final String PROP_NAME_TYPE_REPOSITORY__OUTPUT_FN = "typeRepository_outputputfn";
-    private volatile String typeRepository_inputFile;
-    private volatile String typeRepository_outputFile;
+    private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN = "systemModel-inputfn";
+    private static final String PROP_NAME_SYSTEM_MODEL__OUTPUT_FN = "systemModel-outputputfn";
+    private volatile String systemModel_inputFile;
+    private volatile String systemModel_outputFile;
+    private volatile SystemModel systemModel;
+
+    /* Managers for the submodels */
     private volatile TypeRepositoryModelManager typeRepositoryManager;
-    private volatile TypeRepositoryModel typeRepositoryModel;
+    private volatile ComponentAssemblyModelManager assemblyModelManager;
+    private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
+    private volatile ComponentDeploymentModelManager componentDeploymentModelManager;
+
+    public ModelManager(final SystemModel systemModel) {
+        this.systemModel = systemModel;
+        this.initManagers();
+    }
 
     public TypeRepositoryModelManager getTypeRepositoryManager() {
         return this.typeRepositoryManager;
     }
 
+    public ComponentAssemblyModelManager getAssemblyModelManager() {
+        return this.assemblyModelManager;
+    }
+
+    public ComponentDeploymentModelManager getComponentDeploymentModelManager() {
+        return this.componentDeploymentModelManager;
+    }
+
+    public ExecutionEnvironmentModelManager getExecutionEnvironmentModelManager() {
+        return this.executionEnvironmentModelManager;
+    }
+
+    /**
+     * Initialized the managers for the submodels type repository, component
+     * assembly, execution environment, and component deployment.
+     *
+     * The system model ${@link #systemModel} must not be null since the
+     * submodels are extracted from it.
+     *
+     * @return true on success, false otherwise
+     * @throws IllegalStateException if ${@link #systemModel} is null.
+     */
+    private boolean initManagers() {
+        if (this.systemModel == null) {
+            log.error("this.systemModel is null");
+            throw new IllegalStateException("this.systemModel is null");
+        }
+
+        this.typeRepositoryManager =
+                new TypeRepositoryModelManager(systemModel.getTypeRepositoryModel());
+        this.assemblyModelManager =
+                new ComponentAssemblyModelManager(systemModel.getComponentAssemblyModel());
+        this.executionEnvironmentModelManager =
+                new ExecutionEnvironmentModelManager(systemModel.getExecutionEnvironmentModel());
+        this.componentDeploymentModelManager =
+                new ComponentDeploymentModelManager(systemModel.getComponentDeploymentModel());
+        return true;
+    }
+
     @Override
     public boolean init() {
-        this.typeRepository_inputFile =
-                super.getInitProperty(PROP_NAME_TYPE_REPOSITORY__INPUT_FN, "");
-        this.typeRepository_outputFile =
-                super.getInitProperty(PROP_NAME_TYPE_REPOSITORY__OUTPUT_FN, "");
+        this.systemModel_inputFile =
+                super.getInitProperty(PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
+        this.systemModel_outputFile =
+                super.getInitProperty(PROP_NAME_SYSTEM_MODEL__OUTPUT_FN, "");
 
-        if (this.typeRepository_inputFile.isEmpty()) {
+        if (this.systemModel_inputFile.isEmpty()) {
             log.info("No input filename for type repository model given --- creating new model");
-            this.typeRepositoryModel = TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
+            this.systemModel = CoreFactory.eINSTANCE.createSystemModel();
         } else {
-            log.info("Loading type repository model from file " + this.typeRepository_inputFile);
-            this.typeRepositoryModel = ModelIOUtils.readTypeRepositoryModel(this.typeRepository_inputFile);
+            log.info("Loading system model from file " + this.systemModel_inputFile);
+            try {
+                this.systemModel = ModelIOUtils.loadSystemModel(this.systemModel_inputFile);
+            } catch (IOException ex) {
+                log.error("Failed to load system model from " + this.systemModel_inputFile, ex);
+                return false;
+            }
         }
-        this.typeRepositoryManager =
-                new TypeRepositoryModelManager(this.typeRepositoryModel);
+        this.initManagers();
         return true;
     }
 
@@ -70,10 +126,14 @@ public class ModelManager extends AbstractModelManagerComponent {
         this.saveModels();
     }
 
+    public void saveModel(final String outputFn) throws IOException {
+        ModelIOUtils.saveSystemModel(this.systemModel, outputFn);
+    }
+
     private void saveModels() {
         try {
-            if (!this.typeRepository_outputFile.isEmpty()) {
-                ModelIOUtils.saveTypeRepositoryModel(this.typeRepositoryModel, this.typeRepository_outputFile);
+            if (!this.systemModel_outputFile.isEmpty()) {
+                this.saveModel(this.systemModel_outputFile);
             }
         } catch (IOException exc) {
             log.error("An IOException occured while saving models", exc);
