@@ -8,9 +8,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
-import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
  *
@@ -39,20 +37,17 @@ public class TestModelReaderWriter extends TestCase {
 
         /* Create a type repository model with two components and save it
          * to the tmp file */
-        final SystemModel systemModel =
-                CoreFactory.eINSTANCE.createSystemModel();
-        assertNotNull(systemModel.getTypeRepositoryModel());
         final ModelManager systemModelManager =
-                new ModelManager(systemModel);
+                new ModelManager(); // the manager creates a new system model
         final ComponentType componentType0 =
                 systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType0);
         final ComponentType componentType1 =
                 systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType1);
-        log.info("Saving type repository to file " + tmpFile.getAbsolutePath());
+        log.info("Saving system model to file " + tmpFile.getAbsolutePath());
         systemModelManager.saveModel(tmpFile.getAbsolutePath());
 
         /* Load the model from the file */
-        log.info("Loading repository from file " + tmpFile.getAbsolutePath());
+        log.info("Loading system model from file " + tmpFile.getAbsolutePath());
         final ModelManager systemModelManagerLoadedModel =
                 new ModelManager(tmpFile.getAbsolutePath());
         final ComponentType componentType0Loaded =

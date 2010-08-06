@@ -4,8 +4,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
+import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
 import de.cau.se.slastic.metamodel.core.CoreFactory;
 import de.cau.se.slastic.metamodel.core.SystemModel;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.io.IOException;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
@@ -35,6 +39,11 @@ public class ModelManager extends AbstractModelManagerComponent {
     private volatile ComponentAssemblyModelManager assemblyModelManager;
     private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
     private volatile ComponentDeploymentModelManager componentDeploymentModelManager;
+
+    public ModelManager(){
+        this.systemModel = ModelManager.createInitializedSystemModel();
+        this.initManagers();
+    }
 
     public ModelManager(final SystemModel systemModel) {
         this.systemModel = systemModel;
@@ -158,5 +167,22 @@ public class ModelManager extends AbstractModelManagerComponent {
     @Override
     public boolean execute() {
         return true;
+    }
+
+    /**
+     * Creates a new system model with initialized (but empty) type repository
+     * model, component assembly model, execution environment model, and
+     * component deployment model.
+     *
+     * @return the new system model
+     */
+    public static SystemModel createInitializedSystemModel(){
+        SystemModel systemModel =
+                CoreFactory.eINSTANCE.createSystemModel();
+        systemModel.setTypeRepositoryModel(TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel());
+        systemModel.setComponentAssemblyModel(ComponentAssemblyFactory.eINSTANCE.createComponentAssemblyModel());
+        systemModel.setExecutionEnvironmentModel(ExecutionEnvironmentFactory.eINSTANCE.createExecutionEnvironmentModel());
+        systemModel.setComponentDeploymentModel(ComponentDeploymentFactory.eINSTANCE.createComponentDeploymentModel());
+        return systemModel;
     }
 }
