@@ -55,14 +55,14 @@ public class TestModelReaderWriter extends TestCase {
         /* Load the model from the file */
         log.info("Loading repository from file " + tmpFile.getAbsolutePath());
         final SystemModel systemModelLoaded =
-                ModelIOUtils.loadTypeRepositoryModel(tmpFile.getAbsolutePath());
+                ModelIOUtils.loadSystemModel(tmpFile.getAbsolutePath());
 
-        final TypeRepositoryModelManager typeRepositoryManagerLoadedModel =
-                new TypeRepositoryModelManager(typeRepositoryModelLoaded);
+        final ModelManager systemModelManagerLoadedModel =
+                new ModelManager(systemModelLoaded);
         final ComponentType componentType0Loaded =
-                typeRepositoryManagerLoadedModel.lookupComponentType(fqnComponentType0);
+                systemModelManagerLoadedModel.getTypeRepositoryManager().lookupComponentType(fqnComponentType0);
         final ComponentType componentType1Loaded =
-                typeRepositoryManagerLoadedModel.lookupComponentType(fqnComponentType1);
+                systemModelManagerLoadedModel.getTypeRepositoryManager().lookupComponentType(fqnComponentType1);
 
         /* Perform a simple (incomplete) equality check */
         assertEquals(componentType0.getId(), componentType0Loaded.getId());
