@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
-import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
  *
@@ -40,8 +40,8 @@ public class TestModelReaderWriter extends TestCase {
          * to the tmp file */
         final TypeRepository typeRepositoryModel =
                 TypeRepositoryFactory.eINSTANCE.createTypeRepository();
-        final TypeRepositoryManager typeRepositoryManager =
-                new TypeRepositoryManager(typeRepositoryModel);
+        final TypeRepositoryModelManager typeRepositoryManager =
+                new TypeRepositoryModelManager(typeRepositoryModel);
         final ComponentType componentType0 =
                 typeRepositoryManager.createAndRegisterComponentType(fqnComponentType0);
         final ComponentType componentType1 =
@@ -54,8 +54,8 @@ public class TestModelReaderWriter extends TestCase {
         final TypeRepository typeRepositoryModelLoaded =
                 ModelIOUtils.loadTypeRepositoryModel(tmpFile.getAbsolutePath());
 
-        final TypeRepositoryManager typeRepositoryManagerLoadedModel =
-                new TypeRepositoryManager(typeRepositoryModelLoaded);
+        final TypeRepositoryModelManager typeRepositoryManagerLoadedModel =
+                new TypeRepositoryModelManager(typeRepositoryModelLoaded);
         final ComponentType componentType0Loaded =
                 typeRepositoryManagerLoadedModel.lookupComponentType(fqnComponentType0);
         final ComponentType componentType1Loaded =

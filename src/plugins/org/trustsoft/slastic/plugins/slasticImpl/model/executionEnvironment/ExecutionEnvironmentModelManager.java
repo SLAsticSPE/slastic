@@ -6,26 +6,26 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
-import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironment;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class ExecutionEnvironmentManager implements IExecutionContainersManager, INetworkLinksManager {
+public class ExecutionEnvironmentModelManager implements IExecutionContainersManager, INetworkLinksManager {
 
     private final ExecutionContainersManager executionContainersManager;
     private final NetworkLinksManager networkLinksManager;
 
-    private ExecutionEnvironmentManager() {
+    private ExecutionEnvironmentModelManager() {
         this.executionContainersManager = null;
         this.networkLinksManager = null;
     }
 
-    public ExecutionEnvironmentManager(final ExecutionEnvironment executionEnvironment){
-        this.executionContainersManager = new ExecutionContainersManager(executionEnvironment.getExecutionContainers());
-        this.networkLinksManager = new NetworkLinksManager(executionEnvironment.getNetworkLinks());
+    public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel){
+        this.executionContainersManager = new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
+        this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
     }
 
     @Override

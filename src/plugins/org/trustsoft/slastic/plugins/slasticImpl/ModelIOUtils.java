@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl;
 
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 import java.io.IOException;
 import org.apache.commons.logging.Log;
@@ -63,8 +63,8 @@ public class ModelIOUtils {
         return (SLAsticQoSAnnotations) readXMIModel(model_fn, org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
     }
 
-    public static TypeRepository readTypeRepositoryModel(final String model_fn) {
-        return (TypeRepository) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
+    public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) {
+        return (TypeRepositoryModel) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
     }
 
     private static void saveModel(final EObject model, final String outputFn) throws IOException {
@@ -88,12 +88,12 @@ public class ModelIOUtils {
         return resource.getContents().get(0);
     }
 
-    public static void saveTypeRepositoryModel(final TypeRepository typeRepository, final String outputFn) throws IOException {
+    public static void saveTypeRepositoryModel(final TypeRepositoryModel typeRepository, final String outputFn) throws IOException {
         log.info("Trying to save type repository model " + typeRepository + " to file " + outputFn);
         saveModel(typeRepository, outputFn);
     }
 
-    public static TypeRepository loadTypeRepositoryModel(final String inputFn) throws IOException{
-        return (TypeRepository) loadModel(TypeRepositoryPackage.eINSTANCE, inputFn);
+    public static TypeRepositoryModel loadTypeRepositoryModel(final String inputFn) throws IOException{
+        return (TypeRepositoryModel) loadModel(TypeRepositoryPackage.eINSTANCE, inputFn);
     }
 }

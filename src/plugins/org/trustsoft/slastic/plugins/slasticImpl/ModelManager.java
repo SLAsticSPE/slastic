@@ -1,17 +1,16 @@
 package org.trustsoft.slastic.plugins.slasticImpl;
 
-import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.io.IOException;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
-import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
  *
@@ -24,10 +23,10 @@ public class ModelManager extends AbstractModelManagerComponent {
     private static final String PROP_NAME_TYPE_REPOSITORY__OUTPUT_FN = "typeRepository_outputputfn";
     private volatile String typeRepository_inputFile;
     private volatile String typeRepository_outputFile;
-    private volatile TypeRepositoryManager typeRepositoryManager;
-    private volatile TypeRepository typeRepositoryModel;
+    private volatile TypeRepositoryModelManager typeRepositoryManager;
+    private volatile TypeRepositoryModel typeRepositoryModel;
 
-    public TypeRepositoryManager getTypeRepositoryManager() {
+    public TypeRepositoryModelManager getTypeRepositoryManager() {
         return this.typeRepositoryManager;
     }
 
@@ -40,13 +39,13 @@ public class ModelManager extends AbstractModelManagerComponent {
 
         if (this.typeRepository_inputFile.isEmpty()) {
             log.info("No input filename for type repository model given --- creating new model");
-            this.typeRepositoryModel = TypeRepositoryFactory.eINSTANCE.createTypeRepository();
+            this.typeRepositoryModel = TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel();
         } else {
             log.info("Loading type repository model from file " + this.typeRepository_inputFile);
             this.typeRepositoryModel = ModelIOUtils.readTypeRepositoryModel(this.typeRepository_inputFile);
         }
         this.typeRepositoryManager =
-                new TypeRepositoryManager(this.typeRepositoryModel);
+                new TypeRepositoryModelManager(this.typeRepositoryModel);
         return true;
     }
 
@@ -69,7 +68,7 @@ public class ModelManager extends AbstractModelManagerComponent {
         this.saveModels();
     }
 
-    private final void saveModels() {
+    private void saveModels() {
         try {
             if (!this.typeRepository_outputFile.isEmpty()) {
                 ModelIOUtils.saveTypeRepositoryModel(this.typeRepositoryModel, this.typeRepository_outputFile);

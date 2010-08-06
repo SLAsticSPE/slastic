@@ -3,28 +3,28 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepository;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 
 /**
  * TODO: interfaces, network link types
  *
  * @author Andre van Hoorn
  */
-public class TypeRepositoryManager implements IComponentTypesManager, IConnectorTypesManager, IExecutionContainerTypesManager {
+public class TypeRepositoryModelManager implements IComponentTypesManager, IConnectorTypesManager, IExecutionContainerTypesManager {
 
-    private final TypeRepository typeRepositoryModel;
+    private final TypeRepositoryModel typeRepositoryModel;
     private final ComponentTypesManager componentTypeManager;
     private final ConnectorTypesManager connectorTypeManager;
     private final ExecutionContainerTypesManager executionContainerTypeManager;
 
-    private TypeRepositoryManager() {
+    private TypeRepositoryModelManager() {
         this.typeRepositoryModel = null;
         this.componentTypeManager = null;
         this.connectorTypeManager = null;
         this.executionContainerTypeManager = null;
     }
 
-    public TypeRepositoryManager(final TypeRepository typeRepositoryModel) {
+    public TypeRepositoryModelManager(final TypeRepositoryModel typeRepositoryModel) {
         this.typeRepositoryModel = typeRepositoryModel;
         this.componentTypeManager =
                 new ComponentTypesManager(this.typeRepositoryModel.getComponentTypes());
