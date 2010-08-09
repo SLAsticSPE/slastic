@@ -52,9 +52,9 @@ public class TestComponentDeploymentModelManager_DeploymentComponents extends Ab
         /* Create assembly component */
         String assemblyComponentName = nameBase+"AssemblyComponent";
         AssemblyComponent assemblyComponent = // use existing assembly instance if it exists already
-                systemModelMgr.getAssemblyModelManager().lookupAssemblyComponent(assemblyComponentName);
+                systemModelMgr.getComponentAssemblyModelManager().lookupAssemblyComponent(assemblyComponentName);
         if (assemblyComponent == null){
-            assemblyComponent = systemModelMgr.getAssemblyModelManager().createAndRegisterAssemblyComponent(assemblyComponentName, componentType);
+            assemblyComponent = systemModelMgr.getComponentAssemblyModelManager().createAndRegisterAssemblyComponent(assemblyComponentName, componentType);
         }
         assertNotNull("Test invalid: assemblyComponent == null", assemblyComponent);
         /* Create execution container type */

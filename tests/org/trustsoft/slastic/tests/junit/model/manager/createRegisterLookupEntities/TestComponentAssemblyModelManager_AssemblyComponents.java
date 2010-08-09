@@ -67,6 +67,6 @@ public class TestComponentAssemblyModelManager_AssemblyComponents extends Abstra
 
     @Override
     protected AbstractModelManager<ComponentAssemblyModel> getModelManager(ModelManager systemModelMgr) {
-        return systemModelMgr.getAssemblyModelManager();
+        return systemModelMgr.getComponentAssemblyModelManager();
     }
 }

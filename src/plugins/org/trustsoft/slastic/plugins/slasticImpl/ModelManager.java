@@ -39,7 +39,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     /* Managers for the submodels */
     private volatile TypeRepositoryModelManager typeRepositoryManager;
-    private volatile ComponentAssemblyModelManager assemblyModelManager;
+    private volatile ComponentAssemblyModelManager componentAssemblyModelManager;
     private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
     private volatile ComponentDeploymentModelManager componentDeploymentModelManager;
 
@@ -62,8 +62,8 @@ public class ModelManager extends AbstractModelManagerComponent {
         return this.typeRepositoryManager;
     }
 
-    public ComponentAssemblyModelManager getAssemblyModelManager() {
-        return this.assemblyModelManager;
+    public ComponentAssemblyModelManager getComponentAssemblyModelManager() {
+        return this.componentAssemblyModelManager;
     }
 
     public ComponentDeploymentModelManager getComponentDeploymentModelManager() {
@@ -93,7 +93,7 @@ public class ModelManager extends AbstractModelManagerComponent {
         try {
         this.typeRepositoryManager =
                 new TypeRepositoryModelManager(systemModel.getTypeRepositoryModel());
-        this.assemblyModelManager =
+        this.componentAssemblyModelManager =
                 new ComponentAssemblyModelManager(systemModel.getComponentAssemblyModel());
         this.executionEnvironmentModelManager =
                 new ExecutionEnvironmentModelManager(systemModel.getExecutionEnvironmentModel());
@@ -201,7 +201,7 @@ public class ModelManager extends AbstractModelManagerComponent {
      * @param toExecutionContainer
      * @return
      */
-    private DeploymentComponent replicateComponent (final AssemblyComponent assemblyComponent, ExecutionContainer toExecutionContainer){
+    public DeploymentComponent replicateComponent (final AssemblyComponent assemblyComponent, ExecutionContainer toExecutionContainer){
         return this.componentDeploymentModelManager.createAndRegisterDeploymentComponent(assemblyComponent, toExecutionContainer);
     }
 
@@ -210,7 +210,7 @@ public class ModelManager extends AbstractModelManagerComponent {
      *
      * @param deploymentContainer
      */
-    private void dereplicateComponent (final DeploymentComponent deploymentContainer){
+    public void dereplicateComponent (final DeploymentComponent deploymentContainer){
         this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentContainer);
     }
 
@@ -221,7 +221,27 @@ public class ModelManager extends AbstractModelManagerComponent {
      * @param deploymentComponent
      * @param toExecutionContainer
      */
-    private void migrateComponent (final DeploymentComponent deploymentComponent, ExecutionContainer toExecutionContainer){
+    public void migrateComponent (final DeploymentComponent deploymentComponent, ExecutionContainer toExecutionContainer){
         this.componentDeploymentModelManager.migrateDeploymentComponent(deploymentComponent, toExecutionContainer);        
+    }
+
+    /**
+     * Marks execution container executionContainer as allocated.
+     *
+     * @param executionContainer
+     * @return iff the execution container is newly allocated, false if it was already allocated
+     */
+    public boolean allocateExecutionContainer (final ExecutionContainer executionContainer){
+        return this.executionEnvironmentModelManager.allocateExecutionContainer(executionContainer);
+    }
+
+    /**
+     * Marks execution container executionContainer as not allocated.
+     *
+     * @param executionContainer
+     * @return iff the execution container is newly deallocated, false if wasn't allocated
+     */
+    public boolean deallocateExecutionContainer (final ExecutionContainer executionContainer){
+        return this.executionEnvironmentModelManager.deallocateExecutionContainer(executionContainer);
     }
 }
