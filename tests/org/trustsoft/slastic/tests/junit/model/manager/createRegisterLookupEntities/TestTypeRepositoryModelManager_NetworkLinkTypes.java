@@ -16,9 +16,9 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
  *
  * @author Andre van Hoorn
  */
-public class TestRepositoryModelManager_NetworkLinkTypes extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, NetworkLinkType> {
+public class TestTypeRepositoryModelManager_NetworkLinkTypes extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, NetworkLinkType> {
 
-    private static final Log log = LogFactory.getLog(TestRepositoryModelManager_NetworkLinkTypes.class);
+    private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_NetworkLinkTypes.class);
 
     @Override
     protected TypeRepositoryModel createModel() {

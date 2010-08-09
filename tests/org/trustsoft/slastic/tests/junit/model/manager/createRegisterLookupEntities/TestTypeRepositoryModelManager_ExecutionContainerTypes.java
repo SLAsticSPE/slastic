@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEntities;
 
-import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import org.apache.commons.logging.Log;
@@ -15,14 +11,14 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
 
 /**
  * Tests the functionalities provided by the type repository manager for creating,
- * registering, and looking up connector types. All test methods are inherited
+ * registering, and looking up component type. All test methods are inherited
  * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestRepositoryModelManager_ConnectorTypes extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, ConnectorType> {
+public class TestTypeRepositoryModelManager_ExecutionContainerTypes extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, ExecutionContainerType> {
 
-    private static final Log log = LogFactory.getLog(TestRepositoryModelManager_ConnectorTypes.class);
+    private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_ExecutionContainerTypes.class);
 
     @Override
     protected TypeRepositoryModel createModel() {
@@ -30,30 +26,30 @@ public class TestRepositoryModelManager_ConnectorTypes extends AbstractSubmodelM
     }
 
     @Override
-    protected ConnectorType createAndRegisterEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName, ModelManager systemModelMgr) {
+    protected ExecutionContainerType createAndRegisterEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName, ModelManager systemModelMgr) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
             fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
-        return ((TypeRepositoryModelManager)mgr).createAndRegisterConnectorType(fqEntityName);
+        return ((TypeRepositoryModelManager)mgr).createAndRegisterExecutionContainerType(fqEntityName);
     }
 
     @Override
-    protected ConnectorType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName) {
+    protected ExecutionContainerType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
             fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
-        return ((TypeRepositoryModelManager)mgr).lookupConnectorType(fqEntityName);
+        return ((TypeRepositoryModelManager)mgr).lookupExecutionContainerType(fqEntityName);
     }
 
     @Override
-    protected ConnectorType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, long entityId) {
+    protected ExecutionContainerType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, long entityId) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
             fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
-        return ((TypeRepositoryModelManager)mgr).lookupConnectorType(entityId);
+        return ((TypeRepositoryModelManager)mgr).lookupExecutionContainerType(entityId);
     }
 
     @Override
