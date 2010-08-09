@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.tests.junit.testComponentStates;
+package org.trustsoft.slastic.tests.junit.framework.testComponentStates;
 
 import java.util.ArrayList;
 import java.util.List;

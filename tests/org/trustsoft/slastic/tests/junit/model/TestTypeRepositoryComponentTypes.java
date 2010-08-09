@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.trustsoft.slastic.tests.junit;
+package org.trustsoft.slastic.tests.junit.model;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;

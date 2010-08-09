@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.tests.junit;
+package org.trustsoft.slastic.tests.junit.framework;
 
 import java.io.File;
 import java.io.IOException;

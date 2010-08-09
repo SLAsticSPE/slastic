@@ -1,16 +1,16 @@
-package org.trustsoft.slastic.tests.junit.testComponentStates;
+package org.trustsoft.slastic.tests.junit.framework.testComponentStates;
 
-import org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent;
+import org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class StateTrackingReconfigurationManagerComponent extends DummyReconfigurationManagerComponent implements ITracksComponentStates {
+public class StateTrackingAnalysisComponent extends BasicAnalysisComponent implements ITracksComponentStates {
 
     private final ComponentStateTracker stateTracker = new ComponentStateTracker();
 
-    public StateTrackingReconfigurationManagerComponent() {
+    public StateTrackingAnalysisComponent() {
     }
 
     @Override

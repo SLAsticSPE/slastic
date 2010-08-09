@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.tests.junit;
+package org.trustsoft.slastic.tests.junit.model;
 
 import de.cau.se.slastic.metamodel.core.CoreFactory;
 import de.cau.se.slastic.metamodel.core.SystemModel;

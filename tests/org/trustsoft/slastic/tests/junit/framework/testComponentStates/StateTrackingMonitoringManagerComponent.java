@@ -1,16 +1,16 @@
-package org.trustsoft.slastic.tests.junit.testComponentStates;
+package org.trustsoft.slastic.tests.junit.framework.testComponentStates;
 
-import org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent;
+import org.trustsoft.slastic.monitoring.DummyMonitoringManagerComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class StateTrackingModelUpdaterComponent extends DummyModelUpdaterComponent implements ITracksComponentStates {
+public class StateTrackingMonitoringManagerComponent extends DummyMonitoringManagerComponent implements ITracksComponentStates {
 
     private final ComponentStateTracker stateTracker = new ComponentStateTracker();
 
-    public StateTrackingModelUpdaterComponent() {
+    public StateTrackingMonitoringManagerComponent() {
     }
 
     @Override

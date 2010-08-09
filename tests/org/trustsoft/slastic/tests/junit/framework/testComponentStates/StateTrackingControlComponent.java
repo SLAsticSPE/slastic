@@ -1,16 +1,16 @@
-package org.trustsoft.slastic.tests.junit.testComponentStates;
+package org.trustsoft.slastic.tests.junit.framework.testComponentStates;
 
-import org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent;
+import org.trustsoft.slastic.control.BasicControlComponent;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class StateTrackingPerformancePredictorComponent extends DummyPerformancePredictorComponent implements ITracksComponentStates {
+public class StateTrackingControlComponent extends BasicControlComponent implements ITracksComponentStates {
 
     private final ComponentStateTracker stateTracker = new ComponentStateTracker();
 
-    public StateTrackingPerformancePredictorComponent() {
+    public StateTrackingControlComponent() {
     }
 
     @Override
