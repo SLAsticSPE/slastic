@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -16,21 +11,24 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
  *
  * @author Andre van Hoorn
  */
-public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements IExecutionContainersManager, INetworkLinksManager {
+public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements IExecutionContainersManager, INetworkLinksManager, IExecutionContainersAllocationManager {
 
     private final ExecutionContainersManager executionContainersManager;
     private final NetworkLinksManager networkLinksManager;
+    private final ExecutionContainersAllocationManager executionContainersAllocationManager;
 
     private ExecutionEnvironmentModelManager() {
         super(null);
         this.executionContainersManager = null;
         this.networkLinksManager = null;
+        this.executionContainersAllocationManager = null;
     }
 
     public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel){
         super(executionEnvironmentModel);
         this.executionContainersManager = new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
         this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
+        this.executionContainersAllocationManager = new ExecutionContainersAllocationManager(executionEnvironmentModel.getAllocatedExecutionContainers());
     }
 
     @Override
@@ -61,5 +59,15 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
     @Override
     public NetworkLink createAndRegisterNetworkLink(String fullyQualifiedName, NetworkLinkType networkLinkType) {
         return this.networkLinksManager.createAndRegisterNetworkLink(fullyQualifiedName, networkLinkType);
+    }
+
+    @Override
+    public boolean allocateExecutionContainer(ExecutionContainer executionContainer) {
+        return this.executionContainersAllocationManager.allocateExecutionContainer(executionContainer);
+    }
+
+    @Override
+    public boolean deallocateExecutionContainer(ExecutionContainer executionContainer) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -22,7 +22,7 @@ public class ConnectorTypesManager extends AbstractFQNamedEntityManager<Connecto
 
     @Override
     public ConnectorType lookupConnectorType(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override

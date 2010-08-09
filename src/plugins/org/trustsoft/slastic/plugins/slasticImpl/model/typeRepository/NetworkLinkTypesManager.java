@@ -22,7 +22,7 @@ public class NetworkLinkTypesManager extends AbstractFQNamedEntityManager<Networ
 
     @Override
     public NetworkLinkType lookupNetworkLinkType(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override

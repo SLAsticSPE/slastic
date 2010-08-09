@@ -32,4 +32,23 @@ public interface IDeploymentComponentsManager {
     public DeploymentComponent createAndRegisterDeploymentComponent (
             final AssemblyComponent assemblyComponent,
             final ExecutionContainer executionContainer);
+
+    /**
+     * Removes the given deployment component from the model.
+     *
+     * @param deploymentComponent the deployment component to delete
+     * @throws NullPointerException if deploymentComponent is null
+     */
+    public void deleteDeploymentComponent (final DeploymentComponent deploymentComponent);
+
+   /**
+     * Migrates the deployment component deploymentComponent from its current
+     * execution container to the execution container toExecutionContainer.
+     *
+     * @param deploymentComponent
+     * @param toExecutionContainer
+     */
+    public void migrateDeploymentComponent (
+            final DeploymentComponent deploymentComponent,
+            final ExecutionContainer toExecutionContainer);
 }

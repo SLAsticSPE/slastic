@@ -23,7 +23,7 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
 
     @Override
     public AssemblyConnector lookupAssemblyConnector(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
    @Override

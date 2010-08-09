@@ -12,27 +12,36 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
  */
 public class ComponentDeploymentModelManager extends AbstractModelManager<ComponentDeploymentModel> implements IDeploymentComponentsManager {
 
-    private final DeploymentComponentsManager DeploymentComponentsManager;
+    private final DeploymentComponentsManager deploymentComponentsManager;
 
     private ComponentDeploymentModelManager() {
         super(null);
-        this.DeploymentComponentsManager = null;
+        this.deploymentComponentsManager = null;
     }
 
     public ComponentDeploymentModelManager(final ComponentDeploymentModel ComponentDeploymentModel){
         super(ComponentDeploymentModel);
-        this.DeploymentComponentsManager = new DeploymentComponentsManager(ComponentDeploymentModel.getDeploymentComponents());
+        this.deploymentComponentsManager = new DeploymentComponentsManager(ComponentDeploymentModel.getDeploymentComponents());
     }
 
     @Override
     public DeploymentComponent lookupDeploymentComponent(final long id) {
-        return this.DeploymentComponentsManager.lookupDeploymentComponent(id);
+        return this.deploymentComponentsManager.lookupDeploymentComponent(id);
     }
 
     @Override
     public DeploymentComponent createAndRegisterDeploymentComponent(
             final AssemblyComponent assemblyComponent,
             final ExecutionContainer executionContainer) {
-        return this.DeploymentComponentsManager.createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
+        return this.deploymentComponentsManager.createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
+    }
+
+    @Override
+    public void deleteDeploymentComponent(DeploymentComponent deploymentComponent) {
+        this.deploymentComponentsManager.deleteDeploymentComponent(deploymentComponent);
+    }
+
+    public void migrateDeploymentComponent(DeploymentComponent deploymentComponent, ExecutionContainer toExecutionContainer) {
+        this.deploymentComponentsManager.migrateDeploymentComponent(deploymentComponent, toExecutionContainer);
     }
 }

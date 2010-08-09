@@ -4,10 +4,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
+import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.core.CoreFactory;
 import de.cau.se.slastic.metamodel.core.SystemModel;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.io.IOException;
@@ -187,5 +190,38 @@ public class ModelManager extends AbstractModelManagerComponent {
         systemModel.setExecutionEnvironmentModel(ExecutionEnvironmentFactory.eINSTANCE.createExecutionEnvironmentModel());
         systemModel.setComponentDeploymentModel(ComponentDeploymentFactory.eINSTANCE.createComponentDeploymentModel());
         return systemModel;
+    }
+
+
+    /**
+     * Creates and returns a new deployment component for the given assembly 
+     * component and execution container.
+     * 
+     * @param assemblyComponent
+     * @param toExecutionContainer
+     * @return
+     */
+    private DeploymentComponent replicateComponent (final AssemblyComponent assemblyComponent, ExecutionContainer toExecutionContainer){
+        return this.componentDeploymentModelManager.createAndRegisterDeploymentComponent(assemblyComponent, toExecutionContainer);
+    }
+
+    /**
+     * Removes the given deployment component from the system model.
+     *
+     * @param deploymentContainer
+     */
+    private void dereplicateComponent (final DeploymentComponent deploymentContainer){
+        this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentContainer);
+    }
+
+    /**
+     * Migrates the deployment component deploymentComponent from its current
+     * execution container to the execution container toExecutionContainer.
+     *
+     * @param deploymentComponent
+     * @param toExecutionContainer
+     */
+    private void migrateComponent (final DeploymentComponent deploymentComponent, ExecutionContainer toExecutionContainer){
+        this.componentDeploymentModelManager.migrateDeploymentComponent(deploymentComponent, toExecutionContainer);        
     }
 }

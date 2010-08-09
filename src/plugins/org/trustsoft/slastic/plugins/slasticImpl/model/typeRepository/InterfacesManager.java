@@ -22,7 +22,7 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 
     @Override
     public Interface lookupInterface(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class AssemblyComponentsManager extends AbstractFQNamedEntityManager<Asse
 
     @Override
     public AssemblyComponent lookupAssemblyComponent(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override

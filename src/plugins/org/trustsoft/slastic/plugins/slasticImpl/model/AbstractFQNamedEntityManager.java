@@ -37,7 +37,7 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity> exte
         if (this.entitiesByFullQualifiedName.containsKey(fullyQualifiedName)) {
             throw new IllegalArgumentException("Element with name " + fullyQualifiedName + "exists already");
         }
-        final T newEntity = super.createAndRegister();
+        final T newEntity = super.createAndRegisterEntity();
         final String[] fqnSplit = NameUtils.splitFullyQualifiedName(fullyQualifiedName);
         newEntity.setPackageName(fqnSplit[0]);
         newEntity.setName(fqnSplit[1]);

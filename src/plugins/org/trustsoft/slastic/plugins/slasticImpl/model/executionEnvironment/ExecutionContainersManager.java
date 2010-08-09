@@ -23,7 +23,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 
     @Override
     public ExecutionContainer lookupExecutionContainer(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override

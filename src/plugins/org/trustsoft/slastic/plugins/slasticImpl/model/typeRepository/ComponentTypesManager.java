@@ -22,7 +22,7 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 
     @Override
     public ComponentType lookupComponentType(final long id){
-        return this.lookup(id);
+        return this.lookupEntityById(id);
     }
 
     @Override
