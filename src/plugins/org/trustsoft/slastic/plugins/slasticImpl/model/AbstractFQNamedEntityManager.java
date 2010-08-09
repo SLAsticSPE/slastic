@@ -9,7 +9,6 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
 /**
  *

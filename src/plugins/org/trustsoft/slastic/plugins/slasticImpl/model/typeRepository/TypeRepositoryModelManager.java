@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
-import de.cau.se.slastic.metamodel.core.SLAsticModel;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;

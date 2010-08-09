@@ -16,9 +16,9 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
  *
  * @author Andre van Hoorn
  */
-public class TestTypeRepositoryComponentTypes extends TestCase {
+public class TestRepositoryManager_ComponentTypes extends TestCase {
 
-    private static final Log log = LogFactory.getLog(TestTypeRepositoryComponentTypes.class);
+    private static final Log log = LogFactory.getLog(TestRepositoryManager_ComponentTypes.class);
 
     /**
      * Tests whether full-qualified component type names are properly split into
