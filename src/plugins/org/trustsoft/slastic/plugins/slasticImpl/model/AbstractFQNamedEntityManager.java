@@ -14,32 +14,20 @@ import java.util.Map;
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity> {
-    private volatile long nextId = 1;
+public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity> extends AbstractEntityManager<T> {
     private final Map<String, T> entitiesByFullQualifiedName =
             new HashMap<String, T>();
-    private final Map<Long, T> entitiesById =
-            new HashMap<Long, T>();
-    private final List<T> entities;
-
-    private AbstractFQNamedEntityManager(){
-        this.entities = null;
-    }
 
     public AbstractFQNamedEntityManager(final List<T> entities){
-        this.entities = entities;
+        super(entities);
         for (T entity : entities){
-            this.addEntitiyToTables(entity);
+            this.addEntitiyToNameMap(entity);
         }
     }
 
     public T lookup(
             final String fullyQualifiedName) {
         return this.entitiesByFullQualifiedName.get(fullyQualifiedName);
-    }
-
-    public T lookup(final long id){
-        return this.entitiesById.get(id);
     }
 
     protected abstract T createEntity();
@@ -49,23 +37,20 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity> {
         if (this.entitiesByFullQualifiedName.containsKey(fullyQualifiedName)) {
             throw new IllegalArgumentException("Element with name " + fullyQualifiedName + "exists already");
         }
-        final T newEntity = this.createEntity();
-        newEntity.setId(nextId++);
+        final T newEntity = super.createAndRegister();
         final String[] fqnSplit = NameUtils.splitFullyQualifiedName(fullyQualifiedName);
         newEntity.setPackageName(fqnSplit[0]);
         newEntity.setName(fqnSplit[1]);
-        this.entities.add(newEntity);
-        this.addEntitiyToTables(newEntity);
+        this.addEntitiyToNameMap(newEntity);
         return newEntity;
     }
 
     /**
      * Adds a newly created component to the local tables.
      */
-    private void addEntitiyToTables(T componentType){
+    private void addEntitiyToNameMap(T componentType){
         this.entitiesByFullQualifiedName.put(
                 componentType.getPackageName()+"."+componentType.getName(),
                 componentType);
-        this.entitiesById.put(componentType.getId(), componentType);
     }
 }

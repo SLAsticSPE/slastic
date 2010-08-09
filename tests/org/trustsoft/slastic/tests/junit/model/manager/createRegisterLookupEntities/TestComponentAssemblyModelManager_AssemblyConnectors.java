@@ -13,11 +13,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.Compone
 /**
  * Tests the functionalities provided by the connector assembly manager for creating,
  * registering, and looking up assembly connectors. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestComponentAssemblyModelManager_AssemblyConnectors extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<ComponentAssemblyModel, AssemblyConnector> {
+public class TestComponentAssemblyModelManager_AssemblyConnectors extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<ComponentAssemblyModel, AssemblyConnector> {
 
     private static final Log log = LogFactory.getLog(TestComponentAssemblyModelManager_AssemblyConnectors.class);
 

@@ -4,22 +4,16 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
-import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import java.util.List;
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractEntityManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public class DeploymentComponentsManager extends AbstractFQNamedEntityManager<DeploymentComponent> implements IDeploymentComponentsManager {
+public class DeploymentComponentsManager extends AbstractEntityManager<DeploymentComponent> implements IDeploymentComponentsManager {
     public DeploymentComponentsManager(final List<DeploymentComponent> DeploymentComponents){
         super(DeploymentComponents);
-    }
-
-    @Override
-    public DeploymentComponent lookupDeploymentComponent(
-            final String fullyQualifiedName) {
-        return this.lookup(fullyQualifiedName);
     }
 
     @Override
@@ -29,11 +23,10 @@ public class DeploymentComponentsManager extends AbstractFQNamedEntityManager<De
 
     @Override
     public DeploymentComponent createAndRegisterDeploymentComponent(
-            final String fullyQualifiedName,
             final AssemblyComponent assemblyComponent,
             final ExecutionContainer executionContainer) {
         DeploymentComponent deploymentComponent =
-                this.createAndRegister(fullyQualifiedName);
+                this.createAndRegister();
         deploymentComponent.setAssemblyComponent(assemblyComponent);
         deploymentComponent.setExecutionContainer(executionContainer);
         return deploymentComponent;

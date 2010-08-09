@@ -12,11 +12,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
 /**
  * Tests the functionalities provided by the type repository manager for creating,
  * registering, and looking up component type. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestTypeRepositoryModelManager_NetworkLinkTypes extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, NetworkLinkType> {
+public class TestTypeRepositoryModelManager_NetworkLinkTypes extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<TypeRepositoryModel, NetworkLinkType> {
 
     private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_NetworkLinkTypes.class);
 

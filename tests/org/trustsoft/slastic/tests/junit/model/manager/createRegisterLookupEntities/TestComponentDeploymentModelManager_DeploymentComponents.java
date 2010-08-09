@@ -4,7 +4,10 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentModel;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import de.cau.se.slastic.metamodel.core.SystemModel;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -14,7 +17,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment.Compo
 /**
  * Tests the functionalities provided by the component deployment manager for creating,
  * registering, and looking up deployment components. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
@@ -27,19 +30,19 @@ public class TestComponentDeploymentModelManager_DeploymentComponents extends Ab
         return ComponentDeploymentFactory.eINSTANCE.createComponentDeploymentModel();
     }
 
-    @Override
-    protected DeploymentComponent createAndRegisterEntity(AbstractModelManager<ComponentDeploymentModel> mgr, String fqEntityName, ModelManager systemModelMgr) {
+    private DeploymentComponent createAndRegisterEntity(AbstractModelManager<ComponentDeploymentModel> mgr, ModelManager systemModelMgr) {
         if (! (mgr instanceof ComponentDeploymentModelManager)){
             fail("mgr must be instance of ComponentDeploymentModelManager");
             return null;
         }
+        final String nameBase = "XJKLHKH";
         /*
          * An assembly component (type) and an execution container (type) is
          * needed to create a deployment component -- we'll create these with
          * generated names or use existing, if  they exist already.
          */
         /* Create component type */
-        String componentTypeName = fqEntityName+"Type"; // create type name from assembly component name
+        String componentTypeName = nameBase+"Type"; // create type name
         ComponentType componentType = // use existing type instance if it exists already
                 systemModelMgr.getTypeRepositoryManager().lookupComponentType(componentTypeName);
         if (componentType == null){
@@ -47,7 +50,7 @@ public class TestComponentDeploymentModelManager_DeploymentComponents extends Ab
         }
         assertNotNull("Test invalid: componentType == null", componentType);
         /* Create assembly component */
-        String assemblyComponentName = fqEntityName+"AssemblyComponent";
+        String assemblyComponentName = nameBase+"AssemblyComponent";
         AssemblyComponent assemblyComponent = // use existing assembly instance if it exists already
                 systemModelMgr.getAssemblyModelManager().lookupAssemblyComponent(assemblyComponentName);
         if (assemblyComponent == null){
@@ -55,32 +58,36 @@ public class TestComponentDeploymentModelManager_DeploymentComponents extends Ab
         }
         assertNotNull("Test invalid: assemblyComponent == null", assemblyComponent);
         /* Create execution container type */
-        String executionContainerTypeName = fqEntityName+"Type"; // create type name from execution container name
-        ComponentType executionContainerType = // use existing type instance if it exists already
-                systemModelMgr.getTypeRepositoryManager().lookupComponentType(executionContainerTypeName);
+        String executionContainerTypeName = nameBase+"Type"; // create type name from execution container name
+        ExecutionContainerType executionContainerType = // use existing type instance if it exists already
+                systemModelMgr.getTypeRepositoryManager().lookupExecutionContainerType(executionContainerTypeName);
         if (executionContainerType == null){
-            executionContainerType = systemModelMgr.getTypeRepositoryManager().createAndRegisterComponentType(executionContainerTypeName);
+            executionContainerType = systemModelMgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(executionContainerTypeName);
         }
         assertNotNull("Test invalid: executionContainerType == null", executionContainerType);
         /* Create execution container */
-        String executionContainerName = fqEntityName+"AssemblyComponent";
-        AssemblyComponent executionContainer = // use existing container instance if it exists already
-                systemModelMgr.getAssemblyModelManager().lookupAssemblyComponent(executionContainerName);
+        String executionContainerName = nameBase+"ExecutionContainer";
+        ExecutionContainer executionContainer = // use existing container instance if it exists already
+                systemModelMgr.getExecutionEnvironmentModelManager().lookupExecutionContainer(executionContainerName);
         if (executionContainer == null){
-            executionContainer = systemModelMgr.getAssemblyModelManager().createAndRegisterAssemblyComponent(executionContainerName, executionContainerType);
+            executionContainer = systemModelMgr.getExecutionEnvironmentModelManager().createAndRegisterExecutionContainer(executionContainerName, executionContainerType);
         }
         assertNotNull("Test invalid: executionContainer == null", executionContainer);
 
-        return ((ComponentDeploymentModelManager)mgr).createAndRegisterDeploymentComponent(fqEntityName, assemblyComponent, null);
+        return ((ComponentDeploymentModelManager)mgr).createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
     }
 
-    @Override
-    protected DeploymentComponent lookupEntity(AbstractModelManager<ComponentDeploymentModel> mgr, String fqEntityName) {
-        if (! (mgr instanceof ComponentDeploymentModelManager)){
-            fail("mgr must be instance of ComponentDeploymentModelManager");
-            return null;
-        }
-        return ((ComponentDeploymentModelManager)mgr).lookupDeploymentComponent(fqEntityName);
+    /**
+     * Tests whether the lookup functions work properly.
+     */
+    public final void testRegisterNewAndLookup() {
+        final SystemModel systemModel = ModelManager.createInitializedSystemModel();
+        final ModelManager systemModelMgr = new ModelManager(systemModel);
+        final AbstractModelManager<ComponentDeploymentModel> mgr = this.getModelManager(systemModelMgr);
+        final DeploymentComponent entity = this.createAndRegisterEntity(mgr, systemModelMgr);
+        final DeploymentComponent componentTypeLookedUpById =
+                this.lookupEntity(mgr, entity.getId());
+        assertSame("Entity lookup by ID failed", entity, componentTypeLookedUpById);
     }
 
     @Override

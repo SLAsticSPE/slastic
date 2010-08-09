@@ -13,11 +13,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.Compone
 /**
  * Tests the functionalities provided by the component assembly manager for creating,
  * registering, and looking up assembly components. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestComponentAssemblyModelManager_AssemblyComponents extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<ComponentAssemblyModel, AssemblyComponent> {
+public class TestComponentAssemblyModelManager_AssemblyComponents extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<ComponentAssemblyModel, AssemblyComponent> {
 
     private static final Log log = LogFactory.getLog(TestComponentAssemblyModelManager_AssemblyComponents.class);
 

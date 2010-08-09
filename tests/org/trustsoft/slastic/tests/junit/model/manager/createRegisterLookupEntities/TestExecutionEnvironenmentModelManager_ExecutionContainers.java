@@ -13,11 +13,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.Exec
 /**
  * Tests the functionalities provided by the execution environment manager for creating,
  * registering, and looking up execution containers. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<ExecutionEnvironmentModel, ExecutionContainer> {
+public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<ExecutionEnvironmentModel, ExecutionContainer> {
 
     private static final Log log = LogFactory.getLog(TestExecutionEnvironenmentModelManager_ExecutionContainers.class);
 

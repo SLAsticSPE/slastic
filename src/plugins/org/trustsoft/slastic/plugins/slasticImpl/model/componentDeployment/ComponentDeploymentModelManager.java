@@ -25,20 +25,14 @@ public class ComponentDeploymentModelManager extends AbstractModelManager<Compon
     }
 
     @Override
-    public DeploymentComponent lookupDeploymentComponent(final String fullyQualifiedName) {
-        return this.DeploymentComponentsManager.lookup(fullyQualifiedName);
-    }
-
-    @Override
     public DeploymentComponent lookupDeploymentComponent(final long id) {
         return this.DeploymentComponentsManager.lookupDeploymentComponent(id);
     }
 
     @Override
     public DeploymentComponent createAndRegisterDeploymentComponent(
-            final String fullyQualifiedName,
             final AssemblyComponent assemblyComponent,
             final ExecutionContainer executionContainer) {
-        return this.DeploymentComponentsManager.createAndRegisterDeploymentComponent(fullyQualifiedName, assemblyComponent, executionContainer);
+        return this.DeploymentComponentsManager.createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
     }
 }

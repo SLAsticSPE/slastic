@@ -12,11 +12,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
 /**
  * Tests the functionalities provided by the type repository manager for creating,
  * registering, and looking up interfaces. All test methods are inherited
- * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupEntityTest}.
+ * from the abstract super class ${@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  *
  * @author Andre van Hoorn
  */
-public class TestTypeRepositoryModelManager_Interfaces extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<TypeRepositoryModel, Interface> {
+public class TestTypeRepositoryModelManager_Interfaces extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<TypeRepositoryModel, Interface> {
 
     private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_Interfaces.class);
 
