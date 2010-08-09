@@ -1,29 +1,27 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package org.trustsoft.slastic.tests.junit.model;
+package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEntities;
 
 import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 import de.cau.se.slastic.metamodel.core.SLAsticModel;
+import de.cau.se.slastic.metamodel.core.SystemModel;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  *
  * @author Andre van Hoorn
  */
-public abstract class AbstractSubmodelManagerTest<M extends SLAsticModel, T extends FQNamedEntity> extends TestCase {
+public abstract class AbstractSubmodelManagerCreateRegisterLookupEntityTest<M extends SLAsticModel, T extends FQNamedEntity> extends TestCase {
 
-    private static final Log log = LogFactory.getLog(AbstractSubmodelManagerTest.class);
+    private static final Log log = LogFactory.getLog(AbstractSubmodelManagerCreateRegisterLookupEntityTest.class);
 
     protected abstract M createModel();
 
-    protected abstract AbstractModelManager<M> createModelManager(M model);
+    protected abstract AbstractModelManager<M> getModelManager(ModelManager systemModelMgr);
 
-    protected abstract T createAndRegisterEntity(AbstractModelManager<M> mgr, String fqEntityName);
+    protected abstract T createAndRegisterEntity(AbstractModelManager<M> mgr, String fqEntityName, ModelManager systemModelMgr);
 
     protected abstract T lookupEntity(AbstractModelManager<M> mgr, String fqEntityName);
 
@@ -33,12 +31,13 @@ public abstract class AbstractSubmodelManagerTest<M extends SLAsticModel, T exte
      * Tests whether full-qualified entity type names are properly split into
      * package name and identifier.
      */
-    public void testFullQualifiedNameSplit() {
-        final M model = this.createModel();
-        final AbstractModelManager<M> mgr = this.createModelManager(model);
+    public final void testFullQualifiedNameSplit() {
+        final SystemModel systemModel = ModelManager.createInitializedSystemModel();
+        final ModelManager systemModelMgr = new ModelManager(systemModel);
+        final AbstractModelManager<M> mgr = this.getModelManager(systemModelMgr);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "EntityName";
-        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName);
+        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName, systemModelMgr);
         assertEquals("Package names not equal", entity.getPackageName(), packageName);
         assertEquals("Enttiy names not equal", entity.getName(), componentTypeName);
     }
@@ -47,12 +46,13 @@ public abstract class AbstractSubmodelManagerTest<M extends SLAsticModel, T exte
      * Tests whether full-qualified entity names are properly split into
      * package name and identifier. In this test, an empty package name is used.
      */
-    public void testFullQualifiedNameSplitEmptyPackage() {
-        final M model = this.createModel();
-        final AbstractModelManager<M> mgr = this.createModelManager(model);
+    public final void testFullQualifiedNameSplitEmptyPackage() {
+        final SystemModel systemModel = ModelManager.createInitializedSystemModel();
+        final ModelManager systemModelMgr = new ModelManager(systemModel);
+        final AbstractModelManager<M> mgr = this.getModelManager(systemModelMgr);
         final String packageName = "";
         final String componentTypeName = "ComponentTypeName";
-        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName);
+        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName, systemModelMgr);
         assertEquals("Package names not equal", entity.getPackageName(), packageName);
         assertEquals("Enttiy names not equal", entity.getName(), componentTypeName);
     }
@@ -60,12 +60,13 @@ public abstract class AbstractSubmodelManagerTest<M extends SLAsticModel, T exte
     /**
      * Tests whether the lookup functions work properly.
      */
-    public void testRegisterNewAndLookup() {
-        final M model = this.createModel();
-        final AbstractModelManager<M> mgr = this.createModelManager(model);
+    public final void testRegisterNewAndLookup() {
+        final SystemModel systemModel = ModelManager.createInitializedSystemModel();
+        final ModelManager systemModelMgr = new ModelManager(systemModel);
+        final AbstractModelManager<M> mgr = this.getModelManager(systemModelMgr);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "EntityName";
-        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName);
+        final T entity = this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName, systemModelMgr);
         final T entityLookedUpByName = this.lookupEntity(mgr, packageName + "." + componentTypeName);
         assertSame("Entity lookup by name failed", entity, entityLookedUpByName);
         final T componentTypeLookedUpById =
@@ -78,14 +79,15 @@ public abstract class AbstractSubmodelManagerTest<M extends SLAsticModel, T exte
      * ${@link IllegalArgumentException} if one tries to add an entity with a
      * name that is already registered.
      */
-    public void testRegisterNewExistingName() {
-        final M model = this.createModel();
-        final AbstractModelManager<M> mgr = this.createModelManager(model);
+    public final void testRegisterNewExistingName() {
+        final SystemModel systemModel = ModelManager.createInitializedSystemModel();
+        final ModelManager systemModelMgr = new ModelManager(systemModel);
+        final AbstractModelManager<M> mgr = this.getModelManager(systemModelMgr);
         final String packageName = "de.cau.se.slastic.package";
         final String componentTypeName = "EntityName";
         try {
-            this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName);
-            this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName);
+            this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName, systemModelMgr);
+            this.createAndRegisterEntity(mgr, packageName + "." + componentTypeName, systemModelMgr);
             fail("Expected " + IllegalArgumentException.class.getName() + " to be thrown");
         } catch (IllegalArgumentException exc) {
             /* we want this exception to be thrown */
