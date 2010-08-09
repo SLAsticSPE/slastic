@@ -29,7 +29,6 @@ public class ExecutionContainersAllocationManager implements IExecutionContainer
         }
     }
 
-
     @Override
     public boolean allocateExecutionContainer(ExecutionContainer executionContainer) {
         long executionContainerId = executionContainer.getId();
