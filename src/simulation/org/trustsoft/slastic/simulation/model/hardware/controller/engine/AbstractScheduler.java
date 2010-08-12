@@ -85,7 +85,7 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 		return this.tickSimTime;
 	}
 
-	public abstract float getBusiness();
+	public abstract double getBusiness();
 
 	public int getProcessCount() {
 		return this.queue.length();
