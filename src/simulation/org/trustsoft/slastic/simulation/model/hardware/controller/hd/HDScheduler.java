@@ -32,7 +32,7 @@ public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 	}
 
 	@Override
-	public float getBusiness() {
+	public double getBusiness() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

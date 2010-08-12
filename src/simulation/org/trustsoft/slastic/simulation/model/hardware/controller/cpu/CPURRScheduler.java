@@ -3,8 +3,6 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
-import org.trustsoft.slastic.simulation.model.hardware.controller.engine.TickEvent;
-import org.trustsoft.slastic.simulation.model.hardware.controller.engine.TickEventGenerator;
 
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
@@ -16,28 +14,29 @@ public class CPURRScheduler extends CPUScheduler {
 	private static Log log = LogFactory.getLog(CPURRScheduler.class);
 
 	private final Queue<CPUSchedulableProcess> activeProcess;
-	
+
 	private double utilization;
 
 	private long cyclesPerSlice;
 
 	private boolean idle = true;
-	
-	private TickEventGenerator utilizationTicker;
+
+	private final UtilizationProbeEventGenerator utilizationTicker;
 
 	public CPURRScheduler(final Model model, final String name) {
 		super(model, name, new Queue<CPUSchedulableProcess>(model, name
 				+ "JobQueue", Constants.DEBUG, Constants.DEBUG));
 		this.activeProcess = new Queue<CPUSchedulableProcess>(model, name,
 				QueueBased.FIFO, 1, Constants.DEBUG, Constants.DEBUG);
-		utilizationTicker = new UtilizationProbeEventGenerator(model, name, Constants.DEBUG, this);
+		this.utilizationTicker = new UtilizationProbeEventGenerator(model,
+				name, Constants.DEBUG, this);
 	}
 
 	@Override
 	public synchronized void schedule(final CPUSchedulableProcess process) {
 		this.queue.insert(process);
-		this.cyclesPerSlice = (Constants.PS_SLICE * Constants.CPU_SCALE * this
-				.getOwner().getCapacity()) / 1000;
+		this.cyclesPerSlice = Constants.PS_SLICE * Constants.CPU_SCALE
+				* this.getOwner().getCapacity() / 1000;
 		CPURRScheduler.log.info("Task arrived: " + process);
 		if (this.idle) {
 			CPURRScheduler.log.info("Resuming scheduler with tick at "
@@ -113,13 +112,13 @@ public class CPURRScheduler extends CPUScheduler {
 
 	@Override
 	public double getBusiness() {
-		return utilization;
+		return this.utilization;
 	}
-	
-	//TODO check API for reset, don't remove processes
-	public void recalcUtilization(){
-		this.utilization = activeProcess.averageLength();
-		activeProcess.reset();
+
+	// TODO check API for reset, don't remove processes
+	public void recalcUtilization() {
+		this.utilization = this.activeProcess.averageLength();
+		this.activeProcess.reset();
 	}
 
 	@Override

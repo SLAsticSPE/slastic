@@ -19,7 +19,7 @@ public class HardDrive extends ProcessingResource<IOOperation> {
 	}
 
 	@Override
-	public float getBusiness() {
+	public double getBusiness() {
 		// TODO Auto-generated method stub
 		return 0;
 	}

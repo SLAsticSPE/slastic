@@ -25,7 +25,7 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
 	// this.scheduler = scheduler;
 	// }
 
-	public abstract float getBusiness();
+	public abstract double getBusiness();
 
 	final public void schedule(final T process) {
 		this.scheduler.schedule(process);
@@ -38,7 +38,7 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
 	}
 
 	public int getCapacity() {
-		return capacity;
+		return this.capacity;
 	}
 
 }

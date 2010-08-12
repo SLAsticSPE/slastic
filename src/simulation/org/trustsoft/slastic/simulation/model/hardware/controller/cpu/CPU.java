@@ -19,7 +19,7 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 	}
 
 	@Override
-	public float getBusiness() {
+	public double getBusiness() {
 		return this.getScheduler().getBusiness();
 	}
 
