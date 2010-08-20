@@ -187,6 +187,7 @@
         </copy>
         <jar destfile="${dist.dir}/${slastic.plugins.jar}">
             <fileset dir="${build.slastic.plugins.dir}"/>
+
         </jar>
     </target>
 
