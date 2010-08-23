@@ -1,11 +1,17 @@
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
+import kieker.monitoring.core.MonitoringController;
+
+import org.trustsoft.slastic.simulation.config.Constants;
+
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
 // TODO do only for allocated server cpus
 public class UtilizationProbeEventGenerator {
 
+	private static final MonitoringController monCtrl = MonitoringController
+			.getInstance();
 	private static final SimTime TICK_TIME = new SimTime(.5);
 	private final Model model;
 	private final String name;
@@ -27,7 +33,12 @@ public class UtilizationProbeEventGenerator {
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);
 		tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
-		this.scheduler.recalcUtilization();
+		final double util = this.scheduler.recalcUtilization();
+		final UtilizationRecord urectum = new UtilizationRecord();
+		urectum.setUtilization(util);
+		urectum.setTime((long) (Constants.SIM_TIME_TO_MON_TIME * this.model
+				.currentTime().getTimeValue()));
+		UtilizationProbeEventGenerator.monCtrl.newMonitoringRecord(urectum);
 	}
 
 }

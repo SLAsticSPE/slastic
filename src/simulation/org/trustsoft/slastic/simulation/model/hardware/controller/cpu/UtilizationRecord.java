@@ -25,4 +25,34 @@ public class UtilizationRecord extends AbstractMonitoringRecord {
 		return new Object[] { this.time, this.utilization };
 	}
 
+	/**
+	 * @return the time
+	 */
+	public final long getTime() {
+		return this.time;
+	}
+
+	/**
+	 * @param time
+	 *            the time to set
+	 */
+	public final void setTime(final long time) {
+		this.time = time;
+	}
+
+	/**
+	 * @return the utilization
+	 */
+	public final double getUtilization() {
+		return this.utilization;
+	}
+
+	/**
+	 * @param utilization
+	 *            the utilization to set
+	 */
+	public final void setUtilization(final double utilization) {
+		this.utilization = utilization;
+	}
+
 }
