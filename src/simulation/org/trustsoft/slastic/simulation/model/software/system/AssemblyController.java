@@ -79,6 +79,7 @@ public class AssemblyController {
 		}
 		for (final ProvidedDelegationConnector systemServiceConnector : system
 				.getProvidedDelegationConnectors_ComposedStructure()) {
+			this.log.info(systemServiceConnector);
 			final ProvidedRole role = systemServiceConnector
 					.getInnerProvidedRole_ProvidedDelegationConnector();
 			for (final Signature signature : role

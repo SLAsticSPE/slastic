@@ -111,6 +111,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="kieker/lib"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/org.antlr.runtime_3.0.0/antlr-runtime-3.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kieker"/>
 	<classpathentry kind="output" path="build/slastic.sim"/>
 </classpath>
