@@ -111,14 +111,14 @@ public class CPURRScheduler extends CPUScheduler {
 	}
 
 	@Override
-	public double getBusiness() {
+	public synchronized double getBusiness() {
 		return this.utilization;
 	}
 
-	// TODO check API for reset, don't remove processes
-	public void recalcUtilization() {
+	public double recalcUtilization() {
 		this.utilization = this.activeProcess.averageLength();
 		this.activeProcess.reset();
+		return this.utilization;
 	}
 
 	@Override
