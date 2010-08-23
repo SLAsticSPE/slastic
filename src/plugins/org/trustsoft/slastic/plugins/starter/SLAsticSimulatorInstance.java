@@ -1,11 +1,22 @@
 package org.trustsoft.slastic.plugins.starter;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.Properties;
-import kieker.common.record.MonitoringRecordReceiverException;
+
+import kieker.analysis.AnalysisInstance;
+import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
+import kieker.analysis.reader.filesystem.FSReader;
+import kieker.common.record.IMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
@@ -19,13 +30,9 @@ import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
-import kieker.analysis.AnalysisInstance;
-import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.analysis.reader.filesystem.FSReader;
-import kieker.common.record.IMonitoringRecord;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class SLAsticSimulatorInstance {
@@ -110,8 +117,11 @@ public class SLAsticSimulatorInstance {
             this.pcmResourceEnvironmentModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_RESOURCEENV_FN);
             this.slasticReconfigurationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN);
 
+            final ResourceSet set = new ResourceSetImpl();
+            set.setURIConverter(new MyURIConverterImpl(new String [] {this.pcmRespositoryModel_fn, this.pcmSystemModel_fn, this.pcmAllocationModel_fn,
+            		this.pcmResourceEnvironmentModel_fn, this.slasticReconfigurationModel_fn}));
             this.pcmRepository = PCMModelReader.readRepository(
-                    this.pcmRespositoryModel_fn);
+                    this.pcmRespositoryModel_fn, set);
             if (this.pcmRepository == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM repository from file '"
                         + this.pcmRespositoryModel_fn + "'");
@@ -123,7 +133,7 @@ public class SLAsticSimulatorInstance {
                         + this.pcmRepository.getEntityName());
             }
             this.pcmSystem = PCMModelReader.readSystem(
-                    this.pcmSystemModel_fn);
+                    this.pcmSystemModel_fn, set);
             if (this.pcmSystem == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM system from file '"
                         + this.pcmSystemModel_fn + "'");
@@ -132,7 +142,7 @@ public class SLAsticSimulatorInstance {
                         + this.pcmSystemModel_fn + "'");
             }
             this.pcmAllocation = PCMModelReader.readAllocation(
-                    this.pcmAllocationModel_fn);
+                    this.pcmAllocationModel_fn, set);
             if (this.pcmAllocation == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM allocation from file '"
                         + this.pcmAllocationModel_fn + "'");
@@ -141,7 +151,7 @@ public class SLAsticSimulatorInstance {
                         + this.pcmAllocationModel_fn + "'");
             }
             this.pcmResourceEnvironment = PCMModelReader.readResourceEnvironment(
-                    this.pcmResourceEnvironmentModel_fn);
+                    this.pcmResourceEnvironmentModel_fn, set);
             if (this.pcmResourceEnvironment == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM resource environment from file '"
                         + this.pcmResourceEnvironmentModel_fn + "'");
@@ -158,6 +168,15 @@ public class SLAsticSimulatorInstance {
                         "Failed to read SLAstic reconfiguration model from file '"
                         + this.slasticReconfigurationModel_fn + "'");
             }
+            final Map<URI, URI> ma = set.getURIConverter().getURIMap();
+            for (final URI uri : ma.keySet()) {
+            	SLAsticSimulatorInstance.log.info(uri +" => "+ ma.get(uri));
+			}
+            EcoreUtil.resolveAll(set);
+            final Map<EObject, Collection<Setting>> m = EcoreUtil.UnresolvedProxyCrossReferencer.find(set);
+            for (final EObject o : m.keySet()) {
+            	SLAsticSimulatorInstance.log.warn(o + " " + m.get(o));
+			}
         } catch (final Exception exc) {
             SLAsticSimulatorInstance.log.error("Init error", exc);
             throw new IllegalArgumentException("Init error", exc);
@@ -235,7 +254,7 @@ public class SLAsticSimulatorInstance {
             }
 
             public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
-                throw new UnsupportedOperationException("Not supported yet.");
+				return null;
             }
         });
         try {

@@ -83,6 +83,7 @@ public class AssemblyController {
 			final ProvidedRole role = systemServiceConnector
 					.getInnerProvidedRole_ProvidedDelegationConnector();
 			this.log.info(role);
+			this.log.info(role.getProvidedInterface__ProvidedRole());
 			for (final Signature signature : role
 					.getProvidedInterface__ProvidedRole()
 					.getSignatures__Interface()) {
