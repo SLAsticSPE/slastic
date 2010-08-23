@@ -43,7 +43,7 @@
     <target name="init-compile-classpaths">
         <path id="slastic.core-compile-classpath">
             <fileset dir="${lib.dir}">
-                <include name="*.jar"/>
+                <include name="**/*.jar"/>
             </fileset>
         </path>
         <path id="slastic.plugins-compile-classpath">

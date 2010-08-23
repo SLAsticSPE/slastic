@@ -3,7 +3,6 @@ package org.trustsoft.slastic.plugins.slasticImpl;
 import de.cau.se.slastic.metamodel.core.CorePackage;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -69,7 +68,7 @@ public class ModelIOUtils {
         return (TypeRepositoryModel) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
     }
 
-    private static void saveModel(final EObject model, final String outputFn) throws IOException {
+    protected static void saveModel(final EObject model, final String outputFn) throws IOException {
         ResourceSet resourceSet = new ResourceSetImpl();
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */
                 new XMIResourceFactoryImpl());
@@ -79,7 +78,7 @@ public class ModelIOUtils {
 
     }
 
-    private static EObject loadModel(final EPackage ePackage, final String inputFn) throws IOException {
+    protected static EObject loadModel(final EPackage ePackage, final String inputFn) throws IOException {
         ResourceSet resourceSet = new ResourceSetImpl();
         resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */
                 new XMIResourceFactoryImpl());

@@ -110,7 +110,7 @@ public class SLAsticSimulatorInstance {
             this.pcmResourceEnvironmentModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_RESOURCEENV_FN);
             this.slasticReconfigurationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN);
 
-            this.pcmRepository = PCMModelReader.getInstance().readRepository(
+            this.pcmRepository = PCMModelReader.readRepository(
                     this.pcmRespositoryModel_fn);
             if (this.pcmRepository == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM repository from file '"
@@ -122,7 +122,7 @@ public class SLAsticSimulatorInstance {
                 SLAsticSimulatorInstance.log.info("Loaded repository: "
                         + this.pcmRepository.getEntityName());
             }
-            this.pcmSystem = PCMModelReader.getInstance().readSystem(
+            this.pcmSystem = PCMModelReader.readSystem(
                     this.pcmSystemModel_fn);
             if (this.pcmSystem == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM system from file '"
@@ -131,7 +131,7 @@ public class SLAsticSimulatorInstance {
                         "Failed to read PCM system from file '"
                         + this.pcmSystemModel_fn + "'");
             }
-            this.pcmAllocation = PCMModelReader.getInstance().readAllocation(
+            this.pcmAllocation = PCMModelReader.readAllocation(
                     this.pcmAllocationModel_fn);
             if (this.pcmAllocation == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM allocation from file '"
@@ -140,7 +140,7 @@ public class SLAsticSimulatorInstance {
                         "Failed to read PCM allocation from file '"
                         + this.pcmAllocationModel_fn + "'");
             }
-            this.pcmResourceEnvironment = PCMModelReader.getInstance().readResourceEnvironment(
+            this.pcmResourceEnvironment = PCMModelReader.readResourceEnvironment(
                     this.pcmResourceEnvironmentModel_fn);
             if (this.pcmResourceEnvironment == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read PCM resource environment from file '"
