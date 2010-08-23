@@ -13,12 +13,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.openarchitectureware.emf.XmiReader;
-import org.openarchitectureware.workflow.WorkflowContext;
-import org.openarchitectureware.workflow.WorkflowContextDefaultImpl;
-import org.openarchitectureware.workflow.issues.IssuesImpl;
-import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.sla.parser.ParserComponent;
 import org.trustsoft.slastic.slasticqosannotations.SLAsticQoSAnnotations;
 import org.trustsoft.slastic.slasticresourceenvironment.SLAsticResourceEnvironment;
 import reconfMM.ReconfigurationModel;
@@ -31,41 +25,24 @@ public class ModelIOUtils {
 
     private static final Log log = LogFactory.getLog(ModelIOUtils.class);
 
-    public final static slal.Model readSLAModel(final String model_fn) {
-        final String OUTPUT_SLOT_NAME = "theModel";
-        ParserComponent slaModelParser = new ParserComponent();
-        slaModelParser.setModelFile(model_fn);
-        slaModelParser.setOutputSlot(OUTPUT_SLOT_NAME);
-        WorkflowContext ctx = new WorkflowContextDefaultImpl();
-        slaModelParser.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
-        return (slal.Model) ctx.get(OUTPUT_SLOT_NAME);
+    public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) throws IOException {
+        //return (ReconfigurationModel) readXMIModel(model_fn, reconfMM.ReconfMMPackage.class.getName());
+        return (ReconfigurationModel) loadModel(reconfMM.ReconfMMPackage.eINSTANCE, model_fn);
     }
 
-    private static Object readXMIModel(final String model_fn, final String metaModelPackage) {
-        final String OUTPUT_SLOT_NAME = "theModel";
-        XmiReader r = new XmiReader();
-        r.setModelFile(model_fn);
-        r.setMetaModelPackage(metaModelPackage);
-        r.setOutputSlot(OUTPUT_SLOT_NAME);
-        WorkflowContext ctx = new WorkflowContextDefaultImpl();
-        r.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
-        return ctx.get(OUTPUT_SLOT_NAME);
+    public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) throws IOException {
+        //return (SLAsticResourceEnvironment) readXMIModel(model_fn, org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
+        return (SLAsticResourceEnvironment) loadModel(org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE, model_fn);
     }
 
-    public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) {
-        return (ReconfigurationModel) readXMIModel(model_fn, reconfMM.ReconfMMPackage.class.getName());
+    public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) throws IOException {
+        //return (SLAsticQoSAnnotations) readXMIModel(model_fn, org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
+        return (SLAsticQoSAnnotations) loadModel(org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE, model_fn);
     }
 
-    public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) {
-        return (SLAsticResourceEnvironment) readXMIModel(model_fn, org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
-    }
-
-    public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) {
-        return (SLAsticQoSAnnotations) readXMIModel(model_fn, org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
-    }
-
-    public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) {
-        return (TypeRepositoryModel) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
+    public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) throws IOException {
+        //return (TypeRepositoryModel) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
+        return (TypeRepositoryModel) loadModel(de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE, model_fn);
     }
 
     protected static void saveModel(final EObject model, final String outputFn) throws IOException {
