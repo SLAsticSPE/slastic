@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,11 +75,16 @@ public class ModelManager extends AbstractModelManagerComponent {
 
     @Override
     public boolean init() {
-        this.reconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
-        this.initComponentAllocationList();
-        this.initAllocatedServers();
-        this.initInstanceCount();
-        return true;
+        try {
+            this.reconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(this.getInitProperty(PROP_NAME_RECONFIGURATIONMODEL_FN));
+            this.initComponentAllocationList();
+            this.initAllocatedServers();
+            this.initInstanceCount();
+            return true;
+        } catch (IOException ex) {
+            log.error("Failed to load reconfiguration model", ex);
+            return false;
+        }
     }
 
     @Override
