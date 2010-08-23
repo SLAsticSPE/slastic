@@ -57,7 +57,7 @@
         </path>
         <path id="slastic.simulation-compile-classpath">
             <fileset dir="${lib.dir}">
-                <include name="*.jar"/>
+                <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
@@ -65,7 +65,7 @@
         </path>
        <path id="slastic-run-classpath">
             <fileset dir="${lib.dir}">
-                <include name="*.jar"/>
+                <include name="**/*.jar"/>
                 <exclude name="log4j-*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
@@ -76,7 +76,7 @@
         </path>
         <path id="slastic.tests-compile-classpath">
             <fileset dir="${lib.dir}">
-                <include name="*.jar"/>
+                <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
