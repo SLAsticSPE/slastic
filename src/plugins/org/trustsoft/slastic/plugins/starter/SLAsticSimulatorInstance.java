@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
-import kieker.analysis.AnalysisInstance;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.analysis.reader.filesystem.FSReader;
 import kieker.common.record.IMonitoringRecord;
@@ -30,6 +29,7 @@ import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
+import kieker.analysis.AnalysisController;
 
 /**
  *
@@ -72,7 +72,7 @@ public class SLAsticSimulatorInstance {
     private Allocation pcmAllocation;
     private ResourceEnvironment pcmResourceEnvironment;
     private ReconfigurationModel slasticReconfigurationModel;
-    private AnalysisInstance tpanInstance;
+    private AnalysisController tpanInstance;
     private SimulationController simCtrl;
     private SLAsticSimPlanReceiver reconfPlanReceiver;
 
@@ -232,7 +232,7 @@ public class SLAsticSimulatorInstance {
 
         /* Construct and start Tpan instance with FS reader */
         final FSReader r = new FSReader(new String[]{this.fsReaderInputDir});
-        this.tpanInstance = new AnalysisInstance();
+        this.tpanInstance = new AnalysisController();
         this.tpanInstance.setLogReader(r);
         this.tpanInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 

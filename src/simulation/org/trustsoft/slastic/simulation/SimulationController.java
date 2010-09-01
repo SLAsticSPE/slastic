@@ -71,8 +71,8 @@ public class SimulationController {
 					// this.log.info("Received record " + ker.componentName);
 					// we buffer entry calls until the last call will return
 					// BEFORE the next one starts
-					final EntryCall ec = new EntryCall(ker.componentName,
-							ker.opname, ker.traceId, ker.tin, ker.tout);
+					final EntryCall ec = new EntryCall(ker.className,
+							ker.operationName, ker.traceId, ker.tin, ker.tout);
 					SimulationController.this.queue.add(ec);
 					// while (this.buffer.size() > Constants.PRE_BUFFER
 					// && this.buffer.first().getTout() < ker.tin) {

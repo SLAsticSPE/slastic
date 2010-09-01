@@ -2,7 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import kieker.analysis.AnalysisInstance;
+import kieker.analysis.AnalysisController;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.analysis.reader.IMonitoringLogReader;
 import kieker.common.record.IMonitoringRecord;
@@ -19,7 +19,7 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurem
 public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent {
 
     private static final Log log = LogFactory.getLog(KiekerMonitoringManager.class);
-    private AnalysisInstance analysisInstance = null;
+    private AnalysisController analysisInstance = null;
     private final static String KIEKER_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
     private final static String KIEKER_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
 
@@ -42,7 +42,7 @@ public class KiekerMonitoringManager extends AbstractMonitoringManagerComponent 
         IMonitoringLogReader logReader = (IMonitoringLogReader) loadAndInitTpmonLogReaderInstanceFromClassname(
                 logReaderClassnameProperty, logReaderInitStringProperty);
 
-        analysisInstance = new AnalysisInstance();
+        analysisInstance = new AnalysisController();
         analysisInstance.setLogReader(logReader);
         analysisInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 

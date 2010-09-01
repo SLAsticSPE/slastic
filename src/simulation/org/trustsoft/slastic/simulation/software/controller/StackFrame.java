@@ -55,7 +55,7 @@ public class StackFrame {
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
 		rec.ess = depth;
 		rec.eoi = eoi;
-		rec.vmName = this.serverId;
+		rec.hostName = this.serverId;
 		return rec;
 	}
 
