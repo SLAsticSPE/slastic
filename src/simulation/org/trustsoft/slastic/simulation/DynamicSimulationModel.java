@@ -3,9 +3,6 @@ package org.trustsoft.slastic.simulation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
-import org.trustsoft.slastic.simulation.events.reconfiguration.AllocationEvent;
-import org.trustsoft.slastic.simulation.events.reconfiguration.DelComponent;
-import org.trustsoft.slastic.simulation.events.reconfiguration.ReplicationEvent;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.EntryCall;
@@ -15,22 +12,12 @@ import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreate
 import org.trustsoft.slastic.simulation.util.ExternalCallQueue;
 
 import reconfMM.ReconfigurationModel;
-import ReconfigurationPlanModel.ComponentDeReplicationOP;
-import ReconfigurationPlanModel.ComponentReplicationOP;
-import ReconfigurationPlanModel.NodeAllocationOP;
-import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
-import ReconfigurationPlanModel.impl.ReconfigurationPlanModelFactoryImpl;
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
-import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
-import de.uka.ipd.sdq.pcm.allocation.AllocationFactory;
-import de.uka.ipd.sdq.pcm.allocation.impl.AllocationFactoryImpl;
 import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.Model;
-import desmoj.core.simulator.SimTime;
 
 public class DynamicSimulationModel extends Model {
 
@@ -86,7 +73,7 @@ public class DynamicSimulationModel extends Model {
 		}
 
 		// // for testing only
-
+/*
 		final ReconfigurationPlanModelFactory pf = new ReconfigurationPlanModelFactoryImpl();
 
 		final NodeAllocationOP na = pf.createNodeAllocationOP();
@@ -131,6 +118,7 @@ public class DynamicSimulationModel extends Model {
 		op2.setDestination(dest2);
 		re = new ReplicationEvent(this, "foo", Constants.DEBUG, op2);
 		re.schedule(new SimTime(1000));
+
 		// re.schedule(new SimTime(4500));
 		// re = new ReplicationEvent(this, "foo", Constants.DEBUG, op);
 		// re.schedule(new SimTime(7500));
@@ -146,7 +134,7 @@ public class DynamicSimulationModel extends Model {
 		ac.setResourceContainer_AllocationContext(dest0);
 		dr.setComponent(ac);
 		final DelComponent dc = new DelComponent(this, "bar", Constants.DEBUG,
-				dr);
+				dr);	*/
 		// dc.schedule(new SimTime(3000));
 		//
 		// dc = new DelComponent(this, "bar", Constants.DEBUG, dr);
@@ -165,7 +153,7 @@ public class DynamicSimulationModel extends Model {
 
 	/*
 	 * call returns algo<br/> let the next entry call be scheduled
-	 * 
+	 *
 	 */
 	public void callReturns(final String traceId) {
 		final EntryCall call;
