@@ -11,11 +11,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.openarchitectureware.workflow.WorkflowContext;
-import org.openarchitectureware.workflow.WorkflowContextDefaultImpl;
-import org.openarchitectureware.workflow.issues.IssuesImpl;
-import org.openarchitectureware.workflow.monitor.NullProgressMonitor;
-import org.trustsoft.slastic.control.sla.parser.ParserComponent;
 import org.trustsoft.slastic.slasticqosannotations.SLAsticQoSAnnotations;
 import org.trustsoft.slastic.slasticresourceenvironment.SLAsticResourceEnvironment;
 
@@ -32,14 +27,15 @@ public class ModelIOUtils {
 
     private static final Log log = LogFactory.getLog(ModelIOUtils.class);
 
-    public final static slal.Model readSLAModel(final String model_fn) {
-        final String OUTPUT_SLOT_NAME = "theModel";
-        final ParserComponent slaModelParser = new ParserComponent();
-        slaModelParser.setModelFile(model_fn);
-        slaModelParser.setOutputSlot(OUTPUT_SLOT_NAME);
-        final WorkflowContext ctx = new WorkflowContextDefaultImpl();
-        slaModelParser.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
-        return (slal.Model) ctx.get(OUTPUT_SLOT_NAME);
+    public static slal.Model readSLAModel(final String model_fn) {
+        throw new UnsupportedOperationException("Not supported any more");
+//        final String OUTPUT_SLOT_NAME = "theModel";
+//        final ParserComponent slaModelParser = new ParserComponent();
+//        slaModelParser.setModelFile(model_fn);
+//        slaModelParser.setOutputSlot(OUTPUT_SLOT_NAME);
+//        final WorkflowContext ctx = new WorkflowContextDefaultImpl();
+//        slaModelParser.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
+//        return (slal.Model) ctx.get(OUTPUT_SLOT_NAME);
     }
 
     public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) throws IOException {
