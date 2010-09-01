@@ -12,7 +12,7 @@ public class UtilizationProbeEventGenerator {
 
 	private static final MonitoringController monCtrl = MonitoringController
 			.getInstance();
-	private static final SimTime TICK_TIME = new SimTime(.5);
+	private static final SimTime TICK_TIME = new SimTime(1000);
 	private final Model model;
 	private final String name;
 	private final boolean debug;
@@ -32,7 +32,7 @@ public class UtilizationProbeEventGenerator {
 	public void tick() {
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);
-		tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
+	//	tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		final double util = this.scheduler.recalcUtilization();
 		final UtilizationRecord urectum = new UtilizationRecord();
 		urectum.setUtilization(util);
