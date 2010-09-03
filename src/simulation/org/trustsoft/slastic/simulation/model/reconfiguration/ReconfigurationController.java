@@ -160,6 +160,12 @@ public final class ReconfigurationController {
 		return false;
 	}
 
+	/**
+	 * Take reconfiguration plan and build event list iff no plan is active
+	 *
+	 * @param plan
+	 *            the plan to execute
+	 */
 	public void schedulePlan(final SLAsticReconfigurationPlan plan) {
 		if (this.reconfEvents.isEmpty() && this.plan == null) {
 			this.plan = plan;
@@ -174,9 +180,12 @@ public final class ReconfigurationController {
 				} else if (op instanceof ComponentDeReplicationOP) {
 					final ComponentMigrationOP repOp = (ComponentMigrationOP) op;
 					// create replication and dereplication operations
-					final ComponentReplicationOP replic = this.reconfOpFact.createComponentReplicationOP();
-					final ComponentDeReplicationOP dereplic = this.reconfOpFact.createComponentDeReplicationOP();
-					replic.setComponent(repOp.getComponent().getAssemblyContext_AllocationContext());
+					final ComponentReplicationOP replic = this.reconfOpFact
+							.createComponentReplicationOP();
+					final ComponentDeReplicationOP dereplic = this.reconfOpFact
+							.createComponentDeReplicationOP();
+					replic.setComponent(repOp.getComponent()
+							.getAssemblyContext_AllocationContext());
 					replic.setDestination(repOp.getDestination());
 					this.reconfEvents.add(this.createEvent(replic));
 					dereplic.setClone(repOp.getComponent());
@@ -196,13 +205,13 @@ public final class ReconfigurationController {
 	}
 
 	private ReconfigurationEvent createEvent(final NodeDeAllocationOP repOp) {
-		return new DelocationEvent(this.model, repOp.toString(), Constants.DEBUG,
-				repOp);
+		return new DelocationEvent(this.model, repOp.toString(),
+				Constants.DEBUG, repOp);
 	}
 
 	private ReconfigurationEvent createEvent(final NodeAllocationOP repOp) {
-		return new AllocationEvent(this.model, repOp.toString(), Constants.DEBUG,
-				repOp);
+		return new AllocationEvent(this.model, repOp.toString(),
+				Constants.DEBUG, repOp);
 	}
 
 	private ReconfigurationEvent createEvent(final ComponentReplicationOP op) {
@@ -233,10 +242,11 @@ public final class ReconfigurationController {
 
 	private void scheduleNextOp() {
 		if (!this.reconfEvents.isEmpty()) {
-			// TODO: maybe we need more intelligence here!
-			// FIXME dereplication can happen when mark unused has been called!
 			this.reconfEvents.remove(0).schedule(SimTime.NOW);
 		} else {
+			for (final ReconfEventListener listener : this.listeners) {
+				listener.notifyPlanDone(this.plan);
+			}
 			this.plan = null;
 		}
 	}
@@ -263,9 +273,6 @@ public final class ReconfigurationController {
 	public void markUnusedAndBlocked(final String server,
 			final String asmContext) {
 		this.scheduleNextOp();
-		// TODO state for waiting
-		// FIXME add Functionality! e.g. if first event in list is delete
-		// component for the empty component we can schedule it now
 	}
 
 }
