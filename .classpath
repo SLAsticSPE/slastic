@@ -14,54 +14,6 @@
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.stoex_2.0.0.200811151014NGT.jar"/>
 	<classpathentry kind="lib" path="lib/de.uka.ipd.sdq.units_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.adapter.emf.check_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.adapter.rsdp_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.adapter.rsdp.plugin_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.adapter.rsdp.test_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.base_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.check.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.core_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.core.tests_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.metamodelGenerator_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.umlMetamodel_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.xmiInstantiator_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.xmiInstantiator.tests_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.xmlInstantiator_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.classic.xmlInstantiator.tests_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.core.emftools_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.core.expressions_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.core.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.core.xpand2_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.dependencies_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.emf.generic.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.emftools_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.graphviz_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.graphviz.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.recipe_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.recipe.core_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.recipe.eclipseChecks_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.recipe.simpleChecks_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.recipe.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.uml2.adapter_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.uml2.adapter.plugin_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.util.featureconfig_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.util.stdlib_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.util.uml2ecore_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.util.xvar_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.util.xweave_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xpand2.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xsd_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xsd.demos_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xsd.plugin_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtend.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.core_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.core.base_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.editor_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.editor.base_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.generator_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="lib/org.openarchitectureware.xtext.ui_4.3.1.20090107-2000PRD.jar"/>
 	<classpathentry kind="lib" path="lib/org.trustsoft.slastic.control.sla.editor.jar"/>
 	<classpathentry kind="lib" path="lib/org.trustsoft.slastic.control.sla.generator.jar"/>
 	<classpathentry kind="lib" path="lib/org.trustsoft.slastic.control.sla.jar"/>
@@ -83,7 +35,6 @@
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.edit_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.editor_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/ReconfigurationPlanMM.tests_1.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-tpmon-0.95_controlServlet.war"/>
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
 	<classpathentry kind="lib" path="lib/swtgraphics2d.jar"/>
 	<classpathentry kind="lib" path="lib/concurrent-1.3.4.jar"/>
@@ -113,5 +64,12 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/org.antlr.runtime_3.0.0/antlr-runtime-3.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kieker"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.emftools_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.xtext.core.base_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.xtext.core_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.workflow_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.classic.workflow_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.workflow_4.3.1.20090107-2000PRD.jar"/>
+	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.expressions_4.3.1.20090107-2000PRD.jar"/>
 	<classpathentry kind="output" path="build/slastic.sim"/>
 </classpath>

@@ -4,6 +4,7 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Process
 
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
+import desmoj.core.simulator.SimTime;
 
 public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 
@@ -25,9 +26,6 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 
 	@Override
 	public void init() {
-		// queue = new Queue<T>(super.getModel(), super.getName() + "Queue",
-		// super
-		// .debugIsOn(), super.traceIsOn());
 	}
 
 	@Override
@@ -35,4 +33,7 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 		return this.capacity;
 	}
 
+	public void resumeMonitoringAt(final SimTime t){
+		super.getScheduler().resumeBuisinessMonitoringAt(t);
+	}
 }

@@ -37,4 +37,10 @@ public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 		return 0;
 	}
 
+	@Override
+	public void resumeBuisinessMonitoringAt(final SimTime t) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -2,25 +2,22 @@ package org.trustsoft.slastic.simulation.events.reconfiguration;
 
 import org.trustsoft.slastic.simulation.model.ModelManager;
 
+import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import desmoj.core.simulator.Model;
 
 public class AllocationEvent extends ReconfigurationEvent {
 
-	private final String serverId;
-
 	public AllocationEvent(final Model owner, final String name,
 			final boolean showInTrace,
-			final SLAsticReconfigurationOpType reconfOp, final String serverId) {
+			final SLAsticReconfigurationOpType reconfOp) {
 		super(owner, name, showInTrace, reconfOp);
-		this.serverId = serverId;
 	}
 
 	@Override
-	public void eventRoutine() {
-		ModelManager.getInstance().getHwCont().allocate(serverId);
-		ModelManager.getInstance().getReconfController().operationFinished(
-				getReconfOp());
+	public boolean eventRoutine2() {
+		return ModelManager.getInstance().getHwCont().allocate(
+				((NodeAllocationOP) this.getReconfOp()).getNode().getId());
 	}
 
 }

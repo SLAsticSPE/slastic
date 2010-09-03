@@ -30,6 +30,7 @@ public class CPURRScheduler extends CPUScheduler {
 				QueueBased.FIFO, 1, Constants.DEBUG, Constants.DEBUG);
 		this.utilizationTicker = new UtilizationProbeEventGenerator(model,
 				name, Constants.DEBUG, this);
+		this.activeProcess.reset();
 	}
 
 	@Override
@@ -124,5 +125,10 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public int getProcessCount() {
 		return this.queue.length() + this.activeProcess.length();
+	}
+
+	@Override
+	public void resumeBuisinessMonitoringAt(final SimTime t) {
+		this.utilizationTicker.resumeAt(t);
 	}
 }

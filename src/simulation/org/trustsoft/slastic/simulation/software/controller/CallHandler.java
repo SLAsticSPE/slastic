@@ -73,6 +73,8 @@ public class CallHandler {
 
 	private long ltime;
 
+	private boolean firstcall = true;
+
 	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
 		CallHandler.instance = this;
 		this.model = dynamicSimulationModel;
@@ -85,10 +87,10 @@ public class CallHandler {
 	/**
 	 * Generates a list of nodes (i.e. a path through the control flow graph)
 	 * for a specific user and schedule the first node now.
-	 * 
+	 *
 	 * FIXME: eval scheduling strategy (time!) <br />
 	 * FIXME: component instead of asmcontext as entry!
-	 * 
+	 *
 	 * @param service
 	 *            the called service
 	 * @param userId
@@ -103,6 +105,17 @@ public class CallHandler {
 	public void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
+		if(this.firstcall){
+			this.firstcall  = false;
+			final SimTime starttime = new SimTime(time / (double) Constants.SIM_TIME_TO_MON_TIME);
+			for(final Server s: ModelManager.getInstance().getHwCont().getServers()){
+				if(s.isAllocated()){
+					for(final CPU cpu: s.getCpus()){
+						cpu.resumeMonitoringAt(starttime);
+					}
+				}
+			}
+		}
 		if (this.activeTraces.size() > 0 && Constants.SINGLE_TRACE) {
 			return;
 		}
@@ -161,7 +174,7 @@ public class CallHandler {
 	 * Find <code>StartAction</code> of seff and walk through, generating a
 	 * chain of <code>ControlFlowNode</code>s for a specific service call by
 	 * a specific user.
-	 * 
+	 *
 	 * @param rdseff
 	 *            of the requested service
 	 * @param userId
@@ -238,8 +251,8 @@ public class CallHandler {
 				final InternalActionNode currentIA = new InternalActionNode(ia
 						.getId(), userId);
 				for (final ParametricResourceDemand resDemand : resourceDemands) {
-					final String requiredResource = ((InternalEObject) (resDemand
-							.getRequiredResource_ParametricResourceDemand()))
+					final String requiredResource = ((InternalEObject) resDemand
+							.getRequiredResource_ParametricResourceDemand())
 							.eProxyURI().toString();
 					final String demand = resDemand
 							.getSpecification_ParametericResourceDemand()
@@ -384,6 +397,7 @@ public class CallHandler {
 			this.eoi.remove(traceId);
 			this.model.callReturns(traceId);
 		}
+		this.log.info(nodes.size());
 
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
@@ -396,7 +410,6 @@ public class CallHandler {
 				pw.close();
 				System.exit(0);
 			} catch (final IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

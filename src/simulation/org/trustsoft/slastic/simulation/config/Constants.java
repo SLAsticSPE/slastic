@@ -2,9 +2,9 @@ package org.trustsoft.slastic.simulation.config;
 
 /**
  * Hold the constants needed for simulation
- * 
+ *
  * @author skomp
- * 
+ *
  */
 public class Constants {
 	/**
@@ -26,7 +26,7 @@ public class Constants {
 	/**
 	 * If true, simulate a single call and exit
 	 */
-	public static final boolean SINGLE_TRACE = true;
+	public static final boolean SINGLE_TRACE = false;
 
 	/**
 	 * The time slice of the processor sharing scheduler

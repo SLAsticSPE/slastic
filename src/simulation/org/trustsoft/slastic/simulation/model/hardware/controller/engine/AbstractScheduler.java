@@ -91,4 +91,6 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 		return this.queue.length();
 	}
 
+	public abstract void resumeBuisinessMonitoringAt(SimTime t);
+
 }

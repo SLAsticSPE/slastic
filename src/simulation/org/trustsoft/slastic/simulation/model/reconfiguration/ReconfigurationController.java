@@ -4,13 +4,24 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.trustsoft.slastic.simulation.config.Constants;
+import org.trustsoft.slastic.simulation.events.reconfiguration.AllocationEvent;
+import org.trustsoft.slastic.simulation.events.reconfiguration.DelComponent;
+import org.trustsoft.slastic.simulation.events.reconfiguration.DelocationEvent;
+import org.trustsoft.slastic.simulation.events.reconfiguration.ReconfigurationEvent;
+import org.trustsoft.slastic.simulation.events.reconfiguration.ReplicationEvent;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.system.ReconfigurableComponent;
 
 import reconfMM.ReconfigurationModel;
 import reconfMM.ReconfigurationSpecification;
+import ReconfigurationPlanModel.ComponentDeReplicationOP;
+import ReconfigurationPlanModel.ComponentMigrationOP;
+import ReconfigurationPlanModel.ComponentReplicationOP;
 import ReconfigurationPlanModel.NodeAllocationOP;
+import ReconfigurationPlanModel.NodeDeAllocationOP;
+import ReconfigurationPlanModel.ReconfigurationPlanModelFactory;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
@@ -22,7 +33,7 @@ import desmoj.core.simulator.SimTime;
 public final class ReconfigurationController {
 
 	/**
-	 * 
+	 *
 	 */
 	private static ReconfigurationController instance;
 
@@ -36,15 +47,20 @@ public final class ReconfigurationController {
 
 	private final List<ReconfEventListener> listeners = new LinkedList<ReconfEventListener>();
 
+	private final Model model;
+
+	private final ReconfigurationPlanModelFactory reconfOpFact = ReconfigurationPlanModelFactory.eINSTANCE;
+
 	public ReconfigurationController(final ReconfigurationModel reconfModel,
 			final Model model) {
-		if (instance == null) {
+		this.model = model;
+		if (ReconfigurationController.instance == null) {
 			for (final ReconfigurationSpecification reconfSpec : reconfModel
 					.getComponents()) {
 				final ReconfigurableComponent comp = new ReconfigurableComponent(
 						reconfSpec.getComponent(),
 						reconfSpec.getMaxInstances(), reconfSpec.isMigratable());
-				components.put(comp.getComponent().getId(), comp);
+				this.components.put(comp.getComponent().getId(), comp);
 			}
 			ReconfigurationController.instance = this;
 		}
@@ -52,35 +68,35 @@ public final class ReconfigurationController {
 
 	/**
 	 * Get the reconfiguration specification of the given component
-	 * 
+	 *
 	 * @param component
 	 * @return the reconfiguration specification of the given component
 	 */
 	public ReconfigurableComponent getReconfSpecByComponent(
 			final ProvidesComponentType component) {
-		return components.get(component.getId());
+		return this.components.get(component.getId());
 	}
 
 	/**
 	 * Get the reconfiguration specification of the component with the given id
-	 * 
+	 *
 	 * @param componentId
 	 * @return the reconfiguration specification of the given component
 	 */
 	public ReconfigurableComponent getReconfSpecById(final String componentId) {
-		return components.get(componentId);
+		return this.components.get(componentId);
 	}
 
 	/**
 	 * Get the reconfiguration specification of a component encapsulated in an
 	 * assembly context
-	 * 
+	 *
 	 * @param asmContext
 	 * @return the reconfiguration specification of the given component
 	 */
 	public ReconfigurableComponent getReconfSpecByASMContext(
 			final AssemblyContext asmContext) {
-		return components.get(asmContext
+		return this.components.get(asmContext
 				.getEncapsulatedComponent_ChildComponentContext().getId());
 	}
 
@@ -88,17 +104,17 @@ public final class ReconfigurationController {
 	 * Adds an instance to the overall existing components of the given type
 	 * (via Id) to the system if the maximum instances constraint is not
 	 * violated.
-	 * 
+	 *
 	 * @param componentId
 	 * @return true if success
 	 */
 	public boolean addComponentInstance(final String componentId) {
-		final ReconfigurableComponent comp = components.get(componentId);
+		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
 		if (comp != null
-				&& comp.getMaxInstances() > (instances = currentInstances
+				&& comp.getMaxInstances() > (instances = this.currentInstances
 						.get(componentId))) {
-			currentInstances.put(componentId, ++instances);
+			this.currentInstances.put(componentId, ++instances);
 			return true;
 		}
 		return false;
@@ -107,16 +123,17 @@ public final class ReconfigurationController {
 	/**
 	 * Subtracts an instance from the overall instances of a replicable
 	 * component if there is more than one component left in the system.
-	 * 
+	 *
 	 * @param componentId
 	 *            the id of the dereplicated component
 	 * @return true if operation succeeded
 	 */
 	public boolean delComponentInstance(final String componentId) {
-		final ReconfigurableComponent comp = components.get(componentId);
+		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
-		if (comp != null && (instances = currentInstances.get(componentId)) > 1) {
-			currentInstances.put(componentId, --instances);
+		if (comp != null
+				&& (instances = this.currentInstances.get(componentId)) > 1) {
+			this.currentInstances.put(componentId, --instances);
 			return true;
 		}
 		return false;
@@ -124,11 +141,11 @@ public final class ReconfigurationController {
 
 	/**
 	 * Pseudo singleton instance getter
-	 * 
+	 *
 	 * @return the instance of the reconfiguration controller
 	 */
 	public static ReconfigurationController getInstrance() {
-		return instance;
+		return ReconfigurationController.instance;
 	}
 
 	public boolean checkValidity(final SLAsticReconfigurationPlan plan) {
@@ -144,48 +161,109 @@ public final class ReconfigurationController {
 	}
 
 	public void schedulePlan(final SLAsticReconfigurationPlan plan) {
-		this.plan = plan;
-		// FIXME: Do it! create events and schedule
+		if (this.reconfEvents.isEmpty() && this.plan == null) {
+			this.plan = plan;
+			for (final SLAsticReconfigurationOpType op : this.plan
+					.getOperations()) {
+				if (op instanceof ComponentReplicationOP) {
+					final ComponentReplicationOP repOp = (ComponentReplicationOP) op;
+					this.reconfEvents.add(this.createEvent(repOp));
+				} else if (op instanceof ComponentDeReplicationOP) {
+					final ComponentDeReplicationOP repOp = (ComponentDeReplicationOP) op;
+					this.reconfEvents.add(this.createEvent(repOp));
+				} else if (op instanceof ComponentDeReplicationOP) {
+					final ComponentMigrationOP repOp = (ComponentMigrationOP) op;
+					// create replication and dereplication operations
+					final ComponentReplicationOP replic = this.reconfOpFact.createComponentReplicationOP();
+					final ComponentDeReplicationOP dereplic = this.reconfOpFact.createComponentDeReplicationOP();
+					replic.setComponent(repOp.getComponent().getAssemblyContext_AllocationContext());
+					replic.setDestination(repOp.getDestination());
+					this.reconfEvents.add(this.createEvent(replic));
+					dereplic.setClone(repOp.getComponent());
+					dereplic.setComponent(repOp.getComponent());
+					this.reconfEvents.add(this.createEvent(dereplic));
+				} else if (op instanceof NodeAllocationOP) {
+					final NodeAllocationOP repOp = (NodeAllocationOP) op;
+					this.reconfEvents.add(this.createEvent(repOp));
+				} else if (op instanceof NodeDeAllocationOP) {
+					final NodeDeAllocationOP repOp = (NodeDeAllocationOP) op;
+					this.reconfEvents.add(this.createEvent(repOp));
+				}
+
+			}
+			this.scheduleNextOp();
+		}
+	}
+
+	private ReconfigurationEvent createEvent(final NodeDeAllocationOP repOp) {
+		return new DelocationEvent(this.model, repOp.toString(), Constants.DEBUG,
+				repOp);
+	}
+
+	private ReconfigurationEvent createEvent(final NodeAllocationOP repOp) {
+		return new AllocationEvent(this.model, repOp.toString(), Constants.DEBUG,
+				repOp);
+	}
+
+	private ReconfigurationEvent createEvent(final ComponentReplicationOP op) {
+		return new ReplicationEvent(this.model, op.toString(), Constants.DEBUG,
+				op);
+	}
+
+	private ReconfigurationEvent createEvent(final ComponentDeReplicationOP op) {
+		return new DelComponent(this.model, op.toString(), Constants.DEBUG, op);
 	}
 
 	public void operationFinished(final SLAsticReconfigurationOpType reconfOp) {
-		scheduleNextOp();
-		for (final ReconfEventListener listener : listeners) {
-			listener.notifyPlanDone(plan);
+		if (reconfOp instanceof ComponentDeReplicationOP) {
+			ModelManager.getInstance().getAllocCont().blockInstance(
+					((ComponentDeReplicationOP) reconfOp).getClone()
+							.getAssemblyContext_AllocationContext().getId(),
+					((ComponentDeReplicationOP) reconfOp).getClone()
+							.getResourceContainer_AllocationContext().getId());
+
+		} else {
+			this.scheduleNextOp();
+		}
+		for (final ReconfEventListener listener : this.listeners) {
+			listener.notifyPlanDone(this.plan);
 		}
 
 	}
 
 	private void scheduleNextOp() {
-		if (!reconfEvents.isEmpty()) {
+		if (!this.reconfEvents.isEmpty()) {
 			// TODO: maybe we need more intelligence here!
 			// FIXME dereplication can happen when mark unused has been called!
-			reconfEvents.remove(0).schedule(SimTime.NOW);
+			this.reconfEvents.remove(0).schedule(SimTime.NOW);
+		} else {
+			this.plan = null;
 		}
 	}
 
 	public void addReconfEventListener(final ReconfEventListener listener) {
-		listeners.add(listener);
+		this.listeners.add(listener);
 	}
 
 	public void removeReconfEventListener(final ReconfEventListener listener) {
-		listeners.remove(listener);
+		this.listeners.remove(listener);
 	}
 
 	public void operationFailed(final SLAsticReconfigurationOpType reconfOp) {
-		scheduleNextOp();
-		for (final ReconfEventListener listener : listeners) {
-			listener.notifyOpFailed(plan, reconfOp);
+		this.scheduleNextOp();
+		for (final ReconfEventListener listener : this.listeners) {
+			listener.notifyOpFailed(this.plan, reconfOp);
 		}
 	}
 
 	public int getComponentInstances(final String componentId) {
-		return currentInstances.get(componentId);
+		return this.currentInstances.get(componentId);
 	}
 
 	public void markUnusedAndBlocked(final String server,
 			final String asmContext) {
-		// TODO Auto-generated method stub
+		this.scheduleNextOp();
+		// TODO state for waiting
 		// FIXME add Functionality! e.g. if first event in list is delete
 		// component for the empty component we can schedule it now
 	}

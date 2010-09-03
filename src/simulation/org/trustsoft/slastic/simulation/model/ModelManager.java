@@ -79,9 +79,7 @@ public class ModelManager implements IReconfPlanReceiver {
 
 	@Override
 	public void reconfigure(final SLAsticReconfigurationPlan plan) {
-		if (this.plans.isEmpty() && this.reconfCont.checkValidity(plan)) {
-			this.reconfCont.schedulePlan(plan);
-		}
+		this.reconfCont.schedulePlan(plan);
 	}
 
 	public ReconfigurationController getReconfController() {
@@ -140,5 +138,12 @@ public class ModelManager implements IReconfPlanReceiver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * @return the reconfCont
+	 */
+	public final ReconfigurationController getReconfCont() {
+		return this.reconfCont;
 	}
 }

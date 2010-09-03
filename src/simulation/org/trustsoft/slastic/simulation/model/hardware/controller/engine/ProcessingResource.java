@@ -8,6 +8,7 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
 
 	private final AbstractScheduler<? extends ProcessingResource<T>, T> scheduler;
 	private final int capacity;
+	private boolean allocated = false;
 
 	public ProcessingResource(
 			final Model owner,
@@ -39,6 +40,20 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
 
 	public int getCapacity() {
 		return this.capacity;
+	}
+
+	/**
+	 * @return the allocated
+	 */
+	public final boolean isAllocated() {
+		return this.allocated;
+	}
+
+	/**
+	 * @param allocated the allocated to set
+	 */
+	public final void setAllocated(final boolean allocated) {
+		this.allocated = allocated;
 	}
 
 }
