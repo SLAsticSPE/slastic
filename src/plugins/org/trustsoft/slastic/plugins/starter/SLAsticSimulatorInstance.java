@@ -1,7 +1,6 @@
 package org.trustsoft.slastic.plugins.starter;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Properties;
 
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
@@ -10,13 +9,7 @@ import kieker.common.record.IMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature.Setting;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
+
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
 import org.trustsoft.slastic.simulation.SimulationController;
@@ -25,11 +18,9 @@ import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import de.uka.ipd.sdq.pcm.allocation.Allocation;
-import de.uka.ipd.sdq.pcm.repository.Repository;
-import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
-import de.uka.ipd.sdq.pcm.system.System;
 import kieker.analysis.AnalysisController;
+import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
+import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
 
 /**
  *
@@ -62,15 +53,7 @@ public class SLAsticSimulatorInstance {
     private boolean fsReaderRTMode = false;
     private int fsReaderRTNumThreads = -1;
     private String reconfPipeName;
-    private String pcmRespositoryModel_fn;
-    private String pcmSystemModel_fn;
-    private String pcmResourceEnvironmentModel_fn;
-    private String pcmAllocationModel_fn;
-    private String slasticReconfigurationModel_fn;
-    private Repository pcmRepository;
-    private System pcmSystem;
-    private Allocation pcmAllocation;
-    private ResourceEnvironment pcmResourceEnvironment;
+    private PCMModelSet pcmModel;
     private ReconfigurationModel slasticReconfigurationModel;
     private AnalysisController tpanInstance;
     private SimulationController simCtrl;
@@ -111,72 +94,23 @@ public class SLAsticSimulatorInstance {
                         + SLAsticSimulatorInstance.PROP_NAME_RECONF_PIPENAME);
             }
 
-            this.pcmRespositoryModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_REPOSITORY_FN);
-            this.pcmSystemModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_SYSTEM_FN);
-            this.pcmAllocationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_ALLOCATION_FN);
-            this.pcmResourceEnvironmentModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_RESOURCEENV_FN);
-            this.slasticReconfigurationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN);
+            final String pcmRespositoryModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_REPOSITORY_FN);
+            final String pcmSystemModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_SYSTEM_FN);
+            final String pcmResourceEnvironmentModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_RESOURCEENV_FN);
+            final String pcmAllocationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_PCM_ALLOCATION_FN);
+            final String slasticReconfigurationModel_fn = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN);
 
-            final ResourceSet set = new ResourceSetImpl();
-            set.setURIConverter(new MyURIConverterImpl(new String [] {this.pcmRespositoryModel_fn, this.pcmSystemModel_fn, this.pcmAllocationModel_fn,
-            		this.pcmResourceEnvironmentModel_fn, this.slasticReconfigurationModel_fn}));
-            this.pcmRepository = PCMModelReader.readRepository(
-                    this.pcmRespositoryModel_fn, set);
-            if (this.pcmRepository == null) {
-                SLAsticSimulatorInstance.log.error("Failed to read PCM repository from file '"
-                        + this.pcmRespositoryModel_fn + "'");
-                throw new IllegalArgumentException(
-                        "Failed to read PCM repository from file '"
-                        + this.pcmRespositoryModel_fn + "'");
-            } else {
-                SLAsticSimulatorInstance.log.info("Loaded repository: "
-                        + this.pcmRepository.getEntityName());
-            }
-            this.pcmSystem = PCMModelReader.readSystem(
-                    this.pcmSystemModel_fn, set);
-            if (this.pcmSystem == null) {
-                SLAsticSimulatorInstance.log.error("Failed to read PCM system from file '"
-                        + this.pcmSystemModel_fn + "'");
-                throw new IllegalArgumentException(
-                        "Failed to read PCM system from file '"
-                        + this.pcmSystemModel_fn + "'");
-            }
-            this.pcmAllocation = PCMModelReader.readAllocation(
-                    this.pcmAllocationModel_fn, set);
-            if (this.pcmAllocation == null) {
-                SLAsticSimulatorInstance.log.error("Failed to read PCM allocation from file '"
-                        + this.pcmAllocationModel_fn + "'");
-                throw new IllegalArgumentException(
-                        "Failed to read PCM allocation from file '"
-                        + this.pcmAllocationModel_fn + "'");
-            }
-            this.pcmResourceEnvironment = PCMModelReader.readResourceEnvironment(
-                    this.pcmResourceEnvironmentModel_fn, set);
-            if (this.pcmResourceEnvironment == null) {
-                SLAsticSimulatorInstance.log.error("Failed to read PCM resource environment from file '"
-                        + this.pcmResourceEnvironmentModel_fn + "'");
-                throw new IllegalArgumentException(
-                        "Failed to read PCM resource environment from file '"
-                        + this.pcmResourceEnvironmentModel_fn + "'");
-            }
+            this.pcmModel = PCMModelReader.readPCMModel(pcmRespositoryModel_fn, pcmSystemModel_fn, pcmResourceEnvironmentModel_fn, pcmAllocationModel_fn);
+
             this.slasticReconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(
-                    this.slasticReconfigurationModel_fn);
+                    slasticReconfigurationModel_fn);
             if (this.slasticReconfigurationModel == null) {
                 SLAsticSimulatorInstance.log.error("Failed to read SLAstic reconfiguration model from file '"
-                        + this.slasticReconfigurationModel_fn + "'");
+                        + slasticReconfigurationModel_fn + "'");
                 throw new IllegalArgumentException(
                         "Failed to read SLAstic reconfiguration model from file '"
-                        + this.slasticReconfigurationModel_fn + "'");
+                        + slasticReconfigurationModel_fn + "'");
             }
-            final Map<URI, URI> ma = set.getURIConverter().getURIMap();
-            for (final URI uri : ma.keySet()) {
-            	SLAsticSimulatorInstance.log.info(uri +" => "+ ma.get(uri));
-			}
-            EcoreUtil.resolveAll(set);
-            final Map<EObject, Collection<Setting>> m = EcoreUtil.UnresolvedProxyCrossReferencer.find(set);
-            for (final EObject o : m.keySet()) {
-            	SLAsticSimulatorInstance.log.warn(o + " " + m.get(o));
-			}
         } catch (final Exception exc) {
             SLAsticSimulatorInstance.log.error("Init error", exc);
             throw new IllegalArgumentException("Init error", exc);
@@ -185,15 +119,18 @@ public class SLAsticSimulatorInstance {
 
     public void run() {
         /* Construct simulation instance */
-        SLAsticSimulatorInstance.log.info("Instatiating Simulator with: Repository "
-                + this.pcmRepository + ", System " + this.pcmSystem
-                + " Resource Environment "
-                + this.pcmResourceEnvironment + " Initial allocation "
-                + this.pcmAllocation + " reconf "
-                + this.slasticReconfigurationModel);
-        this.simCtrl = new SimulationController("A name", this.pcmRepository,
-                this.pcmSystem, this.pcmResourceEnvironment,
-                this.pcmAllocation, this.slasticReconfigurationModel);
+        SLAsticSimulatorInstance.log.info("Instantiating Simulator with "
+                + "Repository: " + this.pcmModel.getPCMRepository()
+                + ", System: " + this.pcmModel.getPCMSystem()
+                + ", Resource Environment: " + this.pcmModel.getPCMResourceEnvironment()
+                + " Initial allocation: " + this.pcmModel.getPCMAllocation()
+                + " reconf: " + this.slasticReconfigurationModel);
+        this.simCtrl = new SimulationController("A name",
+                this.pcmModel.getPCMRepository(),
+                this.pcmModel.getPCMSystem(),
+                this.pcmModel.getPCMResourceEnvironment(),
+                this.pcmModel.getPCMAllocation(),
+                this.slasticReconfigurationModel);
 
         /* Construct and start reconfiguration plan receiver */
         this.reconfPlanReceiver = new SLAsticSimPlanReceiver(
@@ -210,18 +147,21 @@ public class SLAsticSimulatorInstance {
                 listener.notifyPlanDone(plan);
             }
 
+            @Override
             public void reconfigure(
                     final SLAsticReconfigurationPlan plan) {
                 SLAsticSimulatorInstance.log.info("Received plan "
                         + plan);
             }
 
+            @Override
             public void addReconfigurationEventListener(
                     final ReconfEventListener listener) {
                 throw new UnsupportedOperationException(
                         "Not supported yet.");
             }
 
+            @Override
             public void removeReconfigurationEventListener(
                     final ReconfEventListener listener) {
                 throw new UnsupportedOperationException(
@@ -248,13 +188,14 @@ public class SLAsticSimulatorInstance {
                 return this.delegate.execute();
             }
 
+            @Override
             public void terminate(final boolean error) {
                 this.delegate.newMonitoringRecord(SimulationController.TERMINATION_RECORD);
                 this.delegate.terminate(error);
             }
 
             public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
-				return null;
+                return null;
             }
         });
         try {

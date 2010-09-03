@@ -41,6 +41,7 @@ public class SLAsticSimPlanReceiver implements IReconfigurationPipePlanReceiver 
         pipe.setPlanReceiver(this);
     }
 
+    @Override
     public void reconfigure(SLAsticReconfigurationPlan plan, ReconfEventListener listener) {
         log.info("Delegating reconfiguration plan" + plan);
         /* Register only once */
