@@ -16,11 +16,13 @@ public class DelComponent extends ReconfigurationEvent {
 
 	@Override
 	public boolean eventRoutine2() {
-		// FIXME check that no users are left
-		ModelManager.getInstance().getAllocCont()
-				.del(
-						((ComponentDeReplicationOP) super.getReconfOp())
-								.getComponent());
+		try {
+			ModelManager.getInstance().getAllocCont().del(
+					((ComponentDeReplicationOP) super.getReconfOp())
+							.getComponent());
+		} catch (final Exception e) {
+			return false;
+		}
 		return true;
 	}
 

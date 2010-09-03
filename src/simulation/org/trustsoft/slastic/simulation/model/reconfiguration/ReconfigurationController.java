@@ -148,6 +148,7 @@ public final class ReconfigurationController {
 		return ReconfigurationController.instance;
 	}
 
+	@Deprecated
 	public boolean checkValidity(final SLAsticReconfigurationPlan plan) {
 		for (final SLAsticReconfigurationOpType operation : plan
 				.getOperations()) {
