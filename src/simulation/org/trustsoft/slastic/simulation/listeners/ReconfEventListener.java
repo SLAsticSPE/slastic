@@ -10,4 +10,6 @@ public interface ReconfEventListener {
 	abstract public void notifyOpFailed(SLAsticReconfigurationPlan plan,
 			SLAsticReconfigurationOpType reconfOp);
 
+	abstract public void notifyPlanFailed(SLAsticReconfigurationPlan plan);
+
 }

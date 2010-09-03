@@ -201,6 +201,10 @@ public final class ReconfigurationController {
 
 			}
 			this.scheduleNextOp();
+		} else {
+			for (final ReconfEventListener listener : this.listeners) {
+				listener.notifyPlanFailed(this.plan);
+			}
 		}
 	}
 
