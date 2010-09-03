@@ -64,12 +64,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/org.antlr.runtime_3.0.0/antlr-runtime-3.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/kieker"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.emftools_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.xtext.core.base_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.xtext.core_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.classic.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.workflow_4.3.1.20090107-2000PRD.jar"/>
-	<classpathentry kind="lib" path="/home/skomp/Desktop/eclipse3.3/plugins/org.openarchitectureware.core.expressions_4.3.1.20090107-2000PRD.jar"/>
 	<classpathentry kind="output" path="build/slastic.sim"/>
 </classpath>

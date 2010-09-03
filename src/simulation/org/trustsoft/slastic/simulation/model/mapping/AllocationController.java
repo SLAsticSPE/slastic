@@ -19,7 +19,7 @@ import desmoj.core.simulator.Model;
 
 /**
  * @author skomp
- * 
+ *
  */
 public final class AllocationController {
 
@@ -52,7 +52,7 @@ public final class AllocationController {
 
 	/**
 	 * Initialize SimulationModel allocation
-	 * 
+	 *
 	 * @param allocation
 	 */
 	private void genAllocationModel(final Allocation allocation) {
@@ -63,6 +63,8 @@ public final class AllocationController {
 		for (final Server server : servers) {
 			this.serverToAllocationContextsMapping.put(server.getId(),
 					new HashSet<String>());
+			this.serverToAsmToBlockState.put(server.getId(),
+					new Hashtable<String, Boolean>());
 		}
 		final Collection<AssemblyContext> asmContexts = ModelManager
 				.getInstance().getAssemblyCont().getAllASMContexts();
@@ -97,7 +99,7 @@ public final class AllocationController {
 
 	/**
 	 * Determines if a given server has components mapped onto it
-	 * 
+	 *
 	 * @param id
 	 * @return true if a server is used (i.e. asm contexts are mapped to it)
 	 */
@@ -119,7 +121,7 @@ public final class AllocationController {
 
 	/**
 	 * block a component on a given server node
-	 * 
+	 *
 	 * @param asmContext
 	 * @param server
 	 * @return true on success
@@ -132,6 +134,8 @@ public final class AllocationController {
 			if (blocked != null) {
 				blocked = Boolean.TRUE;
 				return true;
+			} else {
+				blockState.put(asmContext, Boolean.TRUE);
 			}
 		}
 		return false;
@@ -139,7 +143,7 @@ public final class AllocationController {
 
 	/**
 	 * unblock a component on a given server node
-	 * 
+	 *
 	 * @param asmContext
 	 * @param server
 	 * @return
@@ -152,6 +156,8 @@ public final class AllocationController {
 			if (blocked != null) {
 				blocked = Boolean.FALSE;
 				return true;
+			}else {
+				blockState.put(asmContext, Boolean.FALSE);
 			}
 		}
 		return false;
@@ -159,7 +165,7 @@ public final class AllocationController {
 
 	/**
 	 * Checks if a component on a server has any users left
-	 * 
+	 *
 	 * @param asmContext
 	 * @param server
 	 * @return true if component has users left
@@ -212,16 +218,19 @@ public final class AllocationController {
 
 	/**
 	 * TODO emit event for reconf that component is empty
-	 * 
+	 *
 	 * @param asmContext
 	 * @param server
 	 */
 	private final void notifyReconfController(final String asmContext,
 			final String server) {
-		// TODO Auto-generated method stub
-		if (this.serverToAsmToBlockState.get(server).get(asmContext)) {
-			ReconfigurationController.getInstrance().markUnusedAndBlocked(
-					server, asmContext);
+		try {
+			if (this.serverToAsmToBlockState.get(server).get(asmContext)) {
+				ReconfigurationController.getInstrance().markUnusedAndBlocked(
+						server, asmContext);
+			}
+		} catch (final Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -232,7 +241,7 @@ public final class AllocationController {
 
 	/**
 	 * Adds the asmContext to the server (used for replication)
-	 * 
+	 *
 	 * @param server
 	 * @param asmContext
 	 */
@@ -240,11 +249,21 @@ public final class AllocationController {
 		this.assemblyContextToServerMapping.get(asmContext).add(server);
 	}
 
+	/**
+	 * remove a components instance mapping. this will not remove users. the
+	 * reconfcontroller will be notified if when all pending requests to the
+	 * removed instance have been computed.
+	 *
+	 * @param component
+	 */
 	public void del(final AllocationContext component) {
 		this.assemblyContextToServerMapping.get(
 				component.getAssemblyContext_AllocationContext().getId())
 				.remove(
 						component.getResourceContainer_AllocationContext()
 								.getId());
+		this.blockInstance(component.getResourceContainer_AllocationContext()
+				.getId(), component.getAssemblyContext_AllocationContext()
+				.getId());
 	}
 }

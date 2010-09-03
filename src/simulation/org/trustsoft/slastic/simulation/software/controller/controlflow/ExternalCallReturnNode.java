@@ -1,13 +1,15 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
+import kieker.common.record.OperationExecutionRecord;
+import kieker.monitoring.core.MonitoringController;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
 import desmoj.core.simulator.SimTime;
-import kieker.common.record.OperationExecutionRecord;
-import kieker.monitoring.core.MonitoringController;
 
 public class ExternalCallReturnNode extends ControlFlowNode {
 
@@ -40,6 +42,8 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		// ExternalCallReturnNode.log.info("Returned from "
 		// + this.ece.getCalledService() + " on "
 		// + this.ece.getASMContTo());
+		ModelManager.getInstance().getAllocCont().remUser(this.ece.getASMContTo(),
+				this.ece.getServerId());
 		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
 	}
 }
