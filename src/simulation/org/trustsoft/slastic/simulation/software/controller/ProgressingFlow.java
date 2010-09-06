@@ -18,6 +18,7 @@ import org.trustsoft.slastic.simulation.software.controller.controlflow.External
 import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoBranchProbabilitiesException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreaterXException;
+import org.trustsoft.slastic.simulation.software.controller.threading.CFCreationStatus;
 import org.trustsoft.slastic.simulation.util.Interval;
 
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
@@ -38,7 +39,7 @@ import de.uka.ipd.sdq.pcm.seff.StopAction;
 
 public class ProgressingFlow {
 
-	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
+	public static final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
 	private static final Log log = LogFactory.getLog(ProgressingFlow.class);
 
@@ -49,6 +50,8 @@ public class ProgressingFlow {
 	private final String userId;
 
 	private Exception exceptionStatus;
+
+	private CFCreationStatus status = CFCreationStatus.PAUSED;
 
 	public ProgressingFlow(final ResourceDemandingSEFF seff,
 			final String initialAsmContext, final String userId) {
@@ -69,8 +72,11 @@ public class ProgressingFlow {
 		return null;
 	}
 
-	public boolean next() {
+	private CFCreationStatus nextEvent() {
 		final CFFrame currentFrame = this.stack.peek();
+		if (currentFrame == null) {
+			return CFCreationStatus.DONE;
+		}
 		final AbstractAction action = currentFrame.getAction();
 		if (action instanceof StartAction) {
 			currentFrame.setAction(action.getSuccessor_AbstractAction());
@@ -82,10 +88,10 @@ public class ProgressingFlow {
 				abt = this.handleProbilisticBranch(ba);
 			} catch (final NoBranchProbabilitiesException e) {
 				this.exceptionStatus = e;
-				return false;
+				return CFCreationStatus.ERROR;
 			} catch (final SumGreaterXException e) {
 				this.exceptionStatus = e;
-				return false;
+				return CFCreationStatus.ERROR;
 			}
 
 			this.stack.push(new CFFrame(abt
@@ -93,7 +99,7 @@ public class ProgressingFlow {
 					.getStartAction(abt.getBranchBehaviour_BranchTransition()),
 					currentFrame.getAsmContextCurrent()));
 
-			return true;
+			return CFCreationStatus.PAUSED;
 
 		} else if (action instanceof ExternalCallAction) {
 			final ExternalCallAction eca = (ExternalCallAction) action;
@@ -126,7 +132,7 @@ public class ProgressingFlow {
 					ece.getASMContTo(), ece);
 
 			this.stack.push(frame);
-			return true;
+			return CFCreationStatus.PAUSED;
 			// mark return
 		} else if (action instanceof StopAction) {
 			final CFFrame frame = this.stack.pop();
@@ -141,7 +147,7 @@ public class ProgressingFlow {
 					lframe.setAction(this.getStartAction(lframe.getSeff()));
 				}
 			}
-			return true;
+			return CFCreationStatus.PAUSED;
 		} else if (action instanceof InternalAction) {
 			final InternalAction ia = (InternalAction) action;
 			final List<ParametricResourceDemand> resourceDemands = ia
@@ -160,7 +166,7 @@ public class ProgressingFlow {
 						+ " " + demand);
 			}
 			this.nodes.add(currentIA);
-			return true;
+			return CFCreationStatus.PAUSED;
 		} else if (action instanceof AbstractLoopAction) {
 			if (action instanceof LoopAction) {
 				final LoopAction la = (LoopAction) action;
@@ -174,10 +180,10 @@ public class ProgressingFlow {
 								.getBodyBehaviour_Loop()),
 						currentFrame.getAsmContextCurrent(), max);
 				this.stack.push(lframe);
-				return true;
+				return CFCreationStatus.PAUSED;
 				// FIXME Evaluation framework for stochastic expressions
 			} else {
-				return false;
+				return CFCreationStatus.UNSUPPORTED;
 				/*
 				 * else if (action instanceof CollectionIteratorAction) { final
 				 * CollectionIteratorAction cia = (CollectionIteratorAction)
@@ -192,9 +198,9 @@ public class ProgressingFlow {
 		} else if (currentFrame.getAction() instanceof SetVariableAction) {
 			@SuppressWarnings("unused")
 			final SetVariableAction sva = (SetVariableAction) action;
-			return true;
+			return CFCreationStatus.UNSUPPORTED;
 		} else {
-			return false;
+			return CFCreationStatus.UNSUPPORTED;
 		}
 	}
 
@@ -204,7 +210,7 @@ public class ProgressingFlow {
 		// the random used to branch probabilistic branches
 		final double randomResult = Math.random();
 		// branch not in cache? cache it
-		if (this.probabilisticBranchIntervalCache.get(ba) == null) {
+		if (ProgressingFlow.probabilisticBranchIntervalCache.get(ba) == null) {
 			final List<AbstractBranchTransition> branches = ba
 					.getBranches_Branch();
 			final LinkedList<Interval<ProbabilisticBranchTransition>> probs = new LinkedList<Interval<ProbabilisticBranchTransition>>();
@@ -229,13 +235,13 @@ public class ProgressingFlow {
 				throw new SumGreaterXException(ba.getEntityName());
 			}
 			if (probs.size() > 0) {
-				this.probabilisticBranchIntervalCache.put(ba, probs);
+				ProgressingFlow.probabilisticBranchIntervalCache.put(ba, probs);
 			} else {
 				throw new NoBranchProbabilitiesException(ba.getEntityName());
 			}
 		}
 		{
-			for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
+			for (final Interval<ProbabilisticBranchTransition> i : ProgressingFlow.probabilisticBranchIntervalCache
 					.get(ba)) {
 				if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
 					return i.getAbt();
@@ -247,6 +253,24 @@ public class ProgressingFlow {
 
 	public Exception getExceptionStatus() {
 		return this.exceptionStatus;
+	}
+
+	public boolean next() {
+		return (this.status = this.nextEvent()) == CFCreationStatus.PAUSED;
+	}
+
+	/**
+	 * @return the nodes
+	 */
+	public final List<ControlFlowNode> getNodes() {
+		return this.nodes;
+	}
+
+	/**
+	 * @return the status
+	 */
+	public final CFCreationStatus getStatus() {
+		return this.status;
 	}
 
 }
