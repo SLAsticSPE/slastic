@@ -23,14 +23,14 @@ public class Demand<T extends Number> {
 	/**
 	 * This is Hackfrickel! The Evaluator of SimuCom is not casting properly so
 	 * we have to do this job using reflection AND generics.
-	 * 
+	 *
 	 * @return
 	 */
 	public Integer getDemand() {
 		// final Object ret = EvaluationProxy.evaluate(demand, clazzToCast,
 		// null);
 		// final T evaluate = clazzToCast.cast(ret);
-		return Integer.parseInt(this.demand);
+		return Integer.parseInt(this.demand.replaceAll("\\s",""));
 	}
 
 }

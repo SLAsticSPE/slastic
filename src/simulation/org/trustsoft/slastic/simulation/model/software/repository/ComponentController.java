@@ -18,7 +18,7 @@ import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
 import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import desmoj.core.simulator.Model;
 
-public class ComponentController {
+public final class ComponentController {
 
 	private static ComponentController instance;
 	// = new
@@ -69,8 +69,7 @@ public class ComponentController {
 									.getServiceName());
 					if (this.seffsByComponent.get(bc) == null) {
 						this.seffsByComponent
-								.put(
-										bc,
+								.put(bc,
 										new Hashtable<Signature, ResourceDemandingSEFF>());
 					}
 					this.seffsByComponent.get(bc).put(
@@ -101,8 +100,8 @@ public class ComponentController {
 		return this.seffsByServiceName.keySet();
 	}
 
-        public String getComponentNameById(String id){
-            return components.get(id).getEntityName();
-        }
+	public String getComponentNameById(final String id) {
+		return this.components.get(id).getEntityName();
+	}
 
 }

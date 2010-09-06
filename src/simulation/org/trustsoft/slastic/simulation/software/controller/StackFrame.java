@@ -2,7 +2,6 @@ package org.trustsoft.slastic.simulation.software.controller;
 
 
 import kieker.common.record.OperationExecutionRecord;
-import org.trustsoft.slastic.simulation.config.Constants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,6 +9,7 @@ import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 
 public class StackFrame {
+	@SuppressWarnings("unused")
 	private final static Log log = LogFactory.getLog(StackFrame.class);
 
 	private final String calledServiceName;

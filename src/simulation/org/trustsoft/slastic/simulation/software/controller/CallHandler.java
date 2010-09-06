@@ -53,7 +53,6 @@ public class CallHandler {
 
 	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
-	private final ComponentController cc = ComponentController.getInstance();
 
 	private final Hashtable<String, Stack<StackFrame>> stacks = new Hashtable<String, Stack<StackFrame>>();
 
@@ -64,6 +63,8 @@ public class CallHandler {
 	private final Log log = LogFactory.getLog(CallHandler.class);
 
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
+
+	private final Hashtable<String, ProgressingFlow> flows = new Hashtable<String, ProgressingFlow>();
 
 	private final DynamicSimulationModel model;
 
@@ -291,6 +292,7 @@ public class CallHandler {
 				}
 
 			} else if (next instanceof SetVariableAction) {
+				@SuppressWarnings("unused")
 				final SetVariableAction sva = (SetVariableAction) next;
 
 			}

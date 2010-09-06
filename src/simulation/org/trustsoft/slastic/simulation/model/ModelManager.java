@@ -24,7 +24,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Model;
 
-public class ModelManager implements IReconfPlanReceiver {
+public final class ModelManager implements IReconfPlanReceiver {
 
 	private final AllocationController allocCont;
 	private final HardwareController hwCont;
@@ -61,11 +61,11 @@ public class ModelManager implements IReconfPlanReceiver {
 		return this.allocCont;
 	}
 
-	public HardwareController getHwCont() {
+	public final HardwareController getHwCont() {
 		return this.hwCont;
 	}
 
-	public ComponentController getCompCont() {
+	public final ComponentController getCompCont() {
 		return this.compCont;
 	}
 
@@ -73,7 +73,7 @@ public class ModelManager implements IReconfPlanReceiver {
 		return this.assemblyCont;
 	}
 
-	public static ModelManager getInstance() {
+	public static final ModelManager getInstance() {
 		return ModelManager.instance;
 	}
 

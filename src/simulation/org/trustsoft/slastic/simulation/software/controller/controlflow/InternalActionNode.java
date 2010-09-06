@@ -15,7 +15,7 @@ import desmoj.core.simulator.SimTime;
 
 public class InternalActionNode extends ControlFlowNode {
 
-	private final Hashtable<String, Demand> demands = new Hashtable<String, Demand>();
+	private final Hashtable<String, Demand<Integer>> demands = new Hashtable<String, Demand<Integer>>();
 	private final String traceId;
 	private static Log log = LogFactory.getLog(InternalActionNode.class);
 
@@ -24,6 +24,7 @@ public class InternalActionNode extends ControlFlowNode {
 		this.traceId = traceId;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eventRoutine() {
 		final String server = CallHandler.getInstance().getCurrentServer(
