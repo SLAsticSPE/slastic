@@ -68,7 +68,7 @@ public final class ReconfigurationController {
 
 	/**
 	 * Get the reconfiguration specification of the given component
-	 *
+	 * 
 	 * @param component
 	 * @return the reconfiguration specification of the given component
 	 */
@@ -79,7 +79,7 @@ public final class ReconfigurationController {
 
 	/**
 	 * Get the reconfiguration specification of the component with the given id
-	 *
+	 * 
 	 * @param componentId
 	 * @return the reconfiguration specification of the given component
 	 */
@@ -90,7 +90,7 @@ public final class ReconfigurationController {
 	/**
 	 * Get the reconfiguration specification of a component encapsulated in an
 	 * assembly context
-	 *
+	 * 
 	 * @param asmContext
 	 * @return the reconfiguration specification of the given component
 	 */
@@ -104,7 +104,7 @@ public final class ReconfigurationController {
 	 * Adds an instance to the overall existing components of the given type
 	 * (via Id) to the system if the maximum instances constraint is not
 	 * violated.
-	 *
+	 * 
 	 * @param componentId
 	 * @return true if success
 	 */
@@ -123,7 +123,7 @@ public final class ReconfigurationController {
 	/**
 	 * Subtracts an instance from the overall instances of a replicable
 	 * component if there is more than one component left in the system.
-	 *
+	 * 
 	 * @param componentId
 	 *            the id of the dereplicated component
 	 * @return true if operation succeeded
@@ -141,7 +141,7 @@ public final class ReconfigurationController {
 
 	/**
 	 * Pseudo singleton instance getter
-	 *
+	 * 
 	 * @return the instance of the reconfiguration controller
 	 */
 	public static ReconfigurationController getInstrance() {
@@ -154,8 +154,8 @@ public final class ReconfigurationController {
 				.getOperations()) {
 			if (operation instanceof NodeAllocationOP) {
 				final NodeAllocationOP nodeAlloc = (NodeAllocationOP) operation;
-				ModelManager.getInstance().getHwCont().isAllocated(
-						nodeAlloc.getNode().getId());
+				ModelManager.getInstance().getHwCont()
+						.isAllocated(nodeAlloc.getNode().getId());
 			}
 		}
 		return false;
@@ -163,7 +163,7 @@ public final class ReconfigurationController {
 
 	/**
 	 * Take reconfiguration plan and build event list iff no plan is active
-	 *
+	 * 
 	 * @param plan
 	 *            the plan to execute
 	 */
@@ -230,11 +230,16 @@ public final class ReconfigurationController {
 
 	public void operationFinished(final SLAsticReconfigurationOpType reconfOp) {
 		if (reconfOp instanceof ComponentDeReplicationOP) {
-			ModelManager.getInstance().getAllocCont().blockInstance(
-					((ComponentDeReplicationOP) reconfOp).getClone()
-							.getAssemblyContext_AllocationContext().getId(),
-					((ComponentDeReplicationOP) reconfOp).getClone()
-							.getResourceContainer_AllocationContext().getId());
+			ModelManager
+					.getInstance()
+					.getAllocCont()
+					.blockInstance(
+							((ComponentDeReplicationOP) reconfOp).getClone()
+									.getAssemblyContext_AllocationContext()
+									.getId(),
+							((ComponentDeReplicationOP) reconfOp).getClone()
+									.getResourceContainer_AllocationContext()
+									.getId());
 
 		} else {
 			this.scheduleNextOp();
@@ -265,10 +270,12 @@ public final class ReconfigurationController {
 	}
 
 	public void operationFailed(final SLAsticReconfigurationOpType reconfOp) {
-		this.scheduleNextOp();
 		for (final ReconfEventListener listener : this.listeners) {
 			listener.notifyOpFailed(this.plan, reconfOp);
+			listener.notifyPlanFailed(this.plan);
 		}
+		this.plan = null;
+		this.reconfEvents.clear();
 	}
 
 	public int getComponentInstances(final String componentId) {
