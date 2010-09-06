@@ -23,7 +23,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
     protected abstract IMonitoringRecordConsumerPlugin getMonitoringRecordConsumer();
 
     @Override
-    public final boolean init() {
+    public boolean init() {
         String logReaderClassnameProperty = this.getInitProperty(KIEKER_LOG_READER_CLASSNAME_PROPERTY);
         if (logReaderClassnameProperty == null
                 || logReaderClassnameProperty.length() <= 0) {
