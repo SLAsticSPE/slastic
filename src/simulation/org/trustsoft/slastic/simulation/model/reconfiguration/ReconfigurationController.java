@@ -4,6 +4,8 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.events.reconfiguration.AllocationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.DelComponent;
@@ -36,6 +38,8 @@ public final class ReconfigurationController {
 	 *
 	 */
 	private static ReconfigurationController instance;
+
+	private final Log log = LogFactory.getLog(this.getClass());
 
 	private final List<ExternalEvent> reconfEvents = new LinkedList<ExternalEvent>();
 
@@ -270,6 +274,7 @@ public final class ReconfigurationController {
 	}
 
 	public void operationFailed(final SLAsticReconfigurationOpType reconfOp) {
+		this.log.warn(reconfOp);
 		for (final ReconfEventListener listener : this.listeners) {
 			listener.notifyOpFailed(this.plan, reconfOp);
 			listener.notifyPlanFailed(this.plan);

@@ -47,19 +47,17 @@ public class HardwareController extends Reportable {
 			final List<ProcessingResourceSpecification> prslist = rc
 					.getActiveResourceSpecifications_ResourceContainer();
 			for (final ProcessingResourceSpecification prs : prslist) {
-				this.log
-						.info("Adding Processing Resource "
-								+ ((InternalEObject) prs
-										.getActiveResourceType_ActiveResourceSpecification())
-										.eProxyURI() + " for " + rc.getId());
+				this.log.info("Adding Processing Resource "
+						+ ((InternalEObject) prs
+								.getActiveResourceType_ActiveResourceSpecification())
+								.eProxyURI() + " for " + rc.getId());
 				final ProcessingResourceType prt = prs
 						.getActiveResourceType_ActiveResourceSpecification();
-				if (((InternalEObject) (prs
-						.getActiveResourceType_ActiveResourceSpecification()))
+				if (((InternalEObject) prs
+						.getActiveResourceType_ActiveResourceSpecification())
 						.eProxyURI()
 						.toString()
-						.equals(
-								"pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ")) {
+						.equals("pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ")) {
 					this.genCPU(m, rc, server, prs);
 
 				} else if (prt.getEntityName().equals("HDD")) {
@@ -113,6 +111,9 @@ public class HardwareController extends Reportable {
 			this.allocatedServers++;
 			return true;
 		}
+		this.log.warn("Failed to allocate server, allocation status: "
+				+ (this.serversById.get(id).isAllocated() ? "allocated"
+						: "unallocated"));
 		return false;
 	}
 
@@ -123,6 +124,12 @@ public class HardwareController extends Reportable {
 			this.allocatedServers--;
 			return true;
 		}
+		this.log.warn("Delocation failed, Servers left: "
+				+ this.allocatedServers
+				+ ", Usage status: "
+				+ (ModelManager.getInstance().getAllocCont().serverIsUsed(id) ? "used"
+						: "unused") + ", Allocation status: "
+				+ this.serversById.get(id).isAllocated());
 		return false;
 	}
 
