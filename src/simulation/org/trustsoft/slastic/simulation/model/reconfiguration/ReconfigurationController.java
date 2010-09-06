@@ -209,7 +209,7 @@ public final class ReconfigurationController {
 			this.scheduleNextOp();
 		} else {
 			for (final ReconfEventListener listener : this.listeners) {
-				listener.notifyPlanFailed(this.plan);
+				listener.notifyPlanFailed(plan);
 			}
 			this.log.warn("Rejected plan: "
 					+ (this.plan != null ? "plan already running"
@@ -253,10 +253,6 @@ public final class ReconfigurationController {
 		} else {
 			this.scheduleNextOp();
 		}
-		for (final ReconfEventListener listener : this.listeners) {
-			listener.notifyPlanDone(this.plan);
-		}
-
 	}
 
 	private void scheduleNextOp() {

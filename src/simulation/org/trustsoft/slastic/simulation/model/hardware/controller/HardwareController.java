@@ -111,7 +111,9 @@ public class HardwareController extends Reportable {
 			this.allocatedServers++;
 			return true;
 		}
-		this.log.warn("Failed to allocate server, allocation status: "
+		this.log.warn("Failed to allocate server"
+				+ id
+				+ " , allocation status: "
 				+ (this.serversById.get(id).isAllocated() ? "allocated"
 						: "unallocated"));
 		return false;
