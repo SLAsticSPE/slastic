@@ -146,6 +146,7 @@ public class SimulationController {
 
 		@Override
 		public void reconfigure(final SLAsticReconfigurationPlan plan) {
+                        log.info("Received reconfiguration plan" + plan);
 			ModelManager.getInstance().reconfigure(plan);
 
 		}

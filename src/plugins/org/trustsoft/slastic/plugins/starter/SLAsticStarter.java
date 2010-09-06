@@ -46,7 +46,10 @@ public class SLAsticStarter {
                 log.error("Failed to init SLAstic framework instance");
                 System.exit(1);
             }
-            frameworkInst.run();
+            if (!frameworkInst.run()){
+                log.fatal("SLAstic framework instance return with error");
+                System.exit(1);
+            }
             log.info("SLAstic framework instance started");
         }
 

@@ -113,6 +113,11 @@ public class AdaptationPlannerBookstoreSamplePlan extends AbstractAdaptationPlan
             return true;
     }
 
+    // TODO: to be removed: hack only to send plan to SLAstic.Sim
+    public void schwing () throws ReconfigurationException{
+        this.getReconfigurationManager().doReconfiguration(this.createSamplePlan());
+    }
+
     @Override
     public void terminate(final boolean error) {
     }

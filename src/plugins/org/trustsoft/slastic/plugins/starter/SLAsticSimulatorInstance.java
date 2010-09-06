@@ -18,6 +18,8 @@ import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import java.util.LinkedList;
+import java.util.List;
 import kieker.analysis.AnalysisController;
 import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
 import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
@@ -131,41 +133,30 @@ public class SLAsticSimulatorInstance {
                 this.pcmModel.getPCMResourceEnvironment(),
                 this.pcmModel.getPCMAllocation(),
                 this.slasticReconfigurationModel);
-
+   
         /* Construct and start reconfiguration plan receiver */
         this.reconfPlanReceiver = new SLAsticSimPlanReceiver(
                 this.reconfPipeName, new IReconfPlanReceiver() {
-
-            public void reconfigure(
-                    final SLAsticReconfigurationPlan plan,
-                    final ReconfEventListener listener) {
-                SLAsticSimulatorInstance.log.info("Received plan "
-                        + plan);
-                // TODO: here, we would delegate to the simulator
-                SLAsticSimulatorInstance.log.info("Sending confirmation to listener "
-                        + listener);
-                listener.notifyPlanDone(plan);
-            }
+	private final List<ReconfEventListener> listeners = new LinkedList<ReconfEventListener>();
 
             @Override
             public void reconfigure(
                     final SLAsticReconfigurationPlan plan) {
                 SLAsticSimulatorInstance.log.info("Received plan "
                         + plan);
+                simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
             }
 
             @Override
             public void addReconfigurationEventListener(
                     final ReconfEventListener listener) {
-                throw new UnsupportedOperationException(
-                        "Not supported yet.");
+                simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
             }
 
             @Override
             public void removeReconfigurationEventListener(
                     final ReconfEventListener listener) {
-                throw new UnsupportedOperationException(
-                        "Not supported yet.");
+                simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
             }
         });
         this.reconfPlanReceiver.execute();
