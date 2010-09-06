@@ -33,7 +33,7 @@ public abstract class AbstractPCMAdaptationPlanner extends AbstractAdaptationPla
         return componentReplication;
     }
 
-    protected final ComponentDeReplicationOP createDeReplicationOP (AllocationContext allCtx){
+    protected final ComponentDeReplicationOP createComponentDeReplicationOP (AllocationContext allCtx){
         ComponentDeReplicationOP deReplication = reconfModelFact.createComponentDeReplicationOP();
         deReplication.setComponent(allCtx);
         deReplication.setClone(allCtx);
@@ -46,7 +46,7 @@ public abstract class AbstractPCMAdaptationPlanner extends AbstractAdaptationPla
         return nodeAllocation;
     }
 
-    protected final NodeDeAllocationOP createDeallocationOP (ResourceContainer resCont){
+    protected final NodeDeAllocationOP createNodeDeallocationOP (ResourceContainer resCont){
         NodeDeAllocationOP deallocation = reconfModelFact.createNodeDeAllocationOP();
         deallocation.setNode(resCont);
         return deallocation;
