@@ -172,7 +172,8 @@ public final class ReconfigurationController {
 	 *            the plan to execute
 	 */
 	public void schedulePlan(final SLAsticReconfigurationPlan plan) {
-		if (this.reconfEvents.isEmpty() && this.plan == null) {
+		if (this.reconfEvents.isEmpty() && this.plan == null
+				&& plan.getOperations().size() > 0) {
 			this.plan = plan;
 			for (final SLAsticReconfigurationOpType op : this.plan
 					.getOperations()) {
@@ -210,6 +211,10 @@ public final class ReconfigurationController {
 			for (final ReconfEventListener listener : this.listeners) {
 				listener.notifyPlanFailed(this.plan);
 			}
+			this.log.warn("Rejected plan: "
+					+ (this.plan != null ? "plan already running"
+							: plan.getOperations().size() == 0 ? "no operations provided"
+									: "unknown"));
 		}
 	}
 
