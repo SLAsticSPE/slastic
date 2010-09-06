@@ -2,7 +2,7 @@ package org.trustsoft.slastic.simulation.events.reconfiguration;
 
 import org.trustsoft.slastic.simulation.model.ModelManager;
 
-import ReconfigurationPlanModel.NodeAllocationOP;
+import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import desmoj.core.simulator.Model;
 
@@ -16,8 +16,12 @@ public final class DelocationEvent extends ReconfigurationEvent {
 
 	@Override
 	public boolean eventRoutine2() {
-		return ModelManager.getInstance().getHwCont().delocate(
-				((NodeAllocationOP) this.getReconfOp()).getNode().getId());
+		return ModelManager
+				.getInstance()
+				.getHwCont()
+				.delocate(
+						((NodeDeAllocationOP) this.getReconfOp()).getNode()
+								.getId());
 	}
 
 }

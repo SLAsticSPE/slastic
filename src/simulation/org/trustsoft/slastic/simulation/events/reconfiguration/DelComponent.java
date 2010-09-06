@@ -17,13 +17,14 @@ public class DelComponent extends ReconfigurationEvent {
 	@Override
 	public boolean eventRoutine2() {
 		try {
-			ModelManager.getInstance().getAllocCont().del(
-					((ComponentDeReplicationOP) super.getReconfOp())
+			return ModelManager
+					.getInstance()
+					.getAllocCont()
+					.del(((ComponentDeReplicationOP) super.getReconfOp())
 							.getComponent());
 		} catch (final Exception e) {
 			return false;
 		}
-		return true;
 	}
 
 }
