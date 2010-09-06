@@ -56,6 +56,12 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     public void doReconfiguration(final SLAsticReconfigurationPlan plan)
             throws ReconfigurationException {
         try {
+            if (plan.getOperations().size() == 0) {
+                throw new ReconfigurationException("Plan contains 0 operations");
+            } else {
+
+                log.info("Requesting plan with " + plan.getOperations().size() + " operations");
+            }
             this.reconfigurationPipe.reconfigure(plan, this);
         } catch (final ReconfigurationPipeException ex) {
             SLAsticSimReconfigurationManager.log.error("reconfiguration failed", ex);
@@ -65,7 +71,17 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
 
     @Override
     public void notifyPlanDone(final SLAsticReconfigurationPlan plan) {
-        SLAsticSimReconfigurationManager.log.info("notifyPlanDone received");
+        if (plan == null){
+            log.fatal("Returned plan is null");
+            return;
+        }
+
+        try {
+            SLAsticSimReconfigurationManager.log.info("notifyPlanDone received");
+            this.getControlComponent().getModelManager().doReconfiguration(plan);
+        } catch (ReconfigurationException ex) {
+            log.error("Failed to reflect reconfiguration in runtime model", ex);
+        }
     }
 
     @Override
