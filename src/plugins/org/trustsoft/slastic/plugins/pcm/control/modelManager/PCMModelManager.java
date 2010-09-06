@@ -62,7 +62,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
      * @return
      */
     public synchronized AllocationContext componentMigration(AllocationContext allCtx, ResourceContainer resCont) {
-        log.info("Model reconfiguration: componentMigration (" + allCtx + ", " + resCont + ")");
+        log.debug("Model reconfiguration: componentMigration (" + allCtx + ", " + resCont + ")");
 
         /* Create new allocation context */
         AllocationContext newAllCtx = pcmAllocationFactory.createAllocationContext();
@@ -74,14 +74,14 @@ public class PCMModelManager extends AbstractModelManagerComponent {
         if (!this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().remove(allCtx)) {
             log.warn("Failed to remove allocation context" + allCtx);
         } else {
-            log.info("Removed allocation context" + allCtx);
+            log.debug("Removed allocation context" + allCtx);
         }
 
         /* 2. Add new allocation context */
         if (!this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().add(newAllCtx)) {
             log.warn("Failed to add new allocation context" + newAllCtx);
         } else {
-            log.info("Removed allocation context" + newAllCtx);
+            log.debug("Removed allocation context" + newAllCtx);
         }
 
         // TODO: stop transaction
@@ -98,7 +98,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
      * @return
      */
     public synchronized AllocationContext componentReplication(AssemblyContext asmCtx, ResourceContainer resCont) {
-        log.info("Model reconfiguration: componentReplication (" + asmCtx + ", " + resCont + ")");
+        log.debug("Model reconfiguration: componentReplication (" + asmCtx + ", " + resCont + ")");
 
         /* Create new allocation context */
         AllocationContext newAllCtx = pcmAllocationFactory.createAllocationContext();
@@ -111,7 +111,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
         if (!this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().add(newAllCtx)) {
             log.warn("Failed to add new allocation context" + newAllCtx);
         } else {
-            log.info("Removed allocation context" + newAllCtx);
+            log.debug("Removed allocation context" + newAllCtx);
         }
 
         // TODO: stop transaction
@@ -128,7 +128,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
     public synchronized boolean componentDeReplication(AllocationContext allCtx) {
         boolean success;
 
-        log.info("Model reconfiguration: componentDeReplication (" + allCtx + ")");
+        log.debug("Model reconfiguration: componentDeReplication (" + allCtx + ")");
 
         // TODO: start transaction
 
@@ -137,7 +137,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
         if (!success) {
             log.warn("Failed to remove allocation context" + allCtx);
         } else {
-            log.info("Removed allocation context" + allCtx);
+            log.debug("Removed allocation context" + allCtx);
         }
 
         // TODO: stop transaction

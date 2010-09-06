@@ -137,12 +137,11 @@ public class SLAsticSimulatorInstance {
         /* Construct and start reconfiguration plan receiver */
         this.reconfPlanReceiver = new SLAsticSimPlanReceiver(
                 this.reconfPipeName, new IReconfPlanReceiver() {
-	private final List<ReconfEventListener> listeners = new LinkedList<ReconfEventListener>();
 
             @Override
             public void reconfigure(
                     final SLAsticReconfigurationPlan plan) {
-                SLAsticSimulatorInstance.log.info("Received plan "
+                SLAsticSimulatorInstance.log.debug("Received plan "
                         + plan);
                 simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
             }

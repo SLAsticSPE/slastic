@@ -60,7 +60,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
                 throw new ReconfigurationException("Plan contains 0 operations");
             } else {
 
-                log.info("Requesting plan with " + plan.getOperations().size() + " operations");
+                log.debug("Requesting plan with " + plan.getOperations().size() + " operations");
             }
             this.reconfigurationPipe.reconfigure(plan, this);
         } catch (final ReconfigurationPipeException ex) {
