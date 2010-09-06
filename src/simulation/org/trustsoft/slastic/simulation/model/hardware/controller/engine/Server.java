@@ -26,7 +26,9 @@ public class Server extends Entity {
 		this.hdds = new HashSet<HardDrive>();
 		this.cpus = new HashSet<CPU>();
 		this.id = name;
-		this.log = LogFactory.getLog("Server " + name);
+                // avh: removed 'name' from logger name, because otherwise,
+                //      this logger cannot be configured based on the packagename
+		this.log = LogFactory.getLog(Server.class);
 	}
 
 	public void addCPU(final CPU cpu) {
