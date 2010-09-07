@@ -102,11 +102,17 @@ public final class AllocationController {
 	/**
 	 * Determines if a given server has components mapped onto it
 	 * 
-	 * @param id
+	 * @param serverId
 	 * @return true if a server is used (i.e. asm contexts are mapped to it)
 	 */
-	public boolean serverIsUsed(final String id) {
-		return !this.serverToAllocationContextsMapping.get(id).isEmpty();
+	public boolean serverIsUsed(final String serverId) {
+		for (final Collection<String> servers : this.assemblyContextToServerMapping
+				.values()) {
+			if (servers.contains(serverId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getServer(final AssemblyContext asmContext) {
@@ -129,17 +135,13 @@ public final class AllocationController {
 	 * @return
 	 */
 	public boolean unblockInstance(final String asmContext, final String server) {
-		final Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
+		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
-		if (blockState != null) {
-			Boolean blocked = blockState.get(asmContext);
-			if (blocked != null) {
-				blocked = Boolean.FALSE;
-				return true;
-			} else {
-				blockState.put(asmContext, Boolean.FALSE);
-			}
+		if (blockState == null) {
+			blockState = new Hashtable<String, Boolean>();
+			this.serverToAsmToBlockState.put(server, blockState);
 		}
+		blockState.put(asmContext, Boolean.FALSE);
 		return false;
 	}
 

@@ -97,10 +97,6 @@ public class HardwareController extends Reportable {
 		return s;
 	}
 
-	public boolean isUsed(final String id) {
-		return ModelManager.getInstance().getAllocCont().serverIsUsed(id);
-	}
-
 	public boolean isAllocated(final String id) {
 		return this.serversById.get(id).isAllocated();
 	}
