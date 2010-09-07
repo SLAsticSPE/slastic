@@ -77,7 +77,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
         }
 
         try {
-            SLAsticSimReconfigurationManager.log.info("notifyPlanDone received");
+            SLAsticSimReconfigurationManager.log.info("notifyPlanDone received; plan: " + plan);
             this.getControlComponent().getModelManager().doReconfiguration(plan);
         } catch (ReconfigurationException ex) {
             log.error("Failed to reflect reconfiguration in runtime model", ex);
@@ -87,11 +87,21 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     @Override
     public void notifyOpFailed(final SLAsticReconfigurationPlan plan,
             final SLAsticReconfigurationOpType reconfOp) {
-        SLAsticSimReconfigurationManager.log.warn("notifyOpFailed received");
+        if (plan == null){
+            log.fatal("Returned plan is null");
+            return;
+        }
+
+        SLAsticSimReconfigurationManager.log.warn("notifyOpFailed received; plan: " + plan);
     }
 
     @Override
     public void notifyPlanFailed(final SLAsticReconfigurationPlan plan) {
-        SLAsticSimReconfigurationManager.log.warn("notifyOpFailed received");
+        if (plan == null){
+            log.fatal("Returned plan is null");
+            return;
+        }
+
+        SLAsticSimReconfigurationManager.log.warn("notifyOpFailed received; plan: " + plan);
     }
 }
