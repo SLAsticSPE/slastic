@@ -122,28 +122,6 @@ public final class AllocationController {
 	}
 
 	/**
-	 * block a component on a given server node
-	 * 
-	 * @param asmContext
-	 * @param server
-	 * @return true on success
-	 */
-	public boolean blockInstance(final String asmContext, final String server) {
-		final Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
-				.get(server);
-		if (blockState != null) {
-			Boolean blocked = blockState.get(asmContext);
-			if (blocked != null) {
-				blocked = Boolean.TRUE;
-				return true;
-			} else {
-				blockState.put(asmContext, Boolean.TRUE);
-			}
-		}
-		return false;
-	}
-
-	/**
 	 * unblock a component on a given server node
 	 * 
 	 * @param asmContext
@@ -185,16 +163,25 @@ public final class AllocationController {
 	}
 
 	public int addUser(final String asmContext, final String server) {
-		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
+		Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
-			final Integer cUser = users.get(asmContext);
-			if (cUser != null) {
-				users.put(asmContext, cUser + 1);
-				return cUser + 1;
+			Integer cUser = users.get(asmContext);
+			if (cUser == null) {
+				cUser = 0;
 			}
+			users.put(asmContext, cUser + 1);
+			this.log.info("Server " + server + " Component " + asmContext
+					+ " has " + (cUser + 1) + " users");
+			return cUser + 1;
+		} else {
+			users = new Hashtable<String, Integer>();
+			this.serverToAsmToUserCount.put(server, users);
+			users.put(asmContext, 1);
+			this.log.info("Server " + server + " Component " + asmContext
+					+ " has " + 1 + " users");
+			return 1;
 		}
-		return -1;
 	}
 
 	public int remUser(final String asmContext, final String server) {
@@ -208,6 +195,8 @@ public final class AllocationController {
 				if (nextCUserCount == 0) {
 					this.notifyReconfController(asmContext, server);
 				}
+				this.log.info("Server " + server + " Component " + asmContext
+						+ " has " + nextCUserCount + " users");
 				return nextCUserCount;
 			}
 		}
@@ -216,6 +205,24 @@ public final class AllocationController {
 		 * a reconf operation ready to execute
 		 */
 		return -1;
+	}
+
+	/**
+	 * block a component on a given server node
+	 * 
+	 * @param asmContext
+	 * @param server
+	 * @return true on success
+	 */
+	public boolean blockInstance(final String asmContext, final String server) {
+		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
+				.get(server);
+		if (blockState == null) {
+			blockState = new Hashtable<String, Boolean>();
+			this.serverToAsmToBlockState.put(server, blockState);
+		}
+		blockState.put(asmContext, Boolean.TRUE);
+		return false;
 	}
 
 	/**
@@ -230,9 +237,10 @@ public final class AllocationController {
 			if (this.serverToAsmToBlockState.get(server).get(asmContext)) {
 				ReconfigurationController.getInstrance().markUnusedAndBlocked(
 						server, asmContext);
+				this.unblockInstance(asmContext, server);
 			}
 		} catch (final Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
@@ -268,8 +276,18 @@ public final class AllocationController {
 			this.blockInstance(component
 					.getResourceContainer_AllocationContext().getId(),
 					component.getAssemblyContext_AllocationContext().getId());
+
+			this.log.warn("Deleted "
+					+ component.getAssemblyContext_AllocationContext().getId()
+					+ " from container "
+					+ component.getResourceContainer_AllocationContext()
+							.getId());
 			return true;
 		} else {
+			this.log.warn("Not allowing less than one allocation (tried to remove "
+					+ component.getAssemblyContext_AllocationContext()
+					+ " from "
+					+ component.getResourceContainer_AllocationContext() + ")");
 			return false;
 		}
 	}

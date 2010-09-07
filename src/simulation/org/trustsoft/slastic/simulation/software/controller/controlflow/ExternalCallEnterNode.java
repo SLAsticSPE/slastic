@@ -24,15 +24,17 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		super(calledService_ExternalService.getServiceName() + " from "
 				+ asmContextCurrent + " to "
 		// + (ModelManager.getInstance().getAssemblyCont()
-				// .getServiceASMContextConnectedWithContext(
-				// calledService_ExternalService.getServiceName(),
-				// asmContextCurrent)),
+		// .getServiceASMContextConnectedWithContext(
+		// calledService_ExternalService.getServiceName(),
+		// asmContextCurrent)),
 				, traceId);
 		this.calledServiceName = calledService_ExternalService.getServiceName();
 		this.traceId = traceId;
 		this.asmContextFrom = asmContextCurrent;
 		if (asmContextCurrent != null) {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
+			this.asmContextTo = ModelManager
+					.getInstance()
+					.getAssemblyCont()
 					.getServiceASMContextConnectedWithContext(
 							calledService_ExternalService.getServiceName(),
 							asmContextCurrent);
@@ -44,16 +46,16 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 
 	@Override
 	public void eventRoutine() {
-		this.serverId = ModelManager.getInstance().getAllocCont().getServer(
-				this.asmContextTo);
-		ModelManager.getInstance().getAllocCont().addUser(this.asmContextTo,
-				this.serverId);
+		this.serverId = ModelManager.getInstance().getAllocCont()
+				.getServer(this.asmContextTo);
+		ModelManager.getInstance().getAllocCont()
+				.addUser(this.asmContextTo, this.serverId);
 		// TODO Start monitoring here!
 		this.enterTime = this.getModel().currentTime();
-		ExternalCallEnterNode.log.info("External Call from "
+		ExternalCallEnterNode.log.debug("External Call from "
 				+ this.asmContextFrom + " to Service " + this.calledServiceName
-				+ " on asm context " + this.asmContextTo + " at simtime "
-				+ this.currentTime());
+				+ " on asm context " + this.asmContextTo + "on server "
+				+ this.serverId + " at simtime " + this.currentTime());
 		CallHandler.getInstance().pushContext(
 				this.traceId,
 				new StackFrame(this.traceId, this.calledServiceName,

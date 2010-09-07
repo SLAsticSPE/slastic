@@ -28,7 +28,6 @@ import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
 import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
-import desmoj.core.simulator.ExternalEvent;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
@@ -41,7 +40,7 @@ public final class ReconfigurationController {
 
 	private final Log log = LogFactory.getLog(this.getClass());
 
-	private final List<ExternalEvent> reconfEvents = new LinkedList<ExternalEvent>();
+	private final List<ReconfigurationEvent> reconfEvents = new LinkedList<ReconfigurationEvent>();
 
 	private final Hashtable<String, ReconfigurableComponent> components = new Hashtable<String, ReconfigurableComponent>();
 
@@ -183,7 +182,7 @@ public final class ReconfigurationController {
 				} else if (op instanceof ComponentDeReplicationOP) {
 					final ComponentDeReplicationOP repOp = (ComponentDeReplicationOP) op;
 					this.reconfEvents.add(this.createEvent(repOp));
-				} else if (op instanceof ComponentDeReplicationOP) {
+				} else if (op instanceof ComponentMigrationOP) {
 					final ComponentMigrationOP repOp = (ComponentMigrationOP) op;
 					// create replication and dereplication operations
 					final ComponentReplicationOP replic = this.reconfOpFact
@@ -193,9 +192,19 @@ public final class ReconfigurationController {
 					replic.setComponent(repOp.getComponent()
 							.getAssemblyContext_AllocationContext());
 					replic.setDestination(repOp.getDestination());
+					// System.out
+					// .println("-----------------------------------------------------------");
+					// System.out.println("Adding Operation " + replic);
+					// System.out
+					// .println("-----------------------------------------------------------");
 					this.reconfEvents.add(this.createEvent(replic));
 					dereplic.setClone(repOp.getComponent());
 					dereplic.setComponent(repOp.getComponent());
+					// System.out
+					// .println("-----------------------------------------------------------");
+					// System.out.println("Adding operation " + dereplic);
+					// System.out
+					// .println("-----------------------------------------------------------");
 					this.reconfEvents.add(this.createEvent(dereplic));
 				} else if (op instanceof NodeAllocationOP) {
 					final NodeAllocationOP repOp = (NodeAllocationOP) op;
@@ -204,7 +213,6 @@ public final class ReconfigurationController {
 					final NodeDeAllocationOP repOp = (NodeDeAllocationOP) op;
 					this.reconfEvents.add(this.createEvent(repOp));
 				}
-
 			}
 			this.scheduleNextOp();
 		} else {
@@ -215,6 +223,14 @@ public final class ReconfigurationController {
 					+ (this.plan != null ? "plan already running"
 							: plan.getOperations().size() == 0 ? "no operations provided"
 									: "unknown"));
+			if (this.plan != null) {
+				this.log.warn("Running plan with ops: "
+						+ this.plan.getOperations().size());
+				for (final SLAsticReconfigurationOpType op : this.plan
+						.getOperations()) {
+					this.log.warn(op);
+				}
+			}
 		}
 	}
 
@@ -239,6 +255,9 @@ public final class ReconfigurationController {
 
 	public void operationFinished(final SLAsticReconfigurationOpType reconfOp) {
 		if (reconfOp instanceof ComponentDeReplicationOP) {
+			// System.out
+			// .println("-----------------------------------------------------------");
+			// System.out.println("Blocking component " + reconfOp);
 			ModelManager
 					.getInstance()
 					.getAllocCont()
@@ -249,15 +268,30 @@ public final class ReconfigurationController {
 							((ComponentDeReplicationOP) reconfOp).getClone()
 									.getResourceContainer_AllocationContext()
 									.getId());
-
+			// System.out
+			// .println("-----------------------------------------------------------");
 		} else {
+			// System.out
+			// .println("----------------------------------------------------------");
+			// System.out.println("Scheduling "
+			// + this.reconfEvents.size() > 0 ? this.reconfEvents.get(0)
+			// .getReconfOp() : "done, idling");
+			// System.out
+			// .println("----------------------------------------------------------");
 			this.scheduleNextOp();
 		}
 	}
 
 	private void scheduleNextOp() {
 		if (!this.reconfEvents.isEmpty()) {
-			this.reconfEvents.remove(0).schedule(SimTime.NOW);
+			final ReconfigurationEvent event = this.reconfEvents.remove(0);
+			event.schedule(SimTime.NOW);
+			// System.out
+			// .println("----------------------------------------------------------");
+			// System.out.println("Scheduling next Operation "
+			// + event.getReconfOp());
+			// System.out
+			// .println("----------------------------------------------------------");
 		} else {
 			for (final ReconfEventListener listener : this.listeners) {
 				listener.notifyPlanDone(this.plan);
@@ -275,7 +309,6 @@ public final class ReconfigurationController {
 	}
 
 	public void operationFailed(final SLAsticReconfigurationOpType reconfOp) {
-		this.log.warn(reconfOp);
 		for (final ReconfEventListener listener : this.listeners) {
 			listener.notifyOpFailed(this.plan, reconfOp);
 			listener.notifyPlanFailed(this.plan);
