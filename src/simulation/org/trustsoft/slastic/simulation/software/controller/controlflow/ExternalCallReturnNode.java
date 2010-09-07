@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
+import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
 
 import desmoj.core.simulator.SimTime;
 
@@ -31,14 +32,17 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		// spawn record!
 		final StackFrame f = CallHandler.getInstance().popContext(
 				this.ece.getTraceId());
+		if (this.ece.getASMContFrom() == null) {
+			SystemStats.subSystemUser();
+		}
 		final OperationExecutionRecord erec = f.createRecord(this.getModel()
 				.currentTime().getTimeValue(), CallHandler.getInstance()
 				.getStackDepth(this.ece.getTraceId()), f.getEoi());
 		ExternalCallReturnNode.tpmonCtrl.newMonitoringRecord(erec);
 
 		// tell simulator to schedule next action in this trace
-		ModelManager.getInstance().getAllocCont().remUser(
-				this.ece.getASMContTo(), this.ece.getServerId());
+		ModelManager.getInstance().getAllocCont()
+				.remUser(this.ece.getASMContTo(), this.ece.getServerId());
 		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
 	}
 }

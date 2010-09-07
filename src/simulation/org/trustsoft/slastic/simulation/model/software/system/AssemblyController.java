@@ -46,8 +46,8 @@ public class AssemblyController {
 				.getChildComponentContexts_ComposedStructure();
 		for (final AssemblyContext structure : structures) {
 			this.idToASMContext.put(structure.getId().toString(), structure);
-			this.asmIdToComponent.put(structure.getId().toString(), structure
-					.getEncapsulatedComponent_ChildComponentContext());
+			this.asmIdToComponent.put(structure.getId().toString(),
+					structure.getEncapsulatedComponent_ChildComponentContext());
 		}
 		for (final AssemblyConnector connector : system
 				.getCompositeAssemblyConnectors_ComposedStructure()) {
@@ -88,13 +88,12 @@ public class AssemblyController {
 					.getProvidedInterface__ProvidedRole()
 					.getSignatures__Interface()) {
 				this.systemProvidedServices
-						.put(
-								signature.getServiceName(),
+						.put(signature.getServiceName(),
 								systemServiceConnector
 										.getChildComponentContext_ProvidedDelegationConnector()
 										.getId());
-				this.systemProvidedServicesToSignature.put(signature
-						.getServiceName(), signature);
+				this.systemProvidedServicesToSignature.put(
+						signature.getServiceName(), signature);
 			}
 		}
 		// TODO: find solution for simsystem
@@ -134,6 +133,10 @@ public class AssemblyController {
 		return this.systemProvidedServices.get(service);
 	}
 
+	public Collection<String> getASMContextsProvidingExternalServices() {
+		return this.systemProvidedServices.values();
+	}
+
 	public String getServiceASMContextConnectedWithContext(
 			final String serviceName, final String asmContext) {
 		return this.requiringProvidingConnector.get(asmContext)
@@ -142,8 +145,10 @@ public class AssemblyController {
 
 	public Signature getSignatureByExternalServiceName(final String serviceName) {
 		for (final String s : this.systemProvidedServicesToSignature.keySet()) {
-			ModelManager.getInstance().getLogger().info(
-					s + " maps to "
+			ModelManager
+					.getInstance()
+					.getLogger()
+					.info(s + " maps to "
 							+ this.systemProvidedServicesToSignature.get(s));
 		}
 		return this.systemProvidedServicesToSignature.get(serviceName);

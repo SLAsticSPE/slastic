@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
+import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
 
 import de.uka.ipd.sdq.pcm.repository.Signature;
 import desmoj.core.simulator.SimTime;
@@ -45,7 +46,10 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 	}
 
 	@Override
-	public void eventRoutine() {
+	public final void eventRoutine() {
+		if (this.asmContextFrom == null) {
+			SystemStats.addSystemUser();
+		}
 		this.serverId = ModelManager.getInstance().getAllocCont()
 				.getServer(this.asmContextTo);
 		ModelManager.getInstance().getAllocCont()
@@ -64,24 +68,27 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		CallHandler.getInstance().actionReturn(this.traceId);
 	}
 
-	public String getASMContTo() {
+	public final String getASMContTo() {
 		return this.asmContextTo;
 	}
 
-	public String getTraceId() {
+	public final String getTraceId() {
 		return this.traceId;
 	}
 
-	public String getServerId() {
+	public final String getServerId() {
 		return this.serverId;
 	}
 
-	public SimTime getEnterTime() {
+	public final SimTime getEnterTime() {
 		return this.enterTime;
 	}
 
-	public String getCalledService() {
+	public final String getCalledService() {
 		return this.calledServiceName;
 	}
 
+	public final String getASMContFrom() {
+		return this.asmContextFrom;
+	}
 }
