@@ -86,8 +86,7 @@ public class HardwareController extends Reportable {
 				.getProcessingRate_ProcessingResourceSpecification()
 				.getSpecification().replaceAll("\\s*", ""));
 		final CPU cpu = new CPU(m, rc.getEntityName() + "CPU", Constants.DEBUG,
-				new CPURRScheduler(m, rc.getEntityName() + "CPUScheduler"),
-				prate);
+				new CPURRScheduler(m, rc.getEntityName() + "CPU"), prate);
 		cpu.getScheduler().setTickRate(Constants.PS_SLICE);
 		server.addCPU(cpu);
 	}

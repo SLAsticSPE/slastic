@@ -8,12 +8,19 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
-import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
+import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import desmoj.core.simulator.SimTime;
 
 @SuppressWarnings("unused")
 public class ExternalCallReturnNode extends ControlFlowNode {
+
+	@Inject
+	@Named("SystemUsersOnReturn")
+	private static ISystemStats stats;
 
 	private final ExternalCallEnterNode ece;
 	private SimTime exitTime;
@@ -33,7 +40,7 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		final StackFrame f = CallHandler.getInstance().popContext(
 				this.ece.getTraceId());
 		if (this.ece.getASMContFrom() == null) {
-			SystemStats.subSystemUser();
+			ExternalCallReturnNode.stats.subSystemUser();
 		}
 		final OperationExecutionRecord erec = f.createRecord(this.getModel()
 				.currentTime().getTimeValue(), CallHandler.getInstance()

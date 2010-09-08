@@ -30,6 +30,8 @@ import org.trustsoft.slastic.simulation.software.controller.exceptions.NoSuchSef
 import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreaterXException;
 import org.trustsoft.slastic.simulation.util.Interval;
 
+import com.google.inject.Injector;
+
 import de.uka.ipd.sdq.pcm.repository.Parameter;
 import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
@@ -53,7 +55,6 @@ public class CallHandler {
 
 	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
-
 	private final Hashtable<String, Stack<StackFrame>> stacks = new Hashtable<String, Stack<StackFrame>>();
 
 	private final Hashtable<String, Integer> eoi = new Hashtable<String, Integer>();
@@ -76,6 +77,23 @@ public class CallHandler {
 
 	private boolean firstcall = true;
 
+	private Injector injector;
+
+	/**
+	 * @return the injector
+	 */
+	public final Injector getInjector() {
+		return this.injector;
+	}
+
+	/**
+	 * @param injector
+	 *            the injector to set
+	 */
+	public final void setInjector(final Injector injector) {
+		this.injector = injector;
+	}
+
 	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
 		CallHandler.instance = this;
 		this.model = dynamicSimulationModel;
@@ -88,10 +106,10 @@ public class CallHandler {
 	/**
 	 * Generates a list of nodes (i.e. a path through the control flow graph)
 	 * for a specific user and schedule the first node now.
-	 *
+	 * 
 	 * FIXME: eval scheduling strategy (time!) <br />
 	 * FIXME: component instead of asmcontext as entry!
-	 *
+	 * 
 	 * @param service
 	 *            the called service
 	 * @param userId
@@ -106,12 +124,14 @@ public class CallHandler {
 	public void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
-		if(this.firstcall){
-			this.firstcall  = false;
-			final SimTime starttime = new SimTime(time / (double) Constants.SIM_TIME_TO_MON_TIME);
-			for(final Server s: ModelManager.getInstance().getHwCont().getServers()){
-				if(s.isAllocated()){
-					for(final CPU cpu: s.getCpus()){
+		if (this.firstcall) {
+			this.firstcall = false;
+			final SimTime starttime = new SimTime(time
+					/ (double) Constants.SIM_TIME_TO_MON_TIME);
+			for (final Server s : ModelManager.getInstance().getHwCont()
+					.getServers()) {
+				if (s.isAllocated()) {
+					for (final CPU cpu : s.getCpus()) {
 						cpu.resumeMonitoringAt(starttime);
 					}
 				}
@@ -130,8 +150,8 @@ public class CallHandler {
 					.getAssemblyCont().getASMContextBySystemService(service);
 			final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
 			final Signature signature = ModelManager.getInstance()
-					.getAssemblyCont().getSignatureByExternalServiceName(
-							service);
+					.getAssemblyCont()
+					.getSignatureByExternalServiceName(service);
 			this.log.info("Creating call with service "
 					+ service
 					+ " -> "
@@ -142,6 +162,7 @@ public class CallHandler {
 					+ " for trace " + userId);
 			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(
 					signature, null, userId);
+			this.injector.injectMembers(entryCallNode);
 			nodes.add(entryCallNode);
 			nodes.addAll(this.generateControlFlow(rdseff, userId, asmContext));
 			nodes.add(new ExternalCallReturnNode(entryCallNode));
@@ -154,16 +175,12 @@ public class CallHandler {
 			stack.push(frame);
 			this.stacks.put(userId, stack);
 			// schedule
-			nodes
-					.get(0)
+			nodes.get(0)
 					.schedule(
-							SimTime
-									.diff(
-											(new SimTime(
-													time
-															/ (double) Constants.SIM_TIME_TO_MON_TIME)),
-											ModelManager.getInstance()
-													.getModel().currentTime()));
+							SimTime.diff(new SimTime(time
+									/ (double) Constants.SIM_TIME_TO_MON_TIME),
+									ModelManager.getInstance().getModel()
+											.currentTime()));
 			this.ltime = System.nanoTime();
 			return;
 		} else {
@@ -173,9 +190,9 @@ public class CallHandler {
 
 	/**
 	 * Find <code>StartAction</code> of seff and walk through, generating a
-	 * chain of <code>ControlFlowNode</code>s for a specific service call by
-	 * a specific user.
-	 *
+	 * chain of <code>ControlFlowNode</code>s for a specific service call by a
+	 * specific user.
+	 * 
 	 * @param rdseff
 	 *            of the requested service
 	 * @param userId
@@ -211,16 +228,18 @@ public class CallHandler {
 				final BranchAction ba = (BranchAction) next;
 				final AbstractBranchTransition abt = this
 						.handleProbilisticBranch(ba);
-				ret.addAll(this.generateControlFlow(abt
-						.getBranchBehaviour_BranchTransition(), userId,
+				ret.addAll(this.generateControlFlow(
+						abt.getBranchBehaviour_BranchTransition(), userId,
 						asmContextCurrent));
 
 			} else if (next instanceof ExternalCallAction) {
 				final ExternalCallAction eca = (ExternalCallAction) next;
 				// mark entry point
 				// TODO save time!
-				final String calledContext = ModelManager.getInstance()
-						.getAssemblyCont().asmContextForServiceCall(
+				final String calledContext = ModelManager
+						.getInstance()
+						.getAssemblyCont()
+						.asmContextForServiceCall(
 								asmContextCurrent,
 								eca.getCalledService_ExternalService()
 										.getServiceName());
@@ -229,9 +248,10 @@ public class CallHandler {
 								.getServiceName() + " from asm context "
 						+ asmContextCurrent + " to asm context "
 						+ calledContext);
-				final ExternalCallEnterNode ece = new ExternalCallEnterNode(eca
-						.getCalledService_ExternalService(), asmContextCurrent,
-						userId);
+				final ExternalCallEnterNode ece = new ExternalCallEnterNode(
+						eca.getCalledService_ExternalService(),
+						asmContextCurrent, userId);
+				this.injector.injectMembers(ece);
 				ret.add(ece);
 				// generate control flow for the called service recursively
 				// final String componentByASMId = ModelManager.getInstance()
@@ -241,7 +261,10 @@ public class CallHandler {
 						.getCompCont().getSeffById(ece.getCalledService()),
 						userId, ece.getASMContTo()));
 				// mark return
-				ret.add(new ExternalCallReturnNode(ece));
+				final ExternalCallReturnNode ecr = new ExternalCallReturnNode(
+						ece);
+				this.injector.injectMembers(ecr);
+				ret.add(ecr);
 
 				// final List<VariableUsage> inputParameter = eca
 				// .getInputParameterUsages_ExternalCallAction();
@@ -249,8 +272,8 @@ public class CallHandler {
 				final InternalAction ia = (InternalAction) next;
 				final List<ParametricResourceDemand> resourceDemands = ia
 						.getResourceDemand_Action();
-				final InternalActionNode currentIA = new InternalActionNode(ia
-						.getId(), userId);
+				final InternalActionNode currentIA = new InternalActionNode(
+						ia.getId(), userId);
 				for (final ParametricResourceDemand resDemand : resourceDemands) {
 					final String requiredResource = ((InternalEObject) resDemand
 							.getRequiredResource_ParametricResourceDemand())

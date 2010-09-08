@@ -11,6 +11,10 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
 import org.trustsoft.slastic.simulation.model.reconfiguration.ReconfigurationController;
+import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
@@ -31,10 +35,11 @@ public final class AllocationController {
 	private final Hashtable<String, Hashtable<String, Integer>> serverToAsmToUserCount = new Hashtable<String, Hashtable<String, Integer>>();
 	private final Log log = LogFactory.getLog(AllocationController.class);
 
-	private final LoadBalancer loadBalancer;
+	@Inject
+	@Named("ComponentUsers")
+	private static ISystemStats stats;
 
-	// TODO: block components!
-	// TODO: active process count would probably best places here
+	private final LoadBalancer loadBalancer;
 
 	public AllocationController(final Allocation allocation, final Model model) {
 		this.genAllocationModel(allocation);
@@ -175,6 +180,8 @@ public final class AllocationController {
 			users.put(asmContext, cUser + 1);
 			this.log.info("Server " + server + " Component " + asmContext
 					+ " has " + (cUser + 1) + " users");
+			AllocationController.stats.logComponentUsers(asmContext, server,
+					cUser + 1);
 			return cUser + 1;
 		} else {
 			users = new Hashtable<String, Integer>();
@@ -182,6 +189,7 @@ public final class AllocationController {
 			users.put(asmContext, 1);
 			this.log.info("Server " + server + " Component " + asmContext
 					+ " has " + 1 + " users");
+			AllocationController.stats.logComponentUsers(asmContext, server, 1);
 			return 1;
 		}
 	}
@@ -199,6 +207,8 @@ public final class AllocationController {
 				}
 				this.log.info("Server " + server + " Component " + asmContext
 						+ " has " + nextCUserCount + " users");
+				AllocationController.stats.logComponentUsers(asmContext,
+						server, nextCUserCount);
 				return nextCUserCount;
 			}
 		}

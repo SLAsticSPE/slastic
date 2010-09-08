@@ -21,6 +21,10 @@ import org.trustsoft.slastic.simulation.util.ExternalCallQueue;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
@@ -36,7 +40,8 @@ public class SimulationController {
 	private final TreeSet<EntryCall> buffer = new TreeSet<EntryCall>(
 			new Comparator<EntryCall>() {
 
-				public int compare(EntryCall t, EntryCall t1) {
+				@Override
+				public int compare(final EntryCall t, final EntryCall t1) {
 					return t.getTin() < t1.getTin() ? -1 : 1;
 				}
 			});
@@ -45,6 +50,7 @@ public class SimulationController {
 	public final static IMonitoringRecord TERMINATION_RECORD = new DummyMonitoringRecord();
 	private final IMonitoringRecordConsumerPlugin recordConsumerPluginPort = new IMonitoringRecordConsumerPlugin() {
 
+		@Override
 		public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
 			return null; // consume all records
 		}
@@ -62,7 +68,7 @@ public class SimulationController {
 		}
 
 		@Override
-		public boolean newMonitoringRecord(IMonitoringRecord record) {
+		public boolean newMonitoringRecord(final IMonitoringRecord record) {
 			// TODO: handle TERMINATION_RECORD
 
 			if (record instanceof OperationExecutionRecord) {
@@ -97,6 +103,7 @@ public class SimulationController {
 			return true;
 		}
 
+		@Override
 		public boolean execute() {
 			if (!SimulationController.this.init) {
 				SimulationController.this.init();
@@ -104,10 +111,12 @@ public class SimulationController {
 			return true;
 		}
 
-		public void terminate(boolean error) {
+		@Override
+		public void terminate(final boolean error) {
 			// TODO: we might send the termination record from here
 		}
 	};
+	private Injector createInjector;
 
 	public IMonitoringRecordConsumerPlugin getRecordConsumerPluginPort() {
 		return this.recordConsumerPluginPort;
@@ -123,6 +132,8 @@ public class SimulationController {
 	}
 
 	public synchronized void init() {
+		this.createInjector = Guice.createInjector(new SimulationModule());
+		CallHandler.getInstance().setInjector(this.createInjector);
 		if (!this.init) {
 			this.exp.setShowProgressBar(false);
 		}
@@ -146,7 +157,8 @@ public class SimulationController {
 
 		@Override
 		public void reconfigure(final SLAsticReconfigurationPlan plan) {
-                        log.info("Received reconfiguration plan" + plan);
+			SimulationController.this.log.info("Received reconfiguration plan"
+					+ plan);
 			ModelManager.getInstance().reconfigure(plan);
 
 		}

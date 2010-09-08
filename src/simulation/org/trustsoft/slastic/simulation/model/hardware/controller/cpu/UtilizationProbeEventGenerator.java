@@ -1,10 +1,11 @@
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
-import kieker.monitoring.core.MonitoringController;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.simulation.config.Constants;
+import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
+
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
@@ -12,8 +13,10 @@ import desmoj.core.simulator.SimTime;
 // TODO do only for allocated server cpus
 public class UtilizationProbeEventGenerator {
 
-	private static final MonitoringController monCtrl = MonitoringController
-			.getInstance();
+	@Inject
+	@Named("CPUUsage")
+	private ISystemStats stats;
+
 	private static final SimTime TICK_TIME = new SimTime(.5);
 	private final Model model;
 	private final String name;
@@ -33,18 +36,16 @@ public class UtilizationProbeEventGenerator {
 	public void tick() {
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);
-		if(!this.pause) {
+		if (!this.pause) {
 			tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		}
 
 		final double util = this.scheduler.recalcUtilization();
-		final UtilizationRecord urectum = new UtilizationRecord();
-		urectum.setUtilization(util);
-		urectum.setTime((long) (Constants.SIM_TIME_TO_MON_TIME * this.model
-				.currentTime().getTimeValue()));
+
+		// FIXME use injected stats!
+		this.stats.logCPUUsage(this.name, util);
 		// this.log.info("util: " + util + "@"
 		// + this.model.currentTime().getTimeValue());
-		UtilizationProbeEventGenerator.monCtrl.newMonitoringRecord(urectum);
 	}
 
 	public void pause() {
@@ -57,8 +58,8 @@ public class UtilizationProbeEventGenerator {
 
 	public void resumeAt(final SimTime t) {
 		this.resume();
-		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model, this.name,
-				this.debug, this);
+		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
+				this.name, this.debug, this);
 		tick.schedule(t);
 	}
 
