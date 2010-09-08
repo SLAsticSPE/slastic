@@ -33,7 +33,11 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 		return this.capacity;
 	}
 
-	public void resumeMonitoringAt(final SimTime t){
+	public void resumeMonitoringAt(final SimTime t) {
 		super.getScheduler().resumeBuisinessMonitoringAt(t);
+	}
+
+	public void pauseMonitoring() {
+		this.getScheduler().pauseBuisinessMonitoring();
 	}
 }

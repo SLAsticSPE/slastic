@@ -129,6 +129,16 @@ public class CPURRScheduler extends CPUScheduler {
 
 	@Override
 	public void resumeBuisinessMonitoringAt(final SimTime t) {
+		// CPURRScheduler.log.warn("resuming buisiness logging of "
+		// + this.getName() + " " + t.getTimeValue());
 		this.utilizationTicker.resumeAt(t);
+	}
+
+	@Override
+	public final void pauseBuisinessMonitoring() {
+		// CPURRScheduler.log.warn("pausing buisiness logging of "
+		// + this.getName() + " "
+		// + this.getModel().currentTime().getTimeValue());
+		this.utilizationTicker.pause();
 	}
 }

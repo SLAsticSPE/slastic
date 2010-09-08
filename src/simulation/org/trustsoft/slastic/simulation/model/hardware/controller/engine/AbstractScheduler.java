@@ -93,4 +93,6 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 
 	public abstract void resumeBuisinessMonitoringAt(SimTime t);
 
+	public abstract void pauseBuisinessMonitoring();
+
 }

@@ -101,23 +101,40 @@ public class HardwareController extends Reportable {
 	}
 
 	public boolean allocate(final String id) {
-		if (!this.serversById.get(id).isAllocated()) {
-			this.serversById.get(id).setAllocated(true);
+		final Server server = this.serversById.get(id);
+		if (!server.isAllocated()) {
+			server.setAllocated(true);
+			for (final CPU cpu : server.getCpus()) {
+				cpu.resumeMonitoringAt(this.model.currentTime());
+			}
 			this.allocatedServers++;
 			return true;
 		}
-		this.log.warn("Failed to allocate server"
-				+ id
+		this.log.warn("Failed to allocate server" + id
 				+ " , allocation status: "
-				+ (this.serversById.get(id).isAllocated() ? "allocated"
-						: "unallocated"));
+				+ (server.isAllocated() ? "allocated" : "unallocated"));
+		return false;
+	}
+
+	public boolean bpallocate(final String id) {
+		final Server server = this.serversById.get(id);
+		if (!server.isAllocated()) {
+			server.setAllocated(true);
+			this.allocatedServers++;
+			return true;
+		}
 		return false;
 	}
 
 	public boolean delocate(final String id) {
+		final Server server = this.serversById.get(id);
+		// this.log.warn("Delocating server " + server.getName());
 		if (this.allocatedServers > 1
 				&& !ModelManager.getInstance().getAllocCont().serverIsUsed(id)) {
-			this.serversById.get(id).setAllocated(false);
+			server.setAllocated(false);
+			for (final CPU cpu : server.getCpus()) {
+				cpu.pauseMonitoring();
+			}
 			this.allocatedServers--;
 			return true;
 		}
@@ -126,7 +143,7 @@ public class HardwareController extends Reportable {
 				+ ", Usage status: "
 				+ (ModelManager.getInstance().getAllocCont().serverIsUsed(id) ? "used"
 						: "unused") + ", Allocation status: "
-				+ this.serversById.get(id).isAllocated());
+				+ server.isAllocated());
 		return false;
 	}
 

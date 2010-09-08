@@ -33,12 +33,14 @@ public class UtilizationProbeEventGenerator {
 		this.scheduler = cpurrScheduler;
 	}
 
-	public void tick() {
+	public final void tick() {
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);
 		if (!this.pause) {
 			tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		}
+
+		// this.log.warn(this.name);
 
 		final double util = this.scheduler.recalcUtilization();
 
@@ -49,11 +51,11 @@ public class UtilizationProbeEventGenerator {
 		// + this.model.currentTime().getTimeValue());
 	}
 
-	public void pause() {
+	public final void pause() {
 		this.pause = true;
 	}
 
-	public void resume() {
+	public final void resume() {
 		this.pause = false;
 	}
 

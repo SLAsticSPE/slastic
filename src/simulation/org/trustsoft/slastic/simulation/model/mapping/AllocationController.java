@@ -96,7 +96,7 @@ public final class AllocationController {
 			ModelManager
 					.getInstance()
 					.getHwCont()
-					.allocate(
+					.bpallocate(
 							allocContext
 									.getResourceContainer_AllocationContext()
 									.getId());

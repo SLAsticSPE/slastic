@@ -43,4 +43,9 @@ public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 
 	}
 
+	@Override
+	public void pauseBuisinessMonitoring() {
+
+	}
+
 }
