@@ -15,7 +15,7 @@ public class UtilizationProbeEventGenerator {
 
 	@Inject
 	@Named("CPUUsage")
-	private ISystemStats stats;
+	private static ISystemStats stats;
 
 	private static final SimTime TICK_TIME = new SimTime(.5);
 	private final Model model;
@@ -43,7 +43,7 @@ public class UtilizationProbeEventGenerator {
 		final double util = this.scheduler.recalcUtilization();
 
 		// FIXME use injected stats!
-		this.stats.logCPUUsage(this.name, util);
+		UtilizationProbeEventGenerator.stats.logCPUUsage(this.name, util);
 		// this.log.info("util: " + util + "@"
 		// + this.model.currentTime().getTimeValue());
 	}
