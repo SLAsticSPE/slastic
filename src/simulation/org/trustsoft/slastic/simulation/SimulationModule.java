@@ -25,6 +25,7 @@ public class SimulationModule extends AbstractModule {
 		this.bind(ISystemStats.class)
 				.annotatedWith(Names.named("SystemUsersOnReturn"))
 				.to(SystemStats.class);
+
 		this.bind(ISystemStats.class).annotatedWith(Names.named("CPUUsage"))
 				.to(SystemStats.class);
 

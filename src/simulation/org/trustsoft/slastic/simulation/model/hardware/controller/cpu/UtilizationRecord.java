@@ -2,27 +2,30 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
 import kieker.common.record.AbstractMonitoringRecord;
 
-@SuppressWarnings( { "serial", "unchecked" })
+@SuppressWarnings({ "serial", "unchecked" })
 public class UtilizationRecord extends AbstractMonitoringRecord {
 
 	private long time;
 	private double utilization;
-	private final Class types[] = { Long.class, Double.class };
+	private static final Class types[] = { Long.class, Double.class,
+			String.class };
+	private String server;
 
 	@Override
 	public Class[] getValueTypes() {
-		return this.types;
+		return UtilizationRecord.types;
 	}
 
 	@Override
 	public void initFromArray(final Object[] values) {
 		this.time = (Long) values[0];
 		this.utilization = (Double) values[1];
+		this.server = (String) values[2];
 	}
 
 	@Override
 	public Object[] toArray() {
-		return new Object[] { this.time, this.utilization };
+		return new Object[] { this.time, this.utilization, this.server };
 	}
 
 	/**
@@ -53,6 +56,10 @@ public class UtilizationRecord extends AbstractMonitoringRecord {
 	 */
 	public final void setUtilization(final double utilization) {
 		this.utilization = utilization;
+	}
+
+	public void setServer(final String server) {
+		this.server = server;
 	}
 
 }

@@ -49,10 +49,10 @@ public class SystemStats implements ISystemStats {
 
 	@Override
 	public void logCPUUsage(final String server, final double usage) {
-		// TODO Auto-generated method stub
 		final UtilizationRecord urectum = new UtilizationRecord();
 		urectum.setUtilization(usage);
 		urectum.setTime(this.getMonTime());
+		urectum.setServer(server);
 		this.mCtrl.newMonitoringRecord(urectum);
 	}
 
