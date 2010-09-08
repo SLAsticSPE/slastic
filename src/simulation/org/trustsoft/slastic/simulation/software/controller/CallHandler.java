@@ -383,9 +383,6 @@ public class CallHandler {
 		// int eoi = curStack.peek().getEoi();
 		stackFrame.setEoi(eoi);
 		this.eoi.put(traceId, eoi + 1);
-		if (stackFrame.getCalledServiceName().contains("search") && eoi > 0) {
-			throw new NullPointerException();
-		}
 		curStack.push(stackFrame);
 	}
 
