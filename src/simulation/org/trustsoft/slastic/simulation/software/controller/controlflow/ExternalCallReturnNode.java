@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
-import kieker.common.record.OperationExecutionRecord;
 import kieker.monitoring.core.MonitoringController;
 
 import org.apache.commons.logging.Log;
@@ -22,6 +21,10 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	@Named("SystemUsersOnReturn")
 	private static ISystemStats stats;
 
+	@Inject
+	@Named("Execution")
+	private static ISystemStats exeStats;
+
 	private final ExternalCallEnterNode ece;
 	private SimTime exitTime;
 	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
@@ -42,10 +45,13 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		if (this.ece.getASMContFrom() == null) {
 			ExternalCallReturnNode.stats.subSystemUser();
 		}
-		final OperationExecutionRecord erec = f.createRecord(this.getModel()
-				.currentTime().getTimeValue(), CallHandler.getInstance()
-				.getStackDepth(this.ece.getTraceId()), f.getEoi());
-		ExternalCallReturnNode.tpmonCtrl.newMonitoringRecord(erec);
+		ExternalCallReturnNode.exeStats.logExecution(f, CallHandler
+				.getInstance().getStackDepth(this.ece.getTraceId()));
+		// final OperationExecutionRecord erec = f.createRecord(this.getModel()
+		// .currentTime().getTimeValue(), CallHandler.getInstance()
+		// .getStackDepth(this.ece.getTraceId()));
+		//
+		// ExternalCallReturnNode.tpmonCtrl.newMonitoringRecord(erec);
 
 		// tell simulator to schedule next action in this trace
 		ModelManager.getInstance().getAllocCont()

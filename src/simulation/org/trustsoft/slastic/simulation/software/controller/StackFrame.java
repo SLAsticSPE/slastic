@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
-
 import kieker.common.record.OperationExecutionRecord;
 
 import org.apache.commons.logging.Log;
@@ -29,24 +28,24 @@ public class StackFrame {
 		this.timeEnter = time;
 	}
 
-	public String getCalledServiceName() {
+	public final String getCalledServiceName() {
 		return this.calledServiceName;
 	}
 
-	public String getAsmContextTo() {
+	public final String getAsmContextTo() {
 		return this.asmContextTo;
 	}
 
-	public String getServerId() {
+	public final String getServerId() {
 		return this.serverId;
 	}
 
-	public double getTimeEnter() {
+	public final double getTimeEnter() {
 		return this.timeEnter;
 	}
 
-	public OperationExecutionRecord createRecord(final double timeExit,
-			final int depth, final int eoi) {
+	public final OperationExecutionRecord createRecord(final double timeExit,
+			final int depth) {
 		final OperationExecutionRecord rec = new OperationExecutionRecord(
 				ModelManager.getInstance().getAssemblyCont()
 						.getASMInstanceAndComponentNameById(this.asmContextTo),
@@ -54,12 +53,12 @@ public class StackFrame {
 				(long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
 		rec.ess = depth;
-		rec.eoi = eoi;
+		rec.eoi = this.eoi;
 		rec.hostName = this.serverId;
 		return rec;
 	}
 
-	public String getTraceId() {
+	public final String getTraceId() {
 		return this.traceId;
 	}
 

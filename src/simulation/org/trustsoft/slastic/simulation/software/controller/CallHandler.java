@@ -1,9 +1,5 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,7 +12,6 @@ import org.trustsoft.slastic.simulation.DynamicSimulationModel;
 import org.trustsoft.slastic.simulation.StopCondition;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
-import org.trustsoft.slastic.simulation.model.hardware.controller.HardwareController;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
@@ -70,8 +65,6 @@ public class CallHandler {
 	private final DynamicSimulationModel model;
 
 	private StopCondition stopCond;
-
-	private int maxUsers = 0;
 
 	private long ltime;
 
@@ -404,17 +397,6 @@ public class CallHandler {
 			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
 			this.log.info("Attempting to schedule " + node.getClass());
 			node.schedule(SimTime.NOW);
-			final HardwareController hw = ModelManager.getInstance()
-					.getHwCont();
-			int users = 0;
-			for (final Server s : hw.getServers()) {
-				for (final CPU cpu : s.getCpus()) {
-					users += cpu.getScheduler().getProcessCount();
-				}
-			}
-			if (users > this.maxUsers) {
-				this.maxUsers = users;
-			}
 		} else {
 			nodes.clear();
 			this.activeTraces.remove(traceId);
@@ -427,16 +409,6 @@ public class CallHandler {
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
 			ModelManager.markEnd(this.ltime);
-			try {
-				final File f = File.createTempFile("maxU", ".dat");
-				final PrintWriter pw = new PrintWriter(new FileWriter(f));
-				pw.println(this.maxUsers);
-				pw.flush();
-				pw.close();
-				System.exit(0);
-			} catch (final IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 

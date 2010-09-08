@@ -7,13 +7,15 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.UtilizationRecord;
+import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import desmoj.core.simulator.Model;
 
-//@Singleton
-public class SystemStats implements ISystemStats {
+@Singleton
+public final class SystemStats implements ISystemStats {
 
 	private int users;
 	private final MonitoringController mCtrl = MonitoringController
@@ -51,12 +53,18 @@ public class SystemStats implements ISystemStats {
 	}
 
 	@Override
-	public void logCPUUsage(final String server, final double usage) {
+	public final void logCPUUsage(final String server, final double usage) {
 		final UtilizationRecord urectum = new UtilizationRecord();
 		urectum.setUtilization(usage);
 		urectum.setTime(this.getMonTime());
 		urectum.setServer(server);
 		this.mCtrl.newMonitoringRecord(urectum);
+	}
+
+	@Override
+	public final void logExecution(final StackFrame frame, final int depth) {
+		this.mCtrl.newMonitoringRecord(frame.createRecord(this.getMonTime(),
+				depth));
 	}
 
 }

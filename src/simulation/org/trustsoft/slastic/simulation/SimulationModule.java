@@ -4,6 +4,7 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.Utilizatio
 import org.trustsoft.slastic.simulation.model.mapping.AllocationController;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
+import org.trustsoft.slastic.simulation.software.statistics.DummyStats;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
 
@@ -16,6 +17,9 @@ public class SimulationModule extends AbstractModule {
 	protected void configure() {
 		this.bind(ISystemStats.class)
 				.annotatedWith(Names.named("ComponentUsers"))
+				.to(DummyStats.class);
+
+		this.bind(ISystemStats.class).annotatedWith(Names.named("Execution"))
 				.to(SystemStats.class);
 
 		this.bind(ISystemStats.class)
@@ -32,6 +36,7 @@ public class SimulationModule extends AbstractModule {
 		this.requestStaticInjection(ExternalCallEnterNode.class,
 				ExternalCallReturnNode.class, AllocationController.class,
 				UtilizationProbeEventGenerator.class);
+
 		this.bind(ISystemStats.class).to(SystemStats.class);
 	}
 
