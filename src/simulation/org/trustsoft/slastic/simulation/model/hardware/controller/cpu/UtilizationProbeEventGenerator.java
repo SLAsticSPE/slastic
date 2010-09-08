@@ -44,6 +44,7 @@ public class UtilizationProbeEventGenerator {
 
 		// FIXME use injected stats!
 		UtilizationProbeEventGenerator.stats.logCPUUsage(this.name, util);
+
 		// this.log.info("util: " + util + "@"
 		// + this.model.currentTime().getTimeValue());
 	}

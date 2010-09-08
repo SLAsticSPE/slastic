@@ -62,4 +62,8 @@ public class UtilizationRecord extends AbstractMonitoringRecord {
 		this.server = server;
 	}
 
+	public String getServer() {
+		return this.server;
+	}
+
 }
