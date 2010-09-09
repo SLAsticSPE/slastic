@@ -280,20 +280,24 @@ public final class AllocationController {
 	 * @return
 	 */
 	public boolean del(final AllocationContext component) {
+		final String asmContext = component
+				.getAssemblyContext_AllocationContext().getId();
 		final Collection<String> servers = this.assemblyContextToServerMapping
-				.get(component.getAssemblyContext_AllocationContext().getId());
+				.get(asmContext);
 		if (servers.size() > 1) {
-			servers.remove(component.getResourceContainer_AllocationContext()
-					.getId());
-			this.blockInstance(component
-					.getResourceContainer_AllocationContext().getId(),
-					component.getAssemblyContext_AllocationContext().getId());
-
-			this.log.warn("Deleted "
-					+ component.getAssemblyContext_AllocationContext().getId()
-					+ " from container "
-					+ component.getResourceContainer_AllocationContext()
-							.getId());
+			final String server = component
+					.getResourceContainer_AllocationContext().getId();
+			servers.remove(server);
+			this.blockInstance(server, asmContext);
+			//
+			// this.log.warn("Deleted "
+			// + component.getAssemblyContext_AllocationContext().getId()
+			// + " from container "
+			// + component.getResourceContainer_AllocationContext()
+			// .getId());
+			if (!this.hasUsers(asmContext, server)) {
+				this.notifyReconfController(asmContext, server);
+			}
 			return true;
 		} else {
 			this.log.warn("Not allowing less than one allocation (tried to remove "
