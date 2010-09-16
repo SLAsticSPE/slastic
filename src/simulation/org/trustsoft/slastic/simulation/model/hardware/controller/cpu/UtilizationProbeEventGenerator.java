@@ -2,6 +2,7 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
 import com.google.inject.Inject;
@@ -60,10 +61,14 @@ public class UtilizationProbeEventGenerator {
 	}
 
 	public void resumeAt(final SimTime t) {
+		final SimTime t2 = SimTime.diff(t, ModelManager.getInstance()
+				.getModel().currentTime());
+		this.log.warn(t.getTimeValue() + ": starting monitoring of "
+				+ this.name + " at " + t2.getTimeValue());
 		this.resume();
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);
-		tick.schedule(t);
+		tick.schedule(t2);
 	}
 
 }

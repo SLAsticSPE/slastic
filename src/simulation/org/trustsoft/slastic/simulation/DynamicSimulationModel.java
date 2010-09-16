@@ -73,68 +73,55 @@ public class DynamicSimulationModel extends Model {
 		}
 
 		// // for testing only
-/*
-		final ReconfigurationPlanModelFactory pf = new ReconfigurationPlanModelFactoryImpl();
-
-		final NodeAllocationOP na = pf.createNodeAllocationOP();
-		ResourceContainer dest0 = null, dest1 = null, dest2 = null;
-		for (final ResourceContainer rc : ModelManager.getInstance()
-				.getResources().getResourceContainer_ResourceEnvironment()) {
-			if (rc.getId().equals("_e76KIaKiEd6HO68P--FvMQ")) {
-				dest0 = rc;
-			} else if (rc.getId().equals("_dlANwTmhEd-U4u9Bc9bBPA")) {
-				dest1 = rc;
-			} else if (rc.getId().equals("_fr9y4TmkEd-U4u9Bc9bBPA")) {
-				dest2 = rc;
-			}
-		}
-		na.setNode(dest0);
-		AllocationEvent alloc = new AllocationEvent(this, "bla",
-				Constants.DEBUG, na, dest0.getId());
-		alloc.schedule(SimTime.NOW);
-		alloc = new AllocationEvent(this, "bla", Constants.DEBUG, na, dest1
-				.getId());
-		alloc.schedule(SimTime.NOW);
-		alloc = new AllocationEvent(this, "bla", Constants.DEBUG, na, dest2
-				.getId());
-		alloc.schedule(SimTime.NOW);
-		final ComponentReplicationOP op = pf.createComponentReplicationOP();
-		op.setComponent(ModelManager.getInstance().getAssemblyCont()
-				.getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
-		op.setDestination(dest0);
-		ReplicationEvent re = new ReplicationEvent(this, "foo",
-				Constants.DEBUG, op);
-		re = new ReplicationEvent(this, "foo", Constants.DEBUG, op);
-		re.schedule(new SimTime(600));
-		final ComponentReplicationOP op1 = pf.createComponentReplicationOP();
-		op1.setComponent(ModelManager.getInstance().getAssemblyCont()
-				.getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
-		op1.setDestination(dest1);
-		re = new ReplicationEvent(this, "foo", Constants.DEBUG, op1);
-		re.schedule(new SimTime(800));
-		final ComponentReplicationOP op2 = pf.createComponentReplicationOP();
-		op2.setComponent(ModelManager.getInstance().getAssemblyCont()
-				.getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
-		op2.setDestination(dest2);
-		re = new ReplicationEvent(this, "foo", Constants.DEBUG, op2);
-		re.schedule(new SimTime(1000));
-
-		// re.schedule(new SimTime(4500));
-		// re = new ReplicationEvent(this, "foo", Constants.DEBUG, op);
-		// re.schedule(new SimTime(7500));
-		// re = new ReplicationEvent(this, "foo", Constants.DEBUG, op);
-		// re.schedule(new SimTime(10500));
-		final ComponentDeReplicationOP dr = pf.createComponentDeReplicationOP();
-		final AllocationFactory af = new AllocationFactoryImpl();
-		final AllocationContext ac = af.createAllocationContext();
-		ac
-				.setAssemblyContext_AllocationContext(ModelManager
-						.getInstance().getAssemblyCont().getASMContextById(
-								"_HWAaYKKjEd6HO68P--FvMQ"));
-		ac.setResourceContainer_AllocationContext(dest0);
-		dr.setComponent(ac);
-		final DelComponent dc = new DelComponent(this, "bar", Constants.DEBUG,
-				dr);	*/
+		/*
+		 * final ReconfigurationPlanModelFactory pf = new
+		 * ReconfigurationPlanModelFactoryImpl();
+		 * 
+		 * final NodeAllocationOP na = pf.createNodeAllocationOP();
+		 * ResourceContainer dest0 = null, dest1 = null, dest2 = null; for
+		 * (final ResourceContainer rc : ModelManager.getInstance()
+		 * .getResources().getResourceContainer_ResourceEnvironment()) { if
+		 * (rc.getId().equals("_e76KIaKiEd6HO68P--FvMQ")) { dest0 = rc; } else
+		 * if (rc.getId().equals("_dlANwTmhEd-U4u9Bc9bBPA")) { dest1 = rc; }
+		 * else if (rc.getId().equals("_fr9y4TmkEd-U4u9Bc9bBPA")) { dest2 = rc;
+		 * } } na.setNode(dest0); AllocationEvent alloc = new
+		 * AllocationEvent(this, "bla", Constants.DEBUG, na, dest0.getId());
+		 * alloc.schedule(SimTime.NOW); alloc = new AllocationEvent(this, "bla",
+		 * Constants.DEBUG, na, dest1 .getId()); alloc.schedule(SimTime.NOW);
+		 * alloc = new AllocationEvent(this, "bla", Constants.DEBUG, na, dest2
+		 * .getId()); alloc.schedule(SimTime.NOW); final ComponentReplicationOP
+		 * op = pf.createComponentReplicationOP();
+		 * op.setComponent(ModelManager.getInstance().getAssemblyCont()
+		 * .getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
+		 * op.setDestination(dest0); ReplicationEvent re = new
+		 * ReplicationEvent(this, "foo", Constants.DEBUG, op); re = new
+		 * ReplicationEvent(this, "foo", Constants.DEBUG, op); re.schedule(new
+		 * SimTime(600)); final ComponentReplicationOP op1 =
+		 * pf.createComponentReplicationOP();
+		 * op1.setComponent(ModelManager.getInstance().getAssemblyCont()
+		 * .getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
+		 * op1.setDestination(dest1); re = new ReplicationEvent(this, "foo",
+		 * Constants.DEBUG, op1); re.schedule(new SimTime(800)); final
+		 * ComponentReplicationOP op2 = pf.createComponentReplicationOP();
+		 * op2.setComponent(ModelManager.getInstance().getAssemblyCont()
+		 * .getASMContextById("_HWAaYKKjEd6HO68P--FvMQ"));
+		 * op2.setDestination(dest2); re = new ReplicationEvent(this, "foo",
+		 * Constants.DEBUG, op2); re.schedule(new SimTime(1000));
+		 * 
+		 * // re.schedule(new SimTime(4500)); // re = new ReplicationEvent(this,
+		 * "foo", Constants.DEBUG, op); // re.schedule(new SimTime(7500)); // re
+		 * = new ReplicationEvent(this, "foo", Constants.DEBUG, op); //
+		 * re.schedule(new SimTime(10500)); final ComponentDeReplicationOP dr =
+		 * pf.createComponentDeReplicationOP(); final AllocationFactory af = new
+		 * AllocationFactoryImpl(); final AllocationContext ac =
+		 * af.createAllocationContext(); ac
+		 * .setAssemblyContext_AllocationContext(ModelManager
+		 * .getInstance().getAssemblyCont().getASMContextById(
+		 * "_HWAaYKKjEd6HO68P--FvMQ"));
+		 * ac.setResourceContainer_AllocationContext(dest0);
+		 * dr.setComponent(ac); final DelComponent dc = new DelComponent(this,
+		 * "bar", Constants.DEBUG, dr);
+		 */
 		// dc.schedule(new SimTime(3000));
 		//
 		// dc = new DelComponent(this, "bar", Constants.DEBUG, dr);
@@ -153,7 +140,6 @@ public class DynamicSimulationModel extends Model {
 
 	/*
 	 * call returns algo<br/> let the next entry call be scheduled
-	 *
 	 */
 	public void callReturns(final String traceId) {
 		final EntryCall call;
@@ -163,7 +149,7 @@ public class DynamicSimulationModel extends Model {
 			this.log.info("No call in queue");
 			return;
 		}
-		this.log.info("Calling " + call.getComponentName() + "."
+		this.log.warn("Calling " + call.getComponentName() + "."
 				+ call.getOpname());
 		try {
 			this.callHandler.call(call.getOpname(), call.getTraceId() + "",

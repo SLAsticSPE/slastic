@@ -63,8 +63,8 @@ public final class SystemStats implements ISystemStats {
 
 	@Override
 	public final void logExecution(final StackFrame frame, final int depth) {
-		this.mCtrl.newMonitoringRecord(frame.createRecord(this.getMonTime(),
-				depth));
+		this.mCtrl.newMonitoringRecord(frame.createRecord(this.model.getModel()
+				.currentTime().getTimeValue(), depth));
 	}
 
 }

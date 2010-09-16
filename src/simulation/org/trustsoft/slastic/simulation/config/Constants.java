@@ -2,9 +2,9 @@ package org.trustsoft.slastic.simulation.config;
 
 /**
  * Hold the constants needed for simulation
- *
+ * 
  * @author skomp
- *
+ * 
  */
 public class Constants {
 	/**
@@ -21,7 +21,7 @@ public class Constants {
 	/**
 	 * How many calls are scheduled before the simulation is started
 	 */
-	public static final int PRE_BUFFER = 25000;
+	public static final int PRE_BUFFER = 20000;
 
 	/**
 	 * If true, simulate a single call and exit

@@ -36,6 +36,7 @@ public class SimulationController {
 	private final DynamicSimulationModel model;
 	private final Experiment exp;
 	private StopCondition stopCond;
+	private SimulationController instance;
 	private volatile boolean init;
 	private final TreeSet<EntryCall> buffer = new TreeSet<EntryCall>(
 			new Comparator<EntryCall>() {
