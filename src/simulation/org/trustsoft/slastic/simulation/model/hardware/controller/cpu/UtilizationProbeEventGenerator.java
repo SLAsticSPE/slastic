@@ -63,8 +63,6 @@ public class UtilizationProbeEventGenerator {
 	public void resumeAt(final SimTime t) {
 		final SimTime t2 = SimTime.diff(t, ModelManager.getInstance()
 				.getModel().currentTime());
-		this.log.warn(t.getTimeValue() + ": starting monitoring of "
-				+ this.name + " at " + t2.getTimeValue());
 		this.resume();
 		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
 				this.name, this.debug, this);

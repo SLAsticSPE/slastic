@@ -164,6 +164,8 @@ public final class AllocationController {
 			final Integer cUser = users.get(asmContext);
 			if (cUser != null) {
 				return cUser > 0;
+			} else {
+				return true;
 			}
 		}
 		return false;
@@ -229,6 +231,7 @@ public final class AllocationController {
 	public boolean blockInstance(final String asmContext, final String server) {
 		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
+		this.log.info("blocking " + asmContext + " on server " + server);
 		if (blockState == null) {
 			blockState = new Hashtable<String, Boolean>();
 			this.serverToAsmToBlockState.put(server, blockState);
@@ -254,6 +257,7 @@ public final class AllocationController {
 		} catch (final Exception e) {
 			// e.printStackTrace();
 		}
+
 	}
 
 	public boolean hasAllocation(final String server, final String asmContext) {
@@ -288,13 +292,13 @@ public final class AllocationController {
 			final String server = component
 					.getResourceContainer_AllocationContext().getId();
 			servers.remove(server);
-			this.blockInstance(server, asmContext);
-			//
-			// this.log.warn("Deleted "
-			// + component.getAssemblyContext_AllocationContext().getId()
-			// + " from container "
-			// + component.getResourceContainer_AllocationContext()
-			// .getId());
+			this.blockInstance(asmContext, server);
+
+			this.log.info("Deleted "
+					+ component.getAssemblyContext_AllocationContext().getId()
+					+ " from container "
+					+ component.getResourceContainer_AllocationContext()
+							.getId());
 			if (!this.hasUsers(asmContext, server)) {
 				this.notifyReconfController(asmContext, server);
 			}
