@@ -1,13 +1,15 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
-import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
-import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractEntityManager;
+
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
+import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 
 /**
  *
@@ -29,7 +31,7 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
     public DeploymentComponent createAndRegisterDeploymentComponent(
             final AssemblyComponent assemblyComponent,
             final ExecutionContainer executionContainer) {
-        DeploymentComponent deploymentComponent =
+        final DeploymentComponent deploymentComponent =
                 this.createAndRegisterEntity();
         deploymentComponent.setAssemblyComponent(assemblyComponent);
         deploymentComponent.setExecutionContainer(executionContainer);
@@ -42,15 +44,17 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
     }
 
     @Override
-    public void deleteDeploymentComponent(DeploymentComponent deploymentComponent) {
+    public boolean deleteDeploymentComponent(final DeploymentComponent deploymentComponent) {
         if (!this.removeEntity(deploymentComponent)){ // throws IllegalStateException
-            log.warn("removeEntity(..) returned false for deployment component " + deploymentComponent + ". "
+            DeploymentComponentsManager.log.warn("removeEntity(..) returned false for deployment component " + deploymentComponent + ". "
                     + "This means that this component wasn't registered. ");
+            return false;
         }
+        return true;
     }
 
     @Override
-    public void migrateDeploymentComponent(DeploymentComponent deploymentComponent, ExecutionContainer toExecutionContainer) {
+    public void migrateDeploymentComponent(final DeploymentComponent deploymentComponent, final ExecutionContainer toExecutionContainer) {
         deploymentComponent.setExecutionContainer(toExecutionContainer);
     }
 }

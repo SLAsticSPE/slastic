@@ -37,9 +37,10 @@ public interface IDeploymentComponentsManager {
      * Removes the given deployment component from the model.
      *
      * @param deploymentComponent the deployment component to delete
+     * @return 
      * @throws NullPointerException if deploymentComponent is null
      */
-    public void deleteDeploymentComponent (final DeploymentComponent deploymentComponent);
+    public boolean deleteDeploymentComponent (final DeploymentComponent deploymentComponent);
 
    /**
      * Migrates the deployment component deploymentComponent from its current

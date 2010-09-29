@@ -2,6 +2,7 @@ package org.trustsoft.slastic.common;
 
 import java.util.HashMap;
 import java.util.Properties;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -16,14 +17,14 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
     private Properties properties;
 
     @Override
-    public final void setProperties(Properties properties) {
+    public final void setProperties(final Properties properties) {
         this.properties = properties;
     }
-
+ 
     /** Returns the value for the initialization property @a propName or the
      *  the passed default value @a default if no value for this property
      *  exists. */
-    protected final String getInitProperty(String propName, String defaultVal) {
+    protected final String getInitProperty(final String propName, final String defaultVal) {
         String retVal;
 
         if (this.properties != null) {
