@@ -63,8 +63,8 @@ public class ComponentDeploymentModelManager extends
 
 	/**
 	 * Returns the {@link DeploymentComponent} associated with the given
-	 * {@link AssemblyComponent} and {@link ExecutionContainer}, or 
-	 * null if no such {@link DeploymentComponent} exists.
+	 * {@link AssemblyComponent} and {@link ExecutionContainer}, or null if no
+	 * such {@link DeploymentComponent} exists.
 	 * 
 	 * @param assemblyComponent
 	 * @param executionContainer
@@ -135,10 +135,10 @@ public class ComponentDeploymentModelManager extends
 				.removeDeploymentComponentForAssemblyComponent(
 						deploymentComponent.getAssemblyComponent(),
 						deploymentComponent))
-				&& (this.deploymentComponentsManager
+				|| !(this.deploymentComponentsManager
 						.deleteDeploymentComponent(deploymentComponent))) {
 			ComponentDeploymentModelManager.log
-					.error("Failed to removed deployment component from internal maps");
+					.error("Failed to remove deployment component from internal maps");
 			return false;
 		}
 
