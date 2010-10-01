@@ -26,9 +26,26 @@ public class TestComponentDereplication extends TestCase {
 		final DeploymentComponent deploymentComponent = ModelEntityCreationUtils
 				.createDeploymentComponent(mgr, "ComponentTypeName",
 						"AssemblyComponentName", "ExecutionContainerTypeName",
-						"ExecutionContainernName");
-		mgr.dereplicateComponent(deploymentComponent);
+						"ExecutionContainernName");		
+		mgr.getReconfigurationManager().dereplicateComponent(deploymentComponent);
+		/* Make sure that entity is removed */
 		Assert.assertNull(mgr.getComponentDeploymentModelManager()
 				.lookupDeploymentComponent(deploymentComponent.getId()));
+		/* Make sure that this deployment is removed from the list of assemblies */
+		Assert.assertNull(
+				"Method returned non-null deployment component although component dereplicated",
+				mgr.getComponentDeploymentModelManager()
+						.deploymentComponentForAssemblyComponent(
+								deploymentComponent.getAssemblyComponent(),
+								deploymentComponent.getExecutionContainer()));
+		/*
+		 * In this case, that should be no deployment component remaining for
+		 * the assembly component:
+		 */
+		Assert.assertEquals(
+				"List of deployments for assembly must be 0", 0, 
+				mgr.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(
+								deploymentComponent.getAssemblyComponent()).size());
 	}
 }
