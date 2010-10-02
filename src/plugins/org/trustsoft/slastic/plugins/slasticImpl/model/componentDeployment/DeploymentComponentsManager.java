@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.TreeMap;
@@ -20,6 +21,8 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 public class DeploymentComponentsManager extends
 		AbstractEntityManager<DeploymentComponent> implements
 		IDeploymentComponentsManager {
+	private static final ArrayList<DeploymentComponent> EMPTY_COLLECTION = new ArrayList<DeploymentComponent>();
+
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentsManager.class);
 
@@ -115,8 +118,13 @@ public class DeploymentComponentsManager extends
 	@Override
 	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
 			final AssemblyComponent assemblyComponent) {
-		return this.deploymentsForAsmComponentIDs
-				.get(assemblyComponent.getId()).values();
+		final TreeMap<Long, DeploymentComponent> deployments = this.deploymentsForAsmComponentIDs
+						.get(assemblyComponent.getId());
+		if (deployments == null){
+			return DeploymentComponentsManager.EMPTY_COLLECTION;
+		} else {
+			return deployments.values(); 
+		}
 	}
 
 	@Override
