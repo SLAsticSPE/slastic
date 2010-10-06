@@ -127,7 +127,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 		if (systemModel_inputFile.isEmpty()) {
 			ModelManager.log
 					.info("No input filename for system model given --- creating new model");
-			this.systemModel = CoreFactory.eINSTANCE.createSystemModel();
+			this.systemModel = ModelManager.createInitializedSystemModel();
 		} else {
 			ModelManager.log.info("Loading system model from file "
 					+ systemModel_inputFile);
@@ -139,8 +139,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 				return false;
 			}
 		}
-		this.initManagers();
-		return true;
+		return this.initManagers();
 	}
 
 	private SystemModel loadModel(final String systemModel_inputFile)
@@ -166,6 +165,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 
 	@Override
 	public void terminate(final boolean error) {
+		ModelManager.log.info("Terminating model manager");
 		this.saveModel();
 	}
 

@@ -3,13 +3,15 @@ package org.trustsoft.slastic.plugins.starter;
 import java.util.Collection;
 import java.util.Properties;
 
+import kieker.analysis.AnalysisController;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.analysis.reader.filesystem.FSReader;
 import kieker.common.record.IMonitoringRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
+import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
+import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
 import org.trustsoft.slastic.simulation.SimulationController;
@@ -18,11 +20,6 @@ import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import java.util.LinkedList;
-import java.util.List;
-import kieker.analysis.AnalysisController;
-import org.trustsoft.slastic.plugins.pcm.PCMModelReader;
-import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
 
 /**
  *
@@ -62,7 +59,8 @@ public class SLAsticSimulatorInstance {
     private SLAsticSimPlanReceiver reconfPlanReceiver;
 
     /** No construction via default constructor. */
-    private SLAsticSimulatorInstance() {
+    @SuppressWarnings("unused")
+	private SLAsticSimulatorInstance() {
     }
 
     public SLAsticSimulatorInstance(final Properties props) {
@@ -79,19 +77,19 @@ public class SLAsticSimulatorInstance {
 
             this.reconfPipeName = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_RECONF_PIPENAME);
 
-            if (this.fsReaderInputDir == null
-                    || this.fsReaderInputDir.length() == 0) {
+            if ((this.fsReaderInputDir == null)
+                    || (this.fsReaderInputDir.length() == 0)) {
                 throw new IllegalArgumentException("Missing or empty property "
                         + SLAsticSimulatorInstance.PROP_NAME_FSREADER_INPUTDIRS);
             }
-            if (this.fsReaderRTMode && this.fsReaderRTNumThreads <= 0) {
+            if (this.fsReaderRTMode && (this.fsReaderRTNumThreads <= 0)) {
                 throw new IllegalArgumentException(
                         "Missing, empty or invalid property "
                         + SLAsticSimulatorInstance.PROP_NAME_FSREADER_RTNUMTHREADS);
             }
 
-            if (this.reconfPipeName == null
-                    || this.reconfPipeName.length() == 0) {
+            if ((this.reconfPipeName == null)
+                    || (this.reconfPipeName.length() == 0)) {
                 throw new IllegalArgumentException("Missing or empty property "
                         + SLAsticSimulatorInstance.PROP_NAME_RECONF_PIPENAME);
             }
@@ -143,19 +141,19 @@ public class SLAsticSimulatorInstance {
                     final SLAsticReconfigurationPlan plan) {
                 SLAsticSimulatorInstance.log.debug("Received plan "
                         + plan);
-                simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
+                SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
             }
 
             @Override
             public void addReconfigurationEventListener(
                     final ReconfEventListener listener) {
-                simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
+                SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
             }
 
             @Override
             public void removeReconfigurationEventListener(
                     final ReconfEventListener listener) {
-                simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
+                SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
             }
         });
         this.reconfPlanReceiver.execute();
@@ -184,7 +182,8 @@ public class SLAsticSimulatorInstance {
                 this.delegate.terminate(error);
             }
 
-            public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
+            @Override
+			public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
                 return null;
             }
         });
