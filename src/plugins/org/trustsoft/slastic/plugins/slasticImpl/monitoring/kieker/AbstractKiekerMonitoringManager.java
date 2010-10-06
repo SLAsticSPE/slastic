@@ -1,10 +1,8 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
-import java.lang.reflect.Method;
-
 import kieker.analysis.AnalysisController;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.analysis.reader.IMonitoringLogReader;
+import kieker.analysis.reader.namedRecordPipe.PipeReader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -19,77 +17,33 @@ public abstract class AbstractKiekerMonitoringManager extends
 	private static final Log log = LogFactory
 			.getLog(AbstractKiekerMonitoringManager.class);
 
-	private final static String KIEKER_LOG_READER_CLASSNAME_PROPERTY = "tpmon.reader.classname";
-	private final static String KIEKER_LOG_READER_INIT_STRING_PROPERTY = "tpmon.reader.initstring";
+	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
 
 	/** Is initialized in {@link #execute()} */
 	private volatile AnalysisController analysisInstance;
 
 	/** Is initialized in {@link #init()} */
-	private volatile IMonitoringLogReader logReader;
+	private volatile PipeReader kiekerNamedRecordPipeReader;
 
 	protected abstract IMonitoringRecordConsumerPlugin getMonitoringRecordConsumer();
 
 	@Override
 	public boolean init() {
-		final String logReaderClassnameProperty = this
-				.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_LOG_READER_CLASSNAME_PROPERTY);
-		if ((logReaderClassnameProperty == null)
-				|| (logReaderClassnameProperty.length() <= 0)) {
+		final String kiekerRecordPipeName = this
+				.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY);
+		if ((kiekerRecordPipeName == null)
+				|| (kiekerRecordPipeName.length() <= 0)) {
 			AbstractKiekerMonitoringManager.log
 					.error("Missing configuration property value for '"
 							+ AbstractMonitoringManagerComponent.PROP_PREFIX
 							+ "."
-							+ AbstractKiekerMonitoringManager.KIEKER_LOG_READER_CLASSNAME_PROPERTY
+							+ AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY
 							+ "'");
 			return false;
 		}
-		final String logReaderInitStringProperty = this
-				.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_LOG_READER_INIT_STRING_PROPERTY);
-		if ((logReaderInitStringProperty == null)
-				|| (logReaderInitStringProperty.length() <= 0)) {
-			AbstractKiekerMonitoringManager.log
-					.warn("Missing configuration property value for '"
-							+ AbstractMonitoringManagerComponent.PROP_PREFIX
-							+ "."
-							+ AbstractKiekerMonitoringManager.KIEKER_LOG_READER_INIT_STRING_PROPERTY
-							+ "'");
-			return false;
-		}
-		this.logReader = this.loadAndInitTpmonLogReaderInstanceFromClassname(
-				logReaderClassnameProperty, logReaderInitStringProperty);
-		return this.logReader != null;
-	}
 
-	/**
-	 * An object of the class with name @classname is instantiated, its method
-	 * setProperties(String initString) is called with parameter @a initString
-	 * and the object is returned. This implies, that the class for @a classname
-	 * provide the method setProperties(String initString).
-	 * 
-	 * @return the instance; null in case an error occurred.
-	 */
-	@SuppressWarnings("unchecked")
-	private IMonitoringLogReader loadAndInitTpmonLogReaderInstanceFromClassname(
-			final String classname, final String initString) {
-		IMonitoringLogReader inst = null;
-		try {
-			final Class<IMonitoringLogReader> cl = (Class<IMonitoringLogReader>) Class
-					.forName(classname);
-			inst = cl.newInstance();
-			final Method m = cl.getMethod("init", String.class);
-			m.invoke(inst, initString);
-			AbstractKiekerMonitoringManager.log
-					.info("Loaded and instantiated Kieker log reader ('"
-							+ classname + "') with init string '" + initString
-							+ "'");
-		} catch (final Exception ex) {
-			inst = null;
-			AbstractKiekerMonitoringManager.log.fatal(
-					"Failed to create and init reader instance of class '"
-							+ classname + "'", ex);
-		}
-		return inst;
+		this.kiekerNamedRecordPipeReader = new PipeReader(kiekerRecordPipeName);
+		return this.kiekerNamedRecordPipeReader != null;
 	}
 
 	/**
@@ -104,7 +58,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 						.error("concreteExecute returned false. Will terminate.");
 			}
 			this.analysisInstance = new AnalysisController();
-			this.analysisInstance.setLogReader(this.logReader);
+			this.analysisInstance.setLogReader(this.kiekerNamedRecordPipeReader);
 			this.analysisInstance.registerPlugin(this
 					.getMonitoringRecordConsumer());
 			this.analysisInstance.run();

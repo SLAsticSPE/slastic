@@ -5,18 +5,16 @@
 
 package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
-import org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe.*;
-
 /**
  *
  * @author Andre van Hoorn
  */
 public class ReconfigurationPipeException extends Exception{
-    public ReconfigurationPipeException(String msg){
+    public ReconfigurationPipeException(final String msg){
         super(msg);
     }
 
-    public ReconfigurationPipeException(String msg, Throwable thrw){
+    public ReconfigurationPipeException(final String msg, final Throwable thrw){
         super(msg, thrw);
     }
 }
