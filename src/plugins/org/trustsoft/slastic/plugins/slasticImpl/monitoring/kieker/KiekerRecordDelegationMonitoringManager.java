@@ -30,12 +30,6 @@ public class KiekerRecordDelegationMonitoringManager extends
 			.getLog(KiekerRecordDelegationMonitoringManager.class);
 
 	@Override
-	public void terminate(final boolean error) {
-		KiekerRecordDelegationMonitoringManager.log
-				.info("KiekerMonitoringManager now terminating");
-	}
-
-	@Override
 	protected IMonitoringRecordConsumerPlugin getMonitoringRecordConsumer() {
 		return new IMonitoringRecordConsumerPlugin() {
 
@@ -73,5 +67,11 @@ public class KiekerRecordDelegationMonitoringManager extends
 	@Override
 	protected boolean concreteExecute() {
 		return true; // do nothing here
+	}
+
+	@Override
+	protected void concreteTerminate(final boolean error) {
+		KiekerRecordDelegationMonitoringManager.log
+		.info("KiekerMonitoringManager now terminating");
 	}
 }

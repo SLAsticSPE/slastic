@@ -10,7 +10,12 @@ package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
  * @author Andre van Hoorn
  */
 public class ReconfigurationPipeException extends Exception{
-    public ReconfigurationPipeException(final String msg){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ReconfigurationPipeException(final String msg){
         super(msg);
     }
 
