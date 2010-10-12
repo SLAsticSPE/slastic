@@ -66,14 +66,14 @@ public class SLAMonitoringProbe implements IMonitoringProbe {
 
 	protected void proceedAndMeasure(final ProceedingJoinPoint thisJoinPoint,
 			final SLOMonitoringRecord record) throws Throwable {
-		record.timestamp = SLAMonitoringProbe.ctrlInst.currentTimeNanos(); // startint
+		record.timestamp = MonitoringController.currentTimeNanos(); // startint
 																			// stopwatch
 		try {
 			record.retVal = thisJoinPoint.proceed();
 		} catch (final Exception e) {
 			throw e; // exceptions are forwarded
 		} finally {
-			record.rtNseconds = SLAMonitoringProbe.ctrlInst.currentTimeNanos()
+			record.rtNseconds = MonitoringController.currentTimeNanos()
 					- record.timestamp;
 		}
 	}

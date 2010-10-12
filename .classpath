@@ -68,5 +68,5 @@
 	<classpathentry kind="lib" path="lib/guice-assistedinject-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/guice-throwingproviders-2.0.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Kieker"/>
-	<classpathentry kind="output" path="build/slastic.sim"/>
+	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>

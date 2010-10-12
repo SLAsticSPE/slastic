@@ -2,8 +2,6 @@ package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import kieker.analysis.AnalysisController;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.analysis.plugin.MonitoringRecordConsumerException;
-import kieker.analysis.reader.MonitoringLogReaderException;
 import kieker.analysis.reader.namedRecordPipe.PipeReader;
 import kieker.common.namedRecordPipe.Pipe;
 
@@ -61,16 +59,9 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 		@Override
 		public void run() {
-			try {
-				this.analysisInstance.run();
-			} catch (final MonitoringLogReaderException e) {
+			if (!this.analysisInstance.run()) {
 				AbstractKiekerMonitoringManager.log
-						.error("MonitoringLogReaderException was thrown by spawned analysis instance",
-								e);
-			} catch (final MonitoringRecordConsumerException e) {
-				AbstractKiekerMonitoringManager.log
-						.error("MonitoringRecordConsumerException was thrown by spawned analysis instance",
-								e);
+						.error("Analysis returned with error");
 			}
 		}
 
@@ -83,7 +74,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 		analysisInstance.registerPlugin(this.getMonitoringRecordConsumer());
 
 		/** Spawn analysis instance */
-		AbstractKiekerMonitoringManager.log.info("Spawning Kieker analysis instance");
+		AbstractKiekerMonitoringManager.log
+				.info("Spawning Kieker analysis instance");
 		(new KiekerAnalysisTask(analysisInstance)).start();
 
 		return true;
