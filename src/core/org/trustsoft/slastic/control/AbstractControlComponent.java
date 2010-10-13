@@ -14,70 +14,84 @@ import org.trustsoft.slastic.control.components.events.ISimpleEventService;
 import org.trustsoft.slastic.control.components.events.ISimpleEventServiceClient;
 import org.trustsoft.slastic.monitoring.IObservationEventReceiver;
 
+import com.espertech.esper.client.EPAdministrator;
+import com.espertech.esper.client.EPServiceProvider;
+import com.espertech.esper.client.EPServiceProviderManager;
+
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public abstract class AbstractControlComponent extends AbstractSLAsticComponent
-        implements ISimpleEventService {
+		implements ISimpleEventService {
 
-    private static final Log log = LogFactory.getLog(AbstractControlComponent.class);
-    public static final String PROP_PREFIX = "slastic.control";
-    private AbstractReconfigurationManagerComponent reconfigurationManager;
-    private AbstractModelManagerComponent modelManager;
-    private AbstractModelUpdaterComponent modelUpdater;
-    private AbstractAnalysisComponent analysis;
-    private final ArrayList<ISimpleEventServiceClient> listeners =
-            new ArrayList<ISimpleEventServiceClient>();
+	private static final Log log = LogFactory
+			.getLog(AbstractControlComponent.class);
+	public static final String PROP_PREFIX = "slastic.control";
+	private AbstractReconfigurationManagerComponent reconfigurationManager;
+	private AbstractModelManagerComponent modelManager;
+	private AbstractModelUpdaterComponent modelUpdater;
+	private AbstractAnalysisComponent analysis;
+	private final ArrayList<ISimpleEventServiceClient> listeners = new ArrayList<ISimpleEventServiceClient>();
 
-    public abstract IObservationEventReceiver getMonitoringClientPort();
+	private static final EPServiceProvider epServiceProvider = EPServiceProviderManager
+			.getDefaultProvider();
 
-    public final AbstractAnalysisComponent getAnalysis() {
-        return analysis;
-    }
+	public abstract IObservationEventReceiver getMonitoringClientPort();
 
-    public final AbstractModelManagerComponent getModelManager() {
-        return modelManager;
-    }
+	public final AbstractAnalysisComponent getAnalysis() {
+		return analysis;
+	}
 
-    public final AbstractModelUpdaterComponent getModelUpdater() {
-        return modelUpdater;
-    }
+	public final AbstractModelManagerComponent getModelManager() {
+		return modelManager;
+	}
 
-    public final AbstractReconfigurationManagerComponent getReconfigurationManager() {
-        return reconfigurationManager;
-    }
+	public final AbstractModelUpdaterComponent getModelUpdater() {
+		return modelUpdater;
+	}
 
-    public final void setAnalysis(final AbstractAnalysisComponent analysis) {
-        this.analysis = analysis;
-    }
+	public final AbstractReconfigurationManagerComponent getReconfigurationManager() {
+		return reconfigurationManager;
+	}
 
-    public final void setModelManager(final AbstractModelManagerComponent modelManager) {
-        this.modelManager = modelManager;
-    }
+	public final void setAnalysis(final AbstractAnalysisComponent analysis) {
+		this.analysis = analysis;
+	}
 
-    public final void setModelUpdater(final AbstractModelUpdaterComponent modelUpdater) {
-        this.modelUpdater = modelUpdater;
-    }
+	public final void setModelManager(
+			final AbstractModelManagerComponent modelManager) {
+		this.modelManager = modelManager;
+	}
 
-    public final void setReconfigurationManager(final AbstractReconfigurationManagerComponent reconfigurationManager) {
-        this.reconfigurationManager = reconfigurationManager;
-    }
+	public final void setModelUpdater(
+			final AbstractModelUpdaterComponent modelUpdater) {
+		this.modelUpdater = modelUpdater;
+	}
 
-    @Override
-    public void sendEvent(final IEvent ev) {
-        for (ISimpleEventServiceClient l : this.listeners) {
-            l.handleEvent(ev);
-        }
-    }
+	public final void setReconfigurationManager(
+			final AbstractReconfigurationManagerComponent reconfigurationManager) {
+		this.reconfigurationManager = reconfigurationManager;
+	}
 
-    @Override
-    public boolean addListener(final ISimpleEventServiceClient l) {
-        return this.listeners.add(l);
-    }
+	public final EPServiceProvider getEPServiceProvider() {
+		return epServiceProvider;
+	}
 
-    @Override
-    public boolean removeListener(final ISimpleEventServiceClient l) {
-        return this.listeners.remove(l);
-    }
+	@Override
+	public void sendEvent(final IEvent ev) {
+		for (ISimpleEventServiceClient l : this.listeners) {
+			l.handleEvent(ev);
+		}
+	}
+
+	@Override
+	public boolean addListener(final ISimpleEventServiceClient l) {
+		return this.listeners.add(l);
+	}
+
+	@Override
+	public boolean removeListener(final ISimpleEventServiceClient l) {
+		return this.listeners.remove(l);
+	}
 }

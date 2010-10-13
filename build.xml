@@ -79,7 +79,7 @@
        <path id="slastic.tests-run-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
-                <exclude name="log4j-*.jar"/>
+                <!--<exclude name="log4j-*.jar"/>-->
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
