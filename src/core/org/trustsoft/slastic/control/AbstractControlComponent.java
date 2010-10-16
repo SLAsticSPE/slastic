@@ -24,6 +24,8 @@ import com.espertech.esper.client.Configuration;
 import com.espertech.esper.client.ConfigurationEventTypeLegacy;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPServiceProviderManager;
+import com.espertech.esper.client.time.CurrentTimeEvent;
+import com.espertech.esper.client.time.TimerControlEvent;
 
 /**
  * 
@@ -42,15 +44,23 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 
 	private final ArrayList<ISimpleEventServiceClient> listeners = new ArrayList<ISimpleEventServiceClient>();
 
-	private static final EPServiceProvider epServiceProvider;
+	private final EPServiceProvider epServiceProvider;
 
-	static {
+	{
 		/*
-		 * We use a custom Esper configuration whith some EMF classes being
-		 * excluded from dynamic code generation and JavaBean-like access to
-		 * members.
+		 * We use a custom Esper configuration:
 		 */
 		final Configuration configuration = new Configuration();
+		
+//		/*
+//		 * Enable external time; 
+//		 */
+//		configuration.getEngineDefaults().getThreading().setInternalTimerEnabled(false);
+		
+		/*
+		 * Exclude some EMF classes from dynamic code generation and JavaBean-like access to
+		 * members.
+		 */
 		final ConfigurationEventTypeLegacy legacyDef = new ConfigurationEventTypeLegacy();
 		legacyDef
 				.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
@@ -69,9 +79,14 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		configuration.addEventType("InternalEObject",
 				InternalEObject.class.getName(), legacyDef);
 
-		epServiceProvider = EPServiceProviderManager.getProvider("custom",
+		this.epServiceProvider = EPServiceProviderManager.getProvider("custom",
 				configuration);
-
+		/* Enable external timing and set time to 0 */
+		this.epServiceProvider.getEPRuntime()
+		 .sendEvent(
+		 new TimerControlEvent(
+		 TimerControlEvent.ClockType.CLOCK_EXTERNAL));
+		this.epServiceProvider.getEPRuntime().sendEvent(new CurrentTimeEvent(0));
 	}
 
 	@Override
@@ -84,7 +99,7 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	}
 
 	public final EPServiceProvider getEPServiceProvider() {
-		return AbstractControlComponent.epServiceProvider;
+		return this.epServiceProvider;
 	}
 
 	public final AbstractModelManagerComponent getModelManager() {
