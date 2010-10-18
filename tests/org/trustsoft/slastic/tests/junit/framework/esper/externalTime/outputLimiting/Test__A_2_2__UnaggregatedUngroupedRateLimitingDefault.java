@@ -18,7 +18,7 @@ public class Test__A_2_2__UnaggregatedUngroupedRateLimitingDefault extends
 					+ "output every 1 seconds";
 	
 	/**
-	 * Executes the example presented in Appendix A.2.1.
+	 * Executes the scenario.
 	 */
 	public void testReferenceExample() {
 		/* Execute the test */
