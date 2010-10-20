@@ -17,6 +17,7 @@ import org.trustsoft.slastic.control.components.events.ISimpleEventService;
 import org.trustsoft.slastic.control.components.events.ISimpleEventServiceClient;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
+import org.trustsoft.slastic.control.exceptions.CEPEngineExceptionHandlerFactory;
 import org.trustsoft.slastic.monitoring.IObservationEventReceiver;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
@@ -80,6 +81,9 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 				BasicNotifierImpl.class.getName(), legacyDef);
 		configuration.addEventType("InternalEObject",
 				InternalEObject.class.getName(), legacyDef);
+
+		configuration.getEngineDefaults().getExceptionHandling()
+				.addClass(CEPEngineExceptionHandlerFactory.class);
 
 		this.epServiceProvider =
 				EPServiceProviderManager.getProvider("custom", configuration);
