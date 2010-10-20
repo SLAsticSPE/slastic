@@ -1,12 +1,19 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
+import java.util.Collection;
+
 import kieker.analysis.AnalysisController;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
+import kieker.analysis.plugin.configuration.AbstractInputPort;
 import kieker.analysis.reader.namedRecordPipe.PipeReader;
 import kieker.common.namedRecordPipe.Pipe;
+import kieker.common.record.IMonitoringRecord;
+import kieker.tools.currentTimeEventGenerator.CurrentTimeEventGenerator;
+import kieker.tools.currentTimeEventGenerator.TimestampEvent;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.control.AbstractControlComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
 
 /**
@@ -18,6 +25,12 @@ public abstract class AbstractKiekerMonitoringManager extends
 	private static final Log log = LogFactory
 			.getLog(AbstractKiekerMonitoringManager.class);
 
+	/**
+	 * Send a timer event to the event engine every 100 millis.
+	 */
+	private final static long TIMER_EVENTS_RESOLUTION_NANOS =
+			1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
+
 	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
 
 	/** Is initialized in {@link #init()} */
@@ -27,8 +40,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 	@Override
 	public boolean init() {
-		final String kiekerRecordPipeName = this
-				.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY);
+		final String kiekerRecordPipeName =
+				this.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY);
 		if ((kiekerRecordPipeName == null)
 				|| (kiekerRecordPipeName.length() <= 0)) {
 			AbstractKiekerMonitoringManager.log
@@ -72,6 +85,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 		final AnalysisController analysisInstance = new AnalysisController();
 		analysisInstance.setLogReader(this.kiekerNamedRecordPipeReader);
 		analysisInstance.registerPlugin(this.getMonitoringRecordConsumer());
+		analysisInstance.registerPlugin(new ControlTimeTriggerPlugin());
 
 		/** Spawn analysis instance */
 		AbstractKiekerMonitoringManager.log
@@ -142,4 +156,66 @@ public abstract class AbstractKiekerMonitoringManager extends
 	 * @return
 	 */
 	protected abstract boolean concreteExecute();
+
+	/**
+	 * Extracts the {@link IMonitoringRecord#getLoggingTimestamp()} from
+	 * incoming {@link IMonitoringRecord}s and passes it to
+	 * {@link AbstractControlComponent#setCurrentTimeNanos(long)}.
+	 * 
+	 * @author Andre van Hoorn
+	 * 
+	 */
+	private class ControlTimeTriggerPlugin implements
+			IMonitoringRecordConsumerPlugin {
+		private final CurrentTimeEventGenerator timeEventGenerator =
+				new CurrentTimeEventGenerator(
+						AbstractKiekerMonitoringManager.TIMER_EVENTS_RESOLUTION_NANOS);
+		{
+			/*
+			 * Initialize CurrentTimeEventGeneratorFilter and register handler
+			 * that sends time events to the event processing engine.
+			 */
+			this.timeEventGenerator
+					.getCurrentTimeOutputPort()
+					.subscribe(
+							new AbstractInputPort<TimestampEvent>(
+									"Passes timer events to the event processing service") {
+								@Override
+								public void newEvent(final TimestampEvent event) {
+									final long currentTimeNanos =
+											event.getTimestamp();
+									AbstractKiekerMonitoringManager.this
+											.getController()
+											.setCurrentTimeNanos(
+													currentTimeNanos);
+								}
+
+							});
+		}
+
+		@Override
+		public boolean newMonitoringRecord(final IMonitoringRecord record) {
+			final long timestamp = record.getLoggingTimestamp();
+			/** Pass each record to timeEventGenerator */
+			this.timeEventGenerator.newTimestamp(timestamp);
+			return true;
+		}
+
+		@Override
+		public boolean execute() {
+			return true;
+		}
+
+		@Override
+		public void terminate(final boolean error) {
+			// do nothing
+
+		}
+
+		@Override
+		public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
+			return null; // receive records of any type
+		}
+
+	}
 }

@@ -42,7 +42,8 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	private AbstractModelUpdaterComponent modelUpdater;
 	private AbstractAnalysisComponent analysis;
 
-	private final ArrayList<ISimpleEventServiceClient> listeners = new ArrayList<ISimpleEventServiceClient>();
+	private final ArrayList<ISimpleEventServiceClient> listeners =
+			new ArrayList<ISimpleEventServiceClient>();
 
 	private final EPServiceProvider epServiceProvider;
 
@@ -51,17 +52,18 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		 * We use a custom Esper configuration:
 		 */
 		final Configuration configuration = new Configuration();
-		
-//		/*
-//		 * Enable external time; 
-//		 */
-//		configuration.getEngineDefaults().getThreading().setInternalTimerEnabled(false);
-		
+
+		// /*
+		// * Enable external time;
+		// */
+		// configuration.getEngineDefaults().getThreading().setInternalTimerEnabled(false);
+
 		/*
-		 * Exclude some EMF classes from dynamic code generation and JavaBean-like access to
-		 * members.
+		 * Exclude some EMF classes from dynamic code generation and
+		 * JavaBean-like access to members.
 		 */
-		final ConfigurationEventTypeLegacy legacyDef = new ConfigurationEventTypeLegacy();
+		final ConfigurationEventTypeLegacy legacyDef =
+				new ConfigurationEventTypeLegacy();
 		legacyDef
 				.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
 		legacyDef
@@ -79,14 +81,46 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		configuration.addEventType("InternalEObject",
 				InternalEObject.class.getName(), legacyDef);
 
-		this.epServiceProvider = EPServiceProviderManager.getProvider("custom",
-				configuration);
+		this.epServiceProvider =
+				EPServiceProviderManager.getProvider("custom", configuration);
 		/* Enable external timing and set time to 0 */
+		// TODO: enable/disable via parameters
+		this.epServiceProvider.getEPRuntime().sendEvent(
+				new TimerControlEvent(
+						TimerControlEvent.ClockType.CLOCK_EXTERNAL));
 		this.epServiceProvider.getEPRuntime()
-		 .sendEvent(
-		 new TimerControlEvent(
-		 TimerControlEvent.ClockType.CLOCK_EXTERNAL));
-		this.epServiceProvider.getEPRuntime().sendEvent(new CurrentTimeEvent(0));
+				.sendEvent(new CurrentTimeEvent(0));
+	}
+
+	/**
+	 * Sets the current time to the given value assumed to be the number of
+	 * nanoseconds elapsed since January 1, 1970 (UTC).
+	 * 
+	 * @param timeInMillis
+	 */
+	public final void setCurrentTimeNanos(final long timeInNanos) {
+		final long currentTimeMillis = timeInNanos / (1000 * 1000);
+		this.setCurrentTimeMillis(currentTimeMillis);
+	}
+
+	/**
+	 * Sets the current time to the given value assumed to be the number of
+	 * milliseconds elapsed since January 1, 1970 (UTC).
+	 * 
+	 * @param timeInMillis
+	 */
+	public final void setCurrentTimeMillis(final long timeInMillis) {
+
+		final CurrentTimeEvent timeEvent = new CurrentTimeEvent(timeInMillis);
+
+		this.epServiceProvider.getEPRuntime().sendEvent(timeEvent);
+	}
+
+	/**
+	 * Returns the current time in milliseconds since January 1, 1970 (UTC).
+	 */
+	public final void getCurrentTimeMillis() {
+		this.epServiceProvider.getEPRuntime().getCurrentTime();
 	}
 
 	@Override
