@@ -82,8 +82,13 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		configuration.addEventType("InternalEObject",
 				InternalEObject.class.getName(), legacyDef);
 
+		/* Register exception handler (factory class) */
 		configuration.getEngineDefaults().getExceptionHandling()
 				.addClass(CEPEngineExceptionHandlerFactory.class);
+		
+		/* Enable/disable path tracing */
+//		configuration.getEngineDefaults().getLogging().setEnableExecutionDebug(true);
+//		configuration.getEngineDefaults().getLogging().setEnableTimerDebug(true);
 
 		this.epServiceProvider =
 				EPServiceProviderManager.getProvider("custom", configuration);

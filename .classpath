@@ -67,7 +67,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Kieker"/>
 	<classpathentry kind="lib" path="lib/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/esper-4.0.0.jar">
+	<classpathentry kind="lib" path="lib/esper-4.0.0.jar" sourcepath="/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/additional-resources/esper-4.0.0-sources/esper-4.0.0-src.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="http://esper.codehaus.org/esper-4.0.0/doc/api/"/>
 		</attributes>
