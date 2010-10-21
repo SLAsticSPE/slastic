@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
 package org.trustsoft.slastic.common;
 
@@ -11,6 +11,20 @@ import java.util.Properties;
  * @author Andre van Hoorn
  */
 public interface ISLAsticComponent {
+
+	/**
+	 * Returns the {@link IComponentContext} associated to the component.
+	 * 
+	 * @return
+	 */
+	public IComponentContext getComponentContext();
+
+	/**
+	 * Sets the {@link IComponentContext} associated to the component.
+	 * 
+	 * @param context
+	 */
+	public void setComponentContext(IComponentContext context);
 
 	/**
 	 * Sets the properties of the component.

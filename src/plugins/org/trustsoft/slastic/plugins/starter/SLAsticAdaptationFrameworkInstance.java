@@ -35,7 +35,8 @@ public class SLAsticAdaptationFrameworkInstance {
 
 	private static final Log log = LogFactory
 			.getLog(SLAsticAdaptationFrameworkInstance.class);
-	private final SLAsticAdaptationFrameworkConfiguration configuration = new SLAsticAdaptationFrameworkConfiguration();
+	private final SLAsticAdaptationFrameworkConfiguration configuration =
+			new SLAsticAdaptationFrameworkConfiguration();
 
 	/**
 	 * Returns the framework configuration.
@@ -182,8 +183,9 @@ public class SLAsticAdaptationFrameworkInstance {
 	private AbstractSLAsticComponent loadComponent(
 			final String componentPropertiesPrefix,
 			final Properties componentProperties) {
-		final String classname = componentProperties
-				.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
+		final String classname =
+				componentProperties
+						.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 		if ((classname == null) || (classname.length() <= 0)) {
 			SLAsticAdaptationFrameworkInstance.log
 					.error("Missing configuration property value for '"
@@ -197,7 +199,7 @@ public class SLAsticAdaptationFrameworkInstance {
 		AbstractSLAsticComponent inst = null;
 		try {
 			final Class<?> cl = Class.forName(classname);
-			if (cl == null){
+			if (cl == null) {
 				throw new NullPointerException("Class.forName returned null");
 			}
 			// FIXME: assert cl instanceof AbstractSLAsticComponent?
@@ -223,51 +225,59 @@ public class SLAsticAdaptationFrameworkInstance {
 			this.initComponentProperties(prop);
 
 			/* Load all components */
-			this.configuration.monitoringManagerComponent = (AbstractMonitoringManagerComponent) this
-					.loadComponent(
+			this.configuration.monitoringManagerComponent =
+					(AbstractMonitoringManagerComponent) this.loadComponent(
 							AbstractMonitoringManagerComponent.PROP_PREFIX,
 							this.configuration.monitoringComponentProperties);
 
-			this.configuration.controlComponent = (AbstractControlComponent) this
-					.loadComponent(AbstractControlComponent.PROP_PREFIX,
+			this.configuration.controlComponent =
+					(AbstractControlComponent) this.loadComponent(
+							AbstractControlComponent.PROP_PREFIX,
 							this.configuration.controlComponentProperties);
 
-			this.configuration.modelManagerComponent = (AbstractModelManagerComponent) this
-					.loadComponent(AbstractModelManagerComponent.PROP_PREFIX,
+			this.configuration.modelManagerComponent =
+					(AbstractModelManagerComponent) this.loadComponent(
+							AbstractModelManagerComponent.PROP_PREFIX,
 							this.configuration.modelManagerComponentProperties);
 
-			this.configuration.modelUpdaterComponent = (AbstractModelUpdaterComponent) this
-					.loadComponent(AbstractModelUpdaterComponent.PROP_PREFIX,
+			this.configuration.modelUpdaterComponent =
+					(AbstractModelUpdaterComponent) this.loadComponent(
+							AbstractModelUpdaterComponent.PROP_PREFIX,
 							this.configuration.modelUpdaterComponentProperties);
 
-			this.configuration.analysisComponent = (AbstractAnalysisComponent) this
-					.loadComponent(AbstractAnalysisComponent.PROP_PREFIX,
+			this.configuration.analysisComponent =
+					(AbstractAnalysisComponent) this.loadComponent(
+							AbstractAnalysisComponent.PROP_PREFIX,
 							this.configuration.analysisComponentProperties);
 
-			this.configuration.performanceEvaluatorComponent = (AbstractPerformanceEvaluatorComponent) this
-					.loadComponent(
-							AbstractPerformanceEvaluatorComponent.PROP_PREFIX,
-							this.configuration.performanceEvaluatorComponentProperties);
+			this.configuration.performanceEvaluatorComponent =
+					(AbstractPerformanceEvaluatorComponent) this
+							.loadComponent(
+									AbstractPerformanceEvaluatorComponent.PROP_PREFIX,
+									this.configuration.performanceEvaluatorComponentProperties);
 
-			this.configuration.workloadForecasterComponent = (AbstractWorkloadForecasterComponent) this
-					.loadComponent(
+			this.configuration.workloadForecasterComponent =
+					(AbstractWorkloadForecasterComponent) this.loadComponent(
 							AbstractWorkloadForecasterComponent.PROP_PREFIX,
 							this.configuration.workloadForecasterProperties);
 
-			this.configuration.performancePredictorComponent = (AbstractPerformancePredictorComponent) this
-					.loadComponent(
-							AbstractPerformancePredictorComponent.PROP_PREFIX,
-							this.configuration.performancePredictorComponentProperties);
+			this.configuration.performancePredictorComponent =
+					(AbstractPerformancePredictorComponent) this
+							.loadComponent(
+									AbstractPerformancePredictorComponent.PROP_PREFIX,
+									this.configuration.performancePredictorComponentProperties);
 
-			this.configuration.adaptationPlannerComponent = (AbstractAdaptationPlannerComponent) this
-					.loadComponent(
-							AbstractAdaptationPlannerComponent.PROP_PREFIX,
-							this.configuration.adaptationPlannerComponentProperties);
+			this.configuration.adaptationPlannerComponent =
+					(AbstractAdaptationPlannerComponent) this
+							.loadComponent(
+									AbstractAdaptationPlannerComponent.PROP_PREFIX,
+									this.configuration.adaptationPlannerComponentProperties);
 
-			this.configuration.reconfigurationManagerComponent = (AbstractReconfigurationManagerComponent) this
-					.loadComponent(
-							AbstractReconfigurationManagerComponent.PROP_PREFIX,
-							this.configuration.reconfigurationManagerComponentProperties);
+			this.configuration.reconfigurationManagerComponent =
+					(AbstractReconfigurationManagerComponent) this
+							.loadComponent(
+									AbstractReconfigurationManagerComponent.PROP_PREFIX,
+									this.configuration.reconfigurationManagerComponentProperties);
 
 			if (!this.configuration.allComponentsInitialized()) {
 				throw new IllegalArgumentException(
