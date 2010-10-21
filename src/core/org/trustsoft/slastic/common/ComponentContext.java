@@ -14,28 +14,28 @@ import org.apache.commons.logging.LogFactory;
  * @author Andre van Hoorn
  * 
  */
-class SLAsticComponentContext implements IComponentContext {
+class ComponentContext implements IComponentContext {
 	private static final Log log = LogFactory
-			.getLog(SLAsticComponentContext.class);
+			.getLog(ComponentContext.class);
 
 	private final String name;
 	private final File directory;
 
-	private SLAsticComponentContext() {
+	private ComponentContext() {
 		this.name = null;
 		this.directory = null;
 	}
 
 	/**
-	 * Creates a new {@link SLAsticComponentContext} with given name and
+	 * Creates a new {@link ComponentContext} with given name and
 	 * (existing) output directory.
 	 * 
 	 * @param name
 	 * @param directory
 	 *            existing(!) directory associated to this
-	 *            {@link SLAsticComponentContext}.
+	 *            {@link ComponentContext}.
 	 */
-	private SLAsticComponentContext(final String name, final File directory) {
+	private ComponentContext(final String name, final File directory) {
 		this.name = name;
 		this.directory = directory;
 	}
@@ -50,8 +50,8 @@ class SLAsticComponentContext implements IComponentContext {
 	public static IComponentContext createRootContext(final String name) {
 		final String tmpdir = System.getProperty("java.io.tmpdir");
 		final String dirname =
-				SLAsticComponentContext.createRootContextDirname(tmpdir, name);
-		return SLAsticComponentContext.createContext(name, dirname);
+				ComponentContext.createRootContextDirname(tmpdir, name);
+		return ComponentContext.createContext(name, dirname);
 
 	}
 
@@ -66,14 +66,14 @@ class SLAsticComponentContext implements IComponentContext {
 	 */
 	private static IComponentContext createContext(final String name,
 			final String dirname) {
-		return new SLAsticComponentContext(name,
-				SLAsticComponentContext.createDirectory(dirname));
+		return new ComponentContext(name,
+				ComponentContext.createDirectory(dirname));
 	}
 
 	@Override
 	public IComponentContext createSubcontext(final String name) {
-		return SLAsticComponentContext.createContext(this.name + name,
-				this.getDirectoryLocation() + "/" + name);
+		return ComponentContext.createContext(this.name + name,
+				this.getDirectoryLocation() + "/" + name + "/");
 	}
 
 	@Override
@@ -83,12 +83,12 @@ class SLAsticComponentContext implements IComponentContext {
 
 	@Override
 	public File createFileInContextDir(final String fn) {
-		final String fqFilename = this.getDirectoryLocation() + "/" + this.name;
+		final String fqFilename = this.getDirectoryLocation() + "/" + fn;
 		final File f = new File(fqFilename);
 		try {
 			f.createNewFile();
 		} catch (final IOException e) {
-			SLAsticComponentContext.log.error("Failed to create file '"
+			ComponentContext.log.error("Failed to create file '"
 					+ fqFilename + "':");
 		}
 		return f;
@@ -123,7 +123,7 @@ class SLAsticComponentContext implements IComponentContext {
 	private static final File createDirectory(final String dirname) {
 		final File f = new File(dirname);
 		if (!f.mkdir()) {
-			SLAsticComponentContext.log.error("Failed to create directory '"
+			ComponentContext.log.error("Failed to create directory '"
 					+ dirname + "'");
 			return null;
 		}

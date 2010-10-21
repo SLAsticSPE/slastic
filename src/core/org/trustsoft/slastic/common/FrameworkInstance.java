@@ -1,11 +1,11 @@
-package org.trustsoft.slastic.plugins.starter;
+package org.trustsoft.slastic.common;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.common.AbstractSLAsticComponent;
+import org.trustsoft.slastic.common.util.PropertiesFileUtils;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 import org.trustsoft.slastic.control.BasicControlComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
@@ -24,26 +24,23 @@ import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdate
 import org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
 import org.trustsoft.slastic.monitoring.DummyMonitoringManagerComponent;
-import org.trustsoft.slastic.plugins.util.PropertiesFileUtils;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 import org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent;
 
 /**
  * @author Andre van Hoorn, Lena Stoever
  */
-public class SLAsticAdaptationFrameworkInstance {
+public class FrameworkInstance {
 
-	private static final Log log = LogFactory
-			.getLog(SLAsticAdaptationFrameworkInstance.class);
-	private final SLAsticAdaptationFrameworkConfiguration configuration =
-			new SLAsticAdaptationFrameworkConfiguration();
+	private static final Log log = LogFactory.getLog(FrameworkInstance.class);
+	private final Configuration configuration = new Configuration();
 
 	/**
 	 * Returns the framework configuration.
 	 * 
 	 * @return the framework configuration
 	 */
-	public SLAsticAdaptationFrameworkConfiguration getConfiguration() {
+	public Configuration getConfiguration() {
 		return this.configuration;
 	}
 
@@ -53,14 +50,14 @@ public class SLAsticAdaptationFrameworkInstance {
 	 * Avoid construction via default constructor
 	 */
 	@SuppressWarnings("unused")
-	private SLAsticAdaptationFrameworkInstance() {
+	private FrameworkInstance() {
 	}
 
-	public SLAsticAdaptationFrameworkInstance(final String configurationFilename) {
+	public FrameworkInstance(final String configurationFilename) {
 		this(PropertiesFileUtils.loadPropertiesFile(configurationFilename));
 	}
 
-	public SLAsticAdaptationFrameworkInstance(final Properties prop) {
+	public FrameworkInstance(final Properties prop) {
 		this.initConfiguration(prop);
 	}
 
@@ -170,8 +167,8 @@ public class SLAsticAdaptationFrameworkInstance {
 										.getProperty(curPropName));
 			}
 			if (!storedProp) {
-				SLAsticAdaptationFrameworkInstance.log
-						.warn("Unknown property name '" + curPropName + "");
+				FrameworkInstance.log.warn("Unknown property name '"
+						+ curPropName + "");
 			}
 		}
 	}
@@ -185,13 +182,12 @@ public class SLAsticAdaptationFrameworkInstance {
 			final Properties componentProperties) {
 		final String classname =
 				componentProperties
-						.getProperty(SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
+						.getProperty(FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
 		if ((classname == null) || (classname.length() <= 0)) {
-			SLAsticAdaptationFrameworkInstance.log
+			FrameworkInstance.log
 					.error("Missing configuration property value for '"
-							+ componentPropertiesPrefix
-							+ "."
-							+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME
+							+ componentPropertiesPrefix + "."
+							+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME
 							+ "'");
 			return null;
 		}
@@ -206,13 +202,12 @@ public class SLAsticAdaptationFrameworkInstance {
 			inst = (AbstractSLAsticComponent) cl.newInstance();
 			final Method m = cl.getMethod("setProperties", Properties.class);
 			m.invoke(inst, componentProperties);
-			SLAsticAdaptationFrameworkInstance.log
-					.info("Loaded and instantiated component ('" + classname
-							+ "') with init string '" + componentProperties
-							+ "'");
+			FrameworkInstance.log.info("Loaded and instantiated component ('"
+					+ classname + "') with init string '" + componentProperties
+					+ "'");
 		} catch (final Exception ex) {
 			inst = null;
-			SLAsticAdaptationFrameworkInstance.log.fatal(
+			FrameworkInstance.log.fatal(
 					"Failed to instantiate component of class '" + classname
 							+ "'", ex);
 		}
@@ -289,9 +284,13 @@ public class SLAsticAdaptationFrameworkInstance {
 						"Failed to wire the components. See log for details");
 			}
 
+			if (!this.configuration.createAndSetComponentContexts()) {
+				throw new IllegalArgumentException(
+						"Failed to set component contexts. See log for details");
+			}
+
 		} catch (final Exception exc) {
-			SLAsticAdaptationFrameworkInstance.log.error("An error occured",
-					exc);
+			FrameworkInstance.log.error("An error occured", exc);
 			throw new IllegalArgumentException("An error occured: "
 					+ exc.getMessage() + " (see log for details)", exc);
 		}
@@ -300,8 +299,7 @@ public class SLAsticAdaptationFrameworkInstance {
 	private boolean initComponent(final AbstractSLAsticComponent component,
 			final String componentType) {
 		if ((component == null) || !component.init()) {
-			SLAsticAdaptationFrameworkInstance.log.error(componentType
-					+ " failed on init");
+			FrameworkInstance.log.error(componentType + " failed on init");
 			return false;
 		}
 		return true;
@@ -372,8 +370,7 @@ public class SLAsticAdaptationFrameworkInstance {
 	private boolean executeComponent(final AbstractSLAsticComponent component,
 			final String componentType) {
 		if ((component == null) || !component.execute()) {
-			SLAsticAdaptationFrameworkInstance.log.error(componentType
-					+ " failed to execute");
+			FrameworkInstance.log.error(componentType + " failed to execute");
 			return false;
 		}
 		return true;
@@ -417,7 +414,7 @@ public class SLAsticAdaptationFrameworkInstance {
 	 */
 	public boolean run() {
 		if (!this.initAllComponents()) {
-			SLAsticAdaptationFrameworkInstance.log
+			FrameworkInstance.log
 					.error("init of at least one component failed");
 			return false;
 		}
@@ -425,7 +422,7 @@ public class SLAsticAdaptationFrameworkInstance {
 			return true;
 		}
 
-		SLAsticAdaptationFrameworkInstance.log
+		FrameworkInstance.log
 				.error("execute of at least one component failed. Will terminare all components.");
 		this.terminateAllComponents(true); // terminate error
 		return false;
@@ -451,75 +448,51 @@ public class SLAsticAdaptationFrameworkInstance {
 	public static Properties genDummyConfiguration() {
 		final Properties configuration = new Properties();
 		/* set classname of monitoring manager component */
-		configuration
-				.setProperty(
-						AbstractMonitoringManagerComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyMonitoringManagerComponent.class.getName());
+		configuration.setProperty(
+				AbstractMonitoringManagerComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyMonitoringManagerComponent.class.getName());
 		/* set classname of control component */
-		configuration
-				.setProperty(
-						AbstractControlComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						BasicControlComponent.class.getName());
+		configuration.setProperty(AbstractControlComponent.PROP_PREFIX + "."
+				+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				BasicControlComponent.class.getName());
 		/* set classname of model management component */
-		configuration
-				.setProperty(
-						AbstractModelManagerComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyModelManagerComponent.class.getName());
+		configuration.setProperty(AbstractModelManagerComponent.PROP_PREFIX
+				+ "." + FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyModelManagerComponent.class.getName());
 		/* set classname of model updating component */
-		configuration
-				.setProperty(
-						AbstractModelUpdaterComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyModelUpdaterComponent.class.getName());
+		configuration.setProperty(AbstractModelUpdaterComponent.PROP_PREFIX
+				+ "." + FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyModelUpdaterComponent.class.getName());
 		/* set classname of analysis component */
-		configuration
-				.setProperty(
-						AbstractAnalysisComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						BasicAnalysisComponent.class.getName());
+		configuration.setProperty(AbstractAnalysisComponent.PROP_PREFIX + "."
+				+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				BasicAnalysisComponent.class.getName());
 		/* set classname of performance evaluation component */
-		configuration
-				.setProperty(
-						AbstractPerformanceEvaluatorComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyPerformanceEvaluatorComponent.class.getName());
+		configuration.setProperty(
+				AbstractPerformanceEvaluatorComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyPerformanceEvaluatorComponent.class.getName());
 		/* set classname of workload forecaster component */
-		configuration
-				.setProperty(
-						AbstractWorkloadForecasterComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyWorkloadForecasterComponent.class.getName());
+		configuration.setProperty(
+				AbstractWorkloadForecasterComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyWorkloadForecasterComponent.class.getName());
 		/* set classname of performance predictor component */
-		configuration
-				.setProperty(
-						AbstractPerformancePredictorComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyPerformancePredictorComponent.class.getName());
+		configuration.setProperty(
+				AbstractPerformancePredictorComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyPerformancePredictorComponent.class.getName());
 		/* set classname of adaptation planning component */
-		configuration
-				.setProperty(
-						AbstractAdaptationPlannerComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyAdaptationPlannerComponent.class.getName());
+		configuration.setProperty(
+				AbstractAdaptationPlannerComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyAdaptationPlannerComponent.class.getName());
 		/* set classname of reconfiguration component */
-		configuration
-				.setProperty(
-						AbstractReconfigurationManagerComponent.PROP_PREFIX
-								+ "."
-								+ SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-						DummyReconfigurationManagerComponent.class.getName());
+		configuration.setProperty(
+				AbstractReconfigurationManagerComponent.PROP_PREFIX + "."
+						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+				DummyReconfigurationManagerComponent.class.getName());
 
 		return configuration;
 	}

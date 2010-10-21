@@ -9,7 +9,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.util.PropertiesFileUtils;
+import org.trustsoft.slastic.common.FrameworkInstance;
+import org.trustsoft.slastic.common.util.PropertiesFileUtils;
 
 /**
  * 
@@ -46,7 +47,7 @@ public class SLAsticStarter {
 		// start framework?
 		// TODO: wait until framework ist initialized
 		if (SLAsticStarter.cmdl.hasOption(SLAsticStarter.CMD_LONG_OPT_START_FRAMEWORK)) {
-			final SLAsticAdaptationFrameworkInstance frameworkInst = SLAsticStarter.initSLAsticInstanceFromArgs();
+			final FrameworkInstance frameworkInst = SLAsticStarter.initSLAsticInstanceFromArgs();
 			if (frameworkInst == null) {
 				SLAsticStarter.log.error("Failed to init SLAstic framework instance");
 				System.exit(1);
@@ -108,7 +109,7 @@ public class SLAsticStarter {
 	 * 
 	 * @return the initialized instance; null on error
 	 */
-	private static SLAsticAdaptationFrameworkInstance initSLAsticInstanceFromArgs()
+	private static FrameworkInstance initSLAsticInstanceFromArgs()
 			throws IllegalArgumentException {
 		final String configurationFile = SLAsticStarter.cmdl
 				.getOptionValue(SLAsticStarter.CMD_LONG_OPT_START_FRAMEWORK);
@@ -121,9 +122,9 @@ public class SLAsticStarter {
 							+ SLAsticStarter.CMD_LONG_OPT_START_FRAMEWORK + "'");
 		}
 
-		SLAsticAdaptationFrameworkInstance inst = null;
+		FrameworkInstance inst = null;
 		try {
-			inst = new SLAsticAdaptationFrameworkInstance(
+			inst = new FrameworkInstance(
 					PropertiesFileUtils.loadPropertiesFile(configurationFile));
 		} catch (final Exception exc) {
 			SLAsticStarter.log.error("Error creating SLAsticInstance", exc);
@@ -150,6 +151,6 @@ public class SLAsticStarter {
 
 	private static void printUsage() {
 		SLAsticStarter.cmdHelpFormatter.printHelp(
-				SLAsticAdaptationFrameworkInstance.class.getName(), SLAsticStarter.cmdlOpts);
+				FrameworkInstance.class.getName(), SLAsticStarter.cmdlOpts);
 	}
 }

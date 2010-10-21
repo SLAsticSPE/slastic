@@ -6,9 +6,9 @@ import java.util.Properties;
 import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.common.FrameworkInstance;
+import org.trustsoft.slastic.common.util.PropertiesFileUtils;
 import org.trustsoft.slastic.control.AbstractControlComponent;
-import org.trustsoft.slastic.plugins.starter.SLAsticAdaptationFrameworkInstance;
-import org.trustsoft.slastic.plugins.util.PropertiesFileUtils;
 
 /**
  *
@@ -21,10 +21,10 @@ public class TestSLAsticFrameworkInstanceDummyConfiguration extends TestCase {
      * Makes sure that a dummy instance can be initialized and executed.
      */
     public void testInitAndRunInstanceByProperties(){
-        Properties configuration = SLAsticAdaptationFrameworkInstance.genDummyConfiguration();
+        Properties configuration = FrameworkInstance.genDummyConfiguration();
 
-        SLAsticAdaptationFrameworkInstance slasticInstance =
-                new SLAsticAdaptationFrameworkInstance(configuration);
+        FrameworkInstance slasticInstance =
+                new FrameworkInstance(configuration);
         boolean success = slasticInstance.run();
         assertTrue("slasticInstance.run() returned false", success);
         slasticInstance.terminate(false); // no error
@@ -35,7 +35,7 @@ public class TestSLAsticFrameworkInstanceDummyConfiguration extends TestCase {
      * the configuration is read from a configuration file.
      */
     public void testInitAndRunInstanceByPropertiesFile() throws IOException{
-        Properties configuration = SLAsticAdaptationFrameworkInstance.genDummyConfiguration();
+        Properties configuration = FrameworkInstance.genDummyConfiguration();
 
         /* Create a tmp file the configuration will be saved to
          * and mark the file to be deleted on jvm termination */
@@ -47,8 +47,8 @@ public class TestSLAsticFrameworkInstanceDummyConfiguration extends TestCase {
         log.info("Writing dummy configuration to file " + tmpFile.getAbsolutePath());
         PropertiesFileUtils.storePropertiesFile(configuration, tmpFile.getAbsolutePath());
 
-        SLAsticAdaptationFrameworkInstance slasticInstance =
-                new SLAsticAdaptationFrameworkInstance(tmpFile.getAbsolutePath());
+        FrameworkInstance slasticInstance =
+                new FrameworkInstance(tmpFile.getAbsolutePath());
         boolean success = slasticInstance.run();
         assertTrue("slasticInstance.run() returned false", success);
         slasticInstance.terminate(false); // no error

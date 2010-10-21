@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import junit.framework.TestCase;
+
+import org.trustsoft.slastic.common.Configuration;
+import org.trustsoft.slastic.common.FrameworkInstance;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
 import org.trustsoft.slastic.control.components.analysis.AbstractAnalysisComponent;
@@ -13,8 +16,6 @@ import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecas
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
-import org.trustsoft.slastic.plugins.starter.SLAsticAdaptationFrameworkConfiguration;
-import org.trustsoft.slastic.plugins.starter.SLAsticAdaptationFrameworkInstance;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 /**
@@ -30,8 +31,8 @@ public class TestComponentFrameworkMethodInvocations extends TestCase {
     public void testAllFrameworkMethodsCalledSuccess(){
         Properties configuration = genTrackingConfiguration();
 
-        SLAsticAdaptationFrameworkInstance slasticInstance =
-                new SLAsticAdaptationFrameworkInstance(configuration);
+        FrameworkInstance slasticInstance =
+                new FrameworkInstance(configuration);
         boolean success = slasticInstance.run();
         assertTrue("Test invalid: slasticInstance.run() returned false", success);
         slasticInstance.terminate(false); // no error
@@ -44,7 +45,7 @@ public class TestComponentFrameworkMethodInvocations extends TestCase {
      *
      * @param configuration the configuration containing the instantiated framework components
      */
-    private void checkComponentStateSequences(SLAsticAdaptationFrameworkConfiguration configuration){
+    private void checkComponentStateSequences(Configuration configuration){
         final List<ComponentStateTracker.States> expectedSequence =
                 new ArrayList<ComponentStateTracker.States>();
         expectedSequence.add(ComponentStateTracker.States.INIT);
@@ -74,43 +75,43 @@ public class TestComponentFrameworkMethodInvocations extends TestCase {
                 new Properties();
         /* set classname of monitoring manager component */
         configuration.setProperty(
-                AbstractMonitoringManagerComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractMonitoringManagerComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingMonitoringManagerComponent.class.getName());
         /* set classname of control component */
         configuration.setProperty(
-                AbstractControlComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractControlComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingControlComponent.class.getName());
         /* set classname of model management component */
         configuration.setProperty(
-                AbstractModelManagerComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractModelManagerComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingModelManagerComponent.class.getName());
         /* set classname of model updating component */
         configuration.setProperty(
-                AbstractModelUpdaterComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractModelUpdaterComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingModelUpdaterComponent.class.getName());
         /* set classname of analysis component */
         configuration.setProperty(
-                AbstractAnalysisComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractAnalysisComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingAnalysisComponent.class.getName());
         /* set classname of performance evaluation component */
         configuration.setProperty(
-                AbstractPerformanceEvaluatorComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractPerformanceEvaluatorComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingPerformanceEvaluatorComponent.class.getName());
         /* set classname of workload forecaster component */
         configuration.setProperty(
-                AbstractWorkloadForecasterComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractWorkloadForecasterComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingWorkloadForecasterComponent.class.getName());
         /* set classname of performance predictor component */
         configuration.setProperty(
-                AbstractPerformancePredictorComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractPerformancePredictorComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingPerformancePredictorComponent.class.getName());
         /* set classname of adaptation planning component */
         configuration.setProperty(
-                AbstractAdaptationPlannerComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractAdaptationPlannerComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingAdaptationPlannerComponent.class.getName());
         /* set classname of reconfiguration component */
         configuration.setProperty(
-                AbstractReconfigurationManagerComponent.PROP_PREFIX+"."+SLAsticAdaptationFrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+                AbstractReconfigurationManagerComponent.PROP_PREFIX+"."+FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
                 StateTrackingReconfigurationManagerComponent.class.getName());
 
         return configuration;
