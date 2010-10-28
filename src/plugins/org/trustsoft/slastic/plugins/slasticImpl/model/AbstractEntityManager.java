@@ -5,17 +5,20 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.model;
 
-import de.cau.se.slastic.metamodel.core.Entity;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import de.cau.se.slastic.metamodel.core.Entity;
 
 /**
  *
  * @author Andre van Hoorn
  */
+ // TODO: requires synchronization / thread-safety
 public abstract class AbstractEntityManager<T extends Entity> {
     private static final Log log = LogFactory.getLog(AbstractEntityManager.class);
 
@@ -24,13 +27,17 @@ public abstract class AbstractEntityManager<T extends Entity> {
             new HashMap<Long, T>();
     private final List<T> entities;
 
-    private AbstractEntityManager(){
+    /**
+     * Must not be used for construction.
+     */
+    @SuppressWarnings("unused")
+	private AbstractEntityManager(){
         this.entities = null;
     }
 
     public AbstractEntityManager(final List<T> entities){
         this.entities = entities;
-        for (T entity : entities){
+        for (final T entity : entities){
             this.addEntityToIdMap(entity);
         }
     }
@@ -43,7 +50,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 
     public T createAndRegisterEntity() {
         final T newEntity = this.createEntity();
-        newEntity.setId(nextId++);
+        newEntity.setId(this.nextId++);
         this.entities.add(newEntity);
         this.addEntityToIdMap(newEntity);
         return newEntity;
@@ -56,13 +63,13 @@ public abstract class AbstractEntityManager<T extends Entity> {
      * @return true iff the model contained the element, false otherwise
      * @throws IllegalStateException if an inconsistent state is detected
      */
-    public boolean removeEntity(T entity){
-        T removedEntity = this.entitiesById.remove(entity.getId());
+    public boolean removeEntity(final T entity){
+        final T removedEntity = this.entitiesById.remove(entity.getId());
         if (removedEntity != entity){
-            IllegalStateException ise =
+            final IllegalStateException ise =
                     new IllegalStateException("Unexpected element removed with id" +
                     entity.getId()+". Expected: " + entity + " ; removed: " + removedEntity);
-            log.error("IllegalStateException: " + ise.getMessage(), ise);
+            AbstractEntityManager.log.error("IllegalStateException: " + ise.getMessage(), ise);
             throw ise;
         }
 
@@ -72,7 +79,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
     /**
      * Adds a newly created component to the local tables.
      */
-    private void addEntityToIdMap(T componentType){
+    private void addEntityToIdMap(final T componentType){
         this.entitiesById.put(componentType.getId(), componentType);
     }
 }

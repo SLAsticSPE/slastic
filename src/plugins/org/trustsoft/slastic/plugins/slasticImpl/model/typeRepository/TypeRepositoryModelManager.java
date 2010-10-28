@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
@@ -55,7 +56,7 @@ public class TypeRepositoryModelManager extends
 		this.networkLinkTypeManager =
 				new NetworkLinkTypesManager(
 						typeRepositoryModel.getNetworkLinkTypes());
-		this.resourceTypesManager = 
+		this.resourceTypesManager =
 				new ResourceTypesManager(typeRepositoryModel.getResourceTypes());
 	}
 
@@ -160,7 +161,19 @@ public class TypeRepositoryModelManager extends
 	}
 
 	@Override
-	public ResourceType createAndRegisterResourceType(final String fullyQualifiedName) {
-		return this.resourceTypesManager.createAndRegisterResourceType(fullyQualifiedName);
+	public ResourceType createAndRegisterResourceType(
+			final String fullyQualifiedName) {
+		return this.resourceTypesManager
+				.createAndRegisterResourceType(fullyQualifiedName);
+	}
+
+	@Override
+	public ResourceSpecification createAndAddResourceSpecification(
+			final ExecutionContainerType executionContainerType,
+			final ResourceType resourceType,
+			final String resourceSpecificatioName) {
+		return this.executionContainerTypeManager
+				.createAndAddResourceSpecification(executionContainerType,
+						resourceType, resourceSpecificatioName);
 	}
 }

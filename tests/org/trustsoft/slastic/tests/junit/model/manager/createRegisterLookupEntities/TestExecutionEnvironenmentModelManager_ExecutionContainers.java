@@ -69,9 +69,6 @@ public class TestExecutionEnvironenmentModelManager_ExecutionContainers
 				((ExecutionEnvironmentModelManager) mgr)
 						.createAndRegisterExecutionContainer(fqEntityName,
 								executionContainerType);
-		Assert.assertNotNull("List of resources must not be null",
-				executionContainer.getResources());
-
 		return executionContainer;
 	}
 
