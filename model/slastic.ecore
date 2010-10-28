@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel"
+    nsURI="http:///metamodel.ecore" nsPrefix="metamodel">
+  <eAnnotations source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
+    <details key="com.ibm.xtools.activities.umlBBSpecificInstanceType1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDeploymentDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedDeployment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBFreeFormDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedArtifact" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBFunction" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCollaboration" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDeployment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBObjectDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBInstance" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBActivity1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBAction" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBUseCase1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBArtifact" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBRealization" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBLifeLine" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBElementImport1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBClass" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStateMachine1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBSequenceDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCommunicationDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBClassDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBPackage" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBRelationship1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDependancy" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBActivityDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComponent" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComponentDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCollaborationUse" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBInterface" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStateChartDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBSequence1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedComponent" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBUseCaseDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCommunication" value="1"/>
+  </eAnnotations>
+  <eSubpackages name="qos" nsURI="http:///metamodel/qos.ecore" nsPrefix="metamodel.qos">
+    <eClassifiers xsi:type="ecore:EClass" name="QoSCharacteristics">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qosModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel" eOpposite="#//qos/QoSModel/qosCharacteristics"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QoSModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemModel" ordered="false"
+          lowerBound="1" eType="#//core/SystemModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qosConstraints" ordered="false"
+          lowerBound="1" eType="#//qos/QoSConstraints" containment="true" eOpposite="#//qos/QoSConstraints/qoSModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qosInstrumentation" ordered="false"
+          lowerBound="1" eType="#//qos/QoSInstrumentation" containment="true" eOpposite="#//qos/QoSInstrumentation/qoSModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qosObservations" ordered="false"
+          lowerBound="1" eType="#//qos/QoSObservations" containment="true" eOpposite="#//qos/QoSObservations/qoSModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="costProfile" ordered="false"
+          lowerBound="1" eType="#//qos/CostProfile" containment="true" eOpposite="#//qos/CostProfile/qoSModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qosCharacteristics" ordered="false"
+          lowerBound="1" eType="#//qos/QoSCharacteristics" containment="true" eOpposite="#//qos/QoSCharacteristics/qosModel"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QoSConstraints">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qoSModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel" eOpposite="#//qos/QoSModel/qosConstraints"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QoSInstrumentation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qoSModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel" eOpposite="#//qos/QoSModel/qosInstrumentation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="QoSObservations">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qoSModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel" eOpposite="#//qos/QoSModel/qosObservations"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CostProfile">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qoSModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel" eOpposite="#//qos/QoSModel/costProfile"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="core" nsURI="http:///metamodel/core.ecore" nsPrefix="metamodel.core">
+    <eClassifiers xsi:type="ecore:EClass" name="KiekerAnalysisEvent" abstract="true"
+        interface="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Pseudo element acting as a place-holder for the Java class&#xA;kieker.analysis.plugin.IAnalysisEvent. &#xA;&#xA;In the exported .ecore model, the instance type name of this &#xA;class must be set to kieker.analysis.plugin.IAnalysisEvent!&#xA;&#xA;"/>
+      </eAnnotations>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NamedEntity" eSuperTypes="#//core/Entity">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Entity">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FQNamedEntity" eSuperTypes="#//core/NamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="packageName" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SLAsticModel"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IEvent" abstract="true" interface="true"
+        eSuperTypes="#//core/KiekerAnalysisEvent"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="typeRepositoryModel"
+          ordered="false" lowerBound="1" eType="#//typeRepository/TypeRepositoryModel"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentAssemblyModel"
+          ordered="false" lowerBound="1" eType="#//componentAssembly/ComponentAssemblyModel"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentDeploymentModel"
+          ordered="false" lowerBound="1" eType="#//componentDeployment/ComponentDeploymentModel"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionEnvironmentModel"
+          ordered="false" lowerBound="1" eType="#//executionEnvironment/ExecutionEnvironmentModel"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="typeRepository" nsURI="http:///metamodel/typeRepository.ecore"
+      nsPrefix="metamodel.typeRepository">
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceType" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="providedInterfaces" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Interface"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requiredInterfaces" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Interface"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainerType" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
+          upperBound="-1" eType="#//executionEnvironment/ResourceSpecification" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NetworkLinkType" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="repository" ordered="false"
+          lowerBound="1" eType="#//typeRepository/TypeRepositoryModel" eOpposite="#//typeRepository/TypeRepositoryModel/networkLinkTypes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TypeRepositoryModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinkTypes" ordered="false"
+          upperBound="-1" eType="#//typeRepository/NetworkLinkType" containment="true"
+          eOpposite="#//typeRepository/NetworkLinkType/repository"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentTypes" ordered="false"
+          upperBound="-1" eType="#//typeRepository/ComponentType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainerTypes"
+          ordered="false" upperBound="-1" eType="#//typeRepository/ExecutionContainerType"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interfaces" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Interface" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectorTypes" ordered="false"
+          upperBound="-1" eType="#//typeRepository/ConnectorType" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" ordered="false"
+          upperBound="-1" eType="#//typeRepository/ResourceType" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="executionEnvironment" nsURI="http:///metamodel/executionEnvironment.ecore"
+      nsPrefix="metamodel.executionEnvironment">
+    <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainer" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainerType"
+          ordered="false" lowerBound="1" eType="#//typeRepository/ExecutionContainerType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLink" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/NetworkLink" eOpposite="#//executionEnvironment/NetworkLink/executionContainers"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="NetworkLink" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinkType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/NetworkLinkType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainers"
+          ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"
+          eOpposite="#//executionEnvironment/ExecutionContainer/networkLink"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ExecutionEnvironmentModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainers"
+          ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinks" ordered="false"
+          upperBound="-1" eType="#//executionEnvironment/NetworkLink" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedExecutionContainers"
+          ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Resource">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
+          ordered="false" lowerBound="1" eType="#//executionEnvironment/ResourceSpecification"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceSpecification" eSuperTypes="#//core/NamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resourceType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/ResourceType"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="componentAssembly" nsURI="http:///metamodel/componentAssembly.ecore"
+      nsPrefix="metamodel.componentAssembly">
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyComponent" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/ComponentType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/ConnectorType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentAssemblyModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponents" ordered="false"
+          upperBound="-1" eType="#//componentAssembly/AssemblyComponent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnectors" ordered="false"
+          upperBound="-1" eType="#//componentAssembly/AssemblyConnector" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="componentDeployment" nsURI="http:///metamodel/componentDeployment.ecore"
+      nsPrefix="metamodel.componentDeployment">
+    <eClassifiers xsi:type="ecore:EClass" name="DeploymentComponent" eSuperTypes="#//core/Entity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponent" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentDeploymentModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentComponents"
+          ordered="false" upperBound="-1" eType="#//componentDeployment/DeploymentComponent"
+          containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="monitoring" nsURI="http:///metamodel/monitoring.ecore" nsPrefix="metamodel.monitoring">
+    <eClassifiers xsi:type="ecore:EClass" name="OperationExecution" abstract="true"
+        eSuperTypes="#//core/IEvent">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceId" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="eoi" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="ess" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tin" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="tout" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="sessionId" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DeploymentComponentOperationExecution"
+        eSuperTypes="#//monitoring/OperationExecution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentComponent"
+          ordered="false" lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConnectorOperationExecution" eSuperTypes="#//monitoring/OperationExecution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnector" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyConnector"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceUtilization" eSuperTypes="#//core/IEvent">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="utilization" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resource" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/Resource"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="reconfiguration" nsURI="http:///metamodel/reconfiguration.ecore"
+      nsPrefix="metamodel.reconfiguration">
+    <eSubpackages name="plan" nsURI="http:///metamodel/reconfiguration/plan.ecore"
+        nsPrefix="metamodel.reconfiguration.plan">
+      <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationPlan">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="operations" ordered="false"
+            upperBound="-1" eType="#//reconfiguration/plan/ReconfigurationOperation"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationOperation" abstract="true"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ComponentReplication" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+            lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="toContainer" ordered="false"
+            lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ComponentDereplication" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+            lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ComponentMigration" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+            lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ContainerAllocation" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="containerType" ordered="false"
+            lowerBound="1" eType="#//typeRepository/ExecutionContainerType"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ContainerDeallocation" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="container" ordered="false"
+            lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="specification" nsURI="http:///metamodel/reconfiguration/specification.ecore"
+        nsPrefix="metamodel.reconfiguration.specification">
+      <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationSpecification">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="adaptationModel" ordered="false"
+            lowerBound="1" eType="#//adaptation/AdaptationModel" eOpposite="#//adaptation/AdaptationModel/reconfigurationSpecification"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="adaptation" nsURI="http:///metamodel/adaptation.ecore" nsPrefix="metamodel.adaptation">
+    <eClassifiers xsi:type="ecore:EClass" name="Control">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="adaptationModel" ordered="false"
+          lowerBound="1" eType="#//adaptation/AdaptationModel" eOpposite="#//adaptation/AdaptationModel/controlModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="performanceEvaluator"
+          ordered="false" lowerBound="1" eType="#//adaptation/PerformanceEvaluation"
+          containment="true" eOpposite="#//adaptation/PerformanceEvaluation/control"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="workloadForecaster" ordered="false"
+          lowerBound="1" eType="#//adaptation/WorkloadForecasting" containment="true"
+          eOpposite="#//adaptation/WorkloadForecasting/control"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="performancePredictor"
+          ordered="false" lowerBound="1" eType="#//adaptation/PerformancePrediction"
+          containment="true" eOpposite="#//adaptation/PerformancePrediction/control"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="adaptationPlanner" ordered="false"
+          lowerBound="1" eType="#//adaptation/AdaptationPlanning" containment="true"
+          eOpposite="#//adaptation/AdaptationPlanning/control"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PerformanceEvaluation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" ordered="false"
+          lowerBound="1" eType="#//adaptation/Control" eOpposite="#//adaptation/Control/performanceEvaluator"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WorkloadForecasting">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" ordered="false"
+          lowerBound="1" eType="#//adaptation/Control" eOpposite="#//adaptation/Control/workloadForecaster"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PerformancePrediction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" ordered="false"
+          lowerBound="1" eType="#//adaptation/Control" eOpposite="#//adaptation/Control/performancePredictor"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AdaptationPlanning">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="control" ordered="false"
+          lowerBound="1" eType="#//adaptation/Control" eOpposite="#//adaptation/Control/adaptationPlanner"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AdaptationModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="controlModel" ordered="false"
+          lowerBound="1" eType="#//adaptation/Control" containment="true" eOpposite="#//adaptation/Control/adaptationModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="qoSModel" ordered="false"
+          lowerBound="1" eType="#//qos/QoSModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="reconfigurationSpecification"
+          ordered="false" lowerBound="1" eType="#//reconfiguration/specification/ReconfigurationSpecification"
+          containment="true" eOpposite="#//reconfiguration/specification/ReconfigurationSpecification/adaptationModel"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>

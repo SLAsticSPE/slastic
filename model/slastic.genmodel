@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/SLAstic-Framework/src-gen"
+    modelPluginID="SLAstic-Framework" modelName="Slastic" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>slastic.ecore</foreignModel>
+  <genPackages prefix="Metamodel" basePackage="de.cau.se.slastic" disposableProviderFactory="true"
+      ecorePackage="slastic.ecore#/">
+    <nestedGenPackages prefix="TypeRepository" basePackage="de.cau.se.slastic.metamodel"
+        disposableProviderFactory="true" ecorePackage="slastic.ecore#//typeRepository">
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/ComponentType">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/ComponentType/providedInterfaces"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/ComponentType/requiredInterfaces"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/TypeRepositoryModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/TypeRepositoryModel/componentTypes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/TypeRepositoryModel/executionContainerTypes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/TypeRepositoryModel/interfaces"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/TypeRepositoryModel/connectorTypes"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/TypeRepositoryModel/networkLinkType"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/ExecutionContainerType"/>
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/Interface"/>
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/ConnectorType"/>
+      <genClasses ecoreClass="slastic.ecore#//typeRepository/NetworkLinkType">
+        <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/NetworkLinkType/repository"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Core" basePackage="de.cau.se.slastic.metamodel" disposableProviderFactory="true"
+        ecorePackage="slastic.ecore#//core">
+      <genClasses image="false" ecoreClass="slastic.ecore#//core/KiekerAnalysisEvent"/>
+      <genClasses ecoreClass="slastic.ecore#//core/Entity">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//core/Entity/id"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//core/NamedEntity">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//core/NamedEntity/name"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//core/SLAsticModel"/>
+      <genClasses ecoreClass="slastic.ecore#//core/SystemModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//core/SystemModel/typeRepositoryModel"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//core/SystemModel/componentAssemblyModel"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//core/SystemModel/componentDeploymentModel"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//core/SystemModel/executionEnvironmentModel"/>
+      </genClasses>
+      <genClasses image="false" ecoreClass="slastic.ecore#//core/IEvent"/>
+      <genClasses ecoreClass="slastic.ecore#//core/FQNamedEntity">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//core/FQNamedEntity/packageName"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="ComponentAssembly" basePackage="de.cau.se.slastic.metamodel"
+        disposableProviderFactory="true" ecorePackage="slastic.ecore#//componentAssembly">
+      <genClasses ecoreClass="slastic.ecore#//componentAssembly/AssemblyComponent">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//componentAssembly/AssemblyComponent/componentType"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//componentAssembly/AssemblyConnector">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//componentAssembly/AssemblyConnector/connectorType"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//componentAssembly/ComponentAssemblyModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//componentAssembly/ComponentAssemblyModel/assemblyComponents"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//componentAssembly/ComponentAssemblyModel/assemblyConnectors"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="ComponentDeployment" basePackage="de.cau.se.slastic.metamodel"
+        disposableProviderFactory="true" ecorePackage="slastic.ecore#//componentDeployment">
+      <genClasses ecoreClass="slastic.ecore#//componentDeployment/DeploymentComponent">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//componentDeployment/DeploymentComponent/assemblyComponent"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//componentDeployment/DeploymentComponent/executionContainer"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//componentDeployment/ComponentDeploymentModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//componentDeployment/ComponentDeploymentModel/deploymentComponents"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="ExecutionEnvironment" basePackage="de.cau.se.slastic.metamodel"
+        disposableProviderFactory="true" ecorePackage="slastic.ecore#//executionEnvironment">
+      <genClasses ecoreClass="slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel">
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel/executionContainers"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel/networkLinks"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel/allocatedExecutionContainers"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//executionEnvironment/NetworkLink">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/NetworkLink/networkLinkType"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/NetworkLink/executionContainers"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//executionEnvironment/ExecutionContainer">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionContainer/networkLink"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionContainer/executionContainerType"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Monitoring" basePackage="de.cau.se.slastic.metamodel"
+        disposableProviderFactory="true" ecorePackage="slastic.ecore#//monitoring">
+      <genClasses image="false" ecoreClass="slastic.ecore#//monitoring/OperationExecution">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/traceId"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/eoi"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/ess"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/tin"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/tout"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/sessionId"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//monitoring/DeploymentComponentOperationExecution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//monitoring/DeploymentComponentOperationExecution/deploymentComponent"/>
+      </genClasses>
+      <genClasses ecoreClass="slastic.ecore#//monitoring/ConnectorOperationExecution">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//monitoring/ConnectorOperationExecution/assemblyConnector"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference slastic.ecore#//monitoring/ConnectorOperationExecution/executionContainer"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

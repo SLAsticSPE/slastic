@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="slasticpcm"
+    nsURI="http:///slasticpcm.ecore" nsPrefix="slasticpcm">
+  <eAnnotations source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
+    <details key="com.ibm.xtools.activities.umlBBSpecificInstanceType1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDeploymentDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedDeployment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBFreeFormDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedArtifact" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBFunction" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCollaboration" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDeployment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBObjectDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBInstance" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBActivity1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBAction" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBUseCase1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBArtifact" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBRealization" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBLifeLine" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBElementImport1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBClass" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStateMachine1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBSequenceDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCommunicationDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBClassDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBPackage" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBRelationship1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBDependancy" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBActivityDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComponent" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComponentDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCollaborationUse" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBInterface" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStateChartDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBComment1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBSequence1" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBStereotypedComponent" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBUseCaseDiagram" value="1"/>
+    <details key="com.ibm.xtools.activities.umlBBCommunication" value="1"/>
+  </eAnnotations>
+  <eSubpackages name="reconfiguration" nsURI="http:///slasticpcm/reconfiguration.ecore"
+      nsPrefix="slasticpcm.reconfiguration">
+    <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationPCM"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentMigration" eSuperTypes="#//reconfiguration/ReconfigurationPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//allocation/AllocationContext"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="destination" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//resourceenvironment/ResourceContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentReplication" eSuperTypes="#//reconfiguration/ReconfigurationPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//core/composition/AssemblyContext"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="destination" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//resourceenvironment/ResourceContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ComponentDeReplication" eSuperTypes="#//reconfiguration/ReconfigurationPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//allocation/AllocationContext"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContainerAllocation" eSuperTypes="#//reconfiguration/ReconfigurationPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="container" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//resourceenvironment/ResourceContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContainerDeAllocation" eSuperTypes="#//reconfiguration/ReconfigurationPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="container" ordered="false"
+          lowerBound="1" eType="ecore:EClass ../../de.uka.ipd.sdq.pcm/model/pcm.ecore#//resourceenvironment/ResourceContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationPlanPCM">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" ordered="false"
+          lowerBound="1" upperBound="-1" eType="#//reconfiguration/ReconfigurationPCM"/>
+    </eClassifiers>
+  </eSubpackages>
+</ecore:EPackage>
