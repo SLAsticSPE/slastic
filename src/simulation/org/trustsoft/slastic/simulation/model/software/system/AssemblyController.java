@@ -33,12 +33,10 @@ public class AssemblyController {
 	private final Hashtable<String, String> systemProvidedServices = new Hashtable<String, String>();
 	private final Hashtable<String, Signature> systemProvidedServicesToSignature = new Hashtable<String, Signature>();
 
-	private final Model model;
 	private final Log log = LogFactory.getLog(this.getClass());
 
 	public AssemblyController(final System system, final Model model) {
 		this.genAssembly(system);
-		this.model = model;
 	}
 
 	private void genAssembly(final System system) {

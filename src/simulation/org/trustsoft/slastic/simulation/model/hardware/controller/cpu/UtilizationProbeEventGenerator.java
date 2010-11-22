@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
@@ -23,7 +21,6 @@ public class UtilizationProbeEventGenerator {
 	private final String name;
 	private final boolean debug;
 	private final CPURRScheduler scheduler;
-	private final Log log = LogFactory.getLog(this.getClass());
 	private boolean pause;
 
 	public UtilizationProbeEventGenerator(final Model model, final String name,

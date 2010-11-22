@@ -7,10 +7,12 @@ public class UtilizationRecord extends AbstractMonitoringRecord {
 
 	private long time;
 	private double utilization;
+	@SuppressWarnings("rawtypes")
 	private static final Class types[] = { Long.class, Double.class,
 			String.class };
 	private String server;
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public Class[] getValueTypes() {
 		return UtilizationRecord.types;

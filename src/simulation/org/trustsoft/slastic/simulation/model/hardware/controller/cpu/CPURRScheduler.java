@@ -102,11 +102,6 @@ public class CPURRScheduler extends CPUScheduler {
 	}
 
 	@Override
-	public Queue<CPUSchedulableProcess> getQueue() {
-		return this.queue;
-	}
-
-	@Override
 	public boolean isIdle() {
 		return this.queue.isEmpty() && this.activeProcess.isEmpty();
 	}

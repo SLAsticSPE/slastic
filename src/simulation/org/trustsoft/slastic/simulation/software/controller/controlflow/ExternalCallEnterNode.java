@@ -31,11 +31,7 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 	public ExternalCallEnterNode(final Signature calledService_ExternalService,
 			final String asmContextCurrent, final String traceId) {
 		super(calledService_ExternalService.getServiceName() + " from "
-				+ asmContextCurrent + " to "
-		// + (ModelManager.getInstance().getAssemblyCont()
-		// .getServiceASMContextConnectedWithContext(
-		// calledService_ExternalService.getServiceName(),
-		// asmContextCurrent)),
+				+ asmContextCurrent
 				, traceId);
 		this.calledServiceName = calledService_ExternalService.getServiceName();
 		this.traceId = traceId;
@@ -51,10 +47,9 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
 					.getASMContextBySystemService(this.calledServiceName);
 		}
-		// this.stats =
-		// CallHandler.getInstance().getStatFacade().getCallStats();
 	}
-
+	
+	@SuppressWarnings("unused")
 	private void setAsmContextAndSignature(
 			final Signature calledService_ExternalService,
 			final String asmContextCurrent) {

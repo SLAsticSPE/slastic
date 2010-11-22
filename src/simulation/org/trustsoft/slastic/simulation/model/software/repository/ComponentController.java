@@ -29,7 +29,6 @@ public final class ComponentController {
 	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
 	private List<DataType> types;
-	private final Model model;
 	private final Log log;
 
 	public ComponentController(final Repository repository,
@@ -54,7 +53,6 @@ public final class ComponentController {
 		for (final DataType dataType : repository.getDatatypes_Repository()) {
 			this.put(dataType);
 		}
-		this.model = model;
 		ComponentController.instance = this;
 	}
 

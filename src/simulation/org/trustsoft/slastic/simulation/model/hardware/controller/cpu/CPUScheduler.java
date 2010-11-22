@@ -15,7 +15,7 @@ public abstract class CPUScheduler extends
 	}
 
 	@Override
-	public Queue<CPUSchedulableProcess> getQueue() {
+	public final Queue<CPUSchedulableProcess> getQueue() {
 		return queue;
 	}
 

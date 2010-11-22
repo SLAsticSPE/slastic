@@ -8,8 +8,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.LockSupport;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.software.controller.EntryCall;
 
@@ -18,7 +16,6 @@ public class ExternalCallQueue implements Iterable<EntryCall> {
 	private final Queue<Thread> waiters = new ConcurrentLinkedQueue<Thread>();
 	private final AtomicBoolean locked = new AtomicBoolean(false);
 	private final AtomicBoolean finished = new AtomicBoolean(false);
-	private final Log log = LogFactory.getLog(this.getClass());
 
 	private final TreeSet<EntryCall> queue = new TreeSet<EntryCall>(
 			new Comparator<EntryCall>() {

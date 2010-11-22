@@ -62,12 +62,14 @@ public class CallHandler {
 
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
+	@SuppressWarnings("unused")
 	private final Hashtable<String, ProgressingFlow> flows = new Hashtable<String, ProgressingFlow>();
 
 	private final DynamicSimulationModel model;
 
 	private StopCondition stopCond;
 
+	@SuppressWarnings("unused")
 	private long ltime;
 
 	private boolean firstcall = true;

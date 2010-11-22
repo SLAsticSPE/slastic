@@ -31,12 +31,14 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
 
+@SuppressWarnings("unused")
 public class SimulationController {
 
 	private final DynamicSimulationModel model;
 	private final Experiment exp;
 	private StopCondition stopCond;
 	private SimulationController instance;
+
 	private volatile boolean init;
 	private final TreeSet<EntryCall> buffer = new TreeSet<EntryCall>(
 			new Comparator<EntryCall>() {
@@ -176,5 +178,9 @@ public class SimulationController {
 
 	public IReconfPlanReceiver getReconfigurationPlanReceiverPort() {
 		return this.reconfigurationPlanReceiverPort;
+	}
+	
+	public final SimulationController getInstance() {
+		return instance;
 	}
 }

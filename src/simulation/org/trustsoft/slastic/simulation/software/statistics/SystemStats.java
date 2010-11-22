@@ -2,8 +2,6 @@ package org.trustsoft.slastic.simulation.software.statistics;
 
 import kieker.monitoring.core.MonitoringController;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.UtilizationRecord;
@@ -21,7 +19,6 @@ public final class SystemStats implements ISystemStats {
 	private final MonitoringController mCtrl = MonitoringController
 			.getInstance();
 	private final Model model = ModelManager.getInstance().getModel();
-	private final Log log = LogFactory.getLog(this.getClass());
 
 	@Inject
 	public SystemStats() {

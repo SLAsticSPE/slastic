@@ -36,7 +36,7 @@ public class ComponentUsersRecord extends AbstractMonitoringRecord {
 				this.monTime };
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Class[] getValueTypes() {
 		return new Class[] { String.class, String.class, Integer.class,

@@ -8,6 +8,7 @@ import desmoj.core.simulator.Model;
 
 public class HardDrive extends ProcessingResource<IOOperation> {
 
+	@SuppressWarnings("unused")
 	private Res res;
 
 	public HardDrive(final Model owner, final String name,

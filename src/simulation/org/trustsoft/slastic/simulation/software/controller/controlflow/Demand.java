@@ -4,6 +4,7 @@ public class Demand<T extends Number> {
 
 	private final String demand;
 	private boolean done;
+	@SuppressWarnings("unused")
 	private final Class<T> clazzToCast;
 
 	public Demand(final String demand, final Class<T> clazzToCast) {

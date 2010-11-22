@@ -27,7 +27,7 @@ public class ActiveUsersRecord extends AbstractMonitoringRecord {
 		return new Object[] { this.time, this.users };
 	}
 
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Class[] getValueTypes() {
 		return new Class<?>[] { Integer.class, Long.class };

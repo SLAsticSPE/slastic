@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
@@ -32,12 +30,10 @@ public final class ModelManager implements IReconfPlanReceiver {
 	private final AssemblyController assemblyCont;
 	private final ReconfigurationController reconfCont;
 	private static ModelManager instance;
-	private final List<SLAsticReconfigurationPlan> plans = new LinkedList<SLAsticReconfigurationPlan>();
 	private final Model model;
 	private final Log log;
 	private final ResourceEnvironment re;
 
-	private static File f;
 	private static long time;
 
 	public ModelManager(final Repository repository, final System system,
