@@ -142,9 +142,11 @@ public class SimulationController {
 	}
 
 	public void start() {
+		java.lang.System.out.println(java.lang.System.currentTimeMillis());
 		this.exp.stop(this.stopCond = new StopCondition(this.model, this.model
 				.getName(), Constants.DEBUG));
 		CallHandler.getInstance().setStopCond(this.stopCond);
+		ModelManager.markStart();
 		this.exp.start();
 	}
 

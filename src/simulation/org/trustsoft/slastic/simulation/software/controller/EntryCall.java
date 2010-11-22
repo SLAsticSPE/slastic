@@ -18,32 +18,32 @@ public final class EntryCall {
 		this.tout = tout;
 	}
 
-	public long getTin() {
-		return tin;
+	public final long getTin() {
+		return this.tin;
 	}
 
-	public long getTraceId() {
-		return traceId;
+	public final long getTraceId() {
+		return this.traceId;
 	}
 
-	public String getOpname() {
-		return opname;
+	public final String getOpname() {
+		return this.opname;
 	}
 
-	public String getComponentName() {
-		return componentName;
+	public final String getComponentName() {
+		return this.componentName;
 	}
 
-	public long getTout() {
-		return tout;
+	public final long getTout() {
+		return this.tout;
 	}
 
-	public boolean isScheduled() {
-		return scheduled;
+	public final boolean isScheduled() {
+		return this.scheduled;
 	}
 
-	public void setScheduled(final boolean state) {
-		scheduled = state;
+	public final void setScheduled(final boolean state) {
+		this.scheduled = state;
 	}
 
 }

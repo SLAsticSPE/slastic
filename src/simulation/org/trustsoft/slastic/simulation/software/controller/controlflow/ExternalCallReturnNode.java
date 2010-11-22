@@ -12,8 +12,6 @@ import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 
-import desmoj.core.simulator.SimTime;
-
 @SuppressWarnings("unused")
 public class ExternalCallReturnNode extends ControlFlowNode {
 
@@ -26,7 +24,7 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	private static ISystemStats exeStats;
 
 	private final ExternalCallEnterNode ece;
-	private SimTime exitTime;
+	// private SimTime exitTime;
 	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
 	private final static MonitoringController tpmonCtrl = MonitoringController
 			.getInstance();
@@ -37,8 +35,8 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	}
 
 	@Override
-	public void eventRoutine() {
-		this.exitTime = this.getModel().currentTime();
+	public final void eventRoutine() {
+		// this.exitTime = this.getModel().currentTime();
 		// spawn record!
 		final StackFrame f = CallHandler.getInstance().popContext(
 				this.ece.getTraceId());
@@ -47,11 +45,6 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 		}
 		ExternalCallReturnNode.exeStats.logExecution(f, CallHandler
 				.getInstance().getStackDepth(this.ece.getTraceId()));
-		// final OperationExecutionRecord erec = f.createRecord(this.getModel()
-		// .currentTime().getTimeValue(), CallHandler.getInstance()
-		// .getStackDepth(this.ece.getTraceId()));
-		//
-		// ExternalCallReturnNode.tpmonCtrl.newMonitoringRecord(erec);
 
 		// tell simulator to schedule next action in this trace
 		ModelManager.getInstance().getAllocCont()

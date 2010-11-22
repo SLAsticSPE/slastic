@@ -10,6 +10,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
 import de.uka.ipd.sdq.pcm.repository.DataType;
+import de.uka.ipd.sdq.pcm.repository.PassiveResource;
 import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.repository.Signature;
@@ -25,6 +26,7 @@ public final class ComponentController {
 	// ComponentController();
 	private final Hashtable<String, ProvidesComponentType> components = new Hashtable<String, ProvidesComponentType>();
 	private final Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>> seffsByComponent = new Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>>();
+	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
 	private List<DataType> types;
 	private final Model model;
@@ -38,6 +40,16 @@ public final class ComponentController {
 			this.log.info("Adding Component " + component
 					+ " to simulation model");
 			this.put(component, reconfModel);
+			if (component instanceof BasicComponent) {
+				final BasicComponent bc = (BasicComponent) component;
+				this.passiveResByComponent.put(bc,
+						new Hashtable<String, PassiveResource>());
+				for (final PassiveResource res : bc
+						.getPassiveResource_BasicComponent()) {
+					this.passiveResByComponent.get(bc).put(res.getEntityName(),
+							res);
+				}
+			}
 		}
 		for (final DataType dataType : repository.getDatatypes_Repository()) {
 			this.put(dataType);
@@ -96,7 +108,6 @@ public final class ComponentController {
 	}
 
 	public Set<String> getSeffs() {
-		// TODO Auto-generated method stub
 		return this.seffsByServiceName.keySet();
 	}
 
@@ -104,4 +115,24 @@ public final class ComponentController {
 		return this.components.get(id).getEntityName();
 	}
 
+	/**
+	 * @return the passiveResByComponent
+	 */
+	public final Hashtable<String, PassiveResource> getPassiveResByComponent(
+			final BasicComponent bc) {
+		return this.passiveResByComponent.get(bc);
+	}
+
+	/**
+	 * @return the passiveResByComponent
+	 */
+	public final PassiveResource getPassiveResName(final BasicComponent bc,
+			final String name) {
+		final Hashtable<String, PassiveResource> comp = this.passiveResByComponent
+				.get(bc);
+		if (comp != null) {
+			return comp.get(name);
+		}
+		return null;
+	}
 }

@@ -23,7 +23,7 @@ public final class RandomBalancer implements LoadBalancer {
 	}
 
 	@Override
-	public String getServerMapping(final String asmId,
+	public final String getServerMapping(final String asmId,
 			final Collection<String> possibilities) {
 		return (String) possibilities.toArray()[this.r.nextInt(possibilities
 				.size())];

@@ -24,31 +24,32 @@ public class InternalActionNode extends ControlFlowNode {
 		this.traceId = traceId;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public void eventRoutine() {
+	public final void eventRoutine() {
 		final String server = CallHandler.getInstance().getCurrentServer(
 				this.traceId);
-		final Server s = ModelManager.getInstance().getHwCont().getServer(
-				server);
+		final Server s = ModelManager.getInstance().getHwCont()
+				.getServer(server);
 		// create schedulable processes and schedule to the server
 		final Demand<Integer> cpuDemand = this.demands
 				.get("pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ");
 		if (cpuDemand != null) {
-			final CPUSchedulableProcess p = new CPUSchedulableProcess(this
-					.getModel(), Constants.DEBUG, cpuDemand.getDemand(), this);
-			InternalActionNode.log.info("Scheduled CPU process " + p
-					+ " for trace " + this.traceId);
+			final CPUSchedulableProcess p = new CPUSchedulableProcess(
+					this.getModel(), Constants.DEBUG, cpuDemand.getDemand(),
+					this);
+			// InternalActionNode.log.info("Scheduled CPU process " + p
+			// + " for trace " + this.traceId);
 			s.addCPUTask(p);
 		}
 	}
 
-	public void add(final String requiredResource, final String demand) {
+	public final void add(final String requiredResource, final String demand) {
 		final Demand<Integer> d = new Demand<Integer>(demand, Integer.class);
 		this.demands.put(requiredResource, d);
 	}
 
-	public void returned(final SimTime t, final AbstractSchedulableProcess p) {
+	public final void returned(final SimTime t,
+			final AbstractSchedulableProcess p) {
 		if (p instanceof CPUSchedulableProcess) {
 			this.demands
 					.remove("pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ");

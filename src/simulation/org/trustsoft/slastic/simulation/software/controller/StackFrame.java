@@ -62,11 +62,11 @@ public class StackFrame {
 		return this.traceId;
 	}
 
-	public int getEoi() {
+	public final int getEoi() {
 		return this.eoi;
 	}
 
-	public void setEoi(final int eoi) {
+	public final void setEoi(final int eoi) {
 		this.eoi = eoi;
 	}
 

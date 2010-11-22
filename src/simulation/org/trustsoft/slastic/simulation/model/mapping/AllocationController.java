@@ -11,6 +11,8 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
 import org.trustsoft.slastic.simulation.model.reconfiguration.ReconfigurationController;
+import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
 import com.google.inject.Inject;
@@ -19,6 +21,9 @@ import com.google.inject.name.Named;
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.allocation.AllocationContext;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
+import de.uka.ipd.sdq.pcm.repository.BasicComponent;
+import de.uka.ipd.sdq.pcm.repository.PassiveResource;
+import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import desmoj.core.simulator.Model;
 
 /**
@@ -33,6 +38,8 @@ public final class AllocationController {
 	private final Hashtable<String, Collection<String>> serverToAllocationContextsMapping = new Hashtable<String, Collection<String>>();
 	private final Hashtable<String, Hashtable<String, Boolean>> serverToAsmToBlockState = new Hashtable<String, Hashtable<String, Boolean>>();
 	private final Hashtable<String, Hashtable<String, Integer>> serverToAsmToUserCount = new Hashtable<String, Hashtable<String, Integer>>();
+
+	private final Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>> serverToAsmToPassiveResource = new Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>>();
 	private final Log log = LogFactory.getLog(AllocationController.class);
 
 	@Inject
@@ -82,24 +89,14 @@ public final class AllocationController {
 					+ allocContext.getAssemblyContext_AllocationContext()
 					+ " to "
 					+ allocContext.getResourceContainer_AllocationContext());
-			this.assemblyContextToServerMapping
-					.get(allocContext.getAssemblyContext_AllocationContext()
-							.getId()).add(
-							allocContext
-									.getResourceContainer_AllocationContext()
-									.getId());
-			this.serverToAllocationContextsMapping.get(
-					allocContext.getResourceContainer_AllocationContext()
-							.getId())
-					.add(allocContext.getAssemblyContext_AllocationContext()
-							.getId());
-			ModelManager
-					.getInstance()
-					.getHwCont()
-					.bpallocate(
-							allocContext
-									.getResourceContainer_AllocationContext()
-									.getId());
+			final String asmId = allocContext
+					.getAssemblyContext_AllocationContext().getId();
+			final String serverId = allocContext
+					.getResourceContainer_AllocationContext().getId();
+			this.assemblyContextToServerMapping.get(asmId).add(serverId);
+			this.serverToAllocationContextsMapping.get(serverId).add(asmId);
+			ModelManager.getInstance().getHwCont().bpallocate(serverId);
+			this.initPResource(serverId, asmId);
 		}
 
 	}
@@ -110,7 +107,7 @@ public final class AllocationController {
 	 * @param serverId
 	 * @return true if a server is used (i.e. asm contexts are mapped to it)
 	 */
-	public boolean serverIsUsed(final String serverId) {
+	public final boolean serverIsUsed(final String serverId) {
 		for (final Collection<String> servers : this.assemblyContextToServerMapping
 				.values()) {
 			if (servers.contains(serverId)) {
@@ -120,12 +117,12 @@ public final class AllocationController {
 		return false;
 	}
 
-	public String getServer(final AssemblyContext asmContext) {
+	public final String getServer(final AssemblyContext asmContext) {
 		return this.loadBalancer.getServerMapping(asmContext.getId(),
 				this.assemblyContextToServerMapping.get(asmContext.getId()));
 	}
 
-	public String getServer(final String asmContext) {
+	public final String getServer(final String asmContext) {
 		this.log.info("Getting Ressource Container for ASM Context: "
 				+ asmContext);
 		return this.loadBalancer.getServerMapping(asmContext,
@@ -157,7 +154,7 @@ public final class AllocationController {
 	 * @param server
 	 * @return true if component has users left
 	 */
-	public boolean hasUsers(final String asmContext, final String server) {
+	public final boolean hasUsers(final String asmContext, final String server) {
 		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
@@ -171,7 +168,7 @@ public final class AllocationController {
 		return false;
 	}
 
-	public int addUser(final String asmContext, final String server) {
+	public final int addUser(final String asmContext, final String server) {
 		Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
@@ -180,8 +177,6 @@ public final class AllocationController {
 				cUser = 0;
 			}
 			users.put(asmContext, cUser + 1);
-			this.log.info("Server " + server + " Component " + asmContext
-					+ " has " + (cUser + 1) + " users");
 			AllocationController.stats.logComponentUsers(asmContext, server,
 					cUser + 1);
 			return cUser + 1;
@@ -189,14 +184,12 @@ public final class AllocationController {
 			users = new Hashtable<String, Integer>();
 			this.serverToAsmToUserCount.put(server, users);
 			users.put(asmContext, 1);
-			this.log.info("Server " + server + " Component " + asmContext
-					+ " has " + 1 + " users");
 			AllocationController.stats.logComponentUsers(asmContext, server, 1);
 			return 1;
 		}
 	}
 
-	public int remUser(final String asmContext, final String server) {
+	public final int remUser(final String asmContext, final String server) {
 		final Hashtable<String, Integer> users = this.serverToAsmToUserCount
 				.get(server);
 		if (users != null) {
@@ -207,8 +200,6 @@ public final class AllocationController {
 				if (nextCUserCount == 0) {
 					this.notifyReconfController(asmContext, server);
 				}
-				this.log.info("Server " + server + " Component " + asmContext
-						+ " has " + nextCUserCount + " users");
 				AllocationController.stats.logComponentUsers(asmContext,
 						server, nextCUserCount);
 				return nextCUserCount;
@@ -228,7 +219,8 @@ public final class AllocationController {
 	 * @param server
 	 * @return true on success
 	 */
-	public boolean blockInstance(final String asmContext, final String server) {
+	public final boolean blockInstance(final String asmContext,
+			final String server) {
 		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
 		this.log.info("blocking " + asmContext + " on server " + server);
@@ -255,12 +247,12 @@ public final class AllocationController {
 				this.unblockInstance(asmContext, server);
 			}
 		} catch (final Exception e) {
-			// e.printStackTrace();
 		}
 
 	}
 
-	public boolean hasAllocation(final String server, final String asmContext) {
+	public final boolean hasAllocation(final String server,
+			final String asmContext) {
 		return this.assemblyContextToServerMapping.get(asmContext).contains(
 				server);
 	}
@@ -271,8 +263,42 @@ public final class AllocationController {
 	 * @param server
 	 * @param asmContext
 	 */
-	public void add(final String server, final String asmContext) {
+	public final void add(final String server, final String asmContext) {
 		this.assemblyContextToServerMapping.get(asmContext).add(server);
+		this.initPResource(server, asmContext);
+	}
+
+	private void initPResource(final String server, final String asmContext) {
+		Hashtable<String, Hashtable<String, PassiveSimResource>> asmCtxToPRes = this.serverToAsmToPassiveResource
+				.get(server);
+		if (asmCtxToPRes == null) {
+			asmCtxToPRes = new Hashtable<String, Hashtable<String, PassiveSimResource>>();
+			this.serverToAsmToPassiveResource.put(server, asmCtxToPRes);
+		}
+
+		Hashtable<String, PassiveSimResource> pres = asmCtxToPRes
+				.get(asmContext);
+		if (pres == null) {
+			pres = new Hashtable<String, PassiveSimResource>();
+			asmCtxToPRes.put(asmContext, pres);
+		}
+
+		final ProvidesComponentType component = ModelManager.getInstance()
+				.getAssemblyCont().getASMContextById(asmContext)
+				.getEncapsulatedComponent_ChildComponentContext();
+		if (component instanceof BasicComponent) {
+			final BasicComponent bc = (BasicComponent) component;
+			final Hashtable<String, PassiveResource> passiveRes = ComponentController
+					.getInstance().getPassiveResByComponent(bc);
+			for (final String pResName : passiveRes.keySet()) {
+				final int capacity = Integer.parseInt(passiveRes.get(pResName)
+						.getCapacity_PassiveResource().getSpecification()
+						.replaceAll("\\s", ""));
+				final PassiveSimResource psr = new PassiveSimResource(pResName,
+						capacity);
+				pres.put(pResName, psr);
+			}
+		}
 	}
 
 	/**
@@ -283,7 +309,7 @@ public final class AllocationController {
 	 * @param component
 	 * @return
 	 */
-	public boolean del(final AllocationContext component) {
+	public final boolean del(final AllocationContext component) {
 		final String asmContext = component
 				.getAssemblyContext_AllocationContext().getId();
 		final Collection<String> servers = this.assemblyContextToServerMapping
@@ -310,5 +336,18 @@ public final class AllocationController {
 					+ component.getResourceContainer_AllocationContext() + ")");
 			return false;
 		}
+	}
+
+	public final int acquirePassive(final String server,
+			final String asmContext, final String resname,
+			final ControlFlowNode next) {
+		return this.serverToAsmToPassiveResource.get(server).get(asmContext)
+				.get(resname).acquire(next);
+	}
+
+	public final int releasePassive(final String server,
+			final String asmContext, final String resname) {
+		return this.serverToAsmToPassiveResource.get(server).get(asmContext)
+				.get(resname).release();
 	}
 }

@@ -123,15 +123,17 @@ public final class ModelManager implements IReconfPlanReceiver {
 	}
 
 	public static void markStart() {
-		ModelManager.time = java.lang.System.nanoTime();
+		ModelManager.time = java.lang.System.currentTimeMillis();
 	}
 
-	public static void markEnd(final long ltime) {
+	public static void markEnd() {
 		PrintWriter pw;
 		try {
 			final File f = File.createTempFile("sim", ".len");
 			pw = new PrintWriter(new FileWriter(f));
-			pw.println(ltime - ModelManager.time);
+			pw
+					.println(java.lang.System.currentTimeMillis()
+							- ModelManager.time);
 			pw.flush();
 			pw.close();
 		} catch (final IOException e) {

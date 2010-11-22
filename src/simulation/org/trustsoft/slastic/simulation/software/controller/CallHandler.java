@@ -32,6 +32,7 @@ import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.AbstractBranchTransition;
 import de.uka.ipd.sdq.pcm.seff.AbstractLoopAction;
+import de.uka.ipd.sdq.pcm.seff.AcquireAction;
 import de.uka.ipd.sdq.pcm.seff.BranchAction;
 import de.uka.ipd.sdq.pcm.seff.CollectionIteratorAction;
 import de.uka.ipd.sdq.pcm.seff.ExternalCallAction;
@@ -40,6 +41,7 @@ import de.uka.ipd.sdq.pcm.seff.InternalAction;
 import de.uka.ipd.sdq.pcm.seff.LoopAction;
 import de.uka.ipd.sdq.pcm.seff.ParametricResourceDemand;
 import de.uka.ipd.sdq.pcm.seff.ProbabilisticBranchTransition;
+import de.uka.ipd.sdq.pcm.seff.ReleaseAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
 import de.uka.ipd.sdq.pcm.seff.SetVariableAction;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
@@ -92,7 +94,7 @@ public class CallHandler {
 		this.model = dynamicSimulationModel;
 	}
 
-	public static CallHandler getInstance() {
+	public final static CallHandler getInstance() {
 		return CallHandler.instance;
 	}
 
@@ -114,7 +116,7 @@ public class CallHandler {
 	 * @throws BranchException
 	 * @throws SumGreaterXException
 	 */
-	public void call(String service, final String userId,
+	public final void call(String service, final String userId,
 			final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
 		if (this.firstcall) {
@@ -215,7 +217,6 @@ public class CallHandler {
 
 		// traverse the action graph and generate a path from the start- to the
 		// stop action
-		// FIXME: Fill list!!!
 		while (!((next = next.getSuccessor_AbstractAction()) instanceof StopAction)) {
 			if (next instanceof BranchAction) {
 				final BranchAction ba = (BranchAction) next;
@@ -311,6 +312,12 @@ public class CallHandler {
 				@SuppressWarnings("unused")
 				final SetVariableAction sva = (SetVariableAction) next;
 
+			} else if (next instanceof AcquireAction) {
+				final AcquireAction acq = (AcquireAction) next;
+				acq.getPassiveresource_AcquireAction();
+			} else if (next instanceof ReleaseAction) {
+				final ReleaseAction ra = (ReleaseAction) next;
+				ra.getPassiveResource_ReleaseAction();
 			}
 		}
 		return ret;
@@ -352,22 +359,21 @@ public class CallHandler {
 				throw new NoBranchProbabilitiesException(ba.getEntityName());
 			}
 		}
-		{
-			for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
-					.get(ba)) {
-				if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
-					return i.getAbt();
-				}
+		for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
+				.get(ba)) {
+			if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
+				return i.getAbt();
 			}
 		}
 		return null;
 	}
 
-	public String getCurrentServer(final String traceId) {
+	public final String getCurrentServer(final String traceId) {
 		return this.stacks.get(traceId).peek().getServerId();
 	}
 
-	public void pushContext(final String traceId, final StackFrame stackFrame) {
+	public final void pushContext(final String traceId,
+			final StackFrame stackFrame) {
 		final Stack<StackFrame> curStack = this.stacks.get(traceId);
 		Integer eoi = this.eoi.get(traceId);
 		if (eoi == null) {
@@ -379,15 +385,15 @@ public class CallHandler {
 		curStack.push(stackFrame);
 	}
 
-	public StackFrame popContext(final String traceId) {
+	public final StackFrame popContext(final String traceId) {
 		return this.stacks.get(traceId).pop();
 	}
 
-	public int getStackDepth(final String traceId) {
+	public final int getStackDepth(final String traceId) {
 		return this.stacks.get(traceId).size() - 1;
 	}
 
-	public void actionReturn(final String traceId) {
+	public final void actionReturn(final String traceId) {
 		final List<ControlFlowNode> nodes = this.activeTraces.get(traceId);
 		if (nodes == null) {
 			return;
@@ -408,16 +414,28 @@ public class CallHandler {
 
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
-			ModelManager.markEnd(this.ltime);
+			ModelManager.markEnd();
 		}
 	}
 
-	public void setStopCond(final StopCondition stopCond) {
+	public final void setStopCond(final StopCondition stopCond) {
 		this.stopCond = stopCond;
 
 	}
 
-	public void setTerminating(final boolean b) {
+	public final void setTerminating(final boolean b) {
+	}
+
+	public ControlFlowNode getNextInTrace(final String traceId) {
+		final List<ControlFlowNode> list = this.activeTraces.get(traceId);
+		if (list.size() > 1) {
+			return list.get(1);
+		}
+		return null;
+	}
+
+	public StackFrame getStackTop(final String traceId) {
+		return this.stacks.get(traceId).peek();
 	}
 
 }

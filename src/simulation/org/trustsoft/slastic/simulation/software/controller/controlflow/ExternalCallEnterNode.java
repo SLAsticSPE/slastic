@@ -98,10 +98,6 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		return this.asmContextTo;
 	}
 
-	public final String getTraceId() {
-		return this.traceId;
-	}
-
 	public final String getServerId() {
 		return this.serverId;
 	}
