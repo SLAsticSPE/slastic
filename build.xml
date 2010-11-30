@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="SLAstic" default="build-all" basedir=".">
-    <property file="build.properties"/>
+	<!-- Notice, that it is NOT called build.properties: -->
+    <property file="build.xml.properties"/>  
     <property file="examples.properties"/>
 
     <target name="init-version">
@@ -13,7 +14,9 @@
                   value="${slastic.core.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.simulation.jar"
                   value="${slastic.simulation.packagenamebase}-${slastic.version}.jar"/>
-        <property name="slastic.plugins.jar"
+    	<property name="slastic.metamodel.jar"
+                  value="${slastic.metamodel.packagenamebase}-${slastic.version}.jar"/>
+    	<property name="slastic.plugins.jar"
                   value="${slastic.plugins.packagenamebase}-${slastic.version}.jar"/>
     </target>
 
@@ -38,13 +41,22 @@
                 <include name="**/*.jar"/>
             </fileset>
         </path>
+        <path id="slastic.metamodel-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.core.jar}"/>
+            </fileset>
+        </path>    	
         <path id="slastic.plugins-compile-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
-                <include name="${slastic.simulation.jar}"/>
+                <include name="${slastic.metamodel.jar}"/>
+            	<include name="${slastic.simulation.jar}"/>
             </fileset>
         </path>
         <path id="slastic.simulation-compile-classpath">
@@ -62,7 +74,8 @@
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
-                <include name="${slastic.plugins.jar}"/>
+                <include name="${slastic.metamodel.jar}"/>
+            	<include name="${slastic.plugins.jar}"/>
                 <include name="${slastic.simulation.jar}"/>
             </fileset>
         </path>
@@ -72,7 +85,8 @@
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
-                <include name="${slastic.plugins.jar}"/>
+                <include name="${slastic.metamodel.jar}"/>
+            	<include name="${slastic.plugins.jar}"/>
                 <include name="${slastic.simulation.jar}"/>
             </fileset>
         </path>
@@ -83,7 +97,8 @@
             </fileset>
             <fileset dir="${dist.dir}">
                 <include name="${slastic.core.jar}"/>
-                <include name="${slastic.plugins.jar}"/>
+                <include name="${slastic.metamodel.jar}"/>
+            	<include name="${slastic.plugins.jar}"/>
                 <include name="${slastic.simulation.jar}"/>
             </fileset>
             <pathelement location="${build.tests.dir}/"/>
@@ -91,7 +106,7 @@
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.plugins">
+            depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.metamodel,build-slastic.plugins">
     </target>
 
     <condition property="no.slastic.framework.properties">
@@ -161,7 +176,29 @@
         </jar>
     </target>
 
-    <target name="build-slastic.plugins" depends="init,build-slastic.core,build-slastic.simulation">
+    <target name="build-slastic.metamodel" depends="init,build-slastic.core">
+        <delete dir="${build.slastic.metamodel.dir}"/>
+        <mkdir  dir="${build.slastic.metamodel.dir}"/>
+        <mkdir  dir="${build.slastic.metamodel.dir}/META-INF"/>
+        <javac destDir="${build.slastic.metamodel.dir}"
+               source="1.5"
+               srcdir="src-gen/"
+               debug="true"
+               classpathref="slastic.metamodel-compile-classpath">
+            <compilerarg value="-Xlint:-path"/>
+        </javac>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.slastic.metamodel.dir}/">
+            <fileset dir="src-gen">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${slastic.metamodel.jar}">
+            <fileset dir="${build.slastic.metamodel.dir}"/>
+        </jar>
+    </target>
+	
+    <target name="build-slastic.plugins" depends="init,build-slastic.core,build-slastic.metamodel,build-slastic.simulation">
         <delete dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}/META-INF"/>
@@ -258,7 +295,7 @@
     </condition>
 
     <target name="compile-tests"
-            depends="build-slastic.core,build-slastic.plugins">
+            depends="build-slastic.core,build-slastic.metamodel,build-slastic.plugins">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="slastic.tests-compile-classpath"
