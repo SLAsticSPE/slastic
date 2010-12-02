@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.plugins.slasticImpl.reconfiguration.slasticSim;
 
-import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
-import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.ReconfigurationPipe;
@@ -11,9 +9,12 @@ import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerCompo
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 
+import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+
 /**
  *
- * @author voorn
+ * @author Andre van Hoorn
  */
 public class SLAsticSimReconfigurationManager extends AbstractReconfigurationManagerComponent implements ReconfEventListener {
 
@@ -25,7 +26,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     @Override
     public boolean init() {
         this.pipeName = super.getInitProperty(SLAsticSimReconfigurationManager.PROPERTY_PIPE_NAME);
-        if (this.pipeName == null || this.pipeName.length() == 0) {
+        if ((this.pipeName == null) || (this.pipeName.length() == 0)) {
             SLAsticSimReconfigurationManager.log.error("Invalid or missing pipeName value for property '"
                     + SLAsticSimReconfigurationManager.PROPERTY_PIPE_NAME + "'");
             throw new IllegalArgumentException(
@@ -60,7 +61,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
                 throw new ReconfigurationException("Plan contains 0 operations");
             } else {
 
-                log.debug("Requesting plan with " + plan.getOperations().size() + " operations");
+                SLAsticSimReconfigurationManager.log.debug("Requesting plan with " + plan.getOperations().size() + " operations");
             }
             this.reconfigurationPipe.reconfigure(plan, this);
         } catch (final ReconfigurationPipeException ex) {
@@ -72,15 +73,15 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     @Override
     public void notifyPlanDone(final SLAsticReconfigurationPlan plan) {
         if (plan == null){
-            log.fatal("Returned plan is null");
+            SLAsticSimReconfigurationManager.log.fatal("Returned plan is null");
             return;
         }
 
         try {
             SLAsticSimReconfigurationManager.log.info("notifyPlanDone received; plan: " + plan);
             this.getControlComponent().getModelManager().doReconfiguration(plan);
-        } catch (ReconfigurationException ex) {
-            log.error("Failed to reflect reconfiguration in runtime model", ex);
+        } catch (final ReconfigurationException ex) {
+            SLAsticSimReconfigurationManager.log.error("Failed to reflect reconfiguration in runtime model", ex);
         }
     }
 
@@ -88,7 +89,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     public void notifyOpFailed(final SLAsticReconfigurationPlan plan,
             final SLAsticReconfigurationOpType reconfOp) {
         if (plan == null){
-            log.fatal("Returned plan is null");
+            SLAsticSimReconfigurationManager.log.fatal("Returned plan is null");
             return;
         }
 
@@ -98,7 +99,7 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
     @Override
     public void notifyPlanFailed(final SLAsticReconfigurationPlan plan) {
         if (plan == null){
-            log.fatal("Returned plan is null");
+            SLAsticSimReconfigurationManager.log.fatal("Returned plan is null");
             return;
         }
 
