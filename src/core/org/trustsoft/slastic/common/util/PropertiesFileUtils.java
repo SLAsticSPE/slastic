@@ -6,8 +6,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import kieker.monitoring.core.configuration.ConfigurationProperty;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -19,6 +17,12 @@ public class PropertiesFileUtils {
 
     private static final Log log = LogFactory.getLog(PropertiesFileUtils.class);
 
+    /**
+     * 
+     * @param fn
+     * @return
+     * @throws IllegalArgumentException
+     */
     public static Properties loadPropertiesFile(final String fn) throws IllegalArgumentException {
         InputStream is = null;
         final Properties prop = new Properties();
@@ -40,6 +44,13 @@ public class PropertiesFileUtils {
         return prop;
     }
 
+    /**
+     * 
+     * @param prop
+     * @param fn
+     * @return
+     * @throws IllegalArgumentException
+     */
     public static Properties storePropertiesFile(final Properties prop, final String fn) throws IllegalArgumentException {
         OutputStream os = null;
 
@@ -59,75 +70,4 @@ public class PropertiesFileUtils {
         }
         return prop;
     }
-    
-	/**
-	 * 
-	 * @param props
-	 * @param propertyName
-	 * @param defaultValue
-	 * @param considerSystemProperties
-	 * @return
-	 */
-	public static boolean loadBooleanConfigurationProperty(
-			final Properties props, final ConfigurationProperty property,
-			final boolean considerSystemProperties) {
-		final String stringValue = PropertiesFileUtils
-				.loadStringConfigurationProperty(props, property,
-						considerSystemProperties);
-
-		return Boolean.parseBoolean(stringValue);
-	}
-
-	/**
-	 * 
-	 * @param props
-	 * @param property
-	 * @param considerSystemProperties
-	 * @return
-	 * @throws NumberFormatException
-	 */
-	public static int loadIntConfigurationProperty(final Properties props,
-			final ConfigurationProperty property,
-			final boolean considerSystemProperties)
-			throws NumberFormatException {
-		final String stringValue = PropertiesFileUtils
-				.loadStringConfigurationProperty(props, property,
-						considerSystemProperties);
-
-		return Integer.parseInt(stringValue);
-	}
-
-	/**
-	 * 
-	 * @param props
-	 * @param property
-	 * @param considerSystemProperties
-	 * @return
-	 */
-	public static String loadStringConfigurationProperty(
-			final Properties props, final ConfigurationProperty property,
-			final boolean considerSystemProperties) {
-		String propertyValue;
-		if (considerSystemProperties && property.hasJVMArgument()
-				&& (System.getProperty(property.getJVMArgumentName()) != null)) {
-			/* We use the present virtual machine parameter value */
-			propertyValue = System.getProperty(property.getJVMArgumentName());
-		} else if (property.getPropertyName() != null) {
-			/* we use the value from the properties map */
-			propertyValue = props.getProperty(property.getPropertyName());
-		} else {
-			/* Un-named property with a default value */
-			propertyValue = property.getDefaultValue();
-		}
-
-		if ((propertyValue == null)
-				|| (!property.isAllowEmpty() && propertyValue.isEmpty())) {
-			propertyValue = property.getDefaultValue();
-			PropertiesFileUtils.log.info("Missing value for property '"
-					+ property.getPropertyName() + "' using default value "
-					+ propertyValue);
-		}
-
-		return propertyValue;
-	}
 }
