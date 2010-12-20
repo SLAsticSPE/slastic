@@ -20,6 +20,7 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurem
  * {@link AbstractKiekerMonitoringManager#init()} for details on how to set the
  * pipe name.
  * 
+ * TODO: Is this class required anywhere?
  * 
  * @author Andre van Hoorn
  */

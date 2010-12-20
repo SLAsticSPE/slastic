@@ -139,7 +139,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 	/**
 	 * Is called from the {@link #terminate(boolean)} method after having
-	 * terminated the internal Kieker analyis instance.
+	 * terminated the internal Kieker analysis instance.
 	 * 
 	 * @param error
 	 */
