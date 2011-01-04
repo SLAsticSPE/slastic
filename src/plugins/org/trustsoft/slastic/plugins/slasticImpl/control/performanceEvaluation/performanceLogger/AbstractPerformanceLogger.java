@@ -25,7 +25,7 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 	/**
 	 * @return the context
 	 */
-	public final IComponentContext getContext() {
+	protected final IComponentContext getContext() {
 		return this.context;
 	}
 
