@@ -22,6 +22,13 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 	private volatile EPServiceProvider epServiceProvider;
 	private final IComponentContext context;
 
+	/**
+	 * @return the context
+	 */
+	public final IComponentContext getContext() {
+		return this.context;
+	}
+
 	private final Collection<AbstractPerformanceMeasureLogger<?>> performanceMeasureLoggers =
 			new ArrayList<AbstractPerformanceMeasureLogger<?>>();
 
