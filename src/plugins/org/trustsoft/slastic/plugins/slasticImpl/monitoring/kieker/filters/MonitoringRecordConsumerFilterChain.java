@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.common.record.IMonitoringRecord;
+import kieker.common.record.IMonitoringRecordReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,6 +37,9 @@ public class MonitoringRecordConsumerFilterChain implements
 	private final List<ISynchronousTransformationFilter> synchronousFilters =
 			new ArrayList<ISynchronousTransformationFilter>();
 
+	private final List<IMonitoringRecordReceiver> synchronousReceivers =
+			new ArrayList<IMonitoringRecordReceiver>();
+
 	// TODO: add additional filter types, e.g., asynchronous
 
 	/**
@@ -45,6 +49,15 @@ public class MonitoringRecordConsumerFilterChain implements
 	public void addSynchronousFilter(
 			final ISynchronousTransformationFilter filter) {
 		this.synchronousFilters.add(filter);
+	}
+
+	/**
+	 * 
+	 * @param monitoringRecordReceiver
+	 */
+	public void addSynchronousReceiver(
+			final IMonitoringRecordReceiver monitoringRecordReceiver) {
+		this.synchronousReceivers.add(monitoringRecordReceiver);
 	}
 
 	@Override
@@ -78,6 +91,12 @@ public class MonitoringRecordConsumerFilterChain implements
 				MonitoringRecordConsumerFilterChain.this.controlComponent
 						.getEPServiceProvider().getEPRuntime().sendEvent(event);
 			}
+		}
+
+		/* Pass records to synchronous receivers */
+		for (final IMonitoringRecordReceiver receiver : this.synchronousReceivers) {
+			/* Send transformation result to event processing service */
+			receiver.newMonitoringRecord(record);
 		}
 
 		this.outgoingRecordCount.incrementAndGet();
