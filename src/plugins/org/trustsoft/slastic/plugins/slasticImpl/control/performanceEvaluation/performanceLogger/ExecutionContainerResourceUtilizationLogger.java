@@ -14,7 +14,7 @@ import de.cau.se.slastic.metamodel.monitoring.ResourceUtilization;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class ExecutionContainerResourceUtilizationLogger extends
 		AbstractPerformanceMeasureLogger<Resource> implements
@@ -23,9 +23,31 @@ public class ExecutionContainerResourceUtilizationLogger extends
 	private static final Log log = LogFactory
 			.getLog(ExecutionContainerResourceUtilizationLogger.class);
 
+	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
+	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+
+	private final int winTimeMin;
+	private final int outputIntervalMin;
+
 	public ExecutionContainerResourceUtilizationLogger(
 			final IComponentContext context) {
+		this(
+				context,
+				ExecutionContainerResourceUtilizationLogger.DEFAULT_WIN_TIME_MINUTES,
+				ExecutionContainerResourceUtilizationLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+	}
+
+	/**
+	 * @param context
+	 * @param winTimeMin
+	 * @param outputIntervalMin
+	 */
+	public ExecutionContainerResourceUtilizationLogger(
+			final IComponentContext context, final int winTimeMin,
+			final int outputIntervalMin) {
 		super(context);
+		this.winTimeMin = winTimeMin;
+		this.outputIntervalMin = outputIntervalMin;
 	}
 
 	/**
@@ -91,23 +113,20 @@ public class ExecutionContainerResourceUtilizationLogger extends
 		final ResourceSpecification resourceSpecification =
 				resource.getResourceSpecification();
 
-		return (new StringBuilder()
-				.append(executionContainer.getName()).append("-")
-				.append(executionContainer.getId()).append("--")
+		return (new StringBuilder().append(executionContainer.getName())
+				.append("-").append(executionContainer.getId()).append("--")
 				.append(resourceSpecification.getName()).append("-")
 				.append(resourceSpecification.getId()).append("-")
 				.append(".csv")).toString();
 	}
 
-	public final String epStatement =
-			"select "
-					+ "current_timestamp as currentTimestampMillis, resource, utilization"
-					+ " from " + ResourceUtilization.class.getName()
-					//+ ".win:time(4 min)" // 60
-					+ " group by resource" + " output last every 5 minutes";
-
 	@Override
 	protected String createEPStatement() {
-		return this.epStatement;
+		return "select "
+				+ "current_timestamp as currentTimestampMillis, resource, utilization"
+				+ " from " + ResourceUtilization.class.getName()
+				// + ".win:time("+this.winTimeMin+" min)" // 60
+				+ " group by resource" + " output last every "
+				+ this.outputIntervalMin + " minutes";
 	}
 }

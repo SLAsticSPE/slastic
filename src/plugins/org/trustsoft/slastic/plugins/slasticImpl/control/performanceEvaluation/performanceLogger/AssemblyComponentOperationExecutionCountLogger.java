@@ -13,7 +13,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class AssemblyComponentOperationExecutionCountLogger extends
 		AbstractPerformanceMeasureLogger<AssemblyComponent> implements
@@ -22,9 +22,31 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	private static final Log log = LogFactory
 			.getLog(AssemblyComponentOperationExecutionCountLogger.class);
 
+	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
+	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+
+	private final int winTimeMin;
+	private final int outputIntervalMin;
+
 	public AssemblyComponentOperationExecutionCountLogger(
 			final IComponentContext context) {
+		this(
+				context,
+				AssemblyComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_MINUTES,
+				AssemblyComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+	}
+
+	/**
+	 * @param context
+	 * @param winTimeMin
+	 * @param outputIntervalMin
+	 */
+	public AssemblyComponentOperationExecutionCountLogger(
+			final IComponentContext context, final int winTimeMin,
+			final int outputIntervalMin) {
 		super(context);
+		this.winTimeMin = winTimeMin;
+		this.outputIntervalMin = outputIntervalMin;
 	}
 
 	/**
@@ -49,14 +71,11 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 				/* 1: human-readable UTC string: */
 				currentTimeUTCString,
 				/* 2: assembly-component name (ID): */
-				new StringBuilder()
-						.append(assemblyComponent.getPackageName())
-						.append(".")
-						.append(assemblyComponent.getName())
+				new StringBuilder().append(assemblyComponent.getPackageName())
+						.append(".").append(assemblyComponent.getName())
 						.append("(")
 						.append(Long.toString(assemblyComponent.getId()))
-						.append(")")
-						.toString(),
+						.append(")").toString(),
 				/* 3: count */
 				count == null ? "NA" : Long.toString(count) };
 	}
@@ -68,9 +87,8 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	public void update(final long currentTimestampMillis,
 			final AssemblyComponent assemblyComponent, final Long count) {
 
-		super.writeRow(
-				assemblyComponent,
-				this.createRow(currentTimestampMillis, assemblyComponent, count));
+		super.writeRow(assemblyComponent, this.createRow(
+				currentTimestampMillis, assemblyComponent, count));
 	}
 
 	private final String[] HEADER = { "timestamp", "UTCString",
@@ -82,31 +100,26 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	}
 
 	@Override
-	protected String createFilename(
-			final AssemblyComponent assemblyComponent) {
+	protected String createFilename(final AssemblyComponent assemblyComponent) {
 		final ComponentType componentType =
 				assemblyComponent.getComponentType();
 
 		return (new StringBuilder(Long.toString(assemblyComponent.getId())))
 				.append("--").append(assemblyComponent.getPackageName())
-				.append(".")
-				.append(assemblyComponent.getName()).append("-")
+				.append(".").append(assemblyComponent.getName()).append("-")
 				.append(componentType.getPackageName()).append(".")
 				.append(componentType.getName()).append(".csv").toString();
 	}
 
-	private final String epStatement =
-			"select "
-					+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
-					+ " from "
-					+ DeploymentComponentOperationExecution.class.getName()
-					+ ".win:time(5 min)" // 60
-					+ " group by deploymentComponent.assemblyComponent"
-					+ " output all every 5 minutes";
-
 	@Override
 	protected String createEPStatement() {
-		return this.epStatement;
+		return "select "
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
+				+ " from "
+				+ DeploymentComponentOperationExecution.class.getName()
+				+ ".win:time(" + this.winTimeMin + " min)"
+				+ " group by deploymentComponent.assemblyComponent"
+				+ " output all every " + this.outputIntervalMin + " minutes";
 	}
 
 }

@@ -14,7 +14,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class DeploymentComponentOperationExecutionCountLogger extends
 		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
@@ -23,9 +23,31 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentOperationExecutionCountLogger.class);
 
+	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
+	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+
+	private final int winTimeMin;
+	private final int outputIntervalMin;
+
 	public DeploymentComponentOperationExecutionCountLogger(
 			final IComponentContext context) {
+		this(
+				context,
+				DeploymentComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_MINUTES,
+				DeploymentComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+	}
+
+	/**
+	 * @param context
+	 * @param winTimeMin
+	 * @param outputIntervalMin
+	 */
+	public DeploymentComponentOperationExecutionCountLogger(
+			final IComponentContext context, final int winTimeMin,
+			final int outputIntervalMin) {
 		super(context);
+		this.winTimeMin = winTimeMin;
+		this.outputIntervalMin = outputIntervalMin;
 	}
 
 	/**
@@ -102,18 +124,17 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 				.append(assemblyComponent.getName()).append(".csv").toString();
 	}
 
-	private final String epStatement =
-			"select "
-					+ "current_timestamp as currentTimestampMillis, deploymentComponent, count(*)"
-					+ " from "
-					+ DeploymentComponentOperationExecution.class.getName()
-					+ ".win:time(5 min)" // 60
-					+ " group by deploymentComponent"
-					+ " output all every 5 minutes";
-
 	@Override
 	protected String createEPStatement() {
-		return this.epStatement;
+		return "select "
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent, count(*)"
+				+ " from "
+				+ DeploymentComponentOperationExecution.class.getName()
+				+ ".win:time(" + this.winTimeMin
+				+ " min)" // 60
+				+ " group by deploymentComponent" + " output all every "
+				+ this.outputIntervalMin + " minutes";
+
 	}
 
 }

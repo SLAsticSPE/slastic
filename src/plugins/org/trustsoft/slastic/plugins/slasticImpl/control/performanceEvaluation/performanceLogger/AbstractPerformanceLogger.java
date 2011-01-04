@@ -16,7 +16,7 @@ import com.espertech.esper.client.EPStatement;
  * @author Andre van Hoorn
  *
  */
-public class AbstractPerformanceLogger {
+public class AbstractPerformanceLogger implements IPerformanceLogger {
 	private static final Log log = LogFactory.getLog(AbstractPerformanceLogger.class);
 
 	private volatile EPServiceProvider epServiceProvider;
@@ -65,11 +65,8 @@ public class AbstractPerformanceLogger {
 		return loggerInst;
 	}
 
-	/**
-	 * 
-	 * @param logger
-	 */
-	protected final void addAndRegisterLoggerAsSubscriber(
+	@Override
+	public final void addAndRegisterLoggerAsSubscriber(
 			final AbstractPerformanceMeasureLogger<?> logger) {
 		final String epStatementStr = logger.createEPStatement();
 		final EPStatement epStatement =
@@ -79,9 +76,7 @@ public class AbstractPerformanceLogger {
 		this.performanceMeasureLoggers.add(logger);
 	}
 
-	/**
-	 * 
-	 */
+	@Override
 	public final void closeLogs() {
 		for (final AbstractPerformanceMeasureLogger<?> l : this.performanceMeasureLoggers) {
 			l.closePrintWriters();

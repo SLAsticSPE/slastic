@@ -14,7 +14,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class DeploymentComponentAvgRTsLogger extends
 		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
@@ -23,8 +23,27 @@ public class DeploymentComponentAvgRTsLogger extends
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentAvgRTsLogger.class);
 
+	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
+	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+
+	private final int winTimeMin;
+	private final int outputIntervalMin;
+
 	public DeploymentComponentAvgRTsLogger(final IComponentContext context) {
+		this(context, DeploymentComponentAvgRTsLogger.DEFAULT_WIN_TIME_MINUTES,
+				DeploymentComponentAvgRTsLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+	}
+
+	/**
+	 * @param context
+	 * @param winTimeMin
+	 * @param outputIntervalMin
+	 */
+	public DeploymentComponentAvgRTsLogger(final IComponentContext context,
+			final int winTimeMin, final int outputIntervalMin) {
 		super(context);
+		this.winTimeMin = winTimeMin;
+		this.outputIntervalMin = outputIntervalMin;
 	}
 
 	/**
@@ -102,17 +121,15 @@ public class DeploymentComponentAvgRTsLogger extends
 				.append(assemblyComponent.getName()).append(".csv").toString();
 	}
 
-	public final String epStatement =
-			"select "
-					+ "current_timestamp as currentTimestampMillis, deploymentComponent, avg(tout-tin)"
-					+ " from "
-					+ DeploymentComponentOperationExecution.class.getName()
-					+ ".win:time(5 min)" // 60
-					+ " group by deploymentComponent"
-					+ " output all every 5 minutes";
-
 	@Override
 	protected String createEPStatement() {
-		return this.epStatement;
+		return "select "
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent, avg(tout-tin)"
+				+ " from "
+				+ DeploymentComponentOperationExecution.class.getName()
+				+ ".win:time(" + this.winTimeMin
+				+ " min)" // 60
+				+ " group by deploymentComponent" + " output all every "
+				+ this.outputIntervalMin + " minutes";
 	}
 }
