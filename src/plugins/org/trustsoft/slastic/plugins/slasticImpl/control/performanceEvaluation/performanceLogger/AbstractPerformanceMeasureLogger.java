@@ -37,12 +37,15 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 
 		if (pw == null) {
 			AbstractPerformanceMeasureLogger.log
-					.warn("Failed to acquired writer for"
-							+ entity);
+					.warn("Failed to acquired writer for" + entity);
 			/* what shall we do with the gummischuh? */
 			return;
 		}
 		this.writeRow(pw, columns);
+	}
+
+	private final void writeComment(final PrintWriter pw, final String comment) {
+		pw.println("# " + comment);
 	}
 
 	private final void writeRow(final PrintWriter pw, final String[] columns) {
@@ -64,6 +67,15 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	 * @return
 	 */
 	protected abstract String[] createHeader();
+
+	/**
+	 * Allows to add meta-info about the data, e.g., sample intervals. This data
+	 * will be written as a comment line following the header as returned by
+	 * {@link #createHeader()}.
+	 * 
+	 * @return
+	 */
+	protected abstract String createMetaInfoLine();
 
 	protected abstract String createEPStatement();
 
@@ -95,6 +107,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 			 * Add file and writers to the tables *
 			 */
 			this.writeRow(pw, this.createHeader());
+			this.writeComment(pw, this.createMetaInfoLine());
 			this.entityFiles.put(entity, file);
 			this.entityPrintWriters.put(entity, pw);
 		} else {

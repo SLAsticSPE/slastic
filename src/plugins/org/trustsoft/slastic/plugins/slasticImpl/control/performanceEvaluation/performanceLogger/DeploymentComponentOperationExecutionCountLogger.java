@@ -101,12 +101,10 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 				this.createRow(currentTimestampMillis, deplComp, count));
 	}
 
-	private final String[] HEADER = { "timestamp", "UTCString", "deplCompID",
-			"executionContainer", "assemblyComponent;count" };
-
 	@Override
 	protected String[] createHeader() {
-		return this.HEADER;
+		return new String[] { "timestamp", "UTCString", "deplCompID",
+				"executionContainer", "assemblyComponent;count" };
 	}
 
 	@Override
@@ -137,4 +135,9 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 
 	}
 
+	@Override
+	protected String createMetaInfoLine() {
+		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
+				+ this.outputIntervalMin;
+	}
 }

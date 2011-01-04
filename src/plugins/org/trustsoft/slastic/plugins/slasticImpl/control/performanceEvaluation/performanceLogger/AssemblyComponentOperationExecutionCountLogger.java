@@ -91,12 +91,10 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 				currentTimestampMillis, assemblyComponent, count));
 	}
 
-	private final String[] HEADER = { "timestamp", "UTCString",
-			"assemblyComponent", "count" };
-
 	@Override
 	protected String[] createHeader() {
-		return this.HEADER;
+		return new String[] { "timestamp", "UTCString", "assemblyComponent",
+				"count" };
 	}
 
 	@Override
@@ -122,4 +120,9 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 				+ " output all every " + this.outputIntervalMin + " minutes";
 	}
 
+	@Override
+	protected String createMetaInfoLine() {
+		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
+				+ this.outputIntervalMin;
+	}
 }

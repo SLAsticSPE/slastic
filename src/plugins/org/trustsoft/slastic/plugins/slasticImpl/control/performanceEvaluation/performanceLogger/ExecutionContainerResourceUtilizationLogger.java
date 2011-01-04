@@ -98,12 +98,10 @@ public class ExecutionContainerResourceUtilizationLogger extends
 				this.createRow(currentTimestampMillis, resource, utilization));
 	}
 
-	private final String[] HEADER = { "timestamp", "UTCString",
-			"executionContainer", "resource", "utilization" };
-
 	@Override
 	protected String[] createHeader() {
-		return this.HEADER;
+		return new String[] { "timestamp", "UTCString", "executionContainer",
+				"resource", "utilization" };
 	}
 
 	@Override
@@ -128,5 +126,11 @@ public class ExecutionContainerResourceUtilizationLogger extends
 				// + ".win:time("+this.winTimeMin+" min)" // 60
 				+ " group by resource" + " output last every "
 				+ this.outputIntervalMin + " minutes";
+	}
+	
+	@Override
+	protected String createMetaInfoLine() {
+		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
+				+ this.outputIntervalMin;
 	}
 }

@@ -98,12 +98,10 @@ public class DeploymentComponentAvgRTsLogger extends
 				this.createRow(currentTimestampMillis, deplComp, avgRtsMillis));
 	}
 
-	private final String[] HEADER = { "timestamp", "UTCString", "deplCompID",
-			"executionContainer", "assemblyComponent", "avgRTMillis" };
-
 	@Override
 	protected String[] createHeader() {
-		return this.HEADER;
+		return new String[] { "timestamp", "UTCString", "deplCompID",
+				"executionContainer", "assemblyComponent", "avgRTMillis" };
 	}
 
 	@Override
@@ -131,5 +129,11 @@ public class DeploymentComponentAvgRTsLogger extends
 				+ " min)" // 60
 				+ " group by deploymentComponent" + " output all every "
 				+ this.outputIntervalMin + " minutes";
+	}
+	
+	@Override
+	protected String createMetaInfoLine() {
+		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
+				+ this.outputIntervalMin;
 	}
 }

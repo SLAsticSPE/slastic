@@ -89,12 +89,10 @@ public class AssemblyComponentAvgRTsLogger extends
 				currentTimestampMillis, assemblyComponent, avgRtsMillis));
 	}
 
-	private final String[] HEADER = { "timestamp", "UTCString",
-			"assemblyComponent", "avgRTMillis" };
-
 	@Override
 	protected String[] createHeader() {
-		return this.HEADER;
+		return new String[] { "timestamp", "UTCString",
+			"assemblyComponent", "avgRTMillis" };
 	}
 
 	@Override
@@ -118,5 +116,11 @@ public class AssemblyComponentAvgRTsLogger extends
 				+ ".win:time(" + this.winTimeMin + " min)"
 				+ " group by deploymentComponent.assemblyComponent"
 				+ " output all every " + this.outputIntervalMin + " minutes";
+	}
+
+	@Override
+	protected String createMetaInfoLine() {
+		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
+				+ this.outputIntervalMin;
 	}
 }
