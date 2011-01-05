@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.reconfiguration;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 
 /**
  * A reconfiguration manager that simply doesn't do anything.
@@ -15,18 +16,23 @@ public class DummyReconfigurationManagerComponent extends AbstractReconfiguratio
     }
 
     @Override
-    public void terminate(boolean error) {
+    public void terminate(final boolean error) {
         // do nothing
     }
 
     @Override
-    public void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException {
+    public void doReconfiguration(final SLAsticReconfigurationPlan plan) throws ReconfigurationException {
         // do nothing
     }
+    
+	@Override
+	public void doReconfiguration(final ReconfigurationPlan plan)
+			throws ReconfigurationException {
+		// do nothing
+	}
 
     @Override
     public boolean init() {
         return true;
     }
-
 }

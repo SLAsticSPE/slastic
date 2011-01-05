@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.reconfiguration;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 
 /**
  *
@@ -8,5 +9,8 @@ import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
  */
 public interface IReconfigurationPlanReceiver {
 
+	@Deprecated
 	void doReconfiguration(SLAsticReconfigurationPlan plan) throws ReconfigurationException;
+	
+	void doReconfiguration(ReconfigurationPlan plan) throws ReconfigurationException;
 }

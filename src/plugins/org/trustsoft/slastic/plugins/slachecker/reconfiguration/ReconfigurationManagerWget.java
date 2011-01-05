@@ -1,15 +1,18 @@
 package org.trustsoft.slastic.plugins.slachecker.reconfiguration;
 
 
-import org.trustsoft.slastic.reconfiguration.*;
-import ReconfigurationPlanModel.ComponentRedeploymentOP;
-import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import java.util.ArrayList;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.EList;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
+import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
+import org.trustsoft.slastic.reconfiguration.ShellExecutor;
+
+import ReconfigurationPlanModel.ComponentRedeploymentOP;
+import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
+import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 
 /**
  *
@@ -19,11 +22,12 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
 
     private final Log log = LogFactory.getLog(ReconfigurationManagerWget.class);
 
-    public synchronized void doReconfiguration(
-            ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
+    @Override
+	public synchronized void doReconfiguration(
+            final ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
             throws ReconfigurationException {
-        EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-        for (SLAsticReconfigurationOpType op : operations) {
+        final EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
+        for (final SLAsticReconfigurationOpType op : operations) {
             // Check of which type the Operation is
 //            if (op instanceof ComponentDeReplicationOPImpl) {
 //                throw new UnsupportedOperationException();
@@ -37,8 +41,8 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
 //                throw new UnsupportedOperationException();
 //            } else {
             if (op instanceof ComponentRedeploymentOP) {
-                log.info("Initiating Redeployment");
-                ArrayList<String> argList = new ArrayList<String>();
+                this.log.info("Initiating Redeployment");
+                final ArrayList<String> argList = new ArrayList<String>();
                 argList.add("-c");
                 if(System.getProperty("os.name").contains("Mac")){
                 	argList.add("/usr/local/bin/wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
@@ -67,4 +71,10 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
     public boolean init() {
         return true;
     }
+
+	@Override
+	public void doReconfiguration(final ReconfigurationPlan plan)
+			throws ReconfigurationException {
+		throw new UnsupportedOperationException();
+	}
 }

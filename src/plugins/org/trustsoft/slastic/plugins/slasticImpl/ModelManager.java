@@ -13,6 +13,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.Exec
 import org.trustsoft.slastic.plugins.slasticImpl.model.reconfiguration.IReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.reconfiguration.ReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
@@ -20,6 +21,7 @@ import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactor
 import de.cau.se.slastic.metamodel.core.CoreFactory;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
+import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 
 /**
@@ -154,6 +156,12 @@ public class ModelManager extends AbstractModelManagerComponent {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
+	@Override
+	public void doReconfiguration(final ReconfigurationPlan plan)
+			throws ReconfigurationException {
+		throw new UnsupportedOperationException("Not supported yet.");	
+	}
+	
 	@Override
 	public void handleEvent(final IEvent ev) {
 	}

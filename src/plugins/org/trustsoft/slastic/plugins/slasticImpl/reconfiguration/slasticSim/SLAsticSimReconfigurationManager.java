@@ -11,6 +11,7 @@ import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 
 /**
  *
@@ -105,4 +106,10 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
 
         SLAsticSimReconfigurationManager.log.warn("notifyOpFailed received; plan: " + plan);
     }
+
+	@Override
+	public void doReconfiguration(final ReconfigurationPlan plan)
+			throws ReconfigurationException {
+		throw new UnsupportedOperationException("Not supported yet.");	
+	}
 }
