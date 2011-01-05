@@ -12,7 +12,11 @@ import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerCompo
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
  * This Class tries to replace the simulator with forwarding the ReconfigurationPlan back to the ModelManager.
@@ -76,6 +80,38 @@ public class ReconfigurationPlanForwarder extends AbstractReconfigurationManager
 	@Override
 	public void doReconfiguration(final ReconfigurationPlan plan)
 			throws ReconfigurationException {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	protected DeploymentComponent concreteReplicateComponent(
+			final AssemblyComponent assemblyComponent,
+			final ExecutionContainer toExecutionContainer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected boolean concreteDereplicateComponent(
+			final DeploymentComponent deploymentContainer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected DeploymentComponent concreteMigrateComponent(
+			final DeploymentComponent deploymentComponent,
+			final ExecutionContainer destination) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected ExecutionContainer concreteAllocateExecutionContainer(
+			final ExecutionContainerType executionContainerType) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected boolean concreteDeallocateExecutionContainer(
+			final ExecutionContainer executionContainer) {
 		throw new UnsupportedOperationException();
 	}
 }

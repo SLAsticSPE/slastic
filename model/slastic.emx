@@ -3319,6 +3319,30 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_4kkH0s1XEd-AU46JuPrMOQ" visible="false" type="StructureCompartment"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4kiSos1XEd-AU46JuPrMOQ" x="14250" y="7875"/>
             </children>
+            <children xmi:type="notation:Shape" xmi:id="_SGgEcBkcEeCbeqR1T0YNeA" type="Note" fontName="Sans Serif" fontHeight="8" description="&lt;p>We need return values and dependencies among operation calls within a plan&lt;/p>" fillColor="13956346" transparency="0" lineColor="12632258" lineWidth="1">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_SGju0BkcEeCbeqR1T0YNeA" type="DiagramName">
+                <element xsi:nil="true"/>
+              </children>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_SGju0RkcEeCbeqR1T0YNeA" type="Description">
+                <element xsi:nil="true"/>
+              </children>
+              <styles xmi:type="notation:TextStyle" xmi:id="_SGgEcRkcEeCbeqR1T0YNeA"/>
+              <styles xmi:type="notation:LineTypeStyle" xmi:id="_SGgEchkcEeCbeqR1T0YNeA"/>
+              <element xsi:nil="true"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SGgEcxkcEeCbeqR1T0YNeA" x="13314" y="1268"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_IQ9GMBkdEeCbeqR1T0YNeA" type="Note" fontName="Sans Serif" fontHeight="8" description="&lt;p>A reconfiguration plan should consists of a sequence of statements rather than operations in order to allows variable assignments&lt;/p>" fillColor="13956346" transparency="0" lineColor="12632258" lineWidth="1">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_IQ-7YBkdEeCbeqR1T0YNeA" type="DiagramName">
+                <element xsi:nil="true"/>
+              </children>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_IQ_icBkdEeCbeqR1T0YNeA" type="Description">
+                <element xsi:nil="true"/>
+              </children>
+              <styles xmi:type="notation:TextStyle" xmi:id="_IQ9GMRkdEeCbeqR1T0YNeA"/>
+              <styles xmi:type="notation:LineTypeStyle" xmi:id="_IQ9GMhkdEeCbeqR1T0YNeA"/>
+              <element xsi:nil="true"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IQ9GMxkdEeCbeqR1T0YNeA" x="13314" y="3170"/>
+            </children>
             <element xsi:nil="true"/>
             <edges xmi:type="umlnotation:UMLConnector" xmi:id="_gkJbwM1XEd-AU46JuPrMOQ" element="_gkA44M1XEd-AU46JuPrMOQ" source="_V2GksM1XEd-AU46JuPrMOQ" target="_dHSTUM1XEd-AU46JuPrMOQ" fontName="Arial" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
               <children xmi:type="notation:DecorationNode" xmi:id="_gkJbw81XEd-AU46JuPrMOQ" type="NameLabel">
@@ -3374,7 +3398,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
                 <children xmi:type="notation:BasicDecorationNode" xmi:id="_DVhwAc1YEd-AU46JuPrMOQ" type="Name"/>
                 <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DVhI9M1YEd-AU46JuPrMOQ" y="-220"/>
               </children>
-              <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_DVhI8s1YEd-AU46JuPrMOQ" points="[2557, -518, -4440, 4187]$[2557, -4505, -4440, 200]$[4725, -4505, -2272, 200]"/>
+              <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_DVhI8s1YEd-AU46JuPrMOQ" points="[2072, -462, -5400, 4224]$[2072, -4496, -5400, 190]$[5211, -4496, -2261, 190]"/>
             </edges>
             <edges xmi:type="umlnotation:UMLConnector" xmi:id="_EAO54M1YEd-AU46JuPrMOQ" element="_EAIMMM1YEd-AU46JuPrMOQ" source="_zp5koM1XEd-AU46JuPrMOQ" target="_dHSTUM1XEd-AU46JuPrMOQ" fontName="Arial" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
               <children xmi:type="notation:DecorationNode" xmi:id="_EAPg8M1YEd-AU46JuPrMOQ" type="NameLabel">

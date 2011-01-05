@@ -36,12 +36,12 @@ public interface IReconfigurationManager {
 	 * execution container to the execution container toExecutionContainer.
 	 * 
 	 * @param deploymentComponent
-	 * @param toExecutionContainer
+	 * @param destination
 	 * @return
 	 */
 	public abstract DeploymentComponent migrateComponent(
 			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer toExecutionContainer);
+			final ExecutionContainer destination);
 
 	/**
 	 * Marks execution container executionContainer as allocated.

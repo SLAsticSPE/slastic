@@ -11,7 +11,11 @@ import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
  *
@@ -111,5 +115,37 @@ public class SLAsticSimReconfigurationManager extends AbstractReconfigurationMan
 	public void doReconfiguration(final ReconfigurationPlan plan)
 			throws ReconfigurationException {
 		throw new UnsupportedOperationException("Not supported yet.");	
+	}
+	
+	@Override
+	protected DeploymentComponent concreteReplicateComponent(
+			final AssemblyComponent assemblyComponent,
+			final ExecutionContainer toExecutionContainer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected boolean concreteDereplicateComponent(
+			final DeploymentComponent deploymentContainer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected DeploymentComponent concreteMigrateComponent(
+			final DeploymentComponent deploymentComponent,
+			final ExecutionContainer destination) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected ExecutionContainer concreteAllocateExecutionContainer(
+			final ExecutionContainerType executionContainerType) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected boolean concreteDeallocateExecutionContainer(
+			final ExecutionContainer executionContainer) {
+		throw new UnsupportedOperationException();
 	}
 }
