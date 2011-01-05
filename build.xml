@@ -36,20 +36,20 @@
 
     <!-- Compile classpaths used for javac and javadoc -->
     <target name="init-compile-classpaths">
-        <path id="slastic.core-compile-classpath">
-            <fileset dir="${lib.dir}">
-                <include name="**/*.jar"/>
-            </fileset>
-        </path>
         <path id="slastic.metamodel-compile-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
-            <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-            </fileset>
         </path>    	
-        <path id="slastic.plugins-compile-classpath">
+        <path id="slastic.core-compile-classpath">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="${slastic.metamodel.jar}"/>
+            </fileset>
+        </path>
+    	<path id="slastic.plugins-compile-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
@@ -153,7 +153,29 @@
         <mkdir dir="tmp"/>
     </target>
 
-    <target name="build-slastic.core" depends="init">
+    <target name="build-slastic.metamodel" depends="init">
+        <delete dir="${build.slastic.metamodel.dir}"/>
+        <mkdir  dir="${build.slastic.metamodel.dir}"/>
+        <mkdir  dir="${build.slastic.metamodel.dir}/META-INF"/>
+        <javac destDir="${build.slastic.metamodel.dir}"
+               source="1.5"
+               srcdir="src-gen/"
+               debug="true"
+               classpathref="slastic.metamodel-compile-classpath">
+            <compilerarg value="-Xlint:-path"/>
+        </javac>
+        <!-- We want to include the sources in this jar -->
+        <copy todir="${build.slastic.metamodel.dir}/">
+            <fileset dir="src-gen">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <jar destfile="${dist.dir}/${slastic.metamodel.jar}">
+            <fileset dir="${build.slastic.metamodel.dir}"/>
+        </jar>
+    </target>
+
+    <target name="build-slastic.core" depends="init,build-slastic.metamodel">
         <delete dir="${build.slastic.core.dir}"/>
         <mkdir  dir="${build.slastic.core.dir}"/>
         <mkdir  dir="${build.slastic.core.dir}/META-INF"/>
@@ -173,28 +195,6 @@
         </copy>
         <jar destfile="${dist.dir}/${slastic.core.jar}">
             <fileset dir="${build.slastic.core.dir}"/>
-        </jar>
-    </target>
-
-    <target name="build-slastic.metamodel" depends="init,build-slastic.core">
-        <delete dir="${build.slastic.metamodel.dir}"/>
-        <mkdir  dir="${build.slastic.metamodel.dir}"/>
-        <mkdir  dir="${build.slastic.metamodel.dir}/META-INF"/>
-        <javac destDir="${build.slastic.metamodel.dir}"
-               source="1.5"
-               srcdir="src-gen/"
-               debug="true"
-               classpathref="slastic.metamodel-compile-classpath">
-            <compilerarg value="-Xlint:-path"/>
-        </javac>
-        <!-- We want to include the sources in this jar -->
-        <copy todir="${build.slastic.metamodel.dir}/">
-            <fileset dir="src-gen">
-                <include name="**/*.java"/>
-            </fileset>
-        </copy>
-        <jar destfile="${dist.dir}/${slastic.metamodel.jar}">
-            <fileset dir="${build.slastic.metamodel.dir}"/>
         </jar>
     </target>
 	
