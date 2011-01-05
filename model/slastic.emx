@@ -3418,7 +3418,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         <packagedElement xmi:type="uml:Class" xmi:id="_uYEeoM1XEd-AU46JuPrMOQ" name="ComponentReplication">
           <generalization xmi:id="_BG2R8M1YEd-AU46JuPrMOQ" general="_dHP3EM1XEd-AU46JuPrMOQ"/>
           <ownedAttribute xmi:id="_l3d6EM1YEd-AU46JuPrMOQ" name="component" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ"/>
-          <ownedAttribute xmi:id="_qEvy0M1YEd-AU46JuPrMOQ" name="toContainer" visibility="private" type="_l0F2wKE2Ed-l1J3OQ8v6iQ"/>
+          <ownedAttribute xmi:id="_qEvy0M1YEd-AU46JuPrMOQ" name="destination" visibility="private" type="_l0F2wKE2Ed-l1J3OQ8v6iQ"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_w4LD4M1XEd-AU46JuPrMOQ" name="ComponentDereplication">
           <generalization xmi:id="_DVZNIM1YEd-AU46JuPrMOQ" general="_dHP3EM1XEd-AU46JuPrMOQ"/>
@@ -3427,6 +3427,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         <packagedElement xmi:type="uml:Class" xmi:id="_zp0sIM1XEd-AU46JuPrMOQ" name="ComponentMigration">
           <generalization xmi:id="_EAIMMM1YEd-AU46JuPrMOQ" general="_dHP3EM1XEd-AU46JuPrMOQ"/>
           <ownedAttribute xmi:id="_3Mwx8M1YEd-AU46JuPrMOQ" name="component" visibility="private" type="_Qcf6MKFOEd-l1J3OQ8v6iQ"/>
+          <ownedAttribute xmi:id="_j0H5kBkYEeCbeqR1T0YNeA" name="destination" visibility="private" type="_l0F2wKE2Ed-l1J3OQ8v6iQ"/>
         </packagedElement>
         <packagedElement xmi:type="uml:Class" xmi:id="_2gR74M1XEd-AU46JuPrMOQ" name="ContainerAllocation">
           <generalization xmi:id="_Ed0NwM1YEd-AU46JuPrMOQ" general="_dHP3EM1XEd-AU46JuPrMOQ"/>

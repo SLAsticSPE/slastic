@@ -264,7 +264,7 @@
       <eClassifiers xsi:type="ecore:EClass" name="ComponentReplication" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
         <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
             lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
-        <eStructuralFeatures xsi:type="ecore:EReference" name="toContainer" ordered="false"
+        <eStructuralFeatures xsi:type="ecore:EReference" name="destination" ordered="false"
             lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ComponentDereplication" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
@@ -274,6 +274,8 @@
       <eClassifiers xsi:type="ecore:EClass" name="ComponentMigration" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
         <eStructuralFeatures xsi:type="ecore:EReference" name="component" ordered="false"
             lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="destination" ordered="false"
+            lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ContainerAllocation" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">
         <eStructuralFeatures xsi:type="ecore:EReference" name="containerType" ordered="false"
