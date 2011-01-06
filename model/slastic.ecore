@@ -180,6 +180,20 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
           ordered="false" lowerBound="1" eType="#//executionEnvironment/ResourceSpecification"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MemSwap" eSuperTypes="#//typeRepository/ResourceType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="memCapacityBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="swapCapacityBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CPU" eSuperTypes="#//typeRepository/ResourceType">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="speedMhz" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResourceSpecification" eSuperTypes="#//core/NamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resourceType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ResourceType"/>
@@ -243,13 +257,42 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ResourceUtilization" eSuperTypes="#//core/IEvent">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceUtilization" eSuperTypes="#//monitoring/ResourceMeasurement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="utilization" ordered="false"
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceMeasurement" abstract="true"
+        eSuperTypes="#//core/IEvent">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resource" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/Resource"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MemSwapUsage" eSuperTypes="#//monitoring/ResourceMeasurement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="memUsedBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="memFreeBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="swapUsedBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="swapFreeBytes" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CPUUtilization" eSuperTypes="#//monitoring/ResourceMeasurement">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="user" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="system" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="wait" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nice" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="irq" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="combined" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="idle" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="reconfiguration" nsURI="http:///metamodel/reconfiguration.ecore"
