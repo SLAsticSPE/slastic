@@ -6,7 +6,7 @@ import kieker.common.record.ResourceUtilizationRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractSynchronousTransformationFilter;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
 import de.cau.se.slastic.metamodel.core.IEvent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -19,7 +19,8 @@ import de.cau.se.slastic.metamodel.monitoring.ResourceUtilization;
  * @author Andre van Hoorn
  */
 public class ResourceUtilizationRecordTransformationFilter extends
-		AbstractSynchronousTransformationFilter implements
+		AbstractModelReconstructionComponent implements
+		ISynchronousTransformationFilter,
 		IResourceUtilizationRecordTransformation {
 
 	private static final Log log = LogFactory
@@ -42,54 +43,24 @@ public class ResourceUtilizationRecordTransformationFilter extends
 		final ResourceUtilization newUtilization =
 				MonitoringFactory.eINSTANCE.createResourceUtilization();
 
-		ExecutionContainer executionContainer;
-		{
-			/*
-			 * Lookup execution container
-			 */
-			executionContainer =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainer(
-									resourceUtilizationRecord.getHostName());
-			if (executionContainer == null) {
-				/* We need to create the execution container */
-				executionContainer =
-						ModelEntityFactory.createExecutionContainer(
-								this.getModelManager(),
-								resourceUtilizationRecord.getHostName());
-			}
-		}
+		final ExecutionContainer executionContainer =
+				this.lookupOrCreateExecutionContainerByName(resourceUtilizationRecord
+						.getHostName());
 
-		Resource resource;
-		{
-			final String resourceName =
-					resourceUtilizationRecord.getResourceName();
-			/*
-			 * Lookup resource -- which may exist already
-			 */
-			resource =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainerResource(
-									executionContainer, resourceName);
+		// TODO: consider resource type
 
-			if (resource == null) {
-				/* We need to create the resource (type / specification) */
-				resource =
-						ModelEntityFactory
-								.createResourceSpecificationAndResource(
-										this.getModelManager(),
-										executionContainer, resourceName);
-			}
-		}
+		final Resource resource =
+				this.lookupOrCreateResource(
+						resourceUtilizationRecord.getResourceName(),
+						executionContainer);
 
-		{
-			// And finally, the simple part:
-			newUtilization.setTimestamp(resourceUtilizationRecord
+		// And finally, the simple part:
+		newUtilization.setTimestamp(resourceUtilizationRecord
 					.getTimestamp());
-			newUtilization.setUtilization(resourceUtilizationRecord
+		newUtilization.setUtilization(resourceUtilizationRecord
 					.getUtilization());
-			newUtilization.setResource(resource);
-		}
+		newUtilization.setResource(resource);
+
 		return newUtilization;
 	}
 

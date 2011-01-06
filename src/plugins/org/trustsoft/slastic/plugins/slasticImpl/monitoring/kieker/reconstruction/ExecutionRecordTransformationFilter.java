@@ -6,7 +6,7 @@ import kieker.common.record.OperationExecutionRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractSynchronousTransformationFilter;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
@@ -23,8 +23,8 @@ import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
  * @author Andre van Hoorn
  */
 public class ExecutionRecordTransformationFilter extends
-		AbstractSynchronousTransformationFilter implements
-		IExecutionRecordTransformation {
+		AbstractModelReconstructionComponent implements
+		ISynchronousTransformationFilter, IExecutionRecordTransformation {
 
 	private static final Log log = LogFactory
 			.getLog(ExecutionRecordTransformationFilter.class);
@@ -73,26 +73,14 @@ public class ExecutionRecordTransformationFilter extends
 	 * @return
 	 */
 	@Override
-	public OperationExecution transformExecutionRecord(final OperationExecutionRecord execution) {
+	public OperationExecution transformExecutionRecord(
+			final OperationExecutionRecord execution) {
 
 		/* Will become the return value. */
 		final OperationExecution newExecution;
 
-		ExecutionContainer executionContainer;
-		{
-			/*
-			 * Lookup execution container
-			 */
-			executionContainer =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainer(execution.hostName);
-			if (executionContainer == null) {
-				/* We need to create the execution container */
-				executionContainer =
-						ModelEntityFactory.createExecutionContainer(
-								this.getModelManager(), execution.hostName);
-			}
-		}
+		final ExecutionContainer executionContainer =
+				this.lookupOrCreateExecutionContainerByName(execution.hostName);
 
 		{
 			/*
@@ -168,7 +156,8 @@ public class ExecutionRecordTransformationFilter extends
 			return null;
 		}
 
-		final OperationExecutionRecord execution = (OperationExecutionRecord) record;
+		final OperationExecutionRecord execution =
+				(OperationExecutionRecord) record;
 
 		return this.transformExecutionRecord(execution);
 	}
