@@ -3535,7 +3535,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Dljw8OJdEd-wBoxuTwCo4w" value="1"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_TYSWABnYEeC7mdKdLZ_H_g" name="timestamp" visibility="private">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#double"/>
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
         </ownedAttribute>
         <interfaceRealization xmi:id="_GVFWwODzEd-807ntrzgA5A" supplier="_rfIKMMxoEd-Sao5XyHPpTQ" client="_u28gABnXEeC7mdKdLZ_H_g" contract="_rfIKMMxoEd-Sao5XyHPpTQ"/>
       </packagedElement>

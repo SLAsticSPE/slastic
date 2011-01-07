@@ -266,7 +266,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="resource" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/Resource"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="timestamp" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="MemSwapUsage" eSuperTypes="#//monitoring/ResourceMeasurement">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="memUsedBytes" ordered="false"
