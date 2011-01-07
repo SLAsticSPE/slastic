@@ -111,10 +111,9 @@ public class ExecutionRecordTransformationFilter extends
 								componentOrConnectorName);
 				if (assemblyComponent == null) {
 					/* We need to create the assembly component */
-					assemblyComponent =
-							ModelEntityFactory.createAssemblyComponent(
-									this.getModelManager(),
-									componentOrConnectorName);
+					assemblyComponent = this.createAssemblyComponent(
+
+					componentOrConnectorName);
 				}
 				/* Determine deployment component */
 				DeploymentComponent deploymentComponent =

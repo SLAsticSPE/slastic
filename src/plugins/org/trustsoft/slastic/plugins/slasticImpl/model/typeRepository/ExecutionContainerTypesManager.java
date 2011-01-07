@@ -6,6 +6,7 @@ import java.util.List;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
+import de.cau.se.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
@@ -62,6 +63,30 @@ public class ExecutionContainerTypesManager extends
 			resourceSpecification.setId(this.nextId++);
 			resourceSpecification.setName(resourceSpecificatioName);
 			resourceSpecification.setResourceType(resourceType);
+			resources.add(resourceSpecification);
+		}
+
+		return resourceSpecification;
+	}
+
+	@Override
+	public MemSwapResourceSpecification createAndAddMemSwapResourceSpecification(
+			final ExecutionContainerType executionContainerType,
+			final long memCapacityBytes, final long swapCapacityBytes,
+			final ResourceType resourceType,
+			final String resourceSpecificatioName) {
+		final Collection<ResourceSpecification> resources =
+				executionContainerType.getResources();
+		final MemSwapResourceSpecification resourceSpecification =
+				ExecutionEnvironmentFactory.eINSTANCE
+						.createMemSwapResourceSpecification();
+
+		{ /* Initialize fields and add to container type's list of resources */
+			resourceSpecification.setId(this.nextId++);
+			resourceSpecification.setName(resourceSpecificatioName);
+			resourceSpecification.setResourceType(resourceType);
+			resourceSpecification.setMemCapacityBytes(memCapacityBytes);
+			resourceSpecification.setSwapCapacityBytes(swapCapacityBytes);
 			resources.add(resourceSpecification);
 		}
 

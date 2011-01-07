@@ -52,7 +52,7 @@ public class MemSwapUsageRecordTransformationFilter extends
 								.createMemSwapResourceSpecName(),
 						memSwapUsageRecord.getMemTotal(), memSwapUsageRecord
 								.getSwapTotal(),
-						ModelEntityFactory.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
+						AbstractModelReconstructionComponent.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
 						executionContainer);
 
 		// And finally, the simple part:

@@ -51,8 +51,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 						AbstractModelReconstructionComponent
 								.createCPUResourceSpecName(cpuUtilizationRecord
 										.getCpuID()),
-						ModelEntityFactory.DEFAULT_CPU_RESOURCE_TYPE_NAME,
-						executionContainer);
+						AbstractModelReconstructionComponent.DEFAULT_CPU_RESOURCE_TYPE_NAME, executionContainer);
 
 		// And finally, the simple part:
 		newUtilization.setTimestamp(cpuUtilizationRecord.getTimestamp());

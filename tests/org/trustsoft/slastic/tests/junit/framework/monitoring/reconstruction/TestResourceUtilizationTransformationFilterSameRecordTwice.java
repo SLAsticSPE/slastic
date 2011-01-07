@@ -28,7 +28,7 @@ public class TestResourceUtilizationTransformationFilterSameRecordTwice extends
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final ResourceUtilizationRecordTransformationFilter resourceUtilRecFilter =
+		final ResourceUtilizationRecordTransformationFilter filter =
 				new ResourceUtilizationRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
@@ -36,9 +36,9 @@ public class TestResourceUtilizationTransformationFilterSameRecordTwice extends
 				new ArrayList<ResourceUtilization>();
 
 		/* Let the filter transform the same record twice */
-		slasticRef.add(resourceUtilRecFilter
+		slasticRef.add(filter
 				.transformResourceUtilizationRecord(this.kiekerRecord));
-		slasticRef.add(resourceUtilRecFilter
+		slasticRef.add(filter
 				.transformResourceUtilizationRecord(this.kiekerRecord));
 
 		final ResourceUtilization slasticRecordA = slasticRef.get(0);

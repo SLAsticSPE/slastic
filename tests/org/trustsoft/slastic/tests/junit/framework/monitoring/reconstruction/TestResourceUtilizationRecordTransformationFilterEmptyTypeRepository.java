@@ -6,7 +6,6 @@ import kieker.common.record.ResourceUtilizationRecord;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ResourceUtilizationRecordTransformationFilter;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
@@ -71,10 +70,11 @@ public class TestResourceUtilizationRecordTransformationFilterEmptyTypeRepositor
 		final Resource res = slasticResourceUtilRec.getResource();
 
 		/* Check execution container */
-		this.checkExecutionContainerAndType(mgr,
+		this.checkExecutionContainerAndType(
+				mgr,
 				this.kiekerRecord.getHostName(),
 				this.kiekerRecord.getHostName()
-						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 
 		/* Check resource specification */
@@ -89,7 +89,7 @@ public class TestResourceUtilizationRecordTransformationFilterEmptyTypeRepositor
 		final ResourceType resType = resSpec.getResourceType();
 		Assert.assertEquals(
 				"Unexpected resource type name",
-				ModelEntityFactory.DEFAULT_GENERIC_RESOURCE_TYPE_NAME,
+				AbstractModelReconstructionComponent.DEFAULT_GENERIC_RESOURCE_TYPE_NAME,
 				NameUtils.createFQName(resType.getPackageName(),
 						resType.getName())); //
 		Assert.assertTrue(

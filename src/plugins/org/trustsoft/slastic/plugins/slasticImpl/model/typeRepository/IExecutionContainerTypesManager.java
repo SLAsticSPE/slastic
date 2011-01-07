@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
@@ -56,5 +57,19 @@ public interface IExecutionContainerTypesManager {
 	 */
 	public ResourceSpecification createAndAddResourceSpecification(
 			ExecutionContainerType executionContainerType,
+			ResourceType resourceType, String resourceSpecificatioName);
+
+	/**
+	 * Creates a {@link MemSwapResourceSpecification} with the given name and
+	 * adds it to the given {@link ExecutionContainerType}.
+	 * 
+	 * @param executionContainerType
+	 * @param resourceType
+	 * @param resourceSpecificatioName
+	 * @return the the {@link ResourceSpecification}
+	 */
+	public MemSwapResourceSpecification createAndAddMemSwapResourceSpecification(
+			ExecutionContainerType executionContainerType,
+			final long memCapacityBytes, final long swapCapacityBytes,
 			ResourceType resourceType, String resourceSpecificatioName);
 }

@@ -52,7 +52,7 @@ public class ResourceUtilizationRecordTransformationFilter extends
 						AbstractModelReconstructionComponent
 								.createGenericResourceSpecName(resourceUtilizationRecord
 										.getResourceName()),
-						ModelEntityFactory.DEFAULT_GENERIC_RESOURCE_TYPE_NAME,
+						AbstractModelReconstructionComponent.DEFAULT_GENERIC_RESOURCE_TYPE_NAME,
 						executionContainer);
 
 		// And finally, the simple part:

@@ -4,8 +4,8 @@ import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
@@ -97,7 +97,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			/* 1. Lookup component type by name and compare with record content */
 			final String componentTypeLookupFQName =
 					this.kiekerRecord.className
-							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
+							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 			lookedUpComponentType =
 					mgr.getTypeRepositoryManager().lookupComponentType(
 							componentTypeLookupFQName);
@@ -111,7 +111,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			/* 2. Lookup container type and compare with record content */
 			final String containerTypeLookupFQName =
 					this.kiekerRecord.hostName
-							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
+							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 			lookedUpContainerType =
 					mgr.getTypeRepositoryManager()
 							.lookupExecutionContainerType(
@@ -147,7 +147,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		/* 4. Lookup execution container and compare with record content */
 		this.checkExecutionContainerAndType(mgr, this.kiekerRecord.hostName,
 				this.kiekerRecord.hostName
-						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				slasticComponentExecRec.getDeploymentComponent()
 						.getExecutionContainer());
 	}

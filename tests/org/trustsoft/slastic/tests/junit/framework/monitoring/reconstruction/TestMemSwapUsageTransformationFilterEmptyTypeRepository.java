@@ -7,8 +7,8 @@ import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.MemSwapUsageRecordTransformationFilter;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
@@ -89,28 +89,45 @@ public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 		final Resource res = slasticRec.getResource();
 
 		/* Check execution container */
-		this.checkExecutionContainerAndType(mgr,
+		this.checkExecutionContainerAndType(
+				mgr,
 				this.kiekerRecord.getHostName(),
 				this.kiekerRecord.getHostName()
-						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 
 		/* Check resource specification */
 		final ResourceSpecification resSpec = res.getResourceSpecification();
 		Assert.assertNotNull("resourceSpecification is null", resSpec);
+		Assert.assertTrue(
+				"Expected resSpec to be instanceof "
+						+ MemSwapResourceSpecification.class + " but found: "
+						+ resSpec.getClass(),
+				resSpec instanceof MemSwapResourceSpecification);
 		Assert.assertEquals("Unexpected resource specification name",
 				AbstractModelReconstructionComponent
 						.createMemSwapResourceSpecName(), resSpec.getName());
+
+		/* Check capacity values */
+		final MemSwapResourceSpecification memSwapResSpec =
+				(MemSwapResourceSpecification) resSpec;
+		Assert.assertEquals("Unexpected mem capacity",
+				this.kiekerRecord.getMemTotal(),
+				memSwapResSpec.getMemCapacityBytes());
+		Assert.assertEquals("Unexpected swap capacity",
+				this.kiekerRecord.getSwapTotal(),
+				memSwapResSpec.getSwapCapacityBytes());
 
 		/* Check resource type */
 		final ResourceType resType = resSpec.getResourceType();
 		Assert.assertEquals(
 				"Unexpected resource type name",
-				ModelEntityFactory.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
+				AbstractModelReconstructionComponent.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
 				NameUtils.createFQName(resType.getPackageName(),
 						resType.getName())); //
-		Assert.assertTrue("Resource type must be instanceof " + MemSwapType.class
-				+ " ; found: " + resType.getClass(), resType instanceof MemSwapType);
+		Assert.assertTrue("Resource type must be instanceof "
+				+ MemSwapType.class + " ; found: " + resType.getClass(),
+				resType instanceof MemSwapType);
 
 		/* TODO: Check total cpu/swap */
 	}

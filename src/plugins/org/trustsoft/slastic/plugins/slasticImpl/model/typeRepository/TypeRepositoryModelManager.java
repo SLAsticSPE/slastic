@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
@@ -192,5 +193,18 @@ public class TypeRepositoryModelManager extends
 		return this.executionContainerTypeManager
 				.createAndAddResourceSpecification(executionContainerType,
 						resourceType, resourceSpecificatioName);
+	}
+
+	@Override
+	public MemSwapResourceSpecification createAndAddMemSwapResourceSpecification(
+			final ExecutionContainerType executionContainerType,
+			final long memCapacityBytes, final long swapCapacityBytes,
+			final ResourceType resourceType,
+			final String resourceSpecificatioName) {
+		return this.executionContainerTypeManager
+				.createAndAddMemSwapResourceSpecification(
+						executionContainerType, memCapacityBytes,
+						swapCapacityBytes, resourceType,
+						resourceSpecificatioName);
 	}
 }
