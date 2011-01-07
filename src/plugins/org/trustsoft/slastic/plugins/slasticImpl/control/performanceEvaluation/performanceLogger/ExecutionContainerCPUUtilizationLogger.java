@@ -9,7 +9,7 @@ import org.trustsoft.slastic.common.IComponentContext;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
-import de.cau.se.slastic.metamodel.monitoring.ResourceUtilization;
+import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 
 /**
  * 
@@ -127,7 +127,7 @@ public class ExecutionContainerCPUUtilizationLogger extends
 				+ "current_timestamp as currentTimestampMillis, resource, user"
 				+
 				", system,  wait, nice, irq, combined, idle"
-				+ " from " + ResourceUtilization.class.getName()
+				+ " from " + CPUUtilization.class.getName()
 				// + ".win:time("+this.winTimeMin+" min)" // 60
 				+ " group by resource" + " output last every "
 				+ this.outputIntervalMin + " minutes";

@@ -141,7 +141,7 @@ public class ExecutionContainerMemSwapUsageLogger extends
 		return "select "
 				+ "current_timestamp as currentTimestampMillis, resource"
 				+
-				", memCapacityBytes, memUsedBytes, memFreeBytes, swapCapacityBytes"
+				", memUsedBytes, memFreeBytes "
 				+
 				", swapUsedBytes, swapFreeBytes"
 				+ " from " + MemSwapUsage.class.getName()
