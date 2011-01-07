@@ -171,7 +171,8 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="networkLink" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/NetworkLink" eOpposite="#//executionEnvironment/NetworkLink/executionContainers"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
-          upperBound="-1" eType="#//executionEnvironment/Resource" eOpposite="#//executionEnvironment/Resource/executionContainer"/>
+          upperBound="-1" eType="#//executionEnvironment/Resource" containment="true"
+          eOpposite="#//executionEnvironment/Resource/executionContainer"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NetworkLink" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinkType" ordered="false"

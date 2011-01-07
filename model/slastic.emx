@@ -2342,7 +2342,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_XouCIRlkEeCFy_WBgCutmg" type="FromRoleLabel" element="_PhAEsOJcEd-wBoxuTwCo4w">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_XovQQBlkEeCFy_WBgCutmg" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_XouCIhlkEeCFy_WBgCutmg" x="448" y="-1672"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_XouCIhlkEeCFy_WBgCutmg" x="352" y="-1989"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_Xov3UBlkEeCFy_WBgCutmg" type="ToQualifierLabel" element="_PhE9MOJcEd-wBoxuTwCo4w">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_XoweYBlkEeCFy_WBgCutmg" type="QualifierCompartment"/>
@@ -2486,7 +2486,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_N2Zf0KE8Ed-l1J3OQ8v6iQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_N2Y4waE8Ed-l1J3OQ8v6iQ" value="1"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_PhE9MOJcEd-wBoxuTwCo4w" name="resources" visibility="private" type="_AGmzQOJcEd-wBoxuTwCo4w" association="_Pg5XAOJcEd-wBoxuTwCo4w">
+        <ownedAttribute xmi:id="_PhE9MOJcEd-wBoxuTwCo4w" name="resources" visibility="private" type="_AGmzQOJcEd-wBoxuTwCo4w" aggregation="composite" association="_Pg5XAOJcEd-wBoxuTwCo4w">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PhHZcOJcEd-wBoxuTwCo4w" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PhGyYOJcEd-wBoxuTwCo4w"/>
         </ownedAttribute>
