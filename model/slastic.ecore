@@ -116,7 +116,7 @@
   </eSubpackages>
   <eSubpackages name="typeRepository" nsURI="http:///metamodel/typeRepository.ecore"
       nsPrefix="metamodel.typeRepository">
-    <eClassifiers xsi:type="ecore:EClass" name="ResourceType" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceType" abstract="true" eSuperTypes="#//core/FQNamedEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="providedInterfaces" ordered="false"
           upperBound="-1" eType="#//typeRepository/Interface"/>
@@ -149,6 +149,19 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="resourceTypes" ordered="false"
           upperBound="-1" eType="#//typeRepository/ResourceType" containment="true"/>
     </eClassifiers>
+    <eSubpackages name="resourceTypes" nsURI="http:///metamodel/typeRepository/resourceTypes.ecore"
+        nsPrefix="metamodel.typeRepository.resourceTypes">
+      <eClassifiers xsi:type="ecore:EClass" name="CPUType" eSuperTypes="#//typeRepository/ResourceType">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" ordered="false"
+            lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" ordered="false"
+            lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="speedMhz" ordered="false"
+            lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GenericResourceType" eSuperTypes="#//typeRepository/ResourceType"/>
+      <eClassifiers xsi:type="ecore:EClass" name="MemSwapType" eSuperTypes="#//typeRepository/ResourceType"/>
+    </eSubpackages>
   </eSubpackages>
   <eSubpackages name="executionEnvironment" nsURI="http:///metamodel/executionEnvironment.ecore"
       nsPrefix="metamodel.executionEnvironment">
@@ -180,18 +193,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
           ordered="false" lowerBound="1" eType="#//executionEnvironment/ResourceSpecification"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="MemSwap" eSuperTypes="#//typeRepository/ResourceType">
+    <eClassifiers xsi:type="ecore:EClass" name="MemSwapResourceSpecification" eSuperTypes="#//executionEnvironment/ResourceSpecification">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="memCapacityBytes" ordered="false"
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="swapCapacityBytes" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CPU" eSuperTypes="#//typeRepository/ResourceType">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="vendor" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="model" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="speedMhz" ordered="false"
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ResourceSpecification" eSuperTypes="#//core/NamedEntity">
