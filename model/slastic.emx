@@ -2486,6 +2486,10 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_N2Zf0KE8Ed-l1J3OQ8v6iQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_N2Y4waE8Ed-l1J3OQ8v6iQ" value="1"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_PhE9MOJcEd-wBoxuTwCo4w" name="resources" visibility="private" type="_AGmzQOJcEd-wBoxuTwCo4w" association="_Pg5XAOJcEd-wBoxuTwCo4w">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PhHZcOJcEd-wBoxuTwCo4w" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PhGyYOJcEd-wBoxuTwCo4w"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_OnJZkKE3Ed-l1J3OQ8v6iQ" memberEnd="_OnKnsKE3Ed-l1J3OQ8v6iQ _OnL10KE3Ed-l1J3OQ8v6iQ">
         <ownedEnd xmi:id="_OnL10KE3Ed-l1J3OQ8v6iQ" name="executionContainers" visibility="private" type="_l0F2wKE2Ed-l1J3OQ8v6iQ" association="_OnJZkKE3Ed-l1J3OQ8v6iQ">
@@ -2573,12 +2577,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qVYGIOJcEd-wBoxuTwCo4w" value="1"/>
         </ownedAttribute>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_Pg5XAOJcEd-wBoxuTwCo4w" memberEnd="_PhAEsOJcEd-wBoxuTwCo4w _PhE9MOJcEd-wBoxuTwCo4w">
-        <ownedEnd xmi:id="_PhE9MOJcEd-wBoxuTwCo4w" name="resource" visibility="private" type="_AGmzQOJcEd-wBoxuTwCo4w" association="_Pg5XAOJcEd-wBoxuTwCo4w">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PhHZcOJcEd-wBoxuTwCo4w" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PhGyYOJcEd-wBoxuTwCo4w"/>
-        </ownedEnd>
-      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_Pg5XAOJcEd-wBoxuTwCo4w" memberEnd="_PhAEsOJcEd-wBoxuTwCo4w _PhE9MOJcEd-wBoxuTwCo4w"/>
       <packagedElement xmi:type="uml:Association" xmi:id="_qVTNoOJcEd-wBoxuTwCo4w" memberEnd="_qVVp4OJcEd-wBoxuTwCo4w _qVZ7UOJcEd-wBoxuTwCo4w">
         <ownedEnd xmi:id="_qVZ7UOJcEd-wBoxuTwCo4w" name="resources" visibility="private" type="_AGmzQOJcEd-wBoxuTwCo4w" association="_qVTNoOJcEd-wBoxuTwCo4w">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qVbJceJcEd-wBoxuTwCo4w" value="*"/>

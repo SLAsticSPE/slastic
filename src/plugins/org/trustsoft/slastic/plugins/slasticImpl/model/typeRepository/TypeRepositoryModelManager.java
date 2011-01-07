@@ -10,6 +10,9 @@ import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
 /**
  * TODO: interfaces, network link types
@@ -161,10 +164,24 @@ public class TypeRepositoryModelManager extends
 	}
 
 	@Override
-	public ResourceType createAndRegisterResourceType(
+	public GenericResourceType createAndRegisterGenericResourceType(
 			final String fullyQualifiedName) {
 		return this.resourceTypesManager
-				.createAndRegisterResourceType(fullyQualifiedName);
+				.createAndRegisterGenericResourceType(fullyQualifiedName);
+	}
+
+	@Override
+	public MemSwapType createAndRegisterMemSwapResourceType(
+			final String fullyQualifiedName) {
+		return this.resourceTypesManager
+				.createAndRegisterMemSwapResourceType(fullyQualifiedName);
+	}
+
+	@Override
+	public CPUType createAndRegisterCPUResourceType(
+			final String fullyQualifiedName) {
+		return this.resourceTypesManager
+				.createAndRegisterCPUResourceType(fullyQualifiedName);
 	}
 
 	@Override

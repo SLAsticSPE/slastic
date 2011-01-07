@@ -1,7 +1,6 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import kieker.common.record.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -9,7 +8,6 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
@@ -24,7 +22,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * @author Andre van Hoorn
  */
 public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
-		TestCase {
+		AbstractReconstructionTest {
 
 	private final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
@@ -45,8 +43,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		final ModelManager modelManager = new ModelManager();
 
 		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(
-						modelManager);
+				new ExecutionRecordTransformationFilter(modelManager);
 
 		final OperationExecution slasticRecord =
 				execRecFilter.transformExecutionRecord(this.kiekerRecord);
@@ -101,8 +98,9 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			final String componentTypeLookupFQName =
 					this.kiekerRecord.className
 							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
-			lookedUpComponentType = mgr.getTypeRepositoryManager()
-					.lookupComponentType(componentTypeLookupFQName);
+			lookedUpComponentType =
+					mgr.getTypeRepositoryManager().lookupComponentType(
+							componentTypeLookupFQName);
 			Assert.assertNotNull("Lookup of component type "
 					+ componentTypeLookupFQName + " returned null",
 					lookedUpComponentType);
@@ -111,10 +109,13 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 							.getDeploymentComponent().getAssemblyComponent()
 							.getComponentType());
 			/* 2. Lookup container type and compare with record content */
-			final String containerTypeLookupFQName = this.kiekerRecord.hostName
-					+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
-			lookedUpContainerType = mgr.getTypeRepositoryManager()
-					.lookupExecutionContainerType(containerTypeLookupFQName);
+			final String containerTypeLookupFQName =
+					this.kiekerRecord.hostName
+							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
+			lookedUpContainerType =
+					mgr.getTypeRepositoryManager()
+							.lookupExecutionContainerType(
+									containerTypeLookupFQName);
 			Assert.assertNotNull("Lookup of container type "
 					+ containerTypeLookupFQName + " returned null",
 					lookedUpContainerType);
@@ -130,8 +131,10 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			/* 3. Lookup assembly component and compare with record content */
 			final String assemblyComponentLookupFQName =
 					this.kiekerRecord.className;
-			lookedUpAssemblyComponent = mgr.getComponentAssemblyModelManager()
-					.lookupAssemblyComponent(assemblyComponentLookupFQName);
+			lookedUpAssemblyComponent =
+					mgr.getComponentAssemblyModelManager()
+							.lookupAssemblyComponent(
+									assemblyComponentLookupFQName);
 			Assert.assertNotNull("Lookup of assembly component "
 					+ assemblyComponentLookupFQName + " failed",
 					lookedUpAssemblyComponent);
@@ -140,21 +143,12 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 							.getDeploymentComponent().getAssemblyComponent());
 		}
 
-		final ExecutionContainer lookedUpExecutionContainer;
-		{
-			/* Check execution environment contents */
-			/* 4. Lookup execution container and compare with record content */
-			final String executionContainerLookupFQName =
-					this.kiekerRecord.hostName;
-			lookedUpExecutionContainer = mgr
-					.getExecutionEnvironmentModelManager()
-					.lookupExecutionContainer(executionContainerLookupFQName);
-			Assert.assertNotNull("Lookup of execution container "
-					+ executionContainerLookupFQName + " failed",
-					lookedUpExecutionContainer);
-			Assert.assertSame("Unexpected execution container",
-					lookedUpExecutionContainer, slasticComponentExecRec
-							.getDeploymentComponent().getExecutionContainer());
-		}
+		/* Check execution environment contents */
+		/* 4. Lookup execution container and compare with record content */
+		this.checkExecutionContainerAndType(mgr, this.kiekerRecord.hostName,
+				this.kiekerRecord.hostName
+						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+				slasticComponentExecRec.getDeploymentComponent()
+						.getExecutionContainer());
 	}
 }

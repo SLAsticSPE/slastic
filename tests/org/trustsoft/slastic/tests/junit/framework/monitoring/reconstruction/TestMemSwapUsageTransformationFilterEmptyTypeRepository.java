@@ -4,9 +4,16 @@ import junit.framework.Assert;
 import kieker.common.record.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.MemSwapUsageRecordTransformationFilter;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
+import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
+import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
 /**
  * Tests if the {@link MemSwapUsageRecordTransformationFilter} filter correctly
@@ -79,7 +86,31 @@ public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 					slasticRec.getSwapUsedBytes());
 		}
 
-		/* TODO: Check resource */
+		final Resource res = slasticRec.getResource();
+
+		/* Check execution container */
+		this.checkExecutionContainerAndType(mgr,
+				this.kiekerRecord.getHostName(),
+				this.kiekerRecord.getHostName()
+						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+				res.getExecutionContainer());
+
+		/* Check resource specification */
+		final ResourceSpecification resSpec = res.getResourceSpecification();
+		Assert.assertNotNull("resourceSpecification is null", resSpec);
+		Assert.assertEquals("Unexpected resource specification name",
+				AbstractModelReconstructionComponent
+						.createMemSwapResourceSpecName(), resSpec.getName());
+
+		/* Check resource type */
+		final ResourceType resType = resSpec.getResourceType();
+		Assert.assertEquals(
+				"Unexpected resource type name",
+				ModelEntityFactory.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
+				NameUtils.createFQName(resType.getPackageName(),
+						resType.getName())); //
+		Assert.assertTrue("Resource type must be instanceof " + MemSwapType.class
+				+ " ; found: " + resType.getClass(), resType instanceof MemSwapType);
 
 		/* TODO: Check total cpu/swap */
 	}

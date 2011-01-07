@@ -3,7 +3,6 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
 import kieker.common.record.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -13,15 +12,16 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 
 /**
- * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly re-uses
- * existing model entities.
+ * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
+ * re-uses existing model entities.
  * 
  * @author Andre van Hoorn
  */
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends
-		TestCase {
+		AbstractReconstructionTest {
 
-	final OperationExecutionRecord kiekerRecord = new OperationExecutionRecord();
+	final OperationExecutionRecord kiekerRecord =
+			new OperationExecutionRecord();
 	{
 		this.kiekerRecord.className = "package.subpackage.classname";
 		this.kiekerRecord.eoi = 77;
@@ -38,15 +38,18 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(
-				modelManager);
+		final ExecutionRecordTransformationFilter execRecFilter =
+				new ExecutionRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
-		final ArrayList<OperationExecution> slasticExecRef = new ArrayList<OperationExecution>();
+		final ArrayList<OperationExecution> slasticExecRef =
+				new ArrayList<OperationExecution>();
 
 		/* Let the filter transform the same record twice */
-		slasticExecRef.add(execRecFilter.transformExecutionRecord(this.kiekerRecord));
-		slasticExecRef.add(execRecFilter.transformExecutionRecord(this.kiekerRecord));
+		slasticExecRef.add(execRecFilter
+				.transformExecutionRecord(this.kiekerRecord));
+		slasticExecRef.add(execRecFilter
+				.transformExecutionRecord(this.kiekerRecord));
 
 		final OperationExecution slasticRecordA = slasticExecRef.get(0);
 		final OperationExecution slasticRecordB = slasticExecRef.get(1);
@@ -71,8 +74,10 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 				+ " but found " + slasticRecordB.getClass().getName(),
 				slasticRecordB instanceof DeploymentComponentOperationExecution);
 
-		final DeploymentComponentOperationExecution slasticComponentExecRecA = (DeploymentComponentOperationExecution) slasticRecordA;
-		final DeploymentComponentOperationExecution slasticComponentExecRecB = (DeploymentComponentOperationExecution) slasticRecordB;
+		final DeploymentComponentOperationExecution slasticComponentExecRecA =
+				(DeploymentComponentOperationExecution) slasticRecordA;
+		final DeploymentComponentOperationExecution slasticComponentExecRecB =
+				(DeploymentComponentOperationExecution) slasticRecordB;
 
 		{
 			/*

@@ -20,8 +20,7 @@ import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
  */
 public class CPUUtilizationRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
-		ISynchronousTransformationFilter,
-		ICPUUtilizationRecordTransformation {
+		ISynchronousTransformationFilter, ICPUUtilizationRecordTransformation {
 
 	private static final Log log = LogFactory
 			.getLog(CPUUtilizationRecordTransformationFilter.class);
@@ -35,8 +34,6 @@ public class CPUUtilizationRecordTransformationFilter extends
 		super(modelManager);
 	}
 
-	private final static String CPU_RESOURCE_NAME_PREFX = "cpu";
-
 	@Override
 	public CPUUtilization transformCPUUtilizationRecord(
 			final CPUUtilizationRecord cpuUtilizationRecord) {
@@ -49,17 +46,16 @@ public class CPUUtilizationRecordTransformationFilter extends
 				this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord
 						.getHostName());
 
-		// TODO: consider resource type
-
 		final Resource resource =
-				this.lookupOrCreateResource(
-						CPUUtilizationRecordTransformationFilter.CPU_RESOURCE_NAME_PREFX
-								+ cpuUtilizationRecord.getCpuID(),
+				this.lookupOrCreateCPUResource(
+						AbstractModelReconstructionComponent
+								.createCPUResourceSpecName(cpuUtilizationRecord
+										.getCpuID()),
+						ModelEntityFactory.DEFAULT_CPU_RESOURCE_TYPE_NAME,
 						executionContainer);
 
 		// And finally, the simple part:
-		newUtilization.setTimestamp(cpuUtilizationRecord
-					.getTimestamp());
+		newUtilization.setTimestamp(cpuUtilizationRecord.getTimestamp());
 		newUtilization.setResource(resource);
 
 		newUtilization.setCombined(cpuUtilizationRecord.getTotalUtilization());

@@ -170,6 +170,8 @@
           ordered="false" lowerBound="1" eType="#//typeRepository/ExecutionContainerType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="networkLink" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/NetworkLink" eOpposite="#//executionEnvironment/NetworkLink/executionContainers"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
+          upperBound="-1" eType="#//executionEnvironment/Resource" eOpposite="#//executionEnvironment/Resource/executionContainer"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="NetworkLink" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinkType" ordered="false"
@@ -177,6 +179,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainers"
           ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"
           eOpposite="#//executionEnvironment/ExecutionContainer/networkLink"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Resource">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
+          ordered="false" lowerBound="1" eType="#//executionEnvironment/ResourceSpecification"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
+          lowerBound="1" eType="#//executionEnvironment/ExecutionContainer" eOpposite="#//executionEnvironment/ExecutionContainer/resources"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionEnvironmentModel" eSuperTypes="#//core/SLAsticModel">
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainers"
@@ -186,12 +194,6 @@
           upperBound="-1" eType="#//executionEnvironment/NetworkLink" containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="allocatedExecutionContainers"
           ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Resource">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
-          lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
-          ordered="false" lowerBound="1" eType="#//executionEnvironment/ResourceSpecification"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="MemSwapResourceSpecification" eSuperTypes="#//executionEnvironment/ResourceSpecification">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="memCapacityBytes" ordered="false"

@@ -3,10 +3,19 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import junit.framework.Assert;
 import kieker.common.record.CPUUtilizationRecord;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ModelEntityFactory;
 
+import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
+import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
+import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 
 /**
  * Tests if the {@link CPUUtilizationRecordTransformationFilter} filter
@@ -18,6 +27,10 @@ import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
  */
 public class TestCPUUtilizationTransformationFilterEmptyTypeRepository extends
 		AbstractReconstructionTest {
+
+	private static final Log log =
+			LogFactory
+					.getLog(TestCPUUtilizationTransformationFilterEmptyTypeRepository.class);
 
 	private final CPUUtilizationRecord kiekerRecord =
 			new CPUUtilizationRecord();
@@ -86,50 +99,32 @@ public class TestCPUUtilizationTransformationFilterEmptyTypeRepository extends
 					this.kiekerRecord.getWait(), slasticRec.getWait());
 		}
 
-		/* TODO: Check resource */
-		
-//		final ExecutionContainerType lookedUpContainerType;
-//		final ResourceType lookedUpResourceType;
-//
-//		{
-//			/* Check type repository contents */
-//			/* 1. Lookup resource type by name and compare with record content */
-//			final String resourceTypeLookupFQName =
-//					this.kiekerRecord.className
-//							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
-//			lookedUpComponentType =
-//					mgr.getTypeRepositoryManager().lookupComponentType(
-//							componentTypeLookupFQName);
-//			Assert.assertNotNull("Lookup of component type "
-//					+ componentTypeLookupFQName + " returned null",
-//					lookedUpComponentType);
-//			Assert.assertSame("Unexpected component types",
-//					lookedUpComponentType, slasticComponentExecRec
-//							.getDeploymentComponent().getAssemblyComponent()
-//							.getComponentType());
-//			/* 2. Lookup container type and compare with record content */
-//			final String containerTypeLookupFQName =
-//					this.kiekerRecord.hostName
-//							+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX;
-//			lookedUpContainerType =
-//					mgr.getTypeRepositoryManager()
-//							.lookupExecutionContainerType(
-//									containerTypeLookupFQName);
-//			Assert.assertNotNull("Lookup of container type "
-//					+ containerTypeLookupFQName + " returned null",
-//					lookedUpContainerType);
-//			Assert.assertSame("Unexpected container type",
-//					lookedUpContainerType, slasticComponentExecRec
-//							.getDeploymentComponent().getExecutionContainer()
-//							.getExecutionContainerType());
-//		}
-//
-//		/* Check execution environment contents */
-//		/* 4. Lookup execution container and compare with record content */
-//		this.checkExecutionContainerAndType(mgr, this.kiekerRecord.hostName,
-//				this.kiekerRecord.hostName
-//						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
-//				slasticComponentExecRec.getDeploymentComponent()
-//						.getExecutionContainer());
+		final Resource res = slasticRec.getResource();
+
+		/* Check execution container */
+		this.checkExecutionContainerAndType(mgr,
+				this.kiekerRecord.getHostName(),
+				this.kiekerRecord.getHostName()
+						+ ModelEntityFactory.DEFAULT_TYPE_POSTFIX,
+				res.getExecutionContainer());
+
+		/* Check resource specification */
+		final ResourceSpecification resSpec = res.getResourceSpecification();
+		Assert.assertNotNull("resourceSpecification is null", resSpec);
+		Assert.assertEquals(
+				"Unexpected resource specification name",
+				AbstractModelReconstructionComponent
+						.createCPUResourceSpecName(this.kiekerRecord.getCpuID()),
+				resSpec.getName());
+
+		/* Check resource type */
+		final ResourceType resType = resSpec.getResourceType();
+		Assert.assertEquals(
+				"Unexpected resource type name",
+				ModelEntityFactory.DEFAULT_CPU_RESOURCE_TYPE_NAME,
+				NameUtils.createFQName(resType.getPackageName(),
+						resType.getName())); //
+		Assert.assertTrue("Resource type must be instanceof " + CPUType.class
+				+ " ; found: " + resType.getClass(), resType instanceof CPUType);
 	}
 }

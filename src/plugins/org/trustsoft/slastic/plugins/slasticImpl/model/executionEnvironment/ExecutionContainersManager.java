@@ -1,8 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,106 +53,38 @@ public class ExecutionContainersManager extends
 		return ExecutionEnvironmentFactory.eINSTANCE.createExecutionContainer();
 	}
 
-	/**
-	 * Caches requests for {@link Resource}s via
-	 * {@link #lookupExecutionContainerResource(ExecutionContainer, String)}.
-	 */
-	private final Map<ExecutionContainer, Map<String, Resource>> containerResourceCache =
-			new HashMap<ExecutionContainer, Map<String, Resource>>();
-
-	/**
-	 * Returns a cached {@link Resource} contained in
-	 * {@link #containerResourceCache} associated with the given
-	 * {@link ExecutionContainer} and {@link ResourceSpecification} name; or
-	 * null if no such cache entry exists.
-	 * 
-	 * @param executionContainer
-	 * @param resourceSpecificationName
-	 * @return
-	 */
-	private Resource lookupContainerResourceFromCache(
-			final ExecutionContainer executionContainer,
+	private ResourceSpecification lookupResourceSpecification(
+			final ExecutionContainerType executionContainerType,
 			final String resourceSpecificationName) {
-		final Map<String, Resource> containerResources =
-				this.containerResourceCache.get(executionContainer);
-
-		if (containerResources == null) {
-			// cache miss since no entries exists for container so far
-			return null;
-		}
-
-		// may result in cache hit or miss:
-		return containerResources.get(resourceSpecificationName);
-	}
-
-	/**
-	 * Adds a cache entry for a {@link Resource} to
-	 * {@link #containerResourceCache} which is associated with the given
-	 * {@link ExecutionContainer} and {@link ResourceSpecification} name.
-	 * 
-	 * @param executionContainer
-	 * @param resourceSpecificationName
-	 * @return the added {@link Resource}; null if no
-	 *         {@link ResourceSpecification} with the name is associated to
-	 *         {@link ExecutionContainer#getExecutionContainerType()}
-	 */
-	private Resource addContainerResourceCacheEntry(
-			final ExecutionContainer executionContainer,
-			final String resourceSpecificationName) {
-		/**
-		 * This is just to make sure that no such entry exists so far. Can be
-		 * removed to pimp performance.
-		 */
-		Resource resource =
-				this.lookupContainerResourceFromCache(executionContainer,
-						resourceSpecificationName);
-		if (resource != null) {
-			ExecutionContainersManager.log.error("Cache entry exists already: "
-					+ resource);
-			return resource;
-		}
-
-		Map<String, Resource> containerResources =
-				this.containerResourceCache.get(executionContainer);
-
-		/*
-		 * Get container's cached list of resources; if not existing, create
-		 * empty list and add to cache
-		 */
-		if (containerResources == null) {
-			containerResources = new HashMap<String, Resource>();
-			this.containerResourceCache.put(executionContainer,
-					containerResources);
-
-		}
-
-		final ExecutionContainerType executionContainerType =
-				executionContainer.getExecutionContainerType();
-		ResourceSpecification resourceSpecification = null;
-
-		/* Lookup resource specification associated with the container's type */
-		for (final ResourceSpecification rs : executionContainerType
+		for (final ResourceSpecification resSpec : executionContainerType
 				.getResources()) {
-			if (rs.getName().equals(resourceSpecificationName)) {
-				resourceSpecification = rs;
-				break;
+			if (resSpec.getName().equals(resourceSpecificationName)) {
+				return resSpec;
 			}
 		}
+		return null;
+	}
 
-		if (resourceSpecification == null) {
-			// not existing
-			return null;
+	private Resource lookupCachedContainerResource(
+			final ExecutionContainer executionContainer,
+			final ResourceSpecification resSpecification) {
+		for (final Resource res : executionContainer.getResources()) {
+			if (res.getResourceSpecification() == resSpecification) {
+				return res;
+			}
 		}
+		return null;
+	}
 
-		{ /* Create resource instance and add to cache */
-			resource = ExecutionEnvironmentFactory.eINSTANCE.createResource();
-			resource.setExecutionContainer(executionContainer);
-			resource.setResourceSpecification(resourceSpecification);
-			containerResources.put(resourceSpecificationName, resource);
-		}
-
-		// may result in cache hit or miss:
-		return containerResources.get(resourceSpecificationName);
+	private Resource createCachedResource(
+			final ExecutionContainer executionContainer,
+			final ResourceSpecification resSpecification) {
+		final Resource resource =
+				ExecutionEnvironmentFactory.eINSTANCE.createResource();
+		resource.setExecutionContainer(executionContainer);
+		resource.setResourceSpecification(resSpecification);
+		executionContainer.getResources().add(resource);
+		return resource;
 	}
 
 	@Override
@@ -170,17 +100,26 @@ public class ExecutionContainersManager extends
 			throw new IllegalArgumentException(errorMsg);
 		}
 
+		/* 1: Check whether resource exists for type */
+		final ResourceSpecification resSpec =
+				this.lookupResourceSpecification(
+						executionContainer.getExecutionContainerType(),
+						resourceSpecificationName);
+		if (resSpec == null) {
+			// such resource does not exist
+			return null;
+		}
+
 		/* 1: Check internal cache */
 		Resource resource =
-				this.lookupContainerResourceFromCache(executionContainer,
-						resourceSpecificationName);
+				this.lookupCachedContainerResource(executionContainer, resSpec);
 
-		if (resource == null) {
-			/* 2: Add internal cache entry */
-			resource =
-					this.addContainerResourceCacheEntry(executionContainer,
-							resourceSpecificationName);
+		if (resource != null) {
+			return resource;
 		}
+
+		/* 2: Create resource and add to internal cache entry */
+		resource = this.createCachedResource(executionContainer, resSpec);
 
 		return resource;
 	}

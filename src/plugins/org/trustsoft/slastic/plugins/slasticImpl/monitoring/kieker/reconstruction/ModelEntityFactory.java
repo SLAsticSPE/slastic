@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
@@ -10,6 +12,9 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
 /**
  * 
@@ -17,6 +22,8 @@ import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
  * 
  */
 public class ModelEntityFactory {
+
+	private static final Log log = LogFactory.getLog(ModelEntityFactory.class);
 
 	/**
 	 * Appended to instance names, to form a type name in the type repository.
@@ -88,8 +95,96 @@ public class ModelEntityFactory {
 						containerType);
 	}
 
-	private static final String DEFAULT_RESOURCE_TYPE_NAME =
-			"DEFAULT.RESOURCE_TYPE";
+	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME =
+			"DEFAULT.GENERIC_RESOURCE_TYPE";
+
+	public static final String DEFAULT_CPU_RESOURCE_TYPE_NAME =
+			"DEFAULT.CPU_RESOURCE_TYPE";
+
+	public static final String DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME =
+			"DEFAULT.MEMSWAP_RESOURCE_TYPE";
+
+	/**
+	 * Looks up an existing {@link ResourceType} with the given name.
+	 * 
+	 * @param modelManager
+	 * @param resourceName
+	 * @return the {@link ResourceType} or null if no {@link ResourceType} with
+	 *         this name
+	 */
+	public static final ResourceType lookupResourceType(
+			final ModelManager modelManager, final String resourceTypeName) {
+		final ResourceType resourceType =
+				modelManager.getTypeRepositoryManager().lookupResourceType(
+						resourceTypeName);
+		return resourceType;
+	}
+
+	/**
+	 * 
+	 * @param modelManager
+	 * @param resourceTypeName
+	 * @return
+	 */
+	public static final GenericResourceType createGenericResourceType(
+			final ModelManager modelManager, final String resourceTypeName) {
+		if (ModelEntityFactory.lookupResourceType(modelManager,
+				resourceTypeName) != null) {
+			ModelEntityFactory.log.error("Resource type with name '"
+					+ resourceTypeName + "' exists already");
+			return null;
+		}
+
+		final GenericResourceType res =
+				modelManager.getTypeRepositoryManager()
+						.createAndRegisterGenericResourceType(resourceTypeName);
+
+		return res;
+	}
+
+	/**
+	 * 
+	 * @param modelManager
+	 * @param resourceTypeName
+	 * @return
+	 */
+	public static final MemSwapType createMemSwapResourceType(
+			final ModelManager modelManager, final String resourceTypeName) {
+		if (ModelEntityFactory.lookupResourceType(modelManager,
+				resourceTypeName) != null) {
+			ModelEntityFactory.log.error("Resource type with name '"
+					+ resourceTypeName + "' exists already");
+			return null;
+		}
+
+		final MemSwapType res =
+				modelManager.getTypeRepositoryManager()
+						.createAndRegisterMemSwapResourceType(resourceTypeName);
+
+		return res;
+	}
+
+	/**
+	 * 
+	 * @param modelManager
+	 * @param resourceTypeName
+	 * @return
+	 */
+	public static final CPUType createCPUResourceType(
+			final ModelManager modelManager, final String resourceTypeName) {
+		if (ModelEntityFactory.lookupResourceType(modelManager,
+				resourceTypeName) != null) {
+			ModelEntityFactory.log.error("Resource type with name '"
+					+ resourceTypeName + "' exists already");
+			return null;
+		}
+
+		final CPUType res =
+				modelManager.getTypeRepositoryManager()
+						.createAndRegisterCPUResourceType(resourceTypeName);
+
+		return res;
+	}
 
 	/**
 	 * Creates a new resource with the given name and associated with the given
@@ -99,27 +194,15 @@ public class ModelEntityFactory {
 	 * {@link ExecutionContainerType#getResources()}.
 	 * 
 	 * @param modelManager
+	 * @param resourceType
 	 * @param executionContainer
 	 * @param resourceName
 	 * @return
 	 */
 	public static Resource createResourceSpecificationAndResource(
-			final ModelManager modelManager,
+			final ModelManager modelManager, final ResourceType resourceType,
 			final ExecutionContainer executionContainer,
 			final String resourceName) {
-
-		// TODO: This needs to be refined in the future!
-		ResourceType resourceType =
-				modelManager.getTypeRepositoryManager().lookupResourceType(
-						ModelEntityFactory.DEFAULT_RESOURCE_TYPE_NAME);
-
-		if (resourceType == null) {
-			resourceType =
-					modelManager
-							.getTypeRepositoryManager()
-							.createAndRegisterResourceType(
-									ModelEntityFactory.DEFAULT_RESOURCE_TYPE_NAME);
-		}
 
 		// Create resource specification and add it to the container type
 		final ResourceSpecification resourceSpecification =

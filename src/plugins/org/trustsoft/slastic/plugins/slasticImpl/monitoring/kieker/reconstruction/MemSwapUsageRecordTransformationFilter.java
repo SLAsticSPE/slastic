@@ -20,8 +20,7 @@ import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
  */
 public class MemSwapUsageRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
-		ISynchronousTransformationFilter,
-		IMemSwapUsageRecordTransformation {
+		ISynchronousTransformationFilter, IMemSwapUsageRecordTransformation {
 
 	private static final Log log = LogFactory
 			.getLog(MemSwapUsageRecordTransformationFilter.class);
@@ -35,8 +34,6 @@ public class MemSwapUsageRecordTransformationFilter extends
 		super(modelManager);
 	}
 
-	private final static String MEM_SWAP_RESOURCE_NAME = "memSwap";
-
 	@Override
 	public MemSwapUsage transformMemSwapUsageRecord(
 			final MemSwapUsageRecord memSwapUsageRecord) {
@@ -49,23 +46,24 @@ public class MemSwapUsageRecordTransformationFilter extends
 				this.lookupOrCreateExecutionContainerByName(memSwapUsageRecord
 						.getHostName());
 
-		// TODO: consider resource type
-
 		final Resource resource =
-				this.lookupOrCreateResource(
-						MemSwapUsageRecordTransformationFilter.MEM_SWAP_RESOURCE_NAME,
+				this.lookupOrCreateMemSwapResource(
+						AbstractModelReconstructionComponent
+								.createMemSwapResourceSpecName(),
+						memSwapUsageRecord.getMemTotal(), memSwapUsageRecord
+								.getSwapTotal(),
+						ModelEntityFactory.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
 						executionContainer);
 
 		// And finally, the simple part:
-		newUsage.setTimestamp(memSwapUsageRecord
-					.getTimestamp());
+		newUsage.setTimestamp(memSwapUsageRecord.getTimestamp());
 		newUsage.setResource(resource);
-		
+
 		newUsage.setMemFreeBytes(memSwapUsageRecord.getMemFree());
 		newUsage.setMemUsedBytes(memSwapUsageRecord.getMemUsed());
 		newUsage.setSwapFreeBytes(memSwapUsageRecord.getSwapFree());
 		newUsage.setSwapUsedBytes(memSwapUsageRecord.getSwapUsed());
-		
+
 		return newUsage;
 	}
 
@@ -75,8 +73,7 @@ public class MemSwapUsageRecordTransformationFilter extends
 			return null;
 		}
 
-		final MemSwapUsageRecord usageRecord =
-				(MemSwapUsageRecord) record;
+		final MemSwapUsageRecord usageRecord = (MemSwapUsageRecord) record;
 
 		return this.transformMemSwapUsageRecord(usageRecord);
 	}

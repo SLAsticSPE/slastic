@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * To change this template, choose Tools | Templates and open the template in
+ * the editor.
  */
 
 package org.trustsoft.slastic.plugins.slasticImpl.model;
@@ -17,7 +17,8 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  */
 public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 		extends AbstractEntityManager<T> {
-	private final Map<String, T> entitiesByFullQualifiedName = new HashMap<String, T>();
+	private final Map<String, T> entitiesByFullQualifiedName =
+			new HashMap<String, T>();
 
 	public AbstractFQNamedEntityManager(final List<T> entities) {
 		super(entities);
@@ -39,26 +40,39 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 					+ fullyQualifiedName + "exists already");
 		}
 		final T newEntity = super.createAndRegisterEntity();
-		final String[] fqnSplit = NameUtils
-				.splitFullyQualifiedName(fullyQualifiedName);
+		final String[] fqnSplit =
+				NameUtils.splitFullyQualifiedName(fullyQualifiedName);
 		newEntity.setPackageName(fqnSplit[0]);
 		newEntity.setName(fqnSplit[1]);
 		this.addEntitiyToNameMap(newEntity);
 		return newEntity;
 	}
 
+	protected void assignNameIdAndRegister(final T entity,
+			final String fullyQualifiedName) {
+		if (this.entitiesByFullQualifiedName.containsKey(fullyQualifiedName)) {
+			throw new IllegalArgumentException("Element with name "
+					+ fullyQualifiedName + "exists already");
+		}
+		super.assignIdAndRegister(entity);
+		final String[] fqnSplit =
+				NameUtils.splitFullyQualifiedName(fullyQualifiedName);
+		entity.setPackageName(fqnSplit[0]);
+		entity.setName(fqnSplit[1]);
+		this.addEntitiyToNameMap(entity);
+	}
+	
 	/**
 	 * Adds a newly created component to the local tables.
 	 */
 	private void addEntitiyToNameMap(final T entity) {
 		if (entity.getPackageName().isEmpty()) {
 			/* no package name */
-			this.entitiesByFullQualifiedName.put(entity.getName(),
-					entity);
+			this.entitiesByFullQualifiedName.put(entity.getName(), entity);
 		} else {
 			/* separate package name and type name by '.' */
-			this.entitiesByFullQualifiedName.put(entity.getPackageName()
-					+ "." + entity.getName(), entity);
+			this.entitiesByFullQualifiedName.put(entity.getPackageName() + "."
+					+ entity.getName(), entity);
 		}
 	}
 }

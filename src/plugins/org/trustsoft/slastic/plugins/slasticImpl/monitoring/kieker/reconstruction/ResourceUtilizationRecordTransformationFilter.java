@@ -47,18 +47,18 @@ public class ResourceUtilizationRecordTransformationFilter extends
 				this.lookupOrCreateExecutionContainerByName(resourceUtilizationRecord
 						.getHostName());
 
-		// TODO: consider resource type
-
 		final Resource resource =
-				this.lookupOrCreateResource(
-						resourceUtilizationRecord.getResourceName(),
+				this.lookupOrCreateGenericResource(
+						AbstractModelReconstructionComponent
+								.createGenericResourceSpecName(resourceUtilizationRecord
+										.getResourceName()),
+						ModelEntityFactory.DEFAULT_GENERIC_RESOURCE_TYPE_NAME,
 						executionContainer);
 
 		// And finally, the simple part:
-		newUtilization.setTimestamp(resourceUtilizationRecord
-					.getTimestamp());
+		newUtilization.setTimestamp(resourceUtilizationRecord.getTimestamp());
 		newUtilization.setUtilization(resourceUtilizationRecord
-					.getUtilization());
+				.getUtilization());
 		newUtilization.setResource(resource);
 
 		return newUtilization;
