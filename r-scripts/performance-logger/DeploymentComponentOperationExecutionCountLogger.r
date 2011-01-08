@@ -1,14 +1,14 @@
-source(file="common.r")
+source(file="r-scripts/performance-logger/common.r")
 
 ## Set directory and file
-analysis.root.dir="/tmp/slastic-20101201-085909670-UTC-/"
-analysis.component.rel.dir="PerformanceEvaluatorComponent-net.voorn.wosp.control.performanceEvaluation.EWETELPerformanceEvaluator/net.voorn.wosp.control.performanceEvaluation.performanceLogger.PerformanceLogger/net.voorn.wosp.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationExecutionCountLogger/"
-analysis.data.rel.fn="10--pikdb0-3--de.ewetel.b2b.backend.service.css.EmailService.csv"
+analysis.root.dir="/tmp/slastic-20110108-114246615-UTC-/"
+analysis.component.rel.dir="PerformanceEvaluatorComponent-de.cau.se.ffi.cloud.slastic.control.performanceEvaluation.PerformanceEvaluator/de.cau.se.ffi.cloud.slastic.control.performanceEvaluation.performanceLogger.PerformanceLogger/org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationExecutionCountLogger-winTimeMin_1-outputIntervalMin_1/"
+analysis.data.rel.fn="1--pc-vanhoorn-1--com.ibatis.jpetstore.web.DispatcherServlet.csv"
 
 analysis.data.abs.fn=paste(analysis.root.dir, analysis.component.rel.dir, analysis.data.rel.fn, sep="/")
 
 data.df=read.csv2(analysis.data.abs.fn, header = TRUE, sep = ";", quote="\"", dec=".",
-          fill = TRUE, comment.char="")
+          fill = TRUE, comment.char="#")
 data.df[["posixct"]]=as.POSIXct(data.df[["timestamp"]]/1000, tz="GMT", origin="1970-01-01")
 
 deploymentComponent.name=paste(data.df$executionContainer[1], "::@", data.df$deplCompID[1], ":", data.df$assemblyComponent[1], sep="")

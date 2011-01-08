@@ -1,7 +1,7 @@
 source(file="r-scripts/performance-logger/common.r")
 
 ## Set directory and file
-analysis.root.dir="/tmp/slastic-20110107-220948435-UTC-/"
+analysis.root.dir="/tmp/slastic-20110108-113715561-UTC-/"
 analysis.component.rel.dir="PerformanceEvaluatorComponent-de.cau.se.ffi.cloud.slastic.control.performanceEvaluation.PerformanceEvaluator/de.cau.se.ffi.cloud.slastic.control.performanceEvaluation.performanceLogger.PerformanceLogger/org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerCPUUtilizationLogger-winTimeMin_1-outputIntervalMin_1/"
 analysis.data.rel.fn="avanhoorn-thinkpad-1--cpu1-2-.csv"
 
