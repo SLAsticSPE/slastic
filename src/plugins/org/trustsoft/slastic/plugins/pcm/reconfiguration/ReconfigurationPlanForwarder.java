@@ -84,9 +84,10 @@ public class ReconfigurationPlanForwarder extends AbstractReconfigurationManager
 	}
 	
 	@Override
-	protected DeploymentComponent concreteReplicateComponent(
+	protected boolean concreteReplicateComponent(
 			final AssemblyComponent assemblyComponent,
-			final ExecutionContainer toExecutionContainer) {
+			final ExecutionContainer toExecutionContainer,
+			final DeploymentComponent resDeploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -97,15 +98,17 @@ public class ReconfigurationPlanForwarder extends AbstractReconfigurationManager
 	}
 
 	@Override
-	protected DeploymentComponent concreteMigrateComponent(
+	protected boolean concreteMigrateComponent(
 			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer destination) {
+			final ExecutionContainer destination,
+			final DeploymentComponent resDeploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected ExecutionContainer concreteAllocateExecutionContainer(
-			final ExecutionContainerType executionContainerType) {
+	protected boolean concreteAllocateExecutionContainer(
+			final ExecutionContainerType executionContainerType,
+			final ExecutionContainer resExecutionContainer) {
 		throw new UnsupportedOperationException();
 	}
 

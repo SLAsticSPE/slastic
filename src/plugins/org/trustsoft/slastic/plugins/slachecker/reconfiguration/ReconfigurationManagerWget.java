@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.plugins.slachecker.reconfiguration;
 
-
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
@@ -19,73 +18,76 @@ import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
-public class ReconfigurationManagerWget extends AbstractReconfigurationManagerComponent {
+public class ReconfigurationManagerWget extends
+		AbstractReconfigurationManagerComponent {
 
-    private final Log log = LogFactory.getLog(ReconfigurationManagerWget.class);
+	private final Log log = LogFactory.getLog(ReconfigurationManagerWget.class);
 
-    @Override
+	@Override
 	public synchronized void doReconfiguration(
-            final ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
-            throws ReconfigurationException {
-        final EList<SLAsticReconfigurationOpType> operations = plan.getOperations();
-        for (final SLAsticReconfigurationOpType op : operations) {
-            // Check of which type the Operation is
-//            if (op instanceof ComponentDeReplicationOPImpl) {
-//                throw new UnsupportedOperationException();
-//            } else if (op instanceof ComponentMigrationOPImpl) {
-//                throw new UnsupportedOperationException();
-//            } else if (op instanceof ComponentReplicationOPImpl) {
-//                throw new UnsupportedOperationException();
-//            } else if (op instanceof NodeAllocationOPImpl) {
-//                throw new UnsupportedOperationException();
-//            } else if (op instanceof NodeDeAllocationOPImpl) {
-//                throw new UnsupportedOperationException();
-//            } else {
-            if (op instanceof ComponentRedeploymentOP) {
-                this.log.info("Initiating Redeployment");
-                final ArrayList<String> argList = new ArrayList<String>();
-                argList.add("-c");
-                if(System.getProperty("os.name").contains("Mac")){
-                	argList.add("/usr/local/bin/wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
-                }else{
-                	argList.add("wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
-                }  
-                ShellExecutor.invoke(
-                        "/bin/bash", /* command */
-                        argList, /* arg list */
-                        true);
-            } else {
-                throw new UnsupportedOperationException();
-            }
-        }
-    }
+			final ReconfigurationPlanModel.SLAsticReconfigurationPlan plan)
+			throws ReconfigurationException {
+		final EList<SLAsticReconfigurationOpType> operations =
+				plan.getOperations();
+		for (final SLAsticReconfigurationOpType op : operations) {
+			// Check of which type the Operation is
+			// if (op instanceof ComponentDeReplicationOPImpl) {
+			// throw new UnsupportedOperationException();
+			// } else if (op instanceof ComponentMigrationOPImpl) {
+			// throw new UnsupportedOperationException();
+			// } else if (op instanceof ComponentReplicationOPImpl) {
+			// throw new UnsupportedOperationException();
+			// } else if (op instanceof NodeAllocationOPImpl) {
+			// throw new UnsupportedOperationException();
+			// } else if (op instanceof NodeDeAllocationOPImpl) {
+			// throw new UnsupportedOperationException();
+			// } else {
+			if (op instanceof ComponentRedeploymentOP) {
+				this.log.info("Initiating Redeployment");
+				final ArrayList<String> argList = new ArrayList<String>();
+				argList.add("-c");
+				if (System.getProperty("os.name").contains("Mac")) {
+					argList.add("/usr/local/bin/wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+				} else {
+					argList.add("wget 'http://127.0.0.1:8080/catalogComplexityManagerServlet/index?action=setComplexity&complexity=200'");
+				}
+				ShellExecutor.invoke("/bin/bash", /* command */
+				argList, /* arg list */
+				true);
+			} else {
+				throw new UnsupportedOperationException();
+			}
+		}
+	}
 
-    @Override
-    public boolean execute() {
-        return true;
-    }
+	@Override
+	public boolean execute() {
+		return true;
+	}
 
-    @Override
-    public void terminate(final boolean error) {  }
+	@Override
+	public void terminate(final boolean error) {
+	}
 
-    @Override
-    public boolean init() {
-        return true;
-    }
+	@Override
+	public boolean init() {
+		return true;
+	}
 
 	@Override
 	public void doReconfiguration(final ReconfigurationPlan plan)
 			throws ReconfigurationException {
 		throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
-	protected DeploymentComponent concreteReplicateComponent(
+	protected boolean concreteReplicateComponent(
 			final AssemblyComponent assemblyComponent,
-			final ExecutionContainer toExecutionContainer) {
+			final ExecutionContainer toExecutionContainer,
+			final DeploymentComponent resDeploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -96,15 +98,17 @@ public class ReconfigurationManagerWget extends AbstractReconfigurationManagerCo
 	}
 
 	@Override
-	protected DeploymentComponent concreteMigrateComponent(
+	protected boolean concreteMigrateComponent(
 			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer destination) {
+			final ExecutionContainer destination,
+			final DeploymentComponent resDeploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected ExecutionContainer concreteAllocateExecutionContainer(
-			final ExecutionContainerType executionContainerType) {
+	protected boolean concreteAllocateExecutionContainer(
+			final ExecutionContainerType executionContainerType,
+			final ExecutionContainer resExecutionContainer) {
 		throw new UnsupportedOperationException();
 	}
 

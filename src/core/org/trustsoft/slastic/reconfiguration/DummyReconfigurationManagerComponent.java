@@ -36,34 +36,42 @@ public class DummyReconfigurationManagerComponent extends
 	}
 
 	@Override
-	protected DeploymentComponent concreteReplicateComponent(
+	protected boolean concreteReplicateComponent(
 			final AssemblyComponent assemblyComponent,
-			final ExecutionContainer toExecutionContainer) {
-		throw new UnsupportedOperationException();
+			final ExecutionContainer toExecutionContainer,
+			final DeploymentComponent resDeploymentComponent) {
+		// we successfully did nothing ;-)
+		return true;
 	}
 
 	@Override
 	protected boolean concreteDereplicateComponent(
 			final DeploymentComponent deploymentContainer) {
-		throw new UnsupportedOperationException();
+		// we successfully did nothing ;-)
+		return true;
 	}
 
 	@Override
-	protected DeploymentComponent concreteMigrateComponent(
+	protected boolean concreteMigrateComponent(
 			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer destination) {
-		throw new UnsupportedOperationException();
+			final ExecutionContainer destination,
+			final DeploymentComponent resDeploymentComponent) {
+		// we successfully did nothing ;-)
+		return true;
 	}
 
 	@Override
-	protected ExecutionContainer concreteAllocateExecutionContainer(
-			final ExecutionContainerType executionContainerType) {
-		throw new UnsupportedOperationException();
+	protected boolean concreteAllocateExecutionContainer(
+			final ExecutionContainerType executionContainerType,
+			final ExecutionContainer resExecutionContainer) {
+		// we successfully did nothing ;-)
+		return true;
 	}
 
 	@Override
 	protected boolean concreteDeallocateExecutionContainer(
 			final ExecutionContainer executionContainer) {
-		throw new UnsupportedOperationException();
+		// we successfully did nothing ;-)
+		return true;
 	}
 }
