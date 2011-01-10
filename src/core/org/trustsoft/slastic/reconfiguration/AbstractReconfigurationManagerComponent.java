@@ -183,10 +183,10 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	/**
 	 * Removes the given deployment component from the system model.
 	 * 
-	 * @param deploymentContainer
+	 * @param deploymentComponent
 	 */
 	protected abstract boolean concreteDereplicateComponent(
-			final DeploymentComponent deploymentContainer);
+			final DeploymentComponent deploymentComponent);
 
 	/**
 	 * TODO: change visibility to private as soon as extended plan meta-model
