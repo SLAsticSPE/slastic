@@ -48,6 +48,6 @@ public class Version {
      * @return the version String.
      */
 	public static final String getVERSION() {
-		return VERSION;
+		return Version.VERSION;
 	}
 }
