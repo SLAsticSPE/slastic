@@ -37,7 +37,7 @@ public interface IDeploymentComponentsManager {
 	public DeploymentComponent createAndRegisterDeploymentComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer);
-
+	
 	/**
 	 * Removes the given deployment component from the model.
 	 * 

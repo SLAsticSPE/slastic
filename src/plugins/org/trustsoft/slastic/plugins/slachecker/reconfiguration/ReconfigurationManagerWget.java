@@ -117,4 +117,30 @@ public class ReconfigurationManagerWget extends
 			final ExecutionContainer executionContainer) {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Override
+	protected DeploymentComponent createPreliminaryDeploymentComponent(
+			final AssemblyComponent assemblyComponent,
+			final ExecutionContainer toExecutionContainer) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected void deletePreliminaryDeploymentComponent(
+			final DeploymentComponent deploymentComponent) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected ExecutionContainer createPreliminaryExecutionContainer(
+			final String fullyQualifiedName,
+			final ExecutionContainerType executionContainerType) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	protected void deletePreliminaryExecutionContainer(
+			final ExecutionContainer executionContainer) {
+		throw new UnsupportedOperationException();
+	}
 }

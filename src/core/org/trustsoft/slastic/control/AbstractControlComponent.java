@@ -85,10 +85,10 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		/* Register exception handler (factory class) */
 		configuration.getEngineDefaults().getExceptionHandling()
 				.addClass(CEPEngineExceptionHandlerFactory.class);
-		
+
 		/* Enable/disable path tracing */
-//		configuration.getEngineDefaults().getLogging().setEnableExecutionDebug(true);
-//		configuration.getEngineDefaults().getLogging().setEnableTimerDebug(true);
+		// configuration.getEngineDefaults().getLogging().setEnableExecutionDebug(true);
+		// configuration.getEngineDefaults().getLogging().setEnableTimerDebug(true);
 
 		this.epServiceProvider =
 				EPServiceProviderManager.getProvider("custom", configuration);
@@ -128,8 +128,8 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	/**
 	 * Returns the current time in milliseconds since January 1, 1970 (UTC).
 	 */
-	public final void getCurrentTimeMillis() {
-		this.epServiceProvider.getEPRuntime().getCurrentTime();
+	public final long getCurrentTimeMillis() {
+		return this.epServiceProvider.getEPRuntime().getCurrentTime();
 	}
 
 	@Override

@@ -9,10 +9,8 @@ import org.trustsoft.slastic.common.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentFactory;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
-import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ComponentDereplication;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ComponentMigration;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ComponentReplication;
@@ -89,7 +87,10 @@ public abstract class AbstractReconfigurationManagerComponent extends
 				final ExecutionContainerType container =
 						((ContainerAllocation) op).getContainerType();
 				final ExecutionContainer resContainer =
-						this.allocateExecutionContainer(container);
+						// TODO: extend meta-model such that nodeAllocation
+						// operation requires an execution container name
+						this.allocateExecutionContainer("FIXME:NoName",
+								container);
 				// TODO: evaluate return value
 			} else if (op instanceof ContainerDeallocation) {
 				final ExecutionContainer container =
@@ -107,7 +108,29 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	}
 
 	// TODO: remove
-	private int nextId = 1;
+	private final int nextId = 1;
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract DeploymentComponent createPreliminaryDeploymentComponent(
+			final AssemblyComponent assemblyComponent,
+			final ExecutionContainer toExecutionContainer);
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract void deletePreliminaryDeploymentComponent(
+			DeploymentComponent deploymentComponent);
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract ExecutionContainer createPreliminaryExecutionContainer(
+			String fullyQualifiedName,
+			ExecutionContainerType executionContainerType);
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract void deletePreliminaryExecutionContainer(
+			ExecutionContainer executionContainer);
 
 	/**
 	 * TODO: change visibility to private as soon as extended plan meta-model
@@ -120,22 +143,16 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	public DeploymentComponent replicateComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
-		DeploymentComponent resDeploymentComponent;
-		{ // TODO: acquire instance from Model Manager
-			resDeploymentComponent =
-					ComponentDeploymentFactory.eINSTANCE
-							.createDeploymentComponent();
-			resDeploymentComponent.setAssemblyComponent(assemblyComponent);
-			resDeploymentComponent.setExecutionContainer(toExecutionContainer);
-			resDeploymentComponent.setId(this.nextId++);
-		}
+		DeploymentComponent resDeploymentComponent =
+					this.createPreliminaryDeploymentComponent(
+							assemblyComponent, toExecutionContainer);
 
 		final boolean success =
 				this.concreteReplicateComponent(assemblyComponent,
 						toExecutionContainer, resDeploymentComponent);
 
 		if (!success) {
-			// TODO: remove instance from Model Manager?
+			this.deletePreliminaryDeploymentComponent(resDeploymentComponent);
 			resDeploymentComponent = null;
 			this.log.error("concreteReplicateComponent failed");
 		}
@@ -199,23 +216,16 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	public DeploymentComponent migrateComponent(
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer destination) {
-		DeploymentComponent resDeploymentComponent;
-		{ // TODO: acquire instance from Model Manager
-			resDeploymentComponent =
-					ComponentDeploymentFactory.eINSTANCE
-							.createDeploymentComponent();
-			resDeploymentComponent.setAssemblyComponent(deploymentComponent
-					.getAssemblyComponent());
-			resDeploymentComponent.setExecutionContainer(destination);
-			resDeploymentComponent.setId(this.nextId++);
-		}
+		DeploymentComponent resDeploymentComponent =
+				this.createPreliminaryDeploymentComponent(
+						deploymentComponent.getAssemblyComponent(), destination);
 
 		final boolean success =
 				this.concreteMigrateComponent(deploymentComponent, destination,
 						resDeploymentComponent);
 
 		if (!success) {
-			// TODO: remove instance from Model Manager?
+			this.deletePreliminaryDeploymentComponent(resDeploymentComponent);
 			resDeploymentComponent = null;
 			this.log.error("concreteMigrateComponent failed");
 		}
@@ -246,32 +256,25 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	 * @return
 	 */
 	public ExecutionContainer allocateExecutionContainer(
+			final String fullyQualifiedName,
 			final ExecutionContainerType executionContainerType) {
-		ExecutionContainer resContainer;
-		{ // TODO: acquire instance from Model Manager
-			resContainer =
-					ExecutionEnvironmentFactory.eINSTANCE
-							.createExecutionContainer();
-			resContainer.setExecutionContainerType(executionContainerType);
-			resContainer.setName("hostname-" + this.nextId++);
-			// TODO: we need to store this mapping somewhere where the
-			// Monitoring Manager has access to this information
-			resContainer.setId(this.nextId++);
-		}
+		ExecutionContainer executionContainer =
+				this.createPreliminaryExecutionContainer(fullyQualifiedName,
+						executionContainerType);
 
 		final boolean success =
 				this.concreteAllocateExecutionContainer(executionContainerType,
-						resContainer);
+						executionContainer);
 
 		if (!success) {
-			// TODO: remove instance from Model Manager?
-			resContainer = null;
+			this.deletePreliminaryExecutionContainer(executionContainer);
+			executionContainer = null;
 			this.log.error("concreteAllocateExecutionContainer failed");
 		}
 
 		// TODO: log event
 
-		return resContainer;
+		return executionContainer;
 	}
 
 	/**
