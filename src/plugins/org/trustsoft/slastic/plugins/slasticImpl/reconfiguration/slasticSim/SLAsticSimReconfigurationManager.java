@@ -168,28 +168,40 @@ public class SLAsticSimReconfigurationManager extends
 	}
 	
 	@Override
-	protected DeploymentComponent createPreliminaryDeploymentComponent(
+	protected DeploymentComponent createPreliminaryDeploymentComponentInModel(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected void deletePreliminaryDeploymentComponent(
+	protected void deletePreliminaryDeploymentComponentFromModel(
 			final DeploymentComponent deploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected ExecutionContainer createPreliminaryExecutionContainer(
+	protected ExecutionContainer createPreliminaryExecutionContainerInModel(
 			final String fullyQualifiedName,
 			final ExecutionContainerType executionContainerType) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	protected void deletePreliminaryExecutionContainer(
+	protected void deletePreliminaryExecutionContainerFromModel(
 			final ExecutionContainer executionContainer) {
 		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	protected void deleteExecutionContainerFromModel(
+			final ExecutionContainer executionContainer) {
+		throw new UnsupportedOperationException();	
+	}
+
+	@Override
+	protected void deleteDeploymentComponentFromModel(
+			final DeploymentComponent deploymentComponent) {
+		throw new UnsupportedOperationException();			
 	}
 }

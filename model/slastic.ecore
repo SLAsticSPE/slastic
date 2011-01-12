@@ -91,6 +91,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="Entity">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" ordered="false" lowerBound="1"
           eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="active" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FQNamedEntity" eSuperTypes="#//core/NamedEntity">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="packageName" ordered="false"

@@ -32,6 +32,8 @@ public interface IExecutionContainersManager {
 	 */
 	public ExecutionContainer lookupExecutionContainer(final long id);
 
+	// TODO: Add method deleteExecutionContainer?
+
 	/**
 	 * Creates and registers a new execution container with the given
 	 * full-qualified name fullyQualifiedName and the type

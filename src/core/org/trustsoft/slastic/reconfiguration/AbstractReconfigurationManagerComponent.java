@@ -87,8 +87,8 @@ public abstract class AbstractReconfigurationManagerComponent extends
 				final ExecutionContainerType container =
 						((ContainerAllocation) op).getContainerType();
 				final ExecutionContainer resContainer =
-						// TODO: extend meta-model such that nodeAllocation
-						// operation requires an execution container name
+				// TODO: extend meta-model such that nodeAllocation
+				// operation requires an execution container name
 						this.allocateExecutionContainer("FIXME:NoName",
 								container);
 				// TODO: evaluate return value
@@ -107,30 +107,37 @@ public abstract class AbstractReconfigurationManagerComponent extends
 		}
 	}
 
-	// TODO: remove
-	private final int nextId = 1;
-
 	// TODO: remove or implement after we pulled the monitoring manager
 	// interface up to the core package
-	protected abstract DeploymentComponent createPreliminaryDeploymentComponent(
+	protected abstract DeploymentComponent createPreliminaryDeploymentComponentInModel(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer);
 
 	// TODO: remove or implement after we pulled the monitoring manager
 	// interface up to the core package
-	protected abstract void deletePreliminaryDeploymentComponent(
+	protected abstract void deletePreliminaryDeploymentComponentFromModel(
 			DeploymentComponent deploymentComponent);
 
 	// TODO: remove or implement after we pulled the monitoring manager
 	// interface up to the core package
-	protected abstract ExecutionContainer createPreliminaryExecutionContainer(
+	protected abstract ExecutionContainer createPreliminaryExecutionContainerInModel(
 			String fullyQualifiedName,
 			ExecutionContainerType executionContainerType);
 
 	// TODO: remove or implement after we pulled the monitoring manager
 	// interface up to the core package
-	protected abstract void deletePreliminaryExecutionContainer(
+	protected abstract void deletePreliminaryExecutionContainerFromModel(
 			ExecutionContainer executionContainer);
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract void deleteExecutionContainerFromModel(
+			ExecutionContainer executionContainer);
+
+	// TODO: remove or implement after we pulled the monitoring manager
+	// interface up to the core package
+	protected abstract void deleteDeploymentComponentFromModel(
+			DeploymentComponent deploymentComponent);
 
 	/**
 	 * TODO: change visibility to private as soon as extended plan meta-model
@@ -144,15 +151,15 @@ public abstract class AbstractReconfigurationManagerComponent extends
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
 		DeploymentComponent resDeploymentComponent =
-					this.createPreliminaryDeploymentComponent(
-							assemblyComponent, toExecutionContainer);
+				this.createPreliminaryDeploymentComponentInModel(
+						assemblyComponent, toExecutionContainer);
 
 		final boolean success =
 				this.concreteReplicateComponent(assemblyComponent,
 						toExecutionContainer, resDeploymentComponent);
 
 		if (!success) {
-			this.deletePreliminaryDeploymentComponent(resDeploymentComponent);
+			this.deletePreliminaryDeploymentComponentFromModel(resDeploymentComponent);
 			resDeploymentComponent = null;
 			this.log.error("concreteReplicateComponent failed");
 		}
@@ -179,15 +186,17 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	 * TODO: change visibility to private as soon as extended plan meta-model
 	 * exists
 	 * 
-	 * @param deploymentContainer
+	 * @param deploymentComponent
 	 * @return
 	 */
 	public boolean dereplicateComponent(
-			final DeploymentComponent deploymentContainer) {
+			final DeploymentComponent deploymentComponent) {
 		final boolean success =
-				this.concreteDereplicateComponent(deploymentContainer);
+				this.concreteDereplicateComponent(deploymentComponent);
 
-		// TODO: Notify model manager (do we need a "State Manager?")
+		this.log.info("Triggering removal of deployment component from model: "
+				+ deploymentComponent);
+		this.deleteDeploymentComponentFromModel(deploymentComponent);
 
 		if (!success) {
 			this.log.error("concreteDereplicateComponent failed");
@@ -217,15 +226,19 @@ public abstract class AbstractReconfigurationManagerComponent extends
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer destination) {
 		DeploymentComponent resDeploymentComponent =
-				this.createPreliminaryDeploymentComponent(
+				this.createPreliminaryDeploymentComponentInModel(
 						deploymentComponent.getAssemblyComponent(), destination);
 
 		final boolean success =
 				this.concreteMigrateComponent(deploymentComponent, destination,
 						resDeploymentComponent);
 
+		this.log.info("Triggering removal of deployment component from model: "
+				+ deploymentComponent);
+		this.deleteDeploymentComponentFromModel(deploymentComponent);
+
 		if (!success) {
-			this.deletePreliminaryDeploymentComponent(resDeploymentComponent);
+			this.deletePreliminaryDeploymentComponentFromModel(resDeploymentComponent);
 			resDeploymentComponent = null;
 			this.log.error("concreteMigrateComponent failed");
 		}
@@ -259,15 +272,15 @@ public abstract class AbstractReconfigurationManagerComponent extends
 			final String fullyQualifiedName,
 			final ExecutionContainerType executionContainerType) {
 		ExecutionContainer executionContainer =
-				this.createPreliminaryExecutionContainer(fullyQualifiedName,
-						executionContainerType);
+				this.createPreliminaryExecutionContainerInModel(
+						fullyQualifiedName, executionContainerType);
 
 		final boolean success =
 				this.concreteAllocateExecutionContainer(executionContainerType,
 						executionContainer);
 
 		if (!success) {
-			this.deletePreliminaryExecutionContainer(executionContainer);
+			this.deletePreliminaryExecutionContainerFromModel(executionContainer);
 			executionContainer = null;
 			this.log.error("concreteAllocateExecutionContainer failed");
 		}
@@ -298,7 +311,9 @@ public abstract class AbstractReconfigurationManagerComponent extends
 		final boolean success =
 				this.concreteDeallocateExecutionContainer(executionContainer);
 
-		// TODO: Notify model manager (do we need a "State Manager?")
+		this.log.info("Triggering removal of execution container from model: "
+				+ executionContainer);
+		this.deleteExecutionContainerFromModel(executionContainer);
 
 		if (!success) {
 			this.log.error("concreteDeallocateExecutionContainer failed");

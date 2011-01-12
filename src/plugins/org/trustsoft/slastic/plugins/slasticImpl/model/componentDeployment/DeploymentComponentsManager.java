@@ -21,7 +21,8 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 public class DeploymentComponentsManager extends
 		AbstractEntityManager<DeploymentComponent> implements
 		IDeploymentComponentsManager {
-	private static final ArrayList<DeploymentComponent> EMPTY_COLLECTION = new ArrayList<DeploymentComponent>();
+	private static final ArrayList<DeploymentComponent> EMPTY_COLLECTION =
+			new ArrayList<DeploymentComponent>();
 
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentsManager.class);
@@ -29,8 +30,9 @@ public class DeploymentComponentsManager extends
 	/**
 	 * Map assembly component ID x deployments for assembly component
 	 */
-	private final TreeMap<Long, TreeMap<Long, DeploymentComponent>> deploymentsForAsmComponentIDs = new TreeMap<Long, TreeMap<Long, DeploymentComponent>>();
-	
+	private final TreeMap<Long, TreeMap<Long, DeploymentComponent>> deploymentsForAsmComponentIDs =
+			new TreeMap<Long, TreeMap<Long, DeploymentComponent>>();
+
 	public DeploymentComponentsManager(
 			final List<DeploymentComponent> DeploymentComponents) {
 		super(DeploymentComponents);
@@ -45,8 +47,8 @@ public class DeploymentComponentsManager extends
 	public DeploymentComponent createAndRegisterDeploymentComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer) {
-		final DeploymentComponent deploymentComponent = this
-				.createAndRegisterEntity();
+		final DeploymentComponent deploymentComponent =
+				this.createAndRegisterEntity();
 		deploymentComponent.setAssemblyComponent(assemblyComponent);
 		deploymentComponent.setExecutionContainer(executionContainer);
 		this.addDeploymentComponentForAssemblyComponent(assemblyComponent,
@@ -59,6 +61,10 @@ public class DeploymentComponentsManager extends
 		return ComponentDeploymentFactory.eINSTANCE.createDeploymentComponent();
 	}
 
+	/**
+	 * TODO: Currently, we do not remove the {@link DeploymentComponent} but
+	 * mark it inactive {@link DeploymentComponent#isActive()}.
+	 */
 	@Override
 	public boolean deleteDeploymentComponent(
 			final DeploymentComponent deploymentComponent) {
@@ -75,9 +81,10 @@ public class DeploymentComponentsManager extends
 				.removeDeploymentComponentForAssemblyComponent(
 						deploymentComponent.getAssemblyComponent(),
 						deploymentComponent)) {
-			DeploymentComponentsManager.log.error("Failed to remove deployment component from internal map: "
-					+ deploymentComponent
-					+ ". This means that the internal state is inconsistent now! ");
+			DeploymentComponentsManager.log
+					.error("Failed to remove deployment component from internal map: "
+							+ deploymentComponent
+							+ ". This means that the internal state is inconsistent now! ");
 		}
 		return true;
 	}
@@ -86,8 +93,10 @@ public class DeploymentComponentsManager extends
 	public DeploymentComponent migrateDeploymentComponent(
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer toExecutionContainer) {
-		final DeploymentComponent newDeploymentComponent = 
-			this.createAndRegisterDeploymentComponent(deploymentComponent.getAssemblyComponent(), toExecutionContainer);
+		final DeploymentComponent newDeploymentComponent =
+				this.createAndRegisterDeploymentComponent(
+						deploymentComponent.getAssemblyComponent(),
+						toExecutionContainer);
 		this.deleteDeploymentComponent(deploymentComponent);
 		return newDeploymentComponent;
 	}
@@ -96,6 +105,9 @@ public class DeploymentComponentsManager extends
 	 * Removes the given {@link DeploymentComponent} from the list of
 	 * deployments for the given {@link AssemblyComponent}.
 	 * 
+	 * TODO: Currently, we do not remove the {@link DeploymentComponent} but
+	 * mark it inactive {@link DeploymentComponent#isActive()}.
+	 * 
 	 * @param assemblyComponent
 	 * @param oldDeploymentComponent
 	 * @return
@@ -103,27 +115,30 @@ public class DeploymentComponentsManager extends
 	private boolean removeDeploymentComponentForAssemblyComponent(
 			final AssemblyComponent assemblyComponent,
 			final DeploymentComponent oldDeploymentComponent) {
-		final TreeMap<Long, DeploymentComponent> deploymentsForComponent = this.deploymentsForAsmComponentIDs
-				.get(assemblyComponent.getId());
+		final TreeMap<Long, DeploymentComponent> deploymentsForComponent =
+				this.deploymentsForAsmComponentIDs.get(assemblyComponent
+						.getId());
 		if (deploymentsForComponent == null) {
 			DeploymentComponentsManager.log
-					.fatal("List of deployment for assembly component is null. Assembly compoenent ID: "
+					.fatal("List of deployment for assembly component is null. Assembly component ID: "
 							+ assemblyComponent.getId());
 			return false;
 		}
 
-		return deploymentsForComponent.remove(oldDeploymentComponent.getId()) == oldDeploymentComponent;
+		//return deploymentsForComponent.remove(oldDeploymentComponent.getId()) == oldDeploymentComponent;
+		return deploymentsForComponent.get(oldDeploymentComponent.getId()) == oldDeploymentComponent;
 	}
 
 	@Override
 	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
 			final AssemblyComponent assemblyComponent) {
-		final TreeMap<Long, DeploymentComponent> deployments = this.deploymentsForAsmComponentIDs
-						.get(assemblyComponent.getId());
-		if (deployments == null){
+		final TreeMap<Long, DeploymentComponent> deployments =
+				this.deploymentsForAsmComponentIDs.get(assemblyComponent
+						.getId());
+		if (deployments == null) {
 			return DeploymentComponentsManager.EMPTY_COLLECTION;
 		} else {
-			return deployments.values(); 
+			return deployments.values();
 		}
 	}
 
@@ -131,8 +146,8 @@ public class DeploymentComponentsManager extends
 	public DeploymentComponent deploymentComponentForAssemblyComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer) {
-		final Collection<DeploymentComponent> deployments = this
-				.deploymentComponentsForAssemblyComponent(assemblyComponent);
+		final Collection<DeploymentComponent> deployments =
+				this.deploymentComponentsForAssemblyComponent(assemblyComponent);
 		for (final DeploymentComponent depl : deployments) {
 			if (depl.getExecutionContainer() == executionContainer) {
 				return depl;
@@ -152,8 +167,9 @@ public class DeploymentComponentsManager extends
 	private void addDeploymentComponentForAssemblyComponent(
 			final AssemblyComponent assemblyComponent,
 			final DeploymentComponent newDeploymentComponent) {
-		TreeMap<Long, DeploymentComponent> deploymentsForComponent = this.deploymentsForAsmComponentIDs
-				.get(assemblyComponent.getId());
+		TreeMap<Long, DeploymentComponent> deploymentsForComponent =
+				this.deploymentsForAsmComponentIDs.get(assemblyComponent
+						.getId());
 		if (deploymentsForComponent == null) {
 			/*
 			 * First deployment for assembly component -- create new deployment

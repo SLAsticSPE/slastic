@@ -101,6 +101,7 @@ public class ExecutionEnvironmentModelManager extends
 	@Override
 	public boolean deallocateExecutionContainer(
 			final ExecutionContainer executionContainer) {
-		throw new UnsupportedOperationException("Not supported yet.");
+		return this.executionContainersAllocationManager
+				.allocateExecutionContainer(executionContainer);
 	}
 }

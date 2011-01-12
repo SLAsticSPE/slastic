@@ -48,10 +48,20 @@ public abstract class AbstractEntityManager<T extends Entity> {
 
 	protected abstract T createEntity();
 
+	/**
+	 * By default, entities have the status active.
+	 * 
+	 * @return
+	 */
 	public T createAndRegisterEntity() {
 		final T newEntity = this.createEntity();
 		this.assignIdAndRegister(newEntity);
+		this.assignStatus(newEntity, true);
 		return newEntity;
+	}
+
+	public void assignStatus(final T entity, final boolean active) {
+		entity.setActive(true);
 	}
 
 	protected void assignIdAndRegister(final T entity) {
@@ -63,25 +73,31 @@ public abstract class AbstractEntityManager<T extends Entity> {
 	/**
 	 * Removes the entity from the list of registered entities.
 	 * 
+	 * TODO: currently, we only set {@link Entity#setActive(boolean)} to true
+	 * rather than permanently removing the entity.
+	 * 
 	 * @param entity
 	 * @return true iff the model contained the element, false otherwise
 	 * @throws IllegalStateException
 	 *             if an inconsistent state is detected
 	 */
 	public boolean removeEntity(final T entity) {
-		final T removedEntity = this.entitiesById.remove(entity.getId());
-		if (removedEntity != entity) {
-			final IllegalStateException ise =
-					new IllegalStateException(
-							"Unexpected element removed with id"
-									+ entity.getId() + ". Expected: " + entity
-									+ " ; removed: " + removedEntity);
-			AbstractEntityManager.log.error(
-					"IllegalStateException: " + ise.getMessage(), ise);
-			throw ise;
-		}
-
-		return this.entities.remove(entity);
+		// final T removedEntity = this.entitiesById.remove(entity.getId());
+		// if (removedEntity != entity) {
+		// final IllegalStateException ise =
+		// new IllegalStateException(
+		// "Unexpected element removed with id"
+		// + entity.getId() + ". Expected: " + entity
+		// + " ; removed: " + removedEntity);
+		// AbstractEntityManager.log.error(
+		// "IllegalStateException: " + ise.getMessage(), ise);
+		// throw ise;
+		// }
+		//
+		// return this.entities.remove(entity);
+		AbstractEntityManager.log.info("Setting entity's activity to false: " + entity);
+		entity.setActive(false);
+		return true;
 	}
 
 	/**

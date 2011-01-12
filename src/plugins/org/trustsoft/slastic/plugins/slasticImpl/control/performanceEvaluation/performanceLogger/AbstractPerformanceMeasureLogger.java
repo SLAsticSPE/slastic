@@ -57,6 +57,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		strB.deleteCharAt(0); // delete first CSV_FIELD_DELIM
 
 		pw.println(strB.toString());
+		pw.flush();
 	}
 
 	protected abstract String createFilename(T entity);

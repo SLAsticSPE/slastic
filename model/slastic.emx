@@ -1199,7 +1199,7 @@
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_cDPHcOECEd-807ntrzgA5A" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_cDPugOECEd-807ntrzgA5A" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_cDPugeECEd-807ntrzgA5A" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cDMrMeECEd-807ntrzgA5A" x="4750" y="1125"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_cDMrMeECEd-807ntrzgA5A" x="4500" y="1125"/>
           </children>
           <element xsi:nil="true"/>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_OCDbwJ8DEd-l1J3OQ8v6iQ" element="_OCA_gJ8DEd-l1J3OQ8v6iQ" source="_LsocgJ8DEd-l1J3OQ8v6iQ" target="_6nJiQJ8CEd-l1J3OQ8v6iQ" fontName="Arial" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
@@ -1579,6 +1579,9 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
       <packagedElement xmi:type="uml:Class" xmi:id="_cDJA0OECEd-807ntrzgA5A" name="Entity">
         <ownedAttribute xmi:id="_c95_8OECEd-807ntrzgA5A" name="id" visibility="private">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_eWDtkB4qEeChf6TTXwB0IQ" name="active" visibility="private">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
         </ownedAttribute>
       </packagedElement>
     </packagedElement>
