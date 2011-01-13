@@ -126,7 +126,7 @@ public class ReconfigurationManagerWget extends
 	}
 
 	@Override
-	protected void deletePreliminaryDeploymentComponentFromModel(
+	protected boolean deletePreliminaryDeploymentComponentFromModel(
 			final DeploymentComponent deploymentComponent) {
 		throw new UnsupportedOperationException();
 	}
@@ -139,19 +139,19 @@ public class ReconfigurationManagerWget extends
 	}
 
 	@Override
-	protected void deletePreliminaryExecutionContainerFromModel(
+	protected boolean deletePreliminaryExecutionContainerFromModel(
 			final ExecutionContainer executionContainer) {
 		throw new UnsupportedOperationException();
 	}
 	
 	@Override
-	protected void deleteExecutionContainerFromModel(
+	protected boolean deleteExecutionContainerFromModel(
 			final ExecutionContainer executionContainer) {
 		throw new UnsupportedOperationException();	
 	}
 
 	@Override
-	protected void deleteDeploymentComponentFromModel(
+	protected boolean deleteDeploymentComponentFromModel(
 			final DeploymentComponent deploymentComponent) {
 		throw new UnsupportedOperationException();			
 	}
