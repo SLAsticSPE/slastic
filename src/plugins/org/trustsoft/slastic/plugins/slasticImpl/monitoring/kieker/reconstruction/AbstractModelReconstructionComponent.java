@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -50,13 +52,42 @@ public abstract class AbstractModelReconstructionComponent extends
 	}
 
 	/**
+	 * TODO: Really DIRTY HACK: This information should be stored somewhere
+	 * central, e.g., in the model manager.
+	 * 
+	 * Maps a technical hostname to the corresponding archiectural container
+	 * name;
+	 */
+	public static final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
+			new ConcurrentHashMap<String, ExecutionContainer>();
+
+	boolean reportedMatch = false;
+
+	/**
 	 * 
 	 * @param hostName
 	 * @return
 	 */
 	protected ExecutionContainer lookupOrCreateExecutionContainerByName(
 			final String hostName) {
+
 		ExecutionContainer executionContainer;
+
+		{ /* HACK! */
+			executionContainer =
+					AbstractModelReconstructionComponent.containerNameMapping
+							.get(hostName);
+			if (executionContainer != null) {
+				if (!this.reportedMatch) {
+					AbstractModelReconstructionComponent.log
+							.info("Found match: " + hostName + "->"
+									+ executionContainer);
+					this.reportedMatch = true;
+				}
+				return executionContainer;
+			}
+		}
+
 		{
 			/*
 			 * Lookup execution container
@@ -68,6 +99,9 @@ public abstract class AbstractModelReconstructionComponent extends
 				/* We need to create the execution container */
 				executionContainer = this.createExecutionContainer(hostName);
 			}
+			// TODO: remove
+			AbstractModelReconstructionComponent.containerNameMapping.put(
+					hostName, executionContainer);
 		}
 		return executionContainer;
 	}
