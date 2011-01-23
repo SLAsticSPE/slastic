@@ -22,31 +22,31 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	private static final Log log = LogFactory
 			.getLog(AssemblyComponentOperationExecutionCountLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
-	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5;
 
-	private final int winTimeMin;
-	private final int outputIntervalMin;
+	private final int winTimeSec;
+	private final int outputIntervalSec;
 
 	public AssemblyComponentOperationExecutionCountLogger(
 			final IComponentContext context) {
 		this(
 				context,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_MINUTES,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+				AssemblyComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_SECONDS,
+				AssemblyComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
 	 * @param context
-	 * @param winTimeMin
-	 * @param outputIntervalMin
+	 * @param winTimeSec
+	 * @param outputIntervalSec
 	 */
 	public AssemblyComponentOperationExecutionCountLogger(
-			final IComponentContext context, final int winTimeMin,
-			final int outputIntervalMin) {
+			final IComponentContext context, final int winTimeSec,
+			final int outputIntervalSec) {
 		super(context);
-		this.winTimeMin = winTimeMin;
-		this.outputIntervalMin = outputIntervalMin;
+		this.winTimeSec = winTimeSec;
+		this.outputIntervalSec = outputIntervalSec;
 	}
 
 	/**
@@ -115,14 +115,14 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
 				+ " from "
 				+ DeploymentComponentOperationExecution.class.getName()
-				+ ".win:time(" + this.winTimeMin + " min)"
+				+ ".win:time(" + this.winTimeSec + " sec)"
 				+ " group by deploymentComponent.assemblyComponent"
-				+ " output all every " + this.outputIntervalMin + " minutes";
+				+ " output all every " + this.outputIntervalSec + " seconds";
 	}
 
 	@Override
 	protected String createMetaInfoLine() {
-		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
-				+ this.outputIntervalMin;
+		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec="
+				+ this.outputIntervalSec;
 	}
 }

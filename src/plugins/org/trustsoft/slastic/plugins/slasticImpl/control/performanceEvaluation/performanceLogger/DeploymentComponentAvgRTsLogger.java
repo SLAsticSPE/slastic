@@ -23,27 +23,27 @@ public class DeploymentComponentAvgRTsLogger extends
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentAvgRTsLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
-	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5*60;
 
-	private final int winTimeMin;
-	private final int outputIntervalMin;
+	private final int winTimeSec;
+	private final int outputIntervalSec;
 
 	public DeploymentComponentAvgRTsLogger(final IComponentContext context) {
-		this(context, DeploymentComponentAvgRTsLogger.DEFAULT_WIN_TIME_MINUTES,
-				DeploymentComponentAvgRTsLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+		this(context, DeploymentComponentAvgRTsLogger.DEFAULT_WIN_TIME_SECONDS,
+				DeploymentComponentAvgRTsLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
 	 * @param context
-	 * @param winTimeMin
-	 * @param outputIntervalMin
+	 * @param winTimeSec
+	 * @param outputIntervalSec
 	 */
 	public DeploymentComponentAvgRTsLogger(final IComponentContext context,
-			final int winTimeMin, final int outputIntervalMin) {
+			final int winTimeSec, final int outputIntervalSec) {
 		super(context);
-		this.winTimeMin = winTimeMin;
-		this.outputIntervalMin = outputIntervalMin;
+		this.winTimeSec = winTimeSec;
+		this.outputIntervalSec = outputIntervalSec;
 	}
 
 	/**
@@ -125,15 +125,15 @@ public class DeploymentComponentAvgRTsLogger extends
 				+ "current_timestamp as currentTimestampMillis, deploymentComponent, avg(tout-tin)"
 				+ " from "
 				+ DeploymentComponentOperationExecution.class.getName()
-				+ ".win:time(" + this.winTimeMin
-				+ " min)" // 60
+				+ ".win:time(" + this.winTimeSec
+				+ " sec)" // 60
 				+ " group by deploymentComponent" + " output all every "
-				+ this.outputIntervalMin + " minutes";
+				+ this.outputIntervalSec + " seconds";
 	}
 	
 	@Override
 	protected String createMetaInfoLine() {
-		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
-				+ this.outputIntervalMin;
+		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec="
+				+ this.outputIntervalSec;
 	}
 }

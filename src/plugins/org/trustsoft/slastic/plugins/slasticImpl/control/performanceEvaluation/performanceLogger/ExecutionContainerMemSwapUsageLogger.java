@@ -24,31 +24,31 @@ public class ExecutionContainerMemSwapUsageLogger extends
 	private static final Log log = LogFactory
 			.getLog(ExecutionContainerMemSwapUsageLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_MINUTES = 5;
-	public static final int DEFAULT_OUTPUT_INTERVAL_MINUTES = 5;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5;
 
-	private final int winTimeMin;
-	private final int outputIntervalMin;
+	private final int winTimeSec;
+	private final int outputIntervalSec;
 
 	public ExecutionContainerMemSwapUsageLogger(
 			final IComponentContext context) {
 		this(
 				context,
-				ExecutionContainerMemSwapUsageLogger.DEFAULT_WIN_TIME_MINUTES,
-				ExecutionContainerMemSwapUsageLogger.DEFAULT_OUTPUT_INTERVAL_MINUTES);
+				ExecutionContainerMemSwapUsageLogger.DEFAULT_WIN_TIME_SECONDS,
+				ExecutionContainerMemSwapUsageLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
 	 * @param context
-	 * @param winTimeMin
-	 * @param outputIntervalMin
+	 * @param winTimeSec
+	 * @param outputIntervalSec
 	 */
 	public ExecutionContainerMemSwapUsageLogger(
-			final IComponentContext context, final int winTimeMin,
-			final int outputIntervalMin) {
+			final IComponentContext context, final int winTimeSec,
+			final int outputIntervalSec) {
 		super(context);
-		this.winTimeMin = winTimeMin;
-		this.outputIntervalMin = outputIntervalMin;
+		this.winTimeSec = winTimeSec;
+		this.outputIntervalSec = outputIntervalSec;
 	}
 
 	private String[] createRow(final long currentTimestampMillis,
@@ -145,14 +145,14 @@ public class ExecutionContainerMemSwapUsageLogger extends
 				+
 				", swapUsedBytes, swapFreeBytes"
 				+ " from " + MemSwapUsage.class.getName()
-				// + ".win:time("+this.winTimeMin+" min)" // 60
+				// + ".win:time("+this.winTimeMin+" sec)" // 60
 				+ " group by resource" + " output last every "
-				+ this.outputIntervalMin + " minutes";
+				+ this.outputIntervalSec + " seconds";
 	}
 
 	@Override
 	protected String createMetaInfoLine() {
-		return "winTimeMin=" + this.winTimeMin + "; outputIntervalMin="
-				+ this.outputIntervalMin;
+		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec="
+				+ this.outputIntervalSec;
 	}
 }
