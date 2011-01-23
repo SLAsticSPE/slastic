@@ -34,7 +34,7 @@ public class CmdlOptions {
 
 	public final static Option CMDL_OPT_FS_INPUT_DIRS =
 			CmdlOptions
-					.createOptionWithArgAndShortOpt(
+					.createOptionWithArgsAndShortOpt(
 							"kieker-dirs",
 							"d",
 							"List of Kieker input directories (separated by semicolon)",
@@ -101,6 +101,28 @@ public class CmdlOptions {
 		o.setRequired(isRequired);
 		o.setArgName(argName);
 		o.setValueSeparator(CmdlOptions.DEFAULT_VALUE_SEPARATOR);
+		return o;
+	}
+
+	/**
+	 * 
+	 * @param longOpt
+	 * @param shortName
+	 * @param description
+	 * @param isRequired
+	 * @param argName
+	 * @return
+	 */
+	public static Option createOptionWithArgsAndShortOpt(
+			final String longOpt, final String shortName,
+			final String description, final boolean isRequired,
+			final String argName) {
+		final Option o =
+				new Option(shortName, longOpt, true /* hasArg */, description);
+		o.setRequired(isRequired);
+		o.setArgName(argName);
+		o.setValueSeparator(CmdlOptions.DEFAULT_VALUE_SEPARATOR);
+		o.setArgs(Integer.MAX_VALUE);
 		return o;
 	}
 

@@ -2,6 +2,7 @@ package org.trustsoft.slastic.plugins.starter.kieker;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -38,7 +39,7 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 			CmdlOptions.CMDL_OPT_FS_REALTIME_MODE,
 			CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS,
 			CmdlOptions.CMDL_OPT_IGNORERECORDSBEFOREDATE,
-			CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE};
+			CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE };
 
 	public AnalysisStarterFileSystem(final String[] args) {
 		super(args, AnalysisStarterFileSystem.ADDITIONAL_CMDL_OPTS);
@@ -69,6 +70,7 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 						this.numRealtimeWorkerThreads,
 						this.ignoreRecordsBeforeTimestamp,
 						this.ignoreRecordsAfterTimestamp);
+		AnalysisStarterFileSystem.log.info("LOG DIRS: " + Arrays.toString(this.inputDirsArr));
 		return fsReplayer.replay();
 	}
 
