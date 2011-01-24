@@ -1,0 +1,106 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
+package de.cau.se.slastic.metamodel.executionEnvironment;
+
+import de.cau.se.slastic.metamodel.core.FQNamedEntity;
+
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+
+import org.eclipse.emf.common.util.EList;
+
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b>Execution Container</b></em>'.
+ * <!-- end-user-doc -->
+ *
+ * <p>
+ * The following features are supported:
+ * <ul>
+ *   <li>{@link de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer#getExecutionContainerType <em>Execution Container Type</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer#getResources <em>Resources</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @see de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer()
+ * @model
+ * @generated
+ */
+public interface ExecutionContainer extends FQNamedEntity {
+	/**
+	 * Returns the value of the '<em><b>Execution Container Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Execution Container Type</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Execution Container Type</em>' reference.
+	 * @see #setExecutionContainerType(ExecutionContainerType)
+	 * @see de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer_ExecutionContainerType()
+	 * @model required="true" ordered="false"
+	 * @generated
+	 */
+	ExecutionContainerType getExecutionContainerType();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer#getExecutionContainerType <em>Execution Container Type</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Execution Container Type</em>' reference.
+	 * @see #getExecutionContainerType()
+	 * @generated
+	 */
+	void setExecutionContainerType(ExecutionContainerType value);
+
+	/**
+	 * Returns the value of the '<em><b>Network Link</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink#getExecutionContainers <em>Execution Containers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Network Link</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Network Link</em>' reference.
+	 * @see #setNetworkLink(NetworkLink)
+	 * @see de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer_NetworkLink()
+	 * @see de.cau.se.slastic.metamodel.executionEnvironment.NetworkLink#getExecutionContainers
+	 * @model opposite="executionContainers" required="true" ordered="false"
+	 * @generated
+	 */
+	NetworkLink getNetworkLink();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Network Link</em>' reference.
+	 * @see #getNetworkLink()
+	 * @generated
+	 */
+	void setNetworkLink(NetworkLink value);
+
+	/**
+	 * Returns the value of the '<em><b>Resources</b></em>' containment reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.executionEnvironment.Resource}.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.executionEnvironment.Resource#getExecutionContainer <em>Execution Container</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Resources</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Resources</em>' containment reference list.
+	 * @see de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer_Resources()
+	 * @see de.cau.se.slastic.metamodel.executionEnvironment.Resource#getExecutionContainer
+	 * @model opposite="executionContainer" containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<Resource> getResources();
+
+} // ExecutionContainer
