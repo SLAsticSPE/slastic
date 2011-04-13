@@ -2,7 +2,6 @@ package org.trustsoft.slastic.control.exceptions;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.control.AbstractControlComponent;
 
 import com.espertech.esper.client.hook.ExceptionHandler;
 import com.espertech.esper.client.hook.ExceptionHandlerContext;
@@ -16,7 +15,7 @@ import com.espertech.esper.client.hook.ExceptionHandlerFactoryContext;
  */
 public class CEPEngineExceptionLoggingHandler implements ExceptionHandler {
 	private static final Log log = LogFactory
-			.getLog(AbstractControlComponent.class);
+			.getLog(CEPEngineExceptionLoggingHandler.class);
 
 	private final ExceptionHandlerFactoryContext exceptionHandlerFactoryContext;
 
