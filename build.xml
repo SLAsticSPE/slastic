@@ -274,10 +274,10 @@
         <java dir="."
               fork="true"
               classname="org.trustsoft.slastic.plugins.util.REngineFacade"
-              classpathref="slastic.core.classpath"
+              classpathref="slastic-run-classpath"
               maxmemory="1024m">
             <jvmarg value="-Djava.library.path=lib/"/>
-            <jvmarg value="-Dlog4j.configuration=${build.dir}/tests.log4j.properties"/>
+            <jvmarg value="-Dlog4j.configuration=META-INF/slastic.log4j.properties"/> <!-- included in the slastic.core jar -->
             <jvmarg value="-Dkieker.monitoring.configuration=${slastic.simulation-kieker.monitoring.properties}"/>
             <arg line="--start-framework META-INF/slastic.framework.properties"/>
             <classpath>

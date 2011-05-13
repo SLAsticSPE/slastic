@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.starter.kieker;
 
-import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.core.controller.IMonitoringController;
 import kieker.tools.logReplayer.JMSLogReplayer;
 
 import org.apache.commons.cli.Option;
@@ -41,9 +41,7 @@ public class AnalysisStarterJMS extends AbstractAnalysisStarter {
 	 */
 	@Override
 	protected boolean startReader(
-			final MonitoringController monitoringController) {
-		monitoringController.enableReplayMode();
-
+			final IMonitoringController monitoringController) {
 		final JMSLogReplayer jmsReplayer =
 				new JMSLogReplayer(monitoringController,
 						this.jmsProviderUrl,

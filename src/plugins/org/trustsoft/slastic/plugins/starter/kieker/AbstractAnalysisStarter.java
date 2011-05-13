@@ -1,8 +1,8 @@
 package org.trustsoft.slastic.plugins.starter.kieker;
 
-import kieker.monitoring.core.MonitoringController;
-import kieker.monitoring.core.configuration.MonitoringConfiguration;
-import kieker.monitoring.writer.IMonitoringLogWriter;
+import kieker.monitoring.core.configuration.Configuration;
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
 import kieker.monitoring.writer.namedRecordPipe.PipeWriter;
 
 import org.apache.commons.cli.BasicParser;
@@ -129,19 +129,24 @@ public abstract class AbstractAnalysisStarter {
 	}
 
 	private boolean startReader() {
-		final IMonitoringLogWriter pipeWriter =
-				new PipeWriter("monitoringPipe0");
-
-		final MonitoringConfiguration config =
-				MonitoringConfiguration.createDefaultConfiguration(
-						"ReplayToPipe", pipeWriter);
-		final MonitoringController ctrl = new MonitoringController(config);
-
+		final Configuration configuration = 
+			Configuration.createDefaultConfiguration();
+		
+		/* Configuring name pipe writer */
+		configuration.setProperty(Configuration.WRITER_CLASSNAME, PipeWriter.class.getName());
+		configuration.setProperty(PipeWriter.CONFIG__PIPENAME, "monitoringPipe0");
+		// TODO: Is this correct?? Enable "replay mode", i.e., the logging timestamps in the records are kept as-is
+		configuration.setProperty(Configuration.AUTO_SET_LOGGINGTSTAMP, Boolean.toString(false));
+		// Set controller name
+		configuration.setProperty(Configuration.CONTROLLER_NAME, "ReplayToPipe");
+		
+		final IMonitoringController ctrl  = MonitoringController.createInstance(configuration);
+		
 		return this.startReader(ctrl);
 	}
 
 	protected abstract boolean startReader(
-			MonitoringController monitoringController);
+			IMonitoringController monitoringController);
 
 	/**
 	 * Creates and starts a {@link FrameworkInstance} and returns immediately.

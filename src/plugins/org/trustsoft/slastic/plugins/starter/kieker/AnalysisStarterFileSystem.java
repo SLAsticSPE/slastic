@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
-import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.core.controller.IMonitoringController;
 import kieker.tools.logReplayer.FilesystemLogReplayer;
 
 import org.apache.commons.cli.Option;
@@ -60,9 +60,7 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 	 */
 	@Override
 	protected boolean startReader(
-			final MonitoringController monitoringController) {
-		monitoringController.enableReplayMode();
-
+			final IMonitoringController monitoringController) {
 		final FilesystemLogReplayer fsReplayer = new FilesystemLogReplayer(
 				monitoringController,
 						this.inputDirsArr,

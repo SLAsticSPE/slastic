@@ -1,7 +1,8 @@
 package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla;
 
-import kieker.monitoring.core.ControlFlowRegistry;
-import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
+import kieker.monitoring.core.registry.ControlFlowRegistry;
 import kieker.monitoring.probe.IMonitoringProbe;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,7 +17,7 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
 @Aspect
 public class SLAMonitoringProbe implements IMonitoringProbe {
 
-	protected static final MonitoringController ctrlInst = MonitoringController
+	protected static final IMonitoringController ctrlInst = MonitoringController
 			.getInstance();
 	protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry
 			.getInstance();
@@ -66,14 +67,14 @@ public class SLAMonitoringProbe implements IMonitoringProbe {
 
 	protected void proceedAndMeasure(final ProceedingJoinPoint thisJoinPoint,
 			final SLOMonitoringRecord record) throws Throwable {
-		record.timestamp = MonitoringController.currentTimeNanos(); // startint
+		record.timestamp = SLAMonitoringProbe.ctrlInst.getTimeSource().getTime(); // startint
 																			// stopwatch
 		try {
 			record.retVal = thisJoinPoint.proceed();
 		} catch (final Exception e) {
 			throw e; // exceptions are forwarded
 		} finally {
-			record.rtNseconds = MonitoringController.currentTimeNanos()
+			record.rtNseconds = SLAMonitoringProbe.ctrlInst.getTimeSource().getTime()
 					- record.timestamp;
 		}
 	}

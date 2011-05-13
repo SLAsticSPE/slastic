@@ -77,7 +77,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 	private boolean spawnKiekerAnalysis() {
 		/** Is initialized in {@link #execute()} */
 		final AnalysisController analysisInstance = new AnalysisController();
-		analysisInstance.setLogReader(this.kiekerNamedRecordPipeReader);
+		analysisInstance.setReader(this.kiekerNamedRecordPipeReader);
 
 		analysisInstance
 				.registerPlugin(new TimeTriggerAndRecordDelegationPlugin(

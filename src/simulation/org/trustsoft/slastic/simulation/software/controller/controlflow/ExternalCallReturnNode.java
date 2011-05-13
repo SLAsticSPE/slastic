@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
-import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +27,7 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	private final ExternalCallEnterNode ece;
 	// private SimTime exitTime;
 	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
-	private final static MonitoringController tpmonCtrl = MonitoringController
+	private final static IMonitoringController tpmonCtrl = MonitoringController
 			.getInstance();
 
 	public ExternalCallReturnNode(final ExternalCallEnterNode ece) {

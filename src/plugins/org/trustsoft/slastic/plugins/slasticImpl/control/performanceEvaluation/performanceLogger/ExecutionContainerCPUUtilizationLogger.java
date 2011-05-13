@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-import kieker.common.util.LoggingTimestampConverter;
+import kieker.tools.util.LoggingTimestampConverter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.simulation.software.statistics;
 
-import kieker.monitoring.core.MonitoringController;
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
 
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
@@ -16,7 +17,7 @@ import desmoj.core.simulator.Model;
 public final class SystemStats implements ISystemStats {
 
 	private int users;
-	private final MonitoringController mCtrl = MonitoringController
+	private final IMonitoringController mCtrl = MonitoringController
 			.getInstance();
 	private final Model model = ModelManager.getInstance().getModel();
 
