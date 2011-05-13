@@ -37,20 +37,28 @@ configuration file needs to be adjusted accordingly.
      org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar
      ReconfigurationPlanMM_1.0.0.jar
 
-1.3 Decompress the Kieker file system monitoring log archive
-    kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip:
+1.3 When executing the file system example: 
+    Decompress the Kieker file 
+    system monitoring log archive kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip:
 
     $ cd kieker-monitoring-logs/
     $ unzip kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip
+
+1.4 When executing the JMS example: 
+    Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+    
+    jms-1.1.jar
+    openjms-0.7.7-beta-1.jar
    
-2. Execution
+2. Execution (File System Monitoring Log)
 
 You have (at least) the following two alternatives to 
 start the SLAstic framework with the given configuration.
 In both cases you will solely see the framework initialize
 and terminate.
 
-2.1 Using the start script bin/slastic.sh (actually does 2.2):
+2.1 Using the start script bin/slastic-FS-Kieker.sh (actually does 2.2):
 
    $ bin/slastic-FS-Kieker.sh \
       --start-framework slastic.framework.properties \
@@ -60,11 +68,47 @@ and terminate.
      
 2.2 Calling java directly [Remember to change kieker-<version>.jar into the real file name!]:
 
-   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem
+   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
 
-3. Inspection of results
+2.3 Replay in real-time:
 
-3.1 Results directory of a SLAstic run:
+In order to replay the file system monitoring log in real-time, 
+you need to set the property value of --realtime-mode to true
+
+This will take about 20 minutes for the included file system 
+monitoring log.
+
+3. Execution (JMS Monitoring Stream)
+
+As this JMS example plays well together with the JMS example from 
+the Kieker User Guide (kieker.sourceforge.net), please refer to 
+this resource and get the "appendix-JMS" example running, as a 
+first step.
+
+3.1 Start the JMS server, as described in the Kieker User Guide 
+
+3.2 Using the start script bin/slastic-JMS-Kieker.sh (actually does 3.2):
+
+    $ bin/slastic-JMS-Kieker.sh \
+       --start-framework slastic.framework.properties \
+       --jmsDestination queue1 \
+       --jmsProviderUrl tcp://127.0.0.1:3035/ \
+       --kieker-pipeName monitoringPipe0
+
+3.3 Calling java directly [Remember to change kieker-<version>.jar into the real file name!]:
+
+    $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --kieker-pipeName monitoringPipe0
+
+3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
+
+    $ ant run-monitoring 
+
+3.5 When using the Monitoring Manager with a JMS reader, it does not 
+    terminate automatically. You need to press CTRL-C to do so.
+
+4. Inspection of results
+
+4.1 Results directory of a SLAstic run:
 
 After (actually during the execution), a directory named "slastic-<start-time>-UTC-/" is created 
 within the default temp dir. The directory contains sub-directories for each of the components. 
@@ -83,12 +127,12 @@ sub-directories:
 	ReconfigurationManagerComponent-org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent/
 	WorkloadForecasterComponent-org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent/
 
-3.2 Reconstructed Architectural Model
+4.2 Reconstructed Architectural Model
 
 During execution, the Model Manager reconstructs a SLAstic model. When the run terminates, 
 this model is serialized to file named out.slastic located in the working directory. 
 
-3.2 Kieker File System Monitoring Log: 
+4.2 Kieker File System Monitoring Log: 
 
 The Monitoring Manager used, writes the received monitoring data into a file system
 monitoring log in its directory (MonitoringManagerComponent-org.trustsoft.slastic.plugins.cloud.slastic.monitoring.MonitoringManager).
@@ -97,7 +141,7 @@ In our case, we found the directory kieker-20110513-153624844-UTC-pc-vanhoorn-Ki
 which contains exactly the monitoring data that was replayed for this framework run
 (However, the file names differ).
 
-3.3 Aggregated Performance Data Time Series
+4.3 Aggregated Performance Data Time Series
 
 The Performance Evaluator used mainly transforms the received monitoring data into 
 time series. These are contained in the respective sub-directories of the component

@@ -81,6 +81,15 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	protected abstract String createEPStatement();
 
 	/**
+	 * Returns a string that is the given file name with all
+	 * characters not allowed in file names removes.
+	 */
+	// TODO: Refine
+	private final String escapeFileName (final String filename) {
+		return filename.replaceAll("/", "-");
+	}
+	
+	/**
 	 * Creates a new {@link PrintWriter} for the given
 	 * {@link DeploymentComponent} and stores the corresponding {@link File} and
 	 * {@link PrintWriter} to the tables {@link #deplCompAvgRTsFiles} and
@@ -91,7 +100,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	 */
 	private PrintWriter addNewPrintWriter(final T entity) {
 
-		final String fn = this.createFilename(entity);
+		final String fn = this.escapeFileName(this.createFilename(entity));
 		final File file = this.context.createFileInContextDir(fn);
 
 		PrintWriter pw = null;
