@@ -1,0 +1,128 @@
+This example executes SLAstic which is configured to 
+use the following components: 
+ - A Monitoring Manager which receives monitoring data 
+   from a Kieker named pipe
+ - A Model Manager which maintains an extracted SLAstic
+   model at runtime
+ - A Performance Evaluator which transforms the received
+   performance data into time series.
+
+The file 'slastic.framework.properties' contains the 
+configuration. 
+
+When using custom components, the corresponding .jar file(s) 
+need(s) to be placed into the example's lib/ folder and the 
+configuration file needs to be adjusted accordingly.
+
+1. Preparation:
+1.1 Copy (or symlink) the following libraries from the dist/ 
+    directory of SLAstic's binary distribution:
+
+      slastic.core-0.01a.jar
+      slastic.metamodel-0.01a.jar
+      slastic.plugins-0.01a.jar
+      slastic.simulation-0.01a.jar
+
+1.2 Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+
+     antlr-runtime-3.2.jar
+     cglib-nodep-2.2.jar
+     commons-cli-1.2.jar
+     commons-logging-1.1.1.jar
+     esper-4.0.0.jar
+     kieker-<version>.jar
+     org.eclipse.emf.common_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar
+     ReconfigurationPlanMM_1.0.0.jar
+
+1.3 Decompress the Kieker file system monitoring log archive
+    kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip:
+
+    $ cd kieker-monitoring-logs/
+    $ unzip kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip
+   
+2. Execution
+
+You have (at least) the following two alternatives to 
+start the SLAstic framework with the given configuration.
+In both cases you will solely see the framework initialize
+and terminate.
+
+2.1 Using the start script bin/slastic.sh (actually does 2.2):
+
+   $ bin/slastic-FS-Kieker.sh \
+      --start-framework slastic.framework.properties \
+      --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve \
+      --kieker-pipeName monitoringPipe0 \
+      --realtime-mode false
+     
+2.2 Calling java directly [Remember to change kieker-<version>.jar into the real file name!]:
+
+   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem
+
+3. Inspection of results
+
+3.1 Results directory of a SLAstic run:
+
+After (actually during the execution), a directory named "slastic-<start-time>-UTC-/" is created 
+within the default temp dir. The directory contains sub-directories for each of the components. 
+
+In this case, the directory /tmp/slastic-20110513-153624827-UTC-/ contains the follwing top-level
+sub-directories:
+
+	AdaptationPlannerComponent-org.trustsoft.slastic.control.components.analysis.DummyAdaptationPlannerComponent/
+	AnalysisComponent-org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent/
+	ControlComponent-org.trustsoft.slastic.control.BasicControlComponent/
+	ModelManagerComponent-org.trustsoft.slastic.plugins.slasticImpl.ModelManager/
+	ModelUpdaterComponent-org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent/
+	MonitoringManagerComponent-org.trustsoft.slastic.plugins.cloud.slastic.monitoring.MonitoringManager/
+	PerformanceEvaluatorComponent-org.trustsoft.slastic.plugins.cloud.slastic.control.performanceEvaluation.PerformanceEvaluator/
+	PerformancePredictorComponent-org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent/
+	ReconfigurationManagerComponent-org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent/
+	WorkloadForecasterComponent-org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent/
+
+3.2 Reconstructed Architectural Model
+
+During execution, the Model Manager reconstructs a SLAstic model. When the run terminates, 
+this model is serialized to file named out.slastic located in the working directory. 
+
+3.2 Kieker File System Monitoring Log: 
+
+The Monitoring Manager used, writes the received monitoring data into a file system
+monitoring log in its directory (MonitoringManagerComponent-org.trustsoft.slastic.plugins.cloud.slastic.monitoring.MonitoringManager).
+
+In our case, we found the directory kieker-20110513-153624844-UTC-pc-vanhoorn-KiekerLogWriter/
+which contains exactly the monitoring data that was replayed for this framework run
+(However, the file names differ).
+
+3.3 Aggregated Performance Data Time Series
+
+The Performance Evaluator used mainly transforms the received monitoring data into 
+time series. These are contained in the respective sub-directories of the component
+(PerformanceEvaluatorComponent-[...]/[...].PerformanceLogger/[...]/).
+
+For example, a time series file for operation execution counts looks as follows (excerpt):
+
+    == SNIP
+    timestamp;UTCString;deplCompID;executionContainer;assemblyComponent;count
+    # winTimeSec=60; outputIntervalSec=15
+    1294583189639;So, 9 Jan 2011 14:26:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);244
+    1294583204639;So, 9 Jan 2011 14:26:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);546
+    1294583219639;So, 9 Jan 2011 14:26:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);752
+    1294583234639;So, 9 Jan 2011 14:27:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);960
+    1294583249639;So, 9 Jan 2011 14:27:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);926
+    1294583264639;So, 9 Jan 2011 14:27:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1066
+    1294583279639;So, 9 Jan 2011 14:27:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1362
+    1294583294639;So, 9 Jan 2011 14:28:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1630
+    1294583309639;So, 9 Jan 2011 14:28:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1920
+    1294583324639;So, 9 Jan 2011 14:28:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1972
+    1294583339639;So, 9 Jan 2011 14:28:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1958
+    1294583354639;So, 9 Jan 2011 14:29:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2016
+    1294583369639;So, 9 Jan 2011 14:29:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2006
+    1294583384639;So, 9 Jan 2011 14:29:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2030
+    1294583399639;So, 9 Jan 2011 14:29:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1986
+    == SNAP
+
+This can be easily processed with spread-sheet or statistics tools.

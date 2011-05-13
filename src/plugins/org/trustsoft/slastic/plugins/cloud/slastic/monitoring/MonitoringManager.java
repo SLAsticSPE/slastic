@@ -1,3 +1,6 @@
+//TODO: We should decide, whether this is really cloud-specific
+//        or could act as a general example, instead.
+
 package org.trustsoft.slastic.plugins.cloud.slastic.monitoring;
 
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
@@ -17,6 +20,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 
 /**
+ * 
  * 
  * @author Andre van Hoorn
  */
