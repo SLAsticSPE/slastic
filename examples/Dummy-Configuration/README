@@ -9,16 +9,16 @@ need(s) to be placed into the example's lib/ folder and the
 configuration file needs to be adjusted accordingly.
 
 1. Preparation:
-1.1 Copy the following libraries from the dist/ directory
-    of SLAstic's binary distribution:
+1.1 Copy (or symlink) the following libraries from the dist/ 
+    directory of SLAstic's binary distribution:
 
       slastic.core-0.01a.jar
       slastic.metamodel-0.01a.jar
       slastic.plugins-0.01a.jar
       slastic.simulation-0.01a.jar
 
-1.2 Copy the following libraries from the lib/ directory
-    of SLAstic's binary distribution:
+1.2 Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
 
      commons-cli-1.2.jar
      commons-logging-1.1.1.jar
