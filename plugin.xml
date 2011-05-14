@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/qos.ecore"
+            class="de.cau.se.slastic.metamodel.qos.QosPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/core.ecore"
+            class="de.cau.se.slastic.metamodel.core.CorePackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/typeRepository.ecore"
+            class="de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/executionEnvironment.ecore"
+            class="de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/componentAssembly.ecore"
+            class="de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/componentDeployment.ecore"
+            class="de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/monitoring.ecore"
+            class="de.cau.se.slastic.metamodel.monitoring.MonitoringPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/reconfiguration/plan.ecore"
+            class="de.cau.se.slastic.metamodel.reconfiguration.plan.PlanPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/reconfiguration/specification.ecore"
+            class="de.cau.se.slastic.metamodel.reconfiguration.specification.SpecificationPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///metamodel/adaptation.ecore"
+            class="de.cau.se.slastic.metamodel.adaptation.AdaptationPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+</plugin>

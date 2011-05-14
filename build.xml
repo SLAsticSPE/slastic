@@ -9,7 +9,16 @@
         <!-- Names of the slastic runtime libraries that will be created
              by the build process: -->
         <property name="slastic.version"
-                  value="0.01a"/>
+                  value="0.01a-SNAPSHOT"/>
+    	
+		<property name="dist.slastic.main.jar" value="${slastic.main.packagenamebase}-${slastic.version}.jar" />
+
+		<property name="slastic.dist.name" value="${slastic.packagenamebase}-${slastic.version}" />
+		<property name="dist.slastic.srcBaseName" value="${slastic.dist.name}_${slastic-src.suffix}" />
+		<property name="dist.slastic.binBaseName" value="${slastic.dist.name}_${slastic-bin.suffix}" />
+		<property name="dist.slastic.apiBaseName" value="${slastic.dist.name}_${slastic-api.suffix}" />
+    	
+    	<!-- BEGIN: The following should eventually be removed -->
         <property name="slastic.core.jar"
                   value="${slastic.core.packagenamebase}-${slastic.version}.jar"/>
         <property name="slastic.simulation.jar"
@@ -18,6 +27,7 @@
                   value="${slastic.metamodel.packagenamebase}-${slastic.version}.jar"/>
     	<property name="slastic.plugins.jar"
                   value="${slastic.plugins.packagenamebase}-${slastic.version}.jar"/>
+    	<!-- END: To be removed -->    	
     </target>
 
     <target name="update-version" unless="version.noupdate"
@@ -38,36 +48,38 @@
     <target name="init-compile-classpaths">
         <path id="slastic.metamodel-compile-classpath">
             <fileset dir="${lib.dir}">
+            	<!-- TODO: Make Jar-dependencies explicit -->
                 <include name="**/*.jar"/>
             </fileset>
         </path>    	
+    	
         <path id="slastic.core-compile-classpath">
             <fileset dir="${lib.dir}">
+            	<!-- TODO: Make Jar-dependencies explicit -->
                 <include name="**/*.jar"/>
             </fileset>
-            <fileset dir="${dist.dir}">
-                <include name="${slastic.metamodel.jar}"/>
-            </fileset>
+			<pathelement location="${build.slastic.metamodel.dir}/" />
         </path>
+    	
     	<path id="slastic.plugins-compile-classpath">
             <fileset dir="${lib.dir}">
+            	<!-- TODO: Make Jar-dependencies explicit -->
                 <include name="**/*.jar"/>
             </fileset>
-            <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-                <include name="${slastic.metamodel.jar}"/>
-            	<include name="${slastic.simulation.jar}"/>
-            </fileset>
+    			<pathelement location="${build.slastic.core.dir}/" />
+    			<pathelement location="${build.slastic.metamodel.dir}/" />
+    			<pathelement location="${build.slastic.simulation.dir}/" />
         </path>
+        	
         <path id="slastic.simulation-compile-classpath">
             <fileset dir="${lib.dir}">
+            	<!-- TODO: Make Jar-dependencies explicit -->
                 <include name="**/*.jar"/>
             </fileset>
-            <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-            </fileset>
+			<pathelement location="${build.slastic.core.dir}/" />
         </path>
-       <path id="slastic-run-classpath">
+
+    	<path id="slastic-run-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
                 <!--<exclude name="log4j-*.jar"/>-->
@@ -79,15 +91,13 @@
                 <include name="${slastic.simulation.jar}"/>
             </fileset>
         </path>
+    	
         <path id="slastic.tests-compile-classpath">
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-                <include name="${slastic.metamodel.jar}"/>
-            	<include name="${slastic.plugins.jar}"/>
-                <include name="${slastic.simulation.jar}"/>
+                <include name="${slastic.main.jar}"/>
             </fileset>
         </path>
        <path id="slastic.tests-run-classpath">
@@ -96,17 +106,14 @@
                 <!--<exclude name="log4j-*.jar"/>-->
             </fileset>
             <fileset dir="${dist.dir}">
-                <include name="${slastic.core.jar}"/>
-                <include name="${slastic.metamodel.jar}"/>
-            	<include name="${slastic.plugins.jar}"/>
-                <include name="${slastic.simulation.jar}"/>
+                <include name="${slastic.main.jar}"/>
             </fileset>
             <pathelement location="${build.tests.dir}/"/>
         </path>
     </target>
 
     <target name="build-all"
-            depends="clean,init,build-slastic.core,build-slastic.simulation,build-slastic.metamodel,build-slastic.plugins">
+            depends="clean,init,build-slastic.main">
     </target>
 
     <condition property="no.slastic.framework.properties">
@@ -149,85 +156,76 @@
         </fail>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${dist.dir}"/>
+		<mkdir dir="${release.dir}" />
         <mkdir dir="${build.tests.dir}"/>
         <mkdir dir="tmp"/>
     </target>
 
-    <target name="build-slastic.metamodel" depends="init">
+    <target name="compile-slastic.metamodel" depends="init">
         <delete dir="${build.slastic.metamodel.dir}"/>
         <mkdir  dir="${build.slastic.metamodel.dir}"/>
         <mkdir  dir="${build.slastic.metamodel.dir}/META-INF"/>
         <javac destDir="${build.slastic.metamodel.dir}"
                source="1.5"
-               srcdir="src-gen/"
+               srcdir="${src.slastic.metamodel.dir}"
                debug="true"
                classpathref="slastic.metamodel-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
         </javac>
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.metamodel.dir}/">
-            <fileset dir="src-gen">
+            <fileset dir="${src.slastic.metamodel.dir}">
                 <include name="**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.metamodel.jar}">
-            <fileset dir="${build.slastic.metamodel.dir}"/>
-        </jar>
     </target>
 
-    <target name="build-slastic.core" depends="init,build-slastic.metamodel">
+    <target name="compile-slastic.core" depends="init,compile-slastic.metamodel">
         <delete dir="${build.slastic.core.dir}"/>
         <mkdir  dir="${build.slastic.core.dir}"/>
         <mkdir  dir="${build.slastic.core.dir}/META-INF"/>
         <copy file="${log4j.properties.example}" tofile="${build.slastic.core.dir}/META-INF/slastic.log4j.properties"/>
         <javac destDir="${build.slastic.core.dir}"
                source="1.5"
-               srcdir="src/core"
+               srcdir="${src.slastic.core.dir}"
                debug="true"
                classpathref="slastic.core-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
         </javac>
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.core.dir}/">
-            <fileset dir="src/core">
+            <fileset dir="${src.slastic.core.dir}">
                 <include name="org/trustsoft/slastic/core/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.core.jar}">
-            <fileset dir="${build.slastic.core.dir}"/>
-        </jar>
     </target>
 	
-    <target name="build-slastic.plugins" depends="init,build-slastic.core,build-slastic.metamodel,build-slastic.simulation">
+    <target name="compile-slastic.plugins" depends="init,compile-slastic.core,compile-slastic.metamodel,compile-slastic.simulation">
         <delete dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}"/>
         <mkdir  dir="${build.slastic.plugins.dir}/META-INF"/>
         <javac destDir="${build.slastic.plugins.dir}"
                source="1.5"
-               srcdir="src/plugins"
+               srcdir="${src.slastic.plugins.dir}"
                debug="true"
                classpathref="slastic.plugins-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
         </javac>
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.plugins.dir}/">
-            <fileset dir="src/plugins">
+            <fileset dir="${src.slastic.plugins.dir}">
                 <include name="org/trustsoft/slastic/plugins/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.plugins.jar}">
-            <fileset dir="${build.slastic.plugins.dir}"/>
-
-        </jar>
     </target>
 
-    <target name="build-slastic.simulation" depends="init,build-slastic.core">
+    <target name="compile-slastic.simulation" depends="init,compile-slastic.core">
         <delete dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}"/>
         <mkdir  dir="${build.slastic.simulation.dir}/META-INF"/>
         <javac destDir="${build.slastic.simulation.dir}"
                source="1.5"
-               srcdir="src/simulation"
+               srcdir="${src.slastic.simulation.dir}"
                debug="true"
                classpathref="slastic.simulation-compile-classpath">
             <compilerarg value="-Xlint:-path"/>
@@ -235,16 +233,150 @@
         <!--<copy file="${slastic.simulation.properties}" todir="${build.slastic.simulation.dir}/META-INF"/>-->
         <!-- We want to include the sources in this jar -->
         <copy todir="${build.slastic.simulation.dir}/">
-            <fileset dir="src/simulation">
+            <fileset dir="${src.slastic.simulation.dir}">
                 <include name="org/trustsoft/slastic/simulation/**/*.java"/>
             </fileset>
         </copy>
-        <jar destfile="${dist.dir}/${slastic.simulation.jar}">
-            <fileset dir="${build.slastic.simulation.dir}"/>
-        </jar>
     </target>
 
-    <target name="run-SLAsticStarter-simulation" depends="build-slastic.core,build-slastic.plugins">
+	<target name="build-slastic.main" depends="init,compile-slastic.metamodel,compile-slastic.metamodel,compile-slastic.simulation,compile-slastic.plugins">
+		<jar destfile="${dist.dir}/${dist.slastic.main.jar}">
+			<fileset dir="${build.slastic.metamodel.dir}" />
+			<fileset dir="${build.slastic.core.dir}" />
+			<fileset dir="${build.slastic.simulation.dir}" />
+			<fileset dir="${build.slastic.plugins.dir}" />
+			<fileset dir="." includes="LICENSE" />
+		</jar>
+	</target>
+	
+	<target name="javadoc" depends="init" description="Create Javadoc API documentation">
+		<delete dir="${build.api.dir}" />
+		<mkdir dir="${build.api.dir}" />
+		<path id="javadoc-sourcepath">
+			<dirset dir=".">
+				<include name="${src.slastic.metamodel.dir}" />
+				<include name="${src.slastic.core.dir}" />
+				<include name="${src.slastic.simulation.dir}" />
+				<include name="${src.slastic.plugins.dir}" />
+			</dirset>
+		</path>
+		<javadoc sourcepathref="javadoc-sourcepath" destdir="${build.api.dir}" packagenames="*" access="public" author="true" version="false" use="true" doctitle="SLAstic Framework, Vers. ${slastic.version}&lt;br/&gt;API Documentation" header="SLAstic ${slastic.version}" footer="SLAstic ${slastic.version}" bottom="Copyright ${year} ${copyright}, &lt;a href=&quot;http://slastic.sourceforge.net&quot;&gt;http://slastic.sourceforge.net&lt;/&gt;">
+			<classpath refid="slastic.metamodel-compile-classpath" />
+			<classpath refid="slastic.core-compile-classpath" />
+			<classpath refid="slastic.simulation-compile-classpath" />
+			<classpath refid="slastic.plugins-compile-classpath" />
+			<link href="http://download.oracle.com/javase/6/docs/api/" />
+		</javadoc>
+	</target>
+
+	<target name="dist-javadoc" depends="init,javadoc" description="Create Javadoc API documentation">
+		<tar destfile="${release.dir}/${dist.slastic.apiBaseName}.tar" longfile="gnu">
+			<tarfileset dir="${build.api.dir}" prefix="" defaultexcludes="yes" />
+		</tar>
+		<gzip zipfile="${release.dir}/${dist.slastic.apiBaseName}.tar.gz" src="${release.dir}/${dist.slastic.apiBaseName}.tar" />
+		<!-- tar file no longer needed -->
+		<delete file="${release.dir}/${dist.slastic.apiBaseName}.tar" />
+
+		<zip zipfile="${release.dir}/${dist.slastic.apiBaseName}.zip">
+			<zipfileset dir="${build.api.dir}" prefix="" defaultexcludes="yes" />
+		</zip>
+	</target>
+
+	<target name="dist-slastic-sources" depends="init">
+		<patternset id="dist_src_files-nonbinmode">
+			<include name="bin/*.bat" />
+			<include name="META-INF/*" />
+			<include name="src/**/*.java" />
+			<include name="src/**/META-INF/*" />
+			<include name="test/**/*.java" />
+			<include name="test/META-INF/*" />
+			<include name="lib/**" />
+			<include name="${eclipse-classpath.sample}" />
+			<include name="${eclipse-project.sample}" />
+			<include name="build.xml" />
+			<include name="build.xml.properties" />
+			<include name="plugin.xml" />
+			<include name="plugin.properties" />
+			<include name="build.properties" />
+			<include name="LICENSE" />
+		</patternset>
+		<patternset id="dist_src_files-binmode">
+			<include name="bin/*.sh" />
+		</patternset>
+
+		<tar destfile="${release.dir}/${dist.slastic.srcBaseName}.tar" longfile="gnu">
+			<tarfileset dir="." prefix="${slastic.dist.name}" defaultexcludes="yes">
+				<patternset refid="dist_src_files-nonbinmode" />
+			</tarfileset>
+			<tarfileset dir="." prefix="${slastic.dist.name}" filemode="755" defaultexcludes="yes">
+				<patternset refid="dist_src_files-binmode" />
+			</tarfileset>
+		</tar>
+		<gzip zipfile="${release.dir}/${dist.slastic.srcBaseName}.tar.gz" src="${release.dir}/${dist.slastic.srcBaseName}.tar" />
+		<!-- tar file no longer needed -->
+		<delete file="${release.dir}/${dist.slastic.srcBaseName}.tar" />
+
+		<zip zipfile="${release.dir}/${dist.slastic.srcBaseName}.zip">
+			<zipfileset dir="." prefix="${slastic.dist.name}" defaultexcludes="yes">
+				<patternset refid="dist_src_files-nonbinmode" />
+			</zipfileset>
+			<zipfileset dir="." prefix="${slastic.dist.name}" filemode="755" defaultexcludes="yes">
+				<patternset refid="dist_src_files-binmode" />
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="dist-slastic-binaries" depends="build-all">
+		<patternset id="dist_bin_files-nonbinmode">
+			<include name="bin/log4j.properties" />
+			<include name="bin/*.bat" />
+			<include name="dist/*.jar" />
+			<include name="META-INF/*" />
+			<!-- a file META-INF/kieker.monitoring.properties will be during packaging -->
+			<include name="lib/*" />
+			<include name="LICENSE" />
+			<!-- TODO: examples 
+			<include name="${src.userguide.example.extended.dir}/build.xml" />
+			<include name="${src.userguide.example.extended.dir}/build.properties" />
+			<include name="${src.userguide.example.extended.dir}/.project" />
+			<include name="${src.userguide.example.extended.dir}/.classpath" />
+			<include name="${src.userguide.example.extended.dir}/lib/" />
+			<exclude name="${src.userguide.example.extended.dir}/lib/*" />
+			<include name="${src.userguide.example.extended.dir}/src/**/*.java" />
+			-->
+		</patternset>
+		<patternset id="dist_bin_files-binmode">
+			<include name="bin/*.sh" />
+		</patternset>
+
+		<tar destfile="${release.dir}/${dist.slastic.binBaseName}.tar" longfile="gnu">
+			<tarfileset dir="." prefix="${slastic.dist.name}" defaultexcludes="yes">
+				<patternset refid="dist_bin_files-nonbinmode" />
+			</tarfileset>
+			<tarfileset dir="." prefix="${slastic.dist.name}" filemode="755" defaultexcludes="yes">
+				<patternset refid="dist_bin_files-binmode" />
+			</tarfileset>
+		</tar>
+		<gzip zipfile="${release.dir}/${dist.slastic.binBaseName}.tar.gz" src="${release.dir}/${dist.slastic.binBaseName}.tar" />
+		<!-- tar file no longer needed -->
+		<delete file="${release.dir}/${dist.slastic.binBaseName}.tar" />
+
+		<zip zipfile="${release.dir}/${dist.slastic.binBaseName}.zip">
+			<zipfileset dir="." prefix="${slastic.dist.name}" defaultexcludes="yes">
+				<patternset refid="dist_bin_files-nonbinmode" />
+			</zipfileset>
+			<zipfileset dir="." prefix="${slastic.dist.name}" filemode="755" defaultexcludes="yes">
+				<patternset refid="dist_bin_files-binmode" />
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="release" depends="build-all,dist-slastic-sources,dist-slastic-binaries,dist-javadoc">
+		<echo message="Sourceforge release instructions can be found at:" />
+		<echo message="https://sourceforge.net/apps/trac/sourceforge/wiki/Release files for download#Createoreditarelease" />
+	</target>
+	
+    <target name="run-SLAsticStarter-simulation" depends="build-slastic.main">
         <java dir="."
               fork="true"
               classname="org.trustsoft.slastic.plugins.starter.SLAsticStarter"
@@ -257,7 +389,7 @@
         </java>
     </target>
 
-    <target name="run-SLAsticStarter" depends="build-slastic.core,build-slastic.plugins">
+    <target name="run-SLAsticStarter" depends="build-slastic.main">
         <java dir="."
               fork="true"
               classname="org.trustsoft.slastic.plugins.starter.SLAsticStarter"
@@ -269,7 +401,7 @@
         </java>
     </target>
 
-    <target name="run-rTest" depends="build-slastic.core,build-slastic.plugins">
+    <target name="run-rTest" depends="build-slastic.main">
         <copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties"/>
         <java dir="."
               fork="true"
@@ -295,7 +427,7 @@
     </condition>
 
     <target name="compile-tests"
-            depends="build-slastic.core,build-slastic.metamodel,build-slastic.plugins">
+            depends="build-slastic.main">
         <javac source="1.5"
                destDir="${build.tests.dir}"
                classpathref="slastic.tests-compile-classpath"
@@ -363,6 +495,7 @@
 
     <target name="clean">
         <!-- <delete dir="tmp"/>-->
+		<delete dir="${release.dir}" />
         <delete dir="${dist.dir}"/>
         <delete dir="${build.dir}"/>
     </target>
