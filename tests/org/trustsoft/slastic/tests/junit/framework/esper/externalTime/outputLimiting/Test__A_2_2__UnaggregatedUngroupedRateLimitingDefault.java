@@ -22,7 +22,7 @@ public class Test__A_2_2__UnaggregatedUngroupedRateLimitingDefault extends
 	 */
 	public void testReferenceExample() {
 		/* Execute the test */
-		ExampleTestExecutor
+		AbstractExampleTestExecutor
 				.executeTest(
 						EPServiceFactory.defaultInstanceExternalClock(200),
 						ExampleDataFactory.A_2_2__inputEvents(),

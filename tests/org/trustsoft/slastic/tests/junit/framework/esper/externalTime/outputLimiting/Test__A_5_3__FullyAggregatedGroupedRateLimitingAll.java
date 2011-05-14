@@ -24,7 +24,7 @@ public class Test__A_5_3__FullyAggregatedGroupedRateLimitingAll extends
 	 */
 	public void testReferenceExample() {
 		/* Execute the test */
-		ExampleTestExecutor
+		AbstractExampleTestExecutor
 				.executeTest(
 						EPServiceFactory.defaultInstanceExternalClock(200),
 						ExampleDataFactory.A_5_3__inputEvents(),

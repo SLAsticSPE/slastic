@@ -7,7 +7,7 @@ import junit.framework.Assert;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 
-public abstract class ExampleTestExecutor {
+public abstract class AbstractExampleTestExecutor {
 	/**
 	 * 
 	 * 
