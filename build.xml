@@ -335,18 +335,19 @@
 			<!-- a file META-INF/kieker.monitoring.properties will be during packaging -->
 			<include name="lib/*" />
 			<include name="LICENSE" />
-			<!-- TODO: examples 
-			<include name="${src.userguide.example.extended.dir}/build.xml" />
-			<include name="${src.userguide.example.extended.dir}/build.properties" />
-			<include name="${src.userguide.example.extended.dir}/.project" />
-			<include name="${src.userguide.example.extended.dir}/.classpath" />
-			<include name="${src.userguide.example.extended.dir}/lib/" />
-			<exclude name="${src.userguide.example.extended.dir}/lib/*" />
-			<include name="${src.userguide.example.extended.dir}/src/**/*.java" />
-			-->
+			<include name="${src.example.dummy.dir}/README" />
+			<include name="${src.example.dummy.dir}/lib/" />
+			<include name="${src.example.dummy.dir}/slastic.framework.properties" />
+			<include name="${src.example.kieker.dir}/README" />
+			<include name="${src.example.kieker.dir}/lib/" />
+			<include name="${src.example.kieker.dir}/kieker-monitoring-logs/*.zip" />
+			<include name="${src.example.kieker.dir}/slastic.framework.properties" />
+			<exclude name="**/.gitignore" />
 		</patternset>
 		<patternset id="dist_bin_files-binmode">
 			<include name="bin/*.sh" />
+			<include name="${src.example.dummy.dir}/bin/*.sh" />
+			<include name="${src.example.kieker.dir}/bin/*.sh" />
 		</patternset>
 
 		<tar destfile="${release.dir}/${dist.slastic.binBaseName}.tar" longfile="gnu">
