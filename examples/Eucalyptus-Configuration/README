@@ -1,0 +1,131 @@
+This example extends the Kieker-Configuration/ example
+by 
+- an Adaptation Planner that performs a rule-based 
+  adaptation of the number of allocated instances
+  with respect to the current workload intensity 
+  (arrival rate of external requests)
+- a Reconfiguration Manager that translates the 
+  achitectural reconfiguration requests to Eucalyptus-
+  specific reconfigurations.
+
+The file 'slastic.framework.properties' contains the 
+framework configuration. 
+
+The file 'slastic.framework.eucalyptus.properties' contains
+the configuration of the Eucalyptus reconfiguration 
+manager.
+
+When using custom components, the corresponding .jar file(s) 
+need(s) to be placed into the example's lib/ folder and the 
+configuration file needs to be adjusted accordingly.
+
+1. Preparation:
+1.1 Copy (or symlink) the following libraries from the dist/ 
+    directory of SLAstic's binary distribution:
+
+     slastic-<version>.jar
+
+1.2 Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+
+     antlr-runtime-3.2.jar
+     cglib-nodep-2.2.jar
+     commons-cli-1.2.jar
+     commons-logging-1.1.1.jar
+     esper-4.0.0.jar
+     kieker-<version>.jar
+     org.eclipse.emf.common_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar
+     ReconfigurationPlanMM_1.0.0.jar
+     servlet.jar
+
+1.3 When executing the file system example: 
+    Decompress the Kieker file 
+    system monitoring log archive kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip:
+
+    $ cd kieker-monitoring-logs/
+    $ unzip kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip
+
+1.4 When executing the JMS example: 
+    Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+    
+    jms-1.1.jar
+    openjms-0.7.7-beta-1.jar
+   
+2. Execution (File System Monitoring Log)
+
+You have (at least) the following two alternatives to 
+start the SLAstic framework with the given configuration.
+In both cases you will solely see the framework initialize
+and terminate.
+
+2.1 Using the start script bin/slastic-FS-Kieker.sh (actually does 2.2):
+
+   $ bin/slastic-FS-Kieker.sh \
+      --start-framework slastic.framework.properties \
+      --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve \
+      --kieker-pipeName monitoringPipe0 \
+      --realtime-mode false
+     
+2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
+
+   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
+
+2.3 Replay in real-time:
+
+In order to replay the file system monitoring log in real-time, 
+you need to set the property value of --realtime-mode to true
+
+This will take about 20 minutes for the included file system 
+monitoring log.
+
+3. Execution (JMS Monitoring Stream)
+
+As this JMS example plays well together with the JMS example from 
+the Kieker User Guide (kieker.sourceforge.net), please refer to 
+this resource and get the "appendix-JMS" example running, as a 
+first step.
+
+3.1 Start the JMS server, as described in the Kieker User Guide 
+
+3.2 Using the start script bin/slastic-JMS-Kieker.sh (actually does 3.2):
+
+    $ bin/slastic-JMS-Kieker.sh \
+       --start-framework slastic.framework.properties \
+       --jmsDestination queue1 \
+       --jmsProviderUrl tcp://127.0.0.1:3035/ \
+       --kieker-pipeName monitoringPipe0
+
+3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
+
+    $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --kieker-pipeName monitoringPipe0
+
+3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
+
+    $ ant run-monitoring 
+
+3.5 When using the Monitoring Manager with a JMS reader, it does not 
+    terminate automatically. You need to press CTRL-C to do so.
+
+4. Inspection of results
+
+Please refer to the Kieker-configuration example for a brief general
+description of the SLAstic results directory. 
+
+As a result of this example, you'll find a reconfiguration log 
+file (called 'eucalyptus-events.log') in the Eucalyptus 
+Reconfiguration Manager's results directory. Each line lists some
+details about the executed operations and its result status:
+
+    == SNIP
+0;Thu, 1 Jan 1970 00:00:00 +0000 (UTC);createAndRegisterCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
+1294584029939;Sun, 9 Jan 2011 14:40:29 +0000 (UTC);allocateNode;SUCCESS;node: [name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]
+1294584061739;Sun, 9 Jan 2011 14:41:01 +0000 (UTC);deployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
+1294584276239;Sun, 9 Jan 2011 14:44:36 +0000 (UTC);undeployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
+1294584282639;Sun, 9 Jan 2011 14:44:42 +0000 (UTC);deallocateNode;SUCCESS;node: [name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]
+1294584380739;Sun, 9 Jan 2011 14:46:20 +0000 (UTC);removeCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
+    == SNAP
+
+
