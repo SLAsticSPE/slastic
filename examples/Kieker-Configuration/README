@@ -18,10 +18,7 @@ configuration file needs to be adjusted accordingly.
 1.1 Copy (or symlink) the following libraries from the dist/ 
     directory of SLAstic's binary distribution:
 
-      slastic.core-0.01a.jar
-      slastic.metamodel-0.01a.jar
-      slastic.plugins-0.01a.jar
-      slastic.simulation-0.01a.jar
+     slastic-<version>.jar
 
 1.2 Copy (or symlink) the following libraries from the lib/
     directory of SLAstic's binary distribution:
@@ -66,9 +63,9 @@ and terminate.
       --kieker-pipeName monitoringPipe0 \
       --realtime-mode false
      
-2.2 Calling java directly [Remember to change kieker-<version>.jar into the real file name!]:
+2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
+   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic<version>.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
 
 2.3 Replay in real-time:
 
@@ -95,9 +92,9 @@ first step.
        --jmsProviderUrl tcp://127.0.0.1:3035/ \
        --kieker-pipeName monitoringPipe0
 
-3.3 Calling java directly [Remember to change kieker-<version>.jar into the real file name!]:
+3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-    $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --kieker-pipeName monitoringPipe0
+    $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --kieker-pipeName monitoringPipe0
 
 3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
 
@@ -170,3 +167,6 @@ For example, a time series file for operation execution counts looks as follows 
     == SNAP
 
 This can be easily processed with spread-sheet or statistics tools.
+
+The directory r-scripts/performance-logger/ contains an r-script called LoggerPlotScripts.r
+which can be used to visualize the generated time series files.

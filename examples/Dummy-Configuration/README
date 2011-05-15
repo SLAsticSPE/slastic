@@ -12,10 +12,7 @@ configuration file needs to be adjusted accordingly.
 1.1 Copy (or symlink) the following libraries from the dist/ 
     directory of SLAstic's binary distribution:
 
-      slastic.core-0.01a.jar
-      slastic.metamodel-0.01a.jar
-      slastic.plugins-0.01a.jar
-      slastic.simulation-0.01a.jar
+     slastic.<version>.jar
 
 1.2 Copy (or symlink) the following libraries from the lib/
     directory of SLAstic's binary distribution:
@@ -38,7 +35,7 @@ and terminate.
 
    $ bin/slastic.sh -f slastic.framework.properties
      
-2.2 Calling java directly:
+2.2 Calling java directly [Remember to change slastic-<version>.jar into the real file name!]:
 
-   $ java -cp lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic.core-0.01a.jar:lib/slastic.metamodel-0.01a.jar:lib/slastic.plugins-0.01a.jar:lib/slastic.simulation-0.01a.jar org.trustsoft.slastic.plugins.starter.SLAsticStarter
+   $ java -cp lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar org.trustsoft.slastic.plugins.starter.SLAsticStarter
 

@@ -315,6 +315,7 @@
 			<include name="${src.example.kieker.dir}/lib/" />
 			<include name="${src.example.kieker.dir}/kieker-monitoring-logs/*.zip" />
 			<include name="${src.example.kieker.dir}/slastic.framework.properties" />
+			<include name="${src.rscripts.performancelogger.dir}/*.r" />
 			<exclude name="**/.gitignore" />
 		</patternset>
 		<patternset id="dist_bin_files-binmode">
