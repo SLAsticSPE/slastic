@@ -12,7 +12,7 @@ configuration file needs to be adjusted accordingly.
 1.1 Copy (or symlink) the following libraries from the dist/ 
     directory of SLAstic's binary distribution:
 
-     slastic.<version>.jar
+     slastic-<version>.jar
 
 1.2 Copy (or symlink) the following libraries from the lib/
     directory of SLAstic's binary distribution:
