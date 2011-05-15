@@ -261,6 +261,7 @@
 			<include name="META-INF/*" />
 			<include name="src/**/*.java" />
 			<include name="src/**/META-INF/*" />
+			<include name="src-gen/**/*.java" />
 			<include name="test/**/*.java" />
 			<include name="test/META-INF/*" />
 			<include name="lib/**" />
