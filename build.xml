@@ -316,6 +316,11 @@
 			<include name="${src.example.kieker.dir}/lib/" />
 			<include name="${src.example.kieker.dir}/kieker-monitoring-logs/*.zip" />
 			<include name="${src.example.kieker.dir}/slastic.framework.properties" />
+			<include name="${src.example.eucalyptus.dir}/README" />
+			<include name="${src.example.eucalyptus.dir}/lib/" />
+			<include name="${src.example.eucalyptus.dir}/kieker-monitoring-logs/*.zip" />
+			<include name="${src.example.eucalyptus.dir}/slastic.framework.properties" />
+			<include name="${src.example.eucalyptus.dir}/slastic.framework.eucalyptus.properties" />
 			<include name="${src.rscripts.performancelogger.dir}/*.r" />
 			<exclude name="**/.gitignore" />
 		</patternset>
@@ -323,6 +328,7 @@
 			<include name="bin/*.sh" />
 			<include name="${src.example.dummy.dir}/bin/*.sh" />
 			<include name="${src.example.kieker.dir}/bin/*.sh" />
+			<include name="${src.example.eucalyptus.dir}/bin/*.sh" />
 		</patternset>
 
 		<tar destfile="${release.dir}/${dist.slastic.binBaseName}.tar" longfile="gnu">
