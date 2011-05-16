@@ -136,29 +136,29 @@ org.apache.activemq.jndi.ActiveMQInitialContextFactory
 After (actually during the execution), a directory named "slastic-<start-time>-UTC-/" is created 
 within the default temp dir. The directory contains sub-directories for each of the components. 
 
-In this case, the directory /tmp/slastic-20110513-153624827-UTC-/ contains the follwing top-level
+In this case, the directory /tmp/slastic-20110513-153624827-UTC/ contains the follwing top-level
 sub-directories:
 
-	AdaptationPlannerComponent-org.trustsoft.slastic.control.components.analysis.DummyAdaptationPlannerComponent/
-	AnalysisComponent-org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent/
-	ControlComponent-org.trustsoft.slastic.control.BasicControlComponent/
-	ModelManagerComponent-org.trustsoft.slastic.plugins.slasticImpl.ModelManager/
-	ModelUpdaterComponent-org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent/
-	MonitoringManagerComponent-org.trustsoft.slastic.plugins.cloud.slastic.monitoring.MonitoringManager/
-	PerformanceEvaluatorComponent-org.trustsoft.slastic.plugins.cloud.slastic.control.performanceEvaluation.PerformanceEvaluator/
-	PerformancePredictorComponent-org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent/
-	ReconfigurationManagerComponent-org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent/
-	WorkloadForecasterComponent-org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent/
+	AdaptationPlanner/
+	Analysis/
+	Control/
+	ModelManager/
+	ModelUpdater/
+	MonitoringManager/
+	PerformanceEvaluator/
+	PerformancePredictor/
+	ReconfigurationManager/
+	WorkloadForecaster/
 
 4.2 Reconstructed Architectural Model
 
 During execution, the Model Manager reconstructs a SLAstic model. When the run terminates, 
-this model is serialized to file named out.slastic located in the working directory. 
+this model is serialized to file named 'output.slastic' in the Model Manager's directory.
 
 4.2 Kieker File System Monitoring Log: 
 
 The Monitoring Manager used, writes the received monitoring data into a file system
-monitoring log in its directory (MonitoringManagerComponent-org.trustsoft.slastic.plugins.cloud.slastic.monitoring.MonitoringManager).
+monitoring log in its directory (MonitoringManagerComponent).
 
 In our case, we found the directory kieker-20110513-153624844-UTC-pc-vanhoorn-KiekerLogWriter/
 which contains exactly the monitoring data that was replayed for this framework run
@@ -168,7 +168,7 @@ which contains exactly the monitoring data that was replayed for this framework 
 
 The Performance Evaluator used mainly transforms the received monitoring data into 
 time series. These are contained in the respective sub-directories of the component
-(PerformanceEvaluatorComponent-[...]/[...].PerformanceLogger/[...]/).
+(PerformanceEvaluator/PerformanceLogger/[...]/).
 
 For example, a time series file for operation execution counts looks as follows (excerpt):
 
