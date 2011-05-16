@@ -1,0 +1,6 @@
+/bin
+/dist
+/build
+/build-eclipse
+/META-INF/slastic.framework.properties
+/META-INF/slastic.simulation.properties
