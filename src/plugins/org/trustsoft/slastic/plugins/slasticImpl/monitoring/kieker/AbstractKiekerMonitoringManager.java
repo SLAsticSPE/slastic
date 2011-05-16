@@ -86,7 +86,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 		/** Spawn analysis instance */
 		AbstractKiekerMonitoringManager.log
-				.info("Spawning Kieker analysis instance");
+				.debug("Spawning Kieker analysis instance");
 		(new KiekerAnalysisTask(analysisInstance)).start();
 
 		return true;
@@ -113,7 +113,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 			return false;
 		}
 		AbstractKiekerMonitoringManager.log
-				.info("KiekerMonitoringManager now executing");
+				.debug("KiekerMonitoringManager now executing");
 		return retVal;
 	}
 

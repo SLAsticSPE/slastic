@@ -29,7 +29,7 @@ public class PropertiesFileUtils {
 
         try {
             is = new FileInputStream(fn);
-            PropertiesFileUtils.log.info("Loading properties from file '" + fn + "'");
+            PropertiesFileUtils.log.debug("Loading properties from file '" + fn + "'");
             prop.load(is);
         } catch (final Exception ex) {
             PropertiesFileUtils.log.error("Failed to load properties from file '" + fn + "'", ex);

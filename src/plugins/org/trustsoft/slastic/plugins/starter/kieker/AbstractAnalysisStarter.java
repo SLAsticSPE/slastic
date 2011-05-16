@@ -115,7 +115,7 @@ public abstract class AbstractAnalysisStarter {
 		 * in that it returns after the reader has terminated.
 		 */
 		final boolean logReplayRes = this.startReader();
-		AbstractAnalysisStarter.log.info("initAndStartJMS terminated with"
+		AbstractAnalysisStarter.log.debug("initAndStartJMS terminated with"
 				+ logReplayRes);
 
 		/**
@@ -123,7 +123,7 @@ public abstract class AbstractAnalysisStarter {
 		 */
 		frameworkInst.terminate(logReplayRes);
 		AbstractAnalysisStarter.log
-				.info("SLAstic framework instance terminated");
+				.debug("SLAstic framework instance terminated");
 
 		return logReplayRes;
 	}
@@ -162,7 +162,7 @@ public abstract class AbstractAnalysisStarter {
 			return null;
 		}
 		AbstractAnalysisStarter.log
-				.info("Starting SLAstic framework instance ...");
+				.debug("Starting SLAstic framework instance ...");
 		if (!frameworkInst.run()) {
 			AbstractAnalysisStarter.log
 					.fatal("SLAstic framework instance returned with error");

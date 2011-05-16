@@ -202,9 +202,23 @@ public class FrameworkInstance {
 			inst = (AbstractSLAsticComponent) cl.newInstance();
 			final Method m = cl.getMethod("setProperties", Properties.class);
 			m.invoke(inst, componentProperties);
-			FrameworkInstance.log.info("Loaded and instantiated component ('"
-					+ classname + "') with init string '" + componentProperties
-					+ "'");
+
+//			{ /* Generate and output formatted representation of properties: */
+//				final StringBuilder strB = new StringBuilder();
+//				for (final Map.Entry<Object, Object> prop : componentProperties
+//						.entrySet()) {
+//					final String line =
+//							String.format("\n\t %s : %s",
+//									prop.getKey(), prop.getValue());
+//					strB.append(line);
+//				}
+//
+//				FrameworkInstance.log
+//						.info("Loaded and instantiated component ('"
+//								+ classname + "') with properties: " +
+//								strB.toString());
+//			}
+
 		} catch (final Exception ex) {
 			inst = null;
 			FrameworkInstance.log.fatal(
