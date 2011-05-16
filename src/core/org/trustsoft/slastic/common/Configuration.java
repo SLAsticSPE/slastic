@@ -1,5 +1,8 @@
 package org.trustsoft.slastic.common;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -113,10 +116,21 @@ public class Configuration {
 		return true;
 	}
 
+	private final String COMPONENT_CLASSINFO_FN = "component-classname.txt";
+
+	/**
+	 * Creates a {@link ComponentContext} including a corresponding
+	 * sub-directory for the given component which realizes the given SLAstic
+	 * component type. The directory will
+	 * 
+	 * @param component
+	 * @param componentType
+	 * @return
+	 */
 	private boolean createAndsetComponentContext(
 			final AbstractSLAsticComponent component, final String componentType) {
 		final String contextName =
-				componentType + "-" + component.getClass().getName();
+				componentType; // too long: + "-" + component.getClass().getName();
 		final IComponentContext context =
 				this.rootContext.createSubcontext(contextName);
 
@@ -124,6 +138,34 @@ public class Configuration {
 			Configuration.log.error("Failed to create component context "
 					+ contextName);
 			return false;
+		}
+
+		
+		{ /* Writing file COMPONENT_CLASSINFO_FN which contains the 
+		     class name of the component type implementation  */ 
+		final File classInfoFile =
+				context.createFileInContextDir(this.COMPONENT_CLASSINFO_FN);
+		if (classInfoFile == null) {
+			Configuration.log.error("Failed to create file '"
+					+ this.COMPONENT_CLASSINFO_FN + "' in context " + context);
+			return false;
+		}
+		
+		PrintStream pos = null;
+		try {
+			pos = new PrintStream (classInfoFile);
+			pos.print(componentType);
+			pos.print(":");
+			pos.println(component.getClass().getName());
+		} catch (final IOException e) {
+			Configuration.log.error("Failed to create FileWriter for " + classInfoFile + ":"
+					+ e.getMessage(), e);
+			return false;
+		} finally {
+			if (pos != null) {
+				pos.close();
+			}
+		}
 		}
 
 		component.setComponentContext(context);
@@ -137,27 +179,34 @@ public class Configuration {
 			return false;
 		}
 
-		return this.createAndsetComponentContext(this.monitoringManagerComponent,
+		return this.createAndsetComponentContext(
+				this.monitoringManagerComponent,
 				"MonitoringManagerComponent")
 				&& this.createAndsetComponentContext(this.controlComponent,
-						"ControlComponent")
-				&& this.createAndsetComponentContext(this.modelManagerComponent,
-						"ModelManagerComponent")
-				&& this.createAndsetComponentContext(this.modelUpdaterComponent,
-						"ModelUpdaterComponent")
+						"Control")
+				&& this.createAndsetComponentContext(
+						this.modelManagerComponent,
+						"ModelManager")
+				&& this.createAndsetComponentContext(
+						this.modelUpdaterComponent,
+						"ModelUpdater")
 				&& this.createAndsetComponentContext(this.analysisComponent,
-						"AnalysisComponent")
-				&& this.createAndsetComponentContext(this.performanceEvaluatorComponent,
-						"PerformanceEvaluatorComponent")
-				&& this.createAndsetComponentContext(this.workloadForecasterComponent,
-						"WorkloadForecasterComponent")
-				&& this.createAndsetComponentContext(this.performancePredictorComponent,
-						"PerformancePredictorComponent")
-				&& this.createAndsetComponentContext(this.adaptationPlannerComponent,
-						"AdaptationPlannerComponent")
+						"Analysis")
+				&& this.createAndsetComponentContext(
+						this.performanceEvaluatorComponent,
+						"PerformanceEvaluator")
+				&& this.createAndsetComponentContext(
+						this.workloadForecasterComponent,
+						"WorkloadForecaster")
+				&& this.createAndsetComponentContext(
+						this.performancePredictorComponent,
+						"PerformancePredictor")
+				&& this.createAndsetComponentContext(
+						this.adaptationPlannerComponent,
+						"AdaptationPlanner")
 				&& this.createAndsetComponentContext(
 						this.reconfigurationManagerComponent,
-						"ReconfigurationManagerComponent");
+						"ReconfigurationManager");
 	}
 
 	private void wireMonitoringManager() {

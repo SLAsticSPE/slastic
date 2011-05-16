@@ -41,7 +41,7 @@ public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent 
 		this.performanceLogger =
 				new PerformanceLogger(this.epServiceProvider, this
 						.getComponentContext().createSubcontext(
-								PerformanceLogger.class.getName()),
+								PerformanceLogger.class.getSimpleName()),
 						this.winTimeSec, this.outputIntervalSec);
 		return true;
 	}

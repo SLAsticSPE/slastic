@@ -43,7 +43,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			final Class<? extends AbstractPerformanceMeasureLogger<?>> loggerClass,
 			final int winTimeSec, final int outputIntervalSec) {
 		return this.getContext().createSubcontext(
-				loggerClass.getName() + "-winTimeSec_" + winTimeSec
+				loggerClass.getSimpleName() + "-winTimeSec_" + winTimeSec
 						+ "-outputIntervalSec_" + outputIntervalSec);
 	}
 

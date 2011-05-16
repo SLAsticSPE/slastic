@@ -53,7 +53,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 		/* Tee writer */
 		final IComponentContext logWriterContext =
 				this.getComponentContext().createSubcontext(
-						KiekerLogWriter.class.getName());
+						KiekerLogWriter.class.getSimpleName());
 		final KiekerLogWriter logWriter =
 				new KiekerLogWriter(logWriterContext.getDirectoryLocation());
 		this.monitoringRecordConsumerFilterChain

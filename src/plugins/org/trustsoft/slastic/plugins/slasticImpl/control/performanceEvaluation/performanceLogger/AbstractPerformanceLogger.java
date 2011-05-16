@@ -64,7 +64,7 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 					loggerClass.getConstructor(IComponentContext.class);
 			loggerInst =
 					con.newInstance(this.context.createSubcontext(loggerClass
-							.getName()));
+							.getSimpleName()));
 		} catch (final Exception e) {
 			AbstractPerformanceLogger.log.error(
 					"Error instantiating logger:" + e.getMessage(), e);

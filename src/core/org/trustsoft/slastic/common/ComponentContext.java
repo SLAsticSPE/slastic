@@ -109,7 +109,7 @@ class ComponentContext implements IComponentContext {
 
 		final String dateStr = m_ISO8601UTC.format(new java.util.Date());
 		final String dirname =
-				baseDirectory + "/slastic-" + dateStr + "-UTC-" + namePostfix
+				baseDirectory + "/slastic-" + dateStr + "-UTC" + namePostfix
 						+ "/";
 		return dirname;
 	}
