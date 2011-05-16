@@ -9,9 +9,11 @@
 log4j.rootLogger=INFO, ROOTLOGGER
 
 # A1 is set to be a ConsoleAppender which outputs to System.out.
-#log4j.appender.ROOTLOGGER=org.apache.log4j.ConsoleAppender
-log4j.appender.ROOTLOGGER=org.apache.log4j.FileAppender
-log4j.appender.ROOTLOGGER.file=slastic.log
+log4j.appender.ROOTLOGGER=org.apache.log4j.ConsoleAppender
+# To redirect logging output to a file called #slastic.log' 
+# enable the following properties (and disable to ConsoleAppender):
+#log4j.appender.ROOTLOGGER=org.apache.log4j.FileAppender
+#log4j.appender.ROOTLOGGER.file=slastic.log
 
 
 # A1 uses PatternLayout.
