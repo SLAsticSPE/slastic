@@ -33,13 +33,16 @@ public class ModelManager extends AbstractModelManagerComponent {
 	private static final Log log = LogFactory.getLog(ModelManager.class);
 
 	/* fields related to the type repository */
-	private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN = "systemModel-inputfn";
-	private static final String PROP_NAME_SYSTEM_MODEL__OUTPUT_FN = "systemModel-outputputfn";
-	// private volatile String systemModel_inputFile;
+	private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN =
+			"systemModel-inputfn";
+
+	/** Will be set in {@link #init()} */
 	private volatile String systemModel_outputFile = "";
+	
+	/** Will be created in {@link #init()} */
 	private volatile SystemModel systemModel;
 
-	/* Managers for the submodels */
+	/* Managers for the sub-models */
 	private volatile TypeRepositoryModelManager typeRepositoryManager;
 	private volatile ComponentAssemblyModelManager componentAssemblyModelManager;
 	private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
@@ -80,13 +83,13 @@ public class ModelManager extends AbstractModelManagerComponent {
 	public IReconfigurationManager getReconfigurationManager() {
 		return this.reconfigurationManager;
 	}
-	
+
 	/**
-	 * Initialized the managers for the submodels type repository, component
+	 * Initialized the managers for the sub-models type repository, component
 	 * assembly, execution environment, and component deployment.
 	 * 
 	 * The system model ${@link #systemModel} must not be null since the
-	 * submodels are extracted from it.
+	 * sub-models are extracted from it.
 	 * 
 	 * @return true on success, false otherwise
 	 * @throws IllegalStateException
@@ -101,12 +104,15 @@ public class ModelManager extends AbstractModelManagerComponent {
 		try {
 			this.typeRepositoryManager = new TypeRepositoryModelManager(
 					this.systemModel.getTypeRepositoryModel());
-			this.componentAssemblyModelManager = new ComponentAssemblyModelManager(
-					this.systemModel.getComponentAssemblyModel());
-			this.executionEnvironmentModelManager = new ExecutionEnvironmentModelManager(
-					this.systemModel.getExecutionEnvironmentModel());
-			this.componentDeploymentModelManager = new ComponentDeploymentModelManager(
-					this.systemModel.getComponentDeploymentModel());
+			this.componentAssemblyModelManager =
+					new ComponentAssemblyModelManager(
+							this.systemModel.getComponentAssemblyModel());
+			this.executionEnvironmentModelManager =
+					new ExecutionEnvironmentModelManager(
+							this.systemModel.getExecutionEnvironmentModel());
+			this.componentDeploymentModelManager =
+					new ComponentDeploymentModelManager(
+							this.systemModel.getComponentDeploymentModel());
 			this.reconfigurationManager = new ReconfigurationManager(
 					this.typeRepositoryManager,
 					this.componentAssemblyModelManager,
@@ -123,8 +129,12 @@ public class ModelManager extends AbstractModelManagerComponent {
 	public boolean init() {
 		final String systemModel_inputFile = super.getInitProperty(
 				ModelManager.PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
-		this.systemModel_outputFile = super.getInitProperty(
-				ModelManager.PROP_NAME_SYSTEM_MODEL__OUTPUT_FN, "");
+
+		
+		this.systemModel_outputFile =
+				this.getComponentContext()
+						.createFileInContextDir("output.slastic")
+						.getAbsolutePath();
 
 		if (systemModel_inputFile.isEmpty()) {
 			ModelManager.log
@@ -159,9 +169,9 @@ public class ModelManager extends AbstractModelManagerComponent {
 	@Override
 	public void doReconfiguration(final ReconfigurationPlan plan)
 			throws ReconfigurationException {
-		throw new UnsupportedOperationException("Not supported yet.");	
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
-	
+
 	@Override
 	public void handleEvent(final IEvent ev) {
 	}
@@ -183,9 +193,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 
 	private void saveModel() {
 		try {
-			if (!this.systemModel_outputFile.isEmpty()) {
-				this.saveModel(this.systemModel_outputFile);
-			}
+			this.saveModel(this.systemModel_outputFile);
 		} catch (final IOException exc) {
 			ModelManager.log.error(
 					"An IOException occured while saving models", exc);
