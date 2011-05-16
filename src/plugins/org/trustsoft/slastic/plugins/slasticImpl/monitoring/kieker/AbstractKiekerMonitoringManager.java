@@ -125,7 +125,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 	@Override
 	public final void terminate(final boolean error) {
 		AbstractKiekerMonitoringManager.log
-				.info("Terminating the internal Kieker analysis instance by closing the named record pipe ");
+				.debug("Terminating the internal Kieker analysis instance by closing the named record pipe ");
 		try {
 			final Pipe p = this.kiekerNamedRecordPipeReader.getPipe();
 			if (p != null) {

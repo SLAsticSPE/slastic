@@ -89,6 +89,6 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 
 	@Override
 	protected void concreteTerminate(final boolean error) {
-		MonitoringManager.log.info("KiekerMonitoringManager now terminating");
+		MonitoringManager.log.debug("KiekerMonitoringManager now terminating");
 	}
 }
