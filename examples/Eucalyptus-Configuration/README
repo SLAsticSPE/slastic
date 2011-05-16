@@ -109,17 +109,24 @@ first step.
 
 3.1 Start the JMS server, as described in the Kieker User Guide 
 
+In this example, we use the parameter values that fit to the OpenJMS
+server. When using other JMS implementations you need to change
+these values accordingly. For example, for ActiveMQ you'll at least
+need to use the following initial context factory class: 
+org.apache.activemq.jndi.ActiveMQInitialContextFactory
+
 3.2 Using the start script bin/slastic-JMS-Kieker.sh (actually does 3.2):
 
     $ bin/slastic-JMS-Kieker.sh \
        --start-framework slastic.framework.properties \
        --jmsDestination queue1 \
        --jmsProviderUrl tcp://127.0.0.1:3035/ \
+       --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory \
        --kieker-pipeName monitoringPipe0
 
 3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --kieker-pipeName monitoringPipe0
+    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
 
 3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
 

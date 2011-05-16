@@ -32,6 +32,11 @@ public class CmdlOptions {
 					"jmsDestination", "d", "example: \"queue1\"",
 					true /* isRequired */, "queue");
 
+	public final static Option CMDL_OPT_JMS_INITIAL_CONTEXT_FACTORY =
+		CmdlOptions.createOptionWithArgAndShortOpt(
+				"jmsFactoryLookupName", "c", "example: \"org.exolab.jms.jndi.InitialContextFactory\" (OpenJMS)",
+				true /* isRequired */, "initial-context-factory");
+	
 	public final static Option CMDL_OPT_FS_INPUT_DIRS =
 			CmdlOptions
 					.createOptionWithArgsAndShortOpt(
