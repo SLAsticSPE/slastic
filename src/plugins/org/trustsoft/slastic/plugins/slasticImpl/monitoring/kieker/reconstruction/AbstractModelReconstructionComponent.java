@@ -55,7 +55,7 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * TODO: Really DIRTY HACK: This information should be stored somewhere
 	 * central, e.g., in the model manager.
 	 * 
-	 * Maps a technical hostname to the corresponding archiectural container
+	 * Maps a technical hostname to the corresponding architectural container
 	 * name;
 	 */
 	public static final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
