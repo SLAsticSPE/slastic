@@ -59,25 +59,24 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 				slasticRecord,
 				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.PACKAGE_NAME);
 	}
-
 	
-//	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
-//		/* Create type repository manager for empty type repository */
-//		final ModelManager modelManager = new ModelManager();
-//
-//		final ExecutionRecordTransformationFilter execRecFilter =
-//				new ExecutionRecordTransformationFilter(
-//						modelManager,
-//						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
-//
-//		final OperationExecution slasticRecord =
-//				execRecFilter.transformExecutionRecord(this.kiekerRecord);
-//
-//		this.checkResult(
-//				modelManager,
-//				slasticRecord,
-//				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
-//	}
+	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
+		/* Create type repository manager for empty type repository */
+		final ModelManager modelManager = new ModelManager();
+
+		final ExecutionRecordTransformationFilter execRecFilter =
+				new ExecutionRecordTransformationFilter(
+						modelManager,
+						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+
+		final OperationExecution slasticRecord =
+				execRecFilter.transformExecutionRecord(this.kiekerRecord);
+
+		this.checkResult(
+				modelManager,
+				slasticRecord,
+				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+	}
 
 	/**
 	 * Performs a number of validity checks on the model and the record.

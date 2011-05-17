@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +22,6 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.IEucalyptusApplica
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
@@ -117,9 +117,20 @@ public class EucalyptusReconfigurationManager extends
 		return this.eucalyptusApplicationCloudingService != null;
 	}
 
+	// Part of hack #10
+	private volatile ConcurrentHashMap<String, ExecutionContainer> containerNameMapping;
+
 	@Override
 	public boolean execute() {
 		try {
+			{
+				// Part of hack #10
+				this.containerNameMapping =
+						((ModelManager) this.getControlComponent()
+								.getModelManager())
+								.getExecutionEnvironmentModelManager().containerNameMapping;
+			}
+
 			/* Create print writer for eucalyptus events */
 			final File euEventsFile =
 					this.getComponentContext()
@@ -301,12 +312,13 @@ public class EucalyptusReconfigurationManager extends
 			} else {
 				success = true;
 				this.allocatedNodesMapping.put(resExecutionContainer, euNode);
-				
+
 				// HACK:
-				AbstractModelReconstructionComponent.containerNameMapping.put(
+				this.containerNameMapping.put(
 						euNode.getHostname(), resExecutionContainer);
-				EucalyptusReconfigurationManager.log.info("Added hostname mapping " + euNode.getHostname()
-						+ " x " + resExecutionContainer);
+				EucalyptusReconfigurationManager.log
+						.info("Added hostname mapping " + euNode.getHostname()
+								+ " x " + resExecutionContainer);
 				//
 			}
 		} catch (final ApplicationCloudingServiceException e) {

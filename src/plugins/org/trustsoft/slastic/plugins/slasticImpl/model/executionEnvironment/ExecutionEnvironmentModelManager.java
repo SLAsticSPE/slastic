@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -17,6 +19,16 @@ public class ExecutionEnvironmentModelManager extends
 		AbstractModelManager<ExecutionEnvironmentModel> implements
 		IExecutionContainersManager, INetworkLinksManager,
 		IExecutionContainersAllocationManager {
+
+	/**
+	 * TODO: HACK: This information should be stored in an intermediate layer 
+	 * between Monitoring and Reconfiguration.
+	 * 
+	 * Maps a technical hostname to the corresponding architectural container
+	 * name;
+	 */
+	public final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
+			new ConcurrentHashMap<String, ExecutionContainer>();
 
 	private final ExecutionContainersManager executionContainersManager;
 	private final NetworkLinksManager networkLinksManager;

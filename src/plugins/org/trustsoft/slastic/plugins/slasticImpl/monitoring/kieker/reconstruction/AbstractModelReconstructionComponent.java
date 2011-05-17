@@ -51,16 +51,7 @@ public abstract class AbstractModelReconstructionComponent extends
 		return AbstractModelReconstructionComponent.MEM_SWAP_RESOURCE_NAME;
 	}
 
-	/**
-	 * TODO: Really DIRTY HACK: This information should be stored somewhere
-	 * central, e.g., in the model manager.
-	 * 
-	 * Maps a technical hostname to the corresponding architectural container
-	 * name;
-	 */
-	public static final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
-			new ConcurrentHashMap<String, ExecutionContainer>();
-
+	// Part of hack#10
 	boolean reportedMatch = false;
 
 	/**
@@ -73,9 +64,13 @@ public abstract class AbstractModelReconstructionComponent extends
 
 		ExecutionContainer executionContainer;
 
-		{ /* HACK! */
+		final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
+				(this.getModelManager())
+						.getExecutionEnvironmentModelManager().containerNameMapping;
+
+		{ /* HACK #10! */
 			executionContainer =
-					AbstractModelReconstructionComponent.containerNameMapping
+					containerNameMapping
 							.get(hostName);
 			if (executionContainer != null) {
 				if (!this.reportedMatch) {
@@ -99,8 +94,8 @@ public abstract class AbstractModelReconstructionComponent extends
 				/* We need to create the execution container */
 				executionContainer = this.createExecutionContainer(hostName);
 			}
-			// TODO: remove
-			AbstractModelReconstructionComponent.containerNameMapping.put(
+			// TODO: remove (hack #10)
+			containerNameMapping.put(
 					hostName, executionContainer);
 		}
 		return executionContainer;
