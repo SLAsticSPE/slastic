@@ -2,6 +2,7 @@ package org.trustsoft.slastic.common;
 
 import java.lang.reflect.Method;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,6 +35,8 @@ public class FrameworkInstance {
 
 	private static final Log log = LogFactory.getLog(FrameworkInstance.class);
 	private final Configuration configuration = new Configuration();
+
+	private final AtomicBoolean terminated = new AtomicBoolean(false);
 
 	/**
 	 * Returns the framework configuration.
@@ -203,21 +206,22 @@ public class FrameworkInstance {
 			final Method m = cl.getMethod("setProperties", Properties.class);
 			m.invoke(inst, componentProperties);
 
-//			{ /* Generate and output formatted representation of properties: */
-//				final StringBuilder strB = new StringBuilder();
-//				for (final Map.Entry<Object, Object> prop : componentProperties
-//						.entrySet()) {
-//					final String line =
-//							String.format("\n\t %s : %s",
-//									prop.getKey(), prop.getValue());
-//					strB.append(line);
-//				}
-//
-//				FrameworkInstance.log
-//						.info("Loaded and instantiated component ('"
-//								+ classname + "') with properties: " +
-//								strB.toString());
-//			}
+			// { /* Generate and output formatted representation of properties:
+			// */
+			// final StringBuilder strB = new StringBuilder();
+			// for (final Map.Entry<Object, Object> prop : componentProperties
+			// .entrySet()) {
+			// final String line =
+			// String.format("\n\t %s : %s",
+			// prop.getKey(), prop.getValue());
+			// strB.append(line);
+			// }
+			//
+			// FrameworkInstance.log
+			// .info("Loaded and instantiated component ('"
+			// + classname + "') with properties: " +
+			// strB.toString());
+			// }
 
 		} catch (final Exception ex) {
 			inst = null;
@@ -427,6 +431,21 @@ public class FrameworkInstance {
 	 * @return true on success; false otherwise.
 	 */
 	public boolean run() {
+
+		/**
+		 * Register shutdown hook to make sure, that the framework will be shut
+		 * down
+		 */
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				FrameworkInstance.log
+						.info("ShutdownHook notifies SLAstic framework to terminate");
+				FrameworkInstance.this.terminate(false); // not setting error flag
+			}
+		}));
+
 		if (!this.initAllComponents()) {
 			FrameworkInstance.log
 					.error("init of at least one component failed");
@@ -450,7 +469,9 @@ public class FrameworkInstance {
 	 *            true iff an error occurred.
 	 */
 	public void terminate(final boolean error) {
-		this.terminateAllComponents(error);
+		if (!this.terminated.getAndSet(true)) {
+			this.terminateAllComponents(error);
+		}
 	}
 
 	/**
