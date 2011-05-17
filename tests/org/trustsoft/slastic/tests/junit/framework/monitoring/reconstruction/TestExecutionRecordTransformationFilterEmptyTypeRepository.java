@@ -24,10 +24,14 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		AbstractReconstructionTest {
 
+	private final String packageName = "package.subpackage";
+	private final String classNameNoPackage = "Classname";
+
 	private final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
 	{
-		this.kiekerRecord.className = "package.subpackage.classname";
+		this.kiekerRecord.className =
+				this.packageName + "." + this.classNameNoPackage;
 		this.kiekerRecord.eoi = 77;
 		this.kiekerRecord.ess = 98;
 		this.kiekerRecord.hostName = "theHostname";
@@ -38,17 +42,40 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this.kiekerRecord.traceId = 88878787877887l;
 	}
 
-	public void testTransformRecordEmptyModel() {
+	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
 		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(modelManager);
+				new ExecutionRecordTransformationFilter(
+						modelManager,
+						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
 
 		final OperationExecution slasticRecord =
 				execRecFilter.transformExecutionRecord(this.kiekerRecord);
 
-		this.checkResult(modelManager, slasticRecord);
+		this.checkResult(
+				modelManager,
+				slasticRecord,
+				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+	}
+
+	public void testTransformRecordEmptyModelComponentDiscoveryPackageName() {
+		/* Create type repository manager for empty type repository */
+		final ModelManager modelManager = new ModelManager();
+
+		final ExecutionRecordTransformationFilter execRecFilter =
+				new ExecutionRecordTransformationFilter(
+						modelManager,
+						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.PACKAGE_NAME);
+
+		final OperationExecution slasticRecord =
+				execRecFilter.transformExecutionRecord(this.kiekerRecord);
+
+		this.checkResult(
+				modelManager,
+				slasticRecord,
+				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.PACKAGE_NAME);
 	}
 
 	/**
@@ -57,8 +84,10 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 	 * @param mgr
 	 * @param slasticExecRec
 	 */
-	private void checkResult(final ModelManager mgr,
-			final OperationExecution slasticExecRec) {
+	private void checkResult(
+			final ModelManager mgr,
+			final OperationExecution slasticExecRec,
+			final ExecutionRecordTransformationFilter.ComponentDiscoveryMode componentDiscoveryMode) {
 		Assert.assertNotNull("slasticExecRec must not be null", slasticExecRec);
 
 		Assert.assertTrue("Expected type "
@@ -90,14 +119,39 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 
 		// TODO: operation
 
+		/*
+		 * Determine expected componentTypeLookupFQName and
+		 * assemblyComponentLookupFQName depending on selected
+		 * componentDiscoveryMode
+		 */
+		final String componentTypeLookupFQName;
+		final String assemblyComponentLookupFQName;
+		// TODO: Handle operationName accordingly
+		{
+			switch (componentDiscoveryMode) {
+			case CLASS_NAME:
+				assemblyComponentLookupFQName =
+						this.packageName + "." + this.classNameNoPackage;
+				break;
+			case PACKAGE_NAME:
+				assemblyComponentLookupFQName = this.packageName;
+				break;
+			default:
+				Assert.fail("Invalid componentDiscoveryMode "
+						+ componentDiscoveryMode);
+				assemblyComponentLookupFQName = null; // make javac happy
+			}
+
+			componentTypeLookupFQName =
+				assemblyComponentLookupFQName
+						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
+		}
+
 		final ComponentType lookedUpComponentType;
 		final ExecutionContainerType lookedUpContainerType;
 		{
 			/* Check type repository contents */
 			/* 1. Lookup component type by name and compare with record content */
-			final String componentTypeLookupFQName =
-					this.kiekerRecord.className
-							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 			lookedUpComponentType =
 					mgr.getTypeRepositoryManager().lookupComponentType(
 							componentTypeLookupFQName);
@@ -129,8 +183,6 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		{
 			/* Check component assembly contents */
 			/* 3. Lookup assembly component and compare with record content */
-			final String assemblyComponentLookupFQName =
-					this.kiekerRecord.className;
 			lookedUpAssemblyComponent =
 					mgr.getComponentAssemblyModelManager()
 							.lookupAssemblyComponent(
@@ -145,7 +197,9 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 
 		/* Check execution environment contents */
 		/* 4. Lookup execution container and compare with record content */
-		this.checkExecutionContainerAndType(mgr, this.kiekerRecord.hostName,
+		this.checkExecutionContainerAndType(
+				mgr,
+				this.kiekerRecord.hostName,
 				this.kiekerRecord.hostName
 						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				slasticComponentExecRec.getDeploymentComponent()

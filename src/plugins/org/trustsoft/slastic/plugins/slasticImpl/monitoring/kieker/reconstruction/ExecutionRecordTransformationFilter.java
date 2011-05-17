@@ -6,6 +6,7 @@ import kieker.common.record.OperationExecutionRecord;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
@@ -26,6 +27,12 @@ public class ExecutionRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, IExecutionRecordTransformation {
 
+	public enum ComponentDiscoveryMode {
+		CLASS_NAME, PACKAGE_NAME
+	};
+
+	private final ComponentDiscoveryMode componentDiscoveryMode;
+
 	private static final Log log = LogFactory
 			.getLog(ExecutionRecordTransformationFilter.class);
 
@@ -33,8 +40,10 @@ public class ExecutionRecordTransformationFilter extends
 	 * 
 	 * @param modelManager
 	 */
-	public ExecutionRecordTransformationFilter(final ModelManager modelManager) {
+	public ExecutionRecordTransformationFilter(final ModelManager modelManager,
+			final ComponentDiscoveryMode componentDiscoveryMode) {
 		super(modelManager);
+		this.componentDiscoveryMode = componentDiscoveryMode;
 	}
 
 	/**
@@ -82,12 +91,37 @@ public class ExecutionRecordTransformationFilter extends
 		final ExecutionContainer executionContainer =
 				this.lookupOrCreateExecutionContainerByName(execution.hostName);
 
+		/*
+		 * The value of the variables componentOrConnectorName and operationName
+		 * depends on the componentDiscoveryMode.
+		 */
+		final String componentOrConnectorName;
+		final String operationName;
+		{
+			switch (this.componentDiscoveryMode) {
+			case CLASS_NAME:
+				componentOrConnectorName = execution.className;
+				operationName = execution.operationName;
+				break;
+			case PACKAGE_NAME:
+				final String[] fqnSplit =
+						NameUtils.splitFullyQualifiedName(execution.className);
+				componentOrConnectorName = fqnSplit[0];
+				operationName = fqnSplit[1] + "." + execution.operationName;
+				break;
+			default:
+				ExecutionRecordTransformationFilter.log
+						.error("Invalid ComponentDiscoveryMode: '"
+								+ this.componentDiscoveryMode + "'");
+				return null;
+			}
+		}
+
 		{
 			/*
 			 * 1.) Determine whether this is a deployment component execution or
 			 * a connector execution.
 			 */
-			final String componentOrConnectorName = execution.className;
 			final AssemblyConnector assemblyConnector =
 					this.getAssemblyModelManager().lookupAssemblyConnector(
 							componentOrConnectorName);
@@ -137,7 +171,9 @@ public class ExecutionRecordTransformationFilter extends
 			 * 2.) Initialize the values common for component and connector
 			 * executions.
 			 */
-			// TODO: what about the operation?
+			
+			// TODO: what about the operation? (the variable operationName is already available)
+			
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);

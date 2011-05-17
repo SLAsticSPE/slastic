@@ -109,6 +109,7 @@ public abstract class AbstractAnalysisStarter {
 			System.exit(1);
 		}
 
+	
 		/**
 		 * Starts the Kieker JMS reader. The records are passed to the SLAstic
 		 * monitoring manager via a named pipe. The following method is blocking
@@ -129,19 +130,25 @@ public abstract class AbstractAnalysisStarter {
 	}
 
 	private boolean startReader() {
-		final Configuration configuration = 
-			Configuration.createDefaultConfiguration();
-		
+		final Configuration configuration =
+				Configuration.createDefaultConfiguration();
+
 		/* Configuring name pipe writer */
-		configuration.setProperty(Configuration.WRITER_CLASSNAME, PipeWriter.class.getName());
-		configuration.setProperty(PipeWriter.CONFIG__PIPENAME, "monitoringPipe0");
-		// TODO: Is this correct?? Enable "replay mode", i.e., the logging timestamps in the records are kept as-is
-		configuration.setProperty(Configuration.AUTO_SET_LOGGINGTSTAMP, Boolean.toString(false));
+		configuration.setProperty(Configuration.WRITER_CLASSNAME,
+				PipeWriter.class.getName());
+		configuration.setProperty(PipeWriter.CONFIG__PIPENAME,
+				"monitoringPipe0");
+		// TODO: Is this correct?? Enable "replay mode", i.e., the logging
+		// timestamps in the records are kept as-is
+		configuration.setProperty(Configuration.AUTO_SET_LOGGINGTSTAMP,
+				Boolean.toString(false));
 		// Set controller name
-		configuration.setProperty(Configuration.CONTROLLER_NAME, "ReplayToPipe");
-		
-		final IMonitoringController ctrl  = MonitoringController.createInstance(configuration);
-		
+		configuration
+				.setProperty(Configuration.CONTROLLER_NAME, "ReplayToPipe");
+
+		final IMonitoringController ctrl =
+				MonitoringController.createInstance(configuration);
+
 		return this.startReader(ctrl);
 	}
 
@@ -249,7 +256,6 @@ public abstract class AbstractAnalysisStarter {
 		return this.cmdl.getOptionValue(optName);
 	}
 
-	
 	/**
 	 * 
 	 * @param optName
@@ -273,7 +279,6 @@ public abstract class AbstractAnalysisStarter {
 		return this.cmdl.getOptionValues(optName);
 	}
 
-	
 	/**
 	 * 
 	 * @param optName
@@ -284,9 +289,10 @@ public abstract class AbstractAnalysisStarter {
 	public String[] stringOptionValuesNotNullNotEmpty(
 			final String optName) throws NullPointerException,
 			IllegalArgumentException {
-		return CmdlOptions.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
+		return CmdlOptions
+				.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
 	}
-	
+
 	/**
 	 * 
 	 * @param optName

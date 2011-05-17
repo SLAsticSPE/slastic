@@ -39,7 +39,10 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		final ModelManager modelManager = new ModelManager();
 
 		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(modelManager);
+				new ExecutionRecordTransformationFilter(
+						modelManager,
+						/* We tests this with CLASS_NAME mode only */
+						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
 
 		/* Used to receive the created operations from the filter */
 		final ArrayList<OperationExecution> slasticExecRef =
