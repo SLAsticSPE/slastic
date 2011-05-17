@@ -22,7 +22,7 @@ public class ExecutionEnvironmentModelManager extends
 
 	/**
 	 * TODO: HACK: This information should be stored in an intermediate layer 
-	 * between Monitoring and Reconfiguration.
+	 * between Monitoring and Reconfiguration (#10, #11).
 	 * 
 	 * Maps a technical hostname to the corresponding architectural container
 	 * name;
