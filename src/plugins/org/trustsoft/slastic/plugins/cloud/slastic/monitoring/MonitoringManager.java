@@ -1,5 +1,5 @@
-//TODO: We should decide, whether this is really cloud-specific
-//        or could act as a general example, instead.
+// TODO: We should decide, whether this is really cloud-specific
+// or could act as a general example, instead.
 
 package org.trustsoft.slastic.plugins.cloud.slastic.monitoring;
 
@@ -14,6 +14,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.Kieke
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.MonitoringRecordConsumerFilterChain;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter.ComponentDiscoveryMode;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.MemSwapUsageRecordTransformationFilter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ResourceUtilizationRecordTransformationFilter;
 
@@ -46,6 +47,57 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	private volatile CPUUtilizationRecordTransformationFilter cpuUtilizationRecordTransformationFilter;
 	private volatile MemSwapUsageRecordTransformationFilter memSwapUsageRecordTransformationFilter;
 
+	private static final String PROP_NAME_COMPONENT_DISCOVERY_MODE =
+			"component-discovery-mode";
+	private static final String PROP_VAL_COMPONENT_DISCOVERY_CLASS = "CLASS";
+	private static final String PROP_VAL_COMPONENT_DISCOVERY_PACKAGE =
+			"PACKAGE";
+
+	/** Will be initialized in {@link #init()} */
+	private volatile ExecutionRecordTransformationFilter.ComponentDiscoveryMode componentDiscoveryMode;
+
+	/**
+	 * Matches the given String representation of the property value for
+	 * {@value #PROP_NAME_COMPONENT_DISCOVERY_MODE} to the corresponding value
+	 * {@link ExecutionRecordTransformationFilter.ComponentDiscoveryMode} and
+	 * sets the private {@link #componentDiscoveryMode} field. If the given
+	 * value is null, the default mode
+	 * {@link ExecutionRecordTransformationFilter.ComponentDiscoveryMode#CLASS_NAME}
+	 * will be used.
+	 * 
+	 * @return true on success; false otherwise
+	 */
+	private boolean initDiscoveryMode() {
+		final String discoveryModePropVal =
+				super.getInitProperty(
+						MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_MODE,
+						"");
+
+		boolean success = true;
+
+		if (discoveryModePropVal
+				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_CLASS)) {
+			this.componentDiscoveryMode = ComponentDiscoveryMode.CLASS_NAME;
+		} else if (discoveryModePropVal
+				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_PACKAGE)) {
+			this.componentDiscoveryMode = ComponentDiscoveryMode.PACKAGE_NAME;
+		} else {
+			MonitoringManager.log.error("Invalid property value for "
+					+ MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_MODE
+					+ ": " + discoveryModePropVal);
+			success = false;
+		}
+
+		return success;
+	}
+
+	@Override
+	public boolean init() {
+		final boolean success = super.init() && this.initDiscoveryMode();
+
+		return success;
+	}
+
 	@Override
 	protected boolean concreteExecute() {
 		/* Initialize filter chain for incoming records */
@@ -67,7 +119,8 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 				(ModelManager) this.getController().getModelManager();
 
 		this.execRecordTransformation =
-				new ExecutionRecordTransformationFilter(modelManager);
+				new ExecutionRecordTransformationFilter(modelManager,
+						this.componentDiscoveryMode);
 		this.resourceUtilizationRecordTransformation =
 				new ResourceUtilizationRecordTransformationFilter(modelManager);
 		this.cpuUtilizationRecordTransformationFilter =
