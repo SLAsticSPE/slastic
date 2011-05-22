@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 
@@ -42,24 +43,6 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this.kiekerRecord.traceId = 88878787877887l;
 	}
 
-	public void testTransformRecordEmptyModelComponentDiscoveryPackageName() {
-		/* Create type repository manager for empty type repository */
-		final ModelManager modelManager = new ModelManager();
-
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(
-						modelManager,
-						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.PACKAGE_NAME);
-
-		final OperationExecution slasticRecord =
-				execRecFilter.transformExecutionRecord(this.kiekerRecord);
-
-		this.checkResult(
-				modelManager,
-				slasticRecord,
-				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.PACKAGE_NAME);
-	}
-	
 	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
@@ -67,7 +50,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		final ExecutionRecordTransformationFilter execRecFilter =
 				new ExecutionRecordTransformationFilter(
 						modelManager,
-						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+						NameUtils.ABSTRACTION_MODE_CLASS);
 
 		final OperationExecution slasticRecord =
 				execRecFilter.transformExecutionRecord(this.kiekerRecord);
@@ -75,7 +58,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this.checkResult(
 				modelManager,
 				slasticRecord,
-				ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+				NameUtils.ABSTRACTION_MODE_CLASS);
 	}
 
 	/**
@@ -87,7 +70,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 	private void checkResult(
 			final ModelManager mgr,
 			final OperationExecution slasticExecRec,
-			final ExecutionRecordTransformationFilter.ComponentDiscoveryMode componentDiscoveryMode) {
+			final int componentDiscoveryLevel) {
 		Assert.assertNotNull("slasticExecRec must not be null", slasticExecRec);
 
 		Assert.assertTrue("Expected type "
@@ -128,17 +111,14 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		final String assemblyComponentLookupFQName;
 		// TODO: Handle operationName accordingly
 		{
-			switch (componentDiscoveryMode) {
-			case CLASS_NAME:
+			switch (componentDiscoveryLevel) {
+			case NameUtils.ABSTRACTION_MODE_CLASS:
 				assemblyComponentLookupFQName =
 						this.packageName + "." + this.classNameNoPackage;
 				break;
-			case PACKAGE_NAME:
-				assemblyComponentLookupFQName = this.packageName;
-				break;
 			default:
-				Assert.fail("Invalid componentDiscoveryMode "
-						+ componentDiscoveryMode);
+				// this would be too difficult to test here
+				Assert.fail("Invalid test (componentDiscoveryLevel)");
 				assemblyComponentLookupFQName = null; // make javac happy
 			}
 
