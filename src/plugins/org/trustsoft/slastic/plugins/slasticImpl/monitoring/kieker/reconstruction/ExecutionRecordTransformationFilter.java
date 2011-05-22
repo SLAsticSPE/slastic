@@ -27,11 +27,7 @@ public class ExecutionRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, IExecutionRecordTransformation {
 
-	public enum ComponentDiscoveryMode {
-		CLASS_NAME, PACKAGE_NAME
-	};
-
-	private final ComponentDiscoveryMode componentDiscoveryMode;
+	private final int componentDiscoveryHierarchyLevel;
 
 	private static final Log log = LogFactory
 			.getLog(ExecutionRecordTransformationFilter.class);
@@ -41,9 +37,10 @@ public class ExecutionRecordTransformationFilter extends
 	 * @param modelManager
 	 */
 	public ExecutionRecordTransformationFilter(final ModelManager modelManager,
-			final ComponentDiscoveryMode componentDiscoveryMode) {
+			final int componentDiscoveryHierarchyLevel) {
 		super(modelManager);
-		this.componentDiscoveryMode = componentDiscoveryMode;
+		this.componentDiscoveryHierarchyLevel =
+				componentDiscoveryHierarchyLevel;
 	}
 
 	/**
@@ -92,29 +89,22 @@ public class ExecutionRecordTransformationFilter extends
 				this.lookupOrCreateExecutionContainerByName(execution.hostName);
 
 		/*
-		 * The value of the variables componentOrConnectorName and operationName
-		 * depends on the componentDiscoveryMode.
+		 * The values of the variables componentOrConnectorName and operationName
+		 * depend on the componentDiscoveryHierarchyLevel.
 		 */
 		final String componentOrConnectorName;
-		final String operationName;
+		final String operationName; // will be used, as soon as the meta-model supports operations
 		{
-			switch (this.componentDiscoveryMode) {
-			case CLASS_NAME:
-				componentOrConnectorName = execution.className;
-				operationName = execution.operationName;
-				break;
-			case PACKAGE_NAME:
-				final String[] fqnSplit =
+			final String[] fqnSplit =
 						NameUtils.splitFullyQualifiedName(execution.className);
-				componentOrConnectorName = fqnSplit[0];
-				operationName = fqnSplit[1] + "." + execution.operationName;
-				break;
-			default:
-				ExecutionRecordTransformationFilter.log
-						.error("Invalid ComponentDiscoveryMode: '"
-								+ this.componentDiscoveryMode + "'");
-				return null;
-			}
+			final String[] abstractedName =
+					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1],
+							execution.getOperationName(),
+							this.componentDiscoveryHierarchyLevel);
+			componentOrConnectorName =
+					NameUtils
+							.createFQName(abstractedName[0], abstractedName[1]);
+			operationName = abstractedName[2];
 		}
 
 		{
@@ -171,9 +161,10 @@ public class ExecutionRecordTransformationFilter extends
 			 * 2.) Initialize the values common for component and connector
 			 * executions.
 			 */
-			
-			// TODO: what about the operation? (the variable operationName is already available)
-			
+
+			// TODO: what about the operation? (the variable operationName is
+			// already available)
+
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);

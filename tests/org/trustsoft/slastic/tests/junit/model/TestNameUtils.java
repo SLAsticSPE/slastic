@@ -1,6 +1,8 @@
 package org.trustsoft.slastic.tests.junit.model;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
+
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
 /**
@@ -20,9 +22,9 @@ public class TestNameUtils extends TestCase {
 
         final String[] split =
                 NameUtils.splitFullyQualifiedName(packageName+"."+name);
-        assertEquals("Package names don't match",
+        Assert.assertEquals("Package names don't match",
                 packageName, split[0]);
-        assertEquals("Names don't match",
+        Assert.assertEquals("Names don't match",
                 name, split[1]);
     }
 
@@ -32,14 +34,14 @@ public class TestNameUtils extends TestCase {
      * subpackages is used
      */
     public void testSplitTopLevelPackage (){
-        final String packageName = "a"; // no package name
+        final String packageName = "a"; 
         final String name = "TheName";
 
         final String[] split =
                 NameUtils.splitFullyQualifiedName(packageName+"."+name);
-        assertEquals("Package names don't match",
+        Assert.assertEquals("Package names don't match",
                 packageName, split[0]);
-        assertEquals("Names don't match",
+        Assert.assertEquals("Names don't match",
                 name, split[1]);
     }
 }

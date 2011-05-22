@@ -9,12 +9,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.AbstractKiekerMonitoringManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.KiekerLogWriter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.MonitoringRecordConsumerFilterChain;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
-import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter.ComponentDiscoveryMode;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.MemSwapUsageRecordTransformationFilter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ResourceUtilizationRecordTransformationFilter;
 
@@ -47,14 +47,15 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	private volatile CPUUtilizationRecordTransformationFilter cpuUtilizationRecordTransformationFilter;
 	private volatile MemSwapUsageRecordTransformationFilter memSwapUsageRecordTransformationFilter;
 
-	private static final String PROP_NAME_COMPONENT_DISCOVERY_MODE =
-			"component-discovery-mode";
-	private static final String PROP_VAL_COMPONENT_DISCOVERY_CLASS = "CLASS";
-	private static final String PROP_VAL_COMPONENT_DISCOVERY_PACKAGE =
-			"PACKAGE";
+	private static final String PROP_NAME_COMPONENT_DISCOVERY_HIERARCHY_LEVEL =
+			"component-discovery-level";
+	private static final String PROP_VAL_COMPONENT_DISCOVERY_LEVEL_CLASS =
+			"CLASS";
+	private static final String PROP_VAL_COMPONENT_DISCOVERY_LEVEL_PACKAGE_STRICT =
+			"PACKAGE_STRICT";
 
 	/** Will be initialized in {@link #init()} */
-	private volatile ExecutionRecordTransformationFilter.ComponentDiscoveryMode componentDiscoveryMode;
+	private volatile int componentDiscoveryHierarchyLevel;
 
 	/**
 	 * Matches the given String representation of the property value for
@@ -68,24 +69,32 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	 * @return true on success; false otherwise
 	 */
 	private boolean initDiscoveryMode() {
-		final String discoveryModePropVal =
+		final String discoveryLevelPropValStr =
 				super.getInitProperty(
-						MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_MODE,
-						"");
+						MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_HIERARCHY_LEVEL,
+						MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_LEVEL_CLASS);
 
 		boolean success = true;
 
-		if (discoveryModePropVal
-				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_CLASS)) {
-			this.componentDiscoveryMode = ComponentDiscoveryMode.CLASS_NAME;
-		} else if (discoveryModePropVal
-				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_PACKAGE)) {
-			this.componentDiscoveryMode = ComponentDiscoveryMode.PACKAGE_NAME;
+		if (discoveryLevelPropValStr
+				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_LEVEL_CLASS)) {
+			this.componentDiscoveryHierarchyLevel =
+					NameUtils.ABSTRACTION_MODE_CLASS;
+		} else if (discoveryLevelPropValStr
+				.equals(MonitoringManager.PROP_VAL_COMPONENT_DISCOVERY_LEVEL_PACKAGE_STRICT)) {
+			this.componentDiscoveryHierarchyLevel =
+					NameUtils.ABSTRACTION_MODE_PACKAGE_STRICT;
 		} else {
-			MonitoringManager.log.error("Invalid property value for "
-					+ MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_MODE
-					+ ": " + discoveryModePropVal);
-			success = false;
+			try {
+				this.componentDiscoveryHierarchyLevel =
+						Integer.parseInt(discoveryLevelPropValStr);
+			} catch (final NumberFormatException exc) {
+				MonitoringManager.log
+						.error("Invalid property value for "
+								+ MonitoringManager.PROP_NAME_COMPONENT_DISCOVERY_HIERARCHY_LEVEL
+								+ ": " + discoveryLevelPropValStr, exc);
+				success = false;
+			}
 		}
 
 		return success;
@@ -120,7 +129,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 
 		this.execRecordTransformation =
 				new ExecutionRecordTransformationFilter(modelManager,
-						this.componentDiscoveryMode);
+						this.componentDiscoveryHierarchyLevel);
 		this.resourceUtilizationRecordTransformation =
 				new ResourceUtilizationRecordTransformationFilter(modelManager);
 		this.cpuUtilizationRecordTransformationFilter =
