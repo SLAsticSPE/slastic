@@ -2,7 +2,9 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
+import kieker.tools.traceAnalysis.systemModel.Signature;
 
+import org.apache.commons.lang.StringUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
@@ -13,6 +15,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
@@ -27,6 +30,9 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 
 	private final String packageName = "package.subpackage";
 	private final String classNameNoPackage = "Classname";
+	private final Signature signature =
+			new Signature("theOpName", "returnType", new String[] { "ArgType0",
+					"ArgType1", "ArgType2" });
 
 	private final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
@@ -36,7 +42,10 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this.kiekerRecord.eoi = 77;
 		this.kiekerRecord.ess = 98;
 		this.kiekerRecord.hostName = "theHostname";
-		this.kiekerRecord.operationName = "theOpName";
+		this.kiekerRecord.operationName =
+				String.format("%s %s(%s)", this.signature.getReturnType(),
+						this.signature.getName(), StringUtils.join(
+								this.signature.getParamTypeList(), ","));
 		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
 		this.kiekerRecord.tin = 65656868l;
 		this.kiekerRecord.tout = 9878787887l;
@@ -48,16 +57,13 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		final ModelManager modelManager = new ModelManager();
 
 		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(
-						modelManager,
+				new ExecutionRecordTransformationFilter(modelManager,
 						NameUtils.ABSTRACTION_MODE_CLASS);
 
 		final OperationExecution slasticRecord =
 				execRecFilter.transformExecutionRecord(this.kiekerRecord);
 
-		this.checkResult(
-				modelManager,
-				slasticRecord,
+		this.checkResult(modelManager, slasticRecord,
 				NameUtils.ABSTRACTION_MODE_CLASS);
 	}
 
@@ -67,16 +73,18 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 	 * @param mgr
 	 * @param slasticExecRec
 	 */
-	private void checkResult(
-			final ModelManager mgr,
+	private void checkResult(final ModelManager mgr,
 			final OperationExecution slasticExecRec,
 			final int componentDiscoveryLevel) {
 		Assert.assertNotNull("slasticExecRec must not be null", slasticExecRec);
 
-		Assert.assertTrue("Expected type "
-				+ DeploymentComponentOperationExecution.class.getName()
-				+ " but found " + slasticExecRec.getClass().getName(),
-				slasticExecRec instanceof DeploymentComponentOperationExecution);
+		Assert
+				.assertTrue(
+						"Expected type "
+								+ DeploymentComponentOperationExecution.class
+										.getName() + " but found "
+								+ slasticExecRec.getClass().getName(),
+						slasticExecRec instanceof DeploymentComponentOperationExecution);
 
 		final DeploymentComponentOperationExecution slasticComponentExecRec =
 				(DeploymentComponentOperationExecution) slasticExecRec;
@@ -100,8 +108,6 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 					slasticExecRec.getEss());
 		}
 
-		// TODO: operation
-
 		/*
 		 * Determine expected componentTypeLookupFQName and
 		 * assemblyComponentLookupFQName depending on selected
@@ -109,22 +115,25 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		 */
 		final String componentTypeLookupFQName;
 		final String assemblyComponentLookupFQName;
-		// TODO: Handle operationName accordingly
+		final String operationLookupName;
+
 		{
 			switch (componentDiscoveryLevel) {
 			case NameUtils.ABSTRACTION_MODE_CLASS:
 				assemblyComponentLookupFQName =
 						this.packageName + "." + this.classNameNoPackage;
+				operationLookupName = this.signature.getName();
 				break;
 			default:
 				// this would be too difficult to test here
 				Assert.fail("Invalid test (componentDiscoveryLevel)");
 				assemblyComponentLookupFQName = null; // make javac happy
+				operationLookupName = null; // make javac happy
 			}
 
 			componentTypeLookupFQName =
-				assemblyComponentLookupFQName
-						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
+					assemblyComponentLookupFQName
+							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 		}
 
 		final ComponentType lookedUpComponentType;
@@ -175,14 +184,39 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 							.getDeploymentComponent().getAssemblyComponent());
 		}
 
+		final Operation lookedUpOperation;
+		{
+			lookedUpOperation =
+					mgr.getTypeRepositoryManager().lookupOperation(
+							lookedUpAssemblyComponent.getComponentType(),
+							operationLookupName,
+							this.signature.getReturnType(),
+							this.signature.getParamTypeList());
+			Assert
+					.assertNotNull(
+							String
+									.format(
+											"Lookup of operation '%s %s(%s)' for component type '%s' returned null",
+											this.signature.getReturnType(),
+											operationLookupName,
+											StringUtils.join(this.signature
+													.getParamTypeList(), ","),
+											lookedUpAssemblyComponent
+													.getComponentType()),
+							lookedUpOperation);
+			Assert.assertSame("Unexpected operation", slasticComponentExecRec
+					.getOperation(), lookedUpOperation);
+		}
+
 		/* Check execution environment contents */
 		/* 4. Lookup execution container and compare with record content */
-		this.checkExecutionContainerAndType(
-				mgr,
-				this.kiekerRecord.hostName,
-				this.kiekerRecord.hostName
-						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
-				slasticComponentExecRec.getDeploymentComponent()
-						.getExecutionContainer());
+		this
+				.checkExecutionContainerAndType(
+						mgr,
+						this.kiekerRecord.hostName,
+						this.kiekerRecord.hostName
+								+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
+						slasticComponentExecRec.getDeploymentComponent()
+								.getExecutionContainer());
 	}
 }

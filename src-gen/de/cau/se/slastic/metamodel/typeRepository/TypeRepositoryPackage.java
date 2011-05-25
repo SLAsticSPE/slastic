@@ -172,7 +172,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	int COMPONENT_TYPE__PROVIDED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Operations</b></em>' reference list.
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -318,13 +318,13 @@ public interface TypeRepositoryPackage extends EPackage {
 	int SIGNATURE__RETURN_TYPE = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Operations</b></em>' reference list.
+	 * The feature id for the '<em><b>Operation</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE__OPERATIONS = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
+	int SIGNATURE__OPERATION = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Signature</em>' class.
@@ -364,7 +364,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	int OPERATION__ACTIVE = CorePackage.ENTITY__ACTIVE;
 
 	/**
-	 * The feature id for the '<em><b>Component Type</b></em>' reference.
+	 * The feature id for the '<em><b>Component Type</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -373,7 +373,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	int OPERATION__COMPONENT_TYPE = CorePackage.ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Signature</b></em>' reference.
+	 * The feature id for the '<em><b>Signature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -679,10 +679,10 @@ public interface TypeRepositoryPackage extends EPackage {
 	EReference getComponentType_ProvidedInterfaces();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Operations</em>'.
+	 * @return the meta object for the containment reference list '<em>Operations</em>'.
 	 * @see de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations()
 	 * @see #getComponentType()
 	 * @generated
@@ -754,15 +754,15 @@ public interface TypeRepositoryPackage extends EPackage {
 	EAttribute getSignature_ReturnType();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperations <em>Operations</em>}'.
+	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation <em>Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Operations</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getOperations()
+	 * @return the meta object for the container reference '<em>Operation</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation()
 	 * @see #getSignature()
 	 * @generated
 	 */
-	EReference getSignature_Operations();
+	EReference getSignature_Operation();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.Operation <em>Operation</em>}'.
@@ -775,10 +775,10 @@ public interface TypeRepositoryPackage extends EPackage {
 	EClass getOperation();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
+	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Component Type</em>'.
+	 * @return the meta object for the container reference '<em>Component Type</em>'.
 	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType()
 	 * @see #getOperation()
 	 * @generated
@@ -786,10 +786,10 @@ public interface TypeRepositoryPackage extends EPackage {
 	EReference getOperation_ComponentType();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}'.
+	 * Returns the meta object for the containment reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Signature</em>'.
+	 * @return the meta object for the containment reference '<em>Signature</em>'.
 	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature()
 	 * @see #getOperation()
 	 * @generated
@@ -975,7 +975,7 @@ public interface TypeRepositoryPackage extends EPackage {
 		EReference COMPONENT_TYPE__PROVIDED_INTERFACES = eINSTANCE.getComponentType_ProvidedInterfaces();
 
 		/**
-		 * The meta object literal for the '<em><b>Operations</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1035,12 +1035,12 @@ public interface TypeRepositoryPackage extends EPackage {
 		EAttribute SIGNATURE__RETURN_TYPE = eINSTANCE.getSignature_ReturnType();
 
 		/**
-		 * The meta object literal for the '<em><b>Operations</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Operation</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference SIGNATURE__OPERATIONS = eINSTANCE.getSignature_Operations();
+		EReference SIGNATURE__OPERATION = eINSTANCE.getSignature_Operation();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
@@ -1053,7 +1053,7 @@ public interface TypeRepositoryPackage extends EPackage {
 		EClass OPERATION = eINSTANCE.getOperation();
 
 		/**
-		 * The meta object literal for the '<em><b>Component Type</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Component Type</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1061,7 +1061,7 @@ public interface TypeRepositoryPackage extends EPackage {
 		EReference OPERATION__COMPONENT_TYPE = eINSTANCE.getOperation_ComponentType();
 
 		/**
-		 * The meta object literal for the '<em><b>Signature</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Signature</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

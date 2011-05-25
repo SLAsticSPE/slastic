@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,17 +38,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class OperationImpl extends EntityImpl implements Operation {
 	/**
-	 * The cached value of the '{@link #getComponentType() <em>Component Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getComponentType()
-	 * @generated
-	 * @ordered
-	 */
-	protected ComponentType componentType;
-
-	/**
-	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' reference.
+	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSignature()
@@ -81,24 +72,8 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * @generated
 	 */
 	public ComponentType getComponentType() {
-		if (componentType != null && componentType.eIsProxy()) {
-			InternalEObject oldComponentType = (InternalEObject)componentType;
-			componentType = (ComponentType)eResolveProxy(oldComponentType);
-			if (componentType != oldComponentType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, oldComponentType, componentType));
-			}
-		}
-		return componentType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ComponentType basicGetComponentType() {
-		return componentType;
+		if (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE) return null;
+		return (ComponentType)eContainer();
 	}
 
 	/**
@@ -107,12 +82,7 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * @generated
 	 */
 	public NotificationChain basicSetComponentType(ComponentType newComponentType, NotificationChain msgs) {
-		ComponentType oldComponentType = componentType;
-		componentType = newComponentType;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, oldComponentType, newComponentType);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
+		msgs = eBasicSetContainer((InternalEObject)newComponentType, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, msgs);
 		return msgs;
 	}
 
@@ -122,10 +92,12 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * @generated
 	 */
 	public void setComponentType(ComponentType newComponentType) {
-		if (newComponentType != componentType) {
+		if (newComponentType != eInternalContainer() || (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE && newComponentType != null)) {
+			if (EcoreUtil.isAncestor(this, newComponentType))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
 			NotificationChain msgs = null;
-			if (componentType != null)
-				msgs = ((InternalEObject)componentType).eInverseRemove(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
 			if (newComponentType != null)
 				msgs = ((InternalEObject)newComponentType).eInverseAdd(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
 			msgs = basicSetComponentType(newComponentType, msgs);
@@ -141,23 +113,6 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * @generated
 	 */
 	public Signature getSignature() {
-		if (signature != null && signature.eIsProxy()) {
-			InternalEObject oldSignature = (InternalEObject)signature;
-			signature = (Signature)eResolveProxy(oldSignature);
-			if (signature != oldSignature) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TypeRepositoryPackage.OPERATION__SIGNATURE, oldSignature, signature));
-			}
-		}
-		return signature;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Signature basicGetSignature() {
 		return signature;
 	}
 
@@ -185,9 +140,9 @@ public class OperationImpl extends EntityImpl implements Operation {
 		if (newSignature != signature) {
 			NotificationChain msgs = null;
 			if (signature != null)
-				msgs = ((InternalEObject)signature).eInverseRemove(this, TypeRepositoryPackage.SIGNATURE__OPERATIONS, Signature.class, msgs);
+				msgs = ((InternalEObject)signature).eInverseRemove(this, TypeRepositoryPackage.SIGNATURE__OPERATION, Signature.class, msgs);
 			if (newSignature != null)
-				msgs = ((InternalEObject)newSignature).eInverseAdd(this, TypeRepositoryPackage.SIGNATURE__OPERATIONS, Signature.class, msgs);
+				msgs = ((InternalEObject)newSignature).eInverseAdd(this, TypeRepositoryPackage.SIGNATURE__OPERATION, Signature.class, msgs);
 			msgs = basicSetSignature(newSignature, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -204,12 +159,12 @@ public class OperationImpl extends EntityImpl implements Operation {
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
 			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				if (componentType != null)
-					msgs = ((InternalEObject)componentType).eInverseRemove(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetComponentType((ComponentType)otherEnd, msgs);
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				if (signature != null)
-					msgs = ((InternalEObject)signature).eInverseRemove(this, TypeRepositoryPackage.SIGNATURE__OPERATIONS, Signature.class, msgs);
+					msgs = ((InternalEObject)signature).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypeRepositoryPackage.OPERATION__SIGNATURE, null, msgs);
 				return basicSetSignature((Signature)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
@@ -237,14 +192,26 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * @generated
 	 */
 	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID()) {
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				return eInternalContainer().eInverseRemove(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				if (resolve) return getComponentType();
-				return basicGetComponentType();
+				return getComponentType();
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
-				if (resolve) return getSignature();
-				return basicGetSignature();
+				return getSignature();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -294,7 +261,7 @@ public class OperationImpl extends EntityImpl implements Operation {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				return componentType != null;
+				return getComponentType() != null;
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				return signature != null;
 		}
