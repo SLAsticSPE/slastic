@@ -298,6 +298,15 @@ public class MonitoringPackageImpl extends EPackageImpl implements MonitoringPac
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getDeploymentComponentOperationExecution_Operation() {
+		return (EReference)deploymentComponentOperationExecutionEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getConnectorOperationExecution() {
 		return connectorOperationExecutionEClass;
 	}
@@ -520,6 +529,7 @@ public class MonitoringPackageImpl extends EPackageImpl implements MonitoringPac
 
 		deploymentComponentOperationExecutionEClass = createEClass(DEPLOYMENT_COMPONENT_OPERATION_EXECUTION);
 		createEReference(deploymentComponentOperationExecutionEClass, DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT);
+		createEReference(deploymentComponentOperationExecutionEClass, DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION);
 
 		connectorOperationExecutionEClass = createEClass(CONNECTOR_OPERATION_EXECUTION);
 		createEReference(connectorOperationExecutionEClass, CONNECTOR_OPERATION_EXECUTION__ASSEMBLY_CONNECTOR);
@@ -574,6 +584,7 @@ public class MonitoringPackageImpl extends EPackageImpl implements MonitoringPac
 		// Obtain other dependent packages
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		ComponentDeploymentPackage theComponentDeploymentPackage = (ComponentDeploymentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentDeploymentPackage.eNS_URI);
+		TypeRepositoryPackage theTypeRepositoryPackage = (TypeRepositoryPackage)EPackage.Registry.INSTANCE.getEPackage(TypeRepositoryPackage.eNS_URI);
 		ComponentAssemblyPackage theComponentAssemblyPackage = (ComponentAssemblyPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentAssemblyPackage.eNS_URI);
 		ExecutionEnvironmentPackage theExecutionEnvironmentPackage = (ExecutionEnvironmentPackage)EPackage.Registry.INSTANCE.getEPackage(ExecutionEnvironmentPackage.eNS_URI);
 
@@ -601,6 +612,7 @@ public class MonitoringPackageImpl extends EPackageImpl implements MonitoringPac
 
 		initEClass(deploymentComponentOperationExecutionEClass, DeploymentComponentOperationExecution.class, "DeploymentComponentOperationExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getDeploymentComponentOperationExecution_DeploymentComponent(), theComponentDeploymentPackage.getDeploymentComponent(), null, "deploymentComponent", null, 1, 1, DeploymentComponentOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getDeploymentComponentOperationExecution_Operation(), theTypeRepositoryPackage.getOperation(), null, "operation", null, 1, 1, DeploymentComponentOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(connectorOperationExecutionEClass, ConnectorOperationExecution.class, "ConnectorOperationExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getConnectorOperationExecution_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnector", null, 1, 1, ConnectorOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

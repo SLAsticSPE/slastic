@@ -69,7 +69,7 @@ public interface PlanPackage extends EPackage {
 	int RECONFIGURATION_PLAN = 0;
 
 	/**
-	 * The feature id for the '<em><b>Operations</b></em>' reference list.
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -275,10 +275,10 @@ public interface PlanPackage extends EPackage {
 	EClass getReconfigurationPlan();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan#getOperations <em>Operations</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan#getOperations <em>Operations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Operations</em>'.
+	 * @return the meta object for the containment reference list '<em>Operations</em>'.
 	 * @see de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan#getOperations()
 	 * @see #getReconfigurationPlan()
 	 * @generated
@@ -455,7 +455,7 @@ public interface PlanPackage extends EPackage {
 		EClass RECONFIGURATION_PLAN = eINSTANCE.getReconfigurationPlan();
 
 		/**
-		 * The meta object literal for the '<em><b>Operations</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated

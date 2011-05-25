@@ -439,7 +439,7 @@ public class PlanPackageImpl extends EPackageImpl implements PlanPackage {
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(reconfigurationPlanEClass, ReconfigurationPlan.class, "ReconfigurationPlan", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getReconfigurationPlan_Operations(), this.getReconfigurationOperation(), null, "operations", null, 0, -1, ReconfigurationPlan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getReconfigurationPlan_Operations(), this.getReconfigurationOperation(), null, "operations", null, 0, -1, ReconfigurationPlan.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(reconfigurationOperationEClass, ReconfigurationOperation.class, "ReconfigurationOperation", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

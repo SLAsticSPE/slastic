@@ -44,6 +44,24 @@ public interface TypeRepositoryFactory extends EFactory {
 	Interface createInterface();
 
 	/**
+	 * Returns a new object of class '<em>Signature</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Signature</em>'.
+	 * @generated
+	 */
+	Signature createSignature();
+
+	/**
+	 * Returns a new object of class '<em>Operation</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Operation</em>'.
+	 * @generated
+	 */
+	Operation createOperation();
+
+	/**
 	 * Returns a new object of class '<em>Connector Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

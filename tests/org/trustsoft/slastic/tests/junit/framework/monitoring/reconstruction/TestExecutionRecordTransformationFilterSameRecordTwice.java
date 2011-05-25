@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
@@ -42,7 +43,7 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 				new ExecutionRecordTransformationFilter(
 						modelManager,
 						/* We tests this with CLASS_NAME mode only */
-						ExecutionRecordTransformationFilter.ComponentDiscoveryMode.CLASS_NAME);
+						NameUtils.ABSTRACTION_MODE_CLASS);
 
 		/* Used to receive the created operations from the filter */
 		final ArrayList<OperationExecution> slasticExecRef =

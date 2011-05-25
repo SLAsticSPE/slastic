@@ -122,10 +122,29 @@
     <eClassifiers xsi:type="ecore:EClass" name="ComponentType" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="providedInterfaces" ordered="false"
           upperBound="-1" eType="#//typeRepository/Interface"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Operation" eOpposite="#//typeRepository/Operation/componentType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiredInterfaces" ordered="false"
           upperBound="-1" eType="#//typeRepository/Interface"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signatures" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Signature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Signature" eSuperTypes="#//core/NamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="paramTypes" ordered="false"
+          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnType" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operations" ordered="false"
+          upperBound="-1" eType="#//typeRepository/Operation" eOpposite="#//typeRepository/Operation/signature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//core/Entity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/ComponentType" eOpposite="#//typeRepository/ComponentType/operations"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="signature" ordered="false"
+          lowerBound="1" eType="#//typeRepository/Signature" eOpposite="#//typeRepository/Signature/operations"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainerType" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
@@ -260,6 +279,8 @@
         eSuperTypes="#//monitoring/OperationExecution">
       <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentComponent"
           ordered="false" lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="operation" ordered="false"
+          lowerBound="1" eType="#//typeRepository/Operation"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConnectorOperationExecution" eSuperTypes="#//monitoring/OperationExecution">
       <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnector" ordered="false"
@@ -311,7 +332,8 @@
         nsPrefix="metamodel.reconfiguration.plan">
       <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationPlan">
         <eStructuralFeatures xsi:type="ecore:EReference" name="operations" ordered="false"
-            upperBound="-1" eType="#//reconfiguration/plan/ReconfigurationOperation"/>
+            upperBound="-1" eType="#//reconfiguration/plan/ReconfigurationOperation"
+            containment="true"/>
       </eClassifiers>
       <eClassifiers xsi:type="ecore:EClass" name="ReconfigurationOperation" abstract="true"/>
       <eClassifiers xsi:type="ecore:EClass" name="ComponentReplication" eSuperTypes="#//reconfiguration/plan/ReconfigurationOperation">

@@ -28,7 +28,7 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ReconfigurationPlan extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Operations</b></em>' reference list.
+	 * Returns the value of the '<em><b>Operations</b></em>' containment reference list.
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationOperation}.
 	 * <!-- begin-user-doc -->
 	 * <p>
@@ -36,9 +36,9 @@ public interface ReconfigurationPlan extends EObject {
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operations</em>' reference list.
+	 * @return the value of the '<em>Operations</em>' containment reference list.
 	 * @see de.cau.se.slastic.metamodel.reconfiguration.plan.PlanPackage#getReconfigurationPlan_Operations()
-	 * @model ordered="false"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<ReconfigurationOperation> getOperations();

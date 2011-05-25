@@ -208,13 +208,22 @@ public interface MonitoringPackage extends EPackage {
 	int DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT = OPERATION_EXECUTION_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Operation</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION = OPERATION_EXECUTION_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Deployment Component Operation Execution</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DEPLOYMENT_COMPONENT_OPERATION_EXECUTION_FEATURE_COUNT = OPERATION_EXECUTION_FEATURE_COUNT + 1;
+	int DEPLOYMENT_COMPONENT_OPERATION_EXECUTION_FEATURE_COUNT = OPERATION_EXECUTION_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.monitoring.impl.ConnectorOperationExecutionImpl <em>Connector Operation Execution</em>}' class.
@@ -662,6 +671,17 @@ public interface MonitoringPackage extends EPackage {
 	EReference getDeploymentComponentOperationExecution_DeploymentComponent();
 
 	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution#getOperation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Operation</em>'.
+	 * @see de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution#getOperation()
+	 * @see #getDeploymentComponentOperationExecution()
+	 * @generated
+	 */
+	EReference getDeploymentComponentOperationExecution_Operation();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.monitoring.ConnectorOperationExecution <em>Connector Operation Execution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -984,6 +1004,14 @@ public interface MonitoringPackage extends EPackage {
 		 * @generated
 		 */
 		EReference DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT = eINSTANCE.getDeploymentComponentOperationExecution_DeploymentComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION = eINSTANCE.getDeploymentComponentOperationExecution_Operation();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.monitoring.impl.ConnectorOperationExecutionImpl <em>Connector Operation Execution</em>}' class.

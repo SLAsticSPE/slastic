@@ -11,6 +11,7 @@ import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.MonitoringPackage;
 
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.monitoring.impl.DeploymentComponentOperationExecutionImpl#getDeploymentComponent <em>Deployment Component</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.monitoring.impl.DeploymentComponentOperationExecutionImpl#getOperation <em>Operation</em>}</li>
  * </ul>
  * </p>
  *
@@ -41,6 +43,16 @@ public class DeploymentComponentOperationExecutionImpl extends OperationExecutio
 	 * @ordered
 	 */
 	protected DeploymentComponent deploymentComponent;
+
+	/**
+	 * The cached value of the '{@link #getOperation() <em>Operation</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperation()
+	 * @generated
+	 * @ordered
+	 */
+	protected Operation operation;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -104,12 +116,53 @@ public class DeploymentComponentOperationExecutionImpl extends OperationExecutio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Operation getOperation() {
+		if (operation != null && operation.eIsProxy()) {
+			InternalEObject oldOperation = (InternalEObject)operation;
+			operation = (Operation)eResolveProxy(oldOperation);
+			if (operation != oldOperation) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION, oldOperation, operation));
+			}
+		}
+		return operation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Operation basicGetOperation() {
+		return operation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setOperation(Operation newOperation) {
+		Operation oldOperation = operation;
+		operation = newOperation;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION, oldOperation, operation));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT:
 				if (resolve) return getDeploymentComponent();
 				return basicGetDeploymentComponent();
+			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION:
+				if (resolve) return getOperation();
+				return basicGetOperation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -124,6 +177,9 @@ public class DeploymentComponentOperationExecutionImpl extends OperationExecutio
 		switch (featureID) {
 			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT:
 				setDeploymentComponent((DeploymentComponent)newValue);
+				return;
+			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION:
+				setOperation((Operation)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -140,6 +196,9 @@ public class DeploymentComponentOperationExecutionImpl extends OperationExecutio
 			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT:
 				setDeploymentComponent((DeploymentComponent)null);
 				return;
+			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION:
+				setOperation((Operation)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -154,6 +213,8 @@ public class DeploymentComponentOperationExecutionImpl extends OperationExecutio
 		switch (featureID) {
 			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__DEPLOYMENT_COMPONENT:
 				return deploymentComponent != null;
+			case MonitoringPackage.DEPLOYMENT_COMPONENT_OPERATION_EXECUTION__OPERATION:
+				return operation != null;
 		}
 		return super.eIsSet(featureID);
 	}

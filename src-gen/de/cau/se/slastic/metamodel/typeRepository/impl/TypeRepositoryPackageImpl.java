@@ -47,7 +47,9 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
@@ -56,6 +58,7 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -89,6 +92,20 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	private EClass interfaceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass signatureEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass operationEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -243,8 +260,17 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentType_RequiredInterfaces() {
+	public EReference getComponentType_Operations() {
 		return (EReference)componentTypeEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentType_RequiredInterfaces() {
+		return (EReference)componentTypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -254,6 +280,78 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 */
 	public EClass getInterface() {
 		return interfaceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getInterface_Signatures() {
+		return (EReference)interfaceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSignature() {
+		return signatureEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSignature_ParamTypes() {
+		return (EAttribute)signatureEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getSignature_ReturnType() {
+		return (EAttribute)signatureEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSignature_Operations() {
+		return (EReference)signatureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getOperation() {
+		return operationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperation_ComponentType() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOperation_Signature() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -396,9 +494,20 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 
 		componentTypeEClass = createEClass(COMPONENT_TYPE);
 		createEReference(componentTypeEClass, COMPONENT_TYPE__PROVIDED_INTERFACES);
+		createEReference(componentTypeEClass, COMPONENT_TYPE__OPERATIONS);
 		createEReference(componentTypeEClass, COMPONENT_TYPE__REQUIRED_INTERFACES);
 
 		interfaceEClass = createEClass(INTERFACE);
+		createEReference(interfaceEClass, INTERFACE__SIGNATURES);
+
+		signatureEClass = createEClass(SIGNATURE);
+		createEAttribute(signatureEClass, SIGNATURE__PARAM_TYPES);
+		createEAttribute(signatureEClass, SIGNATURE__RETURN_TYPE);
+		createEReference(signatureEClass, SIGNATURE__OPERATIONS);
+
+		operationEClass = createEClass(OPERATION);
+		createEReference(operationEClass, OPERATION__COMPONENT_TYPE);
+		createEReference(operationEClass, OPERATION__SIGNATURE);
 
 		connectorTypeEClass = createEClass(CONNECTOR_TYPE);
 
@@ -456,6 +565,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		resourceTypeEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		componentTypeEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		interfaceEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
+		signatureEClass.getESuperTypes().add(theCorePackage.getNamedEntity());
+		operationEClass.getESuperTypes().add(theCorePackage.getEntity());
 		connectorTypeEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		executionContainerTypeEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		networkLinkTypeEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
@@ -466,9 +577,20 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 
 		initEClass(componentTypeEClass, ComponentType.class, "ComponentType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentType_ProvidedInterfaces(), this.getInterface(), null, "providedInterfaces", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentType_Operations(), this.getOperation(), this.getOperation_ComponentType(), "operations", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComponentType_RequiredInterfaces(), this.getInterface(), null, "requiredInterfaces", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getInterface_Signatures(), this.getSignature(), null, "signatures", null, 0, -1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(signatureEClass, Signature.class, "Signature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSignature_ParamTypes(), ecorePackage.getEString(), "paramTypes", null, 0, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getSignature_ReturnType(), ecorePackage.getEString(), "returnType", null, 1, 1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getSignature_Operations(), this.getOperation(), this.getOperation_Signature(), "operations", null, 0, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperation_ComponentType(), this.getComponentType(), this.getComponentType_Operations(), "componentType", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getOperation_Signature(), this.getSignature(), this.getSignature_Operations(), "signature", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(connectorTypeEClass, ConnectorType.class, "ConnectorType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
