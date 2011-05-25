@@ -7,7 +7,7 @@ import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
  * @author Andre van Hoorn
  *
  */
-public interface IDeploymentComponentArrivalCountReceiver {
+public interface IDeploymentComponentInvocationCountReceiver {
 
 	public void update(final long currentTimestampMillis,
 			final DeploymentComponent deplComp, final Long count);

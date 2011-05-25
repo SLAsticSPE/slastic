@@ -9,13 +9,13 @@ import kieker.tools.util.LoggingTimestampConverter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.IAssemblyComponentArrivalCountReceiver;
+import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.IAssemblyComponentOperationExecutionCountReceiver;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 public class WorkloadIntensityRuleEngine implements
-		IAssemblyComponentArrivalCountReceiver {
+		IAssemblyComponentOperationExecutionCountReceiver {
 	private static final Log log = LogFactory
 			.getLog(WorkloadIntensityRuleEngine.class);
 

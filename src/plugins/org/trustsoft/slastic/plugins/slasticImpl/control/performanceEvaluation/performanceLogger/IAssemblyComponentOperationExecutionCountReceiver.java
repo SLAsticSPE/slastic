@@ -7,7 +7,7 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
  * @author Andre van Hoorn
  *
  */
-public interface IAssemblyComponentArrivalCountReceiver {
+public interface IAssemblyComponentOperationExecutionCountReceiver {
 
 	public void update(final long currentTimestampMillis,
 			final AssemblyComponent assemblyComponent, final Long count);

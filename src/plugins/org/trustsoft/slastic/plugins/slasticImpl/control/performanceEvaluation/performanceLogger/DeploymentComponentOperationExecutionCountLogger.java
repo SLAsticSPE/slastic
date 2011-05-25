@@ -18,7 +18,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  */
 public class DeploymentComponentOperationExecutionCountLogger extends
 		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
-		IDeploymentComponentArrivalCountReceiver {
+		IDeploymentComponentOperationExecutionCountReceiver {
 
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentOperationExecutionCountLogger.class);

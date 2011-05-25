@@ -18,7 +18,7 @@ import de.cau.se.slastic.metamodel.typeRepository.Operation;
  */
 public class AssemblyComponentAvgRTsLogger extends
 		AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
-		implements IAssemblyComponentAverageResponseTimeReceiver {
+		implements IAssemblyComponentAverageOperationExecutionResponseTimeReceiver {
 
 	private static final Log log = LogFactory
 			.getLog(AssemblyComponentAvgRTsLogger.class);

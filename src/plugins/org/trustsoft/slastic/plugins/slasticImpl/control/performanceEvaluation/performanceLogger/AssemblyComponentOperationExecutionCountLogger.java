@@ -17,7 +17,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
  */
 public class AssemblyComponentOperationExecutionCountLogger extends
 		AbstractPerformanceMeasureLogger<AssemblyComponent> implements
-		IAssemblyComponentArrivalCountReceiver {
+		IAssemblyComponentOperationExecutionCountReceiver {
 
 	private static final Log log = LogFactory
 			.getLog(AssemblyComponentOperationExecutionCountLogger.class);
