@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
@@ -52,7 +53,7 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	protected EList<Interface> providedInterfaces;
 
 	/**
-	 * The cached value of the '{@link #getOperations() <em>Operations</em>}' reference list.
+	 * The cached value of the '{@link #getOperations() <em>Operations</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getOperations()
@@ -109,7 +110,7 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	 */
 	public EList<Operation> getOperations() {
 		if (operations == null) {
-			operations = new EObjectWithInverseResolvingEList<Operation>(Operation.class, this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE);
+			operations = new EObjectContainmentWithInverseEList<Operation>(Operation.class, this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE);
 		}
 		return operations;
 	}

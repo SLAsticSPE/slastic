@@ -69,7 +69,11 @@ public class ComponentTypesManager extends
 				TypeRepositoryFactory.eINSTANCE.createSignature();
 		signature.setName(operationName);
 		signature.setReturnType(returnType);
-		signature.getParamTypes().addAll(Arrays.asList(argTypes));
+
+		for (final String paramType : argTypes) {
+			signature.getParamTypes().add(paramType);
+		}
+
 		res.setSignature(signature);
 
 		return res;

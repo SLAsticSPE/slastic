@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
-import kieker.tools.traceAnalysis.systemModel.Signature;
 
-import org.apache.commons.lang.StringUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -23,9 +21,9 @@ import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		AbstractReconstructionTest {
 
-	private final Signature signature =
-			new Signature("theOpName", "returnType", new String[] { "ArgType0",
-					"ArgType1", "ArgType2" });
+//	private final Signature signature =
+//			new Signature("theOpName", "returnType", new String[] { "ArgType0",
+//					"ArgType1", "ArgType2" });
 
 	final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
@@ -35,9 +33,10 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		this.kiekerRecord.ess = 98;
 		this.kiekerRecord.hostName = "theHostname";
 		this.kiekerRecord.operationName =
-				String.format("%s %s(%s)", this.signature.getReturnType(),
-						this.signature.getName(), StringUtils.join(
-								this.signature.getParamTypeList(), ","));
+			"com.ibatis.jpetstore.service.AccountService.getAccount(java.lang.String, java.lang.String)";
+//				String.format("%s %s(%s)", this.signature.getReturnType(),
+//						this.signature.getName(), StringUtils.join(
+//								this.signature.getParamTypeList(), ","));
 		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
 		this.kiekerRecord.tin = 65656868l;
 		this.kiekerRecord.tout = 9878787887l;

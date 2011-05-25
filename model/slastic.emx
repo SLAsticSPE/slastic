@@ -1351,7 +1351,7 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5M9_EZ8JEd-l1J3OQ8v6iQ" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5M9_EJ8JEd-l1J3OQ8v6iQ"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_SnsvEIYfEeCT5-op6hhvRg" name="operations" visibility="private" type="_Tu9HgIYeEeCT5-op6hhvRg" association="_SnqS0IYfEeCT5-op6hhvRg">
+        <ownedAttribute xmi:id="_SnsvEIYfEeCT5-op6hhvRg" name="operations" visibility="private" type="_Tu9HgIYeEeCT5-op6hhvRg" aggregation="composite" association="_SnqS0IYfEeCT5-op6hhvRg">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_SnukQIYfEeCT5-op6hhvRg" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Snt9MIYfEeCT5-op6hhvRg"/>
         </ownedAttribute>
@@ -1473,7 +1473,7 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_r39PMIYbEeCT5-op6hhvRg" name="Signature">
         <generalization xmi:id="_kRas4IYhEeC5TrJb0vIa5w" general="_6nHtEJ8CEd-l1J3OQ8v6iQ"/>
-        <ownedAttribute xmi:id="_z073YIYcEeCT5-op6hhvRg" name="paramTypes" visibility="private">
+        <ownedAttribute xmi:id="_z073YIYcEeCT5-op6hhvRg" name="paramTypes" visibility="private" isUnique="false">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5BVq0IYcEeCT5-op6hhvRg" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5BVDwIYcEeCT5-op6hhvRg"/>
@@ -1481,9 +1481,9 @@
         <ownedAttribute xmi:id="_67j70IYcEeCT5-op6hhvRg" name="returnType" visibility="private">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="__3y6YIYeEeCT5-op6hhvRg" name="operations" visibility="private" type="_Tu9HgIYeEeCT5-op6hhvRg" association="__3v3EIYeEeCT5-op6hhvRg">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__30IgIYeEeCT5-op6hhvRg" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__3zhcIYeEeCT5-op6hhvRg"/>
+        <ownedAttribute xmi:id="__3y6YIYeEeCT5-op6hhvRg" name="operation" visibility="private" type="_Tu9HgIYeEeCT5-op6hhvRg" association="__3v3EIYeEeCT5-op6hhvRg">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__30IgIYeEeCT5-op6hhvRg" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__3zhcIYeEeCT5-op6hhvRg" value="1"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_T_d6oIYcEeCT5-op6hhvRg" memberEnd="_T_g98IYcEeCT5-op6hhvRg _T_l2cIYcEeCT5-op6hhvRg">
@@ -1494,7 +1494,7 @@
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_Tu9HgIYeEeCT5-op6hhvRg" name="Operation">
         <generalization xmi:id="_5-5NUIYeEeCT5-op6hhvRg" general="_cDJA0OECEd-807ntrzgA5A"/>
-        <ownedAttribute xmi:id="__3xFMIYeEeCT5-op6hhvRg" name="signature" visibility="private" type="_r39PMIYbEeCT5-op6hhvRg" association="__3v3EIYeEeCT5-op6hhvRg">
+        <ownedAttribute xmi:id="__3xFMIYeEeCT5-op6hhvRg" name="signature" visibility="private" type="_r39PMIYbEeCT5-op6hhvRg" aggregation="composite" association="__3v3EIYeEeCT5-op6hhvRg">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="__3yTUIYeEeCT5-op6hhvRg" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="__3xsQIYeEeCT5-op6hhvRg" value="1"/>
         </ownedAttribute>
