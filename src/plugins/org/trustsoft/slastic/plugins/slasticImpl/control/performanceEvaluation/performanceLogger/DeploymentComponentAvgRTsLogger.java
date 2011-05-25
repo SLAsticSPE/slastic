@@ -10,6 +10,7 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
  * 
@@ -17,14 +18,15 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  * 
  */
 public class DeploymentComponentAvgRTsLogger extends
-		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
+		AbstractPerformanceMeasureLogger<DeploymentComponentOperationPair>
+		implements
 		IDeploymentComponentAverageResponseTimeReceiver {
 
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentAvgRTsLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
-	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5*60;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5 * 60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5 * 60;
 
 	private final int winTimeSec;
 	private final int outputIntervalSec;
@@ -56,7 +58,9 @@ public class DeploymentComponentAvgRTsLogger extends
 	 * @return
 	 */
 	private final String[] createRow(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Double avgRTMillis) {
+		final DeploymentComponentOperationPair deplComponentOperationPair	, final Double avgRTMillis) {
+		final DeploymentComponent deplComp = deplComponentOperationPair.getDeploymentComponent();
+		final Operation operation = deplComponentOperationPair.getOperation();
 
 		final String currentTimeUTCString =
 				LoggingTimestampConverter
@@ -81,7 +85,11 @@ public class DeploymentComponentAvgRTsLogger extends
 						.append("(")
 						.append(deplComp.getAssemblyComponent().getId())
 						.append(")").toString(),
-				/* 5: average RT (milliseconds) */
+				/* 5: operation name (ID): */
+				new StringBuilder().append(operation.getSignature().getName())
+						.append("(").append(Long.toString(operation.getId()))
+						.append(")").toString(),
+				/* 6: average RT (milliseconds) */
 				avgRTMillis == null ? "NA" : Double.toString(avgRTMillis) };
 	}
 
@@ -90,47 +98,56 @@ public class DeploymentComponentAvgRTsLogger extends
 	 */
 	@Override
 	public void update(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Double avgRTNanos) {
+			final DeploymentComponent deplComp, final Operation operation, final Double avgRTNanos) {
 		final Double avgRtsMillis =
 				avgRTNanos == null ? null : avgRTNanos / (1000 * 1000);
 
-		super.writeRow(deplComp,
-				this.createRow(currentTimestampMillis, deplComp, avgRtsMillis));
+		final DeploymentComponentOperationPair deploymentComponentOperationPair = 
+			new DeploymentComponentOperationPair(deplComp, operation);
+		
+		super.writeRow(deploymentComponentOperationPair,
+				this.createRow(currentTimestampMillis, deploymentComponentOperationPair, avgRtsMillis));
 	}
 
 	@Override
 	protected String[] createHeader() {
 		return new String[] { "timestamp", "UTCString", "deplCompID",
-				"executionContainer", "assemblyComponent", "avgRTMillis" };
+				"executionContainer", "assemblyComponent", "operation", "avgRTMillis" };
 	}
 
 	@Override
 	protected String createFilename(
-			final DeploymentComponent deploymentComponent) {
+			final DeploymentComponentOperationPair deploymentComponentOperationPair) {
+		final Operation operation =
+				deploymentComponentOperationPair.getOperation();
+		final DeploymentComponent deploymentComponent =
+				deploymentComponentOperationPair.getDeploymentComponent();
 		final ExecutionContainer executionContainer =
 				deploymentComponent.getExecutionContainer();
 		final AssemblyComponent assemblyComponent =
 				deploymentComponent.getAssemblyComponent();
 
-		return (new StringBuilder(Long.toString(deploymentComponent.getId())))
-				.append("--").append(executionContainer.getName()).append("-")
+		return (new StringBuilder(Long.toString(deploymentComponent.getId()))).append("--")
+				.append(executionContainer.getName()).append("-")
 				.append(executionContainer.getId()).append("--")
 				.append(assemblyComponent.getPackageName()).append(".")
-				.append(assemblyComponent.getName()).append(".csv").toString();
+				.append(assemblyComponent.getName()).append(".")
+				.append(operation.getSignature().getName()).append("_")
+				.append(operation.getId()).append(".csv").toString();
 	}
 
 	@Override
 	protected String createEPStatement() {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, deploymentComponent, avg(tout-tin)"
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent, operation, avg(tout-tin)"
 				+ " from "
 				+ DeploymentComponentOperationExecution.class.getName()
 				+ ".win:time(" + this.winTimeSec
 				+ " sec)" // 60
-				+ " group by deploymentComponent" + " output all every "
+				+ " group by deploymentComponent, operation" + " output all every "
 				+ this.outputIntervalSec + " seconds";
 	}
-	
+
 	@Override
 	protected String createMetaInfoLine() {
 		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec="
