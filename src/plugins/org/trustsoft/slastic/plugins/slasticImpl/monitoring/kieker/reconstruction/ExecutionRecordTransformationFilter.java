@@ -18,6 +18,7 @@ import de.cau.se.slastic.metamodel.monitoring.ConnectorOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
  * 
@@ -29,8 +30,8 @@ public class ExecutionRecordTransformationFilter extends
 
 	private final int componentDiscoveryHierarchyLevel;
 
-	private static final Log log = LogFactory
-			.getLog(ExecutionRecordTransformationFilter.class);
+	private static final Log log =
+			LogFactory.getLog(ExecutionRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -89,14 +90,15 @@ public class ExecutionRecordTransformationFilter extends
 				this.lookupOrCreateExecutionContainerByName(execution.hostName);
 
 		/*
-		 * The values of the variables componentOrConnectorName and operationName
-		 * depend on the componentDiscoveryHierarchyLevel.
+		 * The values of the variables componentOrConnectorName and
+		 * operationName depend on the componentDiscoveryHierarchyLevel.
 		 */
 		final String componentOrConnectorName;
-		final String operationName; // will be used, as soon as the meta-model supports operations
+		final String operationName; // will be used, as soon as the meta-model
+									// supports operations
 		{
 			final String[] fqnSplit =
-						NameUtils.splitFullyQualifiedName(execution.className);
+					NameUtils.splitFullyQualifiedName(execution.className);
 			final String[] abstractedName =
 					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1],
 							execution.getOperationName(),
@@ -151,7 +153,13 @@ public class ExecutionRecordTransformationFilter extends
 											assemblyComponent,
 											executionContainer);
 				}
+
+				/* Lookup the operation */
+				final Operation op =
+						this.lookupOrCreateOperationByName(assemblyComponent
+								.getComponentType(), operationName);
 				newComponentExec.setDeploymentComponent(deploymentComponent);
+				newComponentExec.setOperation(op);
 				newExecution = newComponentExec;
 			}
 		}
@@ -162,9 +170,8 @@ public class ExecutionRecordTransformationFilter extends
 			 * executions.
 			 */
 
-			// TODO: what about the operation? (the variable operationName is
-			// already available)
-
+			// TODO: operations for connector executions ...
+			
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);

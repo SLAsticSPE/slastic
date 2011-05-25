@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 import kieker.common.record.OperationExecutionRecord;
+import kieker.tools.traceAnalysis.systemModel.Signature;
 
+import org.apache.commons.lang.StringUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -21,6 +23,10 @@ import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		AbstractReconstructionTest {
 
+	private final Signature signature =
+			new Signature("theOpName", "returnType", new String[] { "ArgType0",
+					"ArgType1", "ArgType2" });
+
 	final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
 	{
@@ -28,7 +34,10 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		this.kiekerRecord.eoi = 77;
 		this.kiekerRecord.ess = 98;
 		this.kiekerRecord.hostName = "theHostname";
-		this.kiekerRecord.operationName = "theOpName";
+		this.kiekerRecord.operationName =
+				String.format("%s %s(%s)", this.signature.getReturnType(),
+						this.signature.getName(), StringUtils.join(
+								this.signature.getParamTypeList(), ","));
 		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
 		this.kiekerRecord.tin = 65656868l;
 		this.kiekerRecord.tout = 9878787887l;
@@ -40,10 +49,9 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		final ModelManager modelManager = new ModelManager();
 
 		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(
-						modelManager,
-						/* We tests this with CLASS_NAME mode only */
-						NameUtils.ABSTRACTION_MODE_CLASS);
+				new ExecutionRecordTransformationFilter(modelManager,
+				/* We tests this with CLASS_NAME mode only */
+				NameUtils.ABSTRACTION_MODE_CLASS);
 
 		/* Used to receive the created operations from the filter */
 		final ArrayList<OperationExecution> slasticExecRef =
@@ -69,14 +77,20 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		Assert.assertNotNull("slasticRecordA must not be null", slasticRecordA);
 		Assert.assertNotNull("slasticRecordB must not be null", slasticRecordB);
 
-		Assert.assertTrue("Expected type "
-				+ DeploymentComponentOperationExecution.class.getName()
-				+ " but found " + slasticRecordA.getClass().getName(),
-				slasticRecordA instanceof DeploymentComponentOperationExecution);
-		Assert.assertTrue("Expected type "
-				+ DeploymentComponentOperationExecution.class.getName()
-				+ " but found " + slasticRecordB.getClass().getName(),
-				slasticRecordB instanceof DeploymentComponentOperationExecution);
+		Assert
+				.assertTrue(
+						"Expected type "
+								+ DeploymentComponentOperationExecution.class
+										.getName() + " but found "
+								+ slasticRecordA.getClass().getName(),
+						slasticRecordA instanceof DeploymentComponentOperationExecution);
+		Assert
+				.assertTrue(
+						"Expected type "
+								+ DeploymentComponentOperationExecution.class
+										.getName() + " but found "
+								+ slasticRecordB.getClass().getName(),
+						slasticRecordB instanceof DeploymentComponentOperationExecution);
 
 		final DeploymentComponentOperationExecution slasticComponentExecRecA =
 				(DeploymentComponentOperationExecution) slasticRecordA;
@@ -90,25 +104,21 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 			Assert.assertSame("Unexpected deployment component",
 					slasticComponentExecRecA.getDeploymentComponent(),
 					slasticComponentExecRecB.getDeploymentComponent());
-			// TODO: operation
+			Assert.assertSame("Unexpected operation", slasticComponentExecRecA
+					.getOperation(), slasticComponentExecRecB.getOperation());
 			Assert.assertEquals("Unexpected session ID",
 					slasticComponentExecRecA.getSessionId(),
 					slasticComponentExecRecB.getSessionId());
-			Assert.assertEquals("Unexpected trace ID",
-					slasticComponentExecRecA.getTraceId(),
-					slasticComponentExecRecB.getTraceId());
-			Assert.assertEquals("Unexpected tin",
-					slasticComponentExecRecA.getTin(),
-					slasticComponentExecRecB.getTin());
-			Assert.assertEquals("Unexpected tout",
-					slasticComponentExecRecA.getTout(),
-					slasticComponentExecRecB.getTout());
-			Assert.assertEquals("Unexpected eoi",
-					slasticComponentExecRecA.getEoi(),
-					slasticComponentExecRecB.getEoi());
-			Assert.assertEquals("Unexpected ess",
-					slasticComponentExecRecA.getEss(),
-					slasticComponentExecRecB.getEss());
+			Assert.assertEquals("Unexpected trace ID", slasticComponentExecRecA
+					.getTraceId(), slasticComponentExecRecB.getTraceId());
+			Assert.assertEquals("Unexpected tin", slasticComponentExecRecA
+					.getTin(), slasticComponentExecRecB.getTin());
+			Assert.assertEquals("Unexpected tout", slasticComponentExecRecA
+					.getTout(), slasticComponentExecRecB.getTout());
+			Assert.assertEquals("Unexpected eoi", slasticComponentExecRecA
+					.getEoi(), slasticComponentExecRecB.getEoi());
+			Assert.assertEquals("Unexpected ess", slasticComponentExecRecA
+					.getEss(), slasticComponentExecRecB.getEss());
 		}
 	}
 }

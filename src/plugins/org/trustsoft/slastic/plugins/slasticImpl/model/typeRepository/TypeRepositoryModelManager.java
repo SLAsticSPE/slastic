@@ -9,6 +9,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
@@ -47,19 +48,19 @@ public class TypeRepositoryModelManager extends
 			final TypeRepositoryModel typeRepositoryModel) {
 		super(typeRepositoryModel);
 		this.componentTypeManager =
-				new ComponentTypesManager(
-						typeRepositoryModel.getComponentTypes());
+				new ComponentTypesManager(typeRepositoryModel
+						.getComponentTypes());
 		this.connectorTypeManager =
-				new ConnectorTypesManager(
-						typeRepositoryModel.getConnectorTypes());
+				new ConnectorTypesManager(typeRepositoryModel
+						.getConnectorTypes());
 		this.interfaceManager =
 				new InterfacesManager(typeRepositoryModel.getInterfaces());
 		this.executionContainerTypeManager =
-				new ExecutionContainerTypesManager(
-						typeRepositoryModel.getExecutionContainerTypes());
+				new ExecutionContainerTypesManager(typeRepositoryModel
+						.getExecutionContainerTypes());
 		this.networkLinkTypeManager =
-				new NetworkLinkTypesManager(
-						typeRepositoryModel.getNetworkLinkTypes());
+				new NetworkLinkTypesManager(typeRepositoryModel
+						.getNetworkLinkTypes());
 		this.resourceTypesManager =
 				new ResourceTypesManager(typeRepositoryModel.getResourceTypes());
 	}
@@ -206,5 +207,19 @@ public class TypeRepositoryModelManager extends
 						executionContainerType, memCapacityBytes,
 						swapCapacityBytes, resourceType,
 						resourceSpecificatioName);
+	}
+
+	@Override
+	public Operation createAndRegisterOperation(final ComponentType componentType,
+			final String operationName, final String returnType, final String[] argTypes) {
+		return this.componentTypeManager.createAndRegisterOperation(
+				componentType, operationName, returnType, argTypes);
+	}
+
+	@Override
+	public Operation lookupOperation(final ComponentType componentType,
+			final String operationName, final String returnType, final String[] argTypes) {
+		return this.componentTypeManager.lookupOperation(componentType,
+				operationName, returnType, argTypes);
 	}
 }

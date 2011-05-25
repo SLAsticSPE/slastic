@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
+import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
@@ -15,6 +16,7 @@ import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
@@ -28,8 +30,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 public abstract class AbstractModelReconstructionComponent extends
 		AbstractTransformationComponent {
 
-	private static final Log log = LogFactory
-			.getLog(AbstractModelReconstructionComponent.class);
+	private static final Log log =
+			LogFactory.getLog(AbstractModelReconstructionComponent.class);
 
 	public AbstractModelReconstructionComponent(final ModelManager modelManager) {
 		super(modelManager);
@@ -65,13 +67,10 @@ public abstract class AbstractModelReconstructionComponent extends
 		ExecutionContainer executionContainer;
 
 		final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
-				(this.getModelManager())
-						.getExecutionEnvironmentModelManager().containerNameMapping;
+				(this.getModelManager()).getExecutionEnvironmentModelManager().containerNameMapping;
 
 		{ /* HACK #10! */
-			executionContainer =
-					containerNameMapping
-							.get(hostName);
+			executionContainer = containerNameMapping.get(hostName);
 			if (executionContainer != null) {
 				if (!this.reportedMatch) {
 					AbstractModelReconstructionComponent.log
@@ -95,8 +94,7 @@ public abstract class AbstractModelReconstructionComponent extends
 				executionContainer = this.createExecutionContainer(hostName);
 			}
 			// TODO: remove (hack #10)
-			containerNameMapping.put(
-					hostName, executionContainer);
+			containerNameMapping.put(hostName, executionContainer);
 		}
 		return executionContainer;
 	}
@@ -344,13 +342,15 @@ public abstract class AbstractModelReconstructionComponent extends
 	public AssemblyComponent createAssemblyComponent(final String componentName) {
 
 		ComponentType componentType =
-				this.getTypeModelManager()
+				this
+						.getTypeModelManager()
 						.lookupComponentType(
 								componentName
 										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (componentType == null) {
 			componentType =
-					this.getTypeModelManager()
+					this
+							.getTypeModelManager()
 							.createAndRegisterComponentType(
 									componentName
 											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
@@ -362,6 +362,92 @@ public abstract class AbstractModelReconstructionComponent extends
 	}
 
 	/**
+	 * Copied from Kieker.TraceAnalysis
+	 * 
+	 * @param operationSignatureStr
+	 * @return
+	 */
+	private kieker.tools.traceAnalysis.systemModel.Signature createSignature(
+			final String operationSignatureStr) {
+
+		final String returnTypeAndOperationName;
+
+		String[] paramTypeList;
+		final int openParenIdx = operationSignatureStr.indexOf('(');
+		if (openParenIdx == -1) { // no parameter list
+			paramTypeList = new String[] {};
+			returnTypeAndOperationName = operationSignatureStr;
+		} else {
+			returnTypeAndOperationName =
+					operationSignatureStr.substring(0, openParenIdx);
+			final StringTokenizer strTokenizer =
+					new StringTokenizer(operationSignatureStr.substring(
+							openParenIdx + 1,
+							operationSignatureStr.length() - 1), ",");
+			paramTypeList = new String[strTokenizer.countTokens()];
+			for (int i = 0; strTokenizer.hasMoreTokens(); i++) {
+				paramTypeList[i] = strTokenizer.nextToken().trim();
+			}
+		}
+
+		final String[] returnTypeAndOperationNameSplit =
+				returnTypeAndOperationName.split("\\s+");
+
+		String returnType = "N/A";
+		final String name;
+
+		switch (returnTypeAndOperationNameSplit.length) {
+		case 1:
+			// no return type
+			name = returnTypeAndOperationName;
+			break;
+		case 2:
+			// return type + operation name
+			returnType = returnTypeAndOperationNameSplit[0];
+			name = returnTypeAndOperationNameSplit[1];
+			break;
+		default:
+			AbstractModelReconstructionComponent.log
+					.error("Failed to split returnTypeAndOperationName by whitespace: '"
+							+ returnTypeAndOperationName + "'");
+			return null;
+
+		}
+
+		return new kieker.tools.traceAnalysis.systemModel.Signature(name,
+				returnType, paramTypeList);
+	}
+
+	/**
+	 * 
+	 * @param componentType
+	 * @param operationSignatureStr
+	 * @return
+	 */
+	protected Operation lookupOrCreateOperationByName(
+			final ComponentType componentType,
+			final String operationSignatureStr) {
+		final kieker.tools.traceAnalysis.systemModel.Signature kiekerSignature =
+				this.createSignature(operationSignatureStr);
+
+		Operation res =
+				this.getTypeModelManager().lookupOperation(componentType,
+						kiekerSignature.getName(),
+						kiekerSignature.getReturnType(),
+						kiekerSignature.getParamTypeList());
+
+		if (res == null) {
+			res =
+					this.getTypeModelManager().createAndRegisterOperation(
+							componentType, kiekerSignature.getName(),
+							kiekerSignature.getReturnType(),
+							kiekerSignature.getParamTypeList());
+		}
+
+		return res;
+	}
+
+	/**
 	 * 
 	 * @param containerName
 	 * @return
@@ -369,13 +455,15 @@ public abstract class AbstractModelReconstructionComponent extends
 	public ExecutionContainer createExecutionContainer(
 			final String containerName) {
 		ExecutionContainerType containerType =
-				this.getTypeModelManager()
+				this
+						.getTypeModelManager()
 						.lookupExecutionContainerType(
 								containerName
 										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (containerType == null) {
 			containerType =
-					this.getTypeModelManager()
+					this
+							.getTypeModelManager()
 							.createAndRegisterExecutionContainerType(
 									containerName
 											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);

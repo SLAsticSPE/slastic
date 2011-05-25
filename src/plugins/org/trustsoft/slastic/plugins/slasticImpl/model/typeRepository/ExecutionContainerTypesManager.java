@@ -19,6 +19,7 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 public class ExecutionContainerTypesManager extends
 		AbstractFQNamedEntityManager<ExecutionContainerType> implements
 		IExecutionContainerTypesManager {
+	
 	public ExecutionContainerTypesManager(
 			final List<ExecutionContainerType> componentTypes) {
 		super(componentTypes);
@@ -46,6 +47,7 @@ public class ExecutionContainerTypesManager extends
 		return TypeRepositoryFactory.eINSTANCE.createExecutionContainerType();
 	}
 
+	// TODO: I'm pretty sure we'll have problems with this when starting with a deserialized model
 	private volatile long nextId = 1;
 
 	@Override
