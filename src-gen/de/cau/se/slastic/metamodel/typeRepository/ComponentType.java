@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getProvidedInterfaces <em>Provided Interfaces</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getRequiredInterfaces <em>Required Interfaces</em>}</li>
  * </ul>
  * </p>
@@ -43,6 +44,24 @@ public interface ComponentType extends FQNamedEntity {
 	 * @generated
 	 */
 	EList<Interface> getProvidedInterfaces();
+
+	/**
+	 * Returns the value of the '<em><b>Operations</b></em>' reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.Operation}.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Operations</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Operations</em>' reference list.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getComponentType_Operations()
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType
+	 * @model opposite="componentType" ordered="false"
+	 * @generated
+	 */
+	EList<Operation> getOperations();
 
 	/**
 	 * Returns the value of the '<em><b>Required Interfaces</b></em>' reference list.

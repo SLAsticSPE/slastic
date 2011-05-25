@@ -62,6 +62,8 @@ public class TypeRepositoryFactoryImpl extends EFactoryImpl implements TypeRepos
 		switch (eClass.getClassifierID()) {
 			case TypeRepositoryPackage.COMPONENT_TYPE: return createComponentType();
 			case TypeRepositoryPackage.INTERFACE: return createInterface();
+			case TypeRepositoryPackage.SIGNATURE: return createSignature();
+			case TypeRepositoryPackage.OPERATION: return createOperation();
 			case TypeRepositoryPackage.CONNECTOR_TYPE: return createConnectorType();
 			case TypeRepositoryPackage.EXECUTION_CONTAINER_TYPE: return createExecutionContainerType();
 			case TypeRepositoryPackage.NETWORK_LINK_TYPE: return createNetworkLinkType();
@@ -89,6 +91,26 @@ public class TypeRepositoryFactoryImpl extends EFactoryImpl implements TypeRepos
 	public Interface createInterface() {
 		InterfaceImpl interface_ = new InterfaceImpl();
 		return interface_;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Signature createSignature() {
+		SignatureImpl signature = new SignatureImpl();
+		return signature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Operation createOperation() {
+		OperationImpl operation = new OperationImpl();
+		return operation;
 	}
 
 	/**

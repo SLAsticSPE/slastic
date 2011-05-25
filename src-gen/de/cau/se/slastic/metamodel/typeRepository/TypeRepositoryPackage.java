@@ -8,6 +8,7 @@ package de.cau.se.slastic.metamodel.typeRepository;
 
 import de.cau.se.slastic.metamodel.core.CorePackage;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -171,13 +172,22 @@ public interface TypeRepositoryPackage extends EPackage {
 	int COMPONENT_TYPE__PROVIDED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Operations</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_TYPE__OPERATIONS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The feature id for the '<em><b>Required Interfaces</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_TYPE__REQUIRED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+	int COMPONENT_TYPE__REQUIRED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Component Type</em>' class.
@@ -186,7 +196,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+	int COMPONENT_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.InterfaceImpl <em>Interface</em>}' class.
@@ -235,13 +245,150 @@ public interface TypeRepositoryPackage extends EPackage {
 	int INTERFACE__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
 
 	/**
+	 * The feature id for the '<em><b>Signatures</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INTERFACE__SIGNATURES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Interface</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INTERFACE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
+	int INTERFACE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl <em>Signature</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl
+	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getSignature()
+	 * @generated
+	 */
+	int SIGNATURE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__ID = CorePackage.NAMED_ENTITY__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__ACTIVE = CorePackage.NAMED_ENTITY__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__NAME = CorePackage.NAMED_ENTITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Param Types</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__PARAM_TYPES = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Return Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__RETURN_TYPE = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Operations</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__OPERATIONS = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Signature</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE_FEATURE_COUNT = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl
+	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getOperation()
+	 * @generated
+	 */
+	int OPERATION = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__ID = CorePackage.ENTITY__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__ACTIVE = CorePackage.ENTITY__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Component Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__COMPONENT_TYPE = CorePackage.ENTITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Signature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__SIGNATURE = CorePackage.ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Operation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FEATURE_COUNT = CorePackage.ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.ConnectorTypeImpl <em>Connector Type</em>}' class.
@@ -251,7 +398,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getConnectorType()
 	 * @generated
 	 */
-	int CONNECTOR_TYPE = 3;
+	int CONNECTOR_TYPE = 5;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -306,7 +453,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getExecutionContainerType()
 	 * @generated
 	 */
-	int EXECUTION_CONTAINER_TYPE = 4;
+	int EXECUTION_CONTAINER_TYPE = 6;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -370,7 +517,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getNetworkLinkType()
 	 * @generated
 	 */
-	int NETWORK_LINK_TYPE = 5;
+	int NETWORK_LINK_TYPE = 7;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -434,7 +581,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getTypeRepositoryModel()
 	 * @generated
 	 */
-	int TYPE_REPOSITORY_MODEL = 6;
+	int TYPE_REPOSITORY_MODEL = 8;
 
 	/**
 	 * The feature id for the '<em><b>Network Link Types</b></em>' containment reference list.
@@ -532,6 +679,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	EReference getComponentType_ProvidedInterfaces();
 
 	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Operations</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations()
+	 * @see #getComponentType()
+	 * @generated
+	 */
+	EReference getComponentType_Operations();
+
+	/**
 	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getRequiredInterfaces <em>Required Interfaces</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -551,6 +709,92 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getInterface();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.Interface#getSignatures <em>Signatures</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Signatures</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Interface#getSignatures()
+	 * @see #getInterface()
+	 * @generated
+	 */
+	EReference getInterface_Signatures();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.Signature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Signature</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature
+	 * @generated
+	 */
+	EClass getSignature();
+
+	/**
+	 * Returns the meta object for the attribute list '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getParamTypes <em>Param Types</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Param Types</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getParamTypes()
+	 * @see #getSignature()
+	 * @generated
+	 */
+	EAttribute getSignature_ParamTypes();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getReturnType <em>Return Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Return Type</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getReturnType()
+	 * @see #getSignature()
+	 * @generated
+	 */
+	EAttribute getSignature_ReturnType();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperations <em>Operations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Operations</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getOperations()
+	 * @see #getSignature()
+	 * @generated
+	 */
+	EReference getSignature_Operations();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.Operation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation
+	 * @generated
+	 */
+	EClass getOperation();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Component Type</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType()
+	 * @see #getOperation()
+	 * @generated
+	 */
+	EReference getOperation_ComponentType();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Signature</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature()
+	 * @see #getOperation()
+	 * @generated
+	 */
+	EReference getOperation_Signature();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.ConnectorType <em>Connector Type</em>}'.
@@ -731,6 +975,14 @@ public interface TypeRepositoryPackage extends EPackage {
 		EReference COMPONENT_TYPE__PROVIDED_INTERFACES = eINSTANCE.getComponentType_ProvidedInterfaces();
 
 		/**
+		 * The meta object literal for the '<em><b>Operations</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_TYPE__OPERATIONS = eINSTANCE.getComponentType_Operations();
+
+		/**
 		 * The meta object literal for the '<em><b>Required Interfaces</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -747,6 +999,74 @@ public interface TypeRepositoryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass INTERFACE = eINSTANCE.getInterface();
+
+		/**
+		 * The meta object literal for the '<em><b>Signatures</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference INTERFACE__SIGNATURES = eINSTANCE.getInterface_Signatures();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl <em>Signature</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl
+		 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getSignature()
+		 * @generated
+		 */
+		EClass SIGNATURE = eINSTANCE.getSignature();
+
+		/**
+		 * The meta object literal for the '<em><b>Param Types</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIGNATURE__PARAM_TYPES = eINSTANCE.getSignature_ParamTypes();
+
+		/**
+		 * The meta object literal for the '<em><b>Return Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIGNATURE__RETURN_TYPE = eINSTANCE.getSignature_ReturnType();
+
+		/**
+		 * The meta object literal for the '<em><b>Operations</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SIGNATURE__OPERATIONS = eINSTANCE.getSignature_Operations();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl
+		 * @see de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl#getOperation()
+		 * @generated
+		 */
+		EClass OPERATION = eINSTANCE.getOperation();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Type</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION__COMPONENT_TYPE = eINSTANCE.getOperation_ComponentType();
+
+		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION__SIGNATURE = eINSTANCE.getOperation_Signature();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.ConnectorTypeImpl <em>Connector Type</em>}' class.
