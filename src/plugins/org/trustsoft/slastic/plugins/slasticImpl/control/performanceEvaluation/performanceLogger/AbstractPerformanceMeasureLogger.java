@@ -81,14 +81,14 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	protected abstract String createEPStatement();
 
 	/**
-	 * Returns a string that is the given file name with all
-	 * characters not allowed in file names removes.
+	 * Returns a string that is the given file name with all characters not
+	 * allowed in file names removes.
 	 */
 	// TODO: Refine
-	private final String escapeFileName (final String filename) {
+	private final String escapeFileName(final String filename) {
 		return filename.replaceAll("/", "-");
 	}
-	
+
 	/**
 	 * Creates a new {@link PrintWriter} for the given
 	 * {@link DeploymentComponent} and stores the corresponding {@link File} and
