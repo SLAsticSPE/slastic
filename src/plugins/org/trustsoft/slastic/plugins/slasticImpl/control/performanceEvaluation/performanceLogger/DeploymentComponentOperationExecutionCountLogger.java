@@ -10,6 +10,7 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
  * 
@@ -17,14 +18,15 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  * 
  */
 public class DeploymentComponentOperationExecutionCountLogger extends
-		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
+		AbstractPerformanceMeasureLogger<DeploymentComponentOperationPair>
+		implements
 		IDeploymentComponentOperationExecutionCountReceiver {
 
 	private static final Log log = LogFactory
 			.getLog(DeploymentComponentOperationExecutionCountLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
-	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5*60;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5 * 60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5 * 60;
 
 	private final int winTimeSec;
 	private final int outputIntervalSec;
@@ -60,12 +62,15 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 	 * @return
 	 */
 	private final String[] createRow(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Long count) {
+			final DeploymentComponentOperationPair deplComponentOperationPair, final Long count) {
 		final String currentTimeUTCString =
 				LoggingTimestampConverter
 						.convertLoggingTimestampToUTCString(currentTimestampMillis
 								* (1000 * 1000));
 
+		final DeploymentComponent deplComp = deplComponentOperationPair.getDeploymentComponent();
+		final Operation operation = deplComponentOperationPair.getOperation();
+		
 		return new String[] {
 				/* 0: timestamp: */
 				Long.toString(currentTimestampMillis),
@@ -85,7 +90,11 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 						.append("(")
 						.append(deplComp.getAssemblyComponent().getId())
 						.append(")").toString(),
-				/* 5: count */
+				/* 5: operation name (ID): */
+						new StringBuilder().append(operation.getSignature().getName())
+								.append("(").append(Long.toString(operation.getId()))
+								.append(")").toString(),
+				/* 6: count */
 				count == null ? "NA" : Long.toString(count) };
 
 	}
@@ -95,21 +104,31 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 	 */
 	@Override
 	public void update(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Long count) {
+			final DeploymentComponent deplComp, final Operation operation,
+			final Long count) {
 
-		super.writeRow(deplComp,
-				this.createRow(currentTimestampMillis, deplComp, count));
+		final DeploymentComponentOperationPair deploymentComponentOperationPair =
+				new DeploymentComponentOperationPair(deplComp, operation);
+
+		super.writeRow(deploymentComponentOperationPair,
+				this.createRow(currentTimestampMillis,
+						deploymentComponentOperationPair, count));
 	}
 
 	@Override
 	protected String[] createHeader() {
 		return new String[] { "timestamp", "UTCString", "deplCompID",
-				"executionContainer", "assemblyComponent;count" };
+				"executionContainer", "assemblyComponent", "operation", "count" };
 	}
 
 	@Override
 	protected String createFilename(
-			final DeploymentComponent deploymentComponent) {
+			final DeploymentComponentOperationPair deploymentComponentOperationPair) {
+		final Operation operation =
+				deploymentComponentOperationPair.getOperation();
+		final DeploymentComponent deploymentComponent =
+				deploymentComponentOperationPair.getDeploymentComponent();
+
 		final ExecutionContainer executionContainer =
 				deploymentComponent.getExecutionContainer();
 		final AssemblyComponent assemblyComponent =
@@ -119,18 +138,21 @@ public class DeploymentComponentOperationExecutionCountLogger extends
 				.append("--").append(executionContainer.getName()).append("-")
 				.append(executionContainer.getId()).append("--")
 				.append(assemblyComponent.getPackageName()).append(".")
-				.append(assemblyComponent.getName()).append(".csv").toString();
+				.append(assemblyComponent.getName()).append(".")
+				.append(operation.getSignature().getName()).append("_")
+				.append(operation.getId())
+				.append(".csv").toString();
 	}
 
 	@Override
 	protected String createEPStatement() {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, deploymentComponent, count(*)"
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent, operation, count(*)"
 				+ " from "
 				+ DeploymentComponentOperationExecution.class.getName()
 				+ ".win:time(" + this.winTimeSec
 				+ " sec)" // 60
-				+ " group by deploymentComponent" + " output all every "
+				+ " group by deploymentComponent, operation" + " output all every "
 				+ this.outputIntervalSec + " seconds";
 
 	}

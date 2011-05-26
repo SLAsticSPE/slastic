@@ -9,20 +9,18 @@ import org.trustsoft.slastic.common.IComponentContext;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
-import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class AssemblyComponentOperationExecutionCountLogger extends
-		AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
-		implements
-		IAssemblyComponentOperationExecutionCountReceiver {
+public class AssemblyComponentInvocationCountLogger extends
+		AbstractPerformanceMeasureLogger<AssemblyComponent> implements
+		IAssemblyComponentInvocationCountReceiver {
 
 	private static final Log log = LogFactory
-			.getLog(AssemblyComponentOperationExecutionCountLogger.class);
+			.getLog(AssemblyComponentInvocationCountLogger.class);
 
 	public static final int DEFAULT_WIN_TIME_SECONDS = 5;
 	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5;
@@ -30,12 +28,12 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
-	public AssemblyComponentOperationExecutionCountLogger(
+	public AssemblyComponentInvocationCountLogger(
 			final IComponentContext context) {
 		this(
 				context,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_SECONDS,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+				AssemblyComponentInvocationCountLogger.DEFAULT_WIN_TIME_SECONDS,
+				AssemblyComponentInvocationCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
@@ -43,7 +41,7 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public AssemblyComponentOperationExecutionCountLogger(
+	public AssemblyComponentInvocationCountLogger(
 			final IComponentContext context, final int winTimeSec,
 			final int outputIntervalSec) {
 		super(context);
@@ -60,19 +58,12 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	 *            observation
 	 * @return
 	 */
-	private final String[] createRow(
-			final long currentTimestampMillis,
-			final AssemblyComponentOperationPair assemblyComponentOperationPair,
-			final Long count) {
+	private final String[] createRow(final long currentTimestampMillis,
+			final AssemblyComponent assemblyComponent, final Long count) {
 		final String currentTimeUTCString =
 				LoggingTimestampConverter
 						.convertLoggingTimestampToUTCString(currentTimestampMillis
 								* (1000 * 1000));
-
-		final AssemblyComponent assemblyComponent =
-				assemblyComponentOperationPair.getAssemblyComponent();
-		final Operation operation =
-				assemblyComponentOperationPair.getOperation();
 
 		return new String[] {
 				/* 0: timestamp: */
@@ -85,11 +76,7 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 						.append("(")
 						.append(Long.toString(assemblyComponent.getId()))
 						.append(")").toString(),
-				/* 3: operation name (ID): */
-				new StringBuilder().append(operation.getSignature().getName())
-						.append("(").append(Long.toString(operation.getId()))
-						.append(")").toString(),
-				/* 4: count */
+				/* 3: count */
 				count == null ? "NA" : Long.toString(count) };
 	}
 
@@ -98,31 +85,20 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	 */
 	@Override
 	public void update(final long currentTimestampMillis,
-			final AssemblyComponent assemblyComponent,
-			final Operation operation, final Long count) {
+			final AssemblyComponent assemblyComponent, final Long count) {
 
-		final AssemblyComponentOperationPair assemblyComponentOperationPair =
-				new AssemblyComponentOperationPair(assemblyComponent, operation);
-
-		super.writeRow(assemblyComponentOperationPair, this.createRow(
-				currentTimestampMillis, assemblyComponentOperationPair, count));
+		super.writeRow(assemblyComponent, this.createRow(
+				currentTimestampMillis, assemblyComponent, count));
 	}
 
 	@Override
 	protected String[] createHeader() {
 		return new String[] { "timestamp", "UTCString", "assemblyComponent",
-				"operation",
 				"count" };
 	}
 
 	@Override
-	protected String createFilename(
-			final AssemblyComponentOperationPair assemblyComponentOperationPair) {
-		final AssemblyComponent assemblyComponent =
-				assemblyComponentOperationPair.getAssemblyComponent();
-		final Operation operation =
-				assemblyComponentOperationPair.getOperation();
-
+	protected String createFilename(final AssemblyComponent assemblyComponent) {
 		final ComponentType componentType =
 				assemblyComponent.getComponentType();
 
@@ -130,20 +106,17 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 				.append("--").append(assemblyComponent.getPackageName())
 				.append(".").append(assemblyComponent.getName()).append("-")
 				.append(componentType.getPackageName()).append(".")
-				.append(componentType.getName()).append("_")
-				.append(operation.getSignature().getName())
-				.append("_").append(operation.getId())
-				.append(".csv").toString();
+				.append(componentType.getName()).append(".csv").toString();
 	}
 
 	@Override
 	protected String createEPStatement() {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, operation, count(*)"
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
 				+ " from "
 				+ DeploymentComponentOperationExecution.class.getName()
 				+ ".win:time(" + this.winTimeSec + " sec)"
-				+ " group by deploymentComponent.assemblyComponent, operation"
+				+ " group by deploymentComponent.assemblyComponent"
 				+ " output all every " + this.outputIntervalSec + " seconds";
 	}
 

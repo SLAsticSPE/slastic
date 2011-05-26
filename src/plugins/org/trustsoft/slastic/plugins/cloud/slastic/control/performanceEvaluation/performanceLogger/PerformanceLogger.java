@@ -6,8 +6,10 @@ import org.trustsoft.slastic.common.IComponentContext;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceMeasureLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentAvgRTsLogger;
+import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentInvocationCountLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentOperationExecutionCountLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentAvgRTsLogger;
+import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentInvocationCountLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationExecutionCountLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerCPUUtilizationLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerMemSwapUsageLogger;
@@ -67,8 +69,17 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 								this.winTimeSec, this.outputIntervalSec),
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(deploymentComponentOperationExecutionCountLogger);
+		
+		/* 3. DeploymentComponentInvocationCountLogger */
+		final DeploymentComponentInvocationCountLogger deploymentComponentInvocationCountLogger =
+				new DeploymentComponentInvocationCountLogger(
+						this.createLoggerContext(
+								DeploymentComponentInvocationCountLogger.class,
+								this.winTimeSec, this.outputIntervalSec),
+						this.winTimeSec, this.outputIntervalSec);
+		this.addAndRegisterLoggerAsSubscriber(deploymentComponentInvocationCountLogger);
 
-		/* 3. AssemblyComponentAvgRTsLogger */
+		/* 4. AssemblyComponentAvgRTsLogger */
 		final AssemblyComponentAvgRTsLogger assemblyComponentAvgRTsLogger =
 				new AssemblyComponentAvgRTsLogger(this.createLoggerContext(
 						AssemblyComponentAvgRTsLogger.class, this.winTimeSec,
@@ -76,7 +87,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentAvgRTsLogger);
 
-		/* 4. AssemblyComponentOperationExecutionCountLogger */
+		/* 5. AssemblyComponentOperationExecutionCountLogger */
 		final AssemblyComponentOperationExecutionCountLogger assemblyComponentOperationExecutionCountLogger =
 				new AssemblyComponentOperationExecutionCountLogger(
 						this.createLoggerContext(
@@ -85,7 +96,16 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentOperationExecutionCountLogger);
 
-		/* 5. ExecutionContainerResourceUtilizationLogger */
+		/* 6. AssemblyComponentInvocationCountLogger */
+		final AssemblyComponentInvocationCountLogger assemblyComponentInvocationCountLogger =
+				new AssemblyComponentInvocationCountLogger(
+						this.createLoggerContext(
+								AssemblyComponentInvocationCountLogger.class,
+								this.winTimeSec, this.outputIntervalSec),
+						this.winTimeSec, this.outputIntervalSec);
+		this.addAndRegisterLoggerAsSubscriber(assemblyComponentInvocationCountLogger);
+		
+		/* 7. ExecutionContainerResourceUtilizationLogger */
 		final ExecutionContainerResourceUtilizationLogger executionContainerResourceUtilizationLogger =
 				new ExecutionContainerResourceUtilizationLogger(
 						this.createLoggerContext(
@@ -94,7 +114,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(executionContainerResourceUtilizationLogger);
 
-		/* 6. ExecutionContainerCPUUtilizationLogger */
+		/* 8. ExecutionContainerCPUUtilizationLogger */
 		final ExecutionContainerCPUUtilizationLogger executionContainerCPUUtilizationLogger =
 				new ExecutionContainerCPUUtilizationLogger(
 						this.createLoggerContext(
@@ -103,7 +123,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(executionContainerCPUUtilizationLogger);
 
-		/* 7. ExecutionContainerMemSwapUsageLogger */
+		/* 9. ExecutionContainerMemSwapUsageLogger */
 		final ExecutionContainerMemSwapUsageLogger executionContainerMemSwapUsageLogger =
 				new ExecutionContainerMemSwapUsageLogger(
 						this.createLoggerContext(
