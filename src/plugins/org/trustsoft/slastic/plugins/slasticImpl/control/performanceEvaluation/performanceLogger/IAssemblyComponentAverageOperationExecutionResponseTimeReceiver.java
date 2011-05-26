@@ -8,7 +8,7 @@ import de.cau.se.slastic.metamodel.typeRepository.Operation;
  * @author Andre van Hoorn
  * 
  */
-public interface IAssemblyComponentAverageResponseTimeReceiver {
+public interface IAssemblyComponentAverageOperationExecutionResponseTimeReceiver {
 
 	public void update(
 			final long currentTimestampMillis,

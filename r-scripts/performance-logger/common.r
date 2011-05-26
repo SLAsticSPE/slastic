@@ -58,8 +58,16 @@ createAssemblyComponentName=function(data.df){
   assemblyComponent.name=data.df$assemblyComponent[1]
 }
 
+createAssemblyComponentOperationName=function(data.df){
+  assemblyComponent.name=paste(data.df$assemblyComponent[1], ".", data.df$operation[1], sep="")
+}
+
 createDeploymentComponentName=function(data.df){
   assemblyComponent.name=paste(data.df$executionContainer[1], "::@", data.df$deplCompID[1], ":", data.df$assemblyComponent[1], sep="")
+}
+
+createDeploymentComponentOperationName=function(data.df){
+  assemblyComponent.name=paste(data.df$executionContainer[1], "::@", data.df$deplCompID[1], ":", data.df$assemblyComponent[1], ".", data.df$operation[1], sep="")
 }
 
 plotXYY=function(x, y1, y2=NULL, title, subtitle=NULL, y1lab, y2lab, type1="l", type2="l", col1="blue", col2="red"){
@@ -89,7 +97,7 @@ plotXYY=function(x, y1, y2=NULL, title, subtitle=NULL, y1lab, y2lab, type1="l", 
   }
 }
 
-plotAssemblyComponentAverageRT=function(data.df){
+plotAssemblyComponentAvgOpExecRT=function(data.df){
   plotXYY (x=data.df[["posixct"]], y1=data.df[["avgRTMillis"]], y2=NULL, title="Avg. Operation Response Times (Assembly Level)", y1lab="Response time [milliseconds]")
   assemblyComponent.name=createAssemblyComponentName(data.df)
   legend("topright",
@@ -98,7 +106,7 @@ plotAssemblyComponentAverageRT=function(data.df){
    )
 }
 
-plotDeploymentComponentAverageRT=function(data.df){
+plotDeploymentComponentAvgOpExecRT=function(data.df){
   plotXYY (x=data.df[["posixct"]], y1=data.df[["avgRTMillis"]], y2=NULL, title="Avg. Operation Response Times (Deployment Level)", y1lab="Response time [milliseconds]")
   deploymentComponent.name=createDeploymentComponentName(data.df)
   legend("topright",
@@ -107,8 +115,8 @@ plotDeploymentComponentAverageRT=function(data.df){
    )
 }
 
-plotAssemblyComponentOperationExecutionCount=function(data.df){
-  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Assembly Component Operation Execution)", y1lab="Arrival rate")
+plotAssemblyComponentInvocationCount=function(data.df){
+  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Assembly Component Invocations)", y1lab="Arrival rate")
   assemblyComponent.name=createAssemblyComponentName(data.df)
   legend("topright",
      legend = assemblyComponent.name,
@@ -116,11 +124,29 @@ plotAssemblyComponentOperationExecutionCount=function(data.df){
    )
 }
 
-plotDeploymentComponentOperationExecutionCount=function(data.df){
-  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Deployment Component Operation Execution)", y1lab="Arrival rate")
+plotDeploymentComponentInvocationCount=function(data.df){
+  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Deployment Component Invocations)", y1lab="Arrival rate")
   assemblyComponent.name=createDeploymentComponentName(data.df)
   legend("topright",
      legend = assemblyComponent.name,
+     col = "blue", lty = 1,box.lty=0,box.col="white"
+   )
+}
+
+plotAssemblyComponentOpExecCount=function(data.df){
+  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Assembly-Level Op Exec Count)", y1lab="Arrival rate")
+  assemblyComponentOp.name=createAssemblyComponentOperationName(data.df)
+  legend("topright",
+     legend = assemblyComponentOp.name,
+     col = "blue", lty = 1,box.lty=0,box.col="white"
+   )
+}
+
+plotDeploymentComponentOpExecCount=function(data.df){
+  plotXYY (x=data.df[["posixct"]], y1=data.df[["count"]], y2=NULL, title="Arrival Rates (Deployment-Level Op Exec Count)", y1lab="Arrival rate")
+  assemblyComponentOp.name=createDeploymentComponentOperationName(data.df)
+  legend("topright",
+     legend = assemblyComponentOp.name,
      col = "blue", lty = 1,box.lty=0,box.col="white"
    )
 }
@@ -132,7 +158,7 @@ plotMemSwapUsage=function(data.df){
   y1lab=paste("Memory usage [MB] (total: ", round(memTotalMB) , " MB)")
   y2lab=paste("Swap usage [MB] (total: ", round(swapTotalMB) , " MB)")
   plotXYY (data.df[["posixct"]], y1=data.df[["memUsedBytes"]]/1024/1024, y2=data.df[["swapUsedBytes"]]/1024/1024, 
-	    title="Memory/Swap Usage", subtitle=executionContainerResource.name, y1lab=y2lab, y2lab=y2lab)
+	    title="Memory/Swap Usage", subtitle=executionContainerResource.name, y1lab=y1lab, y2lab=y2lab)
 
   legend("topright",
         legend = c("Memory", "Swap"),
