@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +18,8 @@ import org.trustsoft.slastic.reconfiguration.ShellExecutor;
 public class LoadBalancerConnector {
 	private static final Log log = LogFactory
 			.getLog(LoadBalancerConnector.class);
+
+	private final Map<String, Integer> loadbalancerPorts = new HashMap<String, Integer>();
 
 	private final String servletURL;
 	private final boolean spawnThreadForRequests;
@@ -45,6 +47,12 @@ public class LoadBalancerConnector {
 	 */
 	public LoadBalancerConnector(final String servletURL,
 			final boolean spawnThreadForRequests, final String wgetLogFile) {
+		loadbalancerPorts.put("webstoreRest", 9090);
+		loadbalancerPorts.put("posterita1", 9090);
+		loadbalancerPorts.put("webstoreHotspots", 9100);
+		loadbalancerPorts.put("posterita2", 9110);
+		loadbalancerPorts.put("posterita3", 9120);
+
 		this.servletURL = servletURL;
 		this.spawnThreadForRequests = spawnThreadForRequests;
 		this.wgetLogFile = wgetLogFile;
@@ -56,9 +64,7 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public boolean createContext(final String contextId) {
-		final String queryString = LoadBalancerServlet
-				.createQueryString_createContext(contextId);
-		return this.sendRequest(queryString);
+		return true;
 	}
 
 	/**
@@ -67,9 +73,7 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public boolean removeContext(final String contextId) {
-		final String queryString = LoadBalancerServlet
-				.createQueryString_removeContext(contextId);
-		return this.sendRequest(queryString);
+		return true;
 	}
 
 	/**
@@ -78,9 +82,7 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public boolean removeAllHosts(final String contextId) {
-		final String queryString = LoadBalancerServlet
-				.createQueryString_removeAllHosts(contextId);
-		return this.sendRequest(queryString);
+		return true; // FIXME for testing purpose only
 	}
 
 	/**
@@ -90,9 +92,9 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public boolean addHost(final String contextId, final String host) {
-		final String queryString = LoadBalancerServlet
-				.createQueryString_addHost(contextId, host);
-		return this.sendRequest(queryString);
+		final String queryString = "add?" + host;
+		final Integer port = getPortForContextID(contextId);
+		return sendRequest(port, queryString);
 	}
 
 	/**
@@ -102,9 +104,13 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public boolean removeHost(final String contextId, final String host) {
-		final String queryString = LoadBalancerServlet
-				.createQueryString_removeHost(contextId, host);
-		return this.sendRequest(queryString);
+		final String queryString = "delete?" + host;
+		final Integer port = getPortForContextID(contextId);
+		return sendRequest(port, queryString);
+	}
+
+	private Integer getPortForContextID(final String contextId) {
+		return loadbalancerPorts.get(contextId);
 	}
 
 	/**
@@ -112,22 +118,22 @@ public class LoadBalancerConnector {
 	 * @param queryString
 	 * @return
 	 */
-	private boolean sendRequest(final String queryString) {
-		final String url = this.servletURL + "?" + queryString;
+	private boolean sendRequest(final Integer port, final String queryString) {
+		final String url = "http://127.0.0.1:" + port + "/" + queryString;
 		LoadBalancerConnector.log.info("wget '" + url + "'");
 
-		if (this.isDummyMode()) {
+		if (isDummyMode()) {
 			return true;
 		}
 
 		final ArrayList<String> argList = new ArrayList<String>();
-		if (this.wgetLogFile != null) {
-			argList.add("-a" + this.wgetLogFile);
+		if (wgetLogFile != null) {
+			argList.add("-a" + wgetLogFile);
 		}
 		argList.add(url);
 		return ShellExecutor.invoke("wget", /* command */
 		argList, /* arg list */
-		this.spawnThreadForRequests /* spawn? */);
+		spawnThreadForRequests /* spawn? */);
 	}
 
 	/**
@@ -148,6 +154,6 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public final boolean isDummyMode() {
-		return this.dummyMode;
+		return dummyMode;
 	}
 }

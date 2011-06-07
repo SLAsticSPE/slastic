@@ -202,7 +202,15 @@ public class EucalyptusApplicationCloudingService implements
 			}
 		}
 
-		/* 2. Determine hostname */
+		/* 2. Set hostname */
+
+		final EucalyptusCommand setHostameCommand = EucalyptusCommandFactory
+				.getSetHostnameCommand(configuration.getSSHPrivateKeyFile(),
+						configuration.getSSHUserName(), ipAddress);
+		executer.executeCommandWithEnv(setHostameCommand,
+				configuration.getEucatoolsPath());
+
+		/* 3. Determine hostname */
 
 		final EucalyptusCommand fetchHostameCommand = EucalyptusCommandFactory
 				.getFetchHostnameCommand(configuration.getSSHPrivateKeyFile(),
@@ -216,8 +224,9 @@ public class EucalyptusApplicationCloudingService implements
 
 		final String hostname = getHostnameFromResult(hostResult);
 
+		/* 3. Do ImageName specific Start */
+
 		if (euType.getEmiImageName().equalsIgnoreCase("adempiere")) {
-			/* 3. Start Adempiere */
 
 			final EucalyptusCommand startAdempiereCommand = EucalyptusCommandFactory
 					.getStartAdempiereCommand(
