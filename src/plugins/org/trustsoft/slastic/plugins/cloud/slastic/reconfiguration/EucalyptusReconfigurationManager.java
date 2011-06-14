@@ -54,6 +54,13 @@ public class EucalyptusReconfigurationManager extends
 	private volatile PrintWriter eucalyptusEventWriter = null;
 
 	/**
+	 * Maps {@link AssemblyComponent}s to the corresponding
+	 * {@link EucalyptusCloudedApplication}.
+	 */
+	private final HashMap<AssemblyComponent, EucalyptusCloudedApplication> assemblyComponentMapping =
+			new HashMap<AssemblyComponent, EucalyptusCloudedApplication>();
+
+	/**
 	 * Maps {@link ExecutionContainer}s to the corresponding
 	 * {@link EucalyptusCloudNode}s
 	 */
@@ -208,11 +215,18 @@ public class EucalyptusReconfigurationManager extends
 			// TODO: add some intermediate checking of return values ...
 			final EucalyptusApplicationInstanceConfiguration config =
 					new EucalyptusApplicationInstanceConfiguration();
+			 
 			final EucalyptusCloudNode dstNode =
 					this.allocatedNodesMapping.get(toExecutionContainer);
+
+			final EucalyptusCloudedApplication eucaApplication = 
+				this.euApplication;
+				// TODO: activate (but is this the right place to maintain the mapping?)
+				//this.assemblyComponentMapping.get(assemblyComponent);
+
 			final EucalyptusApplicationInstance appInstance =
 					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService
-							.deployApplicationInstance(this.euApplication,
+							.deployApplicationInstance(eucaApplication,
 									config, dstNode);
 			if (appInstance != null) {
 				success = true;
