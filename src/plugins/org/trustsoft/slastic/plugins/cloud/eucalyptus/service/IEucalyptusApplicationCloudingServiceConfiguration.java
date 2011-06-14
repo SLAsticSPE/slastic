@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
@@ -51,6 +52,32 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	 */
 	public HashMap<String, String> getEMIs();
 
+	/**
+	 * Returns a list of node instances to create initially.
+	 * Each element of the returned collection is a String array 
+	 * with 3 elements: node name, ip, image name 
+	 * 
+	 * @return
+	 * @see IEucalyptusApplicationCloudingServiceConfiguration#getEMIs()
+	 */
+	public Collection<String[]> getInitialNodeInstances(); 
+	
+	/**
+	 * Returns a list of application to create initially.
+	 * 
+	 * @return
+	 */
+	public Collection<String> getInitialApplications();
+	
+	/**
+	 * Returns a list of application instances to create initially.
+	 * Each element of the returned collection is a String array
+	 * with 2 elements: application name, node instance
+	 * 
+	 * @return
+	 */
+	public Collection<String[]> getInitialApplicationInstances();
+	
 	/**
 	 * Returns the name of the public key used for authentication with
 	 * Eucalyptus.

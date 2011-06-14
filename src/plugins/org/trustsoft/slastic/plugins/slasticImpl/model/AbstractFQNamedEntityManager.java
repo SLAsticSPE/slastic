@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
-
 package org.trustsoft.slastic.plugins.slasticImpl.model;
 
 import java.util.HashMap;
@@ -19,6 +14,8 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 		extends AbstractEntityManager<T> {
 	private final Map<String, T> entitiesByFullQualifiedName =
 			new HashMap<String, T>();
+
+
 
 	public AbstractFQNamedEntityManager(final List<T> entities) {
 		super(entities);
@@ -61,7 +58,7 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 		entity.setName(fqnSplit[1]);
 		this.addEntitiyToNameMap(entity);
 	}
-	
+
 	/**
 	 * Adds a newly created component to the local tables.
 	 */

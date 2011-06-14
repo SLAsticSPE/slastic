@@ -35,6 +35,8 @@ public class EucalyptusApplicationCloudingService implements
 
 	private final IEucalyptusApplicationCloudingServiceConfiguration configuration;
 
+	//TODO: We might think about moving the following collections to an abstract class
+	
 	private final Collection<EucalyptusCloudNodeType> nodeTypes =
 			new Vector<EucalyptusCloudNodeType>();
 	private final Collection<EucalyptusCloudNode> allocatedNodes =
@@ -707,5 +709,25 @@ public class EucalyptusApplicationCloudingService implements
 		if ((this.configuration != null) && this.configuration.isDebugEnabled()) {
 			EucalyptusApplicationCloudingService.log.info(msg);
 		}
+	}
+
+	@Override
+	public ICloudNode lookupNode(final String name) {
+		for (final ICloudNode node : this.allocatedNodes) {
+			if (node.getName().equals(name)) {
+				return node;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public ICloudedApplication lookupCloudedApplication(final String name) {
+		for (final ICloudedApplication app : this.applications) {
+			if (app.getName().equals(name)) {
+				return app;
+			}
+		}
+		return null;
 	}
 }

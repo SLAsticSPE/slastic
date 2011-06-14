@@ -1,5 +1,8 @@
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -26,6 +29,12 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	private String eucatoolsPath;
 
 	private HashMap<String, String> emis;
+
+	private Collection<String[]> initialNodeInstances;
+
+	private Collection<String> initialApplications;
+
+	private Collection<String[]> initialApplicationInstances;
 
 	private String eucalyptusKeyName;
 
@@ -117,84 +126,165 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	private static boolean initVariablesFromProps(
 			final EucalyptusApplicationCloudingServiceConfiguration configuration,
 			final Properties props) {
+
 		/* Set the debug level */
+		{
 		final boolean debugEnabled =
 				EucalyptusApplicationCloudingServiceConfiguration
 						.loadBooleanConfigurationProperty(props,
 								ConfigurationProperty.DEBUG_ENABLED);
 		configuration.setDebugEnabled(debugEnabled);
+		}
 
 		/* Sets the dummy mode */
+		{
 		final boolean dummyModeEnabled =
 				EucalyptusApplicationCloudingServiceConfiguration
 						.loadBooleanConfigurationProperty(props,
 								ConfigurationProperty.DUMMY_MODE_ENABLED);
 		configuration.setDummyModeEnabled(dummyModeEnabled);
+		}
 
 		/* */
+		{
 		final boolean loadBalancerEnabled =
 				EucalyptusApplicationCloudingServiceConfiguration
 						.loadBooleanConfigurationProperty(props,
 								ConfigurationProperty.LOAD_BALANCER_ENABLED);
 		configuration.setLoadBalancerEnabled(loadBalancerEnabled);
+		}
 
 		/* Sets the loadBalancerServletURL */
+		{
 		final String loadBalancerServletURL =
 				EucalyptusApplicationCloudingServiceConfiguration
 						.loadStringConfigurationProperty(props,
 								ConfigurationProperty.LOAD_BALANCER_SERVLET_URL);
 		configuration.setLoadBalancerServletURL(loadBalancerServletURL);
+		}
 
 		/* Sets the eucatoolsPath */
+		{
 		final String eucatoolsPath =
 				EucalyptusApplicationCloudingServiceConfiguration
 						.loadStringConfigurationProperty(props,
 								ConfigurationProperty.EUCATOOLS_PATH);
 		configuration.setEucatoolsPath(eucatoolsPath);
+		}
 
 		/* Sets the emis */
-		final String emisString =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.EUCA_EMIS);
-		final PropertyMap propertyMap = new PropertyMap(emisString, ";", ":");
-		final HashMap<String, String> emis = propertyMap.getMap();
-		configuration.setEMIs(emis);
+		{
+			final String emisString =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.EUCA_EMIS);
+			final PropertyMap propertyMap =
+					new PropertyMap(emisString, ";", ":");
+			final HashMap<String, String> emis = propertyMap.getMap();
+			configuration.setEMIs(emis);
+		}
+
+		/* Sets the initial nodes */
+		{
+			final String initialNodesString =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.INITIAL_NODES);
+			final String[] initialNodesPairs = initialNodesString.split(";");
+			final Collection<String[]> initialNodes = new ArrayList<String[]>();
+			for (final String initialNodePair : initialNodesPairs) {
+				final String[] initialNodePairSplit =
+						initialNodePair.split(":");
+				if (initialNodePairSplit.length != 3) {
+					EucalyptusApplicationCloudingServiceConfiguration.log
+							.error("Invalid initialNodePair: '"
+									+ initialNodePair + "'");
+				}
+				initialNodes.add(initialNodePairSplit);
+			}
+			configuration.setInitialNodeInstances(initialNodes);
+		}
+
+		/* Set the initial applications */
+		{
+			final String initialApplicationsString =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.INITIAL_APPLICATIONS);
+			final String[] applications = initialApplicationsString.split(";");
+			final Collection<String> initialApplications =
+					new ArrayList<String>();
+			Collections.addAll(initialApplications, applications);
+
+			/* Sets the initial application instances */
+			final String initialApplicationInstancesString =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(
+									props,
+									ConfigurationProperty.INITIAL_APPLICATION_INSTANCES);
+			final String[] initialApplicationInstancePairs =
+					initialApplicationInstancesString.split(";");
+			final Collection<String[]> initialApplicationInstances =
+					new ArrayList<String[]>();
+			for (final String initialApplicationInstancePair : initialApplicationInstancePairs) {
+				final String[] initialApplicationInstanceSplit =
+						initialApplicationInstancePair.split(":");
+				if (initialApplicationInstanceSplit.length != 2) {
+					EucalyptusApplicationCloudingServiceConfiguration.log
+							.error("Invalid initialApplicationInstancePair: '"
+									+ initialApplicationInstancePair + "'");
+				}
+				initialApplicationInstances
+						.add(initialApplicationInstanceSplit);
+			}
+			configuration
+					.setInitialApplicationInstances(initialApplicationInstances);
+		}
 
 		/* Sets the eucalyptusKeyName */
-		final String eucalyptusKeyName =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.EUCA_KEY_NAME);
-		configuration.setEucalyptusKeyName(eucalyptusKeyName);
+		{
+			final String eucalyptusKeyName =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.EUCA_KEY_NAME);
+			configuration.setEucalyptusKeyName(eucalyptusKeyName);
+		}
 
 		/* Sets the eucalyptusGroup */
-		final String eucalyptusGroup =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.EUCA_GROUP);
-		configuration.setEucalyptusGroup(eucalyptusGroup);
+		{
+			final String eucalyptusGroup =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.EUCA_GROUP);
+			configuration.setEucalyptusGroup(eucalyptusGroup);
+		}
 
 		/* Sets the sshPrivateKeyFile */
-		final String sshPrivateKeyFile =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.SSH_PRIV_KEY);
-		configuration.setSSHPrivateKeyFile(sshPrivateKeyFile);
+		{
+			final String sshPrivateKeyFile =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.SSH_PRIV_KEY);
+			configuration.setSSHPrivateKeyFile(sshPrivateKeyFile);
+		}
 
 		/* Sets the sshUserName */
-		final String sshUserName =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.SSH_USER_NAME);
-		configuration.setSSHUserName(sshUserName);
+		{
+			final String sshUserName =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.SSH_USER_NAME);
+			configuration.setSSHUserName(sshUserName);
+		}
 
 		/* Sets the tomcatHome */
-		final String tomcatHome =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.TOMCAT_HOME);
-		configuration.setTomcatHome(tomcatHome);
+		{
+			final String tomcatHome =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.TOMCAT_HOME);
+			configuration.setTomcatHome(tomcatHome);
+		}
 
 		return true;
 	}
@@ -284,8 +374,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setEucatoolsPath(final String eucatoolsPath) {
 		this.eucatoolsPath = eucatoolsPath;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting eucatoolsPath: "
-						+ this.eucatoolsPath);
+				.debug("Setting eucatoolsPath: " + this.eucatoolsPath);
 	}
 
 	@Override
@@ -300,8 +389,49 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setEMIs(final HashMap<String, String> emis) {
 		this.emis = emis;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting emis: "
-						+ this.emis);
+				.debug("Setting emis: " + this.emis);
+	}
+
+	@Override
+	public final Collection<String[]> getInitialNodeInstances() {
+		return this.initialNodeInstances;
+	}
+
+	/**
+	 * @param initialNodeInstances
+	 *            the initialNodeInstances to set
+	 */
+	public final void setInitialNodeInstances(
+			final Collection<String[]> initialNodeInstances) {
+		this.initialNodeInstances = initialNodeInstances;
+	}
+
+	@Override
+	public final Collection<String> getInitialApplications() {
+		return this.initialApplications;
+	}
+
+	/**
+	 * @param initialApplications
+	 *            the initialApplications to set
+	 */
+	public final void setInitialApplications(
+			final Collection<String> initialApplications) {
+		this.initialApplications = initialApplications;
+	}
+
+	@Override
+	public final Collection<String[]> getInitialApplicationInstances() {
+		return this.initialApplicationInstances;
+	}
+
+	/**
+	 * @param initialApplicationInstances
+	 *            the initialApplicationInstances to set
+	 */
+	public final void setInitialApplicationInstances(
+			final Collection<String[]> initialApplicationInstances) {
+		this.initialApplicationInstances = initialApplicationInstances;
 	}
 
 	@Override
@@ -316,8 +446,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setEucalyptusKeyName(final String eucalyptusKeyName) {
 		this.eucalyptusKeyName = eucalyptusKeyName;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting eucalyptusKeyName: "
-						+ this.eucalyptusKeyName);
+				.debug("Setting eucalyptusKeyName: " + this.eucalyptusKeyName);
 	}
 
 	@Override
@@ -332,8 +461,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setEucalyptusGroup(final String eucalyptusGroup) {
 		this.eucalyptusGroup = eucalyptusGroup;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting eucalyptusGroup: "
-						+ this.eucalyptusGroup);
+				.debug("Setting eucalyptusGroup: " + this.eucalyptusGroup);
 	}
 
 	@Override
@@ -348,8 +476,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setSSHPrivateKeyFile(final String sshPrivateKeyFile) {
 		this.sshPrivateKeyFile = sshPrivateKeyFile;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting sshPrivateKeyFile: "
-						+ this.sshPrivateKeyFile);
+				.debug("Setting sshPrivateKeyFile: " + this.sshPrivateKeyFile);
 	}
 
 	@Override
@@ -364,8 +491,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setSSHUserName(final String sshUserName) {
 		this.sshUserName = sshUserName;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting sshUserName: "
-						+ this.sshUserName);
+				.debug("Setting sshUserName: " + this.sshUserName);
 	}
 
 	@Override
@@ -380,8 +506,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	public final void setTomcatHome(final String tomcatHome) {
 		this.tomcatHome = tomcatHome;
 		EucalyptusApplicationCloudingServiceConfiguration.log
-				.debug("Setting tomcatHome: "
-						+ this.tomcatHome);
+				.debug("Setting tomcatHome: " + this.tomcatHome);
 	}
 
 	/**

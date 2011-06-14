@@ -1,7 +1,5 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -27,8 +25,8 @@ public class ExecutionEnvironmentModelManager extends
 	 * Maps a technical hostname to the corresponding architectural container
 	 * name;
 	 */
-	public final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
-			new ConcurrentHashMap<String, ExecutionContainer>();
+//	public final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
+//			new ConcurrentHashMap<String, ExecutionContainer>();
 
 	private final ExecutionContainersManager executionContainersManager;
 	private final NetworkLinksManager networkLinksManager;

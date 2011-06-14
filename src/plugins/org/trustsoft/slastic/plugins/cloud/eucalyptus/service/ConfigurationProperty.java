@@ -35,8 +35,20 @@ public enum ConfigurationProperty {
 
 	/* */
 	EUCA_EMIS("emis", "app-server:emi-ABCDEFGH;db-server:emi-IJKLMNOP",
-			/* must not be empty: */true),
+			/* must not be empty: */ true),
 
+	/* */
+	INITIAL_NODES("initialNodeInstances", "dbsrv0:192.168.44.12:db-server;appsrv0:192.168.44.13:app-server",
+			/* may be empty */ false ),
+			
+	/* */
+	INITIAL_APPLICATIONS("initialApplications", "org.compiere.WebstoreRest;org.compiere.WebstoreHotspots",
+			/* may be empty: */ false ),
+	
+	/* */
+	INITIAL_APPLICATION_INSTANCES("initialApplicationInstances", "org.compiere.WebstoreRest:appsrv0;org.compiere.WebstoreHotspots:appsrv0",
+			/* may be empty: */ false),
+			
 	/* */
 	EUCA_KEY_NAME("eucalyptusKeyName", "myKey",
 			/* must not be empty: */true),

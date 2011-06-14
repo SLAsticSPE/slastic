@@ -41,6 +41,15 @@ public interface IApplicationCloudingService {
 			throws ApplicationCloudingServiceException;
 
 	/**
+	 * Returns the {@link ICloudNode} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudNode}; null if no {@link ICloudNode} with this
+	 *         name
+	 */
+	public ICloudNode lookupNode(String name);
+
+	/**
 	 * Deallocates the given {@link ICloudNode}.
 	 * 
 	 * This method returns immediately and does not wait until the
@@ -64,6 +73,15 @@ public interface IApplicationCloudingService {
 	public ICloudedApplication createAndRegisterCloudedApplication(String name,
 			ICloudedApplicationConfiguration configuration)
 			throws ApplicationCloudingServiceException;
+
+	/**
+	 * Returns the {@link ICloudedApplication} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudedApplication}; null if no
+	 *         {@link ICloudedApplication} with this name
+	 */
+	public ICloudedApplication lookupCloudedApplication(String name);
 
 	/**
 	 * Removes the {@link ICloudedApplication}.
