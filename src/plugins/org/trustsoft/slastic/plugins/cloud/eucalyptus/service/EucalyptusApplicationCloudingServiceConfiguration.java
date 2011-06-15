@@ -129,47 +129,47 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 		/* Set the debug level */
 		{
-		final boolean debugEnabled =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadBooleanConfigurationProperty(props,
-								ConfigurationProperty.DEBUG_ENABLED);
-		configuration.setDebugEnabled(debugEnabled);
+			final boolean debugEnabled =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadBooleanConfigurationProperty(props,
+									ConfigurationProperty.DEBUG_ENABLED);
+			configuration.setDebugEnabled(debugEnabled);
 		}
 
 		/* Sets the dummy mode */
 		{
-		final boolean dummyModeEnabled =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadBooleanConfigurationProperty(props,
-								ConfigurationProperty.DUMMY_MODE_ENABLED);
-		configuration.setDummyModeEnabled(dummyModeEnabled);
+			final boolean dummyModeEnabled =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadBooleanConfigurationProperty(props,
+									ConfigurationProperty.DUMMY_MODE_ENABLED);
+			configuration.setDummyModeEnabled(dummyModeEnabled);
 		}
 
 		/* */
 		{
-		final boolean loadBalancerEnabled =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadBooleanConfigurationProperty(props,
-								ConfigurationProperty.LOAD_BALANCER_ENABLED);
-		configuration.setLoadBalancerEnabled(loadBalancerEnabled);
+			final boolean loadBalancerEnabled =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadBooleanConfigurationProperty(props,
+									ConfigurationProperty.LOAD_BALANCER_ENABLED);
+			configuration.setLoadBalancerEnabled(loadBalancerEnabled);
 		}
 
 		/* Sets the loadBalancerServletURL */
 		{
-		final String loadBalancerServletURL =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.LOAD_BALANCER_SERVLET_URL);
-		configuration.setLoadBalancerServletURL(loadBalancerServletURL);
+			final String loadBalancerServletURL =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.LOAD_BALANCER_SERVLET_URL);
+			configuration.setLoadBalancerServletURL(loadBalancerServletURL);
 		}
 
 		/* Sets the eucatoolsPath */
 		{
-		final String eucatoolsPath =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.loadStringConfigurationProperty(props,
-								ConfigurationProperty.EUCATOOLS_PATH);
-		configuration.setEucatoolsPath(eucatoolsPath);
+			final String eucatoolsPath =
+					EucalyptusApplicationCloudingServiceConfiguration
+							.loadStringConfigurationProperty(props,
+									ConfigurationProperty.EUCATOOLS_PATH);
+			configuration.setEucatoolsPath(eucatoolsPath);
 		}
 
 		/* Sets the emis */
@@ -215,8 +215,11 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 			final Collection<String> initialApplications =
 					new ArrayList<String>();
 			Collections.addAll(initialApplications, applications);
+			configuration.setInitialApplications(initialApplications);
+		}
 
-			/* Sets the initial application instances */
+		/* Sets the initial application instances */
+		{
 			final String initialApplicationInstancesString =
 					EucalyptusApplicationCloudingServiceConfiguration
 							.loadStringConfigurationProperty(

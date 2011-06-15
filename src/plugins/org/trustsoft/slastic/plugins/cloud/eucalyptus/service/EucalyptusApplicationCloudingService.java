@@ -35,8 +35,9 @@ public class EucalyptusApplicationCloudingService implements
 
 	private final IEucalyptusApplicationCloudingServiceConfiguration configuration;
 
-	//TODO: We might think about moving the following collections to an abstract class
-	
+	// TODO: We might think about moving the following collections to an
+	// abstract class
+
 	private final Collection<EucalyptusCloudNodeType> nodeTypes =
 			new Vector<EucalyptusCloudNodeType>();
 	private final Collection<EucalyptusCloudNode> allocatedNodes =
@@ -90,6 +91,7 @@ public class EucalyptusApplicationCloudingService implements
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
 		this.initNodeTypes(); // throws an exception on error
+		this.initApplications();
 	}
 
 	/**
@@ -103,6 +105,29 @@ public class EucalyptusApplicationCloudingService implements
 				.entrySet()) {
 			this.nodeTypes.add(new EucalyptusCloudNodeType(image.getKey(),
 					image.getValue()));
+		}
+	}
+
+	private void initNodes() throws ApplicationCloudingServiceException {
+		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {
+			final String nodeName = nodeSpec[0];
+			final String ip = nodeSpec[1];
+			final String nodeTypeName = nodeSpec[2];
+			final ICloudNodeType nodeType = this.lookupCloudNodeType(nodeTypeName);
+			if (nodeType == null) {
+				throw new ApplicationCloudingServiceException("Failed to lookup node type '" + nodeTypeName + "'");
+			}
+
+			// TODO: node id
+			
+			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, "<INITIAL>", ip, nodeName));
+		}
+	}
+
+	private void initApplications() throws ApplicationCloudingServiceException {
+		for (final String appName : this.configuration.getInitialApplications()) {
+			this.applications.add(new EucalyptusCloudedApplication(appName,
+					new EucalyptusCloudedApplicationConfiguration()));
 		}
 	}
 
@@ -250,7 +275,7 @@ public class EucalyptusApplicationCloudingService implements
 						.getCopyKiekerConfigCommand(
 								this.configuration.getSSHPrivateKeyFile(),
 								this.configuration.getSSHUserName(),
-								this.configuration.getTomcatHome()+"/../lib/META-INF/",
+								this.configuration.getTomcatHome() + "/../lib/META-INF/",
 								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
 								ipAddress);
 		executer.executeCommandWithEnv(cpKiekerConfigCommand,
@@ -729,5 +754,30 @@ public class EucalyptusApplicationCloudingService implements
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public ICloudNodeType lookupCloudNodeType(final String name) {
+		for (final ICloudNodeType type : this.nodeTypes) {
+			if (type.getName().equals(name)) {
+				return type;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Collection<? extends ICloudNode> getCloudNodes() {
+		return this.allocatedNodes;
+	}
+
+	@Override
+	public Collection<? extends ICloudedApplication> getCloudedApplications() {
+		return this.applications;
+	}
+
+	@Override
+	public final Collection<? extends IApplicationInstance> getApplicationInstances() {
+		return this.applicationInstances;
 	}
 }

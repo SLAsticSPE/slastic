@@ -26,6 +26,15 @@ public interface IApplicationCloudingService {
 	public Collection<? extends ICloudNodeType> getNodeTypes();
 
 	/**
+	 * Returns the {@link ICloudNodeType} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudNodeType}; null if no {@link ICloudNodeType}
+	 *         with this name
+	 */
+	public ICloudNodeType lookupCloudNodeType(String name);
+
+	/**
 	 * Returns a newly allocated {@link ICloudNode} with given name and
 	 * {@link ICloudNodeType}.
 	 * 
@@ -39,6 +48,13 @@ public interface IApplicationCloudingService {
 	 */
 	public ICloudNode allocateNode(String name, ICloudNodeType type)
 			throws ApplicationCloudingServiceException;
+
+	/**
+	 * Returns the list of allocated {@link ICloudNode}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends ICloudNode> getCloudNodes();
 
 	/**
 	 * Returns the {@link ICloudNode} with the given name.
@@ -74,6 +90,20 @@ public interface IApplicationCloudingService {
 			ICloudedApplicationConfiguration configuration)
 			throws ApplicationCloudingServiceException;
 
+	/**
+	 * Returns the list of registered {@link ICloudedApplication}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends ICloudedApplication> getCloudedApplications();
+
+	/**
+	 * Returns the list of registered {@link IApplicationInstance}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends IApplicationInstance> getApplicationInstances();
+	
 	/**
 	 * Returns the {@link ICloudedApplication} with the given name.
 	 * 
