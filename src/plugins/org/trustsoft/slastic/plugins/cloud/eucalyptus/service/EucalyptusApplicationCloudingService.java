@@ -91,6 +91,7 @@ public class EucalyptusApplicationCloudingService implements
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
 		this.initNodeTypes(); // throws an exception on error
+		this.initNodes();
 		this.initApplications();
 	}
 
@@ -112,15 +113,14 @@ public class EucalyptusApplicationCloudingService implements
 		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {
 			final String nodeName = nodeSpec[0];
 			final String ip = nodeSpec[1];
-			final String nodeTypeName = nodeSpec[2];
+			final String instanceId = nodeSpec[2];
+			final String nodeTypeName = nodeSpec[3];
 			final ICloudNodeType nodeType = this.lookupCloudNodeType(nodeTypeName);
 			if (nodeType == null) {
 				throw new ApplicationCloudingServiceException("Failed to lookup node type '" + nodeTypeName + "'");
 			}
-
-			// TODO: node id
 			
-			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, "<INITIAL>", ip, nodeName));
+			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, instanceId, ip, nodeName));
 		}
 	}
 

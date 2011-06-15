@@ -55,7 +55,7 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	/**
 	 * Returns a list of node instances to create initially.
 	 * Each element of the returned collection is a String array 
-	 * with 3 elements: node name, ip, image name 
+	 * with 4 elements: node name, ip, instance id, image name 
 	 * 
 	 * @return
 	 * @see IEucalyptusApplicationCloudingServiceConfiguration#getEMIs()

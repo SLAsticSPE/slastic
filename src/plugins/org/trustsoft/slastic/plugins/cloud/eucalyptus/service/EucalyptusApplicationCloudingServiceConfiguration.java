@@ -195,7 +195,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 			for (final String initialNodePair : initialNodesPairs) {
 				final String[] initialNodePairSplit =
 						initialNodePair.split(":");
-				if (initialNodePairSplit.length != 3) {
+				if (initialNodePairSplit.length != 4) {
 					EucalyptusApplicationCloudingServiceConfiguration.log
 							.error("Invalid initialNodePair: '"
 									+ initialNodePair + "'");
