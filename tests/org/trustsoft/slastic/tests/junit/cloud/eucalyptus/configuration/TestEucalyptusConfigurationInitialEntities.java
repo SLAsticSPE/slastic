@@ -27,9 +27,9 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 	private static final String APP_EMI = "emi-ABCDEFGH";
 
 	private static final String[] DBSRV0_DATA = { "dbsrv0", "192.168.44.12",
-			"db-server" };
+			"i-34E606AA", "db-server" };
 	private static final String[] APPSRV0_DATA = { "appsrv0", "192.168.44.13",
-			"app-server" };
+			"i-45E644DD", "app-server" };
 	private static final String[] INITIAL_APPS =
 	{ "a.App0", "b.App1", "c.App2" };
 	private static final String[] INITIAL_APP_INSTANCE_0 =
@@ -76,7 +76,7 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 			Assert.assertNotNull("initialNodes must not be null", initialNodes);
 			Assert.assertEquals("Unexpected number of initial nodes", 2, initialNodes.size());
 			for (final String[] n : initialNodes) {
-				Assert.assertEquals("Unexpected number of fields for node: " + n, 3, n.length);
+				Assert.assertEquals("Unexpected number of fields for node: " + n, 4, n.length);
 			}
 			// Note, we are not checking the actual content
 		}
@@ -156,21 +156,21 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 	 */
 	private void checkInitialNodeTypes(
 			final EucalyptusApplicationCloudingService svc) {
-		Assert.assertEquals("Unexpected number of nodes types", 2, svc
+		Assert.assertEquals("Unexpected number of node types", 2, svc
 				.getNodeTypes().size());
 
 		final EucalyptusCloudNodeType lookedUpDbSrvType =
 				(EucalyptusCloudNodeType) svc
-						.lookupCloudNodeType(TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[2]);
+						.lookupCloudNodeType(TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[3]);
 		final EucalyptusCloudNodeType lookedUpAppSrvType =
 				(EucalyptusCloudNodeType) svc
-						.lookupCloudNodeType(TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[2]);
+						.lookupCloudNodeType(TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[3]);
 
 		this.checkNodeType(lookedUpDbSrvType,
-				TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[2],
+				TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[3],
 				TestEucalyptusConfigurationInitialEntities.DB_EMI);
 		this.checkNodeType(lookedUpAppSrvType,
-				TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[2],
+				TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[3],
 				TestEucalyptusConfigurationInitialEntities.APP_EMI);
 	}
 
@@ -185,7 +185,7 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 			final String expectedName, final String expectedEmi) {
 		Assert.assertNotNull(
 				"Failed to lookup node type with name '"
-						+ TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[2]
+						+ TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[3]
 						+ "'",
 				lookedUpNodeType);
 		Assert.assertEquals("Unexpected name", expectedName,
@@ -216,9 +216,9 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 				ConfigurationProperty.EUCA_EMIS.getPropertyName(),
 				String.format(
 						"%s:%s;%s:%s",
-						TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[2],
+						TestEucalyptusConfigurationInitialEntities.APPSRV0_DATA[3],
 						TestEucalyptusConfigurationInitialEntities.APP_EMI,
-						TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[2],
+						TestEucalyptusConfigurationInitialEntities.DBSRV0_DATA[3],
 						TestEucalyptusConfigurationInitialEntities.DB_EMI));
 		props.put(
 				ConfigurationProperty.INITIAL_NODES.getPropertyName(),
