@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
+import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment.ComponentDeploymentModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.ExecutionEnvironmentModelManager;
@@ -48,6 +49,18 @@ public class ModelManager extends AbstractModelManagerComponent {
 	private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
 	private volatile ComponentDeploymentModelManager componentDeploymentModelManager;
 	private volatile IReconfigurationManager reconfigurationManager;
+
+	/* Manager for maintaining mappings between architectural and implementation-level
+	 * among monitoring and reconfiguration managers */
+	private final Arch2ImplNameMappingManager arch2ImplNameMappingManager = 
+		new Arch2ImplNameMappingManager();
+	
+	/**
+	 * @return the arch2ImplNameMappingManager
+	 */
+	public final Arch2ImplNameMappingManager getArch2ImplNameMappingManager() {
+		return this.arch2ImplNameMappingManager;
+	}
 
 	public ModelManager() {
 		this.systemModel = ModelManager.createInitializedSystemModel();

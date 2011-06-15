@@ -26,6 +26,15 @@ public interface IApplicationCloudingService {
 	public Collection<? extends ICloudNodeType> getNodeTypes();
 
 	/**
+	 * Returns the {@link ICloudNodeType} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudNodeType}; null if no {@link ICloudNodeType}
+	 *         with this name
+	 */
+	public ICloudNodeType lookupCloudNodeType(String name);
+
+	/**
 	 * Returns a newly allocated {@link ICloudNode} with given name and
 	 * {@link ICloudNodeType}.
 	 * 
@@ -39,6 +48,22 @@ public interface IApplicationCloudingService {
 	 */
 	public ICloudNode allocateNode(String name, ICloudNodeType type)
 			throws ApplicationCloudingServiceException;
+
+	/**
+	 * Returns the list of allocated {@link ICloudNode}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends ICloudNode> getCloudNodes();
+
+	/**
+	 * Returns the {@link ICloudNode} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudNode}; null if no {@link ICloudNode} with this
+	 *         name
+	 */
+	public ICloudNode lookupNode(String name);
 
 	/**
 	 * Deallocates the given {@link ICloudNode}.
@@ -64,6 +89,29 @@ public interface IApplicationCloudingService {
 	public ICloudedApplication createAndRegisterCloudedApplication(String name,
 			ICloudedApplicationConfiguration configuration)
 			throws ApplicationCloudingServiceException;
+
+	/**
+	 * Returns the list of registered {@link ICloudedApplication}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends ICloudedApplication> getCloudedApplications();
+
+	/**
+	 * Returns the list of registered {@link IApplicationInstance}s.
+	 * 
+	 * @return
+	 */
+	public Collection<? extends IApplicationInstance> getApplicationInstances();
+	
+	/**
+	 * Returns the {@link ICloudedApplication} with the given name.
+	 * 
+	 * @param name
+	 * @return the {@link ICloudedApplication}; null if no
+	 *         {@link ICloudedApplication} with this name
+	 */
+	public ICloudedApplication lookupCloudedApplication(String name);
 
 	/**
 	 * Removes the {@link ICloudedApplication}.

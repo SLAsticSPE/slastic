@@ -1,11 +1,11 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
 import java.util.StringTokenizer;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractTransformationComponent;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
@@ -30,8 +30,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 public abstract class AbstractModelReconstructionComponent extends
 		AbstractTransformationComponent {
 
-	private static final Log log =
-			LogFactory.getLog(AbstractModelReconstructionComponent.class);
+	private static final Log log = LogFactory
+			.getLog(AbstractModelReconstructionComponent.class);
 
 	public AbstractModelReconstructionComponent(final ModelManager modelManager) {
 		super(modelManager);
@@ -53,8 +53,8 @@ public abstract class AbstractModelReconstructionComponent extends
 		return AbstractModelReconstructionComponent.MEM_SWAP_RESOURCE_NAME;
 	}
 
-	// Part of hack#10
-	boolean reportedMatch = false;
+	// // Part of hack#10
+	// boolean reportedMatch = false;
 
 	/**
 	 * 
@@ -66,20 +66,30 @@ public abstract class AbstractModelReconstructionComponent extends
 
 		ExecutionContainer executionContainer;
 
-		final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
-				(this.getModelManager()).getExecutionEnvironmentModelManager().containerNameMapping;
+		// final ConcurrentHashMap<String, ExecutionContainer>
+		// containerNameMapping =
+		// (this.getModelManager()).getExecutionEnvironmentModelManager().containerNameMapping;
+		//
+		// { /* HACK #10! */
+		// executionContainer = containerNameMapping.get(hostName);
+		// if (executionContainer != null) {
+		// if (!this.reportedMatch) {
+		// AbstractModelReconstructionComponent.log
+		// .info("Found match: " + hostName + "->"
+		// + executionContainer);
+		// this.reportedMatch = true;
+		// }
+		// return executionContainer;
+		// }
+		// }
 
-		{ /* HACK #10! */
-			executionContainer = containerNameMapping.get(hostName);
-			if (executionContainer != null) {
-				if (!this.reportedMatch) {
-					AbstractModelReconstructionComponent.log
-							.info("Found match: " + hostName + "->"
-									+ executionContainer);
-					this.reportedMatch = true;
-				}
-				return executionContainer;
-			}
+		String hostNameArch =
+				this.getModelManager()
+						.getArch2ImplNameMappingManager()
+						.lookupArchName4ImplName(
+								EntityType.EXECUTION_CONTAINER, hostName);
+		if (hostNameArch == null) {
+			hostNameArch = hostName;
 		}
 
 		{
@@ -93,8 +103,8 @@ public abstract class AbstractModelReconstructionComponent extends
 				/* We need to create the execution container */
 				executionContainer = this.createExecutionContainer(hostName);
 			}
-			// TODO: remove (hack #10)
-			containerNameMapping.put(hostName, executionContainer);
+			// // TODO: remove (hack #10)
+			// containerNameMapping.put(hostName, executionContainer);
 		}
 		return executionContainer;
 	}
@@ -342,15 +352,13 @@ public abstract class AbstractModelReconstructionComponent extends
 	public AssemblyComponent createAssemblyComponent(final String componentName) {
 
 		ComponentType componentType =
-				this
-						.getTypeModelManager()
+				this.getTypeModelManager()
 						.lookupComponentType(
 								componentName
 										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (componentType == null) {
 			componentType =
-					this
-							.getTypeModelManager()
+					this.getTypeModelManager()
 							.createAndRegisterComponentType(
 									componentName
 											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
@@ -455,15 +463,13 @@ public abstract class AbstractModelReconstructionComponent extends
 	public ExecutionContainer createExecutionContainer(
 			final String containerName) {
 		ExecutionContainerType containerType =
-				this
-						.getTypeModelManager()
+				this.getTypeModelManager()
 						.lookupExecutionContainerType(
 								containerName
 										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (containerType == null) {
 			containerType =
-					this
-							.getTypeModelManager()
+					this.getTypeModelManager()
 							.createAndRegisterExecutionContainerType(
 									containerName
 											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);

@@ -2,16 +2,25 @@ package org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.*;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.*;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.AbstractEucalyptusServiceEventLogger;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.IEucalyptusApplicationCloudingServiceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
+import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
@@ -32,26 +41,24 @@ public class EucalyptusReconfigurationManager extends
 			.getLog(EucalyptusReconfigurationManager.class);
 
 	// TODO: turn into properties
-	private static final String WEBSTORE_REST_NAME = "webstoreRest";
-	private static final String WEBSTORE_HOTSPOTS_NAME = "webstoreHotSpots";
-	private static final String POSTERITA_1_NAME = "posterita1";
-	private static final String POSTERITA_2_NAME = "posterita2";
-	private static final String POSTERITA_3_NAME = "posterita3";
+	// private static final String APP_NAME = "JPetStore";
+	private static final String NODE_TYPE_NAME = "tomcat";
 
-	private static final String NODE_TYPE_NAME = "adempiere";
-
-	private volatile EucalyptusCloudedApplication euWebstoreRestApp;
-	private volatile EucalyptusCloudedApplication euWebstoreHotSpotsApp;
-	private volatile EucalyptusCloudedApplication euPosterita1App;
-	private volatile EucalyptusCloudedApplication euPosterita2App;
-	private volatile EucalyptusCloudedApplication euPosterita3App;
-	private volatile EucalyptusCloudNodeType euAdempiereNodeType;
+	// private volatile EucalyptusCloudedApplication euApplication;
+	private volatile EucalyptusCloudNodeType euTomcatNodeType;
 
 	private static final String PROPERTY_CONFIGURATIONFN_NAME = "configFile";
 
 	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
 
 	private volatile PrintWriter eucalyptusEventWriter = null;
+
+	/**
+	 * Maps {@link AssemblyComponent}s to the corresponding
+	 * {@link EucalyptusCloudedApplication}.
+	 */
+	private final HashMap<AssemblyComponent, EucalyptusCloudedApplication> assemblyComponentMapping =
+			new HashMap<AssemblyComponent, EucalyptusCloudedApplication>();
 
 	/**
 	 * Maps {@link ExecutionContainer}s to the corresponding
@@ -112,18 +119,24 @@ public class EucalyptusReconfigurationManager extends
 		return this.eucalyptusApplicationCloudingService != null;
 	}
 
-	// Part of hack #10
-	private volatile ConcurrentHashMap<String, ExecutionContainer> containerNameMapping;
+	// // Part of hack #10
+	// private volatile ConcurrentHashMap<String, ExecutionContainer>
+	// containerNameMapping;
+
+	private volatile ModelManager modelManager;
 
 	@Override
 	public boolean execute() {
 		try {
-			{
-				// Part of hack #10
-				containerNameMapping = ((ModelManager) getControlComponent()
-						.getModelManager())
-						.getExecutionEnvironmentModelManager().containerNameMapping;
-			}
+			this.modelManager =
+					(ModelManager) this.getControlComponent().getModelManager();
+			// {
+			// // Part of hack #10
+			// this.containerNameMapping =
+			// ((ModelManager) this.getControlComponent()
+			// .getModelManager())
+			// .getExecutionEnvironmentModelManager().containerNameMapping;
+			// }
 
 			/* Create print writer for eucalyptus events */
 			final File euEventsFile = getComponentContext()
@@ -136,39 +149,23 @@ public class EucalyptusReconfigurationManager extends
 				return false;
 			}
 
-			/* Register logger */
-			final ICurrentTimeProvider currentTimeProvider = new SLAsticCurrentTimeProvider();
-			final EucalyptusEventLogger euEventLogger = new EucalyptusEventLogger(
-					eucalyptusEventWriter);
-			eucalyptusApplicationCloudingService
+//			final ICurrentTimeProvider currentTimeProvider =
+//					new SLAsticCurrentTimeProvider();
+			final EucalyptusEventLogger euEventLogger =
+					new EucalyptusEventLogger(this.eucalyptusEventWriter);
+			this.eucalyptusApplicationCloudingService
 					.addEventListener(euEventLogger);
 
-			/* Create and register the applications */
-			final EucalyptusCloudedApplicationConfiguration euAppConfig = new EucalyptusCloudedApplicationConfiguration();
-			euWebstoreRestApp = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
-					.createAndRegisterCloudedApplication(
-							EucalyptusReconfigurationManager.WEBSTORE_REST_NAME,
-							euAppConfig);
-
-			euWebstoreHotSpotsApp = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
-					.createAndRegisterCloudedApplication(
-							EucalyptusReconfigurationManager.WEBSTORE_HOTSPOTS_NAME,
-							euAppConfig);
-
-			euPosterita1App = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
-					.createAndRegisterCloudedApplication(
-							EucalyptusReconfigurationManager.POSTERITA_1_NAME,
-							euAppConfig);
-
-			euPosterita2App = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
-					.createAndRegisterCloudedApplication(
-							EucalyptusReconfigurationManager.POSTERITA_2_NAME,
-							euAppConfig);
-
-			euPosterita3App = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
-					.createAndRegisterCloudedApplication(
-							EucalyptusReconfigurationManager.POSTERITA_3_NAME,
-							euAppConfig);
+			// TODO: do this based on SLAstic model/property file
+			/* Create and register the application */
+			// final EucalyptusCloudedApplicationConfiguration euAppConfig =
+			// new EucalyptusCloudedApplicationConfiguration();
+			// this.euApplication =
+			// (EucalyptusCloudedApplication)
+			// this.eucalyptusApplicationCloudingService
+			// .createAndRegisterCloudedApplication(
+			// EucalyptusReconfigurationManager.APP_NAME,
+			// euAppConfig);
 
 			/* Lookup the tomcat node type */
 			final Collection<EucalyptusCloudNodeType> euNodeTypes = eucalyptusApplicationCloudingService
@@ -191,31 +188,12 @@ public class EucalyptusReconfigurationManager extends
 	@Override
 	public void terminate(final boolean arg0) {
 		try {
-			if ((euWebstoreRestApp != null)
-					&& (eucalyptusApplicationCloudingService != null)) {
-				eucalyptusApplicationCloudingService
-						.removeCloudedApplication(euWebstoreRestApp);
-			}
-			if ((euWebstoreHotSpotsApp != null)
-					&& (eucalyptusApplicationCloudingService != null)) {
-				eucalyptusApplicationCloudingService
-						.removeCloudedApplication(euWebstoreHotSpotsApp);
-			}
-			if ((euPosterita1App != null)
-					&& (eucalyptusApplicationCloudingService != null)) {
-				eucalyptusApplicationCloudingService
-						.removeCloudedApplication(euPosterita1App);
-			}
-			if ((euPosterita2App != null)
-					&& (eucalyptusApplicationCloudingService != null)) {
-				eucalyptusApplicationCloudingService
-						.removeCloudedApplication(euPosterita2App);
-			}
-			if ((euPosterita3App != null)
-					&& (eucalyptusApplicationCloudingService != null)) {
-				eucalyptusApplicationCloudingService
-						.removeCloudedApplication(euPosterita3App);
-			}
+			// TODO: remove app?
+			// if ((this.euApplication != null)
+			// && (this.eucalyptusApplicationCloudingService != null)) {
+			// this.eucalyptusApplicationCloudingService
+			// .removeCloudedApplication(this.euApplication);
+			// }
 		} catch (final Exception exc) {
 			EucalyptusReconfigurationManager.log
 					.error("Failed to remove application: " + exc.getMessage());
@@ -235,12 +213,29 @@ public class EucalyptusReconfigurationManager extends
 		boolean success = false;
 
 		try {
-			// TODO: add some intermediate checking of return values ...
-			final EucalyptusApplicationInstanceConfiguration config = new EucalyptusApplicationInstanceConfiguration();
-			final EucalyptusCloudNode dstNode = allocatedNodesMapping
-					.get(toExecutionContainer);
-			final EucalyptusApplicationInstance appInstance = (EucalyptusApplicationInstance) eucalyptusApplicationCloudingService
-					.deployApplicationInstance(euApplication, config, dstNode);
+			final EucalyptusApplicationInstanceConfiguration config =
+					new EucalyptusApplicationInstanceConfiguration();
+
+			final EucalyptusCloudNode dstNode =
+					this.allocatedNodesMapping.get(toExecutionContainer);
+			if (dstNode == null) {
+				throw new ApplicationCloudingServiceException(
+						"dstNode is null for execution container: "
+								+ toExecutionContainer);
+			}
+
+			final EucalyptusCloudedApplication eucaApplication =
+					this.assemblyComponentMapping.get(assemblyComponent);
+			if (eucaApplication == null) {
+				throw new ApplicationCloudingServiceException(
+						"eucaApplication is null for assembly component: "
+								+ assemblyComponent);
+			}
+
+			final EucalyptusApplicationInstance appInstance =
+					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService
+							.deployApplicationInstance(eucaApplication, config,
+									dstNode);
 			if (appInstance != null) {
 				success = true;
 				deploymentComponentMapping.put(resDeploymentComponent,
@@ -336,13 +331,17 @@ public class EucalyptusReconfigurationManager extends
 				success = true;
 				allocatedNodesMapping.put(resExecutionContainer, euNode);
 
-				// HACK:
-				containerNameMapping.put(euNode.getHostname(),
-						resExecutionContainer);
+				this.modelManager.getArch2ImplNameMappingManager()
+						.registerArch2implNameMapping(
+								EntityType.EXECUTION_CONTAINER, fqNodeName,
+								euNode.getHostname());
+
+				// this.containerNameMapping.put(euNode.getHostname(),
+				// resExecutionContainer);
+				//
 				EucalyptusReconfigurationManager.log
 						.info("Added hostname mapping " + euNode.getHostname()
 								+ " x " + resExecutionContainer);
-				//
 			}
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
