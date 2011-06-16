@@ -38,15 +38,16 @@ public enum ConfigurationProperty {
 			/* must not be empty: */ true),
 
 	/* */
-	INITIAL_NODES("initialNodeInstances", "dbsrv0:192.168.44.12:db-server;appsrv0:192.168.44.13:app-server",
+	// Example: dbsrv0:192.168.44.12:i-34E606AA:db-server;appsrv0:192.168.44.13:i-45E644DD:app-server
+	INITIAL_NODES("initialNodeInstances", "",
 			/* may be empty */ false ),
 			
-	/* */
-	INITIAL_APPLICATIONS("initialApplications", "org.compiere.WebstoreRest;org.compiere.WebstoreHotspots",
+	/* Example: org.compiere.WebstoreRest;org.compiere.WebstoreHotspots */
+	INITIAL_APPLICATIONS("initialApplications", "",
 			/* may be empty: */ false ),
 	
-	/* */
-	INITIAL_APPLICATION_INSTANCES("initialApplicationInstances", "org.compiere.WebstoreRest:appsrv0;org.compiere.WebstoreHotspots:appsrv0",
+	/* Example: org.compiere.WebstoreRest:appsrv0;org.compiere.WebstoreHotspots:appsrv0 */
+	INITIAL_APPLICATION_INSTANCES("initialApplicationInstances", "",
 			/* may be empty: */ false),
 			
 	/* */

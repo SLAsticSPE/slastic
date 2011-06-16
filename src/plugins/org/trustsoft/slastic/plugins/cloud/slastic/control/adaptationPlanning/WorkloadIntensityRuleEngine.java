@@ -14,6 +14,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.p
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ *
+ */
 public class WorkloadIntensityRuleEngine implements
 		IAssemblyComponentInvocationCountReceiver {
 	private static final Log log = LogFactory
