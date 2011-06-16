@@ -123,6 +123,17 @@ public class TestDummyEucalyptusService extends TestCase {
 				"/usr/local/bin/");
 		props.put(ConfigurationProperty.EUCA_EMIS.getPropertyName(),
 				"app-server:emi-ABCDEFGH;db-server:emi-IJKLMNOP");
+		
+		props.put(
+				ConfigurationProperty.INITIAL_NODES.getPropertyName(),
+				ConfigurationProperty.INITIAL_NODES.getDefaultValue());
+		props.put(
+				ConfigurationProperty.INITIAL_APPLICATIONS.getPropertyName(),
+				ConfigurationProperty.INITIAL_APPLICATIONS.getDefaultValue());
+		props.put(
+				ConfigurationProperty.INITIAL_APPLICATION_INSTANCES.getPropertyName(),
+				ConfigurationProperty.INITIAL_APPLICATION_INSTANCES.getDefaultValue());
+		
 		props.put(ConfigurationProperty.EUCA_KEY_NAME.getPropertyName(),
 				"myEucaKey");
 		props.put(ConfigurationProperty.EUCA_GROUP.getPropertyName(), "default");

@@ -158,7 +158,8 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 		{
 			final String loadBalancerServletURL =
 					EucalyptusApplicationCloudingServiceConfiguration
-							.loadStringConfigurationProperty(props,
+							.loadStringConfigurationProperty(
+									props,
 									ConfigurationProperty.LOAD_BALANCER_SERVLET_URL);
 			configuration.setLoadBalancerServletURL(loadBalancerServletURL);
 		}
@@ -190,17 +191,21 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 					EucalyptusApplicationCloudingServiceConfiguration
 							.loadStringConfigurationProperty(props,
 									ConfigurationProperty.INITIAL_NODES);
-			final String[] initialNodesPairs = initialNodesString.split(";");
 			final Collection<String[]> initialNodes = new ArrayList<String[]>();
-			for (final String initialNodePair : initialNodesPairs) {
-				final String[] initialNodePairSplit =
-						initialNodePair.split(":");
-				if (initialNodePairSplit.length != 4) {
-					EucalyptusApplicationCloudingServiceConfiguration.log
-							.error("Invalid initialNodePair: '"
-									+ initialNodePair + "'");
+			if (!initialNodesString.isEmpty()) { // if not specified
+				final String[] initialNodesPairs =
+						initialNodesString.split(";");
+
+				for (final String initialNodePair : initialNodesPairs) {
+					final String[] initialNodePairSplit =
+							initialNodePair.split(":");
+					if (initialNodePairSplit.length != 4) {
+						EucalyptusApplicationCloudingServiceConfiguration.log
+								.error("Invalid initialNodePair: '"
+										+ initialNodePair + "'");
+					}
+					initialNodes.add(initialNodePairSplit);
 				}
-				initialNodes.add(initialNodePairSplit);
 			}
 			configuration.setInitialNodeInstances(initialNodes);
 		}
@@ -211,10 +216,13 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 					EucalyptusApplicationCloudingServiceConfiguration
 							.loadStringConfigurationProperty(props,
 									ConfigurationProperty.INITIAL_APPLICATIONS);
-			final String[] applications = initialApplicationsString.split(";");
 			final Collection<String> initialApplications =
 					new ArrayList<String>();
-			Collections.addAll(initialApplications, applications);
+			if (!initialApplicationsString.isEmpty()) { // if not specified
+				final String[] applications =
+						initialApplicationsString.split(";");
+				Collections.addAll(initialApplications, applications);
+			}
 			configuration.setInitialApplications(initialApplications);
 		}
 
@@ -225,20 +233,23 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 							.loadStringConfigurationProperty(
 									props,
 									ConfigurationProperty.INITIAL_APPLICATION_INSTANCES);
-			final String[] initialApplicationInstancePairs =
-					initialApplicationInstancesString.split(";");
 			final Collection<String[]> initialApplicationInstances =
 					new ArrayList<String[]>();
-			for (final String initialApplicationInstancePair : initialApplicationInstancePairs) {
-				final String[] initialApplicationInstanceSplit =
-						initialApplicationInstancePair.split(":");
-				if (initialApplicationInstanceSplit.length != 2) {
-					EucalyptusApplicationCloudingServiceConfiguration.log
-							.error("Invalid initialApplicationInstancePair: '"
-									+ initialApplicationInstancePair + "'");
+			if (!initialApplicationInstancesString.isEmpty()) { // if not
+																// specified
+				final String[] initialApplicationInstancePairs =
+						initialApplicationInstancesString.split(";");
+				for (final String initialApplicationInstancePair : initialApplicationInstancePairs) {
+					final String[] initialApplicationInstanceSplit =
+							initialApplicationInstancePair.split(":");
+					if (initialApplicationInstanceSplit.length != 2) {
+						EucalyptusApplicationCloudingServiceConfiguration.log
+								.error("Invalid initialApplicationInstancePair: '"
+										+ initialApplicationInstancePair + "'");
+					}
+					initialApplicationInstances
+							.add(initialApplicationInstanceSplit);
 				}
-				initialApplicationInstances
-						.add(initialApplicationInstanceSplit);
 			}
 			configuration
 					.setInitialApplicationInstances(initialApplicationInstances);

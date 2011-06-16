@@ -111,7 +111,7 @@ public class EucalyptusApplicationCloudingService implements
 	}
 
 	private void initNodes() throws ApplicationCloudingServiceException {
-		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {
+		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {		
 			final String nodeName = nodeSpec[0];
 			final String ip = nodeSpec[1];
 			final String instanceId = nodeSpec[2];
