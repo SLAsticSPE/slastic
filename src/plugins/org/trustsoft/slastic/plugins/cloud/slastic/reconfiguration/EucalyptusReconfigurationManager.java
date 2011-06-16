@@ -2,7 +2,6 @@ package org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -42,15 +41,21 @@ public class EucalyptusReconfigurationManager extends
 
 	// TODO: turn into properties
 	// private static final String APP_NAME = "JPetStore";
-	private static final String NODE_TYPE_NAME = "tomcat";
 
 	// private volatile EucalyptusCloudedApplication euApplication;
-	private volatile EucalyptusCloudNodeType euTomcatNodeType;
+	private volatile EucalyptusCloudNodeType euDefaultNodeType;
 
 	private static final String PROPERTY_CONFIGURATIONFN_NAME = "configFile";
 
+	private static final String PROPERTY_DEFAULT_NODE_TYPE_NAME = "defaultEucaNodeType";
+	
 	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
 	private volatile PrintWriter eucalyptusEventWriter = null;
+
+	// TODO: We should remove the 'cache' realized by the following
+	// HashMaps, as this leads to problems when using initial
+	// nodes, apps, app instances etc.
+	// We should lookup the appropriate elements on each call.
 
 	/**
 	 * Maps {@link AssemblyComponent}s to the corresponding
@@ -95,23 +100,45 @@ public class EucalyptusReconfigurationManager extends
 	public boolean init() {
 		EucalyptusApplicationCloudingService eucalyptusApplicationCloudingService;
 		try {
-			/* Determine the path of the Eucalyptus configuration file. */
-			final String configurationFile =
-					super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME);
-			if ((configurationFile == null)
-					|| (configurationFile.length() == 0)) {
-				final String errorMsg =
-						"Invalid or missing value for property '"
-								+ EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME
-								+ "'";
-				EucalyptusReconfigurationManager.log.error(errorMsg);
-				return false;
+			{ /* Initialize the Eucalyptus service */ 
+				/* Determine the path of the Eucalyptus configuration file. */
+				final String configurationFile =
+						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME);
+				if ((configurationFile == null)
+						|| (configurationFile.length() == 0)) {
+					final String errorMsg =
+							"Invalid or missing value for property '"
+									+ EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME
+									+ "'";
+					EucalyptusReconfigurationManager.log.error(errorMsg);
+					return false;
+				}
+
+				/* Create an instance of the Eucalyptus service */
+				eucalyptusApplicationCloudingService =
+						EucalyptusApplicationCloudingService
+								.createService(configurationFile);
 			}
 
-			/* Create an instance of the Eucalyptus service */
-			eucalyptusApplicationCloudingService =
-					EucalyptusApplicationCloudingService
-							.createService(configurationFile);
+			{/* Lookup the default node type */
+				final String defaultNodeTypeName =
+						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME);
+				if (defaultNodeTypeName == null) {
+					EucalyptusReconfigurationManager.log.error("Invalid or missing value for property '"
+							+ EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME + "'");
+					return false;
+				}
+
+				this.euDefaultNodeType =
+						(EucalyptusCloudNodeType) this.eucalyptusApplicationCloudingService
+								.lookupCloudNodeType(defaultNodeTypeName);
+				if (this.euDefaultNodeType == null) {
+					EucalyptusReconfigurationManager.log.error("Failed to lookup default node type '"
+							+ defaultNodeTypeName
+							+ "'");
+					return false;
+				}
+			}
 		} catch (final Exception exc) {
 			EucalyptusReconfigurationManager.log.error("Error initializing :"
 					+ exc.getMessage(), exc);
@@ -155,8 +182,8 @@ public class EucalyptusReconfigurationManager extends
 			}
 
 			/* Register logger */
-//			final ICurrentTimeProvider currentTimeProvider =
-//					new SLAsticCurrentTimeProvider();
+			// final ICurrentTimeProvider currentTimeProvider =
+			// new SLAsticCurrentTimeProvider();
 			final EucalyptusEventLogger euEventLogger =
 					new EucalyptusEventLogger(this.eucalyptusEventWriter);
 			this.eucalyptusApplicationCloudingService
@@ -172,16 +199,6 @@ public class EucalyptusReconfigurationManager extends
 			// .createAndRegisterCloudedApplication(
 			// EucalyptusReconfigurationManager.APP_NAME,
 			// euAppConfig);
-
-			/* Lookup the tomcat node type */
-			final Collection<EucalyptusCloudNodeType> euNodeTypes =
-					this.eucalyptusApplicationCloudingService.getNodeTypes();
-			for (final EucalyptusCloudNodeType nt : euNodeTypes) {
-				if (nt.getName().equals(
-						EucalyptusReconfigurationManager.NODE_TYPE_NAME)) {
-					this.euTomcatNodeType = nt;
-				}
-			}
 		} catch (final Exception exc) {
 			EucalyptusReconfigurationManager.log
 					.error("Failed to create application: " + exc.getMessage());
@@ -329,9 +346,16 @@ public class EucalyptusReconfigurationManager extends
 					NameUtils.createFQName(
 							resExecutionContainer.getPackageName(),
 							resExecutionContainer.getName());
+
+			// TODO: Lookup node type based on execution container type
+			// and if no mapping exists, fall back to default
+			// node type
+
+			final EucalyptusCloudNodeType euNodeType = this.euDefaultNodeType;
+
 			final EucalyptusCloudNode euNode =
 					(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService
-							.allocateNode(fqNodeName, this.euTomcatNodeType);
+							.allocateNode(fqNodeName, euNodeType);
 
 			if (euNode == null) {
 				EucalyptusReconfigurationManager.log

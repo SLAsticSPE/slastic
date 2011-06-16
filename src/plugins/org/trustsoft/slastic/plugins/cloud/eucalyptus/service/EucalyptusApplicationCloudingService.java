@@ -91,8 +91,9 @@ public class EucalyptusApplicationCloudingService implements
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
 		this.initNodeTypes(); // throws an exception on error
-		this.initNodes();
-		this.initApplications();
+		this.initNodes(); // throws an exception on error
+		this.initApplications(); // throws an exception on error
+		this.initApplicationInstances(); // throws an exception on error
 	}
 
 	/**
@@ -119,7 +120,7 @@ public class EucalyptusApplicationCloudingService implements
 			if (nodeType == null) {
 				throw new ApplicationCloudingServiceException("Failed to lookup node type '" + nodeTypeName + "'");
 			}
-			
+
 			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, instanceId, ip, nodeName));
 		}
 	}
@@ -128,6 +129,29 @@ public class EucalyptusApplicationCloudingService implements
 		for (final String appName : this.configuration.getInitialApplications()) {
 			this.applications.add(new EucalyptusCloudedApplication(appName,
 					new EucalyptusCloudedApplicationConfiguration()));
+		}
+	}
+
+	private void initApplicationInstances() throws ApplicationCloudingServiceException {
+		for (final String[] appInstDesc : this.configuration.getInitialApplicationInstances()) {
+			final String appName = appInstDesc[0];
+			final String nodeInstanceName = appInstDesc[1];
+
+			final EucalyptusCloudedApplication app =
+					(EucalyptusCloudedApplication) this.lookupCloudedApplication(appName);
+			if (app == null) {
+				throw new ApplicationCloudingServiceException("Failed to lookup application with name '" + appName
+						+ "'");
+			}
+
+			final EucalyptusCloudNode node = (EucalyptusCloudNode) this.lookupNode(nodeInstanceName);
+			if (node == null) {
+				throw new ApplicationCloudingServiceException("Failed to lookup node with name '" + nodeInstanceName
+						+ "'");
+			}
+
+			this.applicationInstances.add(new EucalyptusApplicationInstance(this.genApplicationInstanceId(app), app,
+					new EucalyptusApplicationInstanceConfiguration(), node));
 		}
 	}
 

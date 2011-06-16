@@ -8,6 +8,8 @@ import kieker.common.namedRecordPipe.Pipe;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 
 /**
  * 
@@ -25,6 +27,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 			1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
 
 	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
+
+	private static final String PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS = "initialArch2ImplNodeMappings";
 
 	/** Is initialized in {@link #init()} */
 	private volatile PipeReader kiekerNamedRecordPipeReader;
@@ -92,6 +96,28 @@ public abstract class AbstractKiekerMonitoringManager extends
 		return true;
 	}
 
+	private boolean initNodeNameMappings() {
+		final String nodeMappingPropVal = this
+				.getInitProperty(AbstractKiekerMonitoringManager.PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS);
+		if ((nodeMappingPropVal == null) || (nodeMappingPropVal.length() <= 0)) {
+			// this is perfectly fine; property is not required
+			return true;
+		}
+
+		final String[] nodeMappingPropValPairs = nodeMappingPropVal.split(";");
+		for (final String pair : nodeMappingPropValPairs) {
+			final String[] pairSplit = pair.split(":");
+			final String archName = pairSplit[0];
+			final String implName = pairSplit[1];
+
+			final ModelManager modelMgr = (ModelManager) super.getController().getModelManager();
+			modelMgr.getArch2ImplNameMappingManager().registerArch2implNameMapping(EntityType.EXECUTION_CONTAINER,
+					archName, implName);
+		}
+
+		return true;
+	}
+
 	/**
 	 * Calls the {@link #concreteExecute()} method of the implementing class and
 	 * spawns an internal Kieker analysis instance which will be terminated on a
@@ -101,6 +127,11 @@ public abstract class AbstractKiekerMonitoringManager extends
 	public final boolean execute() {
 		boolean retVal = false;
 		try {
+			if (!this.initNodeNameMappings()) {
+				AbstractKiekerMonitoringManager.log.error("Failed to register initial node mappings");
+				return false;
+			}
+
 			if (!this.concreteExecute()) {
 				AbstractKiekerMonitoringManager.log
 						.error("concreteExecute returned false. Will terminate.");

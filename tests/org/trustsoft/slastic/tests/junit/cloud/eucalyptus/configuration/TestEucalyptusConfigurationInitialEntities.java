@@ -132,7 +132,7 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 	private void checkContainsAppInstance(final Collection<? extends IApplicationInstance> appInstances,
 			final String expectedAppInstanceName, final String expectedNodeName) {
 		for (final IApplicationInstance appInstance : appInstances) {
-			if (!appInstance.getName().equals(expectedAppInstanceName)) {
+			if (!appInstance.getApplication().getName().equals(expectedAppInstanceName)) {
 				continue;
 			}
 
