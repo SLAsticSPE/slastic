@@ -145,6 +145,27 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 						Integer.toString(config.getApplicationInstanceDeployPollPeriodMillis()));
 				// not checking svc, as there's no getter (required) for debug
 				break;
+			case APP_INST_DEFAULT_QUERY_PORT:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getDefaultApplicationInstanceQueryPort()));
+				break;
+			case APP_INST_DEFAULT_QUERY_PATH:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						config.getDefaultApplicationInstanceQueryPath());
+				break;
+			case APP_DEFAULT_DEPLOYMENT_ARTIFACT:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						config.getDefaultApplicationDeploymentArtifact());				
+				break;
 			case EUCA_KEY_NAME:
 				Assert.assertEquals(
 						"Unexpected value (config) for '"

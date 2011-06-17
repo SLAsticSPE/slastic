@@ -41,6 +41,12 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 	private int applicationInstanceDeployPollPeriodMillis;
 
+	private int defaultApplicationInstanceQueryPort;
+
+	private String defaultApplicationInstanceQueryPath;
+
+	private String defaultApplicationDeploymentArtifact;
+	
 	private String eucalyptusKeyName;
 
 	private String eucalyptusGroup;
@@ -256,6 +262,22 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 			configuration.setApplicationInstanceDeployPollPeriodMillis(applicationInstanceDeployPollPeriodMillis);
 		}
 
+		/* Sets the defaultApplicationInstanceQueryPort */
+		{
+			final int defaultApplicationInstanceQueryPort =
+					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
+							ConfigurationProperty.APP_INST_DEFAULT_QUERY_PORT);
+			configuration.setDefaultApplicationInstanceQueryPort(defaultApplicationInstanceQueryPort);
+		}
+
+		/* Sets the defaultApplicationInstanceQueryPath */
+		{
+			final String defaultApplicationInstanceQueryPath =
+					EucalyptusApplicationCloudingServiceConfiguration.loadStringConfigurationProperty(props,
+							ConfigurationProperty.APP_INST_DEFAULT_QUERY_PATH);
+			configuration.setDefaultApplicationInstanceQueryPath(defaultApplicationInstanceQueryPath);
+		}
+
 		/* Sets the eucalyptusKeyName */
 		{
 			final String eucalyptusKeyName =
@@ -264,6 +286,13 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 			configuration.setEucalyptusKeyName(eucalyptusKeyName);
 		}
 
+		/* Sets the defaultApplicationDeploymentArtifact */
+		{
+			final String defaultApplicationDeploymentArtifact = 
+				EucalyptusApplicationCloudingServiceConfiguration.loadStringConfigurationProperty(props, ConfigurationProperty.APP_DEFAULT_DEPLOYMENT_ARTIFACT);
+			configuration.setDefaultApplicationDeploymentArtifact(defaultApplicationDeploymentArtifact);
+		}
+		
 		/* Sets the eucalyptusGroup */
 		{
 			final String eucalyptusGroup =
@@ -465,6 +494,47 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	 */
 	public final void setApplicationInstanceDeployPollPeriodMillis(final int applicationInstanceDeployPollPeriodMillis) {
 		this.applicationInstanceDeployPollPeriodMillis = applicationInstanceDeployPollPeriodMillis;
+	}
+
+	@Override
+	public int getDefaultApplicationInstanceQueryPort() {
+		return this.defaultApplicationInstanceQueryPort;
+	}
+
+	/**
+	 * @param defaultApplicationInstanceQueryPort
+	 *            the defaultApplicationInstanceQueryPort to set
+	 */
+	public final void setDefaultApplicationInstanceQueryPort(final int defaultApplicationInstanceQueryPort) {
+		this.defaultApplicationInstanceQueryPort = defaultApplicationInstanceQueryPort;
+	}
+
+	@Override
+	public String getDefaultApplicationInstanceQueryPath() {
+		return this.defaultApplicationInstanceQueryPath;
+	}
+
+	/**
+	 * @param defaultApplicationInstanceQueryPath
+	 *            the defaultApplicationInstanceQueryPath to set
+	 */
+	public final void setDefaultApplicationInstanceQueryPath(final String defaultApplicationInstanceQueryPath) {
+		this.defaultApplicationInstanceQueryPath = defaultApplicationInstanceQueryPath;
+	}
+
+	/**
+	 * @return the defaultApplicationDeploymentArtifact
+	 */
+	@Override
+	public final String getDefaultApplicationDeploymentArtifact() {
+		return this.defaultApplicationDeploymentArtifact;
+	}
+
+	/**
+	 * @param defaultApplicationDeploymentArtifact the defaultApplicationDeploymentArtifact to set
+	 */
+	public final void setDefaultApplicationDeploymentArtifact(final String defaultApplicationDeploymentArtifact) {
+		this.defaultApplicationDeploymentArtifact = defaultApplicationDeploymentArtifact;
 	}
 
 	/**

@@ -103,6 +103,32 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public int getApplicationInstanceDeployPollPeriodMillis();
 
 	/**
+	 * Returns the default port to send an HTTP request to (in order to check
+	 * whether a newly deployed application instance became available).
+	 * 
+	 * @return
+	 * @see #getDefaultApplicationInstanceQueryPath()
+	 */
+	public int getDefaultApplicationInstanceQueryPort();
+
+	/**
+	 * Returns the path to send an HTTP request to (in order to check whether a
+	 * newly deployed application instance became available).
+	 * 
+	 * @return
+	 * @see #getDefaultApplicationInstanceQueryPort()
+	 */
+	public String getDefaultApplicationInstanceQueryPath();
+
+	/**
+	 * Returns the file system location of the default artifact to copy to the
+	 * directory specified by the property {@link #getTomcatHome()}.
+	 * 
+	 * @return
+	 */
+	public String getDefaultApplicationDeploymentArtifact();
+
+	/**
 	 * Returns the name of the public key used for authentication with
 	 * Eucalyptus.
 	 * 

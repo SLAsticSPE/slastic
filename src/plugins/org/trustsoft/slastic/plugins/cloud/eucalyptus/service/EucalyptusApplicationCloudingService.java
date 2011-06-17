@@ -246,6 +246,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 							"Waiting for node startup failed: " + e.getMessage(), e);
 				}
 
+				// TODO: turn into property
 				if (secondCounter > 300) { // maximum 5min for waiting
 					throw new ApplicationCloudingServiceException("5 minutes timeout for allocateNode reached.");
 				}
@@ -361,7 +362,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
 
 		// TODO: spawn with delay!
-		
+
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand deallocateNodeCommand =
 				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
@@ -439,14 +440,6 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.eventNotifier.notifyRemoveCloudedApplicationSuccess((EucalyptusCloudedApplication) application);
 	}
 
-	// TODO: hack
-	private final static int INSTANCE_POLL_PERIOD_SECONDS = 1;
-	private final static int WAIT_SECONDS_AFTER_DEPLOY = 60;
-
-	// TODO: add as application property
-	private final static int INSTANCE_PORT = 8080;
-	private final static String INSTANCE_PATH = "/jpetstore/shop/searchProducts.shtml?keyword=complexity:700"; // "/jpetstore/shop/index.shtml";
-
 	@Override
 	public IApplicationInstance deployApplicationInstance(final ICloudedApplication application,
 			final IApplicationInstanceConfiguration configuration, final ICloudNode node)
@@ -505,7 +498,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 								this.configuration.getSSHPrivateKeyFile(),
 								this.configuration.getSSHUserName(),
 								this.configuration.getTomcatHome(),
-								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/jpetstore.war",
+								this.configuration.getDefaultApplicationDeploymentArtifact(),
 								euNode.getIpAddress());
 		executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
 
@@ -516,12 +509,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		// EucalyptusApplicationCloudingService.log.error(e.getMessage(), e);
 		// }
 
-		/* 2. Web for application to become available */
+		/* 2. Wait for application to become available */
 
-		if (!this.waitUntilInstanceAvailable(euNode.getIpAddress(), EucalyptusApplicationCloudingService.INSTANCE_PORT,
-				EucalyptusApplicationCloudingService.INSTANCE_PATH,
-				EucalyptusApplicationCloudingService.INSTANCE_POLL_PERIOD_SECONDS,
-				EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY)) {
+		if (!this.waitUntilInstanceAvailable(euNode.getIpAddress(),
+				this.configuration.getDefaultApplicationInstanceQueryPort(),
+				this.configuration.getDefaultApplicationInstanceQueryPath(),
+				this.configuration.getApplicationInstanceDeployPollPeriodMillis(),
+				this.configuration.getApplicationInstanceDeployMaxWaitTimeMillis())) {
 			final String errorMsg = "Deployed intance " + inst + " not available after deployment";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
@@ -560,30 +554,30 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 					+ "\n" + "2011-01-13 12:34:37 (80,8 MB/s) - »»jpetstore.3«« gespeichert [523/523]\n" + "\n";
 
 	private boolean waitUntilInstanceAvailable(final String ipAddress, final int port, final String path,
-			final int tryPeriodSeconds, final int maxWaitTimeSeconds) {
+			final int tryPeriodMillis, final int maxWaitTimeMillis) {
 		final String url = ipAddress + ":" + port + "/" + path;
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand fetchInstanceWebSite = EucalyptusCommandFactory.getFetchWebSiteCommand(url);
 		String wgetResult = "";
 
-		int totalWaitTimeSeconds = 0;
+		int totalWaitTimeMillis = 0;
 
 		while (true) {
 			if (wgetResult.contains("200 OK")) {
 				EucalyptusApplicationCloudingService.log.info("url '" + "'" + url + " available after "
-						+ totalWaitTimeSeconds + " seconds");
+						+ totalWaitTimeMillis + " milliseconds");
 				return true;
 			}
 
-			if (totalWaitTimeSeconds > maxWaitTimeSeconds) {
-				final String errorMsg = maxWaitTimeSeconds + " seconds try period elapsed to access url '" + url + "#";
+			if (totalWaitTimeMillis > maxWaitTimeMillis) {
+				final String errorMsg = maxWaitTimeMillis + " milliseconds try period elapsed to access url '" + url + "#";
 				EucalyptusApplicationCloudingService.log.error(errorMsg);
 				return false;
 			}
-			totalWaitTimeSeconds += tryPeriodSeconds;
+			totalWaitTimeMillis += tryPeriodMillis;
 
 			try {
-				Thread.sleep(tryPeriodSeconds * 1000);
+				Thread.sleep(tryPeriodMillis);
 			} catch (final InterruptedException e) {
 				final String errorMsg = "Interrupted: " + e.getMessage();
 				EucalyptusApplicationCloudingService.log.error(errorMsg);
@@ -592,13 +586,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEucatoolsPath());
 			if (this.configuration.isDummyModeEnabled()
-					&& ((totalWaitTimeSeconds + tryPeriodSeconds > maxWaitTimeSeconds) // (max.
+					&& ((totalWaitTimeMillis + tryPeriodMillis > maxWaitTimeMillis) // (max.
 																						// possible
 																						// number
 																						// of
 																						// tries)
 																						// )
-					|| (maxWaitTimeSeconds > 5))) {
+					|| (maxWaitTimeMillis > 5))) {
 				wgetResult = this.WGET_SUCCESS_EXAMPLE;
 
 			}

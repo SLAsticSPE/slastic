@@ -62,6 +62,18 @@ public enum ConfigurationProperty {
 	/* */
 	APP_INST_DEPLOY_POLL_PERIOD_MILLIS ("applicationInstanceDeployPollPeriodMillis", "1000",
 			/* NOT allow empty: */ false),
+
+	/* */
+	APP_INST_DEFAULT_QUERY_PORT ("defaultApplicationInstanceQueryPort", "8080",
+			/* NOT allow empty: */ false),
+			
+	/* */
+	APP_INST_DEFAULT_QUERY_PATH ("defaultApplicationInstanceQueryPath", "/",
+			/* NOT allow empty: */ false),
+	
+	/* */
+	APP_DEFAULT_DEPLOYMENT_ARTIFACT ("defaultApplicationDeploymentArtifact", "artifact.war", 
+			/* NOT allow empty: */ false),
 			
 	/* */
 	EUCA_KEY_NAME("eucalyptusKeyName", "myKey",
