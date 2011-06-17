@@ -14,66 +14,66 @@ import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServl
 public enum ConfigurationProperty {
 	/* */
 	DEBUG_ENABLED("debug", "false",
-			/* must not be empty: */false),
+			/* allow empty: */ true),
 	/* */
 	DUMMY_MODE_ENABLED("dummyMode", "false",
-			/* must not be empty: */false),
+			/* allow empty: */ true),
 
 	/* */
 	LOAD_BALANCER_ENABLED("enableLoadBalancer", "true",
-			/* must not be empty: */false),
+			/* allow empty: */ true),
 
 	/* */
 	LOAD_BALANCER_SERVLET_URL("loadBalancerServletURL",
 			"http://localhost:8080/"
 					+ LoadBalancerServlet.class.getPackage().getName(),
-			/* must not be empty: */true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	EUCATOOLS_PATH("eucatoolsPath", "/usr/local/bin/",
-			/* must not be empty: */true),
+			/* allow empty: */ true),
 
 	/* */
 	// TODO: Does this default value make any sense?
 	EUCA_EMIS("emis", "app-server:emi-ABCDEFGH;db-server:emi-IJKLMNOP",
-			/* must not be empty: */ true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	// Example: dbsrv0:192.168.44.12:i-34E606AA:db-server;appsrv0:192.168.44.13:i-45E644DD:app-server
 	INITIAL_NODES("initialNodeInstances", "",
-			/* may be empty */ false ),
+			/* allow empty: */ true ),
 			
 	/* Example: org.compiere.WebstoreRest;org.compiere.WebstoreHotspots */
 	INITIAL_APPLICATIONS("initialApplications", "",
-			/* may be empty: */ false ),
+			/* allow empty: */ true ),
 	
 	/* Example: org.compiere.WebstoreRest:appsrv0;org.compiere.WebstoreHotspots:appsrv0 */
 	INITIAL_APPLICATION_INSTANCES("initialApplicationInstances", "",
-			/* may be empty: */ false),
+			/* allow empty: */ true),
 
 	/* */ 
 	NODE_SHUTDOWN_DELAY_MILLIS ("nodeShutDownDelayMillis", "0",
-			/* must not be empty: */ true),
+			/* NOT allow empty: */ false),
 			
 	/* */
 	EUCA_KEY_NAME("eucalyptusKeyName", "myKey",
-			/* must not be empty: */true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	EUCA_GROUP("eucalyptusGroup", "default",
-			/* must not be empty: */true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	SSH_PRIV_KEY("sshPrivateKeyFile", "/home/user/.ssh/myKey.priv",
-			/* must not be empty: */true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	SSH_USER_NAME("sshUserName", "sshUser",
-			/* must not be empty: */true),
+			/* NOT allow empty: */ false),
 
 	/* */
 	TOMCAT_HOME("tomcatHome", "/opt/tomcat/",
-			/* must not be empty: */true);
+			/* allow empty: */ true);
 
 	private final String propertyName;
 	private final String defaultValue;
