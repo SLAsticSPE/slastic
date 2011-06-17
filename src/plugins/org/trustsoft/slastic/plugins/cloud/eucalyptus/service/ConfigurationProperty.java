@@ -34,6 +34,7 @@ public enum ConfigurationProperty {
 			/* must not be empty: */true),
 
 	/* */
+	// TODO: Does this default value make any sense?
 	EUCA_EMIS("emis", "app-server:emi-ABCDEFGH;db-server:emi-IJKLMNOP",
 			/* must not be empty: */ true),
 
@@ -49,6 +50,10 @@ public enum ConfigurationProperty {
 	/* Example: org.compiere.WebstoreRest:appsrv0;org.compiere.WebstoreHotspots:appsrv0 */
 	INITIAL_APPLICATION_INSTANCES("initialApplicationInstances", "",
 			/* may be empty: */ false),
+
+	/* */ 
+	NODE_SHUTDOWN_DELAY_MILLIS ("nodeShutDownDelayMillis", "0",
+			/* must not be empty: */ true),
 			
 	/* */
 	EUCA_KEY_NAME("eucalyptusKeyName", "myKey",

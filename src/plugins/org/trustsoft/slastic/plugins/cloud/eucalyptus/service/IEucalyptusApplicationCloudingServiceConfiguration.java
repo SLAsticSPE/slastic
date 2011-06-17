@@ -53,31 +53,40 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public HashMap<String, String> getEMIs();
 
 	/**
-	 * Returns a list of node instances to create initially.
-	 * Each element of the returned collection is a String array 
-	 * with 4 elements: node name, ip, instance id, image name 
+	 * Returns a list of node instances to create initially. Each element of the
+	 * returned collection is a String array with 4 elements: node name, ip,
+	 * instance id, image name
 	 * 
 	 * @return
 	 * @see IEucalyptusApplicationCloudingServiceConfiguration#getEMIs()
 	 */
-	public Collection<String[]> getInitialNodeInstances(); 
-	
+	public Collection<String[]> getInitialNodeInstances();
+
 	/**
 	 * Returns a list of application to create initially.
 	 * 
 	 * @return
 	 */
 	public Collection<String> getInitialApplications();
-	
+
 	/**
-	 * Returns a list of application instances to create initially.
-	 * Each element of the returned collection is a String array
-	 * with 2 elements: application name, node instance
+	 * Returns a list of application instances to create initially. Each element
+	 * of the returned collection is a String array with 2 elements: application
+	 * name, node instance
 	 * 
 	 * @return
 	 */
 	public Collection<String[]> getInitialApplicationInstances();
-	
+
+	/**
+	 * Returns the number of milliseconds to wait after a node de-allocation
+	 * request before an instance is actually released. This property can be
+	 * used to avoid the termination of active requests on instances.
+	 * 
+	 * @return
+	 */
+	public int getNodeShutDownDelayMillis();
+
 	/**
 	 * Returns the name of the public key used for authentication with
 	 * Eucalyptus.

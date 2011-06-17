@@ -36,6 +36,8 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 	private Collection<String[]> initialApplicationInstances;
 
+	private int nodeShutDownDelayMillis;
+
 	private String eucalyptusKeyName;
 
 	private String eucalyptusGroup;
@@ -255,6 +257,15 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 					.setInitialApplicationInstances(initialApplicationInstances);
 		}
 
+		/* Sets the nodeShutDownDelayMillis */
+		{
+			final int nodeShutDownDelayMillis =
+					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
+							ConfigurationProperty.NODE_SHUTDOWN_DELAY_MILLIS);
+			configuration.setNodeShutDownDelayMillis(nodeShutDownDelayMillis);
+
+		}
+
 		/* Sets the eucalyptusKeyName */
 		{
 			final String eucalyptusKeyName =
@@ -437,6 +448,19 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	@Override
 	public final Collection<String[]> getInitialApplicationInstances() {
 		return this.initialApplicationInstances;
+	}
+
+	@Override
+	public int getNodeShutDownDelayMillis() {
+		return this.nodeShutDownDelayMillis;
+	}
+
+	/**
+	 * @param nodeShutDownDelayMillis
+	 *            the nodeShutDownDelayMillis to set
+	 */
+	public final void setNodeShutDownDelayMillis(final int nodeShutDownDelayMillis) {
+		this.nodeShutDownDelayMillis = nodeShutDownDelayMillis;
 	}
 
 	/**
