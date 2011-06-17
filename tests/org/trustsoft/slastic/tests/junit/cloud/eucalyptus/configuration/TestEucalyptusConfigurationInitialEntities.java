@@ -97,10 +97,10 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 		}
 	}
 
-	private void checkInitialNodes (final EucalyptusApplicationCloudingService svc) {
+	private void checkInitialNodes(final EucalyptusApplicationCloudingService svc) {
 		Assert.assertEquals("Unexpected number of nodes", 2, svc.getCloudNodes().size());
 	}
-	
+
 	private void checkInitialApplications(final EucalyptusApplicationCloudingService svc) {
 		Assert.assertEquals("Unexpected number of applications",
 				TestEucalyptusConfigurationInitialEntities.INITIAL_APPS.length, svc.getCloudedApplications().size());
@@ -250,6 +250,8 @@ public class TestEucalyptusConfigurationInitialEntities extends TestCase {
 								.join(TestEucalyptusConfigurationInitialEntities.INITIAL_APP_INSTANCE_2,
 										':')));
 		/* END: Properties that are relevant to this test */
+		props.put(ConfigurationProperty.NODE_SHUTDOWN_DELAY_MILLIS.getPropertyName(),
+				ConfigurationProperty.NODE_SHUTDOWN_DELAY_MILLIS.getDefaultValue());
 		props.put(ConfigurationProperty.EUCA_KEY_NAME.getPropertyName(),
 				"myEucaKey");
 		props.put(ConfigurationProperty.EUCA_GROUP.getPropertyName(), "default");
