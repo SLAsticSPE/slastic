@@ -79,20 +79,32 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public Collection<String[]> getInitialApplicationInstances();
 
 	/**
-	 * Returns the number of milliseconds to wait after a node de-allocation
+	 * Returns the number of seconds to wait after a node de-allocation
 	 * request before an instance is actually released. This property can be
 	 * used to avoid the termination of active requests on instances.
 	 * 
 	 * @return
 	 */
-	public int getNodeShutDownDelayMillis();
+	public int getNodeShutDownDelaySeconds();
 
+	/**
+	 * Returns the maximum time to wait for an allocated node to be available.
+	 * 
+	 * @return
+	 */
+	public int getNodeAllocationMaxWaitTimeSeconds();
+	
+	/**
+	 * Returns the poll period with which to check if an allocated node is available.
+	 */
+	public int getNodeAllocationPollPeriodSeconds();
+	
 	/**
 	 * Returns the maximum time to wait for an application to be available.
 	 * 
 	 * @return
 	 */
-	public int getApplicationInstanceDeployMaxWaitTimeMillis();
+	public int getApplicationInstanceDeployMaxWaitTimeSeconds();
 
 	/**
 	 * Returns the poll period with which to check if an application instance is
@@ -100,7 +112,7 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	 * 
 	 * @return
 	 */
-	public int getApplicationInstanceDeployPollPeriodMillis();
+	public int getApplicationInstanceDeployPollPeriodSeconds();
 
 	/**
 	 * Returns the default port to send an HTTP request to (in order to check

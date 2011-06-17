@@ -35,18 +35,22 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 	private Collection<String[]> initialApplicationInstances;
 
-	private int nodeShutDownDelayMillis;
+	private int nodeShutDownDelaySeconds;
 
-	private int applicationInstanceDeployMaxWaitTimeMillis;
+	private int nodeAllocationMaxWaitTimeSeconds;
 
-	private int applicationInstanceDeployPollPeriodMillis;
+	private int nodeAllocationPollPeriodSeconds;
+
+	private int applicationInstanceDeployMaxWaitTimeSeconds;
+
+	private int applicationInstanceDeployPollPeriodSeconds;
 
 	private int defaultApplicationInstanceQueryPort;
 
 	private String defaultApplicationInstanceQueryPath;
 
 	private String defaultApplicationDeploymentArtifact;
-	
+
 	private String eucalyptusKeyName;
 
 	private String eucalyptusGroup;
@@ -241,15 +245,31 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 		{
 			final int nodeShutDownDelayMillis =
 					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
-							ConfigurationProperty.NODE_SHUTDOWN_DELAY_MILLIS);
+							ConfigurationProperty.NODE_SHUTDOWN_DELAY_SECONDS);
 			configuration.setNodeShutDownDelayMillis(nodeShutDownDelayMillis);
+		}
+
+		/* Sets the nodeAllocationMaxWaitTimeSeconds */
+		{
+			final int nodeAllocationMaxWaitTimeSeconds =
+					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
+							ConfigurationProperty.NODE_ALLOCATION_MAX_WAIT_SECONDS);
+			configuration.setNodeAllocationMaxWaitTimeSeconds(nodeAllocationMaxWaitTimeSeconds);
+		}
+
+		/* Sets the nodeAllocationPollPeriodSeconds */
+		{
+			final int nodeAllocationPollPeriodSeconds =
+					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
+							ConfigurationProperty.NODE_ALLOCATION_POLL_PERIOD_SECONDS);
+			configuration.setNodeAllocationPollPeriodSeconds(nodeAllocationPollPeriodSeconds);
 		}
 
 		/* Sets the applicationInstanceDeployMaxWaitTimeMillis */
 		{
 			final int applicationInstanceDeployMaxWaitTimeMillis =
 					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
-							ConfigurationProperty.APP_INST_DEPLOY_MAX_WAIT_TIME_MILLIS);
+							ConfigurationProperty.APP_INST_DEPLOY_MAX_WAIT_TIME_SECONDS);
 			configuration.setApplicationInstanceDeployMaxWaitTimeMillis(applicationInstanceDeployMaxWaitTimeMillis);
 
 		}
@@ -258,7 +278,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 		{
 			final int applicationInstanceDeployPollPeriodMillis =
 					EucalyptusApplicationCloudingServiceConfiguration.loadIntConfigurationProperty(props,
-							ConfigurationProperty.APP_INST_DEPLOY_POLL_PERIOD_MILLIS);
+							ConfigurationProperty.APP_INST_DEPLOY_POLL_PERIOD_SECONDS);
 			configuration.setApplicationInstanceDeployPollPeriodMillis(applicationInstanceDeployPollPeriodMillis);
 		}
 
@@ -288,11 +308,12 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 		/* Sets the defaultApplicationDeploymentArtifact */
 		{
-			final String defaultApplicationDeploymentArtifact = 
-				EucalyptusApplicationCloudingServiceConfiguration.loadStringConfigurationProperty(props, ConfigurationProperty.APP_DEFAULT_DEPLOYMENT_ARTIFACT);
+			final String defaultApplicationDeploymentArtifact =
+					EucalyptusApplicationCloudingServiceConfiguration.loadStringConfigurationProperty(props,
+							ConfigurationProperty.APP_DEFAULT_DEPLOYMENT_ARTIFACT);
 			configuration.setDefaultApplicationDeploymentArtifact(defaultApplicationDeploymentArtifact);
 		}
-		
+
 		/* Sets the eucalyptusGroup */
 		{
 			final String eucalyptusGroup =
@@ -458,8 +479,8 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	}
 
 	@Override
-	public int getNodeShutDownDelayMillis() {
-		return this.nodeShutDownDelayMillis;
+	public int getNodeShutDownDelaySeconds() {
+		return this.nodeShutDownDelaySeconds;
 	}
 
 	/**
@@ -467,12 +488,44 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	 *            the nodeShutDownDelayMillis to set
 	 */
 	public final void setNodeShutDownDelayMillis(final int nodeShutDownDelayMillis) {
-		this.nodeShutDownDelayMillis = nodeShutDownDelayMillis;
+		this.nodeShutDownDelaySeconds = nodeShutDownDelayMillis;
+	}
+
+	/**
+	 * @return the nodeAllocationMaxWaitTimeSeconds
+	 */
+	@Override
+	public final int getNodeAllocationMaxWaitTimeSeconds() {
+		return this.nodeAllocationMaxWaitTimeSeconds;
+	}
+
+	/**
+	 * @param nodeAllocationMaxWaitTimeSeconds
+	 *            the nodeAllocationMaxWaitTimeSeconds to set
+	 */
+	public final void setNodeAllocationMaxWaitTimeSeconds(final int nodeAllocationMaxWaitTimeSeconds) {
+		this.nodeAllocationMaxWaitTimeSeconds = nodeAllocationMaxWaitTimeSeconds;
+	}
+
+	/**
+	 * @return the nodeAllocationPollPeriodSeconds
+	 */
+	@Override
+	public final int getNodeAllocationPollPeriodSeconds() {
+		return this.nodeAllocationPollPeriodSeconds;
+	}
+
+	/**
+	 * @param nodeAllocationPollPeriodSeconds
+	 *            the nodeAllocationPollPeriodSeconds to set
+	 */
+	public final void setNodeAllocationPollPeriodSeconds(final int nodeAllocationPollPeriodSeconds) {
+		this.nodeAllocationPollPeriodSeconds = nodeAllocationPollPeriodSeconds;
 	}
 
 	@Override
-	public int getApplicationInstanceDeployMaxWaitTimeMillis() {
-		return this.applicationInstanceDeployMaxWaitTimeMillis;
+	public int getApplicationInstanceDeployMaxWaitTimeSeconds() {
+		return this.applicationInstanceDeployMaxWaitTimeSeconds;
 	}
 
 	/**
@@ -480,12 +533,12 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	 *            the applicationInstanceDeployMaxWaitTimeMillis to set
 	 */
 	public final void setApplicationInstanceDeployMaxWaitTimeMillis(final int applicationInstanceDeployMaxWaitTimeMillis) {
-		this.applicationInstanceDeployMaxWaitTimeMillis = applicationInstanceDeployMaxWaitTimeMillis;
+		this.applicationInstanceDeployMaxWaitTimeSeconds = applicationInstanceDeployMaxWaitTimeMillis;
 	}
 
 	@Override
-	public int getApplicationInstanceDeployPollPeriodMillis() {
-		return this.applicationInstanceDeployPollPeriodMillis;
+	public int getApplicationInstanceDeployPollPeriodSeconds() {
+		return this.applicationInstanceDeployPollPeriodSeconds;
 	}
 
 	/**
@@ -493,7 +546,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	 *            the applicationInstanceDeployPollPeriodMillis to set
 	 */
 	public final void setApplicationInstanceDeployPollPeriodMillis(final int applicationInstanceDeployPollPeriodMillis) {
-		this.applicationInstanceDeployPollPeriodMillis = applicationInstanceDeployPollPeriodMillis;
+		this.applicationInstanceDeployPollPeriodSeconds = applicationInstanceDeployPollPeriodMillis;
 	}
 
 	@Override
@@ -531,7 +584,8 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	}
 
 	/**
-	 * @param defaultApplicationDeploymentArtifact the defaultApplicationDeploymentArtifact to set
+	 * @param defaultApplicationDeploymentArtifact
+	 *            the defaultApplicationDeploymentArtifact to set
 	 */
 	public final void setDefaultApplicationDeploymentArtifact(final String defaultApplicationDeploymentArtifact) {
 		this.defaultApplicationDeploymentArtifact = defaultApplicationDeploymentArtifact;
