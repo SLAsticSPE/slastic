@@ -129,6 +129,22 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 						Integer.toString(config.getNodeShutDownDelayMillis()));
 				// not checking svc, as there's no getter (required) for debug
 				break;
+			case APP_INST_DEPLOY_MAX_WAIT_TIME_MILLIS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getApplicationInstanceDeployMaxWaitTimeMillis()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
+			case APP_INST_DEPLOY_POLL_PERIOD_MILLIS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getApplicationInstanceDeployPollPeriodMillis()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
 			case EUCA_KEY_NAME:
 				Assert.assertEquals(
 						"Unexpected value (config) for '"

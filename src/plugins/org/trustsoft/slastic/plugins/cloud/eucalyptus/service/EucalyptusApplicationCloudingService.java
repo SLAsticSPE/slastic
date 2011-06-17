@@ -27,28 +27,22 @@ import org.trustsoft.slastic.plugins.cloud.service.IApplicationCloudingService;
  * @author Andre van Hoorn
  * 
  */
-public class EucalyptusApplicationCloudingService implements
-		IApplicationCloudingService {
+public class EucalyptusApplicationCloudingService implements IApplicationCloudingService {
 
-	private static final Log log = LogFactory
-			.getLog(EucalyptusApplicationCloudingService.class);
+	private static final Log log = LogFactory.getLog(EucalyptusApplicationCloudingService.class);
 
 	private final IEucalyptusApplicationCloudingServiceConfiguration configuration;
 
 	// TODO: We might think about moving the following collections to an
 	// abstract class
 
-	private final Collection<EucalyptusCloudNodeType> nodeTypes =
-			new Vector<EucalyptusCloudNodeType>();
-	private final Collection<EucalyptusCloudNode> allocatedNodes =
-			new Vector<EucalyptusCloudNode>();
-	private final Collection<EucalyptusCloudedApplication> applications =
-			new Vector<EucalyptusCloudedApplication>();
+	private final Collection<EucalyptusCloudNodeType> nodeTypes = new Vector<EucalyptusCloudNodeType>();
+	private final Collection<EucalyptusCloudNode> allocatedNodes = new Vector<EucalyptusCloudNode>();
+	private final Collection<EucalyptusCloudedApplication> applications = new Vector<EucalyptusCloudedApplication>();
 	private final Collection<EucalyptusApplicationInstance> applicationInstances =
 			new Vector<EucalyptusApplicationInstance>();
 
-	private final EucalyptusServiceEventNotifier eventNotifier =
-			new EucalyptusServiceEventNotifier();
+	private final EucalyptusServiceEventNotifier eventNotifier = new EucalyptusServiceEventNotifier();
 
 	/**
 	 * 
@@ -78,15 +72,13 @@ public class EucalyptusApplicationCloudingService implements
 	 * @param config
 	 * @throws ApplicationCloudingServiceException
 	 */
-	private EucalyptusApplicationCloudingService(
-			final IEucalyptusApplicationCloudingServiceConfiguration config)
+	private EucalyptusApplicationCloudingService(final IEucalyptusApplicationCloudingServiceConfiguration config)
 			throws ApplicationCloudingServiceException {
 		this.configuration = config;
 
 		/* Initialize the connector to the LoadBalancerServlet */
 		this.lbConnector =
-				new LoadBalancerConnector(
-						this.configuration.getLoadBalancerServletURL(), false,
+				new LoadBalancerConnector(this.configuration.getLoadBalancerServletURL(), false,
 						EucalyptusApplicationCloudingService.WGET_LOG);
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
@@ -103,15 +95,13 @@ public class EucalyptusApplicationCloudingService implements
 	private void initNodeTypes() throws ApplicationCloudingServiceException {
 		this.printDebugMsg("initNodeTypes(..)");
 
-		for (final Entry<String, String> image : this.configuration.getEMIs()
-				.entrySet()) {
-			this.nodeTypes.add(new EucalyptusCloudNodeType(image.getKey(),
-					image.getValue()));
+		for (final Entry<String, String> image : this.configuration.getEMIs().entrySet()) {
+			this.nodeTypes.add(new EucalyptusCloudNodeType(image.getKey(), image.getValue()));
 		}
 	}
 
 	private void initNodes() throws ApplicationCloudingServiceException {
-		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {		
+		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {
 			final String nodeName = nodeSpec[0];
 			final String ip = nodeSpec[1];
 			final String instanceId = nodeSpec[2];
@@ -165,11 +155,9 @@ public class EucalyptusApplicationCloudingService implements
 	 */
 	// TODO: We might re-throw a possible Exception thrown by
 	// #loadEucalyptusConfiguration.
-	public static EucalyptusApplicationCloudingService createService(
-			final String configurationFile) {
+	public static EucalyptusApplicationCloudingService createService(final String configurationFile) {
 		final IEucalyptusApplicationCloudingServiceConfiguration config =
-				EucalyptusApplicationCloudingServiceConfiguration
-						.createConfiguration(configurationFile);
+				EucalyptusApplicationCloudingServiceConfiguration.createConfiguration(configurationFile);
 		return EucalyptusApplicationCloudingService.createService(config);
 	}
 
@@ -191,9 +179,8 @@ public class EucalyptusApplicationCloudingService implements
 		try {
 			svc = new EucalyptusApplicationCloudingService(config);
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusApplicationCloudingService.log.error(
-					"Failed to create EucalyptusApplicationCloudingService: "
-							+ e.getMessage(), e);
+			EucalyptusApplicationCloudingService.log.error("Failed to create EucalyptusApplicationCloudingService: "
+					+ e.getMessage(), e);
 		}
 
 		return svc;
@@ -216,26 +203,19 @@ public class EucalyptusApplicationCloudingService implements
 	public ICloudNode allocateNode(final String name, final ICloudNodeType type)
 			throws ApplicationCloudingServiceException {
 
-		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: "
-				+ type);
+		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type);
 
 		final EucalyptusCloudNode node;
 
 		// unchecked cast!
 		final EucalyptusCloudNodeType euType = (EucalyptusCloudNodeType) type;
 
-		final ExternalCommandExecuter executer =
-				new ExternalCommandExecuter(
-						this.configuration.isDummyModeEnabled());
+		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand allocateNodeCommand =
-				EucalyptusCommandFactory.getAllocateNodeCommand(
-						euType.getEmiImageName(),
-						this.configuration.getEucalyptusKeyName(),
-						this.configuration.getEucalyptusGroup());
+				EucalyptusCommandFactory.getAllocateNodeCommand(euType.getEmiImageName(),
+						this.configuration.getEucalyptusKeyName(), this.configuration.getEucalyptusGroup());
 
-		String result =
-				executer.executeCommandWithEnv(allocateNodeCommand,
-						this.configuration.getEucatoolsPath());
+		String result = executer.executeCommandWithEnv(allocateNodeCommand, this.configuration.getEucatoolsPath());
 		// this.printDebugMsg(result);
 
 		final String instanceID;
@@ -255,9 +235,7 @@ public class EucalyptusApplicationCloudingService implements
 			int secondCounter = 0;
 
 			while ((ipAddress.equals("")) || ipAddress.equals("0.0.0.0")) {
-				result =
-						executer.executeCommandWithEnv(descibeInstanceCommand,
-								this.configuration.getEucatoolsPath());
+				result = executer.executeCommandWithEnv(descibeInstanceCommand, this.configuration.getEucatoolsPath());
 				ipAddress = this.getIPAddressFromDescribeNodeResult(result);
 
 				try {
@@ -265,13 +243,11 @@ public class EucalyptusApplicationCloudingService implements
 					secondCounter++;
 				} catch (final InterruptedException e) {
 					EucalyptusApplicationCloudingService.log.error(
-							"Waiting for node startup failed: "
-									+ e.getMessage(), e);
+							"Waiting for node startup failed: " + e.getMessage(), e);
 				}
 
 				if (secondCounter > 300) { // maximum 5min for waiting
-					throw new ApplicationCloudingServiceException(
-							"5 minutes timeout for allocateNode reached.");
+					throw new ApplicationCloudingServiceException("5 minutes timeout for allocateNode reached.");
 				}
 			}
 		}
@@ -279,12 +255,9 @@ public class EucalyptusApplicationCloudingService implements
 		/* 2. Determine hostname */
 
 		final EucalyptusCommand fetchHostameCommand =
-				EucalyptusCommandFactory.getFetchHostnameCommand(
-						this.configuration.getSSHPrivateKeyFile(),
+				EucalyptusCommandFactory.getFetchHostnameCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress);
-		String hostResult =
-				executer.executeCommandWithEnv(fetchHostameCommand,
-						this.configuration.getEucatoolsPath());
+		String hostResult = executer.executeCommandWithEnv(fetchHostameCommand, this.configuration.getEucatoolsPath());
 
 		if (this.configuration.isDummyModeEnabled()) {
 			hostResult = "dummy-hostname-" + this.nextHostname++;
@@ -302,25 +275,18 @@ public class EucalyptusApplicationCloudingService implements
 								this.configuration.getTomcatHome() + "/../lib/META-INF/",
 								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
 								ipAddress);
-		executer.executeCommandWithEnv(cpKiekerConfigCommand,
-				this.configuration.getEucatoolsPath());
+		executer.executeCommandWithEnv(cpKiekerConfigCommand, this.configuration.getEucatoolsPath());
 
 		/* 4. Start tomcat */
 
 		final EucalyptusCommand startTomcatCommand =
-				EucalyptusCommandFactory.getStartTomcatCommand(
-						this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), ipAddress,
-						"/etc/init.d/tomcat");
-		executer.executeCommandWithEnv(startTomcatCommand,
-				this.configuration.getEucatoolsPath());
+				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), ipAddress, "/etc/init.d/tomcat");
+		executer.executeCommandWithEnv(startTomcatCommand, this.configuration.getEucatoolsPath());
 
-		node =
-				new EucalyptusCloudNode(name, type, instanceID, ipAddress,
-						hostname);
+		node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
-		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: "
-				+ type + " has finished: " + node);
+		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type + " has finished: " + node);
 
 		this.allocatedNodes.add(node);
 
@@ -377,8 +343,7 @@ public class EucalyptusApplicationCloudingService implements
 	}
 
 	@Override
-	public void deallocateNode(final ICloudNode node)
-			throws ApplicationCloudingServiceException {
+	public void deallocateNode(final ICloudNode node) throws ApplicationCloudingServiceException {
 		this.printDebugMsg("deallocateNode --- " + "node: " + node);
 
 		this.allocatedNodes.remove(node);
@@ -388,26 +353,23 @@ public class EucalyptusApplicationCloudingService implements
 		 */
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class
-							+ " but found " + this.configuration.getClass();
+					"node must be of class " + EucalyptusCloudNode.class + " but found "
+							+ this.configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
 		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
 
-		final ExternalCommandExecuter executer =
-				new ExternalCommandExecuter(
-						this.configuration.isDummyModeEnabled());
+		// TODO: spawn with delay!
+		
+		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand deallocateNodeCommand =
-				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode
-						.getInstanceID());
+				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
 
 		if (this.configuration.isDummyModeEnabled()) {
-			executer.executeCommandWithEnv(deallocateNodeCommand,
-					this.configuration.getEucatoolsPath());
+			executer.executeCommandWithEnv(deallocateNodeCommand, this.configuration.getEucatoolsPath());
 		} else {
-			EucalyptusApplicationCloudingService.log.warn("Not executing "
-					+ deallocateNodeCommand);
+			EucalyptusApplicationCloudingService.log.warn("Not executing " + deallocateNodeCommand);
 		}
 
 		this.eventNotifier.notifyDeallocateNodeSuccess(euNode);
@@ -418,36 +380,30 @@ public class EucalyptusApplicationCloudingService implements
 	 * {@link EucalyptusCloudedApplicationConfiguration}.
 	 */
 	@Override
-	public ICloudedApplication createAndRegisterCloudedApplication(
-			final String name,
-			final ICloudedApplicationConfiguration configuration)
-			throws ApplicationCloudingServiceException {
+	public ICloudedApplication createAndRegisterCloudedApplication(final String name,
+			final ICloudedApplicationConfiguration configuration) throws ApplicationCloudingServiceException {
 
-		this.printDebugMsg("createAndRegisterCloudedApplication --- "
-				+ "name: " + name + "; configuration: " + configuration);
+		this.printDebugMsg("createAndRegisterCloudedApplication --- " + "name: " + name + "; configuration: "
+				+ configuration);
 
 		/*
 		 * Assert that configuration is Eucalyptus-specific.
 		 */
 		if (!(configuration instanceof EucalyptusCloudedApplicationConfiguration)) {
 			final String errorsMsg =
-					"configuration must be of class "
-							+ EucalyptusCloudedApplicationConfiguration.class
-							+ " but found " + configuration.getClass();
+					"configuration must be of class " + EucalyptusCloudedApplicationConfiguration.class + " but found "
+							+ configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
 		final EucalyptusCloudedApplicationConfiguration euConfiguration =
 				(EucalyptusCloudedApplicationConfiguration) configuration;
 
-		final EucalyptusCloudedApplication app =
-				new EucalyptusCloudedApplication(name, euConfiguration);
+		final EucalyptusCloudedApplication app = new EucalyptusCloudedApplication(name, euConfiguration);
 
 		/* Register application in load balancer */
 		if (!this.lbConnector.createContext(app.getName())) {
-			final String errorMsg =
-					"Failed to register application '" + app.getName()
-							+ "' in load balancer";
+			final String errorMsg = "Failed to register application '" + app.getName() + "' in load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
@@ -457,8 +413,7 @@ public class EucalyptusApplicationCloudingService implements
 
 		// Notice that no calls to the Eucalyptus tools required.
 
-		this.eventNotifier.notifyCreateAndRegisterCloudedApplicationSuccess(
-				name, euConfiguration, app);
+		this.eventNotifier.notifyCreateAndRegisterCloudedApplicationSuccess(name, euConfiguration, app);
 
 		return app;
 	}
@@ -467,14 +422,11 @@ public class EucalyptusApplicationCloudingService implements
 	public void removeCloudedApplication(final ICloudedApplication application)
 			throws ApplicationCloudingServiceException {
 
-		this.printDebugMsg("removeCloudedApplication --- " + "application: "
-				+ application);
+		this.printDebugMsg("removeCloudedApplication --- " + "application: " + application);
 
 		/* Remove application from load balancer */
 		if (!this.lbConnector.removeContext(application.getName())) {
-			final String errorMsg =
-					"Failed to register application '" + application.getName()
-							+ "' in load balancer";
+			final String errorMsg = "Failed to register application '" + application.getName() + "' in load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
@@ -484,8 +436,7 @@ public class EucalyptusApplicationCloudingService implements
 
 		// Notice that no calls to the Eucalyptus tools required.
 
-		this.eventNotifier
-				.notifyRemoveCloudedApplicationSuccess((EucalyptusCloudedApplication) application);
+		this.eventNotifier.notifyRemoveCloudedApplicationSuccess((EucalyptusCloudedApplication) application);
 	}
 
 	// TODO: hack
@@ -494,39 +445,34 @@ public class EucalyptusApplicationCloudingService implements
 
 	// TODO: add as application property
 	private final static int INSTANCE_PORT = 8080;
-	private final static String INSTANCE_PATH =
-			"/jpetstore/shop/searchProducts.shtml?keyword=complexity:700"; // "/jpetstore/shop/index.shtml";
+	private final static String INSTANCE_PATH = "/jpetstore/shop/searchProducts.shtml?keyword=complexity:700"; // "/jpetstore/shop/index.shtml";
 
 	@Override
-	public IApplicationInstance deployApplicationInstance(
-			final ICloudedApplication application,
-			final IApplicationInstanceConfiguration configuration,
-			final ICloudNode node) throws ApplicationCloudingServiceException {
+	public IApplicationInstance deployApplicationInstance(final ICloudedApplication application,
+			final IApplicationInstanceConfiguration configuration, final ICloudNode node)
+			throws ApplicationCloudingServiceException {
 
-		this.printDebugMsg("deployApplicationInstance --- " + "application: "
-				+ application + "; configuration: " + configuration);
+		this.printDebugMsg("deployApplicationInstance --- " + "application: " + application + "; configuration: "
+				+ configuration);
 
 		/*
 		 * Assert that application is Eucalyptus-specific.
 		 */
 		if (!(application instanceof EucalyptusCloudedApplication)) {
 			final String errorsMsg =
-					"application must be of class "
-							+ EucalyptusCloudedApplication.class
-							+ " but found " + configuration.getClass();
+					"application must be of class " + EucalyptusCloudedApplication.class + " but found "
+							+ configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudedApplication euApplication =
-				(EucalyptusCloudedApplication) application;
+		final EucalyptusCloudedApplication euApplication = (EucalyptusCloudedApplication) application;
 
 		/*
 		 * Assert that configuration is Eucalyptus-specific.
 		 */
 		if (!(configuration instanceof EucalyptusApplicationInstanceConfiguration)) {
 			final String errorsMsg =
-					"configuration must be of class "
-							+ EucalyptusApplicationInstanceConfiguration.class
+					"configuration must be of class " + EucalyptusApplicationInstanceConfiguration.class
 							+ " but found " + configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
@@ -539,24 +485,20 @@ public class EucalyptusApplicationCloudingService implements
 		 */
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class
-							+ " but found " + configuration.getClass();
+					"node must be of class " + EucalyptusCloudNode.class + " but found " + configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
 		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
 
 		final EucalyptusApplicationInstance inst =
-				new EucalyptusApplicationInstance(
-						this.genApplicationInstanceId(euApplication),
-						euApplication, euConfiguration, euNode);
+				new EucalyptusApplicationInstance(this.genApplicationInstanceId(euApplication), euApplication,
+						euConfiguration, euNode);
 
 		this.applicationInstances.add(inst);
 
 		/* 1. Deploy */
-		final ExternalCommandExecuter executer =
-				new ExternalCommandExecuter(
-						this.configuration.isDummyModeEnabled());
+		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand applicationDeployCommand =
 				EucalyptusCommandFactory
 						.getApplicationDeployCommand(
@@ -565,8 +507,7 @@ public class EucalyptusApplicationCloudingService implements
 								this.configuration.getTomcatHome(),
 								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/jpetstore.war",
 								euNode.getIpAddress());
-		executer.executeCommandWithEnv(applicationDeployCommand,
-				this.configuration.getEucatoolsPath());
+		executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
 
 		// try {
 		// Thread.sleep(EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY
@@ -577,27 +518,20 @@ public class EucalyptusApplicationCloudingService implements
 
 		/* 2. Web for application to become available */
 
-		if (!this
-				.waitUntilInstanceAvailable(
-						euNode.getIpAddress(),
-						EucalyptusApplicationCloudingService.INSTANCE_PORT,
-						EucalyptusApplicationCloudingService.INSTANCE_PATH,
-						EucalyptusApplicationCloudingService.INSTANCE_POLL_PERIOD_SECONDS,
-						EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY)) {
-			final String errorMsg =
-					"Deployed intance " + inst
-							+ " not available after deployment";
+		if (!this.waitUntilInstanceAvailable(euNode.getIpAddress(), EucalyptusApplicationCloudingService.INSTANCE_PORT,
+				EucalyptusApplicationCloudingService.INSTANCE_PATH,
+				EucalyptusApplicationCloudingService.INSTANCE_POLL_PERIOD_SECONDS,
+				EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY)) {
+			final String errorMsg = "Deployed intance " + inst + " not available after deployment";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
 		/* 3. Add instance to load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.addHost(application.getName(),
-						euNode.getIpAddress())) {
+				&& !this.lbConnector.addHost(application.getName(), euNode.getIpAddress())) {
 			final String errorMsg =
-					"Failed to add host '" + euNode.getIpAddress()
-							+ "' for application '" + application.getName()
+					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName()
 							+ "' in load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			// clean up broken state (to be correct, we should only role back
@@ -606,8 +540,7 @@ public class EucalyptusApplicationCloudingService implements
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
-		this.eventNotifier.notifyDeployApplicationInstanceSuccess(
-				euApplication, euConfiguration, euNode, inst);
+		this.eventNotifier.notifyDeployApplicationInstanceSuccess(euApplication, euConfiguration, euNode, inst);
 
 		return inst;
 	}
@@ -624,36 +557,26 @@ public class EucalyptusApplicationCloudingService implements
 					+ "In »»jpetstore.3«« speichern\n."
 					+ "\n"
 					+ "100%[========================================================================================================================================================================>] 523         --.-K/s   in 0s\n"
-					+ "\n"
-					+ "2011-01-13 12:34:37 (80,8 MB/s) - »»jpetstore.3«« gespeichert [523/523]\n"
-					+ "\n";
+					+ "\n" + "2011-01-13 12:34:37 (80,8 MB/s) - »»jpetstore.3«« gespeichert [523/523]\n" + "\n";
 
-	private boolean waitUntilInstanceAvailable(final String ipAddress,
-			final int port, final String path, final int tryPeriodSeconds,
-			final int maxWaitTimeSeconds) {
+	private boolean waitUntilInstanceAvailable(final String ipAddress, final int port, final String path,
+			final int tryPeriodSeconds, final int maxWaitTimeSeconds) {
 		final String url = ipAddress + ":" + port + "/" + path;
-		final ExternalCommandExecuter executer =
-				new ExternalCommandExecuter(
-						this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand fetchInstanceWebSite =
-				EucalyptusCommandFactory.getFetchWebSiteCommand(url);
+		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
+		final EucalyptusCommand fetchInstanceWebSite = EucalyptusCommandFactory.getFetchWebSiteCommand(url);
 		String wgetResult = "";
 
 		int totalWaitTimeSeconds = 0;
 
 		while (true) {
 			if (wgetResult.contains("200 OK")) {
-				EucalyptusApplicationCloudingService.log.info("url '" + "'"
-						+ url + " available after " + totalWaitTimeSeconds
-						+ " seconds");
+				EucalyptusApplicationCloudingService.log.info("url '" + "'" + url + " available after "
+						+ totalWaitTimeSeconds + " seconds");
 				return true;
 			}
 
 			if (totalWaitTimeSeconds > maxWaitTimeSeconds) {
-				final String errorMsg =
-						maxWaitTimeSeconds
-								+ " seconds try period elapsed to access url '"
-								+ url + "#";
+				final String errorMsg = maxWaitTimeSeconds + " seconds try period elapsed to access url '" + url + "#";
 				EucalyptusApplicationCloudingService.log.error(errorMsg);
 				return false;
 			}
@@ -667,9 +590,7 @@ public class EucalyptusApplicationCloudingService implements
 				return false;
 			}
 
-			wgetResult =
-					executer.executeCommandWithEnv(fetchInstanceWebSite,
-							this.configuration.getEucatoolsPath());
+			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEucatoolsPath());
 			if (this.configuration.isDummyModeEnabled()
 					&& ((totalWaitTimeSeconds + tryPeriodSeconds > maxWaitTimeSeconds) // (max.
 																						// possible
@@ -691,8 +612,7 @@ public class EucalyptusApplicationCloudingService implements
 	 * @param application
 	 * @return
 	 */
-	private String genApplicationInstanceId(
-			final EucalyptusCloudedApplication application) {
+	private String genApplicationInstanceId(final EucalyptusCloudedApplication application) {
 		return application.getName() + "--" + application.acquireInstanceId();
 	}
 
@@ -700,8 +620,7 @@ public class EucalyptusApplicationCloudingService implements
 	public void undeployApplicationInstance(final IApplicationInstance instance)
 			throws ApplicationCloudingServiceException {
 
-		this.printDebugMsg("undeployApplicationInstance --- " + "instance: "
-				+ instance);
+		this.printDebugMsg("undeployApplicationInstance --- " + "instance: " + instance);
 
 		final ICloudNode node = instance.getNode();
 
@@ -710,8 +629,8 @@ public class EucalyptusApplicationCloudingService implements
 		 */
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class
-							+ " but found " + this.configuration.getClass();
+					"node must be of class " + EucalyptusCloudNode.class + " but found "
+							+ this.configuration.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
@@ -721,30 +640,22 @@ public class EucalyptusApplicationCloudingService implements
 
 		/* 1. Remove from load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.removeHost(instance.getApplication()
-						.getName(), euNode.getIpAddress())) {
+				&& !this.lbConnector.removeHost(instance.getApplication().getName(), euNode.getIpAddress())) {
 			final String errorMsg =
-					"Failed to remove host '" + euNode.getIpAddress()
-							+ "' for application '"
-							+ instance.getApplication().getName()
-							+ "' from load balancer";
+					"Failed to remove host '" + euNode.getIpAddress() + "' for application '"
+							+ instance.getApplication().getName() + "' from load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			// Continuing in order to avoid a broken state
 			// throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
 		/* 2. Undeploy */
-		final ExternalCommandExecuter executer =
-				new ExternalCommandExecuter(
-						this.configuration.isDummyModeEnabled());
+		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand applicationUndeployCommand =
-				EucalyptusCommandFactory.getApplicationUndeployCommand(
-						"jpetstore.war", euNode.getIpAddress());
-		executer.executeCommandWithEnv(applicationUndeployCommand,
-				this.configuration.getEucatoolsPath());
+				EucalyptusCommandFactory.getApplicationUndeployCommand("jpetstore.war", euNode.getIpAddress());
+		executer.executeCommandWithEnv(applicationUndeployCommand, this.configuration.getEucatoolsPath());
 
-		this.eventNotifier
-				.notifyUndeployApplicationInstanceSuccess((EucalyptusApplicationInstance) instance);
+		this.eventNotifier.notifyUndeployApplicationInstanceSuccess((EucalyptusApplicationInstance) instance);
 	}
 
 	/**

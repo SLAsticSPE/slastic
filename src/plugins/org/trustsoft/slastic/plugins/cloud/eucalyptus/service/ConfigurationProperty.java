@@ -52,7 +52,15 @@ public enum ConfigurationProperty {
 			/* allow empty: */ true),
 
 	/* */ 
-	NODE_SHUTDOWN_DELAY_MILLIS ("nodeShutDownDelayMillis", "0",
+	NODE_SHUTDOWN_DELAY_MILLIS ("nodeShutDownDelayMillis", "1",
+			/* NOT allow empty: */ false),
+			
+	/* */
+	APP_INST_DEPLOY_MAX_WAIT_TIME_MILLIS ("applicationInstanceDeployMaxWaitTimeMillis", "10000", 
+			/* NOT allow empty: */ false),
+				
+	/* */
+	APP_INST_DEPLOY_POLL_PERIOD_MILLIS ("applicationInstanceDeployPollPeriodMillis", "1000",
 			/* NOT allow empty: */ false),
 			
 	/* */

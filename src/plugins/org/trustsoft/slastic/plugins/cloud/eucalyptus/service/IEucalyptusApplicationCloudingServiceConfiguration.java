@@ -88,6 +88,21 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public int getNodeShutDownDelayMillis();
 
 	/**
+	 * Returns the maximum time to wait for an application to be available.
+	 * 
+	 * @return
+	 */
+	public int getApplicationInstanceDeployMaxWaitTimeMillis();
+
+	/**
+	 * Returns the poll period with which to check if an application instance is
+	 * available.
+	 * 
+	 * @return
+	 */
+	public int getApplicationInstanceDeployPollPeriodMillis();
+
+	/**
 	 * Returns the name of the public key used for authentication with
 	 * Eucalyptus.
 	 * 
