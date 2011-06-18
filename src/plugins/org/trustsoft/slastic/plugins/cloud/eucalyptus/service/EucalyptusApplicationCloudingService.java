@@ -239,16 +239,20 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				ipAddress = this.getIPAddressFromDescribeNodeResult(result);
 
 				try {
-					Thread.sleep(1000);
-					secondCounter++;
+					Thread.sleep(this.configuration.getNodeAllocationPollPeriodSeconds() * 1000);
+					secondCounter += this.configuration.getNodeAllocationPollPeriodSeconds();
 				} catch (final InterruptedException e) {
 					EucalyptusApplicationCloudingService.log.error(
 							"Waiting for node startup failed: " + e.getMessage(), e);
 				}
 
-				// TODO: turn into property
-				if (secondCounter > 300) { // maximum 5min for waiting
-					throw new ApplicationCloudingServiceException("5 minutes timeout for allocateNode reached.");
+				if (secondCounter > this.configuration.getApplicationInstanceDeployMaxWaitTimeSeconds()) { // maximum
+																											// 5min
+																											// for
+																											// waiting
+					throw new ApplicationCloudingServiceException(
+							this.configuration.getNodeAllocationMaxWaitTimeSeconds()
+									+ " seconds timeout for allocateNode reached.");
 				}
 			}
 		}
@@ -273,6 +277,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 						.getCopyKiekerConfigCommand(
 								this.configuration.getSSHPrivateKeyFile(),
 								this.configuration.getSSHUserName(),
+								// TODO: turn into properties!
 								this.configuration.getTomcatHome() + "/../lib/META-INF/",
 								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
 								ipAddress);
@@ -426,8 +431,9 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.printDebugMsg("removeCloudedApplication --- " + "application: " + application);
 
 		/* Remove application from load balancer */
+		// TODO: check if load balancer enabled?
 		if (!this.lbConnector.removeContext(application.getName())) {
-			final String errorMsg = "Failed to register application '" + application.getName() + "' in load balancer";
+			final String errorMsg = "Failed to deregister application '" + application.getName() + "' from load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}

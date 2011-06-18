@@ -22,7 +22,7 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 	 */
 	public void testInitializedProperly() {
 		final Properties props =
-				TestEucalyptusConfigurationPlainValues.genDefaultProperties();
+				ConfigurationProperty.defaultProperties();
 
 		final IEucalyptusApplicationCloudingServiceConfiguration config =
 				EucalyptusApplicationCloudingServiceConfiguration
@@ -224,16 +224,5 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 						+ cfgProp.getPropertyName());
 			}
 		}
-	}
-
-	private static Properties genDefaultProperties() {
-		final Properties props = new Properties();
-
-		for (final ConfigurationProperty cfgProp : ConfigurationProperty
-				.values()) {
-			props.put(cfgProp.getPropertyName(), cfgProp.getDefaultValue());
-		}
-
-		return props;
 	}
 }
