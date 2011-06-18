@@ -163,6 +163,8 @@ public class JPetStoreAdaptationPlanner extends
 	private NumNodesRuleSet2 createRuleSet() {
 		final NumNodesRuleSet2 rs = new NumNodesRuleSet2();
 
+		// TODO: read the set of rulesets
+		
 		/* Parse rule set for increasing workload */
 		final String ruleSetString =
 				super.getInitProperty(JPetStoreAdaptationPlanner.PROPERTY_RULESET);
