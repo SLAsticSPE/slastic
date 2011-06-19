@@ -9,14 +9,17 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * TODO: Junit Test!
- *  
+ * 
  * @author Andre van Hoorn
  * 
  */
+// TODO: Rename to 'NumDeploymentsForAssemblyRuleSet' or alike
 public class NumNodesRuleSet2 {
 	private static final Log log = LogFactory
 			.getLog(NumNodesRuleSet2.class);
 
+	// TODO: Add fields assemblyComponentName, executionContainerTypeName
+	
 	/**
 	 * The key is the respective {@link Baseline#getCenter()}.
 	 */

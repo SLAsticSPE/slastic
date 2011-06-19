@@ -29,6 +29,8 @@ public class JPetStoreAdaptationPlanner extends
 	private static final Log log = LogFactory
 			.getLog(JPetStoreAdaptationPlanner.class);
 
+	private volatile NumNodesRuleSet2 ruleSet;
+	
 	@Override
 	public void handleEvent(final IEvent arg0) {
 		throw new UnsupportedOperationException();
@@ -36,6 +38,7 @@ public class JPetStoreAdaptationPlanner extends
 
 	// TODO: add where clause to statement to select appropriate assembly
 	// component already here
+	// TODO: pull-out parameters win-time and output-frequency to configuration file
 	protected String createEPStatement() {
 		return "select "
 				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
@@ -52,7 +55,7 @@ public class JPetStoreAdaptationPlanner extends
 	public boolean execute() {
 		final ConfigurationManager configurationManager;
 
-		{ // init rule engine
+		{ // init configuration manager and rule engine
 			configurationManager =
 					new ConfigurationManager((ModelManager) this
 							.getParentAnalysisComponent()
@@ -61,6 +64,7 @@ public class JPetStoreAdaptationPlanner extends
 							(EucalyptusReconfigurationManager) this
 									.getReconfigurationManager());
 			this.ruleEngine =
+				// TODO: pass rule set(s!)
 					new WorkloadIntensityRuleEngine(this.ruleSet,
 							configurationManager);
 		}
@@ -76,8 +80,6 @@ public class JPetStoreAdaptationPlanner extends
 
 		return true;
 	}
-
-	private volatile NumNodesRuleSet2 ruleSet;
 
 	@Override
 	public boolean init() {

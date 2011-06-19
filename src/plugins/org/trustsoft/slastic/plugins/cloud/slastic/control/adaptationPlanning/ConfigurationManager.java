@@ -15,6 +15,8 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
+ * Executes reconfiguration requests received via its {@link #reconfigure(int)}
+ * manager employing the {@link EucalyptusReconfigurationManager}.
  * 
  * @author Andre van Hoorn
  * 
@@ -28,14 +30,24 @@ public class ConfigurationManager {
 	 * The number of nodes allocated in the current configuration.
 	 */
 	// 1 is a HACK to allow to manage running instances
+	// TODO: - this should be renamed to currentNumDeploymentComponents are alike
+	//         (should then become a HashMap assembly component x int)
+	//       - better: look up from the model manager
 	private volatile int currentNumNodes = 1;
 
-	// TODO: These fields should become final
-	private volatile ModelManager modelManager;
+	// TODO: refine
+	private static final String EXECUTION_CONTAINER_NAME_PREFIX = "appsrv-";
+	private volatile int nextExecutionContainerIndex = 1;
+
+	
+	private final ModelManager modelManager;
+	private final EucalyptusReconfigurationManager reconfigurationManager;
+
+	// TODO: remove; should be passed to the reconfigure method.
 	private volatile AssemblyComponent assemblyComponent;
 	private volatile ExecutionContainerType executionContainerType;
-	private volatile EucalyptusReconfigurationManager reconfigurationManager;
 
+	
 	/**
 	 * TODO: Remove getter
 	 * 
@@ -74,6 +86,7 @@ public class ConfigurationManager {
 	 * @param executionContainerType
 	 * @param reconfigurationManager
 	 */
+	// TODO: Remove AssemblyComponent, ExecutionContainerType
 	public ConfigurationManager(final ModelManager modelManager,
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainerType executionContainerType,
@@ -95,6 +108,10 @@ public class ConfigurationManager {
 	 * 
 	 * @param requestedNumNodes
 	 */
+	// TODO: pass AssemblyComponent (+ ExecutionContainerType)
+	// TODO: return the return value of increase/shrink
+	// TODO: set synchronized in order to emphasize that only one 
+	//       reconfiguration is executed a time
 	public final void reconfigure(final int requestedNumNodes) {
 		ConfigurationManager.log.info("Changing configuration from "
 				+ this.currentNumNodes + " to " + requestedNumNodes);
@@ -112,6 +129,7 @@ public class ConfigurationManager {
 	 * 
 	 * @return
 	 */
+	// TODO: Pass AssemblyComponent
 	private Collection<DeploymentComponent> selectActiveDeploymentComponents(
 			final int numComponents) {
 		final Collection<DeploymentComponent> result =
@@ -153,7 +171,7 @@ public class ConfigurationManager {
 
 		final Iterator<DeploymentComponent> it =
 				activeDeplsForAssemblyComponents.iterator();
-		// HACK:
+		// TODO: Remove HACK:
 		it.next();
 		for (int curIdx = 0; curIdx < numComponents; curIdx++) {
 			result.add(it.next());
@@ -162,6 +180,7 @@ public class ConfigurationManager {
 		return result;
 	}
 
+	// TODO: pass AssemblyComponent
 	private boolean shrinkCapacity(final int shrinkBy) {
 		final Collection<DeploymentComponent> shrinkList =
 				this.selectActiveDeploymentComponents(shrinkBy);
@@ -186,16 +205,6 @@ public class ConfigurationManager {
 		return true;
 	}
 
-	// TODO: refine
-	private static final String EXECUTION_CONTAINER_NAME_PREFIX = "appsrv-";
-	private volatile int nextExecutionContainerIndex = 1;
-
-	// TODO: refine
-	private final String createExecutionContainerName() {
-		return ConfigurationManager.EXECUTION_CONTAINER_NAME_PREFIX
-				+ this.nextExecutionContainerIndex++;
-	}
-
 	private void increaseCapacity(final int increaseBy) {
 		for (int i = 0; i < increaseBy; i++) {
 			final ExecutionContainer container =
@@ -205,5 +214,11 @@ public class ConfigurationManager {
 			this.reconfigurationManager.replicateComponent(
 					this.assemblyComponent, container);
 		}
+	}
+	
+	// TODO: refine
+	private final String createExecutionContainerName() {
+		return ConfigurationManager.EXECUTION_CONTAINER_NAME_PREFIX
+				+ this.nextExecutionContainerIndex++;
 	}
 }
