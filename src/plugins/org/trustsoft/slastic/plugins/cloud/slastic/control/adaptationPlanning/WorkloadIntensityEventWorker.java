@@ -1,22 +1,39 @@
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
+import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+
 /**
  * 
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 class WorkloadIntensityEventWorker implements Runnable {
+	private static final Log log = LogFactory.getLog(WorkloadIntensityEventWorker.class);
+
 	private final WorkloadIntensityRuleEngine ruleEngine;
 	private final ConfigurationManager configurationManager;
 
-	// TODO: Field AssemblyComponent
+	private final AssemblyComponent assemblyComponent;
+	private final ExecutionContainerType executionContainerType;
 
-	public WorkloadIntensityEventWorker(
-			final WorkloadIntensityRuleEngine ruleEngine,
-			final ConfigurationManager configurationManager) {
+	private final AtomicReference<WorkloadIntensityEvent> workloadIntensityEventRef;
+
+	public WorkloadIntensityEventWorker(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType, final WorkloadIntensityRuleEngine ruleEngine,
+			final ConfigurationManager configurationManager,
+			final AtomicReference<WorkloadIntensityEvent> workloadIntensityEventRef) {
+		this.assemblyComponent = assemblyComponent;
+		this.executionContainerType = executionContainerType;
 		this.ruleEngine = ruleEngine;
 		this.configurationManager = configurationManager;
+		this.workloadIntensityEventRef = workloadIntensityEventRef;
 	}
 
 	/**
@@ -27,19 +44,26 @@ class WorkloadIntensityEventWorker implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// TODO: pass AssemblyComponent
-		// TODO: receive Baseline object
-		final int requestedNumNodes = this.ruleEngine.nextNumNodes();
+		// consume (get and reset) most recent workload intensity event
+		final WorkloadIntensityEvent curWorkloadIntensity = this.workloadIntensityEventRef.getAndSet(null);
 
-		// TODO: This logic should be handled by the configurationManager
-		if ((requestedNumNodes == -1)
-				|| (requestedNumNodes == this.configurationManager
-						.getCurrentNumNodes())) {
-			return; // nothing to do
+		if (curWorkloadIntensity == null) {
+			// this may happen if workload intensity events have been dropped in
+			// the meantime
+			return;
 		}
 
-		// TODO: evaluate return value (to be implemented)
-		this.configurationManager.reconfigure(requestedNumNodes);
-		// TODO: commit Baseline to ruleEngine on success
+		final Baseline requestedBaseline = this.ruleEngine.nextBaseline(curWorkloadIntensity);
+
+		final boolean success =
+				this.configurationManager.reconfigure(this.assemblyComponent, this.executionContainerType,
+						requestedBaseline.getNumNodes());
+		if (success) {
+			this.ruleEngine.commitBaseline(this.assemblyComponent, requestedBaseline);
+		} else {
+			WorkloadIntensityEventWorker.log.error(String.format(
+					"Reconfiguration failed for assembly component %s, execution contain type %s, and baseline %s ",
+					this.assemblyComponent, this.executionContainerType, requestedBaseline));
+		}
 	}
 }

@@ -20,33 +20,28 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  * @author Andre van Hoorn
  * 
  */
-public class JPetStoreAdaptationPlanner extends
-		AbstractAdaptationPlannerComponent {
+public class JPetStoreAdaptationPlanner extends AbstractAdaptationPlannerComponent {
 
-	private static final String PROPERTY_RULESET =
-			"baselineRules";
+	private static final String PROPERTY_RULESET = "baselineRules";
 
-	private static final Log log = LogFactory
-			.getLog(JPetStoreAdaptationPlanner.class);
+	private static final Log log = LogFactory.getLog(JPetStoreAdaptationPlanner.class);
 
 	private volatile NumNodesRuleSet2 ruleSet;
-	
+
 	@Override
 	public void handleEvent(final IEvent arg0) {
 		throw new UnsupportedOperationException();
 	}
 
-	// TODO: add where clause to statement to select appropriate assembly
-	// component already here
-	// TODO: pull-out parameters win-time and output-frequency to configuration file
-	protected String createEPStatement() {
+	protected String createEPStatement(final String assemblyComponentPackageName, final String assemblyComponentName,
+			final int winSizeSeconds, final int outputPeriodSeconds) {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
-				+ " from "
-				+ DeploymentComponentOperationExecution.class.getName()
-				+ ".win:time(" + 1 + " min)"
-				+ " group by deploymentComponent.assemblyComponent"
-				+ " output all every " + 1 + " minutes";
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent as assemblyComponent, count(*)"
+				+ " from " + DeploymentComponentOperationExecution.class.getName() + ".win:time(" + winSizeSeconds
+				+ " seconds)" + " where assemblyComponent.packageName = \"" + assemblyComponentPackageName + "\""
+				+ "   and assemblyComponent.name = \"" + assemblyComponentName + "\""
+				+ " group by deploymentComponent.assemblyComponent" + " output all every " + outputPeriodSeconds
+				+ " seconds";
 	}
 
 	private volatile WorkloadIntensityRuleEngine ruleEngine;
@@ -55,26 +50,32 @@ public class JPetStoreAdaptationPlanner extends
 	public boolean execute() {
 		final ConfigurationManager configurationManager;
 
+		final String assemblyComponentPackageName = "a.b.c";
+		final String assemblyComponentName = "ComponentName";
+
+		// TODO: pull out parameters to configuration file
+		final int winSizeSeconds = 60;
+		final int outputPeriodSeconds = 60;
+
 		{ // init configuration manager and rule engine
 			configurationManager =
-					new ConfigurationManager((ModelManager) this
-							.getParentAnalysisComponent()
+					new ConfigurationManager((ModelManager) this.getParentAnalysisComponent()
 							.getParentControlComponent().getModelManager(),
-							null, null,
-							(EucalyptusReconfigurationManager) this
-									.getReconfigurationManager());
+							(EucalyptusReconfigurationManager) this.getReconfigurationManager());
 			this.ruleEngine =
-				// TODO: pass rule set(s!)
-					new WorkloadIntensityRuleEngine(this.ruleSet,
-							configurationManager);
+			// TODO: pass rule set(s!)
+					new WorkloadIntensityRuleEngine(this.ruleSet, configurationManager);
 		}
 
 		{ // register statement and subscriber
 			final EPStatement epStatement =
 					this.getParentAnalysisComponent()
-							.getParentControlComponent().getEPServiceProvider()
-							.getEPAdministrator().createEPL(
-									this.createEPStatement());
+							.getParentControlComponent()
+							.getEPServiceProvider()
+							.getEPAdministrator()
+							.createEPL(
+									this.createEPStatement(assemblyComponentPackageName, assemblyComponentName,
+											winSizeSeconds, outputPeriodSeconds));
 			epStatement.setSubscriber(this.ruleEngine);
 		}
 
@@ -111,34 +112,27 @@ public class JPetStoreAdaptationPlanner extends
 	private Collection<Baseline> parseRuleSetString(final String ruleSetStr) {
 		final Collection<Baseline> ruleSet = new ArrayList<Baseline>();
 
-		final StringTokenizer tokenizer =
-				new StringTokenizer(ruleSetStr, ";");
+		final StringTokenizer tokenizer = new StringTokenizer(ruleSetStr, ";");
 		final int numRules = tokenizer.countTokens();
 		if (numRules <= 0) {
-			JPetStoreAdaptationPlanner.log.error("Invalid number of rules: "
-					+ numRules);
+			JPetStoreAdaptationPlanner.log.error("Invalid number of rules: " + numRules);
 			return null;
 		}
 		while (tokenizer.hasMoreElements()) {
 			final String rule = tokenizer.nextToken();
-			final StringTokenizer conditionActionTokenizer =
-					new StringTokenizer(rule, "-");
+			final StringTokenizer conditionActionTokenizer = new StringTokenizer(rule, "-");
 			if (conditionActionTokenizer.countTokens() != 2) {
 				JPetStoreAdaptationPlanner.log
-						.error("Expecting rules of format \"numNodes-lower:center:upper\"; found: "
-								+ rule);
+						.error("Expecting rules of format \"numNodes-lower:center:upper\"; found: " + rule);
 				return null;
 			}
 			final int numNodes;
 			final long lower, center, upper;
 			final Baseline b;
 			try {
-				numNodes =
-						Integer.parseInt(conditionActionTokenizer.nextToken()
-								.trim());
+				numNodes = Integer.parseInt(conditionActionTokenizer.nextToken().trim());
 				final String borderStr = conditionActionTokenizer.nextToken();
-				final StringTokenizer borderTok =
-						new StringTokenizer(borderStr, ":");
+				final StringTokenizer borderTok = new StringTokenizer(borderStr, ":");
 				if (borderTok.countTokens() != 3) {
 					JPetStoreAdaptationPlanner.log
 							.error("Expecting colon-separated list of lower, center, and upper border values. Found: '"
@@ -151,9 +145,8 @@ public class JPetStoreAdaptationPlanner extends
 				b = new Baseline(upper, center, lower, numNodes);
 				JPetStoreAdaptationPlanner.log.info("Adding baseline" + b);
 			} catch (final Exception exc) {
-				JPetStoreAdaptationPlanner.log
-						.error("Failed to extract number from rule: " + rule
-								+ "(" + exc.getMessage() + ")");
+				JPetStoreAdaptationPlanner.log.error("Failed to extract number from rule: " + rule + "("
+						+ exc.getMessage() + ")");
 				return null;
 			}
 			ruleSet.add(b);
@@ -166,33 +159,29 @@ public class JPetStoreAdaptationPlanner extends
 		final NumNodesRuleSet2 rs = new NumNodesRuleSet2();
 
 		// TODO: read the set of rulesets
-		
+
+		// TODO: for all rulesets, extract assembly component name, execution
+		// container type name,
+		// and actual rule set.
+
 		/* Parse rule set for increasing workload */
-		final String ruleSetString =
-				super.getInitProperty(JPetStoreAdaptationPlanner.PROPERTY_RULESET);
-		if ((ruleSetString == null)
-				|| ruleSetString.isEmpty()) {
+		final String ruleSetString = super.getInitProperty(JPetStoreAdaptationPlanner.PROPERTY_RULESET);
+		if ((ruleSetString == null) || ruleSetString.isEmpty()) {
 			final String errorMsg =
-					"Invalid or missing value for property '"
-							+ JPetStoreAdaptationPlanner.PROPERTY_RULESET
-							+ "'";
+					"Invalid or missing value for property '" + JPetStoreAdaptationPlanner.PROPERTY_RULESET + "'";
 			JPetStoreAdaptationPlanner.log.error(errorMsg);
 			return null;
 		}
 
-		final Collection<Baseline> baselines =
-				this.parseRuleSetString(ruleSetString);
+		final Collection<Baseline> baselines = this.parseRuleSetString(ruleSetString);
 		if (baselines == null) {
-			JPetStoreAdaptationPlanner.log
-					.error("Failed to parse rule set for increasing workload:"
-							+ ruleSetString);
+			JPetStoreAdaptationPlanner.log.error("Failed to parse rule set for increasing workload:" + ruleSetString);
 			return null;
 		}
 
-		/* Pass rules to ConfigurationManager */
+		/* Add baselines to rule set */
 		for (final Baseline b : baselines) {
-			rs.addBaselineRule(b.getLowerBorder(), b.getCenter(),
-					b.getUpperBorder(), b.getNumNodes());
+			rs.addBaselineRule(b.getLowerBorder(), b.getCenter(), b.getUpperBorder(), b.getNumNodes());
 		}
 
 		if (!rs.isRuleSetValid()) {
