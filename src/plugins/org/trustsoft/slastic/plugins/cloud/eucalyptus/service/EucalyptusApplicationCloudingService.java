@@ -433,7 +433,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		/* Remove application from load balancer */
 		// TODO: check if load balancer enabled?
 		if (!this.lbConnector.removeContext(application.getName())) {
-			final String errorMsg = "Failed to deregister application '" + application.getName() + "' from load balancer";
+			final String errorMsg =
+					"Failed to deregister application '" + application.getName() + "' from load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
@@ -696,6 +697,18 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		for (final ICloudNodeType type : this.nodeTypes) {
 			if (type.getName().equals(name)) {
 				return type;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public IApplicationInstance lookupApplicationInstance(final ICloudedApplication cloudedApplication,
+			final ICloudNode cloudNode) {
+		for (final IApplicationInstance applicationInstance : this.applicationInstances) {
+			if (applicationInstance.getApplication().equals(cloudedApplication)
+					&& applicationInstance.getNode().equals(cloudNode)) {
+				return applicationInstance;
 			}
 		}
 		return null;

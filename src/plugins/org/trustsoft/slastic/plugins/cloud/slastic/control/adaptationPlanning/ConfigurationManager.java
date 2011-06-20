@@ -33,47 +33,12 @@ public class ConfigurationManager {
 	// alike
 	// (should then become a HashMap assembly component x int)
 	// - better: look up from the model manager
-	private volatile int currentNumNodes = 1;
+	// private volatile int currentNumNodes = 1;
 
-	// TODO: refine
-	private static final String EXECUTION_CONTAINER_NAME_PREFIX = "appsrv-";
 	private volatile int nextExecutionContainerIndex = 1;
 
 	private final ModelManager modelManager;
 	private final EucalyptusReconfigurationManager reconfigurationManager;
-
-	// TODO: remove; should be passed to the reconfigure method.
-	private volatile AssemblyComponent assemblyComponent;
-	private volatile ExecutionContainerType executionContainerType;
-
-	/**
-	 * TODO: Remove getter
-	 * 
-	 * @return the modelManager
-	 */
-	public final ModelManager getModelManager() {
-		return this.modelManager;
-	}
-
-	/**
-	 * TODO: remove setter
-	 * 
-	 * @param assemblyComponent
-	 *            the assemblyComponent to set
-	 */
-	public final void setAssemblyComponent(final AssemblyComponent assemblyComponent) {
-		this.assemblyComponent = assemblyComponent;
-	}
-
-	/**
-	 * TODO: remove setter
-	 * 
-	 * @param executionContainerType
-	 *            the executionContainerType to set
-	 */
-	public final void setExecutionContainerType(final ExecutionContainerType executionContainerType) {
-		this.executionContainerType = executionContainerType;
-	}
 
 	/**
 	 * 
@@ -87,38 +52,60 @@ public class ConfigurationManager {
 	}
 
 	/**
-	 * @return the currentNumNodes
-	 */
-	public final int getCurrentNumNodes() {
-		return this.currentNumNodes;
-	}
-
-	/**
 	 * 
 	 * @param requestedNumNodes
 	 * @return
 	 */
-	public final synchronized boolean reconfigure(final AssemblyComponent asmComponent, final ExecutionContainerType executionContainerType,
+	public final synchronized boolean reconfigure(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType,
 			final int requestedNumNodes) {
-		ConfigurationManager.log.info("Changing configuration from " + this.currentNumNodes + " to "
-				+ requestedNumNodes);
+		final int currentNumNodes = this.activeDeplsForAssemblyComponent(assemblyComponent).size();
+
+		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to "
+				+ requestedNumNodes + " instances of assembly component " + assemblyComponent);
 
 		final boolean success;
 
-		if (requestedNumNodes > this.currentNumNodes) {
+		if (requestedNumNodes > currentNumNodes) {
 			success =
-					this.increaseCapacity(this.assemblyComponent, this.executionContainerType, requestedNumNodes
-							- this.currentNumNodes);
-		} else if (requestedNumNodes < this.currentNumNodes) {
-			success = this.shrinkCapacity(asmComponent, this.currentNumNodes - requestedNumNodes);
+					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
+							- currentNumNodes);
+		} else if (requestedNumNodes < currentNumNodes) {
+			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		} else {
 			/* == */
 			success = true;
 		}
 
-		this.currentNumNodes = requestedNumNodes;
+		//TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
 
 		return success;
+	}
+
+	/**
+	 * @return the currentNumNodes
+	 */
+	private final Collection<DeploymentComponent> activeDeplsForAssemblyComponent(
+			final AssemblyComponent assemblyComponent) {
+		/*
+		 * Fetch all deployments for the assembly component (including inactive
+		 * ones)
+		 */
+		final Collection<DeploymentComponent> deplsForAssemblyComponent =
+				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
+						assemblyComponent);
+
+		ConfigurationManager.log.info("Found " + deplsForAssemblyComponent.size()
+				+ " deployment components (including inactive)");
+
+		/* Select the active deployment components */
+		final Collection<DeploymentComponent> activeDeplsForAssemblyComponents = new ArrayList<DeploymentComponent>();
+		for (final DeploymentComponent deplComp : deplsForAssemblyComponent) {
+			if (deplComp.isActive()) {
+				activeDeplsForAssemblyComponents.add(deplComp);
+			}
+		}
+		return activeDeplsForAssemblyComponents;
 	}
 
 	/**
@@ -127,37 +114,21 @@ public class ConfigurationManager {
 	 */
 	private Collection<DeploymentComponent> selectActiveDeploymentComponents(final AssemblyComponent assemblyComponent,
 			final int numComponents) {
-		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
+		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
+				this.activeDeplsForAssemblyComponent(assemblyComponent);
 
-		/*
-		 * Fetch all deployments for the assembly component (including inactive
-		 * ones)
-		 */
-		final Collection<DeploymentComponent> deplsForAssemblyComponents =
-				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
-						assemblyComponent);
-
-		ConfigurationManager.log.info("Found " + deplsForAssemblyComponents.size()
-				+ " deployment components (including inactive)");
-
-		/* Select the active deployment components */
-		final Collection<DeploymentComponent> activeDeplsForAssemblyComponents = new ArrayList<DeploymentComponent>();
-		for (final DeploymentComponent deplComp : deplsForAssemblyComponents) {
-			if (deplComp.isActive()) {
-				activeDeplsForAssemblyComponents.add(deplComp);
-			}
-		}
-
-		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponents.size()
+		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
 				+ " ACTIVE deployment components");
 
-		if (activeDeplsForAssemblyComponents.size() < numComponents) {
+		if (activeDeplsForAssemblyComponent.size() < numComponents) {
 			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
-					+ activeDeplsForAssemblyComponents.size() + " active one exist");
+					+ activeDeplsForAssemblyComponent.size() + " active one exist");
 			return null;
 		}
 
-		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponents.iterator();
+		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
+		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
+
 		// TODO: This used to be a HACK (remove comment as soon as proven to
 		// work): -> it.next();
 		for (int curIdx = 0; curIdx < numComponents; curIdx++) {
@@ -214,7 +185,7 @@ public class ConfigurationManager {
 		boolean success = true;
 
 		for (int i = 0; (i < increaseBy) && success; i++) {
-			final String containerName = this.createExecutionContainerName();
+			final String containerName = this.createExecutionContainerName(executionContainerType);
 			final ExecutionContainer container =
 					this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
 			if (container != null) {
@@ -237,8 +208,7 @@ public class ConfigurationManager {
 		return success;
 	}
 
-	// TODO: refine
-	private final String createExecutionContainerName() {
-		return ConfigurationManager.EXECUTION_CONTAINER_NAME_PREFIX + this.nextExecutionContainerIndex++;
+	private final String createExecutionContainerName(final ExecutionContainerType executionContainerType) {
+		return executionContainerType + "-" + this.nextExecutionContainerIndex++;
 	}
 }

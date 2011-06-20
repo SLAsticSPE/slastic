@@ -53,7 +53,12 @@ class WorkloadIntensityEventWorker implements Runnable {
 			return;
 		}
 
-		final Baseline requestedBaseline = this.ruleEngine.nextBaseline(curWorkloadIntensity);
+		final Baseline requestedBaseline = this.ruleEngine.nextBaseline(this.assemblyComponent, curWorkloadIntensity);
+		if (requestedBaseline == null) {
+			WorkloadIntensityEventWorker.log.error("failed to request nextBaseline for assembly component '"
+					+ this.assemblyComponent
+					+ "' and workload intensity '" + curWorkloadIntensity + "'");
+		}
 
 		final boolean success =
 				this.configurationManager.reconfigure(this.assemblyComponent, this.executionContainerType,
