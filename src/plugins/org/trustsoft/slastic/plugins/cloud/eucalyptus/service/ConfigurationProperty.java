@@ -52,7 +52,35 @@ public enum ConfigurationProperty {
 			/* allow empty: */ true),
 
 	/* */ 
-	NODE_SHUTDOWN_DELAY_MILLIS ("nodeShutDownDelayMillis", "0",
+	NODE_SHUTDOWN_DELAY_SECONDS ("nodeShutDownDelaySeconds", "5",
+			/* NOT allow empty: */ false),
+
+	/* */
+	NODE_ALLOCATION_MAX_WAIT_SECONDS ("nodeAllocationMaxWaitTimeSeconds", "300",
+			/* NOT allow empty: */ false),			
+		
+	/* */
+	NODE_ALLOCATION_POLL_PERIOD_SECONDS ("nodeAllocationPollPeriodSeconds", "1",
+			/* NOT allow empty: */ false),
+			
+	/* */
+	APP_INST_DEPLOY_MAX_WAIT_TIME_SECONDS ("applicationInstanceDeployMaxWaitTimeSeconds", "10", 
+			/* NOT allow empty: */ false),
+				
+	/* */
+	APP_INST_DEPLOY_POLL_PERIOD_SECONDS ("applicationInstanceDeployPollPeriodSeconds", "1",
+			/* NOT allow empty: */ false),
+
+	/* */
+	APP_INST_DEFAULT_QUERY_PORT ("defaultApplicationInstanceQueryPort", "8080",
+			/* NOT allow empty: */ false),
+			
+	/* */
+	APP_INST_DEFAULT_QUERY_PATH ("defaultApplicationInstanceQueryPath", "/",
+			/* NOT allow empty: */ false),
+	
+	/* */
+	APP_DEFAULT_DEPLOYMENT_ARTIFACT ("defaultApplicationDeploymentArtifact", "artifact.war", 
 			/* NOT allow empty: */ false),
 			
 	/* */

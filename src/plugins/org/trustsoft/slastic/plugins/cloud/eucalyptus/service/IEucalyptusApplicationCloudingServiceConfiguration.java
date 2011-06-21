@@ -79,13 +79,66 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public Collection<String[]> getInitialApplicationInstances();
 
 	/**
-	 * Returns the number of milliseconds to wait after a node de-allocation
+	 * Returns the number of seconds to wait after a node de-allocation
 	 * request before an instance is actually released. This property can be
 	 * used to avoid the termination of active requests on instances.
 	 * 
 	 * @return
 	 */
-	public int getNodeShutDownDelayMillis();
+	public int getNodeShutDownDelaySeconds();
+
+	/**
+	 * Returns the maximum time to wait for an allocated node to be available.
+	 * 
+	 * @return
+	 */
+	public int getNodeAllocationMaxWaitTimeSeconds();
+	
+	/**
+	 * Returns the poll period with which to check if an allocated node is available.
+	 */
+	public int getNodeAllocationPollPeriodSeconds();
+	
+	/**
+	 * Returns the maximum time to wait for an application to be available.
+	 * 
+	 * @return
+	 */
+	public int getApplicationInstanceDeployMaxWaitTimeSeconds();
+
+	/**
+	 * Returns the poll period with which to check if an application instance is
+	 * available.
+	 * 
+	 * @return
+	 */
+	public int getApplicationInstanceDeployPollPeriodSeconds();
+
+	/**
+	 * Returns the default port to send an HTTP request to (in order to check
+	 * whether a newly deployed application instance became available).
+	 * 
+	 * @return
+	 * @see #getDefaultApplicationInstanceQueryPath()
+	 */
+	public int getDefaultApplicationInstanceQueryPort();
+
+	/**
+	 * Returns the path to send an HTTP request to (in order to check whether a
+	 * newly deployed application instance became available).
+	 * 
+	 * @return
+	 * @see #getDefaultApplicationInstanceQueryPort()
+	 */
+	public String getDefaultApplicationInstanceQueryPath();
+
+	/**
+	 * Returns the file system location of the default artifact to copy to the
+	 * directory specified by the property {@link #getTomcatHome()}.
+	 * 
+	 * @return
+	 */
+	public String getDefaultApplicationDeploymentArtifact();
 
 	/**
 	 * Returns the name of the public key used for authentication with

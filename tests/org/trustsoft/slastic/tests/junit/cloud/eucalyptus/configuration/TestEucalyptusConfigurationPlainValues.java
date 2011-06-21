@@ -121,13 +121,66 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 				Assert.assertNotNull("Null value (svc) for initial application instances",
 						svc.getApplicationInstances());
 				break;
-			case NODE_SHUTDOWN_DELAY_MILLIS:
+			case NODE_SHUTDOWN_DELAY_SECONDS:
 				Assert.assertEquals(
 						"Unexpected value (config) for '"
 								+ cfgProp.getPropertyName() + "'",
 						cfgProp.getDefaultValue(),
-						Integer.toString(config.getNodeShutDownDelayMillis()));
+						Integer.toString(config.getNodeShutDownDelaySeconds()));
 				// not checking svc, as there's no getter (required) for debug
+				break;
+			case NODE_ALLOCATION_MAX_WAIT_SECONDS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getNodeAllocationMaxWaitTimeSeconds()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
+			case NODE_ALLOCATION_POLL_PERIOD_SECONDS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getNodeAllocationPollPeriodSeconds()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
+			case APP_INST_DEPLOY_MAX_WAIT_TIME_SECONDS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getApplicationInstanceDeployMaxWaitTimeSeconds()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
+			case APP_INST_DEPLOY_POLL_PERIOD_SECONDS:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getApplicationInstanceDeployPollPeriodSeconds()));
+				// not checking svc, as there's no getter (required) for debug
+				break;
+			case APP_INST_DEFAULT_QUERY_PORT:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						Integer.toString(config.getDefaultApplicationInstanceQueryPort()));
+				break;
+			case APP_INST_DEFAULT_QUERY_PATH:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						config.getDefaultApplicationInstanceQueryPath());
+				break;
+			case APP_DEFAULT_DEPLOYMENT_ARTIFACT:
+				Assert.assertEquals(
+						"Unexpected value (config) for '"
+								+ cfgProp.getPropertyName() + "'",
+						cfgProp.getDefaultValue(),
+						config.getDefaultApplicationDeploymentArtifact());				
 				break;
 			case EUCA_KEY_NAME:
 				Assert.assertEquals(

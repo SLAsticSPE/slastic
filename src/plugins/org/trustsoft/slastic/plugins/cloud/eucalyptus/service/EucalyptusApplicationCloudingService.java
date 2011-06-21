@@ -27,14 +27,10 @@ public class EucalyptusApplicationCloudingService implements
 	// TODO: We might think about moving the following collections to an
 	// abstract class
 
-	private final Collection<EucalyptusCloudNodeType> nodeTypes =
-			new Vector<EucalyptusCloudNodeType>();
-	private final Collection<EucalyptusCloudNode> allocatedNodes =
-			new Vector<EucalyptusCloudNode>();
-	private final Collection<EucalyptusCloudedApplication> applications =
-			new Vector<EucalyptusCloudedApplication>();
-	private final Collection<EucalyptusApplicationInstance> applicationInstances =
-			new Vector<EucalyptusApplicationInstance>();
+	private final Collection<EucalyptusCloudNodeType> nodeTypes = new Vector<EucalyptusCloudNodeType>();
+	private final Collection<EucalyptusCloudNode> allocatedNodes = new Vector<EucalyptusCloudNode>();
+	private final Collection<EucalyptusCloudedApplication> applications = new Vector<EucalyptusCloudedApplication>();
+	private final Collection<EucalyptusApplicationInstance> applicationInstances = new Vector<EucalyptusApplicationInstance>();
 
 	private final EucalyptusServiceEventNotifier eventNotifier = new EucalyptusServiceEventNotifier();
 
@@ -77,10 +73,10 @@ public class EucalyptusApplicationCloudingService implements
 				EucalyptusApplicationCloudingService.WGET_LOG);
 		lbConnector.setDummyMode(configuration.isDummyModeEnabled());
 
-		this.initNodeTypes(); // throws an exception on error
-		this.initNodes(); // throws an exception on error
-		this.initApplications(); // throws an exception on error
-		this.initApplicationInstances(); // throws an exception on error
+		initNodeTypes(); // throws an exception on error
+		initNodes(); // throws an exception on error
+		initApplications(); // throws an exception on error
+		initApplicationInstances(); // throws an exception on error
 	}
 
 	/**
@@ -98,46 +94,52 @@ public class EucalyptusApplicationCloudingService implements
 	}
 
 	private void initNodes() throws ApplicationCloudingServiceException {
-		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {		
+		for (final String[] nodeSpec : configuration.getInitialNodeInstances()) {
 			final String nodeName = nodeSpec[0];
 			final String ip = nodeSpec[1];
 			final String instanceId = nodeSpec[2];
 			final String nodeTypeName = nodeSpec[3];
-			final ICloudNodeType nodeType = this.lookupCloudNodeType(nodeTypeName);
+			final ICloudNodeType nodeType = lookupCloudNodeType(nodeTypeName);
 			if (nodeType == null) {
-				throw new ApplicationCloudingServiceException("Failed to lookup node type '" + nodeTypeName + "'");
+				throw new ApplicationCloudingServiceException(
+						"Failed to lookup node type '" + nodeTypeName + "'");
 			}
 
-			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, instanceId, ip, nodeName));
+			allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType,
+					instanceId, ip, nodeName));
 		}
 	}
 
 	private void initApplications() throws ApplicationCloudingServiceException {
-		for (final String appName : this.configuration.getInitialApplications()) {
-			this.applications.add(new EucalyptusCloudedApplication(appName,
+		for (final String appName : configuration.getInitialApplications()) {
+			applications.add(new EucalyptusCloudedApplication(appName,
 					new EucalyptusCloudedApplicationConfiguration()));
 		}
 	}
 
-	private void initApplicationInstances() throws ApplicationCloudingServiceException {
-		for (final String[] appInstDesc : this.configuration.getInitialApplicationInstances()) {
+	private void initApplicationInstances()
+			throws ApplicationCloudingServiceException {
+		for (final String[] appInstDesc : configuration
+				.getInitialApplicationInstances()) {
 			final String appName = appInstDesc[0];
 			final String nodeInstanceName = appInstDesc[1];
 
-			final EucalyptusCloudedApplication app =
-					(EucalyptusCloudedApplication) this.lookupCloudedApplication(appName);
+			final EucalyptusCloudedApplication app = (EucalyptusCloudedApplication) lookupCloudedApplication(appName);
 			if (app == null) {
-				throw new ApplicationCloudingServiceException("Failed to lookup application with name '" + appName
-						+ "'");
+				throw new ApplicationCloudingServiceException(
+						"Failed to lookup application with name '" + appName
+								+ "'");
 			}
 
-			final EucalyptusCloudNode node = (EucalyptusCloudNode) this.lookupNode(nodeInstanceName);
+			final EucalyptusCloudNode node = (EucalyptusCloudNode) lookupNode(nodeInstanceName);
 			if (node == null) {
-				throw new ApplicationCloudingServiceException("Failed to lookup node with name '" + nodeInstanceName
-						+ "'");
+				throw new ApplicationCloudingServiceException(
+						"Failed to lookup node with name '" + nodeInstanceName
+								+ "'");
 			}
 
-			this.applicationInstances.add(new EucalyptusApplicationInstance(this.genApplicationInstanceId(app), app,
+			applicationInstances.add(new EucalyptusApplicationInstance(
+					genApplicationInstanceId(app), app,
 					new EucalyptusApplicationInstanceConfiguration(), node));
 		}
 	}
@@ -250,6 +252,7 @@ public class EucalyptusApplicationCloudingService implements
 									+ e.getMessage(), e);
 				}
 
+				// TODO: turn into property
 				if (secondCounter > 300) { // maximum 5min for waiting
 					throw new ApplicationCloudingServiceException(
 							"5 minutes timeout for allocateNode reached.");
@@ -373,6 +376,8 @@ public class EucalyptusApplicationCloudingService implements
 		}
 		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
 
+		// TODO: spawn with delay!
+
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(
 				configuration.isDummyModeEnabled());
 		final EucalyptusCommand deallocateNodeCommand = EucalyptusCommandFactory
@@ -460,14 +465,6 @@ public class EucalyptusApplicationCloudingService implements
 				.notifyRemoveCloudedApplicationSuccess((EucalyptusCloudedApplication) application);
 	}
 
-	// TODO: hack
-	private final static int INSTANCE_POLL_PERIOD_SECONDS = 1;
-	private final static int WAIT_SECONDS_AFTER_DEPLOY = 60;
-
-	// TODO: add as application property
-	private final static int INSTANCE_PORT = 8080;
-	private final static String INSTANCE_PATH = "/jpetstore/shop/searchProducts.shtml?keyword=complexity:700"; // "/jpetstore/shop/index.shtml";
-
 	@Override
 	public IApplicationInstance deployApplicationInstance(
 			final ICloudedApplication application,
@@ -523,11 +520,11 @@ public class EucalyptusApplicationCloudingService implements
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(
 				this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand applicationDeployCommand = EucalyptusCommandFactory
-				.getApplicationDeployCommand(
-						this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(),
-						this.configuration.getTomcatHome(),
-						"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/jpetstore.war",
+				.getApplicationDeployCommand(this.configuration
+						.getSSHPrivateKeyFile(), this.configuration
+						.getSSHUserName(), this.configuration.getTomcatHome(),
+						this.configuration
+								.getDefaultApplicationDeploymentArtifact(),
 						euNode.getIpAddress());
 		executer.executeCommandWithEnv(applicationDeployCommand,
 				this.configuration.getEucatoolsPath());
@@ -539,14 +536,15 @@ public class EucalyptusApplicationCloudingService implements
 		// EucalyptusApplicationCloudingService.log.error(e.getMessage(), e);
 		// }
 
-		/* 2. Web for application to become available */
+		/* 2. Wait for application to become available */
 
-		if (!waitUntilInstanceAvailable(
-				euNode.getIpAddress(),
-				EucalyptusApplicationCloudingService.INSTANCE_PORT,
-				EucalyptusApplicationCloudingService.INSTANCE_PATH,
-				EucalyptusApplicationCloudingService.INSTANCE_POLL_PERIOD_SECONDS,
-				EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY)) {
+		if (!waitUntilInstanceAvailable(euNode.getIpAddress(),
+				this.configuration.getDefaultApplicationInstanceQueryPort(),
+				this.configuration.getDefaultApplicationInstanceQueryPath(),
+				this.configuration
+						.getApplicationInstanceDeployPollPeriodSeconds(),
+				this.configuration
+						.getApplicationInstanceDeployMaxWaitTimeSeconds())) {
 			final String errorMsg = "Deployed intance " + inst
 					+ " not available after deployment";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
@@ -612,6 +610,7 @@ public class EucalyptusApplicationCloudingService implements
 				final String errorMsg = maxWaitTimeSeconds
 						+ " seconds try period elapsed to access url '" + url
 						+ "#";
+
 				EucalyptusApplicationCloudingService.log.error(errorMsg);
 				return false;
 			}
@@ -717,7 +716,7 @@ public class EucalyptusApplicationCloudingService implements
 
 	@Override
 	public ICloudNode lookupNode(final String name) {
-		for (final ICloudNode node : this.allocatedNodes) {
+		for (final ICloudNode node : allocatedNodes) {
 			if (node.getName().equals(name)) {
 				return node;
 			}
@@ -727,7 +726,7 @@ public class EucalyptusApplicationCloudingService implements
 
 	@Override
 	public ICloudedApplication lookupCloudedApplication(final String name) {
-		for (final ICloudedApplication app : this.applications) {
+		for (final ICloudedApplication app : applications) {
 			if (app.getName().equals(name)) {
 				return app;
 			}
@@ -737,7 +736,7 @@ public class EucalyptusApplicationCloudingService implements
 
 	@Override
 	public ICloudNodeType lookupCloudNodeType(final String name) {
-		for (final ICloudNodeType type : this.nodeTypes) {
+		for (final ICloudNodeType type : nodeTypes) {
 			if (type.getName().equals(name)) {
 				return type;
 			}
@@ -747,16 +746,16 @@ public class EucalyptusApplicationCloudingService implements
 
 	@Override
 	public Collection<? extends ICloudNode> getCloudNodes() {
-		return this.allocatedNodes;
+		return allocatedNodes;
 	}
 
 	@Override
 	public Collection<? extends ICloudedApplication> getCloudedApplications() {
-		return this.applications;
+		return applications;
 	}
 
 	@Override
 	public final Collection<? extends IApplicationInstance> getApplicationInstances() {
-		return this.applicationInstances;
+		return applicationInstances;
 	}
 }
