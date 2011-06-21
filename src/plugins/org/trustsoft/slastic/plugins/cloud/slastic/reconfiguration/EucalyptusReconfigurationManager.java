@@ -93,7 +93,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 				}
 
 				this.euDefaultNodeType =
-						(EucalyptusCloudNodeType) this.eucalyptusApplicationCloudingService
+						(EucalyptusCloudNodeType) eucalyptusApplicationCloudingService
 								.lookupCloudNodeType(defaultNodeTypeName);
 				if (this.euDefaultNodeType == null) {
 					EucalyptusReconfigurationManager.log.error("Failed to lookup default node type '"

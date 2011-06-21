@@ -11,8 +11,7 @@ import com.espertech.esper.client.EPServiceProvider;
 
 public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent {
 
-	private static final Log log = LogFactory
-			.getLog(PerformanceEvaluator.class);
+	private static final Log log = LogFactory.getLog(PerformanceEvaluator.class);
 
 	private volatile EPServiceProvider epServiceProvider;
 
@@ -35,19 +34,17 @@ public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent 
 
 	@Override
 	public boolean execute() {
-		this.epServiceProvider =
-				this.getParentAnalysisComponent().getParentControlComponent()
-						.getEPServiceProvider();
+		this.epServiceProvider = this.getParentAnalysisComponent().getParentControlComponent().getEPServiceProvider();
 		this.performanceLogger =
-				new PerformanceLogger(this.epServiceProvider, this
-						.getComponentContext().createSubcontext(
-								PerformanceLogger.class.getSimpleName()),
-						this.winTimeSec, this.outputIntervalSec);
+				new PerformanceLogger(this.epServiceProvider, this.getComponentContext().createSubcontext(
+						PerformanceLogger.class.getSimpleName()), this.winTimeSec, this.outputIntervalSec);
 		return true;
 	}
 
 	@Override
 	public void terminate(final boolean error) {
-		this.performanceLogger.closeLogs();
+		if (this.performanceLogger != null) {
+			this.performanceLogger.closeLogs();
+		}
 	}
 }

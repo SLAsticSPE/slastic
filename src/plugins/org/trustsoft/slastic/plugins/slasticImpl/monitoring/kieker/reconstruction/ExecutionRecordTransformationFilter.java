@@ -24,14 +24,12 @@ import de.cau.se.slastic.metamodel.typeRepository.Operation;
  * 
  * @author Andre van Hoorn
  */
-public class ExecutionRecordTransformationFilter extends
-		AbstractModelReconstructionComponent implements
+public class ExecutionRecordTransformationFilter extends AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, IExecutionRecordTransformation {
 
 	private final int componentDiscoveryHierarchyLevel;
 
-	private static final Log log =
-			LogFactory.getLog(ExecutionRecordTransformationFilter.class);
+	private static final Log log = LogFactory.getLog(ExecutionRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -40,8 +38,7 @@ public class ExecutionRecordTransformationFilter extends
 	public ExecutionRecordTransformationFilter(final ModelManager modelManager,
 			final int componentDiscoveryHierarchyLevel) {
 		super(modelManager);
-		this.componentDiscoveryHierarchyLevel =
-				componentDiscoveryHierarchyLevel;
+		this.componentDiscoveryHierarchyLevel = componentDiscoveryHierarchyLevel;
 	}
 
 	/**
@@ -80,14 +77,12 @@ public class ExecutionRecordTransformationFilter extends
 	 * @return
 	 */
 	@Override
-	public OperationExecution transformExecutionRecord(
-			final OperationExecutionRecord execution) {
+	public OperationExecution transformExecutionRecord(final OperationExecutionRecord execution) {
 
 		/* Will become the return value. */
 		final OperationExecution newExecution;
 
-		final ExecutionContainer executionContainer =
-				this.lookupOrCreateExecutionContainerByName(execution.hostName);
+		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(execution.hostName);
 
 		/*
 		 * The values of the variables componentOrConnectorName and
@@ -97,15 +92,11 @@ public class ExecutionRecordTransformationFilter extends
 		final String operationName; // will be used, as soon as the meta-model
 									// supports operations
 		{
-			final String[] fqnSplit =
-					NameUtils.splitFullyQualifiedName(execution.className);
+			final String[] fqnSplit = NameUtils.splitFullyQualifiedName(execution.className);
 			final String[] abstractedName =
-					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1],
-							execution.getOperationName(),
+					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1], execution.getOperationName(),
 							this.componentDiscoveryHierarchyLevel);
-			componentOrConnectorName =
-					NameUtils
-							.createFQName(abstractedName[0], abstractedName[1]);
+			componentOrConnectorName = NameUtils.createFQName(abstractedName[0], abstractedName[1]);
 			operationName = abstractedName[2];
 		}
 
@@ -115,13 +106,11 @@ public class ExecutionRecordTransformationFilter extends
 			 * a connector execution.
 			 */
 			final AssemblyConnector assemblyConnector =
-					this.getAssemblyModelManager().lookupAssemblyConnector(
-							componentOrConnectorName);
+					this.getAssemblyModelManager().lookupAssemblyConnector(componentOrConnectorName);
 			if (assemblyConnector != null) {
 				/* Is a connector execution */
 				final ConnectorOperationExecution newConnectorExec =
-						MonitoringFactory.eINSTANCE
-								.createConnectorOperationExecution();
+						MonitoringFactory.eINSTANCE.createConnectorOperationExecution();
 				newConnectorExec.setAssemblyConnector(assemblyConnector);
 				newConnectorExec.setExecutionContainer(executionContainer);
 				newConnectorExec.setExecutionContainer(executionContainer);
@@ -129,12 +118,10 @@ public class ExecutionRecordTransformationFilter extends
 			} else {
 				/* Is an execution of a component (existing or non-existing) */
 				final DeploymentComponentOperationExecution newComponentExec =
-						MonitoringFactory.eINSTANCE
-								.createDeploymentComponentOperationExecution();
+						MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
 				/* Determine assembly component */
 				AssemblyComponent assemblyComponent =
-						this.getAssemblyModelManager().lookupAssemblyComponent(
-								componentOrConnectorName);
+						this.getAssemblyModelManager().lookupAssemblyComponent(componentOrConnectorName);
 				if (assemblyComponent == null) {
 					/* We need to create the assembly component */
 					assemblyComponent = this.createAssemblyComponent(
@@ -143,21 +130,20 @@ public class ExecutionRecordTransformationFilter extends
 				}
 				/* Determine deployment component */
 				DeploymentComponent deploymentComponent =
-						this.getDeploymentModelManager()
-								.deploymentComponentForAssemblyComponent(
-										assemblyComponent, executionContainer);
+						this.getDeploymentModelManager().deploymentComponentForAssemblyComponent(assemblyComponent,
+								executionContainer);
 				if (deploymentComponent == null) {
+					// TODO: remove logging output
+					ExecutionRecordTransformationFilter.log.warn(String.format(
+							"Creating new DeploymentComponent for %s and %s", assemblyComponent, executionContainer));
 					deploymentComponent =
-							this.getDeploymentModelManager()
-									.createAndRegisterDeploymentComponent(
-											assemblyComponent,
-											executionContainer);
+							this.getDeploymentModelManager().createAndRegisterDeploymentComponent(assemblyComponent,
+									executionContainer);
 				}
 
 				/* Lookup the operation */
 				final Operation op =
-						this.lookupOrCreateOperationByName(assemblyComponent
-								.getComponentType(), operationName);
+						this.lookupOrCreateOperationByName(assemblyComponent.getComponentType(), operationName);
 				newComponentExec.setDeploymentComponent(deploymentComponent);
 				newComponentExec.setOperation(op);
 				newExecution = newComponentExec;
@@ -171,7 +157,7 @@ public class ExecutionRecordTransformationFilter extends
 			 */
 
 			// TODO: operations for connector executions ...
-			
+
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);
@@ -189,8 +175,7 @@ public class ExecutionRecordTransformationFilter extends
 			return null;
 		}
 
-		final OperationExecutionRecord execution =
-				(OperationExecutionRecord) record;
+		final OperationExecutionRecord execution = (OperationExecutionRecord) record;
 
 		return this.transformExecutionRecord(execution);
 	}
