@@ -27,11 +27,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
  * @author Andre van Hoorn
  * 
  */
-public abstract class AbstractModelReconstructionComponent extends
-		AbstractTransformationComponent {
+public abstract class AbstractModelReconstructionComponent extends AbstractTransformationComponent {
 
-	private static final Log log = LogFactory
-			.getLog(AbstractModelReconstructionComponent.class);
+	private static final Log log = LogFactory.getLog(AbstractModelReconstructionComponent.class);
 
 	public AbstractModelReconstructionComponent(final ModelManager modelManager) {
 		super(modelManager);
@@ -45,8 +43,7 @@ public abstract class AbstractModelReconstructionComponent extends
 	}
 
 	public static String createCPUResourceSpecName(final String cpuId) {
-		return AbstractModelReconstructionComponent.CPU_RESOURCE_NAME_PREFX
-				+ cpuId;
+		return AbstractModelReconstructionComponent.CPU_RESOURCE_NAME_PREFX + cpuId;
 	}
 
 	public static String createMemSwapResourceSpecName() {
@@ -58,53 +55,29 @@ public abstract class AbstractModelReconstructionComponent extends
 
 	/**
 	 * 
-	 * @param hostName
+	 * @param hostNameImpl
 	 * @return
 	 */
-	protected ExecutionContainer lookupOrCreateExecutionContainerByName(
-			final String hostName) {
+	protected ExecutionContainer lookupOrCreateExecutionContainerByName(final String hostNameImpl) {
 
 		ExecutionContainer executionContainer;
 
-		// final ConcurrentHashMap<String, ExecutionContainer>
-		// containerNameMapping =
-		// (this.getModelManager()).getExecutionEnvironmentModelManager().containerNameMapping;
-		//
-		// { /* HACK #10! */
-		// executionContainer = containerNameMapping.get(hostName);
-		// if (executionContainer != null) {
-		// if (!this.reportedMatch) {
-		// AbstractModelReconstructionComponent.log
-		// .info("Found match: " + hostName + "->"
-		// + executionContainer);
-		// this.reportedMatch = true;
-		// }
-		// return executionContainer;
-		// }
-		// }
-
 		String hostNameArch =
-				this.getModelManager()
-						.getArch2ImplNameMappingManager()
-						.lookupArchName4ImplName(
-								EntityType.EXECUTION_CONTAINER, hostName);
+				this.getModelManager().getArch2ImplNameMappingManager()
+						.lookupArchName4ImplName(EntityType.EXECUTION_CONTAINER, hostNameImpl);
 		if (hostNameArch == null) {
-			hostNameArch = hostName;
+			hostNameArch = hostNameImpl;
 		}
 
 		{
 			/*
 			 * Lookup execution container
 			 */
-			executionContainer =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainer(hostName);
+			executionContainer = this.getExecutionEnvModelManager().lookupExecutionContainer(hostNameArch);
 			if (executionContainer == null) {
 				/* We need to create the execution container */
-				executionContainer = this.createExecutionContainer(hostName);
+				executionContainer = this.createExecutionContainer(hostNameArch);
 			}
-			// // TODO: remove (hack #10)
-			// containerNameMapping.put(hostName, executionContainer);
 		}
 		return executionContainer;
 	}
@@ -118,53 +91,38 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param executionContainer
 	 * @return
 	 */
-	protected Resource lookupOrCreateMemSwapResource(final String resourceName,
-			final long memCapacityBytes, final long swapCapacityBytes,
-			final String resourceTypeName,
-			final ExecutionContainer executionContainer) {
+	protected Resource lookupOrCreateMemSwapResource(final String resourceName, final long memCapacityBytes,
+			final long swapCapacityBytes, final String resourceTypeName, final ExecutionContainer executionContainer) {
 		Resource resource;
 		{
 			/*
 			 * Lookup resource -- which may exist already
 			 */
 			resource =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainerResource(
-									executionContainer, resourceName);
+					this.getExecutionEnvModelManager().lookupExecutionContainerResource(executionContainer,
+							resourceName);
 
-			if ((resource != null)
-					&& !(resource.getResourceSpecification().getResourceType() instanceof MemSwapType)) {
-				this.logConflictingTypeForResource(resourceName,
-						MemSwapType.class, resource.getResourceSpecification()
-								.getResourceType().getClass());
+			if ((resource != null) && !(resource.getResourceSpecification().getResourceType() instanceof MemSwapType)) {
+				this.logConflictingTypeForResource(resourceName, MemSwapType.class, resource.getResourceSpecification()
+						.getResourceType().getClass());
 				return null;
 			}
 
-			if ((resource != null)
-					&& !(resource.getResourceSpecification() instanceof MemSwapResourceSpecification)) {
-				AbstractModelReconstructionComponent.log
-						.fatal("Expecting resource specification to be an instance of "
-								+ MemSwapResourceSpecification.class
-								+ "' but found '"
-								+ resource.getResourceSpecification()
-										.getClass() + "'");
+			if ((resource != null) && !(resource.getResourceSpecification() instanceof MemSwapResourceSpecification)) {
+				AbstractModelReconstructionComponent.log.fatal("Expecting resource specification to be an instance of "
+						+ MemSwapResourceSpecification.class + "' but found '"
+						+ resource.getResourceSpecification().getClass() + "'");
 				return null;
 			}
 
 			if (resource == null) {
 				// Lookup resource type which may exist already
 
-				final ResourceType resourceType =
-						this.getTypeModelManager().lookupResourceType(
-								resourceTypeName);
-				if ((resourceType != null)
-						&& !(resourceType instanceof MemSwapType)) {
-					AbstractModelReconstructionComponent.log
-							.error("Resource type with name '"
-									+ resourceTypeName
-									+ "' exists already but is of type "
-									+ resourceType.getClass() + " instead of "
-									+ MemSwapType.class);
+				final ResourceType resourceType = this.getTypeModelManager().lookupResourceType(resourceTypeName);
+				if ((resourceType != null) && !(resourceType instanceof MemSwapType)) {
+					AbstractModelReconstructionComponent.log.error("Resource type with name '" + resourceTypeName
+							+ "' exists already but is of type " + resourceType.getClass() + " instead of "
+							+ MemSwapType.class);
 					return null;
 				}
 
@@ -173,9 +131,7 @@ public abstract class AbstractModelReconstructionComponent extends
 				if (resourceType == null) {
 
 					memSwapResourceType =
-							this.getTypeModelManager()
-									.createAndRegisterMemSwapResourceType(
-											resourceTypeName);
+							this.getTypeModelManager().createAndRegisterMemSwapResourceType(resourceTypeName);
 
 				} else {
 					memSwapResourceType = (MemSwapType) resourceType;
@@ -184,16 +140,11 @@ public abstract class AbstractModelReconstructionComponent extends
 				// Create resource specification and add it to the container
 				// type
 				final ResourceSpecification resourceSpecification =
-						this.getTypeModelManager()
-								.createAndAddMemSwapResourceSpecification(
-										executionContainer
-												.getExecutionContainerType(),
-										memCapacityBytes, swapCapacityBytes,
-										memSwapResourceType, resourceName);
+						this.getTypeModelManager().createAndAddMemSwapResourceSpecification(
+								executionContainer.getExecutionContainerType(), memCapacityBytes, swapCapacityBytes,
+								memSwapResourceType, resourceName);
 
-				resource =
-						this.createResource(executionContainer,
-								resourceSpecification);
+				resource = this.createResource(executionContainer, resourceSpecification);
 			}
 		}
 		return resource;
@@ -206,8 +157,7 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param executionContainer
 	 * @return
 	 */
-	protected Resource lookupOrCreateCPUResource(final String resourceName,
-			final String resourceTypeName,
+	protected Resource lookupOrCreateCPUResource(final String resourceName, final String resourceTypeName,
 			final ExecutionContainer executionContainer) {
 		Resource resource;
 		{
@@ -215,42 +165,29 @@ public abstract class AbstractModelReconstructionComponent extends
 			 * Lookup resource -- which may exist already
 			 */
 			resource =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainerResource(
-									executionContainer, resourceName);
+					this.getExecutionEnvModelManager().lookupExecutionContainerResource(executionContainer,
+							resourceName);
 
-			if ((resource != null)
-					&& !(resource.getResourceSpecification().getResourceType() instanceof CPUType)) {
-				this.logConflictingTypeForResource(resourceName, CPUType.class,
-						resource.getResourceSpecification().getResourceType()
-								.getClass());
+			if ((resource != null) && !(resource.getResourceSpecification().getResourceType() instanceof CPUType)) {
+				this.logConflictingTypeForResource(resourceName, CPUType.class, resource.getResourceSpecification()
+						.getResourceType().getClass());
 				return null;
 			}
 
 			if (resource == null) {
-				ResourceType resourceType =
-						this.getTypeModelManager().lookupResourceType(
-								resourceTypeName);
+				ResourceType resourceType = this.getTypeModelManager().lookupResourceType(resourceTypeName);
 
 				if (resourceType == null) {
-					resourceType =
-							this.getTypeModelManager()
-									.createAndRegisterCPUResourceType(
-											resourceTypeName);
+					resourceType = this.getTypeModelManager().createAndRegisterCPUResourceType(resourceTypeName);
 				}
 
 				// Create resource specification and add it to the container
 				// type
 				final ResourceSpecification resourceSpecification =
-						this.getTypeModelManager()
-								.createAndAddResourceSpecification(
-										executionContainer
-												.getExecutionContainerType(),
-										resourceType, resourceName);
+						this.getTypeModelManager().createAndAddResourceSpecification(
+								executionContainer.getExecutionContainerType(), resourceType, resourceName);
 
-				resource =
-						this.createResource(executionContainer,
-								resourceSpecification);
+				resource = this.createResource(executionContainer, resourceSpecification);
 			}
 		}
 		return resource;
@@ -263,8 +200,7 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param executionContainer
 	 * @return
 	 */
-	protected Resource lookupOrCreateGenericResource(final String resourceName,
-			final String resourceTypeName,
+	protected Resource lookupOrCreateGenericResource(final String resourceName, final String resourceTypeName,
 			final ExecutionContainer executionContainer) {
 		Resource resource;
 		{
@@ -272,43 +208,30 @@ public abstract class AbstractModelReconstructionComponent extends
 			 * Lookup resource -- which may exist already
 			 */
 			resource =
-					this.getExecutionEnvModelManager()
-							.lookupExecutionContainerResource(
-									executionContainer, resourceName);
+					this.getExecutionEnvModelManager().lookupExecutionContainerResource(executionContainer,
+							resourceName);
 
 			if ((resource != null)
 					&& !(resource.getResourceSpecification().getResourceType() instanceof GenericResourceType)) {
-				this.logConflictingTypeForResource(resourceName,
-						GenericResourceType.class, resource
-								.getResourceSpecification().getResourceType()
-								.getClass());
+				this.logConflictingTypeForResource(resourceName, GenericResourceType.class, resource
+						.getResourceSpecification().getResourceType().getClass());
 				return null;
 			}
 
 			if (resource == null) {
-				ResourceType resourceType =
-						this.getTypeModelManager().lookupResourceType(
-								resourceTypeName);
+				ResourceType resourceType = this.getTypeModelManager().lookupResourceType(resourceTypeName);
 
 				if (resourceType == null) {
-					resourceType =
-							this.getTypeModelManager()
-									.createAndRegisterGenericResourceType(
-											resourceTypeName);
+					resourceType = this.getTypeModelManager().createAndRegisterGenericResourceType(resourceTypeName);
 				}
 
 				// Create resource specification and add it to the container
 				// type
 				final ResourceSpecification resourceSpecification =
-						this.getTypeModelManager()
-								.createAndAddResourceSpecification(
-										executionContainer
-												.getExecutionContainerType(),
-										resourceType, resourceName);
+						this.getTypeModelManager().createAndAddResourceSpecification(
+								executionContainer.getExecutionContainerType(), resourceType, resourceName);
 
-				resource =
-						this.createResource(executionContainer,
-								resourceSpecification);
+				resource = this.createResource(executionContainer, resourceSpecification);
 			}
 		}
 		return resource;
@@ -320,13 +243,10 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param expected
 	 * @param found
 	 */
-	private void logConflictingTypeForResource(final String resourceName,
-			final Class<? extends ResourceType> expected,
+	private void logConflictingTypeForResource(final String resourceName, final Class<? extends ResourceType> expected,
 			final Class<? extends ResourceType> found) {
-		AbstractModelReconstructionComponent.log
-				.fatal("Conflicting resource with name '" + resourceName
-						+ "' exists. Expecting type '" + expected.getName()
-						+ "' but found '" + found.getName() + "'");
+		AbstractModelReconstructionComponent.log.fatal("Conflicting resource with name '" + resourceName
+				+ "' exists. Expecting type '" + expected.getName() + "' but found '" + found.getName() + "'");
 	}
 
 	/**
@@ -352,21 +272,15 @@ public abstract class AbstractModelReconstructionComponent extends
 	public AssemblyComponent createAssemblyComponent(final String componentName) {
 
 		ComponentType componentType =
-				this.getTypeModelManager()
-						.lookupComponentType(
-								componentName
-										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+				this.getTypeModelManager().lookupComponentType(
+						componentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (componentType == null) {
 			componentType =
-					this.getTypeModelManager()
-							.createAndRegisterComponentType(
-									componentName
-											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+					this.getTypeModelManager().createAndRegisterComponentType(
+							componentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		}
 
-		return this.getAssemblyModelManager()
-				.createAndRegisterAssemblyComponent(componentName,
-						componentType);
+		return this.getAssemblyModelManager().createAndRegisterAssemblyComponent(componentName, componentType);
 	}
 
 	/**
@@ -375,8 +289,7 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param operationSignatureStr
 	 * @return
 	 */
-	private kieker.tools.traceAnalysis.systemModel.Signature createSignature(
-			final String operationSignatureStr) {
+	private kieker.tools.traceAnalysis.systemModel.Signature createSignature(final String operationSignatureStr) {
 
 		final String returnTypeAndOperationName;
 
@@ -386,11 +299,9 @@ public abstract class AbstractModelReconstructionComponent extends
 			paramTypeList = new String[] {};
 			returnTypeAndOperationName = operationSignatureStr;
 		} else {
-			returnTypeAndOperationName =
-					operationSignatureStr.substring(0, openParenIdx);
+			returnTypeAndOperationName = operationSignatureStr.substring(0, openParenIdx);
 			final StringTokenizer strTokenizer =
-					new StringTokenizer(operationSignatureStr.substring(
-							openParenIdx + 1,
+					new StringTokenizer(operationSignatureStr.substring(openParenIdx + 1,
 							operationSignatureStr.length() - 1), ",");
 			paramTypeList = new String[strTokenizer.countTokens()];
 			for (int i = 0; strTokenizer.hasMoreTokens(); i++) {
@@ -398,8 +309,7 @@ public abstract class AbstractModelReconstructionComponent extends
 			}
 		}
 
-		final String[] returnTypeAndOperationNameSplit =
-				returnTypeAndOperationName.split("\\s+");
+		final String[] returnTypeAndOperationNameSplit = returnTypeAndOperationName.split("\\s+");
 
 		String returnType = "N/A";
 		final String name;
@@ -416,14 +326,13 @@ public abstract class AbstractModelReconstructionComponent extends
 			break;
 		default:
 			AbstractModelReconstructionComponent.log
-					.error("Failed to split returnTypeAndOperationName by whitespace: '"
-							+ returnTypeAndOperationName + "'");
+					.error("Failed to split returnTypeAndOperationName by whitespace: '" + returnTypeAndOperationName
+							+ "'");
 			return null;
 
 		}
 
-		return new kieker.tools.traceAnalysis.systemModel.Signature(name,
-				returnType, paramTypeList);
+		return new kieker.tools.traceAnalysis.systemModel.Signature(name, returnType, paramTypeList);
 	}
 
 	/**
@@ -432,24 +341,19 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param operationSignatureStr
 	 * @return
 	 */
-	protected Operation lookupOrCreateOperationByName(
-			final ComponentType componentType,
+	protected Operation lookupOrCreateOperationByName(final ComponentType componentType,
 			final String operationSignatureStr) {
 		final kieker.tools.traceAnalysis.systemModel.Signature kiekerSignature =
 				this.createSignature(operationSignatureStr);
 
 		Operation res =
-				this.getTypeModelManager().lookupOperation(componentType,
-						kiekerSignature.getName(),
-						kiekerSignature.getReturnType(),
-						kiekerSignature.getParamTypeList());
+				this.getTypeModelManager().lookupOperation(componentType, kiekerSignature.getName(),
+						kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
 
 		if (res == null) {
 			res =
-					this.getTypeModelManager().createAndRegisterOperation(
-							componentType, kiekerSignature.getName(),
-							kiekerSignature.getReturnType(),
-							kiekerSignature.getParamTypeList());
+					this.getTypeModelManager().createAndRegisterOperation(componentType, kiekerSignature.getName(),
+							kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
 		}
 
 		return res;
@@ -460,34 +364,24 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param containerName
 	 * @return
 	 */
-	public ExecutionContainer createExecutionContainer(
-			final String containerName) {
+	public ExecutionContainer createExecutionContainer(final String containerName) {
 		ExecutionContainerType containerType =
-				this.getTypeModelManager()
-						.lookupExecutionContainerType(
-								containerName
-										+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+				this.getTypeModelManager().lookupExecutionContainerType(
+						containerName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (containerType == null) {
 			containerType =
-					this.getTypeModelManager()
-							.createAndRegisterExecutionContainerType(
-									containerName
-											+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+					this.getTypeModelManager().createAndRegisterExecutionContainerType(
+							containerName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		}
 
-		return this.getExecutionEnvModelManager()
-				.createAndRegisterExecutionContainer(containerName,
-						containerType);
+		return this.getExecutionEnvModelManager().createAndRegisterExecutionContainer(containerName, containerType);
 	}
 
-	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME =
-			"DEFAULT.GENERIC_RESOURCE_TYPE";
+	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME = "DEFAULT.GENERIC_RESOURCE_TYPE";
 
-	public static final String DEFAULT_CPU_RESOURCE_TYPE_NAME =
-			"DEFAULT.CPU_RESOURCE_TYPE";
+	public static final String DEFAULT_CPU_RESOURCE_TYPE_NAME = "DEFAULT.CPU_RESOURCE_TYPE";
 
-	public static final String DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME =
-			"DEFAULT.MEMSWAP_RESOURCE_TYPE";
+	public static final String DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME = "DEFAULT.MEMSWAP_RESOURCE_TYPE";
 
 	/**
 	 * 
@@ -495,11 +389,9 @@ public abstract class AbstractModelReconstructionComponent extends
 	 * @param resourceSpecification
 	 * @return
 	 */
-	private Resource createResource(
-			final ExecutionContainer executionContainer,
+	private Resource createResource(final ExecutionContainer executionContainer,
 			final ResourceSpecification resourceSpecification) {
-		final Resource resource =
-				ExecutionEnvironmentFactory.eINSTANCE.createResource();
+		final Resource resource = ExecutionEnvironmentFactory.eINSTANCE.createResource();
 		resource.setExecutionContainer(executionContainer);
 		resource.setResourceSpecification(resourceSpecification);
 		return resource;

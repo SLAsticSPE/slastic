@@ -19,7 +19,12 @@ import de.cau.se.slastic.metamodel.core.Entity;
 public abstract class AbstractEntityManager<T extends Entity> {
 	private static final Log log = LogFactory.getLog(AbstractEntityManager.class);
 
+	/**
+	 * On initialization, this value will be incremented according to the
+	 * current maximum value
+	 */
 	private volatile long nextId = 1;
+
 	private final Map<Long, T> entitiesById = new HashMap<Long, T>();
 	private final List<T> entities;
 
@@ -33,9 +38,14 @@ public abstract class AbstractEntityManager<T extends Entity> {
 
 	public AbstractEntityManager(final List<T> entities) {
 		this.entities = entities;
+		long maxId = this.nextId;
 		for (final T entity : entities) {
+			if (entity.getId() > maxId) {
+				maxId = entity.getId();
+			}
 			this.addEntityToIdMap(entity);
 		}
+		this.nextId = maxId + 1;
 	}
 
 	public T lookupEntityById(final long id) {

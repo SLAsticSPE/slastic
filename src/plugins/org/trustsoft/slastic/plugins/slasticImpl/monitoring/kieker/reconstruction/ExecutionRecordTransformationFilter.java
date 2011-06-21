@@ -133,9 +133,6 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 						this.getDeploymentModelManager().deploymentComponentForAssemblyComponent(assemblyComponent,
 								executionContainer);
 				if (deploymentComponent == null) {
-					// TODO: remove logging output
-					ExecutionRecordTransformationFilter.log.warn(String.format(
-							"Creating new DeploymentComponent for %s and %s", assemblyComponent, executionContainer));
 					deploymentComponent =
 							this.getDeploymentModelManager().createAndRegisterDeploymentComponent(assemblyComponent,
 									executionContainer);
