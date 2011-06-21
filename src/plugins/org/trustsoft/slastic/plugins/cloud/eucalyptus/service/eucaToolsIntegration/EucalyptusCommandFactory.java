@@ -1,5 +1,10 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
 
+/**
+ * 
+ * @author Florian Fittkau
+ *
+ */
 public class EucalyptusCommandFactory {
 	private final static String allocateNodeCommand =
 		/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && ";

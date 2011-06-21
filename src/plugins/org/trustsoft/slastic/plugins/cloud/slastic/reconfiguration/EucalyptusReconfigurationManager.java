@@ -11,10 +11,10 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicatio
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.AbstractEucalyptusServiceEventLogger;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.IEucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.AbstractEucalyptusServiceEventLogger;
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -44,35 +44,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 	private volatile PrintWriter eucalyptusEventWriter = null;
 	private volatile EucalyptusCloudNodeType euDefaultNodeType;
-
-	// TODO: We should remove the 'caches' realized by the following
-	// HashMaps, as this leads to problems when using initial
-	// nodes, apps, app instances etc.
-	// We should lookup the appropriate elements on each call.
-
-	// /**
-	// * Maps {@link AssemblyComponent}s to the corresponding
-	// * {@link EucalyptusCloudedApplication}.
-	// */
-	// private final HashMap<AssemblyComponent, EucalyptusCloudedApplication>
-	// assemblyComponentMapping =
-	// new HashMap<AssemblyComponent, EucalyptusCloudedApplication>();
-
-	// /**
-	// * Maps {@link ExecutionContainer}s to the corresponding
-	// * {@link EucalyptusCloudNode}s
-	// */
-	// private final HashMap<ExecutionContainer, EucalyptusCloudNode>
-	// allocatedNodesMapping =
-	// new HashMap<ExecutionContainer, EucalyptusCloudNode>();
-
-	// /**
-	// * Maps {@link DeploymentComponent}s to the corresponding
-	// * {@link EucalyptusApplicationInstance}s
-	// */
-	// private final HashMap<DeploymentComponent, EucalyptusApplicationInstance>
-	// deploymentComponentMapping =
-	// new HashMap<DeploymentComponent, EucalyptusApplicationInstance>();
 
 	/**
 	 * The actual reconfigurations are performed by this
@@ -139,23 +110,12 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		return this.eucalyptusApplicationCloudingService != null;
 	}
 
-	// // Part of hack #10
-	// private volatile ConcurrentHashMap<String, ExecutionContainer>
-	// containerNameMapping;
-
 	private volatile ModelManager modelManager;
 
 	@Override
 	public boolean execute() {
 		try {
 			this.modelManager = (ModelManager) this.getControlComponent().getModelManager();
-			// {
-			// // Part of hack #10
-			// this.containerNameMapping =
-			// ((ModelManager) this.getControlComponent()
-			// .getModelManager())
-			// .getExecutionEnvironmentModelManager().containerNameMapping;
-			// }
 
 			/* Create print writer for eucalyptus events */
 			final File euEventsFile =
@@ -172,17 +132,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			// new SLAsticCurrentTimeProvider();
 			final EucalyptusEventLogger euEventLogger = new EucalyptusEventLogger(this.eucalyptusEventWriter);
 			this.eucalyptusApplicationCloudingService.addEventListener(euEventLogger);
-
-			// TODO: do this based on SLAstic model/property file
-			/* Create and register the application */
-			// final EucalyptusCloudedApplicationConfiguration euAppConfig =
-			// new EucalyptusCloudedApplicationConfiguration();
-			// this.euApplication =
-			// (EucalyptusCloudedApplication)
-			// this.eucalyptusApplicationCloudingService
-			// .createAndRegisterCloudedApplication(
-			// EucalyptusReconfigurationManager.APP_NAME,
-			// euAppConfig);
 		} catch (final Exception exc) {
 			EucalyptusReconfigurationManager.log.error("Failed to create application: " + exc.getMessage());
 			return false;
@@ -210,6 +159,11 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		}
 	}
 
+	/**
+	 * 
+	 * @param assemblyComponent
+	 * @return
+	 */
 	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(final AssemblyComponent assemblyComponent) {
 		final String fqAssemblyComponentName =
 				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
@@ -224,6 +178,11 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		return eucalyptusCloudedApplication;
 	}
 
+	/**
+	 * 
+	 * @param executionContainer
+	 * @return
+	 */
 	private EucalyptusCloudNode eucaNodeForExecutionContainer(final ExecutionContainer executionContainer) {
 		final String fqContainerName =
 				NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
@@ -263,8 +222,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 							.deployApplicationInstance(eucaApplication, config, dstNode);
 			if (appInstance != null) {
 				success = true;
-				// this.deploymentComponentMapping.put(resDeploymentComponent,
-				// appInstance);
 			} else {
 				EucalyptusReconfigurationManager.log.error("appInstance is null");
 				success = false;
@@ -337,7 +294,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			// TODO: add boolean return value for exit status?
 			this.eucalyptusApplicationCloudingService.undeployApplicationInstance(appInstance);
 
-			// this.deploymentComponentMapping.remove(deploymentComponent);
 			success = true;
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
@@ -376,14 +332,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 				this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
 						EntityType.EXECUTION_CONTAINER, fqNodeName, euNode.getName());
-
-				// HACK:
-				// this.containerNameMapping.put(euNode.getHostname(),
-				// resExecutionContainer);
-				//
-				// EucalyptusReconfigurationManager.log.info("Added hostname mapping "
-				// + euNode.getHostname() + " x "
-				// + resExecutionContainer);
 			}
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
@@ -408,15 +356,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 				// TODO: return value?
 				this.eucalyptusApplicationCloudingService.deallocateNode(euNode);
 
-				// if (this.allocatedNodesMapping.remove(executionContainer) ==
-				// null) {
-				// EucalyptusReconfigurationManager.log.error("Failed to remove node "
-				// + euNode
-				// + " from internal table");
-				// return false;
-				// } else {
 				success = true;
-				// }
 			}
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
@@ -439,7 +379,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			this.pw.println(eventMsg);
 			this.pw.flush();
 		}
-
 	}
 
 	private class SLAsticCurrentTimeProvider implements ICurrentTimeProvider {
@@ -448,7 +387,6 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		public long getCurrentTimeMillis() {
 			return EucalyptusReconfigurationManager.this.getControlComponent().getCurrentTimeMillis();
 		}
-
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
 
 import kieker.tools.util.LoggingTimestampConverter;
 
@@ -11,6 +11,7 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
 
 /**
  * @author Andre van Hoorn

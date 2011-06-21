@@ -12,6 +12,14 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.EucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommand;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommandFactory;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.ExternalCommandExecuter;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.LoadBalancerConnector;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.EucalyptusServiceEventNotifier;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.IEucalyptusServiceEventListener;
 import org.trustsoft.slastic.plugins.cloud.model.IApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.model.IApplicationInstanceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.model.ICloudNode;
@@ -24,47 +32,44 @@ import org.trustsoft.slastic.plugins.cloud.service.IApplicationCloudingService;
 /**
  * This is the place to call the Eucalyptus tools.
  * 
- * @author Andre van Hoorn
+ * @author Andre van Hoorn, Florian Fittkau
  * 
  */
 public class EucalyptusApplicationCloudingService implements IApplicationCloudingService {
 
 	private static final Log log = LogFactory.getLog(EucalyptusApplicationCloudingService.class);
 
+	// TODO: Introduce methods for safe casts of ICloud* to Eucalyptus* (nodes,
+	// node types, applications, ...)
+	// Currently the recurring verbose patterns make the code hardly readable.
+
+	// TODO: The same for non-null checks
+
+	// TODO: refine, e.g., writing to the component context
+	private final static String WGET_LOG = "wget.log";
+
+	// TODO: extract parameters: 1-2) tomcat start/stop script, 3-4) Kieker
+	// configuration file/path
+	// This should be defined based as 'remote-post-start-script' and
+	// 'local-remote-post-start-script' or alike
+
 	private final IEucalyptusApplicationCloudingServiceConfiguration configuration;
 
-	// TODO: We might think about moving the following collections to an
-	// abstract class
-
+	// TODO: Move the following collections to an abstract class?
 	private final Collection<EucalyptusCloudNodeType> nodeTypes = new Vector<EucalyptusCloudNodeType>();
 	private final Collection<EucalyptusCloudNode> allocatedNodes = new Vector<EucalyptusCloudNode>();
 	private final Collection<EucalyptusCloudedApplication> applications = new Vector<EucalyptusCloudedApplication>();
 	private final Collection<EucalyptusApplicationInstance> applicationInstances =
 			new Vector<EucalyptusApplicationInstance>();
 
+	private final LoadBalancerConnector lbConnector;
+
 	private final EucalyptusServiceEventNotifier eventNotifier = new EucalyptusServiceEventNotifier();
 
-	/**
-	 * 
-	 * @param l
-	 */
-	public void addEventListener(final IEucalyptusServiceEventListener l) {
-		this.eventNotifier.addEventListener(l);
-	}
+	private int nextHostname = 0;
 
-	/**
-	 * 
-	 * @param l
-	 * @return
-	 */
-	public boolean removeEventListener(final IEucalyptusServiceEventListener l) {
-		return this.eventNotifier.removeEventListener(l);
-	}
-
-	// TODO: refine, e.g., writing to the component context
-	private final static String WGET_LOG = "wget.log";
-
-	private final LoadBalancerConnector lbConnector;
+	private int nextDummyEucaInstanceId = 19077777;
+	private int nextDummyEucaIPCount = 1;
 
 	/**
 	 * Must only be called by the factory methods.
@@ -100,6 +105,10 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 	}
 
+	/**
+	 * 
+	 * @throws ApplicationCloudingServiceException
+	 */
 	private void initNodes() throws ApplicationCloudingServiceException {
 		for (final String[] nodeSpec : this.configuration.getInitialNodeInstances()) {
 			final String nodeName = nodeSpec[0];
@@ -115,6 +124,10 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 	}
 
+	/**
+	 * 
+	 * @throws ApplicationCloudingServiceException
+	 */
 	private void initApplications() throws ApplicationCloudingServiceException {
 		for (final String appName : this.configuration.getInitialApplications()) {
 			this.applications.add(new EucalyptusCloudedApplication(appName,
@@ -122,6 +135,10 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 	}
 
+	/**
+	 * 
+	 * @throws ApplicationCloudingServiceException
+	 */
 	private void initApplicationInstances() throws ApplicationCloudingServiceException {
 		for (final String[] appInstDesc : this.configuration.getInitialApplicationInstances()) {
 			final String appName = appInstDesc[0];
@@ -193,21 +210,24 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		return this.nodeTypes;
 	}
 
-	// TODO: remove
-	private int nextHostname = 0;
-
-	private int nextDummyEucaInstanceId = 19077777;
-	private int nextDummyEucaIPCount = 1;
-
+	// TODO: structure implementation (in sub-methods); currently, this is a
+	// mess
 	@Override
 	public ICloudNode allocateNode(final String name, final ICloudNodeType type)
 			throws ApplicationCloudingServiceException {
 
 		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type);
 
-		final EucalyptusCloudNode node;
-
-		// unchecked cast!
+		/*
+		 * Assert that node is Eucalyptus-specific.
+		 */
+		if (!(type instanceof EucalyptusCloudNodeType)) {
+			final String errorsMsg =
+					"type must be of class " + EucalyptusCloudNodeType.class + " but found "
+							+ type.getClass();
+			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+			throw new ApplicationCloudingServiceException(errorsMsg);
+		}
 		final EucalyptusCloudNodeType euType = (EucalyptusCloudNodeType) type;
 
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
@@ -216,7 +236,6 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 						this.configuration.getEucalyptusKeyName(), this.configuration.getEucalyptusGroup());
 
 		String result = executer.executeCommandWithEnv(allocateNodeCommand, this.configuration.getEucatoolsPath());
-		// this.printDebugMsg(result);
 
 		final String instanceID;
 		String ipAddress;
@@ -246,10 +265,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 							"Waiting for node startup failed: " + e.getMessage(), e);
 				}
 
-				if (secondCounter > this.configuration.getApplicationInstanceDeployMaxWaitTimeSeconds()) { // maximum
-																											// 5min
-																											// for
-																											// waiting
+				if (secondCounter > this.configuration.getNodeAllocationMaxWaitTimeSeconds()) {
 					throw new ApplicationCloudingServiceException(
 							this.configuration.getNodeAllocationMaxWaitTimeSeconds()
 									+ " seconds timeout for allocateNode reached.");
@@ -259,10 +275,10 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 2. Determine hostname */
 
-		final EucalyptusCommand fetchHostameCommand =
+		final EucalyptusCommand fetchHostnameCommand =
 				EucalyptusCommandFactory.getFetchHostnameCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress);
-		String hostResult = executer.executeCommandWithEnv(fetchHostameCommand, this.configuration.getEucatoolsPath());
+		String hostResult = executer.executeCommandWithEnv(fetchHostnameCommand, this.configuration.getEucatoolsPath());
 
 		if (this.configuration.isDummyModeEnabled()) {
 			hostResult = "dummy-hostname-" + this.nextHostname++;
@@ -270,7 +286,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		final String hostname = this.getHostnameFromResult(hostResult);
 
-		/* 3. */
+		/* 3. Copy Kieker Configuration */
 
 		final EucalyptusCommand cpKiekerConfigCommand =
 				EucalyptusCommandFactory
@@ -285,12 +301,14 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 4. Start tomcat */
 
+		// TODO: turn tomcat start script into property
+
 		final EucalyptusCommand startTomcatCommand =
 				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress, "/etc/init.d/tomcat");
 		executer.executeCommandWithEnv(startTomcatCommand, this.configuration.getEucatoolsPath());
 
-		node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
+		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
 		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type + " has finished: " + node);
 
@@ -360,20 +378,20 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
 					"node must be of class " + EucalyptusCloudNode.class + " but found "
-							+ this.configuration.getClass();
+							+ node.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
 		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
-
-		// TODO: spawn with delay!
 
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand deallocateNodeCommand =
 				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
 
 		if (this.configuration.isDummyModeEnabled()) {
-			executer.executeCommandWithEnv(deallocateNodeCommand, this.configuration.getEucatoolsPath());
+			// spawn execution of shutdown command with given delay
+			executer.executeCommandWithEnvAndDelayAsync(deallocateNodeCommand, this.configuration.getEucatoolsPath(),
+					this.configuration.getNodeShutDownDelaySeconds() * 1000);
 		} else {
 			EucalyptusApplicationCloudingService.log.warn("Not executing " + deallocateNodeCommand);
 		}
@@ -727,5 +745,22 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	@Override
 	public final Collection<? extends IApplicationInstance> getApplicationInstances() {
 		return this.applicationInstances;
+	}
+
+	/**
+	 * 
+	 * @param l
+	 */
+	public void addEventListener(final IEucalyptusServiceEventListener l) {
+		this.eventNotifier.addEventListener(l);
+	}
+
+	/**
+	 * 
+	 * @param l
+	 * @return
+	 */
+	public boolean removeEventListener(final IEucalyptusServiceEventListener l) {
+		return this.eventNotifier.removeEventListener(l);
 	}
 }

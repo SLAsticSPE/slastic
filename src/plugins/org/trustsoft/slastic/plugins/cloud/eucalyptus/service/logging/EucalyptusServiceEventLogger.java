@@ -1,10 +1,11 @@
 /**
  * 
  */
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
 
 /**
  * @author Andre van Hoorn

@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * The listener for input of an external program da
  * 
- * @author ffi
+ * @author Florian Fittkau
  * 
  */
 public class InputStreamGobbler extends Thread {
