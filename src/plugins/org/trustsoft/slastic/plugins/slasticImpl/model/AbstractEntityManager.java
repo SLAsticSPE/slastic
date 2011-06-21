@@ -23,7 +23,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 	 * On initialization, this value will be incremented according to the
 	 * current maximum value
 	 */
-	private volatile long nextId = 1;
+	private volatile long nextId = 0;
 
 	private final Map<Long, T> entitiesById = new HashMap<Long, T>();
 	private final List<T> entities;
