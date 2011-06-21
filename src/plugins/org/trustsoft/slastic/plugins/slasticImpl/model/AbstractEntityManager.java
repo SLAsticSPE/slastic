@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates and open the template in
- * the editor.
- */
-
 package org.trustsoft.slastic.plugins.slasticImpl.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +17,14 @@ import de.cau.se.slastic.metamodel.core.Entity;
  */
 // TODO: requires synchronization / thread-safety
 public abstract class AbstractEntityManager<T extends Entity> {
-	private static final Log log = LogFactory
-			.getLog(AbstractEntityManager.class);
+	private static final Log log = LogFactory.getLog(AbstractEntityManager.class);
 
-	private volatile long nextId = 1;
+	/**
+	 * On initialization, this value will be incremented according to the
+	 * current maximum value
+	 */
+	private volatile long nextId = 0;
+
 	private final Map<Long, T> entitiesById = new HashMap<Long, T>();
 	private final List<T> entities;
 
@@ -37,9 +38,14 @@ public abstract class AbstractEntityManager<T extends Entity> {
 
 	public AbstractEntityManager(final List<T> entities) {
 		this.entities = entities;
+		long maxId = this.nextId;
 		for (final T entity : entities) {
+			if (entity.getId() > maxId) {
+				maxId = entity.getId();
+			}
 			this.addEntityToIdMap(entity);
 		}
+		this.nextId = maxId + 1;
 	}
 
 	public T lookupEntityById(final long id) {
@@ -98,6 +104,19 @@ public abstract class AbstractEntityManager<T extends Entity> {
 		AbstractEntityManager.log.info("Setting entity's activity to false: " + entity);
 		entity.setActive(false);
 		return true;
+	}
+
+	/**
+	 * Returns the list of entities. The returned collection is a newly created
+	 * list and may be modified; the contained object, however, are the original
+	 * ones.
+	 * 
+	 * @return
+	 */
+	public Collection<T> getEntities() {
+		final Collection<T> retList = new ArrayList<T>();
+		retList.addAll(this.entities);
+		return retList;
 	}
 
 	/**

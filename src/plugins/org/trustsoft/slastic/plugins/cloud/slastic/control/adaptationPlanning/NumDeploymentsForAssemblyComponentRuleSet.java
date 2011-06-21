@@ -9,13 +9,25 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * TODO: Junit Test!
- *  
+ * 
  * @author Andre van Hoorn
  * 
  */
-public class NumNodesRuleSet2 {
+public class NumDeploymentsForAssemblyComponentRuleSet {
 	private static final Log log = LogFactory
-			.getLog(NumNodesRuleSet2.class);
+			.getLog(NumDeploymentsForAssemblyComponentRuleSet.class);
+
+	private final String fqAssemblyComponentName;
+	private final String fqExecutionContainerTypeName;
+	
+	/**
+	 * @param assemblyComponentName
+	 * @param executionContainerTypeName
+	 */
+	public NumDeploymentsForAssemblyComponentRuleSet(final String assemblyComponentName, final String executionContainerTypeName) {
+		this.fqAssemblyComponentName = assemblyComponentName;
+		this.fqExecutionContainerTypeName = executionContainerTypeName;
+	}
 
 	/**
 	 * The key is the respective {@link Baseline#getCenter()}.
@@ -24,7 +36,20 @@ public class NumNodesRuleSet2 {
 			new TreeMap<Long, Baseline>();
 
 	/**
-	 * 
+	 * @return the assemblyComponentName
+	 */
+	public final String getFQAssemblyComponentName() {
+		return this.fqAssemblyComponentName;
+	}
+
+	/**
+	 * @return the executionContainerTypeName
+	 */
+	public final String getFQExecutionContainerTypeName() {
+		return this.fqExecutionContainerTypeName;
+	}
+
+	/**
 	 * @return
 	 */
 	public Baseline getInitialBaseline() {
@@ -33,7 +58,8 @@ public class NumNodesRuleSet2 {
 
 	/**
 	 * 
-	 * @param workloadIntensityIncreasingCondition
+	 * @param oldBaseline
+	 * @param workloadIntensity
 	 * @return
 	 */
 	public Baseline getNextBaseline(
@@ -51,12 +77,19 @@ public class NumNodesRuleSet2 {
 					this.baselines.floorEntry(workloadIntensity).getValue();
 		}
 
-		NumNodesRuleSet2.log.info("Old baseline " + oldBaseline +
+		NumDeploymentsForAssemblyComponentRuleSet.log.info("Old baseline " + oldBaseline +
 				" , workload intensity " + workloadIntensity + " -> baseline "
 				+ nextBaseline);
 		return nextBaseline;
 	}
 
+	/**
+	 * 
+	 * @param lowerBorder
+	 * @param center
+	 * @param upperBorder
+	 * @param numNodes
+	 */
 	public void addBaselineRule(final long lowerBorder, final long center,
 			final long upperBorder, final int numNodes) {
 		this.baselines.put(center, new Baseline(upperBorder, center,
@@ -64,7 +97,6 @@ public class NumNodesRuleSet2 {
 	}
 
 	/**
-	 * 
 	 * 
 	 * @return
 	 */
@@ -75,7 +107,7 @@ public class NumNodesRuleSet2 {
 		final SortedMap<Long, Baseline> sortedBaselines =
 				this.baselines.tailMap(0l);
 		if (!this.isKeysAndValuesIncreasing(sortedBaselines)) {
-			NumNodesRuleSet2.log.error("set of baselines is invalid");
+			NumDeploymentsForAssemblyComponentRuleSet.log.error("set of baselines is invalid");
 			return false;
 		}
 		return true;
@@ -95,7 +127,7 @@ public class NumNodesRuleSet2 {
 			if (prevBaseline != null) {
 				if (!((prevBaseline.getCenter() < curBaseline.getCenter()) && (prevBaseline
 						.getNumNodes() < curBaseline.getNumNodes()))) {
-					NumNodesRuleSet2.log.error("Invalid order of baselines: "
+					NumDeploymentsForAssemblyComponentRuleSet.log.error("Invalid order of baselines: "
 							+ prevBaseline
 							+ " -> " + curBaseline);
 				}

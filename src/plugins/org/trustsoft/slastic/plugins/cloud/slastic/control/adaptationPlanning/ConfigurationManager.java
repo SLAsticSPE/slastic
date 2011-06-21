@@ -15,146 +15,122 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
+ * Executes reconfiguration requests received via its {@link #reconfigure(int)}
+ * manager employing the {@link EucalyptusReconfigurationManager}.
  * 
  * @author Andre van Hoorn
  * 
  */
 public class ConfigurationManager {
 
-	private static final Log log = LogFactory
-			.getLog(ConfigurationManager.class);
+	private static final Log log = LogFactory.getLog(ConfigurationManager.class);
 
 	/**
 	 * The number of nodes allocated in the current configuration.
 	 */
 	// 1 is a HACK to allow to manage running instances
-	private volatile int currentNumNodes = 1;
+	// TODO: - this should be renamed to currentNumDeploymentComponents are
+	// alike
+	// (should then become a HashMap assembly component x int)
+	// - better: look up from the model manager
+	// private volatile int currentNumNodes = 1;
 
-	// TODO: These fields should become final
-	private volatile ModelManager modelManager;
-	private volatile AssemblyComponent assemblyComponent;
-	private volatile ExecutionContainerType executionContainerType;
-	private volatile EucalyptusReconfigurationManager reconfigurationManager;
+	private volatile int nextExecutionContainerIndex = 1;
 
-	/**
-	 * TODO: Remove getter
-	 * 
-	 * @return the modelManager
-	 */
-	public final ModelManager getModelManager() {
-		return this.modelManager;
-	}
-
-	/**
-	 * TODO: remove setter
-	 * 
-	 * @param assemblyComponent
-	 *            the assemblyComponent to set
-	 */
-	public final void setAssemblyComponent(
-			final AssemblyComponent assemblyComponent) {
-		this.assemblyComponent = assemblyComponent;
-	}
-
-	/**
-	 * TODO: remove setter
-	 * 
-	 * @param executionContainerType
-	 *            the executionContainerType to set
-	 */
-	public final void setExecutionContainerType(
-			final ExecutionContainerType executionContainerType) {
-		this.executionContainerType = executionContainerType;
-	}
+	private final ModelManager modelManager;
+	private final EucalyptusReconfigurationManager reconfigurationManager;
 
 	/**
 	 * 
 	 * @param modelManager
-	 * @param assemblyComponent
-	 * @param executionContainerType
 	 * @param reconfigurationManager
 	 */
 	public ConfigurationManager(final ModelManager modelManager,
-			final AssemblyComponent assemblyComponent,
-			final ExecutionContainerType executionContainerType,
 			final EucalyptusReconfigurationManager reconfigurationManager) {
 		this.modelManager = modelManager;
-		this.assemblyComponent = assemblyComponent;
-		this.executionContainerType = executionContainerType;
 		this.reconfigurationManager = reconfigurationManager;
-	}
-
-	/**
-	 * @return the currentNumNodes
-	 */
-	public final int getCurrentNumNodes() {
-		return this.currentNumNodes;
 	}
 
 	/**
 	 * 
 	 * @param requestedNumNodes
+	 * @return
 	 */
-	public final void reconfigure(final int requestedNumNodes) {
-		ConfigurationManager.log.info("Changing configuration from "
-				+ this.currentNumNodes + " to " + requestedNumNodes);
+	public final synchronized boolean reconfigure(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType,
+			final int requestedNumNodes) {
+		final int currentNumNodes = this.activeDeplsForAssemblyComponent(assemblyComponent).size();
 
-		if (requestedNumNodes > this.currentNumNodes) {
-			this.increaseCapacity(requestedNumNodes - this.currentNumNodes);
+		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to "
+				+ requestedNumNodes + " instances of assembly component " + assemblyComponent);
+
+		final boolean success;
+
+		if (requestedNumNodes > currentNumNodes) {
+			success =
+					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
+							- currentNumNodes);
+		} else if (requestedNumNodes < currentNumNodes) {
+			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		} else {
-			this.shrinkCapacity(this.currentNumNodes - requestedNumNodes);
+			/* == */
+			success = true;
 		}
 
-		this.currentNumNodes = requestedNumNodes;
+		//TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
+
+		return success;
+	}
+
+	/**
+	 * @return the currentNumNodes
+	 */
+	private final Collection<DeploymentComponent> activeDeplsForAssemblyComponent(
+			final AssemblyComponent assemblyComponent) {
+		/*
+		 * Fetch all deployments for the assembly component (including inactive
+		 * ones)
+		 */
+		final Collection<DeploymentComponent> deplsForAssemblyComponent =
+				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
+						assemblyComponent);
+
+		ConfigurationManager.log.info("Found " + deplsForAssemblyComponent.size()
+				+ " deployment components (including inactive)");
+
+		/* Select the active deployment components */
+		final Collection<DeploymentComponent> activeDeplsForAssemblyComponents = new ArrayList<DeploymentComponent>();
+		for (final DeploymentComponent deplComp : deplsForAssemblyComponent) {
+			if (deplComp.isActive()) {
+				activeDeplsForAssemblyComponents.add(deplComp);
+			}
+		}
+		return activeDeplsForAssemblyComponents;
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	private Collection<DeploymentComponent> selectActiveDeploymentComponents(
+	private Collection<DeploymentComponent> selectActiveDeploymentComponents(final AssemblyComponent assemblyComponent,
 			final int numComponents) {
-		final Collection<DeploymentComponent> result =
-				new ArrayList<DeploymentComponent>();
+		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
+				this.activeDeplsForAssemblyComponent(assemblyComponent);
 
-		/*
-		 * Fetch all deployments for the assembly component (including inactive
-		 * ones)
-		 */
-		final Collection<DeploymentComponent> deplsForAssemblyComponents =
-				this.modelManager.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(
-								this.assemblyComponent);
-
-		ConfigurationManager.log.info("Found "
-				+ deplsForAssemblyComponents.size()
-				+ " deployment components (including inactive)");
-
-		/* Select the active deployment components */
-		final Collection<DeploymentComponent> activeDeplsForAssemblyComponents =
-				new ArrayList<DeploymentComponent>();
-		for (final DeploymentComponent deplComp : deplsForAssemblyComponents) {
-			if (deplComp.isActive()) {
-				activeDeplsForAssemblyComponents.add(deplComp);
-			}
-		}
-
-		ConfigurationManager.log.info("Found "
-				+ activeDeplsForAssemblyComponents.size()
+		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
 				+ " ACTIVE deployment components");
 
-		if (activeDeplsForAssemblyComponents.size() < numComponents) {
-			ConfigurationManager.log.error("Requested to select "
-					+ numComponents + " components but only "
-					+ activeDeplsForAssemblyComponents.size()
-					+ " active one exist");
+		if (activeDeplsForAssemblyComponent.size() < numComponents) {
+			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
+					+ activeDeplsForAssemblyComponent.size() + " active one exist");
 			return null;
 		}
 
-		final Iterator<DeploymentComponent> it =
-				activeDeplsForAssemblyComponents.iterator();
-		// HACK:
-		it.next();
+		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
+		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
+
+		// TODO: This used to be a HACK (remove comment as soon as proven to
+		// work): -> it.next();
 		for (int curIdx = 0; curIdx < numComponents; curIdx++) {
 			result.add(it.next());
 		}
@@ -162,48 +138,77 @@ public class ConfigurationManager {
 		return result;
 	}
 
-	private boolean shrinkCapacity(final int shrinkBy) {
+	private boolean shrinkCapacity(final AssemblyComponent assemblyComponent, final int shrinkBy) {
+		// TODO: conceptually, this would involve the creation of a
+		// reconfiguration plan. Then, the reconfiguration
+		// manager would take care of the transactional change
+		// execution.
+
+		int i_thRequest = 1;
+		boolean success = true;
+
 		final Collection<DeploymentComponent> shrinkList =
-				this.selectActiveDeploymentComponents(shrinkBy);
+				this.selectActiveDeploymentComponents(assemblyComponent, shrinkBy);
 		ConfigurationManager.log.info("shrinkList: " + shrinkList);
 		for (final DeploymentComponent deplComponent : shrinkList) {
 			ConfigurationManager.log.info("Processing " + deplComponent);
 			/* Un-deploy und de-allocate */
-			if (!this.reconfigurationManager
-					.dereplicateComponent(deplComponent)) {
-				ConfigurationManager.log.error("Failed to dereplicateComponent" + deplComponent);
-				return false;
+			success = this.reconfigurationManager.dereplicateComponent(deplComponent);
+			if (!success) {
+				ConfigurationManager.log.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):"
+						+ "Failed to de-replicate component '" + deplComponent
+						+ " -> Aborting reconfiguration");
+				break;
 			}
 
-			if (!this.reconfigurationManager
-					.deallocateExecutionContainer(deplComponent
-							.getExecutionContainer())) {
-				ConfigurationManager.log.error("Failed to deallocateExecutionContainer: "
-						+ deplComponent.getExecutionContainer());
-				return false;
+			final ExecutionContainer executionContainer = deplComponent.getExecutionContainer();
+			success = this.reconfigurationManager.deallocateExecutionContainer(executionContainer);
+			if (!success) {
+				ConfigurationManager.log.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):"
+						+ "Failed to de-allocate execution container " + executionContainer
+						+ " -> Aborting reconfiguration");
+				break;
 			}
+
+			i_thRequest++;
 		}
-		return true;
+		return success;
 	}
 
-	// TODO: refine
-	private static final String EXECUTION_CONTAINER_NAME_PREFIX = "appsrv-";
-	private volatile int nextExecutionContainerIndex = 1;
+	private boolean increaseCapacity(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType, final int increaseBy) {
+		// TODO: conceptually, this would involve the creation of a
+		// reconfiguration plan. Then, the reconfiguration
+		// manager would take care of the transactional change
+		// execution.
 
-	// TODO: refine
-	private final String createExecutionContainerName() {
-		return ConfigurationManager.EXECUTION_CONTAINER_NAME_PREFIX
-				+ this.nextExecutionContainerIndex++;
-	}
+		boolean success = true;
 
-	private void increaseCapacity(final int increaseBy) {
-		for (int i = 0; i < increaseBy; i++) {
+		for (int i = 0; (i < increaseBy) && success; i++) {
+			final String containerName = this.createExecutionContainerName(executionContainerType);
 			final ExecutionContainer container =
-					this.reconfigurationManager.allocateExecutionContainer(
-							this.createExecutionContainerName(),
-							this.executionContainerType);
-			this.reconfigurationManager.replicateComponent(
-					this.assemblyComponent, container);
+					this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
+			if (container != null) {
+				if (this.reconfigurationManager.replicateComponent(assemblyComponent, container) == null) {
+					ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
+							+ "Failed to replicate component '" + assemblyComponent + "' to container " + container
+							+ " -> Aborting reconfiguration");
+					success = false;
+					break;
+				}
+			} else {
+				ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
+						+ "Failed to allocate execution container with name '" + containerName + "' and type '"
+						+ executionContainerType + "' -> Aborting reconfiguration");
+				success = false;
+				break;
+			}
 		}
+
+		return success;
+	}
+
+	private final String createExecutionContainerName(final ExecutionContainerType executionContainerType) {
+		return executionContainerType + "-" + this.nextExecutionContainerIndex++;
 	}
 }

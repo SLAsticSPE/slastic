@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration;
 
 import java.util.ArrayList;
 import java.util.Collection;

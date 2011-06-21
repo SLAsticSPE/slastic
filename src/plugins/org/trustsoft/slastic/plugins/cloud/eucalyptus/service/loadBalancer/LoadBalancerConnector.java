@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer;
 
 import java.util.*;
 

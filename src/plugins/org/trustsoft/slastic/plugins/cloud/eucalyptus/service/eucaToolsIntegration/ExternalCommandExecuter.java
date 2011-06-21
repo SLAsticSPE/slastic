@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Starts the different tools that are needed.
  * 
- * @author ffi
+ * @author Florian Fittkau
  * 
  */
 public class ExternalCommandExecuter implements IResultObserver {
@@ -82,6 +82,32 @@ public class ExternalCommandExecuter implements IResultObserver {
 		}
 
 		return this.result;
+	}
+
+	/**
+	 * Spawn a thread that will execute the command in the given environment
+	 * directory/path after waiting the given time period in milliseconds. Note,
+	 * that this method returns immediately.
+	 * 
+	 */
+	// TODO: allow the registration of an observer to be notified when the
+	//       asynchronous command has been executed. It should then be 
+	//       possible to fetch the result string from this object
+	public void executeCommandWithEnvAndDelayAsync(final EucalyptusCommand command,
+			final String enviro, final long delayMillis) {
+		final Runnable r = new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(delayMillis);
+					ExternalCommandExecuter.this.executeCommandWithEnv(command, enviro);
+				} catch (final InterruptedException e) {
+					ExternalCommandExecuter.log.error("Delayed executor thread (command: " + command.getCommandString() + ") was interrupted: "
+							+ e.getMessage(), e);
+				}
+			}
+		};
 	}
 
 	@Override

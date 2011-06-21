@@ -28,7 +28,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
 
-	private static final String PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS = "initialArch2ImplNodeMappings";
+	private static final String PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS = "initialArch2ImplContainerNameMappings";
 
 	/** Is initialized in {@link #init()} */
 	private volatile PipeReader kiekerNamedRecordPipeReader;

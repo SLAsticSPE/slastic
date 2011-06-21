@@ -5,10 +5,10 @@ import java.util.Properties;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ConfigurationProperty;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingServiceConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.IEucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.ConfigurationProperty;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.EucalyptusApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 	 */
 	public void testInitializedProperly() {
 		final Properties props =
-				TestEucalyptusConfigurationPlainValues.genDefaultProperties();
+				ConfigurationProperty.defaultProperties();
 
 		final IEucalyptusApplicationCloudingServiceConfiguration config =
 				EucalyptusApplicationCloudingServiceConfiguration
@@ -224,16 +224,5 @@ public class TestEucalyptusConfigurationPlainValues extends TestCase {
 						+ cfgProp.getPropertyName());
 			}
 		}
-	}
-
-	private static Properties genDefaultProperties() {
-		final Properties props = new Properties();
-
-		for (final ConfigurationProperty cfgProp : ConfigurationProperty
-				.values()) {
-			props.put(cfgProp.getPropertyName(), cfgProp.getDefaultValue());
-		}
-
-		return props;
 	}
 }

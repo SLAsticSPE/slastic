@@ -103,7 +103,7 @@ public interface IApplicationCloudingService {
 	 * @return
 	 */
 	public Collection<? extends IApplicationInstance> getApplicationInstances();
-	
+
 	/**
 	 * Returns the {@link ICloudedApplication} with the given name.
 	 * 
@@ -112,6 +112,17 @@ public interface IApplicationCloudingService {
 	 *         {@link ICloudedApplication} with this name
 	 */
 	public ICloudedApplication lookupCloudedApplication(String name);
+
+	/**
+	 * Returns the {@link IApplicationInstance} for the given
+	 * {@link ICloudedApplication} deployed on the given {@link ICloudNode}.
+	 * 
+	 * @param cloudedApplication
+	 * @param cloudNode
+	 * @return the {@link IApplicationInstance}; null if no such
+	 *         {@link IApplicationInstance}
+	 */
+	public IApplicationInstance lookupApplicationInstance(ICloudedApplication cloudedApplication, ICloudNode cloudNode);
 
 	/**
 	 * Removes the {@link ICloudedApplication}.

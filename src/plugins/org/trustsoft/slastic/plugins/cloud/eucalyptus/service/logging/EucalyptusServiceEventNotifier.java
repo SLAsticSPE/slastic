@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,7 +18,7 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApp
  * @author Andre van Hoorn
  * 
  */
-class EucalyptusServiceEventNotifier implements IEucalyptusServiceEventListener {
+public class EucalyptusServiceEventNotifier implements IEucalyptusServiceEventListener {
 
 	private final Collection<IEucalyptusServiceEventListener> eventListeners =
 			new ArrayList<IEucalyptusServiceEventListener>();

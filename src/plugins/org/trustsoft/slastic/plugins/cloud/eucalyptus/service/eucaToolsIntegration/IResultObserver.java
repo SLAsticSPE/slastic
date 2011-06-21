@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import java.util.List;
  * Observer used for the different handlers. When the results of the external
  * program are ready, the resultsReady procedure is called
  * 
- * @author ffi
+ * @author Florian Fittkau
  * 
  */
 public interface IResultObserver {

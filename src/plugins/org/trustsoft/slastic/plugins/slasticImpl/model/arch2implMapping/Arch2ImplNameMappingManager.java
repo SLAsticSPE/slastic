@@ -21,27 +21,23 @@ public class Arch2ImplNameMappingManager {
 	public Arch2ImplNameMappingManager() {
 		for (final EntityType type : EntityType.values()) {
 			{
-				final Map<String, String> arch2implNameMapping =
-						new ConcurrentHashMap<String, String>();
+				final Map<String, String> arch2implNameMapping = new ConcurrentHashMap<String, String>();
 				this.arch2implNameMappings.put(type, arch2implNameMapping);
 			}
 
 			{
-				final Map<String, String> impl2archNameMapping =
-						new ConcurrentHashMap<String, String>();
+				final Map<String, String> impl2archNameMapping = new ConcurrentHashMap<String, String>();
 				this.impl2archNameMappings.put(type, impl2archNameMapping);
 			}
 
 		}
 	}
 
-	private Map<String, String> arch2implNameMappingForType(
-			final EntityType type) {
+	private Map<String, String> arch2implNameMappingForType(final EntityType type) {
 		return this.arch2implNameMappings.get(type);
 	}
 
-	private Map<String, String> impl2archNameMappingForType(
-			final EntityType type) {
+	private Map<String, String> impl2archNameMappingForType(final EntityType type) {
 		return this.impl2archNameMappings.get(type);
 	}
 
@@ -52,23 +48,17 @@ public class Arch2ImplNameMappingManager {
 	 * @param fqArchName
 	 * @param fqImplName
 	 */
-	public void registerArch2implNameMapping(final EntityType type, final String fqArchName,
-			final String fqImplName) {
-		
-		final Map<String, String> arch2implNameMappingForType = 
-			this.arch2implNameMappingForType(type);
-		final Map<String, String> impl2archNameMappingForType =
-			this.impl2archNameMappingForType(type);
-		
+	public void registerArch2implNameMapping(final EntityType type, final String fqArchName, final String fqImplName) {
+
+		final Map<String, String> arch2implNameMappingForType = this.arch2implNameMappingForType(type);
+		final Map<String, String> impl2archNameMappingForType = this.impl2archNameMappingForType(type);
+
 		if (arch2implNameMappingForType.containsKey(fqArchName)) {
-			throw new IllegalArgumentException(
-					"Mapping for architectural name '" + fqArchName
-							+ "' exists already");
+			throw new IllegalArgumentException("Mapping for architectural name '" + fqArchName + "' exists already");
 		}
 		if (impl2archNameMappingForType.containsKey(fqImplName)) {
-			throw new IllegalArgumentException(
-					"Mapping for implementation-level name '" + fqImplName
-							+ "' exists already");
+			throw new IllegalArgumentException("Mapping for implementation-level name '" + fqImplName
+					+ "' exists already");
 		}
 
 		arch2implNameMappingForType.put(fqArchName, fqImplName);
@@ -83,9 +73,8 @@ public class Arch2ImplNameMappingManager {
 	 * @return
 	 */
 	public String lookupArchName4ImplName(final EntityType type, final String implName) {
-		final Map<String, String> impl2archNameMappingForType =
-			this.impl2archNameMappingForType(type);
-		
+		final Map<String, String> impl2archNameMappingForType = this.impl2archNameMappingForType(type);
+
 		return impl2archNameMappingForType.get(implName);
 	}
 
@@ -97,9 +86,17 @@ public class Arch2ImplNameMappingManager {
 	 * @return
 	 */
 	public String lookupImplName4ArchName(final EntityType type, final String archName) {
-		final Map<String, String> arch2implNameMappingForType = 
-			this.arch2implNameMappingForType(type);
-		
+		final Map<String, String> arch2implNameMappingForType = this.arch2implNameMappingForType(type);
+
 		return arch2implNameMappingForType.get(archName);
+	}
+
+	@Override
+	public String toString() {
+		final StringBuffer strB = new StringBuffer();
+		strB.append("arch2implNameMappings:\n").append(this.arch2implNameMappings);
+		strB.append("\n\n");
+		strB.append("impl2archNameMappings:\n").append(this.impl2archNameMappings);
+		return strB.toString();
 	}
 }
