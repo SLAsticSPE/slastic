@@ -26,20 +26,17 @@ public class ConfigurationManager {
 
 	private static final Log log = LogFactory.getLog(ConfigurationManager.class);
 
-	/**
-	 * The number of nodes allocated in the current configuration.
-	 */
-	// 1 is a HACK to allow to manage running instances
-	// TODO: - this should be renamed to currentNumDeploymentComponents are
-	// alike
-	// (should then become a HashMap assembly component x int)
-	// - better: look up from the model manager
-	// private volatile int currentNumNodes = 1;
-
 	private volatile int nextExecutionContainerIndex = 1;
 
 	private final ModelManager modelManager;
 	private final EucalyptusReconfigurationManager reconfigurationManager;
+
+	/**
+	 * The execution containers with these fully-qualified names and all
+	 * deployment components on these containers will be excluded from
+	 * deallocation/dereplication.
+	 */
+	final Collection<String> containerExcludeList;
 
 	/**
 	 * 
@@ -47,9 +44,10 @@ public class ConfigurationManager {
 	 * @param reconfigurationManager
 	 */
 	public ConfigurationManager(final ModelManager modelManager,
-			final EucalyptusReconfigurationManager reconfigurationManager) {
+			final EucalyptusReconfigurationManager reconfigurationManager, final Collection<String> containerExcludeList) {
 		this.modelManager = modelManager;
 		this.reconfigurationManager = reconfigurationManager;
+		this.containerExcludeList = containerExcludeList;
 	}
 
 	/**
@@ -62,7 +60,7 @@ public class ConfigurationManager {
 		final int currentNumNodes =
 				this.modelManager.getComponentDeploymentModelManager()
 						.deploymentComponentsForAssemblyComponent(assemblyComponent,
-								/* do not include inactive ones */ false).size();
+						/* do not include inactive ones */false).size();
 
 		if (requestedNumNodes == currentNumNodes) {
 			return true;
@@ -84,45 +82,15 @@ public class ConfigurationManager {
 			success = false;
 		}
 
-		// TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
-
 		return success;
 	}
-
-	// /**
-	// * @return the currentNumNodes
-	// */
-	// private final Collection<DeploymentComponent>
-	// activeDeplsForAssemblyComponent(
-	// final AssemblyComponent assemblyComponent) {
-	// /*
-	// * Fetch all deployments for the assembly component (including inactive
-	// * ones)
-	// */
-	// final Collection<DeploymentComponent> deplsForAssemblyComponent =
-	// this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
-	// assemblyComponent);
-	//
-	// ConfigurationManager.log.info("Found " + deplsForAssemblyComponent.size()
-	// + " deployment components (including inactive)");
-	//
-	// /* Select the active deployment components */
-	// final Collection<DeploymentComponent> activeDeplsForAssemblyComponents =
-	// new ArrayList<DeploymentComponent>();
-	// for (final DeploymentComponent deplComp : deplsForAssemblyComponent) {
-	// if (deplComp.isActive()) {
-	// activeDeplsForAssemblyComponents.add(deplComp);
-	// }
-	// }
-	// return activeDeplsForAssemblyComponents;
-	// }
 
 	/**
 	 * 
 	 * @return
 	 */
-	private Collection<DeploymentComponent> selectActiveDeploymentComponents(final AssemblyComponent assemblyComponent,
-			final int numComponents) {
+	private Collection<DeploymentComponent> selectActiveDeploymentComponentsForDereplication(
+			final AssemblyComponent assemblyComponent, final int numComponents) {
 		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
 				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
 						assemblyComponent,
@@ -131,19 +99,23 @@ public class ConfigurationManager {
 		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
 				+ " ACTIVE deployment components");
 
-		if (activeDeplsForAssemblyComponent.size() < numComponents) {
-			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
-					+ activeDeplsForAssemblyComponent.size() + " active one exist");
-			return null;
-		}
-
 		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
 		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
 
-		// TODO: This used to be a HACK (remove comment as soon as proven to
-		// work): -> it.next();
-		for (int curIdx = 0; curIdx < numComponents; curIdx++) {
-			result.add(it.next());
+		while (it.hasNext() && !(result.size() == numComponents)) {
+			final DeploymentComponent deploymentComponent = it.next();
+			final ExecutionContainer executionContainer = deploymentComponent.getExecutionContainer();
+			final String fqContainerName =
+					NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
+			if (!this.containerExcludeList.contains(fqContainerName)) {
+				result.add(deploymentComponent);
+			} 
+		}
+
+		if (result.size() < numComponents) {
+			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
+					+ activeDeplsForAssemblyComponent.size() + " active (non-excluded) ones exist");
+			return null;
 		}
 
 		return result;
@@ -159,7 +131,7 @@ public class ConfigurationManager {
 		boolean success = true;
 
 		final Collection<DeploymentComponent> shrinkList =
-				this.selectActiveDeploymentComponents(assemblyComponent, shrinkBy);
+				this.selectActiveDeploymentComponentsForDereplication(assemblyComponent, shrinkBy);
 		ConfigurationManager.log.info("shrinkList: " + shrinkList);
 		for (final DeploymentComponent deplComponent : shrinkList) {
 			ConfigurationManager.log.info("Processing " + deplComponent);
