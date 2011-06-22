@@ -23,7 +23,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 	 * On initialization, this value will be incremented according to the
 	 * current maximum value
 	 */
-	private volatile long nextId = 0;
+	private volatile long nextId = -1;
 
 	private final Map<Long, T> entitiesById = new HashMap<Long, T>();
 	private final List<T> entities;
@@ -34,6 +34,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 	@SuppressWarnings("unused")
 	private AbstractEntityManager() {
 		this.entities = null;
+		this.nextId = 0;
 	}
 
 	public AbstractEntityManager(final List<T> entities) {
@@ -45,7 +46,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 			}
 			this.addEntityToIdMap(entity);
 		}
-		this.nextId = maxId + 1;
+		this.nextId = maxId + 1; // 0 if entities is empty
 	}
 
 	public T lookupEntityById(final long id) {

@@ -8,6 +8,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration.EucalyptusReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
@@ -61,6 +62,10 @@ public class ConfigurationManager {
 			final int requestedNumNodes) {
 		final int currentNumNodes = this.activeDeplsForAssemblyComponent(assemblyComponent).size();
 
+		if (requestedNumNodes == currentNumNodes) {
+			return true;
+		}
+		
 		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to "
 				+ requestedNumNodes + " instances of assembly component " + assemblyComponent);
 
@@ -73,10 +78,10 @@ public class ConfigurationManager {
 		} else if (requestedNumNodes < currentNumNodes) {
 			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		} else {
-			/* == */
-			success = true;
+			/* make javac happy. This case cannot happen. */ 
+			success = false;
 		}
-
+		
 		//TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
 
 		return success;
@@ -189,7 +194,8 @@ public class ConfigurationManager {
 			final ExecutionContainer container =
 					this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
 			if (container != null) {
-				if (this.reconfigurationManager.replicateComponent(assemblyComponent, container) == null) {
+				final DeploymentComponent deploymentComponent = this.reconfigurationManager.replicateComponent(assemblyComponent, container); 
+				if (deploymentComponent == null) {
 					ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
 							+ "Failed to replicate component '" + assemblyComponent + "' to container " + container
 							+ " -> Aborting reconfiguration");
@@ -209,6 +215,7 @@ public class ConfigurationManager {
 	}
 
 	private final String createExecutionContainerName(final ExecutionContainerType executionContainerType) {
-		return executionContainerType + "-" + this.nextExecutionContainerIndex++;
+		final String fqExecutionContainerTypeName = NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
+		return fqExecutionContainerTypeName + "-" + this.nextExecutionContainerIndex++;
 	}
 }

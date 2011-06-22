@@ -42,6 +42,9 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
 
+	// TODO: pull out as configuration property
+	private static final boolean FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING = true;
+
 	private volatile PrintWriter eucalyptusEventWriter = null;
 	private volatile EucalyptusCloudNodeType euDefaultNodeType;
 
@@ -162,18 +165,31 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	/**
 	 * 
 	 * @param assemblyComponent
+	 * @param fallBackIfNoArch2ImplNameMapping
 	 * @return
 	 */
-	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(final AssemblyComponent assemblyComponent) {
+	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(
+			final AssemblyComponent assemblyComponent,
+			final boolean fallBackIfNoArch2ImplNameMapping) {
 		final String fqAssemblyComponentName =
 				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
-		final String eucaApplicationName =
+		String eucaApplicationName =
 				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
 						EntityType.ASSEMBLY_COMPONENT, fqAssemblyComponentName);
+		if ((eucaApplicationName == null) && fallBackIfNoArch2ImplNameMapping) {
+			/* Fall-back: Use assembly component name as euca applicaion name */
+			eucaApplicationName = fqAssemblyComponentName;
+		}
 
 		final EucalyptusCloudedApplication eucalyptusCloudedApplication =
 				(EucalyptusCloudedApplication) this.eucalyptusApplicationCloudingService
 						.lookupCloudedApplication(eucaApplicationName);
+
+		if (eucalyptusCloudedApplication == null) {
+			EucalyptusReconfigurationManager.log.warn(String.format(
+					"Failed to lookup euca app for name %s (fall-back mode: %s)", eucaApplicationName,
+					fallBackIfNoArch2ImplNameMapping));
+		}
 
 		return eucalyptusCloudedApplication;
 	}
@@ -211,10 +227,14 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			}
 
 			final EucalyptusCloudedApplication eucaApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent);
+					this.eucaApplicationForAssemblyComponet(assemblyComponent,
+							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (eucaApplication == null) {
-				throw new ApplicationCloudingServiceException("eucaApplication is null for assembly component: "
-						+ assemblyComponent);
+				final String errorMsg =
+						String.format("eucaApplication is null for assembly component: %s\n" +
+								"Most likely, no initial mapping was defined in the eucalyptus configuration",
+								assemblyComponent);
+				throw new ApplicationCloudingServiceException(errorMsg);
 			}
 
 			final EucalyptusApplicationInstance appInstance =
@@ -266,7 +286,8 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			final ExecutionContainer executionContainer = deploymentComponent.getExecutionContainer();
 
 			final EucalyptusCloudedApplication euCloudedApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent);
+					this.eucaApplicationForAssemblyComponet(assemblyComponent,
+							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (euCloudedApplication == null) {
 				EucalyptusReconfigurationManager.log
 						.error("Failed to lookup eucalyptus application for assembly component: " + assemblyComponent);
@@ -308,7 +329,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			final String fqNodeName =
+			final String fqExecutionContainerName =
 					NameUtils.createFQName(resExecutionContainer.getPackageName(), resExecutionContainer.getName());
 
 			// TODO: Lookup node type based on execution container type
@@ -319,7 +340,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 			final EucalyptusCloudNode euNode =
 					(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService
-							.allocateNode(fqNodeName, euNodeType);
+							.allocateNode(fqExecutionContainerName, euNodeType);
 
 			if (euNode == null) {
 				EucalyptusReconfigurationManager.log.error("allocateNode(..) failed");
@@ -327,11 +348,13 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			} else {
 				success = true;
 
-				this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
-						EntityType.EXECUTION_CONTAINER, fqNodeName, fqNodeName);
+				// TODO: does this make any sense?:
+				// this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
+				// EntityType.EXECUTION_CONTAINER, fqExecutionContainerName,
+				// fqExecutionContainerName);
 
 				this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
-						EntityType.EXECUTION_CONTAINER, fqNodeName, euNode.getName());
+						EntityType.EXECUTION_CONTAINER, fqExecutionContainerName, euNode.getName());
 			}
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);

@@ -98,8 +98,6 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * @throws ApplicationCloudingServiceException
 	 */
 	private void initNodeTypes() throws ApplicationCloudingServiceException {
-		this.printDebugMsg("initNodeTypes(..)");
-
 		for (final Entry<String, String> image : this.configuration.getEMIs().entrySet()) {
 			this.nodeTypes.add(new EucalyptusCloudNodeType(image.getKey(), image.getValue()));
 		}

@@ -99,13 +99,18 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 			return;
 		}
 
-		final String fqExecutionContainerTypeName = rs.getFQExecutionContainerTypeName();
-		final ExecutionContainerType executionContainerType =
-				this.modelManager.getTypeRepositoryManager().lookupExecutionContainerType(fqExecutionContainerTypeName);
-
 		WorkloadIntensityRuleEngine.log.info("Incoming intensity: "
 				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000))
 				+ ": " + count);
+		
+		final String fqExecutionContainerTypeName = rs.getFQExecutionContainerTypeName();
+		final ExecutionContainerType executionContainerType =
+				this.modelManager.getTypeRepositoryManager().lookupExecutionContainerType(fqExecutionContainerTypeName);
+		if (executionContainerType == null) {
+			WorkloadIntensityRuleEngine.log.error("Failed to lookup execution container with name '"
+					+ fqExecutionContainerTypeName + "'");
+			return;
+		}
 
 		// 2. Every update spawns a worker job
 		final AtomicReference<WorkloadIntensityEvent> pendingEventRef =
