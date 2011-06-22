@@ -58,16 +58,18 @@ public class ConfigurationManager {
 	 * @return
 	 */
 	public final synchronized boolean reconfigure(final AssemblyComponent assemblyComponent,
-			final ExecutionContainerType executionContainerType,
-			final int requestedNumNodes) {
-		final int currentNumNodes = this.activeDeplsForAssemblyComponent(assemblyComponent).size();
+			final ExecutionContainerType executionContainerType, final int requestedNumNodes) {
+		final int currentNumNodes =
+				this.modelManager.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(assemblyComponent,
+								/* do not include inactive ones */ false).size();
 
 		if (requestedNumNodes == currentNumNodes) {
 			return true;
 		}
-		
-		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to "
-				+ requestedNumNodes + " instances of assembly component " + assemblyComponent);
+
+		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes
+				+ " instances of assembly component " + assemblyComponent);
 
 		final boolean success;
 
@@ -78,40 +80,42 @@ public class ConfigurationManager {
 		} else if (requestedNumNodes < currentNumNodes) {
 			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		} else {
-			/* make javac happy. This case cannot happen. */ 
+			/* make javac happy. This case cannot happen. */
 			success = false;
 		}
-		
-		//TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
+
+		// TODO: remove if proven stable: currentNumNodes = requestedNumNodes;
 
 		return success;
 	}
 
-	/**
-	 * @return the currentNumNodes
-	 */
-	private final Collection<DeploymentComponent> activeDeplsForAssemblyComponent(
-			final AssemblyComponent assemblyComponent) {
-		/*
-		 * Fetch all deployments for the assembly component (including inactive
-		 * ones)
-		 */
-		final Collection<DeploymentComponent> deplsForAssemblyComponent =
-				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
-						assemblyComponent);
-
-		ConfigurationManager.log.info("Found " + deplsForAssemblyComponent.size()
-				+ " deployment components (including inactive)");
-
-		/* Select the active deployment components */
-		final Collection<DeploymentComponent> activeDeplsForAssemblyComponents = new ArrayList<DeploymentComponent>();
-		for (final DeploymentComponent deplComp : deplsForAssemblyComponent) {
-			if (deplComp.isActive()) {
-				activeDeplsForAssemblyComponents.add(deplComp);
-			}
-		}
-		return activeDeplsForAssemblyComponents;
-	}
+	// /**
+	// * @return the currentNumNodes
+	// */
+	// private final Collection<DeploymentComponent>
+	// activeDeplsForAssemblyComponent(
+	// final AssemblyComponent assemblyComponent) {
+	// /*
+	// * Fetch all deployments for the assembly component (including inactive
+	// * ones)
+	// */
+	// final Collection<DeploymentComponent> deplsForAssemblyComponent =
+	// this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
+	// assemblyComponent);
+	//
+	// ConfigurationManager.log.info("Found " + deplsForAssemblyComponent.size()
+	// + " deployment components (including inactive)");
+	//
+	// /* Select the active deployment components */
+	// final Collection<DeploymentComponent> activeDeplsForAssemblyComponents =
+	// new ArrayList<DeploymentComponent>();
+	// for (final DeploymentComponent deplComp : deplsForAssemblyComponent) {
+	// if (deplComp.isActive()) {
+	// activeDeplsForAssemblyComponents.add(deplComp);
+	// }
+	// }
+	// return activeDeplsForAssemblyComponents;
+	// }
 
 	/**
 	 * 
@@ -120,7 +124,9 @@ public class ConfigurationManager {
 	private Collection<DeploymentComponent> selectActiveDeploymentComponents(final AssemblyComponent assemblyComponent,
 			final int numComponents) {
 		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
-				this.activeDeplsForAssemblyComponent(assemblyComponent);
+				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
+						assemblyComponent,
+						/* do not include inactive ones */false);
 
 		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
 				+ " ACTIVE deployment components");
@@ -161,8 +167,7 @@ public class ConfigurationManager {
 			success = this.reconfigurationManager.dereplicateComponent(deplComponent);
 			if (!success) {
 				ConfigurationManager.log.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):"
-						+ "Failed to de-replicate component '" + deplComponent
-						+ " -> Aborting reconfiguration");
+						+ "Failed to de-replicate component '" + deplComponent + " -> Aborting reconfiguration");
 				break;
 			}
 
@@ -194,7 +199,8 @@ public class ConfigurationManager {
 			final ExecutionContainer container =
 					this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
 			if (container != null) {
-				final DeploymentComponent deploymentComponent = this.reconfigurationManager.replicateComponent(assemblyComponent, container); 
+				final DeploymentComponent deploymentComponent =
+						this.reconfigurationManager.replicateComponent(assemblyComponent, container);
 				if (deploymentComponent == null) {
 					ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
 							+ "Failed to replicate component '" + assemblyComponent + "' to container " + container
@@ -215,7 +221,8 @@ public class ConfigurationManager {
 	}
 
 	private final String createExecutionContainerName(final ExecutionContainerType executionContainerType) {
-		final String fqExecutionContainerTypeName = NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
+		final String fqExecutionContainerTypeName =
+				NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
 		return fqExecutionContainerTypeName + "-" + this.nextExecutionContainerIndex++;
 	}
 }

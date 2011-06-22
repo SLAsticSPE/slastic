@@ -83,5 +83,5 @@ public interface IDeploymentComponentsManager {
 	 * @return
 	 */
 	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
-			final AssemblyComponent assemblyComponent);
+			final AssemblyComponent assemblyComponent, final boolean includeInactive);
 }

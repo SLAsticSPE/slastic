@@ -120,25 +120,28 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
 
 	@Override
 	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
-			final AssemblyComponent assemblyComponent) {
-		final Collection<DeploymentComponent> allDeploymentComponents = super.getEntities();
-
+			final AssemblyComponent assemblyComponent, final boolean includeInactive) {
 		final Collection<DeploymentComponent> deploymentsForAssemblyComponent = new ArrayList<DeploymentComponent>();
 
 		for (final DeploymentComponent deploymentComponent : super.getEntities()) {
 			if (deploymentComponent.getAssemblyComponent() == assemblyComponent) {
-				deploymentsForAssemblyComponent.add(deploymentComponent);
+				if (includeInactive || deploymentComponent.isActive()) {
+					deploymentsForAssemblyComponent.add(deploymentComponent);
+				}
 			}
 		}
 
-		return allDeploymentComponents;
+		return deploymentsForAssemblyComponent;
 	}
 
 	@Override
 	public DeploymentComponent deploymentComponentForAssemblyComponent(final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer) {
 		final Collection<DeploymentComponent> deployments =
-				this.deploymentComponentsForAssemblyComponent(assemblyComponent);
+				this.deploymentComponentsForAssemblyComponent(assemblyComponent,
+				/*
+				 * do not include inactive ones
+				 */false);
 		for (final DeploymentComponent depl : deployments) {
 			if (depl.getExecutionContainer() == executionContainer) {
 				return depl;
