@@ -1,5 +1,6 @@
 package org.trustsoft.slastic.tests.junit.model.reconfiguration;
 
+import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -19,37 +20,38 @@ public class TestComponentDereplication extends TestCase {
 	 * deployment component is removed from the model.
 	 */
 	public void testComponentDereplication() {
-		final SystemModel systemModel = ModelManager
-				.createInitializedSystemModel();
+		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
-		final DeploymentComponent deploymentComponent = ModelEntityCreationUtils
-				.createDeploymentComponent(mgr, "ComponentTypeName",
-						"AssemblyComponentName", "ExecutionContainerTypeName",
-						"ExecutionContainernName");		
+		final DeploymentComponent deploymentComponent =
+				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName",
+						"ExecutionContainerTypeName", "ExecutionContainernName");
 		mgr.getReconfigurationManager().dereplicateComponent(deploymentComponent);
-		/* Make sure that entity is removed */
-		
-		// TODO: Re-activate!
-//		Assert.assertNull(mgr.getComponentDeploymentModelManager()
-//				.lookupDeploymentComponent(deploymentComponent.getId()));
+		/* Make sure that entity is removed/marked inactive */
 
-		/* Make sure that this deployment is removed from the list of assemblies */
-		// TODO: Re-activate!
-//		Assert.assertNull(
-//				"Method returned non-null deployment component although component dereplicated",
-//				mgr.getComponentDeploymentModelManager()
-//						.deploymentComponentForAssemblyComponent(
-//								deploymentComponent.getAssemblyComponent(),
-//								deploymentComponent.getExecutionContainer()));
+		final DeploymentComponent deploymentComponentLookup =
+				mgr.getComponentDeploymentModelManager().lookupDeploymentComponent(deploymentComponent.getId());
+
+		if (deploymentComponentLookup != null) {
+			Assert.assertSame(deploymentComponent, deploymentComponentLookup);
+		}
+		Assert.assertTrue((deploymentComponentLookup == null) || !deploymentComponentLookup.isActive());
+
 		/*
-		 * In this case, that should be no deployment component remaining for
-		 * the assembly component:
+		 * Make sure that this deployment is removed from the list of (active)
+		 * assemblies
 		 */
-		// TODO: Re-activate!
-//		Assert.assertEquals(
-//				"List of deployments for assembly must be 0", 0, 
-//				mgr.getComponentDeploymentModelManager()
-//						.deploymentComponentsForAssemblyComponent(
-//								deploymentComponent.getAssemblyComponent()).size());
+		final DeploymentComponent deploymentComponentLookup2 =
+				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(
+						deploymentComponent.getAssemblyComponent(), deploymentComponent.getExecutionContainer());
+
+		Assert.assertTrue((deploymentComponentLookup2 == null) || !deploymentComponentLookup2.isActive());
+
+		/*
+		 * In this case, that should be no (active) deployment component
+		 * remaining for the assembly component:
+		 */
+		Assert.assertEquals("List of deployments for assembly must be 0", 0, mgr.getComponentDeploymentModelManager()
+				.deploymentComponentsForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
+				/* do not include inactive ones */false).size());
 	}
 }

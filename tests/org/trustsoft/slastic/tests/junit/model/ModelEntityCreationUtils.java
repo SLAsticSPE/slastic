@@ -1,11 +1,12 @@
 package org.trustsoft.slastic.tests.junit.model;
 
+import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
-import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 /**
  *
@@ -23,10 +24,10 @@ public class ModelEntityCreationUtils {
      * @return
      */
     public static AssemblyComponent createAssemblyComponent(
-            ModelManager modelManager,
-            String fqComponentTypeName,
-            String fqAssemblyComponentName) {
-        ComponentType componentType =
+            final ModelManager modelManager,
+            final String fqComponentTypeName,
+            final String fqAssemblyComponentName) {
+        final ComponentType componentType =
                 modelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqComponentTypeName);
         return modelManager.getComponentAssemblyModelManager().createAndRegisterAssemblyComponent(fqAssemblyComponentName, componentType);
     }
@@ -44,15 +45,15 @@ public class ModelEntityCreationUtils {
      * @return
      */
     public static DeploymentComponent createDeploymentComponent(
-            ModelManager modelManager,
-            String fqComponentTypeName,
-            String fqAssemblyComponentName,
-            String fqExecutionContainerTypeName,
-            String fqExecutionContainerName) {
-        AssemblyComponent assemblyComponent =
-                createAssemblyComponent(modelManager, fqComponentTypeName, fqAssemblyComponentName);
-        ExecutionContainer executionContainer =
-                createExecutionContainer(modelManager, fqExecutionContainerTypeName, fqExecutionContainerName);
+            final ModelManager modelManager,
+            final String fqComponentTypeName,
+            final String fqAssemblyComponentName,
+            final String fqExecutionContainerTypeName,
+            final String fqExecutionContainerName) {
+        final AssemblyComponent assemblyComponent =
+                ModelEntityCreationUtils.createAssemblyComponent(modelManager, fqComponentTypeName, fqAssemblyComponentName);
+        final ExecutionContainer executionContainer =
+                ModelEntityCreationUtils.createExecutionContainer(modelManager, fqExecutionContainerTypeName, fqExecutionContainerName);
         return modelManager.getComponentDeploymentModelManager().createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
     }
 
@@ -66,11 +67,12 @@ public class ModelEntityCreationUtils {
      * @return
      */
     public static ExecutionContainer createExecutionContainer(
-            ModelManager modelManager,
-            String fqExecutionContainerTypeName,
-            String fqExecutionContainerName) {
-        ExecutionContainerType executionContainerType =
+            final ModelManager modelManager,
+            final String fqExecutionContainerTypeName,
+            final String fqExecutionContainerName) {
+        final ExecutionContainerType executionContainerType =
                 modelManager.getTypeRepositoryManager().createAndRegisterExecutionContainerType(fqExecutionContainerTypeName);
-        return modelManager.getExecutionEnvironmentModelManager().createAndRegisterExecutionContainer(fqExecutionContainerName, executionContainerType);
+        return modelManager.getExecutionEnvironmentModelManager().createAndRegisterExecutionContainer(fqExecutionContainerName, executionContainerType,
+        		/* mark allocated */ true);
     }
 }
