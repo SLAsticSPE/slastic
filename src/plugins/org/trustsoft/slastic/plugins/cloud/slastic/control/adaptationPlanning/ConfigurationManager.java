@@ -3,6 +3,7 @@ package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +37,13 @@ public class ConfigurationManager {
 	 * deployment components on these containers will be excluded from
 	 * deallocation/dereplication.
 	 */
-	final Collection<String> containerExcludeList;
+	private final Collection<String> containerExcludeList;
+
+	/**
+	 * Fully qualified {@link ExecutionContainer} name x max. allowed # of
+	 * instances
+	 */
+	private final Map<String, Integer> maxNumContainers;
 
 	/**
 	 * 
@@ -44,10 +51,12 @@ public class ConfigurationManager {
 	 * @param reconfigurationManager
 	 */
 	public ConfigurationManager(final ModelManager modelManager,
-			final EucalyptusReconfigurationManager reconfigurationManager, final Collection<String> containerExcludeList) {
+			final EucalyptusReconfigurationManager reconfigurationManager,
+			final Collection<String> containerExcludeList, final Map<String, Integer> maxNumContainers) {
 		this.modelManager = modelManager;
 		this.reconfigurationManager = reconfigurationManager;
 		this.containerExcludeList = containerExcludeList;
+		this.maxNumContainers = maxNumContainers;
 	}
 
 	/**
@@ -109,7 +118,7 @@ public class ConfigurationManager {
 					NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
 			if (!this.containerExcludeList.contains(fqContainerName)) {
 				result.add(deploymentComponent);
-			} 
+			}
 		}
 
 		if (result.size() < numComponents) {
@@ -165,6 +174,24 @@ public class ConfigurationManager {
 		// execution.
 
 		boolean success = true;
+
+		final int curNumContainersForType =
+				this.modelManager.getExecutionEnvironmentModelManager()
+						.executionContainersForType(executionContainerType, false).size();
+
+		final String fqExecContainerTypeName =
+				NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
+
+		final Integer maxNumNodesForType = this.maxNumContainers.get(fqExecContainerTypeName);
+		if (maxNumNodesForType != null) { // otherwise there's no max. number
+			if (curNumContainersForType + increaseBy > maxNumNodesForType) {
+				ConfigurationManager.log.warn(String.format(
+						"Rejecting increase capacity request due to max. number of containers for type rule.\n"
+								+ "Current: %s; requested additional #: %s; max: %s", curNumContainersForType,
+						increaseBy, maxNumNodesForType));
+				return false;
+			}
+		}
 
 		for (int i = 0; (i < increaseBy) && success; i++) {
 			final String containerName = this.createExecutionContainerName(executionContainerType);

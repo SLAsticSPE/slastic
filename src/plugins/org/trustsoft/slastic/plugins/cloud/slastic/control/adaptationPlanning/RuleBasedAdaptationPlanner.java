@@ -17,6 +17,8 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
 import com.espertech.esper.client.EPStatement;
 
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 
 /**
@@ -31,12 +33,22 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	private static final String PROPERTY_WIN_SIZE_SECONDS = "windowSizeSeconds";
 	private static final String PROPERTY_EVALUATION_PERIOD_SECONDS = "evaluationPeriodSeconds";
 	private static final String PROPERTY_CONTAINER_DEALLOCATION_EXCLUDE_LIST = "containersNotToBeDeallocated";
+	private static final String PROPERTY_MAX_NUM_INSTANCES = "maxNumContainers";
 
 	private static final int DEFAULT_WIN_SIZE_SECONDS = 60;
 	private static final int DEFAULT_EVALUATION_PERIOD_SECONDS = 60;
 
+	/**
+	 * Fully qualified {@link AssemblyComponent} name x rule set
+	 */
 	private volatile Map<String, NumDeploymentsForAssemblyComponentRuleSet> ruleSets =
 			new HashMap<String, NumDeploymentsForAssemblyComponentRuleSet>();
+
+	/**
+	 * Fully qualified {@link ExecutionContainer} name x max. allowed # of
+	 * instances
+	 */
+	private volatile Map<String, Integer> maxNumContainers = new HashMap<String, Integer>();
 
 	private final Collection<String> containerExcludeList = new ArrayList<String>();
 
@@ -50,6 +62,12 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		boolean success = this.initExcludeList();
 		if (!success) {
 			RuleBasedAdaptationPlanner.log.error("Failed to init container exclude list");
+			return false;
+		}
+
+		success = this.initMaxNumContainers();
+		if (!success) {
+			RuleBasedAdaptationPlanner.log.error("Failed to init max num container instances");
 			return false;
 		}
 
@@ -119,7 +137,8 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	private boolean initRuleEngine(final ModelManager modelManager) {
 		final ConfigurationManager configurationManager =
 				new ConfigurationManager(modelManager,
-						(EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList);
+						(EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList,
+						this.maxNumContainers);
 		this.ruleEngine = new WorkloadIntensityRuleEngine(modelManager, this.ruleSets, configurationManager);
 		return true;
 	}
@@ -192,6 +211,30 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		final String[] containerExludeListPropValStrSplit = containerExludeListPropValStr.split(";");
 
 		this.containerExcludeList.addAll(Arrays.asList(containerExludeListPropValStrSplit));
+		return true;
+	}
+
+	private boolean initMaxNumContainers() {
+		final String maxNumPropValStr =
+				super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_MAX_NUM_INSTANCES, "");
+
+		if (maxNumPropValStr.isEmpty()) {
+			return true;
+		}
+
+		final String[] maxNumPropValStrSplit = maxNumPropValStr.split(";");
+		for (final String maxNumKeyValuPair : maxNumPropValStrSplit) {
+			final String[] maxNumKeyValuPairSplit = maxNumKeyValuPair.split(":");
+			if (maxNumKeyValuPairSplit.length != 2) {
+				RuleBasedAdaptationPlanner.log.error("Invalid max num containers key/value pair: '" + maxNumKeyValuPair
+						+ "'");
+				return false;
+			}
+			final String fqContainerName = maxNumKeyValuPairSplit[0];
+			final int maxNum = Integer.parseInt(maxNumKeyValuPairSplit[1]);
+			this.maxNumContainers.put(fqContainerName, maxNum);
+		}
+
 		return true;
 	}
 

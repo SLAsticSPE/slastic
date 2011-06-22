@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +50,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 		executionContainer.setActive(true);
 		return true;
 	}
-	
+
 	@Override
 	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer) {
 		return this.removeEntity(executionContainer);
@@ -118,5 +120,21 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 		resource = this.createCachedResource(executionContainer, resSpec);
 
 		return resource;
+	}
+
+	@Override
+	public Collection<ExecutionContainer> executionContainersForType(
+			final ExecutionContainerType executionContainerType, final boolean includeInactive) {
+		final Collection<ExecutionContainer> containersForType = new ArrayList<ExecutionContainer>();
+
+		for (final ExecutionContainer container : super.getEntities()) {
+			if (container.getExecutionContainerType() == executionContainerType) {
+				if (includeInactive || container.isActive()) {
+					containersForType.add(container);
+				}
+			}
+		}
+
+		return containersForType;
 	}
 }

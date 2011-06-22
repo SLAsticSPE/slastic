@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
+import java.util.Collection;
+
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -32,13 +34,16 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 	private final ExecutionContainersManager executionContainersManager;
 	private final NetworkLinksManager networkLinksManager;
 
-	private final ExecutionContainersAllocationManager executionContainersAllocationManager;
+	// TODO: remove?
+	// private final ExecutionContainersAllocationManager
+	// executionContainersAllocationManager;
 
 	private ExecutionEnvironmentModelManager() {
 		super(null);
 		this.executionContainersManager = null;
 		this.networkLinksManager = null;
-		this.executionContainersAllocationManager = null;
+		// TODO: remove?
+		// this.executionContainersAllocationManager = null;
 	}
 
 	public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel) {
@@ -46,8 +51,9 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 		this.executionContainersManager =
 				new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
 		this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
-		this.executionContainersAllocationManager =
-				new ExecutionContainersAllocationManager(executionEnvironmentModel.getAllocatedExecutionContainers());
+		// TODO: remove?
+		// this.executionContainersAllocationManager =new
+		// ExecutionContainersAllocationManager(executionEnvironmentModel.getAllocatedExecutionContainers());
 	}
 
 	@Override
@@ -105,5 +111,11 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 	public NetworkLink createAndRegisterNetworkLink(final String fullyQualifiedName,
 			final NetworkLinkType networkLinkType) {
 		return this.networkLinksManager.createAndRegisterNetworkLink(fullyQualifiedName, networkLinkType);
+	}
+
+	@Override
+	public Collection<ExecutionContainer> executionContainersForType(
+			final ExecutionContainerType executionContainerType, final boolean includeInactive) {
+		return this.executionContainersManager.executionContainersForType(executionContainerType, includeInactive);
 	}
 }

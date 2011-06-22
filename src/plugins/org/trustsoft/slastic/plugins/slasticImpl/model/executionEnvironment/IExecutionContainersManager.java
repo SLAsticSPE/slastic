@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
+import java.util.Collection;
+
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
@@ -89,4 +91,15 @@ public interface IExecutionContainersManager {
 	 */
 	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer,
 			final String resourceSpecificationName);
+
+	/**
+	 * Returns all {@link ExecutionContainer}s of given
+	 * {@link ExecutionContainerType}.
+	 * 
+	 * @param executionContainerType
+	 * @param includeInactive
+	 * @return
+	 */
+	public Collection<ExecutionContainer> executionContainersForType(ExecutionContainerType executionContainerType,
+			final boolean includeInactive);
 }
