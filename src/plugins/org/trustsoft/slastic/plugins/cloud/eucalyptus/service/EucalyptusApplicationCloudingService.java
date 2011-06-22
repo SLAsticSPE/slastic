@@ -286,25 +286,30 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 3. Copy Kieker Configuration */
 
-		final EucalyptusCommand cpKiekerConfigCommand =
-				EucalyptusCommandFactory
-						.getCopyKiekerConfigCommand(
-								this.configuration.getSSHPrivateKeyFile(),
-								this.configuration.getSSHUserName(),
-								// TODO: turn into properties!
-								this.configuration.getTomcatHome() + "/../lib/META-INF/",
-								"/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
-								ipAddress);
-		executer.executeCommandWithEnv(cpKiekerConfigCommand, this.configuration.getEucatoolsPath());
+		// TODO: should be removed as this used to be a work-around
+		// final EucalyptusCommand cpKiekerConfigCommand =
+		// EucalyptusCommandFactory
+		// .getCopyKiekerConfigCommand(
+		// this.configuration.getSSHPrivateKeyFile(),
+		// this.configuration.getSSHUserName(),
+		// // TODO: turn into properties!
+		// this.configuration.getTomcatHome() + "/../lib/META-INF/",
+		// "/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
+		// ipAddress);
+		// executer.executeCommandWithEnv(cpKiekerConfigCommand,
+		// this.configuration.getEucatoolsPath());
 
 		/* 4. Start tomcat */
 
 		// TODO: turn tomcat start script into property
 
-		final EucalyptusCommand startTomcatCommand =
-				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), ipAddress, "/etc/init.d/tomcat");
-		executer.executeCommandWithEnv(startTomcatCommand, this.configuration.getEucatoolsPath());
+		// TODO: should be removed as this used to be a work-around
+		// final EucalyptusCommand startTomcatCommand =
+		// EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+		// this.configuration.getSSHUserName(), ipAddress,
+		// "/etc/init.d/tomcat");
+		// executer.executeCommandWithEnv(startTomcatCommand,
+		// this.configuration.getEucatoolsPath());
 
 		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 

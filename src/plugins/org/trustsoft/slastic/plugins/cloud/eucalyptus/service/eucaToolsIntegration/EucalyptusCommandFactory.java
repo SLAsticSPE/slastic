@@ -18,7 +18,7 @@ public class EucalyptusCommandFactory {
 	// needs SSH StrictHostKeyChecking disabled
 	private final static String applicationDeployCommand =
 			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
-	private final static String applicationUndeployCommand = "ls"; // TODO here
+	private final static String applicationUndeployCommand = "ls"; // TODO fixme
 
 	private final static String cpKiekerConfigCommand =
 		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
@@ -96,6 +96,8 @@ public class EucalyptusCommandFactory {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName,
 				instanceIP, tomcatStartScript);
 	}
+	
+	// TODO: turn /bin/hostname into property
 	
 	public static EucalyptusCommand getFetchHostnameCommand(
 			final String sshPrivKey, final String sshUserName,
