@@ -21,23 +21,18 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  * @author Andre van Hoorn
  */
-public class TestExecutionEnvironenmentModelManager_ExecutionContainers
-		extends
+public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends
 		AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<ExecutionEnvironmentModel, ExecutionContainer> {
 
-	private static final Log log =
-			LogFactory
-					.getLog(TestExecutionEnvironenmentModelManager_ExecutionContainers.class);
+	private static final Log log = LogFactory.getLog(TestExecutionEnvironenmentModelManager_ExecutionContainers.class);
 
 	@Override
 	protected ExecutionEnvironmentModel createModel() {
-		return ExecutionEnvironmentFactory.eINSTANCE
-				.createExecutionEnvironmentModel();
+		return ExecutionEnvironmentFactory.eINSTANCE.createExecutionEnvironmentModel();
 	}
 
 	@Override
-	protected ExecutionContainer createAndRegisterEntity(
-			final AbstractModelManager<ExecutionEnvironmentModel> mgr,
+	protected ExecutionContainer createAndRegisterEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
 			final String fqEntityName, final ModelManager systemModelMgr) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
@@ -54,51 +49,43 @@ public class TestExecutionEnvironenmentModelManager_ExecutionContainers
 		ExecutionContainerType executionContainerType = // use existing type
 														// instance if it exists
 														// already
-				systemModelMgr.getTypeRepositoryManager()
-						.lookupExecutionContainerType(executionContainerName);
+				systemModelMgr.getTypeRepositoryManager().lookupExecutionContainerType(executionContainerName);
 		if (executionContainerType == null) {
 			executionContainerType =
-					systemModelMgr.getTypeRepositoryManager()
-							.createAndRegisterExecutionContainerType(
-									executionContainerName);
+					systemModelMgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(
+							executionContainerName);
 		}
-		Assert.assertNotNull("Test invalid: executionContainerType == null",
-				executionContainerType);
+		Assert.assertNotNull("Test invalid: executionContainerType == null", executionContainerType);
 
 		final ExecutionContainer executionContainer =
-				((ExecutionEnvironmentModelManager) mgr)
-						.createAndRegisterExecutionContainer(fqEntityName,
-								executionContainerType);
+				((ExecutionEnvironmentModelManager) mgr).createAndRegisterExecutionContainer(fqEntityName,
+						executionContainerType,
+						/* mark allocated */true);
 		return executionContainer;
 	}
 
 	@Override
-	protected ExecutionContainer lookupEntity(
-			final AbstractModelManager<ExecutionEnvironmentModel> mgr,
+	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
 			final String fqEntityName) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
 			return null;
 		}
-		return ((ExecutionEnvironmentModelManager) mgr)
-				.lookupExecutionContainer(fqEntityName);
+		return ((ExecutionEnvironmentModelManager) mgr).lookupExecutionContainer(fqEntityName);
 	}
 
 	@Override
-	protected ExecutionContainer lookupEntity(
-			final AbstractModelManager<ExecutionEnvironmentModel> mgr,
+	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
 			final long entityId) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
 			return null;
 		}
-		return ((ExecutionEnvironmentModelManager) mgr)
-				.lookupExecutionContainer(entityId);
+		return ((ExecutionEnvironmentModelManager) mgr).lookupExecutionContainer(entityId);
 	}
 
 	@Override
-	protected AbstractModelManager<ExecutionEnvironmentModel> getModelManager(
-			final ModelManager systemModelMgr) {
+	protected AbstractModelManager<ExecutionEnvironmentModel> getModelManager(final ModelManager systemModelMgr) {
 		return systemModelMgr.getExecutionEnvironmentModelManager();
 	}
 }

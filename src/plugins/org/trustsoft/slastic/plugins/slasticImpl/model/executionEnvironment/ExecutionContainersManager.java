@@ -16,20 +16,16 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  * @author Andre van Hoorn
  */
-public class ExecutionContainersManager extends
-		AbstractFQNamedEntityManager<ExecutionContainer> implements
+public class ExecutionContainersManager extends AbstractFQNamedEntityManager<ExecutionContainer> implements
 		IExecutionContainersManager {
-	private static final Log log = LogFactory
-			.getLog(ExecutionContainersManager.class);
+	private static final Log log = LogFactory.getLog(ExecutionContainersManager.class);
 
-	public ExecutionContainersManager(
-			final List<ExecutionContainer> ExecutionContainers) {
+	public ExecutionContainersManager(final List<ExecutionContainer> ExecutionContainers) {
 		super(ExecutionContainers);
 	}
 
 	@Override
-	public ExecutionContainer lookupExecutionContainer(
-			final String fullyQualifiedName) {
+	public ExecutionContainer lookupExecutionContainer(final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
@@ -39,13 +35,23 @@ public class ExecutionContainersManager extends
 	}
 
 	@Override
-	public ExecutionContainer createAndRegisterExecutionContainer(
-			final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType) {
-		final ExecutionContainer executionContainer =
-				this.createAndRegister(fullyQualifiedName);
+	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
+			final ExecutionContainerType executionContainerType, final boolean markAllocated) {
+		final ExecutionContainer executionContainer = this.createAndRegister(fullyQualifiedName);
 		executionContainer.setExecutionContainerType(executionContainerType);
+		executionContainer.setActive(markAllocated);
 		return executionContainer;
+	}
+
+	@Override
+	public boolean allocateExecutionContainer(final ExecutionContainer executionContainer) {
+		executionContainer.setActive(true);
+		return true;
+	}
+	
+	@Override
+	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer) {
+		return this.removeEntity(executionContainer);
 	}
 
 	@Override
@@ -53,11 +59,9 @@ public class ExecutionContainersManager extends
 		return ExecutionEnvironmentFactory.eINSTANCE.createExecutionContainer();
 	}
 
-	private ResourceSpecification lookupResourceSpecification(
-			final ExecutionContainerType executionContainerType,
+	private ResourceSpecification lookupResourceSpecification(final ExecutionContainerType executionContainerType,
 			final String resourceSpecificationName) {
-		for (final ResourceSpecification resSpec : executionContainerType
-				.getResources()) {
+		for (final ResourceSpecification resSpec : executionContainerType.getResources()) {
 			if (resSpec.getName().equals(resourceSpecificationName)) {
 				return resSpec;
 			}
@@ -65,8 +69,7 @@ public class ExecutionContainersManager extends
 		return null;
 	}
 
-	private Resource lookupCachedContainerResource(
-			final ExecutionContainer executionContainer,
+	private Resource lookupCachedContainerResource(final ExecutionContainer executionContainer,
 			final ResourceSpecification resSpecification) {
 		for (final Resource res : executionContainer.getResources()) {
 			if (res.getResourceSpecification() == resSpecification) {
@@ -76,11 +79,9 @@ public class ExecutionContainersManager extends
 		return null;
 	}
 
-	private Resource createCachedResource(
-			final ExecutionContainer executionContainer,
+	private Resource createCachedResource(final ExecutionContainer executionContainer,
 			final ResourceSpecification resSpecification) {
-		final Resource resource =
-				ExecutionEnvironmentFactory.eINSTANCE.createResource();
+		final Resource resource = ExecutionEnvironmentFactory.eINSTANCE.createResource();
 		resource.setExecutionContainer(executionContainer);
 		resource.setResourceSpecification(resSpecification);
 		executionContainer.getResources().add(resource);
@@ -88,22 +89,18 @@ public class ExecutionContainersManager extends
 	}
 
 	@Override
-	public Resource lookupExecutionContainerResource(
-			final ExecutionContainer executionContainer,
+	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer,
 			final String resourceSpecificationName) {
-		if ((resourceSpecificationName == null)
-				|| resourceSpecificationName.isEmpty()) {
+		if ((resourceSpecificationName == null) || resourceSpecificationName.isEmpty()) {
 			final String errorMsg =
-					"resourceSpecificationName must not be null or empty (found: "
-							+ resourceSpecificationName + ")";
+					"resourceSpecificationName must not be null or empty (found: " + resourceSpecificationName + ")";
 			ExecutionContainersManager.log.error(errorMsg);
 			throw new IllegalArgumentException(errorMsg);
 		}
 
 		/* 1: Check whether resource exists for type */
 		final ResourceSpecification resSpec =
-				this.lookupResourceSpecification(
-						executionContainer.getExecutionContainerType(),
+				this.lookupResourceSpecification(executionContainer.getExecutionContainerType(),
 						resourceSpecificationName);
 		if (resSpec == null) {
 			// such resource does not exist
@@ -111,8 +108,7 @@ public class ExecutionContainersManager extends
 		}
 
 		/* 1: Check internal cache */
-		Resource resource =
-				this.lookupCachedContainerResource(executionContainer, resSpec);
+		Resource resource = this.lookupCachedContainerResource(executionContainer, resSpec);
 
 		if (resource != null) {
 			return resource;

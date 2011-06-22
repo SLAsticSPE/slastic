@@ -19,8 +19,7 @@ public interface IExecutionContainersManager {
 	 *            the fully-qualified name of the execution container to lookup
 	 * @return the looked up execution container
 	 */
-	public ExecutionContainer lookupExecutionContainer(
-			final String fullyQualifiedName);
+	public ExecutionContainer lookupExecutionContainer(final String fullyQualifiedName);
 
 	/**
 	 * Returns the execution container with the given id or null if no execution
@@ -31,8 +30,6 @@ public interface IExecutionContainersManager {
 	 * @return the looked up execution container
 	 */
 	public ExecutionContainer lookupExecutionContainer(final long id);
-
-	// TODO: Add method deleteExecutionContainer?
 
 	/**
 	 * Creates and registers a new execution container with the given
@@ -46,9 +43,40 @@ public interface IExecutionContainersManager {
 	 *             if an execution container with the given fully-qualified name
 	 *             has already been registered
 	 */
-	public ExecutionContainer createAndRegisterExecutionContainer(
-			final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType);
+	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
+			final ExecutionContainerType executionContainerType, final boolean markAllocated);
+
+	/**
+	 * Marks execution container executionContainer as allocated.
+	 * 
+	 * @param executionContainer
+	 * @return iff the execution container is newly allocated, false if it was
+	 *         already allocated
+	 */
+	public boolean allocateExecutionContainer(final ExecutionContainer executionContainer);
+
+	// /**
+	// * Removes the given {@link ExecutionContainer} from the model.
+	// *
+	// * @param executionContainer
+	// * the {@link ExecutionContainer} to delete
+	// * @return
+	// * @throws NullPointerException
+	// * if the given {@link ExecutionContainer} is null
+	// */
+	// public boolean deleteExecutionContainer(final ExecutionContainer
+	// executionContainer);
+
+	/**
+	 * Marks execution container executionContainer as not allocated.
+	 * 
+	 * @param executionContainer
+	 * @return iff the execution container is newly deallocated, false if wasn't
+	 *         allocated
+	 * @throws NullPointerException
+	 *             if the given {@link ExecutionContainer} is null
+	 */
+	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer);
 
 	/**
 	 * Returns a {@link Resource} associated to the given
@@ -59,7 +87,6 @@ public interface IExecutionContainersManager {
 	 * @param fullyQualifiedResourceSpecificationName
 	 * @return
 	 */
-	public Resource lookupExecutionContainerResource(
-			final ExecutionContainer executionContainer,
+	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer,
 			final String resourceSpecificationName);
 }

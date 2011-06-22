@@ -52,6 +52,9 @@ public class EucalyptusReconfigurationManager extends
 
 	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
 
+	// TODO: pull out as configuration property
+	private static final boolean FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING = true;
+
 	private volatile PrintWriter eucalyptusEventWriter = null;
 	private volatile EucalyptusCloudNodeType euDefaultNodeType;
 
@@ -183,19 +186,34 @@ public class EucalyptusReconfigurationManager extends
 	/**
 	 * 
 	 * @param assemblyComponent
+	 * @param fallBackIfNoArch2ImplNameMapping
 	 * @return
 	 */
+
 	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(
-			final AssemblyComponent assemblyComponent) {
+			final AssemblyComponent assemblyComponent,
+			final boolean fallBackIfNoArch2ImplNameMapping) {
 		final String fqAssemblyComponentName = NameUtils
 				.createFQName(assemblyComponent.getPackageName(),
 						assemblyComponent.getName());
-		final String eucaApplicationName = modelManager
+		String eucaApplicationName = modelManager
 				.getArch2ImplNameMappingManager().lookupImplName4ArchName(
 						EntityType.ASSEMBLY_COMPONENT, fqAssemblyComponentName);
+		if ((eucaApplicationName == null) && fallBackIfNoArch2ImplNameMapping) {
+			/* Fall-back: Use assembly component name as euca applicaion name */
+			eucaApplicationName = fqAssemblyComponentName;
+		}
 
 		final EucalyptusCloudedApplication eucalyptusCloudedApplication = (EucalyptusCloudedApplication) eucalyptusApplicationCloudingService
 				.lookupCloudedApplication(eucaApplicationName);
+
+		if (eucalyptusCloudedApplication == null) {
+			EucalyptusReconfigurationManager.log
+					.warn(String
+							.format("Failed to lookup euca app for name %s (fall-back mode: %s)",
+									eucaApplicationName,
+									fallBackIfNoArch2ImplNameMapping));
+		}
 
 		return eucalyptusCloudedApplication;
 	}
@@ -237,11 +255,15 @@ public class EucalyptusReconfigurationManager extends
 								+ toExecutionContainer);
 			}
 
-			final EucalyptusCloudedApplication eucaApplication = eucaApplicationForAssemblyComponet(assemblyComponent);
+			final EucalyptusCloudedApplication eucaApplication = eucaApplicationForAssemblyComponet(
+					assemblyComponent,
+					EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (eucaApplication == null) {
-				throw new ApplicationCloudingServiceException(
-						"eucaApplication is null for assembly component: "
-								+ assemblyComponent);
+				final String errorMsg = String
+						.format("eucaApplication is null for assembly component: %s\n"
+								+ "Most likely, no initial mapping was defined in the eucalyptus configuration",
+								assemblyComponent);
+				throw new ApplicationCloudingServiceException(errorMsg);
 			}
 
 			final EucalyptusApplicationInstance appInstance = (EucalyptusApplicationInstance) eucalyptusApplicationCloudingService
@@ -300,7 +322,10 @@ public class EucalyptusReconfigurationManager extends
 			final ExecutionContainer executionContainer = deploymentComponent
 					.getExecutionContainer();
 
-			final EucalyptusCloudedApplication euCloudedApplication = eucaApplicationForAssemblyComponet(assemblyComponent);
+			final EucalyptusCloudedApplication euCloudedApplication = eucaApplicationForAssemblyComponet(
+					assemblyComponent,
+					EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
+
 			if (euCloudedApplication == null) {
 				EucalyptusReconfigurationManager.log
 						.error("Failed to lookup eucalyptus application for assembly component: "
@@ -309,6 +334,7 @@ public class EucalyptusReconfigurationManager extends
 			}
 
 			final EucalyptusCloudNode euCloudNode = eucaNodeForExecutionContainer(executionContainer);
+
 			if (euCloudNode == null) {
 				EucalyptusReconfigurationManager.log
 						.error("Failed to lookup eucalyptus node for execution container"
@@ -346,7 +372,7 @@ public class EucalyptusReconfigurationManager extends
 		boolean success = false;
 
 		try {
-			final String fqNodeName = NameUtils.createFQName(
+			final String fqExecutionContainerName = NameUtils.createFQName(
 					resExecutionContainer.getPackageName(),
 					resExecutionContainer.getName());
 
@@ -357,7 +383,7 @@ public class EucalyptusReconfigurationManager extends
 			final EucalyptusCloudNodeType euNodeType = euDefaultNodeType;
 
 			final EucalyptusCloudNode euNode = (EucalyptusCloudNode) eucalyptusApplicationCloudingService
-					.allocateNode(fqNodeName, euNodeType);
+					.allocateNode(fqExecutionContainerName, euNodeType);
 
 			if (euNode == null) {
 				EucalyptusReconfigurationManager.log
@@ -366,15 +392,15 @@ public class EucalyptusReconfigurationManager extends
 			} else {
 				success = true;
 
-				modelManager.getArch2ImplNameMappingManager()
-						.registerArch2implNameMapping(
-								EntityType.EXECUTION_CONTAINER, fqNodeName,
-								fqNodeName);
+				// TODO: does this make any sense?:
+				// this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
+				// EntityType.EXECUTION_CONTAINER, fqExecutionContainerName,
+				// fqExecutionContainerName);
 
 				modelManager.getArch2ImplNameMappingManager()
 						.registerArch2implNameMapping(
-								EntityType.EXECUTION_CONTAINER, fqNodeName,
-								euNode.getName());
+								EntityType.EXECUTION_CONTAINER,
+								fqExecutionContainerName, euNode.getName());
 			}
 		} catch (final ApplicationCloudingServiceException e) {
 			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
@@ -440,7 +466,8 @@ public class EucalyptusReconfigurationManager extends
 	protected DeploymentComponent createPreliminaryDeploymentComponentInModel(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer) {
-		// TODO: set preliminary flag or alike?
+		// TODO: set preliminary flag or alike? (could adopt the procedure for
+		// execution containers)
 		return ((ModelManager) getControlComponent().getModelManager())
 				.getComponentDeploymentModelManager()
 				.createAndRegisterDeploymentComponent(assemblyComponent,
@@ -454,7 +481,8 @@ public class EucalyptusReconfigurationManager extends
 		return ((ModelManager) getControlComponent().getModelManager())
 				.getExecutionEnvironmentModelManager()
 				.createAndRegisterExecutionContainer(fullyQualifiedName,
-						executionContainerType);
+						executionContainerType,
+						/* do not mark allocated */false);
 	}
 
 	@Override

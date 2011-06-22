@@ -79,8 +79,8 @@ public class ComponentDeploymentModelManager extends
 
 	@Override
 	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
-			final AssemblyComponent assemblyComponent) {
+			final AssemblyComponent assemblyComponent, final boolean includeInactive) {
 		return this.deploymentComponentsManager
-				.deploymentComponentsForAssemblyComponent(assemblyComponent);
+				.deploymentComponentsForAssemblyComponent(assemblyComponent, includeInactive);
 	}
 }

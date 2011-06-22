@@ -374,7 +374,8 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 							containerName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		}
 
-		return this.getExecutionEnvModelManager().createAndRegisterExecutionContainer(containerName, containerType);
+		return this.getExecutionEnvModelManager().createAndRegisterExecutionContainer(containerName, containerType,
+				/* mark allocated */ true);
 	}
 
 	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME = "DEFAULT.GENERIC_RESOURCE_TYPE";

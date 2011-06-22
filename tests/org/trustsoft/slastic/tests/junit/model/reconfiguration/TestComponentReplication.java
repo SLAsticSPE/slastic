@@ -24,39 +24,32 @@ public class TestComponentReplication extends TestCase {
 	 * container are properly set.
 	 */
 	public void testComponentReplication() {
-		final SystemModel systemModel = ModelManager
-				.createInitializedSystemModel();
+		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
-		final AssemblyComponent assemblyComponent = ModelEntityCreationUtils
-				.createAssemblyComponent(mgr, "ComponentTypeName",
-						"AssemblyComponentName");
-		final ExecutionContainer replicationTargetExecutionContainer = ModelEntityCreationUtils
-				.createExecutionContainer(mgr,
-						"ExecutionContainerTargetTypeName",
+		final AssemblyComponent assemblyComponent =
+				ModelEntityCreationUtils.createAssemblyComponent(mgr, "ComponentTypeName", "AssemblyComponentName");
+		final ExecutionContainer replicationTargetExecutionContainer =
+				ModelEntityCreationUtils.createExecutionContainer(mgr, "ExecutionContainerTargetTypeName",
 						"ExecutionContainerTargetName");
-		final DeploymentComponent deploymentComponent = mgr.getReconfigurationManager().replicateComponent(
-				assemblyComponent, replicationTargetExecutionContainer);
-		Assert.assertSame(deploymentComponent.getAssemblyComponent(),
-				assemblyComponent);
-		Assert.assertSame(deploymentComponent.getExecutionContainer(),
-				replicationTargetExecutionContainer);
+		final DeploymentComponent deploymentComponent =
+				mgr.getReconfigurationManager().replicateComponent(assemblyComponent,
+						replicationTargetExecutionContainer);
+		Assert.assertSame(deploymentComponent.getAssemblyComponent(), assemblyComponent);
+		Assert.assertSame(deploymentComponent.getExecutionContainer(), replicationTargetExecutionContainer);
 		/*
 		 * Make sure that the deployment component is contained in the list of
 		 * the assembly's deployments
 		 */
-		Assert.assertTrue(
-				"Deployment component not included in assembly component's list of deployments",
-				mgr.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(
-								assemblyComponent)
-						.contains(deploymentComponent));
+		Assert.assertTrue("Deployment component not included in assembly component's list of deployments", mgr
+				.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(assemblyComponent,
+				/*
+				 * do not include inactive ones
+				 */false).contains(deploymentComponent));
 		Assert.assertSame(
 				"Lookup of deployment component based on assembly component and execution container failed",
 				deploymentComponent,
-				mgr.getComponentDeploymentModelManager()
-						.deploymentComponentForAssemblyComponent(
-								assemblyComponent,
-								deploymentComponent.getExecutionContainer()));
+				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(assemblyComponent,
+						deploymentComponent.getExecutionContainer()));
 
 	}
 }

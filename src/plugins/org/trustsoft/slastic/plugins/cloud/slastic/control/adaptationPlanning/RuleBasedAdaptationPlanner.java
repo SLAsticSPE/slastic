@@ -98,10 +98,10 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	protected String createEPStatement(final String assemblyComponentPackageName, final String assemblyComponentName,
 			final int winSizeSeconds, final int outputPeriodSeconds) {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent as assemblyComponent, count(*)"
+				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
 				+ " from " + DeploymentComponentOperationExecution.class.getName() + ".win:time(" + winSizeSeconds
-				+ " seconds)" + " where assemblyComponent.packageName = \"" + assemblyComponentPackageName + "\""
-				+ "   and assemblyComponent.name = \"" + assemblyComponentName + "\""
+				+ " seconds)" + " where deploymentComponent.assemblyComponent.packageName = \"" + assemblyComponentPackageName + "\""
+				+ "   and deploymentComponent.assemblyComponent.name = \"" + assemblyComponentName + "\""
 				+ " group by deploymentComponent.assemblyComponent" + " output all every " + outputPeriodSeconds
 				+ " seconds";
 	}
@@ -206,7 +206,6 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 				center = Long.parseLong(borderTok.nextToken());
 				upper = Long.parseLong(borderTok.nextToken());
 				b = new Baseline(upper, center, lower, numNodes);
-				RuleBasedAdaptationPlanner.log.info("Adding baseline" + b);
 			} catch (final Exception exc) {
 				RuleBasedAdaptationPlanner.log.error("Failed to extract number from rule: " + rule + "("
 						+ exc.getMessage() + ")");

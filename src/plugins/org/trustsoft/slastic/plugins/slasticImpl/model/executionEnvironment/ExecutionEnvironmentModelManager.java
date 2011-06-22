@@ -13,23 +13,25 @@ import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
  * 
  * @author Andre van Hoorn
  */
-public class ExecutionEnvironmentModelManager extends
-		AbstractModelManager<ExecutionEnvironmentModel> implements
-		IExecutionContainersManager, INetworkLinksManager,
-		IExecutionContainersAllocationManager {
+public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements
+		IExecutionContainersManager, INetworkLinksManager// ,
+// IExecutionContainersAllocationManager
+{
 
 	/**
-	 * TODO: HACK: This information should be stored in an intermediate layer 
+	 * TODO: HACK: This information should be stored in an intermediate layer
 	 * between Monitoring and Reconfiguration (#10, #11).
 	 * 
 	 * Maps a technical hostname to the corresponding architectural container
 	 * name;
 	 */
-//	public final ConcurrentHashMap<String, ExecutionContainer> containerNameMapping =
-//			new ConcurrentHashMap<String, ExecutionContainer>();
+	// public final ConcurrentHashMap<String, ExecutionContainer>
+	// containerNameMapping =
+	// new ConcurrentHashMap<String, ExecutionContainer>();
 
 	private final ExecutionContainersManager executionContainersManager;
 	private final NetworkLinksManager networkLinksManager;
+
 	private final ExecutionContainersAllocationManager executionContainersAllocationManager;
 
 	private ExecutionEnvironmentModelManager() {
@@ -39,24 +41,17 @@ public class ExecutionEnvironmentModelManager extends
 		this.executionContainersAllocationManager = null;
 	}
 
-	public ExecutionEnvironmentModelManager(
-			final ExecutionEnvironmentModel executionEnvironmentModel) {
+	public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel) {
 		super(executionEnvironmentModel);
 		this.executionContainersManager =
-				new ExecutionContainersManager(
-						executionEnvironmentModel.getExecutionContainers());
-		this.networkLinksManager =
-				new NetworkLinksManager(
-						executionEnvironmentModel.getNetworkLinks());
+				new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
+		this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
 		this.executionContainersAllocationManager =
-				new ExecutionContainersAllocationManager(
-						executionEnvironmentModel
-								.getAllocatedExecutionContainers());
+				new ExecutionContainersAllocationManager(executionEnvironmentModel.getAllocatedExecutionContainers());
 	}
 
 	@Override
-	public ExecutionContainer lookupExecutionContainer(
-			final String fullyQualifiedName) {
+	public ExecutionContainer lookupExecutionContainer(final String fullyQualifiedName) {
 		return this.executionContainersManager.lookup(fullyQualifiedName);
 	}
 
@@ -66,21 +61,34 @@ public class ExecutionEnvironmentModelManager extends
 	}
 
 	@Override
-	public ExecutionContainer createAndRegisterExecutionContainer(
-			final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType) {
-		return this.executionContainersManager
-				.createAndRegisterExecutionContainer(fullyQualifiedName,
-						executionContainerType);
+	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
+			final ExecutionContainerType executionContainerType, final boolean markAllocated) {
+		return this.executionContainersManager.createAndRegisterExecutionContainer(fullyQualifiedName,
+				executionContainerType, markAllocated);
 	}
 
 	@Override
-	public Resource lookupExecutionContainerResource(
-			final ExecutionContainer executionContainer,
+	public boolean allocateExecutionContainer(final ExecutionContainer executionContainer) {
+		return this.executionContainersManager.allocateExecutionContainer(executionContainer);
+	}
+
+	@Override
+	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer) {
+		return this.executionContainersManager.deallocateExecutionContainer(executionContainer);
+	}
+
+	// @Override
+	// public boolean deleteExecutionContainer(final ExecutionContainer
+	// executionContainer) {
+	// return
+	// this.executionContainersManager.deleteExecutionContainer(executionContainer);
+	// }
+
+	@Override
+	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer,
 			final String resourceSpecificationName) {
-		return this.executionContainersManager
-				.lookupExecutionContainerResource(executionContainer,
-						resourceSpecificationName);
+		return this.executionContainersManager.lookupExecutionContainerResource(executionContainer,
+				resourceSpecificationName);
 	}
 
 	@Override
@@ -94,24 +102,8 @@ public class ExecutionEnvironmentModelManager extends
 	}
 
 	@Override
-	public NetworkLink createAndRegisterNetworkLink(
-			final String fullyQualifiedName,
+	public NetworkLink createAndRegisterNetworkLink(final String fullyQualifiedName,
 			final NetworkLinkType networkLinkType) {
-		return this.networkLinksManager.createAndRegisterNetworkLink(
-				fullyQualifiedName, networkLinkType);
-	}
-
-	@Override
-	public boolean allocateExecutionContainer(
-			final ExecutionContainer executionContainer) {
-		return this.executionContainersAllocationManager
-				.allocateExecutionContainer(executionContainer);
-	}
-
-	@Override
-	public boolean deallocateExecutionContainer(
-			final ExecutionContainer executionContainer) {
-		return this.executionContainersAllocationManager
-				.allocateExecutionContainer(executionContainer);
+		return this.networkLinksManager.createAndRegisterNetworkLink(fullyQualifiedName, networkLinkType);
 	}
 }
