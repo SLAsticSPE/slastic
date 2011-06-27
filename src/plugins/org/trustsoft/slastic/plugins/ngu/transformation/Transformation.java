@@ -24,6 +24,8 @@ public class Transformation {
 
 	private static Transformation instance = null;
 	private URL transformationResource;
+	private URL slasticMetaModelResource;
+	private URL pcmMetaModelResouce;
 
 	/**
 	 * 
@@ -37,7 +39,9 @@ public class Transformation {
 	}
 
 	private void createResources() {
-		this.transformationResource = Transformation.class.getResource("transformation/slastic2pcm.asm");
+		this.transformationResource = Transformation.class.getResource("/transformation/slastic2pcm.asm");
+		this.slasticMetaModelResource = Transformation.class.getResource("/model/slastic.ecore");
+		this.pcmMetaModelResouce = Transformation.class.getResource("/model/pcm.ecore");
 	}
 
 	/**
@@ -59,9 +63,9 @@ public class Transformation {
 			final IExtractor extractor = new EMFExtractor();
 
 			injector.inject(slasticMetaModel,
-					"model/slastic.ecore");
+					this.slasticMetaModelResource.toString());
 			injector.inject(pcmMetaModel,
-					"model/pcm.ecore");
+					this.pcmMetaModelResouce.toString());
 
 			final ILauncher launcher = new EMFVMLauncher();
 			launcher.initialize(Collections.<String, Object> emptyMap());
