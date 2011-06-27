@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
 import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServlet;
 import org.trustsoft.slastic.reconfiguration.ShellExecutor;
 
@@ -19,7 +20,7 @@ public class LoadBalancerConnector {
 	private static final Log log = LogFactory
 			.getLog(LoadBalancerConnector.class);
 
-	private final Map<String, Integer> loadbalancerPorts = new HashMap<String, Integer>();
+	private final List<Integer> loadbalancerPorts = new Vector<Integer>();
 
 	private final String servletURL;
 	private final boolean spawnThreadForRequests;
@@ -47,11 +48,8 @@ public class LoadBalancerConnector {
 	 */
 	public LoadBalancerConnector(final String servletURL,
 			final boolean spawnThreadForRequests, final String wgetLogFile) {
-		loadbalancerPorts.put("webstoreRest", 9090);
-		loadbalancerPorts.put("posterita1", 9090);
-		loadbalancerPorts.put("webstoreHotspots", 9100);
-		loadbalancerPorts.put("posterita2", 9110);
-		loadbalancerPorts.put("posterita3", 9120);
+		this.loadbalancerPorts.add(9090);
+		this.loadbalancerPorts.add(9100);
 
 		this.servletURL = servletURL;
 		this.spawnThreadForRequests = spawnThreadForRequests;
@@ -93,8 +91,8 @@ public class LoadBalancerConnector {
 	 */
 	public boolean addHost(final String contextId, final String host) {
 		final String queryString = "add?" + host;
-		final Integer port = getPortForContextID(contextId);
-		return sendRequest(port, queryString);
+		final Integer port = this.getPortForContextID(contextId);
+		return this.sendRequest(port, queryString);
 	}
 
 	/**
@@ -105,12 +103,21 @@ public class LoadBalancerConnector {
 	 */
 	public boolean removeHost(final String contextId, final String host) {
 		final String queryString = "delete?" + host;
-		final Integer port = getPortForContextID(contextId);
-		return sendRequest(port, queryString);
+		final Integer port = this.getPortForContextID(contextId);
+		return this.sendRequest(port, queryString);
 	}
 
 	private Integer getPortForContextID(final String contextId) {
-		return loadbalancerPorts.get(contextId);
+		Integer port = 9090;
+		if (contextId.contains(EucalyptusApplicationCloudingService.WEBSTORE_REST_NAME)) {
+			port = this.loadbalancerPorts.get(0);
+		} else if (contextId.contains(EucalyptusApplicationCloudingService.POSTERITA_REST_NAME)) {
+			port = this.loadbalancerPorts.get(0);
+		} else {
+			port = this.loadbalancerPorts.get(1);
+		}
+		
+		return port;
 	}
 
 	/**
@@ -122,18 +129,18 @@ public class LoadBalancerConnector {
 		final String url = "http://127.0.0.1:" + port + "/" + queryString;
 		LoadBalancerConnector.log.info("wget '" + url + "'");
 
-		if (isDummyMode()) {
+		if (this.isDummyMode()) {
 			return true;
 		}
 
 		final ArrayList<String> argList = new ArrayList<String>();
-		if (wgetLogFile != null) {
-			argList.add("-a" + wgetLogFile);
+		if (this.wgetLogFile != null) {
+			argList.add("-a" + this.wgetLogFile);
 		}
 		argList.add(url);
 		return ShellExecutor.invoke("wget", /* command */
 		argList, /* arg list */
-		spawnThreadForRequests /* spawn? */);
+		this.spawnThreadForRequests /* spawn? */);
 	}
 
 	/**
@@ -154,6 +161,6 @@ public class LoadBalancerConnector {
 	 * @return
 	 */
 	public final boolean isDummyMode() {
-		return dummyMode;
+		return this.dummyMode;
 	}
 }

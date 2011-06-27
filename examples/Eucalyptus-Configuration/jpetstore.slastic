@@ -133,6 +133,15 @@
   </componentAssemblyModel>
   <componentDeploymentModel>
     <deploymentComponents active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="1" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.1" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="2" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.2" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="3" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.3" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="4" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.4" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="5" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.5" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="6" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.6" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="7" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.7" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="8" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.8" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="9" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.1"/>
   </componentDeploymentModel>
   <executionEnvironmentModel>
     <executionContainers active="true" name="appsrv-0" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0">
@@ -140,5 +149,6 @@
       <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.1"/>
       <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.2"/>
     </executionContainers>
+    <executionContainers id="1" name="appsrv-1" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0"/>
   </executionEnvironmentModel>
 </metamodel.core:SystemModel>

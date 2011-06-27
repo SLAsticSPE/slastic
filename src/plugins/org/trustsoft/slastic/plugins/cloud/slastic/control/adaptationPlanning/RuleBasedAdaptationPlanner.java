@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
 import com.espertech.esper.client.EPStatement;
 
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 
 /**
@@ -29,12 +32,25 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	private static final String PROPERTY_RULESET = "baselineRules";
 	private static final String PROPERTY_WIN_SIZE_SECONDS = "windowSizeSeconds";
 	private static final String PROPERTY_EVALUATION_PERIOD_SECONDS = "evaluationPeriodSeconds";
+	private static final String PROPERTY_CONTAINER_DEALLOCATION_EXCLUDE_LIST = "containersNotToBeDeallocated";
+	private static final String PROPERTY_MAX_NUM_INSTANCES = "maxNumContainers";
 
 	private static final int DEFAULT_WIN_SIZE_SECONDS = 60;
 	private static final int DEFAULT_EVALUATION_PERIOD_SECONDS = 60;
 
+	/**
+	 * Fully qualified {@link AssemblyComponent} name x rule set
+	 */
 	private volatile Map<String, NumDeploymentsForAssemblyComponentRuleSet> ruleSets =
 			new HashMap<String, NumDeploymentsForAssemblyComponentRuleSet>();
+
+	/**
+	 * Fully qualified {@link ExecutionContainer} name x max. allowed # of
+	 * instances
+	 */
+	private volatile Map<String, Integer> maxNumContainers = new HashMap<String, Integer>();
+
+	private final Collection<String> containerExcludeList = new ArrayList<String>();
 
 	private volatile WorkloadIntensityRuleEngine ruleEngine;
 
@@ -43,7 +59,19 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
 	@Override
 	public boolean init() {
-		boolean success = this.initRuleSets();
+		boolean success = this.initExcludeList();
+		if (!success) {
+			RuleBasedAdaptationPlanner.log.error("Failed to init container exclude list");
+			return false;
+		}
+
+		success = this.initMaxNumContainers();
+		if (!success) {
+			RuleBasedAdaptationPlanner.log.error("Failed to init max num container instances");
+			return false;
+		}
+
+		success = this.initRuleSets();
 		if (!success) {
 			RuleBasedAdaptationPlanner.log.error("Failed to init rule sets");
 			return false;
@@ -63,8 +91,8 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
 	@Override
 	public boolean execute() {
-		final ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent()
-				.getParentControlComponent().getModelManager();
+		final ModelManager modelManager =
+				(ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
 
 		boolean success = this.initRuleEngine(modelManager);
 		if (!success) {
@@ -100,18 +128,18 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		return "select "
 				+ "current_timestamp as currentTimestampMillis, deploymentComponent.assemblyComponent, count(*)"
 				+ " from " + DeploymentComponentOperationExecution.class.getName() + ".win:time(" + winSizeSeconds
-				+ " seconds)" + " where deploymentComponent.assemblyComponent.packageName = \"" + assemblyComponentPackageName + "\""
-				+ "   and deploymentComponent.assemblyComponent.name = \"" + assemblyComponentName + "\""
-				+ " group by deploymentComponent.assemblyComponent" + " output all every " + outputPeriodSeconds
-				+ " seconds";
+				+ " seconds)" + " where deploymentComponent.assemblyComponent.packageName = \""
+				+ assemblyComponentPackageName + "\"" + "   and deploymentComponent.assemblyComponent.name = \""
+				+ assemblyComponentName + "\"" + " group by deploymentComponent.assemblyComponent"
+				+ " output all every " + outputPeriodSeconds + " seconds";
 	}
 
 	private boolean initRuleEngine(final ModelManager modelManager) {
 		final ConfigurationManager configurationManager =
 				new ConfigurationManager(modelManager,
-						(EucalyptusReconfigurationManager) this.getReconfigurationManager());
-		this.ruleEngine =
-				new WorkloadIntensityRuleEngine(modelManager, this.ruleSets, configurationManager);
+						(EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList,
+						this.maxNumContainers);
+		this.ruleEngine = new WorkloadIntensityRuleEngine(modelManager, this.ruleSets, configurationManager);
 		return true;
 	}
 
@@ -119,8 +147,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		for (final NumDeploymentsForAssemblyComponentRuleSet rs : this.ruleSets.values()) {
 
 			final String fqComponentAssemblyName = rs.getFQAssemblyComponentName();
-			final String[] fqComponentAssemblyNameSplit =
-					NameUtils.splitFullyQualifiedName(fqComponentAssemblyName);
+			final String[] fqComponentAssemblyNameSplit = NameUtils.splitFullyQualifiedName(fqComponentAssemblyName);
 			final String assemblyComponentPackageName = fqComponentAssemblyNameSplit[0];
 			final String assemblyComponentName = fqComponentAssemblyNameSplit[1];
 
@@ -163,6 +190,49 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		} catch (final Exception exc) {
 			RuleBasedAdaptationPlanner.log.error("Failed to init property: " + exc.getMessage(), exc);
 			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Initializes the exclude list {@link #containerExcludeList}.
+	 * 
+	 * @return
+	 */
+	private boolean initExcludeList() {
+		final String containerExludeListPropValStr =
+				super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_CONTAINER_DEALLOCATION_EXCLUDE_LIST, "");
+
+		if (containerExludeListPropValStr.isEmpty()) {
+			return true;
+		}
+
+		final String[] containerExludeListPropValStrSplit = containerExludeListPropValStr.split(";");
+
+		this.containerExcludeList.addAll(Arrays.asList(containerExludeListPropValStrSplit));
+		return true;
+	}
+
+	private boolean initMaxNumContainers() {
+		final String maxNumPropValStr =
+				super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_MAX_NUM_INSTANCES, "");
+
+		if (maxNumPropValStr.isEmpty()) {
+			return true;
+		}
+
+		final String[] maxNumPropValStrSplit = maxNumPropValStr.split(";");
+		for (final String maxNumKeyValuPair : maxNumPropValStrSplit) {
+			final String[] maxNumKeyValuPairSplit = maxNumKeyValuPair.split(":");
+			if (maxNumKeyValuPairSplit.length != 2) {
+				RuleBasedAdaptationPlanner.log.error("Invalid max num containers key/value pair: '" + maxNumKeyValuPair
+						+ "'");
+				return false;
+			}
+			final String fqContainerName = maxNumKeyValuPairSplit[0];
+			final int maxNum = Integer.parseInt(maxNumKeyValuPairSplit[1]);
+			this.maxNumContainers.put(fqContainerName, maxNum);
 		}
 
 		return true;
