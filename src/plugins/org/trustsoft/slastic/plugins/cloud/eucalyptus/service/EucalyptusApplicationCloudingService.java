@@ -212,8 +212,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		 */
 		if (!(type instanceof EucalyptusCloudNodeType)) {
 			final String errorsMsg =
-					"type must be of class " + EucalyptusCloudNodeType.class + " but found "
-							+ type.getClass();
+					"type must be of class " + EucalyptusCloudNodeType.class + " but found " + type.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
@@ -349,8 +348,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		 */
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class + " but found "
-							+ node.getClass();
+					"node must be of class " + EucalyptusCloudNode.class + " but found " + node.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
