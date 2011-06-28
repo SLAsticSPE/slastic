@@ -82,27 +82,18 @@ rule SignatureToSignature {
 rule ComponentAssemblyModelToSystem {
 	from src: Slastic!ComponentAssemblyModel
 	to tgt: Pcm!System (
+		entityName <- 'defaultSystem',
 		childComponentContexts_ComposedStructure <- src.assemblyComponents,
-		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors --?
+		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors
 	)
 }
 
 rule AssemblyComponentToAssemblyContext {
 	from src: Slastic!AssemblyComponent
 	to tgt: Pcm!AssemblyContext (
+		id <- src.id.toString(),
 		entityName <- 'Assembly_' + src.name,
 		encapsulatedComponent_ChildComponentContext <- src.componentType
-	)
-}
-
---------------------------------------------------------------------------------
--- Transform componentDeploymentModel to AllocationModel
---------------------------------------------------------------------------------
-
-rule ComponentDeploymentModelToAllocation {
-	from src: Slastic!ComponentDeploymentModel
-	to tgt: Pcm!Allocation (
-		
 	)
 }
 
@@ -164,5 +155,29 @@ rule ResourceSpecificationToProcessingResourceSpecification {
 			then Pcm!ProcessingResourceType.allInstances()->any(type | type.id = '_oro4gG3fEdy4YaaT-RYrLQ')
 			else OclUndefined
 		endif
+	)
+}
+
+--------------------------------------------------------------------------------
+-- Transform componentDeploymentModel to AllocationModel
+--------------------------------------------------------------------------------
+
+rule ComponentDeploymentModelToAllocation {
+	from src: Slastic!ComponentDeploymentModel
+	to tgt: Pcm!Allocation (
+		allocationContexts_Allocation <- src.deploymentComponents
+	)
+}
+
+rule DeploymentComponentToAllocationContext {
+	from src: Slastic!DeploymentComponent
+	to tgt: Pcm!AllocationContext (
+		id <- src.id.toString(),
+		entityName <- 'Allocation_' + Pcm!AssemblyContext.allInstances()->
+			any(acontext | acontext.id = src.assemblyComponent.id.toString()).entityName,
+		resourceContainer_AllocationContext <- Pcm!ResourceContainer.allInstances()->
+			any(container | container.id = src.executionContainer.id.toString()),
+		assemblyContext_AllocationContext <-Pcm!AssemblyContext.allInstances()->
+			any(acontext | acontext.id = src.assemblyComponent.id.toString())
 	)
 }
