@@ -221,8 +221,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		 */
 		if (!(type instanceof EucalyptusCloudNodeType)) {
 			final String errorsMsg =
-					"type must be of class " + EucalyptusCloudNodeType.class + " but found "
-							+ type.getClass();
+					"type must be of class " + EucalyptusCloudNodeType.class + " but found " + type.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
@@ -380,8 +379,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		 */
 		if (!(node instanceof EucalyptusCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class + " but found "
-							+ node.getClass();
+					"node must be of class " + EucalyptusCloudNode.class + " but found " + node.getClass();
 			EucalyptusApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
@@ -518,17 +516,16 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		this.applicationInstances.add(inst);
 
-		/* 1. Deploy */
-		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand applicationDeployCommand =
-				EucalyptusCommandFactory
-						.getApplicationDeployCommand(
-								this.configuration.getSSHPrivateKeyFile(),
-								this.configuration.getSSHUserName(),
-								this.configuration.getTomcatHome(),
-								this.configuration.getDefaultApplicationDeploymentArtifact(),
-								euNode.getIpAddress());
-		executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
+		/* 1. Deploy (if required) */
+		if (!this.configuration.getDefaultApplicationDeploymentArtifact().isEmpty()) {
+			final ExternalCommandExecuter executer =
+					new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
+			final EucalyptusCommand applicationDeployCommand =
+					EucalyptusCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
+							this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
+							this.configuration.getDefaultApplicationDeploymentArtifact(), euNode.getIpAddress());
+			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
+		}
 
 		// try {
 		// Thread.sleep(EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY

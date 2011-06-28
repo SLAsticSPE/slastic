@@ -81,7 +81,7 @@ public enum ConfigurationProperty {
 	
 	/* */
 	APP_DEFAULT_DEPLOYMENT_ARTIFACT ("defaultApplicationDeploymentArtifact", "artifact.war", 
-			/* NOT allow empty: */ false),
+			/* allow empty: */ true),
 			
 	/* */
 	EUCA_KEY_NAME("eucalyptusKeyName", "myKey",
