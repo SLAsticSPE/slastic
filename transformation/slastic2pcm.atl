@@ -2,14 +2,49 @@
 -- @path Pcm=/Slastic2Pcm/model/pcm.ecore
 
 module slastic2pcm;
-create OUT: Pcm from IN: Slastic;
+create 
+	RESOURCETYPE: Pcm,
+	REPOSITORY: Pcm,
+	RESOURCEENVIRONMENT: Pcm, 
+	ALLOCATION: Pcm,
+	SYSTEM: Pcm
+from IN: Slastic;
+
+--------------------------------------------------------------------------------
+-- Create ResourceRepository
+--------------------------------------------------------------------------------
+
+rule InitializeResourceRepository() {
+	to tgt: Pcm!ResourceRepository in RESOURCETYPE (
+		availableResourceTypes_ResourceRepository <- Sequence{
+			thisModule.NewProcessingResourceType('CPU','_oro4gG3fEdy4YaaT-RYrLQ'),
+			thisModule.NewProcessingResourceType('HDD','_BIjHoQ3KEdyouMqirZIhzQ'),
+			thisModule.NewProcessingResourceType('DELAY', '_nvHX4KkREdyEA_b89s7q9w'),
+			thisModule.NewCommunicationLinkResourceType('LAN', '_o3sScH2AEdyH8uerKnHYug')
+		}
+	)
+}
+
+rule NewProcessingResourceType(name: String, id: String){
+	to tgt: Pcm!ProcessingResourceType in RESOURCETYPE (
+		entityName <- name,
+		id <- id
+	) do { tgt; }
+}
+
+rule NewCommunicationLinkResourceType(name: String, id: String){
+	to tgt: Pcm!CommunicationLinkResourceType in RESOURCETYPE (
+		entityName <- name,
+		id <- id
+	) do { tgt; }
+}
 
 --------------------------------------------------------------------------------
 -- Transform typeRepositoryModel to RepositoryModel
 --------------------------------------------------------------------------------
 
 rule NewInterface(componentType: Slastic!ComponentType) {
-	to tgt: Pcm!Interface (
+	to tgt: Pcm!Interface in REPOSITORY (
 		id <- 'i' + componentType.id.toString(),
 		entityName <- 'I' + componentType.name,
 		signatures__Interface <- componentType.operations->collect(operation | 
@@ -22,7 +57,7 @@ rule NewInterface(componentType: Slastic!ComponentType) {
 }
 
 rule NewProvidedRole(interface: Pcm!Interface, componentType: Slastic!ComponentType) {
-	to tgt: Pcm!ProvidedRole (
+	to tgt: Pcm!ProvidedRole in REPOSITORY (
 		entityName <- 'Provided_' + interface.entityName + '_' + componentType.name,
 		providedInterface__ProvidedRole <- interface
 	)
@@ -32,7 +67,7 @@ rule NewProvidedRole(interface: Pcm!Interface, componentType: Slastic!ComponentT
 }
 
 rule NewParameter(name: String) {
-	to tgt: Pcm!Parameter (
+	to tgt: Pcm!Parameter in REPOSITORY (
 		parameterName <- name
 	) 
 	do {
@@ -42,7 +77,7 @@ rule NewParameter(name: String) {
 
 rule TypeRepositoryModelToRepository {
 	from src: Slastic!TypeRepositoryModel
-	to tgt: Pcm!Repository (
+	to tgt: Pcm!Repository in REPOSITORY (
 		-- Create dummy interfaces.
 		interfaces__Repository <- src.componentTypes->collect(component | 
 			thisModule.NewInterface(component)
@@ -53,7 +88,7 @@ rule TypeRepositoryModelToRepository {
 
 rule ComponentTypeToBasicComponent {
 	from src: Slastic!ComponentType
-	to tgt: Pcm!BasicComponent (
+	to tgt: Pcm!BasicComponent in REPOSITORY (
 		id <- src.id.toString(),
 		entityName <- src.name,
 		providedRoles_InterfaceProvidingEntity <- thisModule.NewProvidedRole(
@@ -67,7 +102,7 @@ rule ComponentTypeToBasicComponent {
 
 rule SignatureToSignature {
 	from src: Slastic!Signature
-	to tgt: Pcm!Signature (
+	to tgt: Pcm!Signature in REPOSITORY (
 		serviceName <- src.name,
 		parameters__Signature <- src.paramTypes->collect(paramType | 
 			thisModule.NewParameter(paramType)
@@ -76,59 +111,12 @@ rule SignatureToSignature {
 }
 
 --------------------------------------------------------------------------------
--- Transform componentAssemblyModel to SystemModel
---------------------------------------------------------------------------------
-
-rule ComponentAssemblyModelToSystem {
-	from src: Slastic!ComponentAssemblyModel
-	to tgt: Pcm!System (
-		entityName <- 'defaultSystem',
-		childComponentContexts_ComposedStructure <- src.assemblyComponents,
-		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors
-	)
-}
-
-rule AssemblyComponentToAssemblyContext {
-	from src: Slastic!AssemblyComponent
-	to tgt: Pcm!AssemblyContext (
-		id <- src.id.toString(),
-		entityName <- 'Assembly_' + src.name,
-		encapsulatedComponent_ChildComponentContext <- src.componentType
-	)
-}
-
---------------------------------------------------------------------------------
 -- Transform executionEnvironmentModel to ResourceEnvironmentModel
 --------------------------------------------------------------------------------
 
-rule InitializeResourceRepository() {
-	to tgt: Pcm!ResourceRepository(
-		availableResourceTypes_ResourceRepository <- Sequence{
-			thisModule.NewProcessingResourceType('CPU','_oro4gG3fEdy4YaaT-RYrLQ'),
-			thisModule.NewProcessingResourceType('HDD','_BIjHoQ3KEdyouMqirZIhzQ'),
-			thisModule.NewProcessingResourceType('DELAY', '_nvHX4KkREdyEA_b89s7q9w'),
-			thisModule.NewCommunicationLinkResourceType('LAN', '_o3sScH2AEdyH8uerKnHYug')
-		}
-	)
-}
-
-rule NewProcessingResourceType(name: String, id: String){
-	to tgt: Pcm!ProcessingResourceType(
-		entityName <- name,
-		id <- id
-	) do { tgt; }
-}
-
-rule NewCommunicationLinkResourceType(name: String, id: String){
-	to tgt: Pcm!CommunicationLinkResourceType(
-		entityName <- name,
-		id <- id
-	) do { tgt; }
-}
-
 rule ExecutionEnvironmentModelToResourceEnvironment {
 	from src: Slastic!ExecutionEnvironmentModel
-	to tgt: Pcm!ResourceEnvironment (
+	to tgt: Pcm!ResourceEnvironment  in RESOURCEENVIRONMENT (
 		resourceContainer_ResourceEnvironment <- src.executionContainers
 	)
 	do {
@@ -139,7 +127,7 @@ rule ExecutionEnvironmentModelToResourceEnvironment {
 
 rule ExecutionContainerToResourceContainer {
 	from src: Slastic!ExecutionContainer
-	to tgt: Pcm!ResourceContainer (
+	to tgt: Pcm!ResourceContainer  in RESOURCEENVIRONMENT (
 		id <- src.id.toString(),
 		entityName <- src.name,
 		activeResourceSpecifications_ResourceContainer <- src.executionContainerType.resources
@@ -148,7 +136,7 @@ rule ExecutionContainerToResourceContainer {
 
 rule ResourceSpecificationToProcessingResourceSpecification {
 	from src: Slastic!ResourceSpecification
-	to tgt: Pcm!ProcessingResourceSpecification (
+	to tgt: Pcm!ProcessingResourceSpecification  in RESOURCEENVIRONMENT (
 		-- TODO Support resource types other than cpu resources.
 		activeResourceType_ActiveResourceSpecification <- 
 		if src.resourceType.name = 'CPU_RESOURCE_TYPE'
@@ -159,19 +147,41 @@ rule ResourceSpecificationToProcessingResourceSpecification {
 }
 
 --------------------------------------------------------------------------------
+-- Transform componentAssemblyModel to SystemModel
+--------------------------------------------------------------------------------
+
+rule ComponentAssemblyModelToSystem {
+	from src: Slastic!ComponentAssemblyModel
+	to tgt: Pcm!System in SYSTEM (
+		entityName <- 'defaultSystem',
+		childComponentContexts_ComposedStructure <- src.assemblyComponents,
+		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors
+	)
+}
+
+rule AssemblyComponentToAssemblyContext {
+	from src: Slastic!AssemblyComponent
+	to tgt: Pcm!AssemblyContext in SYSTEM (
+		id <- src.id.toString(),
+		entityName <- 'Assembly_' + src.name,
+		encapsulatedComponent_ChildComponentContext <- src.componentType
+	)
+}
+
+--------------------------------------------------------------------------------
 -- Transform componentDeploymentModel to AllocationModel
 --------------------------------------------------------------------------------
 
 rule ComponentDeploymentModelToAllocation {
 	from src: Slastic!ComponentDeploymentModel
-	to tgt: Pcm!Allocation (
+	to tgt: Pcm!Allocation in ALLOCATION (
 		allocationContexts_Allocation <- src.deploymentComponents
 	)
 }
 
 rule DeploymentComponentToAllocationContext {
 	from src: Slastic!DeploymentComponent
-	to tgt: Pcm!AllocationContext (
+	to tgt: Pcm!AllocationContext in ALLOCATION (
 		id <- src.id.toString(),
 		entityName <- 'Allocation_' + Pcm!AssemblyContext.allInstances()->
 			any(acontext | acontext.id = src.assemblyComponent.id.toString()).entityName,
