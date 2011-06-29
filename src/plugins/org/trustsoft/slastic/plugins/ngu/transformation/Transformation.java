@@ -1,9 +1,15 @@
 package org.trustsoft.slastic.plugins.ngu.transformation;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IInjector;
@@ -22,6 +28,7 @@ import org.eclipse.m2m.atl.engine.emfvm.launch.EMFVMLauncher;
  */
 public class Transformation {
 
+	private static final Log log = LogFactory.getLog(Transformation.class);
 	private static Transformation instance = null;
 	private URL transformationResource;
 	private URL slasticMetaModelResource;
@@ -49,7 +56,8 @@ public class Transformation {
 	 * @param inputPath
 	 * @param outputPath
 	 */
-	public void slastic2pcm(final String inputPath, final String outputPath) {
+	public void slastic2pcm(final File inputFile) {
+		IModel slasticModel = null;
 		try {
 			this.createResources();
 			final ModelFactory modelFactory = new EMFModelFactory();
@@ -70,23 +78,45 @@ public class Transformation {
 			final ILauncher launcher = new EMFVMLauncher();
 			launcher.initialize(Collections.<String, Object> emptyMap());
 
-			final IModel slasticModel = modelFactory.newModel(slasticMetaModel);
-			injector.inject(slasticModel, inputPath);
+			slasticModel = modelFactory.newModel(slasticMetaModel);
+			injector.inject(slasticModel, inputFile.getPath());
 
-			final IModel pcmModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmResourceTypeModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmRepositoryModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmResourceEnvironmentModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmAllocationModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmSystemModel = modelFactory.newModel(pcmMetaModel);
 
 			launcher.addInModel(slasticModel, "IN", "Slastic");
-			launcher.addOutModel(pcmModel, "OUT", "Pcm");
+			launcher.addOutModel(pcmResourceTypeModel, "RESOURCETYPE", "Pcm");
+			launcher.addOutModel(pcmRepositoryModel, "REPOSITORY", "Pcm");
+			launcher.addOutModel(pcmResourceEnvironmentModel, "RESOURCEENVIRONMENT", "Pcm");
+			launcher.addOutModel(pcmAllocationModel, "ALLOCATION", "Pcm");
+			launcher.addOutModel(pcmSystemModel, "SYSTEM", "Pcm");
 
-			launcher.launch(ILauncher.RUN_MODE, null,
-					Collections.<String, Object> emptyMap(),
-					this.transformationResource.openStream());
+			final Map<String,Object> launchOptions = new HashMap<String, Object>();
+			launchOptions.put("allowInterModelReferences", "true");
+			
+			launcher.launch(ILauncher.RUN_MODE, null,launchOptions,this.transformationResource.openStream());
 
-			extractor.extract(pcmModel, outputPath);
+			//Get filename without extension.
+			String filename = inputFile.getName().replaceFirst("[.][^.]+$", "");
+			filename = new StringBuilder(inputFile.getParent()).append('/').append(filename).toString();
+			
+			
+			final Map<String, Object> extractOptions = new HashMap<String, Object>();
+			extractOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
+			
+			extractor.extract(pcmResourceTypeModel, filename + ".resourcetype", extractOptions);
+			extractor.extract(pcmRepositoryModel, filename + ".repository", extractOptions);
+			extractor.extract(pcmResourceEnvironmentModel, filename + ".resourceenvironment", extractOptions);
+			extractor.extract(pcmAllocationModel, filename + ".allocation", extractOptions);
+			extractor.extract(pcmSystemModel, filename + ".system", extractOptions);
 		} catch (final ATLCoreException e) {
-			e.printStackTrace();
+			Transformation.log.error(String.format("Error transforming slastic model instance [%s] to pcm.", 
+					slasticModel.toString()), e);
 		} catch (final IOException e) {
-			e.printStackTrace();
+			Transformation.log.error(String.format("IO Error processing input File [%s].", inputFile.toString()), e);
 		}
 	}
 }
