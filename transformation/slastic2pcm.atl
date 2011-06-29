@@ -78,6 +78,8 @@ rule NewParameter(name: String) {
 rule TypeRepositoryModelToRepository {
 	from src: Slastic!TypeRepositoryModel
 	to tgt: Pcm!Repository in REPOSITORY (
+		id <- '1',
+		entityName <- 'defaultRepository',
 		-- Create dummy interfaces.
 		interfaces__Repository <- src.componentTypes->collect(component | 
 			thisModule.NewInterface(component)
@@ -149,13 +151,30 @@ rule ResourceSpecificationToProcessingResourceSpecification {
 --------------------------------------------------------------------------------
 -- Transform componentAssemblyModel to SystemModel
 --------------------------------------------------------------------------------
+rule NewProvidedRoleFromComponent(component: Pcm!BasicComponent, interface: Pcm!Interface) {
+	to tgt: Pcm!ProvidedRole in SYSTEM(
+		id <- 'p' + interface.id,
+		entityName <- 'Provided_' + interface.entityName,
+		providedInterface__ProvidedRole <- component.providedRoles_InterfaceProvidingEntity.first()
+	) do { tgt; }
+}
+
+rule NewProvidedDelegationConnector() {
+	to tgt: Pcm!ProvidedDelegationConnector (
+		
+	)
+}
 
 rule ComponentAssemblyModelToSystem {
 	from src: Slastic!ComponentAssemblyModel
 	to tgt: Pcm!System in SYSTEM (
+		id <- '1',
 		entityName <- 'defaultSystem',
 		childComponentContexts_ComposedStructure <- src.assemblyComponents,
-		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors
+		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors,
+		providedRoles_InterfaceProvidingEntity <- Pcm!BasicComponent.allInstances()->collect(component | 
+			component.providedRoles_InterfaceProvidingEntity).flatten()->collect(providedRole | 
+				thisModule.NewProvidedRoleFromComponent(providedRole.providingEntity_ProvidedRole, providedRole.providedInterface__ProvidedRole))
 	)
 }
 
@@ -168,6 +187,13 @@ rule AssemblyComponentToAssemblyContext {
 	)
 }
 
+rule AssemblyConnectorToAssemblyConnector {
+	from src: Slastic!AssemblyConnector
+	to tgt: Pcm!AssemblyConnector (
+		
+	)
+}
+
 --------------------------------------------------------------------------------
 -- Transform componentDeploymentModel to AllocationModel
 --------------------------------------------------------------------------------
@@ -175,6 +201,7 @@ rule AssemblyComponentToAssemblyContext {
 rule ComponentDeploymentModelToAllocation {
 	from src: Slastic!ComponentDeploymentModel
 	to tgt: Pcm!Allocation in ALLOCATION (
+		id <- '1',
 		allocationContexts_Allocation <- src.deploymentComponents
 	)
 }
