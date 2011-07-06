@@ -37,7 +37,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 
 		if (pw == null) {
 			AbstractPerformanceMeasureLogger.log
-					.warn("Failed to acquired writer for" + entity);
+					.warn("Failed to acquire writer for " + entity);
 			/* what shall we do with the gummischuh? */
 			return;
 		}
@@ -110,6 +110,8 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 			AbstractPerformanceMeasureLogger.log.error(
 					"Failed to create FileWriter for " + file.getAbsolutePath()
 							+ "':" + e.getMessage(), e);
+			// we have seen the number of open writers to be the problem. Thus for debugging:
+			AbstractPerformanceMeasureLogger.log.error("Number of open writers:" + this.entityPrintWriters.size());
 		}
 
 		if (pw != null) {
@@ -122,7 +124,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 			this.entityPrintWriters.put(entity, pw);
 		} else {
 			// TOOD: set a marker, since now this will be tried over and over
-			// again for this deplComp
+			// again for this entity
 		}
 
 		return pw;
