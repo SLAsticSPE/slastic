@@ -35,9 +35,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	// TODO: refine, e.g., writing to the component context
 	private final static String WGET_LOG = "wget.log";
 
-	public static final String WEBSTORE_REST_NAME = "webstoreRest";
-	public static final String POSTERITA_REST_NAME = "posteritaLogicRest";
-	public static final String POSTERITA_BUSINESS_NAME = "posteritaBusinessLogic";
+	public static final String WEBSTORE_REST_NAME = "WebstoreRest";
+	public static final String POSTERITA_REST_NAME = "PosteritaLogicRest";
 
 	// TODO: extract parameters: 1-2) tomcat start/stop script, 3-4) Kieker
 	// configuration file/path
@@ -279,6 +278,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		final String hostname = this.getHostnameFromResult(hostResult);
 		
+		this.printDebugMsg("allocateNode --- " + "new hostname is " + hostname);
+		
 		
 		
 		/* 4. Start CPU Monitor */
@@ -287,6 +288,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				EucalyptusCommandFactory.getStartCPUMonitorCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress);
 		executer.executeCommandWithEnv(startCPUMonitorCommand, this.configuration.getEucatoolsPath());
+		
+		this.printDebugMsg("allocateNode --- " + "started CPU Monitor");
 
 		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
@@ -367,7 +370,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final EucalyptusCommand deallocateNodeCommand =
 				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
 
-		if (this.configuration.isDummyModeEnabled()) {
+		if (!this.configuration.isDummyModeEnabled()) {
 			// spawn execution of shutdown command with given delay
 			executer.executeCommandWithEnvAndDelayAsync(deallocateNodeCommand, this.configuration.getEucatoolsPath(),
 					this.configuration.getNodeShutDownDelaySeconds() * 1000);

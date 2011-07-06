@@ -9,9 +9,7 @@ public class EucalyptusCommandFactory {
 	private final static String allocateNodeCommand =
 			/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && -t && c1.medium && ";
 	private final static String startRemoteCommandCommand =
-			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND'";
-	private final static String startAdempiereCommand =
-			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND' && DATABASEIP";
+			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && REMOTE-COMMAND";
 	private final static String deallocateNodeCommand =
 			/* proxychains */"euca-terminate-instances && ";
 	private final static String describeNodeCommand =
@@ -71,34 +69,12 @@ public class EucalyptusCommandFactory {
 		return new EucalyptusCommand(command);
 	}
 
-	public static EucalyptusCommand getStartAdempiereCommand(
-			final String sshPrivKey, final String sshUserName,
-			final String instanceIP, final String startScript,
-			final String databaseIP) {
-		return EucalyptusCommandFactory.getStartAndConfigureAdempiereCommand(
-				sshPrivKey, sshUserName, instanceIP, startScript, databaseIP);
-	}
-
-	private static EucalyptusCommand getStartAndConfigureAdempiereCommand(
-			final String sshPrivKey, final String sshUserName, final String instanceIP,
-			final String startScript, final String databaseIP) {
-		String command = EucalyptusCommandFactory.startAdempiereCommand;
-
-		command = command.replace("SSH_PRIV_KEY", sshPrivKey);
-		command = command.replace("SSH_USER_NAME", sshUserName);
-		command = command.replace("DESTIP", instanceIP);
-		command = command.replace("REMOTE-COMMAND", startScript);
-		command = command.replace("DATABASEIP", databaseIP);
-
-		return new EucalyptusCommand(command);
-	}
-
 	public static EucalyptusCommand getSetHostnameCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP) {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP,
-				". /etc/init.d/hostname.sh");
+				"/etc/init.d/hostname.sh");
 	}
 
 	// TODO: turn /bin/hostname into property
@@ -123,7 +99,7 @@ public class EucalyptusCommandFactory {
 			final String instanceIP) {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP,
-				"/opt/Adempiere/startAndConfigureAdempiereWebstoreRest.sh " + instanceIP + " 192.168.48.91");
+				"/opt/Adempiere/startAndConfigureAdempiereWebstoreRest.sh && " + instanceIP + " && 192.168.48.91");
 	}
 
 	public static EucalyptusCommand getStartPosteritaRestCommand(
@@ -131,7 +107,7 @@ public class EucalyptusCommandFactory {
 			final String instanceIP) {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP,
-				"/opt/Adempiere/startAndConfigureAdempierePosteritaRest.sh " + instanceIP + " 192.168.48.91");
+				"/opt/Adempiere/startAndConfigureAdempierePosteritaRest.sh && " + instanceIP + " && 192.168.48.91");
 	}
 
 	public static EucalyptusCommand getStartRemoteCommandCommand(
