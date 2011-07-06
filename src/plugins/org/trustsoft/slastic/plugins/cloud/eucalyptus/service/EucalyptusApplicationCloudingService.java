@@ -278,6 +278,15 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 
 		final String hostname = this.getHostnameFromResult(hostResult);
+		
+		
+		
+		/* 4. Start CPU Monitor */
+
+		final EucalyptusCommand startCPUMonitorCommand =
+				EucalyptusCommandFactory.getStartCPUMonitorCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), ipAddress);
+		executer.executeCommandWithEnv(startCPUMonitorCommand, this.configuration.getEucatoolsPath());
 
 		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
@@ -494,13 +503,9 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			startComponentCommand =
 				EucalyptusCommandFactory.getStartWebstoreRestCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), euNode.getIpAddress());
-		} else if (application.getName().contains(EucalyptusApplicationCloudingService.POSTERITA_REST_NAME)) {
-			startComponentCommand =
-				EucalyptusCommandFactory.getStartPosteritaRestCommand(this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), euNode.getIpAddress());
 		} else {
 			startComponentCommand =
-				EucalyptusCommandFactory.getStartPosteritaBusinessLogicCommand(this.configuration.getSSHPrivateKeyFile(),
+				EucalyptusCommandFactory.getStartPosteritaRestCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), euNode.getIpAddress());
 		}
 		
@@ -591,7 +596,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEucatoolsPath());
 			if (this.configuration.isDummyModeEnabled()
-					&& ((totalWaitTimeSeconds + tryPeriodSeconds > maxWaitTimeSeconds) // (max.
+					&& (((totalWaitTimeSeconds + tryPeriodSeconds) > maxWaitTimeSeconds) // (max.
 																						// possible
 																						// number
 																						// of

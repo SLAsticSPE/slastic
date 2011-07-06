@@ -50,7 +50,6 @@ public class LoadBalancerConnector {
 			final boolean spawnThreadForRequests, final String wgetLogFile) {
 		this.loadbalancerPorts.add(9090);
 		this.loadbalancerPorts.add(9100);
-		this.loadbalancerPorts.add(9110);
 
 		this.servletURL = servletURL;
 		this.spawnThreadForRequests = spawnThreadForRequests;
@@ -112,10 +111,8 @@ public class LoadBalancerConnector {
 		Integer port = 9090;
 		if (contextId.contains(EucalyptusApplicationCloudingService.WEBSTORE_REST_NAME)) {
 			port = this.loadbalancerPorts.get(0);
-		} else if (contextId.contains(EucalyptusApplicationCloudingService.POSTERITA_REST_NAME)) {
-			port = this.loadbalancerPorts.get(1);
 		} else {
-			port = this.loadbalancerPorts.get(2);
+			port = this.loadbalancerPorts.get(1);
 		}
 		
 		return port;

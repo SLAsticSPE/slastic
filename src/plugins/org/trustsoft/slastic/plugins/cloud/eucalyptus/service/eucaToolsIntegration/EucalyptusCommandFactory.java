@@ -7,7 +7,7 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegrat
  */
 public class EucalyptusCommandFactory {
 	private final static String allocateNodeCommand =
-			/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && ";
+			/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && -t && c1.medium && ";
 	private final static String startRemoteCommandCommand =
 			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND'";
 	private final static String startAdempiereCommand =
@@ -109,13 +109,21 @@ public class EucalyptusCommandFactory {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP, "/bin/hostname");
 	}
+	
+	public static EucalyptusCommand getStartCPUMonitorCommand(
+			final String sshPrivKey, final String sshUserName,
+			final String instanceIP) {
+		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
+				sshPrivKey, sshUserName, instanceIP,
+				"/opt/Adempiere/start_CPU_Monitor.sh");
+	}
 
 	public static EucalyptusCommand getStartWebstoreRestCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP) {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP,
-				"/opt/Adempiere/startAndConfigureAdempiereWebstoreRest.sh");
+				"/opt/Adempiere/startAndConfigureAdempiereWebstoreRest.sh " + instanceIP + " 192.168.48.91");
 	}
 
 	public static EucalyptusCommand getStartPosteritaRestCommand(
@@ -123,15 +131,7 @@ public class EucalyptusCommandFactory {
 			final String instanceIP) {
 		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
 				sshPrivKey, sshUserName, instanceIP,
-				"/opt/Adempiere/startAndConfigureAdempierePosteritaRest.sh");
-	}
-
-	public static EucalyptusCommand getStartPosteritaBusinessLogicCommand(
-			final String sshPrivKey, final String sshUserName,
-			final String instanceIP) {
-		return EucalyptusCommandFactory.getStartRemoteCommandCommand(
-				sshPrivKey, sshUserName, instanceIP,
-				"/opt/Adempiere/startAndConfigureAdempierePosteritaBusinessLogic.sh");
+				"/opt/Adempiere/startAndConfigureAdempierePosteritaRest.sh " + instanceIP + " 192.168.48.91");
 	}
 
 	public static EucalyptusCommand getStartRemoteCommandCommand(
