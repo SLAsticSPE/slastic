@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
@@ -18,9 +19,13 @@ import org.eclipse.m2m.atl.core.IReferenceModel;
 import org.eclipse.m2m.atl.core.ModelFactory;
 import org.eclipse.m2m.atl.core.emf.EMFExtractor;
 import org.eclipse.m2m.atl.core.emf.EMFInjector;
+import org.eclipse.m2m.atl.core.emf.EMFModel;
 import org.eclipse.m2m.atl.core.emf.EMFModelFactory;
+import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
 import org.eclipse.m2m.atl.core.launch.ILauncher;
 import org.eclipse.m2m.atl.engine.emfvm.launch.EMFVMLauncher;
+
+import de.cau.se.slastic.metamodel.core.SLAsticModel;
 
 /**
  * @author Nicolas Günther
@@ -49,6 +54,7 @@ public class Transformation {
 		this.transformationResource = Transformation.class.getResource("/transformation/slastic2pcm.asm");
 		this.slasticMetaModelResource = Transformation.class.getResource("/model/slastic.ecore");
 		this.pcmMetaModelResource = Transformation.class.getResource("/model/pcm.ecore");
+		Transformation.log.info(this.transformationResource);
 	}
 
 	/**
@@ -117,6 +123,73 @@ public class Transformation {
 					slasticModel.toString()), e);
 		} catch (final IOException e) {
 			Transformation.log.error(String.format("IO Error processing input File [%s].", inputFile.toString()), e);
+		}
+	}
+	
+	public void slastic2pcm(final SLAsticModel inputModel){
+		EMFModel slasticModel = null;
+		try {
+			this.createResources();
+			final ModelFactory modelFactory = new EMFModelFactory();
+
+			final EMFReferenceModel slasticMetaModel = (EMFReferenceModel) modelFactory
+					.newReferenceModel();
+			final IReferenceModel pcmMetaModel = modelFactory
+					.newReferenceModel();
+
+			final EMFInjector injector = new EMFInjector();
+			final IExtractor extractor = new EMFExtractor();
+
+			injector.inject(slasticMetaModel,
+					this.slasticMetaModelResource.toString());
+			injector.inject(pcmMetaModel,
+					this.pcmMetaModelResource.toString());
+
+			final ILauncher launcher = new EMFVMLauncher();
+			launcher.initialize(Collections.<String, Object> emptyMap());
+
+			slasticModel = (EMFModel) modelFactory.newModel(slasticMetaModel);
+			final Resource inputModelResource = inputModel.eResource();
+			Transformation.log.info(inputModelResource);
+			
+			injector.inject(slasticModel, inputModelResource.getURI().toString());
+			
+			final IModel pcmResourceTypeModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmRepositoryModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmResourceEnvironmentModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmAllocationModel = modelFactory.newModel(pcmMetaModel);
+			final IModel pcmSystemModel = modelFactory.newModel(pcmMetaModel);
+
+			launcher.addInModel(slasticModel, "IN", "Slastic");
+			launcher.addOutModel(pcmResourceTypeModel, "RESOURCETYPE", "Pcm");
+			launcher.addOutModel(pcmRepositoryModel, "REPOSITORY", "Pcm");
+			launcher.addOutModel(pcmResourceEnvironmentModel, "RESOURCEENVIRONMENT", "Pcm");
+			launcher.addOutModel(pcmAllocationModel, "ALLOCATION", "Pcm");
+			launcher.addOutModel(pcmSystemModel, "SYSTEM", "Pcm");
+
+			final Map<String,Object> launchOptions = new HashMap<String, Object>();
+			launchOptions.put("allowInterModelReferences", "true");
+			
+			launcher.launch(ILauncher.RUN_MODE, null,launchOptions,this.transformationResource.openStream());
+
+			//Get filename without extension.
+			//String filename = inputFile.getName().replaceFirst("[.][^.]+$", "");
+			//filename = new StringBuilder(inputFile.getParent()).append('/').append(filename).toString();
+			final String filename = "test";
+			
+			final Map<String, Object> extractOptions = new HashMap<String, Object>();
+			extractOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
+			
+			extractor.extract(pcmResourceTypeModel, filename + ".resourcetype", extractOptions);
+			extractor.extract(pcmRepositoryModel, filename + ".repository", extractOptions);
+			extractor.extract(pcmResourceEnvironmentModel, filename + ".resourceenvironment", extractOptions);
+			extractor.extract(pcmAllocationModel, filename + ".allocation", extractOptions);
+			extractor.extract(pcmSystemModel, filename + ".system", extractOptions);
+		} catch (final ATLCoreException e) {
+			Transformation.log.error(String.format("Error transforming slastic model instance [%s] to pcm.", 
+					slasticModel.toString()), e);
+		} catch (final IOException e) {
+			//Transformation.log.error(String.format("IO Error processing input File [%s].", inputFile.toString()), e);
 		}
 	}
 }

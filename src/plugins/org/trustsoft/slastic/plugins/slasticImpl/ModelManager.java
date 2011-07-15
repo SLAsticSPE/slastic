@@ -244,4 +244,8 @@ public class ModelManager extends AbstractModelManagerComponent {
 						.createComponentDeploymentModel());
 		return systemModel;
 	}
+	
+	public SystemModel getSystemModel(){
+		return this.systemModel;
+	}
 }

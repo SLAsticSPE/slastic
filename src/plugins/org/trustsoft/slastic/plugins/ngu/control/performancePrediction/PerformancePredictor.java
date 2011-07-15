@@ -1,10 +1,11 @@
 package org.trustsoft.slastic.plugins.ngu.control.performancePrediction;
 
-import java.io.File;
-
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictorComponent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.plugins.ngu.transformation.Transformation;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+
+import de.cau.se.slastic.metamodel.core.SystemModel;
 
 /**
  * 
@@ -14,13 +15,14 @@ import org.trustsoft.slastic.plugins.ngu.transformation.Transformation;
 public class PerformancePredictor extends AbstractPerformancePredictorComponent {
 	@Override
 	public void handleEvent(final IEvent ev) {
-
+		
 	}
 
 	@Override
 	public boolean init() {
-		final Transformation transformation = Transformation.getInstance();
-		transformation.slastic2pcm(new File("resources/bookstore.slastic"));
+
+		
+//		transformation.slastic2pcm(new File("resources/bookstore.slastic"));
 		return true;
 	}
 
@@ -31,6 +33,9 @@ public class PerformancePredictor extends AbstractPerformancePredictorComponent 
 
 	@Override
 	public void terminate(final boolean error) {
-
+		final ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
+		final Transformation transformation = Transformation.getInstance();
+		final SystemModel systemModel = modelManager.getSystemModel();
+		transformation.slastic2pcm(systemModel);
 	}
 }
