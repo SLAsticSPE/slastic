@@ -2,7 +2,7 @@ package org.trustsoft.slastic.plugins.ngu.control.performancePrediction;
 
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictorComponent;
 import org.trustsoft.slastic.control.components.events.IEvent;
-import org.trustsoft.slastic.plugins.ngu.transformation.Transformation;
+import org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 import de.cau.se.slastic.metamodel.core.SystemModel;
@@ -34,8 +34,9 @@ public class PerformancePredictor extends AbstractPerformancePredictorComponent 
 	@Override
 	public void terminate(final boolean error) {
 		final ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
-		final Transformation transformation = Transformation.getInstance();
+		final SlasticToPcmTranformation transformation = new SlasticToPcmTranformation();
 		final SystemModel systemModel = modelManager.getSystemModel();
-		transformation.slastic2pcm(systemModel);
+		transformation.transform(systemModel);
+		transformation.extractPcmModel(this.getComponentContext(), "output");
 	}
 }
