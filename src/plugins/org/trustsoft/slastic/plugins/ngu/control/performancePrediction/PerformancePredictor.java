@@ -20,9 +20,6 @@ public class PerformancePredictor extends AbstractPerformancePredictorComponent 
 
 	@Override
 	public boolean init() {
-
-		
-//		transformation.slastic2pcm(new File("resources/bookstore.slastic"));
 		return true;
 	}
 

@@ -1,11 +1,18 @@
 package org.trustsoft.slastic.plugins.ngu.transformation;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.ecore.xmi.XMLResource;
@@ -112,7 +119,8 @@ public class SlasticToPcmTranformation {
 			final Map<String, Object> launchOptions = new HashMap<String, Object>();
 			launchOptions.put("allowInterModelReferences", "true");
 
-			SlasticToPcmTranformation.log.info(String.format("Launching transformation of slastic model instance [%s] to pcm.", slasticModel.toString()));
+			SlasticToPcmTranformation.log.info(String.format(
+					"Launching transformation of slastic model instance [%s] to pcm.", slasticModel.toString()));
 			launcher.launch(ILauncher.RUN_MODE, null, launchOptions, this.transformationResource.openStream());
 		} catch (final ATLCoreException e) {
 			SlasticToPcmTranformation.log.error(String.format("Error transforming slastic model instance [%s] to pcm.",
@@ -125,23 +133,26 @@ public class SlasticToPcmTranformation {
 	}
 
 	public void extractPcmModel(final IComponentContext componentContext, final String outputFilePrefix) {
+		final IComponentContext outputContext = componentContext.createSubcontext(outputFilePrefix);
+		this.extractPcmModel(new File(outputContext.getDirectoryLocation()), outputFilePrefix);
+	}
+
+	public void extractPcmModel(final File directory, final String outputFilePrefix) {
 		final IExtractor extractor = new EMFExtractor();
 
 		final Map<String, Object> extractOptions = new HashMap<String, Object>();
 		extractOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
 
-		final IComponentContext outputContext = componentContext.createSubcontext(outputFilePrefix);
-		this.extractPcmModel(extractor, this.pcmResourceTypeModel,
-				outputContext.createFileInContextDir(outputFilePrefix + ".resourcetype").getPath(), extractOptions);
+		this.extractPcmModel(extractor, this.pcmResourceTypeModel, new File(directory, outputFilePrefix
+				+ ".resourcetype").getPath(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmRepositoryModel,
-				outputContext.createFileInContextDir(outputFilePrefix + ".repository").getPath(), extractOptions);
-		this.extractPcmModel(extractor, this.pcmResourceEnvironmentModel,
-				outputContext.createFileInContextDir(outputFilePrefix + ".resourceenvironment").getPath(),
-				extractOptions);
+				new File(directory, outputFilePrefix + ".repository").getPath(), extractOptions);
+		this.extractPcmModel(extractor, this.pcmResourceEnvironmentModel, new File(directory, outputFilePrefix
+				+ ".resourceenvironment").getPath(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmAllocationModel,
-				outputContext.createFileInContextDir(outputFilePrefix + ".allocation").getPath(), extractOptions);
+				new File(directory, outputFilePrefix + ".allocation").getPath(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmSystemModel,
-				outputContext.createFileInContextDir(outputFilePrefix + ".system").getPath(), extractOptions);
+				new File(directory, outputFilePrefix + ".system").getPath(), extractOptions);
 	}
 
 	private void extractPcmModel(final IExtractor extractor, final IModel model, final String outputPath,
@@ -156,5 +167,47 @@ public class SlasticToPcmTranformation {
 							String.format("Extraction of pcm model [%s] to file [%s] failed.", model.toString(),
 									outputPath), e);
 		}
+	}
+
+	public static void main(final String[] args) {
+		final CommandLineParser parser = new BasicParser();
+		final Options options = new Options();
+		final HelpFormatter helpFormatter = new HelpFormatter();
+
+		options.addOption("h", "help", false, "Print this usage information");
+		options.addOption("i", "input", true, "SLAstic model instance input file");
+		options.addOption("p", "path", true, "Path for PCM model output files");
+		options.addOption("o", "output", true, "Prefix for PCM output files");
+
+		String inputPath = null;
+		String outputPath = ".";
+		String outputFilePrefix = "output";
+		try {
+			final CommandLine commandLine = parser.parse(options, args);
+			if (commandLine.hasOption('h')) {
+				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+				System.exit(0);
+			}
+			if (commandLine.hasOption('i')) {
+				inputPath = commandLine.getOptionValue('i');
+			} else {
+				System.err.println("A SLAstic input model instance has to be specified");
+				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+				System.exit(0);
+			}
+			if (commandLine.hasOption('p')) {
+				outputPath = commandLine.getOptionValue('p');
+			}
+			if (commandLine.hasOption('o')) {
+				outputFilePrefix = commandLine.getOptionValue('o');
+			}
+		} catch (final ParseException e) {
+			System.err.println("Error parsing arguments: " + e.getMessage());
+			helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+			System.exit(0);
+		}
+		final SlasticToPcmTranformation transformation = new SlasticToPcmTranformation();
+		transformation.transform(inputPath);
+		transformation.extractPcmModel(new File(outputPath), outputFilePrefix);
 	}
 }
