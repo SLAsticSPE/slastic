@@ -1,0 +1,3024 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.core:SystemModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:metamodel.core="http:///metamodel/core.ecore" xmlns:metamodel.executionEnvironment="http:///metamodel/executionEnvironment.ecore" xmlns:metamodel.typeRepository.resourceTypes="http:///metamodel/typeRepository/resourceTypes.ecore">
+  <typeRepositoryModel>
+    <componentTypes active="true" name="Util__T" packageName="org.compiere">
+      <operations id="1" active="true">
+        <signature name="language__equals" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="2" active="true">
+        <signature name="language__isBaseLanguage" returnType="N/A"/>
+      </operations>
+      <operations id="3" active="true">
+        <signature name="env__verifyLanguage" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.compiere.util.Language</paramTypes>
+        </signature>
+      </operations>
+      <operations id="4" active="true">
+        <signature name="util__isEmpty" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="5" active="true">
+        <signature name="util__isEmpty" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="6" active="true">
+        <signature name="msg__get" returnType="N/A"/>
+      </operations>
+      <operations id="7" active="true">
+        <signature name="cCache__expire" returnType="N/A"/>
+      </operations>
+      <operations id="8" active="true">
+        <signature name="cCache__size" returnType="N/A"/>
+      </operations>
+      <operations id="9" active="true">
+        <signature name="msg__getMsgMap" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="10" active="true">
+        <signature name="msg__lookup" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="11" active="true">
+        <signature name="webSessionCtx__setLanguage" returnType="N/A">
+          <paramTypes>org.compiere.util.Language</paramTypes>
+        </signature>
+      </operations>
+      <operations id="12" active="true">
+        <signature name="webSessionCtx__setLanguage" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="13" active="true">
+        <signature name="cCache__clear" returnType="N/A"/>
+      </operations>
+      <operations id="14" active="true">
+        <signature name="cCache__reset" returnType="N/A"/>
+      </operations>
+      <operations id="15" active="true">
+        <signature name="cCache__values" returnType="N/A"/>
+      </operations>
+      <operations id="27" active="true">
+        <signature name="secureEngine__decrypt" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="28" active="true">
+        <signature name="ini__isPropertyBool" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="31" active="true">
+        <signature name="dB__createConnection" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="34" active="true">
+        <signature name="dB__prepareStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="35" active="true">
+        <signature name="dB__prepareStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="37" active="true">
+        <signature name="language__isBaseLanguage" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="38" active="true">
+        <signature name="env__isBaseLanguage" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="41" active="true">
+        <signature name="displayType__isText" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="42" active="true">
+        <signature name="displayType__isID" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="43" active="true">
+        <signature name="displayType__isNumeric" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="44" active="true">
+        <signature name="displayType__isDate" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="45" active="true">
+        <signature name="dB__close" returnType="N/A">
+          <paramTypes>java.sql.ResultSet</paramTypes>
+        </signature>
+      </operations>
+      <operations id="47" active="true">
+        <signature name="dB__close" returnType="N/A">
+          <paramTypes>java.sql.Statement</paramTypes>
+        </signature>
+      </operations>
+      <operations id="48" active="true">
+        <signature name="dB__close" returnType="N/A">
+          <paramTypes>java.sql.ResultSet</paramTypes>
+          <paramTypes>java.sql.Statement</paramTypes>
+        </signature>
+      </operations>
+      <operations id="50" active="true">
+        <signature name="cCache__put" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="54" active="true">
+        <signature name="cLogMgt__isLevelAll" returnType="N/A"/>
+      </operations>
+      <operations id="55" active="true">
+        <signature name="displayType__isLOB" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="60" active="true">
+        <signature name="webSessionCtx__setWStore" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="80" active="true">
+        <signature name="cLogMgt__isLevelFinest" returnType="N/A"/>
+      </operations>
+      <operations id="83" active="true">
+        <signature name="webSessionCtx__getDefaults" returnType="N/A"/>
+      </operations>
+      <operations id="93" active="true">
+        <signature name="htmlCode__addElement" returnType="N/A">
+          <paramTypes>org.apache.ecs.Element</paramTypes>
+        </signature>
+      </operations>
+      <operations id="94" active="true">
+        <signature name="htmlCode__addElement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="100" active="true">
+        <signature name="cLogMgt__isLevelFiner" returnType="N/A"/>
+      </operations>
+      <operations id="103" active="true">
+        <signature name="util__maskHTML" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="104" active="true">
+        <signature name="util__maskHTML" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="110" active="true">
+        <signature name="env__isSOTrx" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="111" active="true">
+        <signature name="env__isBaseLanguage" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="112" active="true">
+        <signature name="cLogErrorBuffer__checkContext" returnType="N/A"/>
+      </operations>
+      <operations id="113" active="true">
+        <signature name="cLogFilter__isLoggable" returnType="N/A">
+          <paramTypes>java.util.logging.LogRecord</paramTypes>
+        </signature>
+      </operations>
+      <operations id="114" active="true">
+        <signature name="cLogErrorBuffer__publish" returnType="N/A">
+          <paramTypes>java.util.logging.LogRecord</paramTypes>
+        </signature>
+      </operations>
+      <operations id="115" active="true">
+        <signature name="cLogFormatter__format" returnType="N/A">
+          <paramTypes>java.util.logging.LogRecord</paramTypes>
+        </signature>
+      </operations>
+      <operations id="116" active="true">
+        <signature name="cLogConsole__flush" returnType="N/A"/>
+      </operations>
+      <operations id="117" active="true">
+        <signature name="cLogConsole__publish" returnType="N/A">
+          <paramTypes>java.util.logging.LogRecord</paramTypes>
+        </signature>
+      </operations>
+      <operations id="118" active="true">
+        <signature name="msg__translate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="119" active="true">
+        <signature name="msg__translate" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="127" active="true">
+        <signature name="msg__translate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="134" active="true">
+        <signature name="cLogErrorBuffer__isIssueError" returnType="N/A"/>
+      </operations>
+      <operations id="135" active="true">
+        <signature name="dB__isConnected" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="136" active="true">
+        <signature name="dB__isConnected" returnType="N/A"/>
+      </operations>
+      <operations id="138" active="true">
+        <signature name="dB__isPostgreSQL" returnType="N/A"/>
+      </operations>
+      <operations id="147" active="true">
+        <signature name="webLogin__init" returnType="N/A"/>
+      </operations>
+      <operations id="162" active="true">
+        <signature name="util__replace" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="173" active="true">
+        <signature name="cacheMgt__register" returnType="N/A">
+          <paramTypes>org.compiere.util.CacheInterface</paramTypes>
+        </signature>
+      </operations>
+      <operations id="176" active="true">
+        <signature name="dB__createStatement" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="177" active="true">
+        <signature name="dB__createStatement" returnType="N/A"/>
+      </operations>
+      <operations id="190" active="true">
+        <signature name="webUser__load" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="192" active="true">
+        <signature name="webUser__isValid" returnType="N/A"/>
+      </operations>
+      <operations id="193" active="true">
+        <signature name="webUtil__exists" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="194" active="true">
+        <signature name="webUser__setPasswordOK" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="195" active="true">
+        <signature name="webUser__login" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="196" active="true">
+        <signature name="webUser__load" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="197" active="true">
+        <signature name="webUtil__updateFields" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>org.compiere.util.WebUser</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="198" active="true">
+        <signature name="webLogin__action" returnType="N/A"/>
+      </operations>
+      <operations id="200" active="true">
+        <signature name="webUser__isCustomer" returnType="N/A"/>
+      </operations>
+      <operations id="201" active="true">
+        <signature name="webUser__toString" returnType="N/A"/>
+      </operations>
+      <operations id="202" active="true">
+        <signature name="webUser__isLoggedIn" returnType="N/A"/>
+      </operations>
+      <operations id="204" active="true">
+        <signature name="webUser__isEMailVerified" returnType="N/A"/>
+      </operations>
+      <operations id="212" active="true">
+        <signature name="secure__initCipher" returnType="N/A"/>
+      </operations>
+      <operations id="213" active="true">
+        <signature name="secure__convertToHexString" returnType="N/A">
+          <paramTypes>byte[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="222" active="true">
+        <signature name="dB__TO_CHAR" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="225" active="true">
+        <signature name="cLogger__resetLast" returnType="N/A"/>
+      </operations>
+      <operations id="228" active="true">
+        <signature name="trx__setTrxName" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="229" active="true">
+        <signature name="trx__setConnection" returnType="N/A">
+          <paramTypes>java.sql.Connection</paramTypes>
+        </signature>
+      </operations>
+      <operations id="230" active="true">
+        <signature name="trx__createTrxName" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="236" active="true">
+        <signature name="cLogMgt__isLevel" returnType="N/A">
+          <paramTypes>java.util.logging.Level</paramTypes>
+        </signature>
+      </operations>
+      <operations id="238" active="true">
+        <signature name="dB__isOracle" returnType="N/A"/>
+      </operations>
+      <operations id="245" active="true">
+        <signature name="dB__TO_DATE" returnType="N/A">
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="246" active="true">
+        <signature name="dB__TO_STRING" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="247" active="true">
+        <signature name="dB__TO_STRING" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="248" active="true">
+        <signature name="dB__verifyTrx" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="249" active="true">
+        <signature name="trx__isActive" returnType="N/A"/>
+      </operations>
+      <operations id="250" active="true">
+        <signature name="cCache__containsKey" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="251" active="true">
+        <signature name="dB__createConnection" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="252" active="true">
+        <signature name="trx__start" returnType="N/A"/>
+      </operations>
+      <operations id="253" active="true">
+        <signature name="dB__executeUpdate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object[]</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="254" active="true">
+        <signature name="dB__executeUpdate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="255" active="true">
+        <signature name="dB__executeUpdate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="260" active="true">
+        <signature name="cCache__isReset" returnType="N/A"/>
+      </operations>
+      <operations id="264" active="true">
+        <signature name="trx__commit" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="265" active="true">
+        <signature name="trx__commit" returnType="N/A"/>
+      </operations>
+      <operations id="266" active="true">
+        <signature name="trx__close" returnType="N/A"/>
+      </operations>
+      <operations id="269" active="true">
+        <signature name="ini__isClient" returnType="N/A"/>
+      </operations>
+      <operations id="271" active="true">
+        <signature name="cCache__isEmpty" returnType="N/A"/>
+      </operations>
+      <operations id="286" active="true">
+        <signature name="cLogFormatter__fillExceptionTrace" returnType="N/A">
+          <paramTypes>java.lang.StringBuffer</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Throwable</paramTypes>
+        </signature>
+      </operations>
+      <operations id="295" active="true">
+        <signature name="cLogger__saveError" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="296" active="true">
+        <signature name="cLogger__saveError" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Exception</paramTypes>
+        </signature>
+      </operations>
+      <operations id="297" active="true">
+        <signature name="trx__rollback" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="298" active="true">
+        <signature name="trx__rollback" returnType="N/A"/>
+      </operations>
+      <operations id="302" active="true">
+        <signature name="webUser__logout" returnType="N/A"/>
+      </operations>
+      <operations id="303" active="true">
+        <signature name="webDoc__setUp" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="304" active="true">
+        <signature name="webDoc__create" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="305" active="true">
+        <signature name="webDoc__create" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="306" active="true">
+        <signature name="webDoc__output" returnType="N/A">
+          <paramTypes>java.io.PrintWriter</paramTypes>
+        </signature>
+      </operations>
+      <operations id="307" active="true">
+        <signature name="webUtil__createForwardPage" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="310" active="true">
+        <signature name="webUtil__exists" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="324" active="true">
+        <signature name="webUtil__addCookieWebUser" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="337" active="true">
+        <signature name="webUser__isSalesRep" returnType="N/A"/>
+      </operations>
+      <operations id="339" active="true">
+        <signature name="webUser__isEmployee" returnType="N/A"/>
+      </operations>
+      <operations id="372" active="true">
+        <signature name="trx__releaseSavepoint" returnType="N/A">
+          <paramTypes>java.sql.Savepoint</paramTypes>
+        </signature>
+      </operations>
+      <operations id="376" active="true">
+        <signature name="cacheMgt__reset" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="377" active="true">
+        <signature name="cacheMgt__reset" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="379" active="true">
+        <signature name="timeUtil__get2digits" returnType="N/A">
+          <paramTypes>long</paramTypes>
+        </signature>
+      </operations>
+      <operations id="380" active="true">
+        <signature name="timeUtil__formatElapsed" returnType="N/A">
+          <paramTypes>long</paramTypes>
+        </signature>
+      </operations>
+      <operations id="381" active="true">
+        <signature name="timeUtil__formatElapsed" returnType="N/A">
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+        </signature>
+      </operations>
+      <operations id="387" active="true">
+        <signature name="cCache__toString" returnType="N/A"/>
+      </operations>
+      <operations id="388" active="true">
+        <signature name="webUser__save" returnType="N/A"/>
+      </operations>
+      <operations id="404" active="true">
+        <signature name="trx__toString" returnType="N/A"/>
+      </operations>
+      <operations id="417" active="true">
+        <signature name="cLogMgt__isLevelFine" returnType="N/A"/>
+      </operations>
+      <operations id="486" active="true">
+        <signature name="webUser__hasBPAccess" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="501" active="true">
+        <signature name="trx__createTrxName" returnType="N/A"/>
+      </operations>
+      <operations id="541" active="true">
+        <signature name="timeUtil__formatElapsed" returnType="N/A">
+          <paramTypes>java.sql.Timestamp</paramTypes>
+        </signature>
+      </operations>
+      <operations id="15" active="true">
+        <signature name="eMail__addTo" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="16" active="true">
+        <signature name="eMail__isValid" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="21" active="true">
+        <signature name="eMail__addAttachments" returnType="N/A">
+          <paramTypes>java.util.Collection</paramTypes>
+        </signature>
+      </operations>
+      <operations id="22" active="true">
+        <signature name="eMail__send" returnType="N/A"/>
+      </operations>
+      <operations id="24" active="true">
+        <signature name="eMail__isSentOK" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="1" active="true" name="DbPort__T" packageName="org.compiere">
+      <operations id="16" active="true">
+        <signature name="convert__replaceQuotedStrings" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.util.Vector</paramTypes>
+        </signature>
+      </operations>
+      <operations id="17" active="true">
+        <signature name="convert__cleanUpStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="18" active="true">
+        <signature name="convert_PostgreSQL__getConvertMap" returnType="N/A"/>
+      </operations>
+      <operations id="19" active="true">
+        <signature name="convert__applyConvertMap" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="20" active="true">
+        <signature name="convert__convertWithConvertMap" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="21" active="true">
+        <signature name="convert_PostgreSQL__convertAlias" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="22" active="true">
+        <signature name="convert_PostgreSQL__convertCast" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="23" active="true">
+        <signature name="convert_PostgreSQL__convertComplexStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="24" active="true">
+        <signature name="convert_PostgreSQL__convertStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="25" active="true">
+        <signature name="convert__convertIt" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="26" active="true">
+        <signature name="convert__convert" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="29" active="true">
+        <signature name="convert__logMigrationScript" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="39" active="true">
+        <signature name="convert_PostgreSQL__escapeQuotedString" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="40" active="true">
+        <signature name="convert__recoverQuotedStrings" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.util.Vector</paramTypes>
+        </signature>
+      </operations>
+      <operations id="374" active="true">
+        <signature name="convert_PostgreSQL__convertUpdate" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="536" active="true">
+        <signature name="convert_SQL92__convertDelete" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="2" active="true" name="Db__T" packageName="org.compiere">
+      <operations id="30" active="true">
+        <signature name="dB_PostgreSQL__convertStatement" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="32" active="true">
+        <signature name="preparedStatementProxy__init" returnType="N/A"/>
+      </operations>
+      <operations id="33" active="true">
+        <signature name="proxyFactory__newCPreparedStatement" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="36" active="true">
+        <signature name="statementProxy__invoke" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.reflect.Method</paramTypes>
+          <paramTypes>java.lang.Object[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="46" active="true">
+        <signature name="statementProxy__close" returnType="N/A"/>
+      </operations>
+      <operations id="137" active="true">
+        <signature name="cConnection__isPostgreSQL" returnType="N/A"/>
+      </operations>
+      <operations id="174" active="true">
+        <signature name="statementProxy__init" returnType="N/A"/>
+      </operations>
+      <operations id="175" active="true">
+        <signature name="proxyFactory__newCStatement" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="221" active="true">
+        <signature name="dB_PostgreSQL__TO_CHAR" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="237" active="true">
+        <signature name="cConnection__isOracle" returnType="N/A"/>
+      </operations>
+      <operations id="239" active="true">
+        <signature name="dB_PostgreSQL__isQueryTimeoutSupported" returnType="N/A"/>
+      </operations>
+      <operations id="244" active="true">
+        <signature name="dB_PostgreSQL__TO_DATE" returnType="N/A">
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="537" active="true">
+        <signature name="statementProxy__commit" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="3" active="true" name="Model__T" packageName="org.compiere">
+      <operations id="49" active="true">
+        <signature name="pOInfo__loadInfo" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="51" active="true">
+        <signature name="x_W_Store__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="52" active="true">
+        <signature name="pOInfo__isEncrypted" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="53" active="true">
+        <signature name="pO__decrypt" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="56" active="true">
+        <signature name="pOInfo__isKey" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="57" active="true">
+        <signature name="pO__setKeyInfo" returnType="N/A"/>
+      </operations>
+      <operations id="58" active="true">
+        <signature name="pO__loadComplete" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="59" active="true">
+        <signature name="pO__load" returnType="N/A">
+          <paramTypes>java.sql.ResultSet</paramTypes>
+        </signature>
+      </operations>
+      <operations id="79" active="true">
+        <signature name="x_AD_Client__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="81" active="true">
+        <signature name="pO__load" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="82" active="true">
+        <signature name="pO__load" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="126" active="true">
+        <signature name="mStore__toString" returnType="N/A"/>
+      </operations>
+      <operations id="139" active="true">
+        <signature name="x_AD_User__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="141" active="true">
+        <signature name="pO__isActive" returnType="N/A"/>
+      </operations>
+      <operations id="142" active="true">
+        <signature name="mUser__toString" returnType="N/A"/>
+      </operations>
+      <operations id="143" active="true">
+        <signature name="x_C_BPartner__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="144" active="true">
+        <signature name="mBPartner__toString" returnType="N/A"/>
+      </operations>
+      <operations id="145" active="true">
+        <signature name="x_C_BPartner_Location__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="146" active="true">
+        <signature name="mBPartnerLocation__toString" returnType="N/A"/>
+      </operations>
+      <operations id="148" active="true">
+        <signature name="pOInfo__isVirtualColumn" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="149" active="true">
+        <signature name="pO__setStandardDefaults" returnType="N/A"/>
+      </operations>
+      <operations id="150" active="true">
+        <signature name="pO__loadDefaults" returnType="N/A"/>
+      </operations>
+      <operations id="151" active="true">
+        <signature name="pOInfo__isColumnUpdateable" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="152" active="true">
+        <signature name="pOInfo__validate" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="153" active="true">
+        <signature name="pOInfo__getColumn" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="154" active="true">
+        <signature name="pO__set_Keys" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="155" active="true">
+        <signature name="pO__set_Value" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="156" active="true">
+        <signature name="pO__set_Value" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="157" active="true">
+        <signature name="x_AD_Table__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="158" active="true">
+        <signature name="pOInfo__buildSelect" returnType="N/A"/>
+      </operations>
+      <operations id="159" active="true">
+        <signature name="query__buildSQL" returnType="N/A">
+          <paramTypes>java.lang.StringBuffer</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="160" active="true">
+        <signature name="x_C_Location__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="161" active="true">
+        <signature name="query__createResultSet" returnType="N/A">
+          <paramTypes>java.sql.PreparedStatement</paramTypes>
+        </signature>
+      </operations>
+      <operations id="163" active="true">
+        <signature name="mTable__getPOclass" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="164" active="true">
+        <signature name="x_AD_Ref_List__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="165" active="true">
+        <signature name="query__firstOnly" returnType="N/A"/>
+      </operations>
+      <operations id="166" active="true">
+        <signature name="null__toString" returnType="N/A"/>
+      </operations>
+      <operations id="167" active="true">
+        <signature name="pO__set_ValueNoCheck" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="168" active="true">
+        <signature name="pOInfo__isColumnMandatory" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="169" active="true">
+        <signature name="mBPartner__initTemplate" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="170" active="true">
+        <signature name="pO__setClientOrg" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="171" active="true">
+        <signature name="pO__setClientOrg" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="172" active="true">
+        <signature name="x_AD_Language__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="178" active="true">
+        <signature name="x_C_Country__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="179" active="true">
+        <signature name="mCountry__getEnvLanguage" returnType="N/A"/>
+      </operations>
+      <operations id="180" active="true">
+        <signature name="mCountry__toString" returnType="N/A"/>
+      </operations>
+      <operations id="181" active="true">
+        <signature name="mCountry__loadAllCountries" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="182" active="true">
+        <signature name="x_C_Country__isAddressLinesLocalReverse" returnType="N/A"/>
+      </operations>
+      <operations id="183" active="true">
+        <signature name="mLocation__isAddressLinesReverse" returnType="N/A"/>
+      </operations>
+      <operations id="184" active="true">
+        <signature name="x_C_Region__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="185" active="true">
+        <signature name="x_C_Region__isDefault" returnType="N/A"/>
+      </operations>
+      <operations id="186" active="true">
+        <signature name="mRegion__toString" returnType="N/A"/>
+      </operations>
+      <operations id="187" active="true">
+        <signature name="mRegion__loadAllRegions" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="188" active="true">
+        <signature name="mLocation__parseCRP" returnType="N/A">
+          <paramTypes>org.compiere.model.MCountry</paramTypes>
+        </signature>
+      </operations>
+      <operations id="189" active="true">
+        <signature name="mLocation__toString" returnType="N/A"/>
+      </operations>
+      <operations id="199" active="true">
+        <signature name="x_C_BPartner__isCustomer" returnType="N/A"/>
+      </operations>
+      <operations id="203" active="true">
+        <signature name="mUser__isEMailVerified" returnType="N/A"/>
+      </operations>
+      <operations id="207" active="true">
+        <signature name="mCountry__compare" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="208" active="true">
+        <signature name="x_AD_Role_OrgAccess__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="209" active="true">
+        <signature name="pOInfo__isColumnParent" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="210" active="true">
+        <signature name="mRoleOrgAccess__get" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="215" active="true">
+        <signature name="x_AD_Role__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="217" active="true">
+        <signature name="x_AD_Session__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="218" active="true">
+        <signature name="x_AD_System__isAutoErrorReport" returnType="N/A"/>
+      </operations>
+      <operations id="219" active="true">
+        <signature name="x_AD_Issue__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="220" active="true">
+        <signature name="x_AD_System__isAllowStatistics" returnType="N/A"/>
+      </operations>
+      <operations id="223" active="true">
+        <signature name="mIssue__init" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="224" active="true">
+        <signature name="mIssue__report" returnType="N/A"/>
+      </operations>
+      <operations id="226" active="true">
+        <signature name="pO__is_new" returnType="N/A"/>
+      </operations>
+      <operations id="227" active="true">
+        <signature name="x_AD_Issue__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="231" active="true">
+        <signature name="pO__beforeSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="232" active="true">
+        <signature name="query__list" returnType="N/A"/>
+      </operations>
+      <operations id="233" active="true">
+        <signature name="modelValidationEngine__fireModelChange" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="234" active="true">
+        <signature name="pOInfo__hasKeyColumn" returnType="N/A"/>
+      </operations>
+      <operations id="235" active="true">
+        <signature name="pO__saveNew_getID" returnType="N/A"/>
+      </operations>
+      <operations id="240" active="true">
+        <signature name="x_AD_Column__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="241" active="true">
+        <signature name="pO__isReplication" returnType="N/A"/>
+      </operations>
+      <operations id="242" active="true">
+        <signature name="pO__lobReset" returnType="N/A"/>
+      </operations>
+      <operations id="243" active="true">
+        <signature name="pO__encrypt" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="256" active="true">
+        <signature name="pO__lobSave" returnType="N/A"/>
+      </operations>
+      <operations id="257" active="true">
+        <signature name="pOInfo__isTranslated" returnType="N/A"/>
+      </operations>
+      <operations id="258" active="true">
+        <signature name="pO__insertTranslations" returnType="N/A"/>
+      </operations>
+      <operations id="259" active="true">
+        <signature name="pO__afterSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="262" active="true">
+        <signature name="pO__saveFinish" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="263" active="true">
+        <signature name="pO__saveNew" returnType="N/A"/>
+      </operations>
+      <operations id="267" active="true">
+        <signature name="pO__save" returnType="N/A"/>
+      </operations>
+      <operations id="268" active="true">
+        <signature name="mIssue__create" returnType="N/A">
+          <paramTypes>java.util.logging.LogRecord</paramTypes>
+        </signature>
+      </operations>
+      <operations id="270" active="true">
+        <signature name="x_AD_Session__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="272" active="true">
+        <signature name="mClientShare__isShared" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="273" active="true">
+        <signature name="mClientShare__isClientLevelOnly" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="275" active="true">
+        <signature name="x_C_Country__isHasRegion" returnType="N/A"/>
+      </operations>
+      <operations id="276" active="true">
+        <signature name="mRegion__compare" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="283" active="true">
+        <signature name="x_U_WebMenu__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="285" active="true">
+        <signature name="x_U_Web_Properties__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="287" active="true">
+        <signature name="x_U_WebMenu__isHasSubMenu" returnType="N/A"/>
+      </operations>
+      <operations id="289" active="true">
+        <signature name="x_U_WebMenu__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="290" active="true">
+        <signature name="pOInfo__isAllowLogging" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="291" active="true">
+        <signature name="mRole__getDefaultRole" returnType="N/A"/>
+      </operations>
+      <operations id="292" active="true">
+        <signature name="mChangeLog__isLogged" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="293" active="true">
+        <signature name="x_AD_Role__isChangeLog" returnType="N/A"/>
+      </operations>
+      <operations id="294" active="true">
+        <signature name="mSession__changeLog" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="325" active="true">
+        <signature name="x_C_Country__isAddressLinesReverse" returnType="N/A"/>
+      </operations>
+      <operations id="326" active="true">
+        <signature name="x_C_BP_Group__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="328" active="true">
+        <signature name="x_W_Store__isMenuAssets" returnType="N/A"/>
+      </operations>
+      <operations id="330" active="true">
+        <signature name="x_W_Store__isMenuInvoices" returnType="N/A"/>
+      </operations>
+      <operations id="331" active="true">
+        <signature name="x_W_Store__isMenuPayments" returnType="N/A"/>
+      </operations>
+      <operations id="332" active="true">
+        <signature name="x_W_Store__isMenuOrders" returnType="N/A"/>
+      </operations>
+      <operations id="333" active="true">
+        <signature name="x_W_Store__isMenuShipments" returnType="N/A"/>
+      </operations>
+      <operations id="334" active="true">
+        <signature name="x_W_Store__isMenuRfQs" returnType="N/A"/>
+      </operations>
+      <operations id="336" active="true">
+        <signature name="x_C_BPartner__isSalesRep" returnType="N/A"/>
+      </operations>
+      <operations id="338" active="true">
+        <signature name="x_C_BPartner__isEmployee" returnType="N/A"/>
+      </operations>
+      <operations id="340" active="true">
+        <signature name="x_W_Store__isMenuRequests" returnType="N/A"/>
+      </operations>
+      <operations id="341" active="true">
+        <signature name="x_W_Store__isMenuInterests" returnType="N/A"/>
+      </operations>
+      <operations id="342" active="true">
+        <signature name="x_W_Store__isMenuRegistrations" returnType="N/A"/>
+      </operations>
+      <operations id="348" active="true">
+        <signature name="pO__is_ValueChanged" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="349" active="true">
+        <signature name="pO__is_Changed" returnType="N/A"/>
+      </operations>
+      <operations id="350" active="true">
+        <signature name="x_AD_Role__isUseUserOrgAccess" returnType="N/A"/>
+      </operations>
+      <operations id="351" active="true">
+        <signature name="x_AD_Role_OrgAccess__isReadOnly" returnType="N/A"/>
+      </operations>
+      <operations id="352" active="true">
+        <signature name="mRole__loadOrgAccessAdd" returnType="N/A">
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>org.compiere.model.MRole.OrgAccess</paramTypes>
+        </signature>
+      </operations>
+      <operations id="353" active="true">
+        <signature name="mRole__loadOrgAccessRole" returnType="N/A">
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="354" active="true">
+        <signature name="mRole__loadOrgAccess" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="355" active="true">
+        <signature name="mRole__loadTableAccess" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="356" active="true">
+        <signature name="mRole__loadTableInfo" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="357" active="true">
+        <signature name="mRole__loadColumnAccess" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="358" active="true">
+        <signature name="mRole__loadRecordAccess" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="359" active="true">
+        <signature name="mRole__loadChildRoles" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="360" active="true">
+        <signature name="mRole__loadSubstitutedRoles" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="361" active="true">
+        <signature name="mRole__mergeAccess" returnType="N/A">
+          <paramTypes>java.lang.Object[]</paramTypes>
+          <paramTypes>java.lang.Object[]</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="362" active="true">
+        <signature name="mRole__mergeAccesses" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="363" active="true">
+        <signature name="mRole__loadIncludedRoles" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="364" active="true">
+        <signature name="mRole__loadAccess" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="365" active="true">
+        <signature name="x_AD_Role__isAccessAllOrgs" returnType="N/A"/>
+      </operations>
+      <operations id="366" active="true">
+        <signature name="mRole__toString" returnType="N/A"/>
+      </operations>
+      <operations id="367" active="true">
+        <signature name="mRole__setDefaultRole" returnType="N/A">
+          <paramTypes>org.compiere.model.MRole</paramTypes>
+        </signature>
+      </operations>
+      <operations id="368" active="true">
+        <signature name="x_AD_ChangeLog__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="369" active="true">
+        <signature name="mRole$OrgAccess__equals" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="371" active="true">
+        <signature name="x_AD_ChangeLog__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="373" active="true">
+        <signature name="pO__isUseTimeoutForUpdate" returnType="N/A"/>
+      </operations>
+      <operations id="375" active="true">
+        <signature name="pO__updateTranslations" returnType="N/A"/>
+      </operations>
+      <operations id="378" active="true">
+        <signature name="pO__saveUpdate" returnType="N/A"/>
+      </operations>
+      <operations id="382" active="true">
+        <signature name="mSession__logout" returnType="N/A"/>
+      </operations>
+      <operations id="383" active="true">
+        <signature name="x_C_Location__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="384" active="true">
+        <signature name="x_C_Country__isAllowCitiesOutOfList" returnType="N/A"/>
+      </operations>
+      <operations id="385" active="true">
+        <signature name="mLocation__beforeSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="386" active="true">
+        <signature name="mLocation__afterSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="390" active="true">
+        <signature name="x_C_Order__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="391" active="true">
+        <signature name="x_C_Order__isSOTrx" returnType="N/A"/>
+      </operations>
+      <operations id="392" active="true">
+        <signature name="mOrder__toString" returnType="N/A"/>
+      </operations>
+      <operations id="393" active="true">
+        <signature name="x_M_PriceList__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="394" active="true">
+        <signature name="x_M_PriceList__isTaxIncluded" returnType="N/A"/>
+      </operations>
+      <operations id="395" active="true">
+        <signature name="x_C_Order__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="396" active="true">
+        <signature name="x_M_Warehouse__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="397" active="true">
+        <signature name="mOrder__beforeSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="398" active="true">
+        <signature name="modelValidationEngine__fireModelChange" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="402" active="true">
+        <signature name="x_C_DocType__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="403" active="true">
+        <signature name="x_C_DocType__isDocNoControlled" returnType="N/A"/>
+      </operations>
+      <operations id="405" active="true">
+        <signature name="mOrder__afterSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="406" active="true">
+        <signature name="x_C_OrderLine__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="407" active="true">
+        <signature name="x_C_Currency__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="408" active="true">
+        <signature name="x_M_Product__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="409" active="true">
+        <signature name="mOrderLine__toString" returnType="N/A"/>
+      </operations>
+      <operations id="410" active="true">
+        <signature name="mProductPricing__calculatePLV" returnType="N/A"/>
+      </operations>
+      <operations id="411" active="true">
+        <signature name="mProductPricing__calculatePL" returnType="N/A"/>
+      </operations>
+      <operations id="412" active="true">
+        <signature name="mProductPricing__calculateDiscount" returnType="N/A"/>
+      </operations>
+      <operations id="413" active="true">
+        <signature name="mProductPricing__setPrecision" returnType="N/A"/>
+      </operations>
+      <operations id="414" active="true">
+        <signature name="mProductPricing__calculatePrice" returnType="N/A"/>
+      </operations>
+      <operations id="415" active="true">
+        <signature name="mOrderLine__getProductPricing" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="416" active="true">
+        <signature name="mProductPricing__round" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="418" active="true">
+        <signature name="x_C_Tax__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="419" active="true">
+        <signature name="x_C_Tax__isSummary" returnType="N/A"/>
+      </operations>
+      <operations id="420" active="true">
+        <signature name="mTax__toString" returnType="N/A"/>
+      </operations>
+      <operations id="421" active="true">
+        <signature name="x_C_Tax__isDefault" returnType="N/A"/>
+      </operations>
+      <operations id="422" active="true">
+        <signature name="tax__get" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="423" active="true">
+        <signature name="x_C_OrderLine__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="424" active="true">
+        <signature name="mOrder__isComplete" returnType="N/A"/>
+      </operations>
+      <operations id="425" active="true">
+        <signature name="mProductPricing__isCalculated" returnType="N/A"/>
+      </operations>
+      <operations id="426" active="true">
+        <signature name="accessSqlParser__getSubSQL" returnType="N/A">
+          <paramTypes>java.lang.String[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="427" active="true">
+        <signature name="accessSqlParser__getSelectStatements" returnType="N/A"/>
+      </operations>
+      <operations id="428" active="true">
+        <signature name="accessSqlParser__getTableInfo" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="429" active="true">
+        <signature name="accessSqlParser__parse" returnType="N/A"/>
+      </operations>
+      <operations id="430" active="true">
+        <signature name="mRole__isView" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="431" active="true">
+        <signature name="mRole__getAD_Table_ID" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="432" active="true">
+        <signature name="mRole__isTableAccessLevel" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="433" active="true">
+        <signature name="mRole__isTableAccess" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="434" active="true">
+        <signature name="mRole__getIdColumnName" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="435" active="true">
+        <signature name="x_AD_Role__isPersonalAccess" returnType="N/A"/>
+      </operations>
+      <operations id="436" active="true">
+        <signature name="mRole__getRecordWhere" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="437" active="true">
+        <signature name="mRole__getDependentAccess" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="438" active="true">
+        <signature name="mRole__addAccessSQL" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="439" active="true">
+        <signature name="x_C_UOM__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="440" active="true">
+        <signature name="mUOM__loadUOMs" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="441" active="true">
+        <signature name="mOrderLine__getTax" returnType="N/A"/>
+      </operations>
+      <operations id="442" active="true">
+        <signature name="x_C_Tax__isDocumentLevel" returnType="N/A"/>
+      </operations>
+      <operations id="443" active="true">
+        <signature name="mOrderLine__isTaxIncluded" returnType="N/A"/>
+      </operations>
+      <operations id="444" active="true">
+        <signature name="mOrderLine__beforeSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="453" active="true">
+        <signature name="x_C_Order__isProcessed" returnType="N/A"/>
+      </operations>
+      <operations id="454" active="true">
+        <signature name="x_C_OrderTax__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="455" active="true">
+        <signature name="mOrderTax__setPrecision" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="456" active="true">
+        <signature name="mOrderTax__toString" returnType="N/A"/>
+      </operations>
+      <operations id="457" active="true">
+        <signature name="mOrderTax__getTax" returnType="N/A"/>
+      </operations>
+      <operations id="458" active="true">
+        <signature name="x_C_OrderTax__isTaxIncluded" returnType="N/A"/>
+      </operations>
+      <operations id="459" active="true">
+        <signature name="mOrderTax__getPrecision" returnType="N/A"/>
+      </operations>
+      <operations id="460" active="true">
+        <signature name="mTax__isZeroTax" returnType="N/A"/>
+      </operations>
+      <operations id="461" active="true">
+        <signature name="mTax__calculateTax" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="462" active="true">
+        <signature name="mOrderTax__calculateTaxFromLines" returnType="N/A"/>
+      </operations>
+      <operations id="463" active="true">
+        <signature name="mOrderLine__updateOrderTax" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="464" active="true">
+        <signature name="mOrderLine__updateHeaderTax" returnType="N/A"/>
+      </operations>
+      <operations id="465" active="true">
+        <signature name="mOrderLine__afterSave" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="469" active="true">
+        <signature name="modelValidationEngine__fireDocValidate" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="470" active="true">
+        <signature name="modelValidationEngine__fireDocValidate" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="471" active="true">
+        <signature name="x_AD_OrgInfo__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="472" active="true">
+        <signature name="mPeriod__findByCalendar" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="473" active="true">
+        <signature name="mPeriod__findByCalendar" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="474" active="true">
+        <signature name="mPeriod__isOpen" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="475" active="true">
+        <signature name="mOrder__prepareIt" returnType="N/A"/>
+      </operations>
+      <operations id="479" active="true">
+        <signature name="mOrder__processIt" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="480" active="true">
+        <signature name="pO__is_ValueChanged" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="484" active="true">
+        <signature name="x_AD_User__isFullBPAccess" returnType="N/A"/>
+      </operations>
+      <operations id="485" active="true">
+        <signature name="mUser__hasBPAccess" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="487" active="true">
+        <signature name="x_U_POSTerminal__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="488" active="true">
+        <signature name="x_U_POSTerminal__isLocked" returnType="N/A"/>
+      </operations>
+      <operations id="489" active="true">
+        <signature name="mPOSTerminal__checkLock" returnType="N/A">
+          <paramTypes>org.compiere.model.MPOSTerminal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="490" active="true">
+        <signature name="mPOSTerminal__loadComplete" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="492" active="true">
+        <signature name="x_M_PriceList_Version__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="494" active="true">
+        <signature name="x_U_WebMenu__toString" returnType="N/A"/>
+      </operations>
+      <operations id="495" active="true">
+        <signature name="query__first" returnType="N/A"/>
+      </operations>
+      <operations id="496" active="true">
+        <signature name="x_M_PriceList_Version__toString" returnType="N/A"/>
+      </operations>
+      <operations id="502" active="true">
+        <signature name="x_C_POS__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="505" active="true">
+        <signature name="x_U_POSTerminal__isAutoLock" returnType="N/A"/>
+      </operations>
+      <operations id="517" active="true">
+        <signature name="x_M_ProductPrice__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="524" active="true">
+        <signature name="x_M_Locator__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="526" active="true">
+        <signature name="x_M_Product_Category__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="528" active="true">
+        <signature name="x_C_TaxCategory__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="529" active="true">
+        <signature name="x_C_RevenueRecognition__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="535" active="true">
+        <signature name="mCost__create" returnType="N/A">
+          <paramTypes>org.compiere.model.MClient</paramTypes>
+        </signature>
+      </operations>
+      <operations id="538" active="true">
+        <signature name="mAcctProcessor__deleteLog" returnType="N/A"/>
+      </operations>
+      <operations id="539" active="true">
+        <signature name="x_C_AcctProcessorLog__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="540" active="true">
+        <signature name="pO__setAD_Client_ID" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="542" active="true">
+        <signature name="x_C_AcctProcessorLog__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="543" active="true">
+        <signature name="pO__get_LOB" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="546" active="true">
+        <signature name="x_C_AcctProcessor__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="552" active="true">
+        <signature name="x_C_BPartner_Location__isBillTo" returnType="N/A"/>
+      </operations>
+      <operations id="553" active="true">
+        <signature name="x_C_BPartner_Location__isShipTo" returnType="N/A"/>
+      </operations>
+      <operations id="561" active="true">
+        <signature name="x_AD_Org__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="1" active="true">
+        <signature name="x_AD_ClientInfo__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="2" active="true">
+        <signature name="x_C_AcctSchema__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="3" active="true">
+        <signature name="x_AD_Workflow__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="5" active="true">
+        <signature name="x_AD_WF_Node__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="12" active="true">
+        <signature name="x_R_Request__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="13" active="true">
+        <signature name="mRequest__createPDF" returnType="N/A"/>
+      </operations>
+      <operations id="14" active="true">
+        <signature name="x_AD_Client__isServerEMail" returnType="N/A"/>
+      </operations>
+      <operations id="17" active="true">
+        <signature name="x_AD_Client__isSmtpAuthorization" returnType="N/A"/>
+      </operations>
+      <operations id="18" active="true">
+        <signature name="mClient__createEMail" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="19" active="true">
+        <signature name="mClient__createEMail" returnType="N/A">
+          <paramTypes>org.compiere.model.MUser</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="20" active="true">
+        <signature name="mClient__createEMail" returnType="N/A">
+          <paramTypes>org.compiere.model.MUser</paramTypes>
+          <paramTypes>org.compiere.model.MUser</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="23" active="true">
+        <signature name="x_AD_UserMail__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="25" active="true">
+        <signature name="x_AD_UserMail__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="26" active="true">
+        <signature name="mClient__sendEmailNow" returnType="N/A">
+          <paramTypes>org.compiere.model.MUser</paramTypes>
+          <paramTypes>org.compiere.model.MUser</paramTypes>
+          <paramTypes>org.compiere.util.EMail</paramTypes>
+        </signature>
+      </operations>
+      <operations id="27" active="true">
+        <signature name="mClient__sendEMailAttachments" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.util.Collection</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="28" active="true">
+        <signature name="mClient__sendEMailAttachments" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.util.Collection</paramTypes>
+        </signature>
+      </operations>
+      <operations id="29" active="true">
+        <signature name="mClient__sendEMail" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.io.File</paramTypes>
+        </signature>
+      </operations>
+      <operations id="33" active="true">
+        <signature name="mRequestProcessor__deleteLog" returnType="N/A"/>
+      </operations>
+      <operations id="34" active="true">
+        <signature name="x_R_RequestProcessorLog__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="35" active="true">
+        <signature name="x_R_RequestProcessorLog__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="37" active="true">
+        <signature name="x_R_RequestProcessor__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="42" active="true">
+        <signature name="x_AD_WorkflowProcessorLog__initPO" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="43" active="true">
+        <signature name="x_AD_WorkflowProcessorLog__get_AccessLevel" returnType="N/A"/>
+      </operations>
+      <operations id="45" active="true">
+        <signature name="x_AD_WorkflowProcessor__get_AccessLevel" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="4" active="true" name="PosteritaLogicRest__T" packageName="org.posterita">
+      <operations id="61" active="true">
+        <signature name="struts_core_baseForm__keysToSkip" returnType="N/A"/>
+      </operations>
+      <operations id="62" active="true">
+        <signature name="struts_core_baseForm__mapRepresentation" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="63" active="true">
+        <signature name="struts_core_baseForm__getFormatter" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Class</paramTypes>
+        </signature>
+      </operations>
+      <operations id="64" active="true">
+        <signature name="formatter_defaultFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="65" active="true">
+        <signature name="struts_core_baseForm__convert" returnType="N/A">
+          <paramTypes>java.lang.Class</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="66" active="true">
+        <signature name="struts_core_baseForm__validateRequired" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="67" active="true">
+        <signature name="struts_core_baseForm__validateRange" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="68" active="true">
+        <signature name="struts_core_baseForm__validateEmail" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="69" active="true">
+        <signature name="struts_core_baseForm__validateLength" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="70" active="true">
+        <signature name="struts_core_baseForm__validateImageFileExtension" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="71" active="true">
+        <signature name="struts_core_baseForm__validateMatchFields" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="72" active="true">
+        <signature name="struts_core_baseForm__validateCustomerNumber" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="73" active="true">
+        <signature name="struts_core_baseForm__validateDateFields" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="74" active="true">
+        <signature name="struts_core_baseForm__validateCreditCardExpiryDateFields" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="75" active="true">
+        <signature name="struts_core_baseForm__validateCVVField" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="76" active="true">
+        <signature name="struts_core_baseForm__validateAccountField" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="77" active="true">
+        <signature name="struts_core_baseForm__validateCreditCardField" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="78" active="true">
+        <signature name="struts_core_baseForm__populateProperty" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.Map</paramTypes>
+        </signature>
+      </operations>
+      <operations id="84" active="true">
+        <signature name="formatter_stringFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="85" active="true">
+        <signature name="formatter_integerFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="123" active="true">
+        <signature name="formatter_booleanFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="124" active="true">
+        <signature name="struts_core_baseForm__populate" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="125" active="true">
+        <signature name="struts_core_baseForm__validate" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="128" active="true">
+        <signature name="pos_taglib_messageTag__isPrinting" returnType="N/A"/>
+      </operations>
+      <operations id="129" active="true">
+        <signature name="pos_taglib_messageTag__isTextOnly" returnType="N/A"/>
+      </operations>
+      <operations id="130" active="true">
+        <signature name="pos_taglib_messageTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="131" active="true">
+        <signature name="pos_taglib_messageTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="133" active="true">
+        <signature name="struts_core_baseDispatchAction__init" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="140" active="true">
+        <signature name="businesslogic_loginManager__load" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="191" active="true">
+        <signature name="businesslogic_loginManager__get" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="211" active="true">
+        <signature name="businesslogic_loginManager__checkLoginPassword" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.beans.LoginBean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="214" active="true">
+        <signature name="user_webUserInfo__getRoles" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="216" active="true">
+        <signature name="businesslogic_loginManager__login" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.compiere.util.WebUser</paramTypes>
+        </signature>
+      </operations>
+      <operations id="281" active="true">
+        <signature name="core_configuration__load" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="282" active="true">
+        <signature name="core_configuration__save" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="284" active="true">
+        <signature name="businesslogic_menuManager__createParentMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="288" active="true">
+        <signature name="factory_pOSMenuFactory__setFields" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="299" active="true">
+        <signature name="factory_abstractFactory__put" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="300" active="true">
+        <signature name="factory_abstractFactory__add" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="301" active="true">
+        <signature name="businesslogic_menuManager__createSubMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="322" active="true">
+        <signature name="factory_pOSMenuFactory__loadCashSalesMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="323" active="true">
+        <signature name="businesslogic_menuManager__createSubMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="344" active="true">
+        <signature name="factory_pOSMenuFactory__loadCreditSalesMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="346" active="true">
+        <signature name="factory_pOSMenuFactory__loadPurchasesMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="347" active="true">
+        <signature name="factory_pOSMenuFactory__loadPerformanceAnalysisMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="370" active="true">
+        <signature name="factory_pOSMenuFactory__loadStockMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="399" active="true">
+        <signature name="struts_core_baseAction__postGlobalError" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="400" active="true">
+        <signature name="struts_core_baseDispatchAction__postGlobalError" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.Object</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="401" active="true">
+        <signature name="struts_login_goToHomePageAction__goToHomePage" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="445" active="true">
+        <signature name="factory_pOSMenuFactory__loadAdministrationMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="446" active="true">
+        <signature name="struts_login_goToHomePageAction__initChooseApplication" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="447" active="true">
+        <signature name="factory_pOSMenuFactory__loadHelpMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="448" active="true">
+        <signature name="businesslogic_performanceanalysis_pOSReportManager__loadReports" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="449" active="true">
+        <signature name="businesslogic_performanceanalysis_pOSReportManager__loadReports" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="450" active="true">
+        <signature name="factory_pOSMenuFactory__loadReportsMenu" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="451" active="true">
+        <signature name="factory_pOSMenuFactory__loadFactory" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.factory.AbstractFactory</paramTypes>
+        </signature>
+      </operations>
+      <operations id="452" active="true">
+        <signature name="factory_pOSMenuFactory__loadFactory" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="491" active="true">
+        <signature name="businesslogic_pOSTerminalManager__getTerminal" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="493" active="true">
+        <signature name="businesslogic_menuManager__rewriteMenuURL" returnType="N/A">
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="497" active="true">
+        <signature name="core_menuItem__addSubMenu" returnType="N/A">
+          <paramTypes>org.posterita.posteritaLogicRest.core.MenuItem</paramTypes>
+        </signature>
+      </operations>
+      <operations id="498" active="true">
+        <signature name="businesslogic_menuManager__buildMenuTree" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="499" active="true">
+        <signature name="core_menuItem__getMenus" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="500" active="true">
+        <signature name="core_sessionStorage__putMenus" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="503" active="true">
+        <signature name="businesslogic_pOSTerminalManager__migrateOldPOSTerminal" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="504" active="true">
+        <signature name="businesslogic_administration_taxManager__loadTax" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="506" active="true">
+        <signature name="struts_login_pOSLoginAction__success" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="507" active="true">
+        <signature name="businesslogic_administration_productManager__searchProducts" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="508" active="true">
+        <signature name="struts_pos_searchProductAction__execute" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="509" active="true">
+        <signature name="formatter_bigDecimalFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="510" active="true">
+        <signature name="formatter_doubleFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="511" active="true">
+        <signature name="formatter_stringArrayFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="513" active="true">
+        <signature name="formatter_arrayListFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="514" active="true">
+        <signature name="businesslogic_stock_stockManager__validateProductUOMQuantityPrecision" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="515" active="true">
+        <signature name="businesslogic_stock_stockManager__findItem" returnType="N/A">
+          <paramTypes>org.posterita.posteritaLogicRest.beans.ItemBean</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+        </signature>
+      </operations>
+      <operations id="516" active="true">
+        <signature name="businesslogic_stock_stockManager__addToItemList" returnType="N/A">
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="518" active="true">
+        <signature name="core_utils_formatBigDecimal__currency" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="519" active="true">
+        <signature name="businesslogic_stock_stockManager__addToPOSCart" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.beans.OrderLineBean</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.beans.ShoppingCartBean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="520" active="true">
+        <signature name="struts_pos_pOSOrderAction__addToShoppingCart" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="521" active="true">
+        <signature name="businesslogic_shoppingcartManager__getShoppingcartAsHTML" returnType="N/A">
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="522" active="true">
+        <signature name="struts_pos_pOSOrderAction__incrementQty" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="523" active="true">
+        <signature name="struts_pos_pOSDispatchAction__init" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="525" active="true">
+        <signature name="businesslogic_administration_roleManager__isEditable" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="527" active="true">
+        <signature name="businesslogic_administration_productManager__isProductImagePresent" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="530" active="true">
+        <signature name="businesslogic_pOSProductManager__viewPOSProduct" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="531" active="true">
+        <signature name="businesslogic_pOSProductManager__viewPOSProduct" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="547" active="true">
+        <signature name="formatter_booleanArrayFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="548" active="true">
+        <signature name="formatter_bigDecimalArrayFormatter__unformat" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="549" active="true">
+        <signature name="form_checkoutForm__validate" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        </signature>
+      </operations>
+      <operations id="550" active="true">
+        <signature name="businesslogic_pOSManager__firstOrderOfTheDay" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="551" active="true">
+        <signature name="businesslogic_cashManager__closePreviousDraftedCashjournals" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="554" active="true">
+        <signature name="util_poManager__save" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="555" active="true">
+        <signature name="businesslogic_orderManager__createOrder" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="556" active="true">
+        <signature name="businesslogic_orderManager__createOrderLine" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.compiere.model.MOrder</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="557" active="true">
+        <signature name="util_poManager__validatePO" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+        </signature>
+      </operations>
+      <operations id="558" active="true">
+        <signature name="util_poManager__processIt" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="559" active="true">
+        <signature name="businesslogic_pOSManager__checkoutOrder" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.beans.CheckoutBean</paramTypes>
+          <paramTypes>java.util.ArrayList</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="560" active="true">
+        <signature name="struts_pos_pOSOrderAction__checkout" returnType="N/A">
+          <paramTypes>org.apache.struts.action.ActionMapping</paramTypes>
+          <paramTypes>org.apache.struts.action.ActionForm</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="562" active="true">
+        <signature name="core_configuration__isCustomerCompulsory" returnType="N/A"/>
+      </operations>
+      <operations id="563" active="true">
+        <signature name="businesslogic_pOSTerminalManager__isTerminalLocked" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="564" active="true">
+        <signature name="businesslogic_pOSTerminalManager__isTerminalLocked" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="565" active="true">
+        <signature name="beans_itemBean__equals" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+      <operations id="566" active="true">
+        <signature name="beans_itemBean__updateQuantity" returnType="N/A">
+          <paramTypes>org.posterita.posteritaLogicRest.beans.ItemBean</paramTypes>
+          <paramTypes>org.posterita.posteritaLogicRest.beans.ItemBean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="5" active="true" name="WebstoreRest__T" packageName="org.compiere">
+      <operations id="86" active="true">
+        <signature name="priceList__getM_PriceList_ID" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="87" active="true">
+        <signature name="priceList__getM_PriceList_Version_ID" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.sql.Timestamp</paramTypes>
+        </signature>
+      </operations>
+      <operations id="88" active="true">
+        <signature name="priceList__loadProducts" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="89" active="true">
+        <signature name="priceList__toString" returnType="N/A"/>
+      </operations>
+      <operations id="90" active="true">
+        <signature name="priceListTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="91" active="true">
+        <signature name="priceListTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="92" active="true">
+        <signature name="loginLinkTag__getWebUser" returnType="N/A">
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="95" active="true">
+        <signature name="loginLinkTag__getLoginLink" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="96" active="true">
+        <signature name="loginLinkTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="97" active="true">
+        <signature name="loginLinkTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="98" active="true">
+        <signature name="checkOutLinkTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="99" active="true">
+        <signature name="checkOutLinkTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="101" active="true">
+        <signature name="infoLinkTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="102" active="true">
+        <signature name="infoLinkTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="105" active="true">
+        <signature name="productCategoryListTag__getCategories" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="106" active="true">
+        <signature name="productCategoryListTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="107" active="true">
+        <signature name="productCategoryListTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="108" active="true">
+        <signature name="priceList__isNotAllPrices" returnType="N/A"/>
+      </operations>
+      <operations id="109" active="true">
+        <signature name="priceList__isNoLines" returnType="N/A"/>
+      </operations>
+      <operations id="120" active="true">
+        <signature name="messageTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="121" active="true">
+        <signature name="messageTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="122" active="true">
+        <signature name="storeFilter__doFilter" returnType="N/A">
+          <paramTypes>javax.servlet.ServletRequest</paramTypes>
+          <paramTypes>javax.servlet.ServletResponse</paramTypes>
+          <paramTypes>javax.servlet.FilterChain</paramTypes>
+        </signature>
+      </operations>
+      <operations id="132" active="true">
+        <signature name="checkOutServlet__doGet" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="205" active="true">
+        <signature name="locationTag__getCountryID" returnType="N/A">
+          <paramTypes>org.compiere.model.MLocation</paramTypes>
+        </signature>
+      </operations>
+      <operations id="206" active="true">
+        <signature name="locationTag__getRegionID" returnType="N/A">
+          <paramTypes>org.compiere.model.MLocation</paramTypes>
+        </signature>
+      </operations>
+      <operations id="274" active="true">
+        <signature name="locationTag__getCountries" returnType="N/A">
+          <paramTypes>org.compiere.model.MLocation</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="277" active="true">
+        <signature name="locationTag__getRegions" returnType="N/A">
+          <paramTypes>org.compiere.model.MLocation</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="278" active="true">
+        <signature name="locationTag__doStartTag" returnType="N/A"/>
+      </operations>
+      <operations id="279" active="true">
+        <signature name="locationTag__doEndTag" returnType="N/A"/>
+      </operations>
+      <operations id="280" active="true">
+        <signature name="loginServlet__doPost" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="308" active="true">
+        <signature name="loginServlet__doGet" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="309" active="true">
+        <signature name="basketServlet__deleteLine" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>org.compiere.webstoreRest.WebBasket</paramTypes>
+        </signature>
+      </operations>
+      <operations id="311" active="true">
+        <signature name="webBasketLine__setM_Product_ID" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="312" active="true">
+        <signature name="webBasketLine__setName" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="313" active="true">
+        <signature name="webBasketLine__setPrice" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="314" active="true">
+        <signature name="webBasketLine__setLine" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="315" active="true">
+        <signature name="webBasket__add" returnType="N/A">
+          <paramTypes>org.compiere.webstoreRest.WebBasketLine</paramTypes>
+        </signature>
+      </operations>
+      <operations id="316" active="true">
+        <signature name="webBasket__add" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="317" active="true">
+        <signature name="webBasketLine__toString" returnType="N/A"/>
+      </operations>
+      <operations id="318" active="true">
+        <signature name="basketServlet__addLine" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>org.compiere.webstoreRest.PriceList</paramTypes>
+          <paramTypes>org.compiere.webstoreRest.WebBasket</paramTypes>
+        </signature>
+      </operations>
+      <operations id="319" active="true">
+        <signature name="webBasket__toString" returnType="N/A"/>
+      </operations>
+      <operations id="320" active="true">
+        <signature name="basketServlet__doGet" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="321" active="true">
+        <signature name="basketServlet__doPost" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="327" active="true">
+        <signature name="loginLinkTag__getWelcomeLink" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>org.compiere.util.WebUser</paramTypes>
+        </signature>
+      </operations>
+      <operations id="329" active="true">
+        <signature name="infoLinkTag__nl" returnType="N/A">
+          <paramTypes>org.compiere.util.HtmlCode</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="335" active="true">
+        <signature name="infoLinkTag__menuBPartner" returnType="N/A">
+          <paramTypes>org.compiere.util.HtmlCode</paramTypes>
+          <paramTypes>org.compiere.model.MStore</paramTypes>
+        </signature>
+      </operations>
+      <operations id="343" active="true">
+        <signature name="infoLinkTag__menuAll" returnType="N/A">
+          <paramTypes>org.compiere.util.HtmlCode</paramTypes>
+          <paramTypes>org.compiere.model.MStore</paramTypes>
+        </signature>
+      </operations>
+      <operations id="345" active="true">
+        <signature name="webBasketLine__addQuantity" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="389" active="true">
+        <signature name="orderServlet__getOrder" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>java.util.Properties</paramTypes>
+        </signature>
+      </operations>
+      <operations id="481" active="true">
+        <signature name="webOrder__createOrder" returnType="N/A">
+          <paramTypes>org.compiere.util.WebUser</paramTypes>
+          <paramTypes>org.compiere.webstoreRest.WebBasket</paramTypes>
+        </signature>
+      </operations>
+      <operations id="482" active="true">
+        <signature name="webOrder__isInProgress" returnType="N/A"/>
+      </operations>
+      <operations id="483" active="true">
+        <signature name="webOrder__isCompleted" returnType="N/A"/>
+      </operations>
+      <operations id="512" active="true">
+        <signature name="orderServlet__doPost" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="6" active="true" name="Wf__T" packageName="org.compiere">
+      <operations id="261" active="true">
+        <signature name="docWorkflowManager__process" returnType="N/A">
+          <paramTypes>org.compiere.model.PO</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="4" active="true">
+        <signature name="mWorkflow__loadTrl" returnType="N/A"/>
+      </operations>
+      <operations id="6" active="true">
+        <signature name="mWFNode__loadNext" returnType="N/A"/>
+      </operations>
+      <operations id="7" active="true">
+        <signature name="mWFNode__loadTrl" returnType="N/A"/>
+      </operations>
+      <operations id="8" active="true">
+        <signature name="mWorkflow__loadNodes" returnType="N/A"/>
+      </operations>
+      <operations id="41" active="true">
+        <signature name="mWorkflowProcessor__deleteLog" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="7" active="true" name="Process__T" packageName="org.compiere">
+      <operations id="466" active="true">
+        <signature name="documentEngine__isInvalid" returnType="N/A"/>
+      </operations>
+      <operations id="467" active="true">
+        <signature name="documentEngine__isDrafted" returnType="N/A"/>
+      </operations>
+      <operations id="468" active="true">
+        <signature name="documentEngine__isValidAction" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="476" active="true">
+        <signature name="documentEngine__prepareIt" returnType="N/A"/>
+      </operations>
+      <operations id="477" active="true">
+        <signature name="documentEngine__processIt" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="478" active="true">
+        <signature name="documentEngine__processIt" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="8" active="true" name="Server__T" packageName="org.compiere">
+      <operations id="532" active="true">
+        <signature name="adempiereServer__sleep" returnType="N/A"/>
+      </operations>
+      <operations id="534" active="true">
+        <signature name="acctProcessor__postSession" returnType="N/A"/>
+      </operations>
+      <operations id="544" active="true">
+        <signature name="acctProcessor__doWork" returnType="N/A"/>
+      </operations>
+      <operations id="545" active="true">
+        <signature name="adempiereServer__calculateSleep" returnType="N/A"/>
+      </operations>
+      <operations id="9" active="true">
+        <signature name="requestProcessor__processEMail" returnType="N/A"/>
+      </operations>
+      <operations id="10" active="true">
+        <signature name="requestProcessor__findSalesRep" returnType="N/A"/>
+      </operations>
+      <operations id="11" active="true">
+        <signature name="requestProcessor__processStatus" returnType="N/A"/>
+      </operations>
+      <operations id="30" active="true">
+        <signature name="requestProcessor__sendEmail" returnType="N/A">
+          <paramTypes>org.compiere.model.MRequest</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="31" active="true">
+        <signature name="requestProcessor__processRequests" returnType="N/A"/>
+      </operations>
+      <operations id="32" active="true">
+        <signature name="requestProcessor__processECR" returnType="N/A"/>
+      </operations>
+      <operations id="36" active="true">
+        <signature name="requestProcessor__doWork" returnType="N/A"/>
+      </operations>
+      <operations id="38" active="true">
+        <signature name="workflowProcessor__wakeup" returnType="N/A"/>
+      </operations>
+      <operations id="39" active="true">
+        <signature name="workflowProcessor__dynamicPriority" returnType="N/A"/>
+      </operations>
+      <operations id="40" active="true">
+        <signature name="workflowProcessor__sendAlerts" returnType="N/A"/>
+      </operations>
+      <operations id="44" active="true">
+        <signature name="workflowProcessor__doWork" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="9" active="true" name="Acct__T" packageName="org.compiere">
+      <operations id="533" active="true">
+        <signature name="doc__fillDocumentsTableArrays" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <executionContainerTypes active="true" name="appsrv-0__T" packageName="">
+      <resources id="1" name="cpu0" resourceType="//@typeRepositoryModel/@resourceTypes.0"/>
+      <resources xsi:type="metamodel.executionEnvironment:MemSwapResourceSpecification" id="2" name="memSwap" resourceType="//@typeRepositoryModel/@resourceTypes.1" memCapacityBytes="2111254528"/>
+    </executionContainerTypes>
+    <resourceTypes xsi:type="metamodel.typeRepository.resourceTypes:CPUType" name="CPU_RESOURCE_TYPE" packageName="DEFAULT"/>
+    <resourceTypes xsi:type="metamodel.typeRepository.resourceTypes:MemSwapType" id="1" name="MEMSWAP_RESOURCE_TYPE" packageName="DEFAULT"/>
+  </typeRepositoryModel>
+  <componentAssemblyModel>
+    <assemblyComponents active="true" name="Util" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.0"/>
+    <assemblyComponents id="1" active="true" name="DbPort" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.1"/>
+    <assemblyComponents id="2" active="true" name="Db" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.2"/>
+    <assemblyComponents id="3" active="true" name="Model" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.3"/>
+    <assemblyComponents id="4" active="true" name="PosteritaLogicRest" packageName="org.posterita" componentType="//@typeRepositoryModel/@componentTypes.4"/>
+    <assemblyComponents id="5" active="true" name="WebstoreRest" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.5"/>
+    <assemblyComponents id="6" active="true" name="Wf" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.6"/>
+    <assemblyComponents id="7" active="true" name="Process" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.7"/>
+    <assemblyComponents id="8" active="true" name="Server" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.8"/>
+    <assemblyComponents id="9" active="true" name="Acct" packageName="org.compiere" componentType="//@typeRepositoryModel/@componentTypes.9"/>
+  </componentAssemblyModel>
+  <componentDeploymentModel>
+    <deploymentComponents active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="1" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.1" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="2" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.2" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="3" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.3" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="4" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.4" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="5" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.5" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="6" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.6" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="7" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.7" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="8" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.8" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="9" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.9" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+  </componentDeploymentModel>
+  <executionEnvironmentModel>
+    <executionContainers active="true" name="appsrv-0" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0">
+      <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.0"/>
+      <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.1"/>
+    </executionContainers>
+  </executionEnvironmentModel>
+</metamodel.core:SystemModel>
