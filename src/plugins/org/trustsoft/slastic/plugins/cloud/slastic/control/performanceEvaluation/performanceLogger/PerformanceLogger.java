@@ -7,10 +7,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.p
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceMeasureLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentAvgRTsLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentInvocationCountLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentOperationExecutionCountLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentAvgRTsLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentInvocationCountLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationExecutionCountLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerCPUUtilizationLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerMemSwapUsageLogger;
 import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerResourceUtilizationLogger;
@@ -53,22 +50,30 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 	 * 
 	 */
 	private void startLoggers() {
+		/**
+		 * TODO: Re-activate loggers as soon as problem with the number of 
+		 *       File handles has been resolved
+		 */
 		/* 1. DeploymentComponentAvgRTsLogger */
-		final DeploymentComponentAvgRTsLogger deploymentComponentAvgRTsLogger =
-				new DeploymentComponentAvgRTsLogger(this.createLoggerContext(
-						DeploymentComponentAvgRTsLogger.class, this.winTimeSec,
-						this.outputIntervalSec), this.winTimeSec,
-						this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(deploymentComponentAvgRTsLogger);
+//		final DeploymentComponentAvgRTsLogger deploymentComponentAvgRTsLogger =
+//				new DeploymentComponentAvgRTsLogger(this.createLoggerContext(
+//						DeploymentComponentAvgRTsLogger.class, this.winTimeSec,
+//						this.outputIntervalSec), this.winTimeSec,
+//						this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(deploymentComponentAvgRTsLogger);
 
-		/* 2. DeploymentComponentOperationExecutionCountLogger */
-		final DeploymentComponentOperationExecutionCountLogger deploymentComponentOperationExecutionCountLogger =
-				new DeploymentComponentOperationExecutionCountLogger(
-						this.createLoggerContext(
-								DeploymentComponentOperationExecutionCountLogger.class,
-								this.winTimeSec, this.outputIntervalSec),
-						this.winTimeSec, this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(deploymentComponentOperationExecutionCountLogger);
+		/**
+		 * TODO: Re-activate loggers as soon as problem with the number of 
+		 *       File handles has been resolved
+		 */
+//		/* 2. DeploymentComponentOperationExecutionCountLogger */
+//		final DeploymentComponentOperationExecutionCountLogger deploymentComponentOperationExecutionCountLogger =
+//				new DeploymentComponentOperationExecutionCountLogger(
+//						this.createLoggerContext(
+//								DeploymentComponentOperationExecutionCountLogger.class,
+//								this.winTimeSec, this.outputIntervalSec),
+//						this.winTimeSec, this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(deploymentComponentOperationExecutionCountLogger);
 		
 		/* 3. DeploymentComponentInvocationCountLogger */
 		final DeploymentComponentInvocationCountLogger deploymentComponentInvocationCountLogger =
@@ -87,14 +92,18 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentAvgRTsLogger);
 
-		/* 5. AssemblyComponentOperationExecutionCountLogger */
-		final AssemblyComponentOperationExecutionCountLogger assemblyComponentOperationExecutionCountLogger =
-				new AssemblyComponentOperationExecutionCountLogger(
-						this.createLoggerContext(
-								AssemblyComponentOperationExecutionCountLogger.class,
-								this.winTimeSec, this.outputIntervalSec),
-						this.winTimeSec, this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(assemblyComponentOperationExecutionCountLogger);
+		/**
+		 * TODO: Re-activate loggers as soon as problem with the number of 
+		 *       File handles has been resolved
+		 */		
+//		/* 5. AssemblyComponentOperationExecutionCountLogger */
+//		final AssemblyComponentOperationExecutionCountLogger assemblyComponentOperationExecutionCountLogger =
+//				new AssemblyComponentOperationExecutionCountLogger(
+//						this.createLoggerContext(
+//								AssemblyComponentOperationExecutionCountLogger.class,
+//								this.winTimeSec, this.outputIntervalSec),
+//						this.winTimeSec, this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(assemblyComponentOperationExecutionCountLogger);
 
 		/* 6. AssemblyComponentInvocationCountLogger */
 		final AssemblyComponentInvocationCountLogger assemblyComponentInvocationCountLogger =

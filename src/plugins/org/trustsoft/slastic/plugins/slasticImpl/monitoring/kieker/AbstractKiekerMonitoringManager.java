@@ -1,9 +1,9 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import kieker.analysis.AnalysisController;
+import kieker.analysis.AnalysisControllerThread;
 import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
 import kieker.analysis.reader.namedRecordPipe.PipeReader;
-import kieker.common.namedRecordPipe.Pipe;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,29 +55,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 		return this.kiekerNamedRecordPipeReader != null;
 	}
 
-	private class KiekerAnalysisTask extends Thread {
-		private final AnalysisController analysisInstance;
-
-		@SuppressWarnings("unused")
-		/* * Must not be used for construction. */
-		private KiekerAnalysisTask() {
-			this.analysisInstance = null;
-		}
-
-		public KiekerAnalysisTask(final AnalysisController analysisController) {
-			this.analysisInstance = analysisController;
-		}
-
-		@Override
-		public void run() {
-			if (!this.analysisInstance.run()) {
-				AbstractKiekerMonitoringManager.log
-						.error("Analysis returned with error");
-			}
-		}
-
-	}
-
+	private volatile AnalysisControllerThread analysisControllerThread = null;
+	
 	private boolean spawnKiekerAnalysis() {
 		/** Is initialized in {@link #execute()} */
 		final AnalysisController analysisInstance = new AnalysisController();
@@ -91,7 +70,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 		/** Spawn analysis instance */
 		AbstractKiekerMonitoringManager.log
 				.debug("Spawning Kieker analysis instance");
-		(new KiekerAnalysisTask(analysisInstance)).start();
+		this.analysisControllerThread = new AnalysisControllerThread(analysisInstance);
+		this.analysisControllerThread.start();
 
 		return true;
 	}
@@ -158,9 +138,8 @@ public abstract class AbstractKiekerMonitoringManager extends
 		AbstractKiekerMonitoringManager.log
 				.debug("Terminating the internal Kieker analysis instance by closing the named record pipe ");
 		try {
-			final Pipe p = this.kiekerNamedRecordPipeReader.getPipe();
-			if (p != null) {
-				p.close();
+			if (this.analysisControllerThread != null) {
+				this.analysisControllerThread.terminate();
 			}
 			this.concreteTerminate(error);
 		} catch (final Exception e) {
