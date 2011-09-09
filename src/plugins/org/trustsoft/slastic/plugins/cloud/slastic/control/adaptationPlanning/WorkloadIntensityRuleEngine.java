@@ -107,7 +107,7 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 		final ExecutionContainerType executionContainerType =
 				this.modelManager.getTypeRepositoryManager().lookupExecutionContainerType(fqExecutionContainerTypeName);
 		if (executionContainerType == null) {
-			WorkloadIntensityRuleEngine.log.error("Failed to lookup execution container with name '"
+			WorkloadIntensityRuleEngine.log.error("Failed to lookup execution container type with name '"
 					+ fqExecutionContainerTypeName + "'");
 			return;
 		}

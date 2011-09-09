@@ -130,8 +130,6 @@
     <eClassifiers xsi:type="ecore:EClass" name="Interface" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="signatures" ordered="false"
           upperBound="-1" eType="#//typeRepository/Signature" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="attribute1" ordered="false"
-          lowerBound="1"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Signature" eSuperTypes="#//core/NamedEntity">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="paramTypes" ordered="false"

@@ -1583,7 +1583,6 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_T_koUYYcEeCT5-op6hhvRg" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T_koUIYcEeCT5-op6hhvRg"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_EDdo4No6EeCt4bZH5yXw5Q" name="attribute1" visibility="private"/>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_sN020J8DEd-l1J3OQ8v6iQ" name="ExecutionContainerType">
         <generalization xmi:id="_zxXgwJ8DEd-l1J3OQ8v6iQ" general="_LsnOYJ8DEd-l1J3OQ8v6iQ"/>

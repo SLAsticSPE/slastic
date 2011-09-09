@@ -389,7 +389,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final EucalyptusCommand deallocateNodeCommand =
 				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
 
-		if (this.configuration.isDummyModeEnabled()) {
+		if (!this.configuration.isDummyModeEnabled()) {
 			// spawn execution of shutdown command with given delay
 			executer.executeCommandWithEnvAndDelayAsync(deallocateNodeCommand, this.configuration.getEucatoolsPath(),
 					this.configuration.getNodeShutDownDelaySeconds() * 1000);
