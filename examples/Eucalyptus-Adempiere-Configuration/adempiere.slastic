@@ -2984,7 +2984,7 @@
         <signature name="doc__fillDocumentsTableArrays" returnType="N/A"/>
       </operations>
     </componentTypes>
-    <executionContainerTypes active="true" name="appsrv-0__T" packageName="">
+    <executionContainerTypes active="true" name="appsrv__T" packageName="">
       <resources id="1" name="cpu0" resourceType="//@typeRepositoryModel/@resourceTypes.0"/>
       <resources xsi:type="metamodel.executionEnvironment:MemSwapResourceSpecification" id="2" name="memSwap" resourceType="//@typeRepositoryModel/@resourceTypes.1" memCapacityBytes="2111254528"/>
     </executionContainerTypes>
