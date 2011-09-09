@@ -3,8 +3,6 @@ package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructi
 import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.OperationExecutionRecord;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
@@ -29,7 +27,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 
 	private final int componentDiscoveryHierarchyLevel;
 
-	private static final Log log = LogFactory.getLog(ExecutionRecordTransformationFilter.class);
+	//private static final Log log = LogFactory.getLog(ExecutionRecordTransformationFilter.class);
 
 	/**
 	 * 
