@@ -216,6 +216,15 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAssemblyComponent_RequiringConnectors() {
+		return (EReference)assemblyComponentEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAssemblyConnector() {
 		return assemblyConnectorEClass;
 	}
@@ -236,6 +245,15 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 */
 	public EReference getAssemblyConnector_ProvidingComponent() {
 		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssemblyConnector_RequiringComponent() {
+		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -296,10 +314,12 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		assemblyComponentEClass = createEClass(ASSEMBLY_COMPONENT);
 		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__COMPONENT_TYPE);
 		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS);
+		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS);
 
 		assemblyConnectorEClass = createEClass(ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__CONNECTOR_TYPE);
 		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT);
+		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT);
 
 		componentAssemblyModelEClass = createEClass(COMPONENT_ASSEMBLY_MODEL);
 		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS);
@@ -345,11 +365,13 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		// Initialize classes and features; add operations and parameters
 		initEClass(assemblyComponentEClass, AssemblyComponent.class, "AssemblyComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyComponent_ComponentType(), theTypeRepositoryPackage.getComponentType(), null, "componentType", null, 1, 1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyComponent_ProvidingConnectors(), this.getAssemblyConnector(), null, "providingConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponent_ProvidingConnectors(), this.getAssemblyConnector(), this.getAssemblyConnector_RequiringComponent(), "providingConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponent_RequiringConnectors(), this.getAssemblyConnector(), this.getAssemblyConnector_ProvidingComponent(), "requiringConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(assemblyConnectorEClass, AssemblyConnector.class, "AssemblyConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyConnector_ConnectorType(), theTypeRepositoryPackage.getConnectorType(), null, "connectorType", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyConnector_ProvidingComponent(), this.getAssemblyComponent(), null, "providingComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyConnector_ProvidingComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_RequiringConnectors(), "providingComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyConnector_RequiringComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_ProvidingConnectors(), "requiringComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(componentAssemblyModelEClass, ComponentAssemblyModel.class, "ComponentAssemblyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentAssemblyModel_AssemblyComponents(), this.getAssemblyComponent(), null, "assemblyComponents", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

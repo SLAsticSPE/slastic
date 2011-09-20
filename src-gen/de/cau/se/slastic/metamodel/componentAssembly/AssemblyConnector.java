@@ -20,6 +20,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getConnectorType <em>Connector Type</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent <em>Providing Component</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent <em>Requiring Component</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,6 +57,7 @@ public interface AssemblyConnector extends FQNamedEntity {
 
 	/**
 	 * Returns the value of the '<em><b>Providing Component</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors <em>Requiring Connectors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Providing Component</em>' reference isn't clear,
@@ -65,7 +67,8 @@ public interface AssemblyConnector extends FQNamedEntity {
 	 * @return the value of the '<em>Providing Component</em>' reference.
 	 * @see #setProvidingComponent(AssemblyComponent)
 	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyConnector_ProvidingComponent()
-	 * @model required="true" ordered="false"
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors
+	 * @model opposite="requiringConnectors" required="true" ordered="false"
 	 * @generated
 	 */
 	AssemblyComponent getProvidingComponent();
@@ -79,5 +82,33 @@ public interface AssemblyConnector extends FQNamedEntity {
 	 * @generated
 	 */
 	void setProvidingComponent(AssemblyComponent value);
+
+	/**
+	 * Returns the value of the '<em><b>Requiring Component</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getProvidingConnectors <em>Providing Connectors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Requiring Component</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Requiring Component</em>' reference.
+	 * @see #setRequiringComponent(AssemblyComponent)
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyConnector_RequiringComponent()
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getProvidingConnectors
+	 * @model opposite="providingConnectors" required="true" ordered="false"
+	 * @generated
+	 */
+	AssemblyComponent getRequiringComponent();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent <em>Requiring Component</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Requiring Component</em>' reference.
+	 * @see #getRequiringComponent()
+	 * @generated
+	 */
+	void setRequiringComponent(AssemblyComponent value);
 
 } // AssemblyConnector

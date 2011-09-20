@@ -16,6 +16,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
@@ -30,6 +31,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl#getConnectorType <em>Connector Type</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl#getProvidingComponent <em>Providing Component</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl#getRequiringComponent <em>Requiring Component</em>}</li>
  * </ul>
  * </p>
  *
@@ -55,6 +57,16 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 	 * @ordered
 	 */
 	protected AssemblyComponent providingComponent;
+
+	/**
+	 * The cached value of the '{@link #getRequiringComponent() <em>Requiring Component</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRequiringComponent()
+	 * @generated
+	 * @ordered
+	 */
+	protected AssemblyComponent requiringComponent;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -144,11 +156,129 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setProvidingComponent(AssemblyComponent newProvidingComponent) {
+	public NotificationChain basicSetProvidingComponent(AssemblyComponent newProvidingComponent, NotificationChain msgs) {
 		AssemblyComponent oldProvidingComponent = providingComponent;
 		providingComponent = newProvidingComponent;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT, oldProvidingComponent, providingComponent));
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT, oldProvidingComponent, newProvidingComponent);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProvidingComponent(AssemblyComponent newProvidingComponent) {
+		if (newProvidingComponent != providingComponent) {
+			NotificationChain msgs = null;
+			if (providingComponent != null)
+				msgs = ((InternalEObject)providingComponent).eInverseRemove(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS, AssemblyComponent.class, msgs);
+			if (newProvidingComponent != null)
+				msgs = ((InternalEObject)newProvidingComponent).eInverseAdd(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS, AssemblyComponent.class, msgs);
+			msgs = basicSetProvidingComponent(newProvidingComponent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT, newProvidingComponent, newProvidingComponent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssemblyComponent getRequiringComponent() {
+		if (requiringComponent != null && requiringComponent.eIsProxy()) {
+			InternalEObject oldRequiringComponent = (InternalEObject)requiringComponent;
+			requiringComponent = (AssemblyComponent)eResolveProxy(oldRequiringComponent);
+			if (requiringComponent != oldRequiringComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT, oldRequiringComponent, requiringComponent));
+			}
+		}
+		return requiringComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssemblyComponent basicGetRequiringComponent() {
+		return requiringComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetRequiringComponent(AssemblyComponent newRequiringComponent, NotificationChain msgs) {
+		AssemblyComponent oldRequiringComponent = requiringComponent;
+		requiringComponent = newRequiringComponent;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT, oldRequiringComponent, newRequiringComponent);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRequiringComponent(AssemblyComponent newRequiringComponent) {
+		if (newRequiringComponent != requiringComponent) {
+			NotificationChain msgs = null;
+			if (requiringComponent != null)
+				msgs = ((InternalEObject)requiringComponent).eInverseRemove(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS, AssemblyComponent.class, msgs);
+			if (newRequiringComponent != null)
+				msgs = ((InternalEObject)newRequiringComponent).eInverseAdd(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS, AssemblyComponent.class, msgs);
+			msgs = basicSetRequiringComponent(newRequiringComponent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT, newRequiringComponent, newRequiringComponent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				if (providingComponent != null)
+					msgs = ((InternalEObject)providingComponent).eInverseRemove(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS, AssemblyComponent.class, msgs);
+				return basicSetProvidingComponent((AssemblyComponent)otherEnd, msgs);
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				if (requiringComponent != null)
+					msgs = ((InternalEObject)requiringComponent).eInverseRemove(this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS, AssemblyComponent.class, msgs);
+				return basicSetRequiringComponent((AssemblyComponent)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				return basicSetProvidingComponent(null, msgs);
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				return basicSetRequiringComponent(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
@@ -165,6 +295,9 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
 				if (resolve) return getProvidingComponent();
 				return basicGetProvidingComponent();
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				if (resolve) return getRequiringComponent();
+				return basicGetRequiringComponent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -182,6 +315,9 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 				return;
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
 				setProvidingComponent((AssemblyComponent)newValue);
+				return;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				setRequiringComponent((AssemblyComponent)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -201,6 +337,9 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
 				setProvidingComponent((AssemblyComponent)null);
 				return;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				setRequiringComponent((AssemblyComponent)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -217,6 +356,8 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 				return connectorType != null;
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
 				return providingComponent != null;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT:
+				return requiringComponent != null;
 		}
 		return super.eIsSet(featureID);
 	}

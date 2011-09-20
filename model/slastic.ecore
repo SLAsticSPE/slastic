@@ -231,13 +231,19 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ComponentType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="providingConnectors"
-          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyConnector"/>
+          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyConnector"
+          eOpposite="#//componentAssembly/AssemblyConnector/requiringComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requiringConnectors"
+          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyConnector"
+          eOpposite="#//componentAssembly/AssemblyConnector/providingComponent"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ConnectorType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="providingComponent" ordered="false"
-          lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/requiringConnectors"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requiringComponent" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/providingConnectors"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ComponentAssemblyModel" eSuperTypes="#//core/SLAsticModel">
       <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponents" ordered="false"

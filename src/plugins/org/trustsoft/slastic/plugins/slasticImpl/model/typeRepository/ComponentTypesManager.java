@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.util.SignatureUtils;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
@@ -17,13 +18,20 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 public class ComponentTypesManager extends
 		AbstractFQNamedEntityManager<ComponentType> implements
 		IComponentTypesManager {
+	
+	/**
+	 * 
+	 * @param componentTypes
+	 */
 	public ComponentTypesManager(final List<ComponentType> componentTypes) {
 		super(componentTypes);
+		// TODO: To fix the problem below, we should now determine the 
+		//       highest operation id existent in the model.
 	}
 
 	// TODO: I'm pretty sure we'll have problems with this when starting with a
 	// deserialized model
-	private volatile long nextId = 1;
+	private volatile long nextOperationId = 1;
 
 	@Override
 	public ComponentType lookupComponentType(final String fullyQualifiedName) {
@@ -64,16 +72,9 @@ public class ComponentTypesManager extends
 		res = TypeRepositoryFactory.eINSTANCE.createOperation();
 		res.setActive(true); // TODO: required?
 		res.setComponentType(componentType);
-		res.setId(this.nextId++);
-		final Signature signature =
-				TypeRepositoryFactory.eINSTANCE.createSignature();
-		signature.setName(operationName);
-		signature.setReturnType(returnType);
-
-		for (final String paramType : argTypes) {
-			signature.getParamTypes().add(paramType);
-		}
-
+		res.setId(this.nextOperationId++);
+		
+		final Signature signature = SignatureUtils.createSignature(operationName, argTypes, returnType);
 		res.setSignature(signature);
 
 		return res;

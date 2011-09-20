@@ -125,13 +125,22 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Requiring Connectors</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Assembly Component</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_COMPONENT_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+	int ASSEMBLY_COMPONENT_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
@@ -198,13 +207,22 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Assembly Connector</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl <em>Model</em>}' class.
@@ -277,6 +295,17 @@ public interface ComponentAssemblyPackage extends EPackage {
 	EReference getAssemblyComponent_ProvidingConnectors();
 
 	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors <em>Requiring Connectors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Requiring Connectors</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors()
+	 * @see #getAssemblyComponent()
+	 * @generated
+	 */
+	EReference getAssemblyComponent_RequiringConnectors();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector <em>Assembly Connector</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -307,6 +336,17 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAssemblyConnector_ProvidingComponent();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent <em>Requiring Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Requiring Component</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent()
+	 * @see #getAssemblyConnector()
+	 * @generated
+	 */
+	EReference getAssemblyConnector_RequiringComponent();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel <em>Model</em>}'.
@@ -389,6 +429,14 @@ public interface ComponentAssemblyPackage extends EPackage {
 		EReference ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS = eINSTANCE.getAssemblyComponent_ProvidingConnectors();
 
 		/**
+		 * The meta object literal for the '<em><b>Requiring Connectors</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS = eINSTANCE.getAssemblyComponent_RequiringConnectors();
+
+		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -413,6 +461,14 @@ public interface ComponentAssemblyPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT = eINSTANCE.getAssemblyConnector_ProvidingComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Requiring Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT = eINSTANCE.getAssemblyConnector_RequiringComponent();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl <em>Model</em>}' class.

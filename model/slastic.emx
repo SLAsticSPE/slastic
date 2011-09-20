@@ -4349,11 +4349,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-NqwdowEeCt4bZH5yXw5Q" type="FromMultiplicityLabel" element="_O4onMNowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-OR0NowEeCt4bZH5yXw5Q" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NqwtowEeCt4bZH5yXw5Q" x="612" y="-156"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NqwtowEeCt4bZH5yXw5Q" x="758" y="-184"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-O44NowEeCt4bZH5yXw5Q" type="FromRoleLabel" element="_O4onMNowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-Pf8NowEeCt4bZH5yXw5Q" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-O44dowEeCt4bZH5yXw5Q" x="-890" y="-272"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-O44dowEeCt4bZH5yXw5Q" x="-765" y="-247"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-QHANowEeCt4bZH5yXw5Q" type="ToQualifierLabel" element="_O45F4NowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_O-QuENowEeCt4bZH5yXw5Q" type="QualifierCompartment"/>
@@ -4381,7 +4381,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGk9YNoxEeCt4bZH5yXw5Q" type="ToMultiplicityLabel" element="_EGZ-QNoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGlkcNoxEeCt4bZH5yXw5Q" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGk9YdoxEeCt4bZH5yXw5Q" x="-677" y="-260"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGk9YdoxEeCt4bZH5yXw5Q" x="-757" y="-266"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGmLgNoxEeCt4bZH5yXw5Q" type="ToRoleLabel" element="_EGZ-QNoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGmLgtoxEeCt4bZH5yXw5Q" type="ToRole"/>
@@ -4616,6 +4616,10 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O42poNowEeCt4bZH5yXw5Q" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_O4y_QNowEeCt4bZH5yXw5Q"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_EGZ-QNoxEeCt4bZH5yXw5Q" name="requiringConnectors" visibility="private" type="_fyeQkKFMEd-l1J3OQ8v6iQ" association="_EGVs0NoxEeCt4bZH5yXw5Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EGbzcNoxEeCt4bZH5yXw5Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EGbMYNoxEeCt4bZH5yXw5Q"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_O-oVYKFLEd-l1J3OQ8v6iQ" memberEnd="_O-o8cKFLEd-l1J3OQ8v6iQ _O-qKkKFLEd-l1J3OQ8v6iQ">
         <ownedEnd xmi:id="_O-qKkKFLEd-l1J3OQ8v6iQ" name="assemblyComponents" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ" association="_O-oVYKFLEd-l1J3OQ8v6iQ">
@@ -4635,6 +4639,10 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ocOUoaFMEd-l1J3OQ8v6iQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ocOUoKFMEd-l1J3OQ8v6iQ" value="1"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_O45F4NowEeCt4bZH5yXw5Q" name="requiringComponent" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ" association="_O4NJYNowEeCt4bZH5yXw5Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O47iINowEeCt4bZH5yXw5Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_O46UANowEeCt4bZH5yXw5Q" value="1"/>
+        </ownedAttribute>
         <ownedAttribute xmi:id="_EGXiANoxEeCt4bZH5yXw5Q" name="providingComponent" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ" association="_EGVs0NoxEeCt4bZH5yXw5Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EGYwINoxEeCt4bZH5yXw5Q" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EGYJENoxEeCt4bZH5yXw5Q" value="1"/>
@@ -4652,18 +4660,8 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dNcSkKFNEd-l1J3OQ8v6iQ" value="1"/>
         </ownedEnd>
       </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_O4NJYNowEeCt4bZH5yXw5Q" memberEnd="_O4onMNowEeCt4bZH5yXw5Q _O45F4NowEeCt4bZH5yXw5Q">
-        <ownedEnd xmi:id="_O45F4NowEeCt4bZH5yXw5Q" name="requiringComponent" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ" association="_O4NJYNowEeCt4bZH5yXw5Q">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O47iINowEeCt4bZH5yXw5Q" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_O46UANowEeCt4bZH5yXw5Q" value="1"/>
-        </ownedEnd>
-      </packagedElement>
-      <packagedElement xmi:type="uml:Association" xmi:id="_EGVs0NoxEeCt4bZH5yXw5Q" memberEnd="_EGXiANoxEeCt4bZH5yXw5Q _EGZ-QNoxEeCt4bZH5yXw5Q">
-        <ownedEnd xmi:id="_EGZ-QNoxEeCt4bZH5yXw5Q" name="requiringConnectors" visibility="private" type="_fyeQkKFMEd-l1J3OQ8v6iQ" association="_EGVs0NoxEeCt4bZH5yXw5Q">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_EGbzcNoxEeCt4bZH5yXw5Q" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_EGbMYNoxEeCt4bZH5yXw5Q"/>
-        </ownedEnd>
-      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_O4NJYNowEeCt4bZH5yXw5Q" memberEnd="_O4onMNowEeCt4bZH5yXw5Q _O45F4NowEeCt4bZH5yXw5Q"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_EGVs0NoxEeCt4bZH5yXw5Q" memberEnd="_EGXiANoxEeCt4bZH5yXw5Q _EGZ-QNoxEeCt4bZH5yXw5Q"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_wvHicKFNEd-l1J3OQ8v6iQ" name="componentDeployment">
       <eAnnotations xmi:id="_wvIJgKFNEd-l1J3OQ8v6iQ" source="uml2.diagrams" references="_wvIJgaFNEd-l1J3OQ8v6iQ">
