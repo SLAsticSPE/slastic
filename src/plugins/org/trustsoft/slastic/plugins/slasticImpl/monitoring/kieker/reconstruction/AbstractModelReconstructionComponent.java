@@ -16,6 +16,7 @@ import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
@@ -255,6 +256,12 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	public static final String DEFAULT_TYPE_POSTFIX = "__T";
 
 	/**
+	 * Prefix to be used for naming {@link Interface}s corresponding to
+	 * {@link ComponentType}s.
+	 */
+	public static final String DEFAULT_INTERFACE_PREFIX = "I";
+
+	/**
 	 * <p>
 	 * Creates a new {@link AssemblyComponent} with the given componentName. The
 	 * associated {@link ComponentType} is selected by using a (existing or
@@ -278,6 +285,12 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 			componentType =
 					this.getTypeModelManager().createAndRegisterComponentType(
 							componentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+
+			/* Also create a corresponding (provided) interface */
+			final Interface iface =
+					this.getTypeModelManager().createAndRegisterInterface(
+							AbstractModelReconstructionComponent.DEFAULT_INTERFACE_PREFIX + componentType.getName());
+			componentType.getProvidedInterfaces().add(iface);
 		}
 
 		return this.getAssemblyModelManager().createAndRegisterAssemblyComponent(componentName, componentType);
@@ -354,6 +367,9 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 			res =
 					this.getTypeModelManager().createAndRegisterOperation(componentType, kiekerSignature.getName(),
 							kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+			
+			// Also declare operation in corresponding interface
+			// TODO: ...
 		}
 
 		return res;
@@ -375,7 +391,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 		}
 
 		return this.getExecutionEnvModelManager().createAndRegisterExecutionContainer(containerName, containerType,
-				/* mark allocated */ true);
+				/* mark allocated */true);
 	}
 
 	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME = "DEFAULT.GENERIC_RESOURCE_TYPE";
