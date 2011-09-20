@@ -113,6 +113,8 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 				newConnectorExec.setExecutionContainer(executionContainer);
 				newConnectorExec.setExecutionContainer(executionContainer);
 				newExecution = newConnectorExec;
+				
+				// TODO: operations for connector executions ...
 			} else {
 				/* Is an execution of a component (existing or non-existing) */
 				final DeploymentComponentOperationExecution newComponentExec =
@@ -150,9 +152,6 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			 * 2.) Initialize the values common for component and connector
 			 * executions.
 			 */
-
-			// TODO: operations for connector executions ...
-
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);

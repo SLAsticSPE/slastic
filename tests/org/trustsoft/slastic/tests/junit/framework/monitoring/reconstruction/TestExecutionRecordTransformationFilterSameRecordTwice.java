@@ -21,10 +21,6 @@ import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		AbstractReconstructionTest {
 
-//	private final Signature signature =
-//			new Signature("theOpName", "returnType", new String[] { "ArgType0",
-//					"ArgType1", "ArgType2" });
-
 	final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
 	{
@@ -34,9 +30,6 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		this.kiekerRecord.hostName = "theHostname";
 		this.kiekerRecord.operationName =
 			"com.ibatis.jpetstore.service.AccountService.getAccount(java.lang.String, java.lang.String)";
-//				String.format("%s %s(%s)", this.signature.getReturnType(),
-//						this.signature.getName(), StringUtils.join(
-//								this.signature.getParamTypeList(), ","));
 		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
 		this.kiekerRecord.tin = 65656868l;
 		this.kiekerRecord.tout = 9878787887l;
@@ -49,7 +42,7 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 
 		final ExecutionRecordTransformationFilter execRecFilter =
 				new ExecutionRecordTransformationFilter(modelManager,
-				/* We tests this with CLASS_NAME mode only */
+				/* We test this with CLASS_NAME mode only */
 				NameUtils.ABSTRACTION_MODE_CLASS);
 
 		/* Used to receive the created operations from the filter */

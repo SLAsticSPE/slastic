@@ -94,7 +94,8 @@ public class TestSignatureUtils extends TestCase {
 
 	/**
 	 * Tests the method
-	 * {@link SignatureUtils#createSignature(String, String[], String)}.
+	 * {@link SignatureUtils#signatureAsString(Signature)} with a {@link Signature} 
+	 * having a non-empty set of parameter types.
 	 */
 	public void testToString_WithParams() {
 		final String name = "opName";
@@ -116,7 +117,8 @@ public class TestSignatureUtils extends TestCase {
 	
 	/**
 	 * Tests the method
-	 * {@link SignatureUtils#createSignature(String, String[], String)}.
+	 * {@link SignatureUtils#signatureAsString(Signature)} with a {@link Signature} 
+	 * having an empty set of parameter types.
 	 */
 	public void testToString_NoParams() {
 		final String name = "opName";
