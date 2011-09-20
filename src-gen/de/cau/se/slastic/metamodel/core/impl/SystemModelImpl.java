@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,7 +42,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class SystemModelImpl extends SLAsticModelImpl implements SystemModel {
+public class SystemModelImpl extends EObjectImpl implements SystemModel {
 	/**
 	 * The cached value of the '{@link #getTypeRepositoryModel() <em>Type Repository Model</em>}' containment reference.
 	 * <!-- begin-user-doc -->

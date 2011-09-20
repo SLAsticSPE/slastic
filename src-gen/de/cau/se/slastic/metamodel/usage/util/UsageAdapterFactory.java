@@ -4,9 +4,11 @@
  *
  * $Id$
  */
-package de.cau.se.slastic.metamodel.core.util;
+package de.cau.se.slastic.metamodel.usage.util;
 
-import de.cau.se.slastic.metamodel.core.*;
+import de.cau.se.slastic.metamodel.core.SLAsticModel;
+
+import de.cau.se.slastic.metamodel.usage.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -20,17 +22,17 @@ import org.eclipse.emf.ecore.EObject;
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see de.cau.se.slastic.metamodel.core.CorePackage
+ * @see de.cau.se.slastic.metamodel.usage.UsagePackage
  * @generated
  */
-public class CoreAdapterFactory extends AdapterFactoryImpl {
+public class UsageAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static CorePackage modelPackage;
+	protected static UsagePackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -38,9 +40,9 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CoreAdapterFactory() {
+	public UsageAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = CorePackage.eINSTANCE;
+			modelPackage = UsagePackage.eINSTANCE;
 		}
 	}
 
@@ -69,35 +71,31 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected CoreSwitch<Adapter> modelSwitch =
-		new CoreSwitch<Adapter>() {
+	protected UsageSwitch<Adapter> modelSwitch =
+		new UsageSwitch<Adapter>() {
 			@Override
-			public Adapter caseKiekerAnalysisEvent(KiekerAnalysisEvent object) {
-				return createKiekerAnalysisEventAdapter();
+			public Adapter caseUsageModel(UsageModel object) {
+				return createUsageModelAdapter();
 			}
 			@Override
-			public Adapter caseNamedEntity(NamedEntity object) {
-				return createNamedEntityAdapter();
+			public Adapter caseCallingRelationship(CallingRelationship object) {
+				return createCallingRelationshipAdapter();
 			}
 			@Override
-			public Adapter caseEntity(Entity object) {
-				return createEntityAdapter();
+			public Adapter caseFrequencyDistribution(FrequencyDistribution object) {
+				return createFrequencyDistributionAdapter();
 			}
 			@Override
-			public Adapter caseFQNamedEntity(FQNamedEntity object) {
-				return createFQNamedEntityAdapter();
+			public Adapter caseOperationCallFrequency(OperationCallFrequency object) {
+				return createOperationCallFrequencyAdapter();
 			}
 			@Override
-			public Adapter caseIEvent(IEvent object) {
-				return createIEventAdapter();
+			public Adapter caseAssemblyConnectorCallFrequency(AssemblyConnectorCallFrequency object) {
+				return createAssemblyConnectorCallFrequencyAdapter();
 			}
 			@Override
 			public Adapter caseSLAsticModel(SLAsticModel object) {
 				return createSLAsticModelAdapter();
-			}
-			@Override
-			public Adapter caseSystemModel(SystemModel object) {
-				return createSystemModelAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -120,58 +118,72 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.KiekerAnalysisEvent <em>Kieker Analysis Event</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.UsageModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.KiekerAnalysisEvent
+	 * @see de.cau.se.slastic.metamodel.usage.UsageModel
 	 * @generated
 	 */
-	public Adapter createKiekerAnalysisEventAdapter() {
+	public Adapter createUsageModelAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.NamedEntity <em>Named Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.CallingRelationship <em>Calling Relationship</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.NamedEntity
+	 * @see de.cau.se.slastic.metamodel.usage.CallingRelationship
 	 * @generated
 	 */
-	public Adapter createNamedEntityAdapter() {
+	public Adapter createCallingRelationshipAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.Entity <em>Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.FrequencyDistribution <em>Frequency Distribution</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.Entity
+	 * @see de.cau.se.slastic.metamodel.usage.FrequencyDistribution
 	 * @generated
 	 */
-	public Adapter createEntityAdapter() {
+	public Adapter createFrequencyDistributionAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.FQNamedEntity <em>FQ Named Entity</em>}'.
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.OperationCallFrequency <em>Operation Call Frequency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.FQNamedEntity
+	 * @see de.cau.se.slastic.metamodel.usage.OperationCallFrequency
 	 * @generated
 	 */
-	public Adapter createFQNamedEntityAdapter() {
+	public Adapter createOperationCallFrequencyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency <em>Assembly Connector Call Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency
+	 * @generated
+	 */
+	public Adapter createAssemblyConnectorCallFrequencyAdapter() {
 		return null;
 	}
 
@@ -190,34 +202,6 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.IEvent <em>IEvent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.IEvent
-	 * @generated
-	 */
-	public Adapter createIEventAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.core.SystemModel <em>System Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.core.SystemModel
-	 * @generated
-	 */
-	public Adapter createSystemModelAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for the default case.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null.
@@ -229,4 +213,4 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //CoreAdapterFactory
+} //UsageAdapterFactory

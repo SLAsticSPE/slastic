@@ -7,18 +7,22 @@
 package de.cau.se.slastic.metamodel.componentAssembly.impl;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
 
 import de.cau.se.slastic.metamodel.core.impl.FQNamedEntityImpl;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 
+import java.util.Collection;
 import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,6 +32,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentImpl#getComponentType <em>Component Type</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentImpl#getProvidingConnectors <em>Providing Connectors</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,6 +48,16 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * @ordered
 	 */
 	protected ComponentType componentType;
+
+	/**
+	 * The cached value of the '{@link #getProvidingConnectors() <em>Providing Connectors</em>}' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProvidingConnectors()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<AssemblyConnector> providingConnectors;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -106,12 +121,26 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<AssemblyConnector> getProvidingConnectors() {
+		if (providingConnectors == null) {
+			providingConnectors = new EObjectResolvingEList<AssemblyConnector>(AssemblyConnector.class, this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS);
+		}
+		return providingConnectors;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__COMPONENT_TYPE:
 				if (resolve) return getComponentType();
 				return basicGetComponentType();
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS:
+				return getProvidingConnectors();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -121,11 +150,16 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__COMPONENT_TYPE:
 				setComponentType((ComponentType)newValue);
+				return;
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS:
+				getProvidingConnectors().clear();
+				getProvidingConnectors().addAll((Collection<? extends AssemblyConnector>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -142,6 +176,9 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__COMPONENT_TYPE:
 				setComponentType((ComponentType)null);
 				return;
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS:
+				getProvidingConnectors().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -156,6 +193,8 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__COMPONENT_TYPE:
 				return componentType != null;
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS:
+				return providingConnectors != null && !providingConnectors.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

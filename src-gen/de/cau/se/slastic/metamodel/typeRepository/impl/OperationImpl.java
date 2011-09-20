@@ -29,8 +29,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl#getComponentType <em>Component Type</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl#getSignature <em>Signature</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl#getComponentType <em>Component Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -140,9 +140,9 @@ public class OperationImpl extends EntityImpl implements Operation {
 		if (newSignature != signature) {
 			NotificationChain msgs = null;
 			if (signature != null)
-				msgs = ((InternalEObject)signature).eInverseRemove(this, TypeRepositoryPackage.SIGNATURE__OPERATION, Signature.class, msgs);
+				msgs = ((InternalEObject)signature).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypeRepositoryPackage.OPERATION__SIGNATURE, null, msgs);
 			if (newSignature != null)
-				msgs = ((InternalEObject)newSignature).eInverseAdd(this, TypeRepositoryPackage.SIGNATURE__OPERATION, Signature.class, msgs);
+				msgs = ((InternalEObject)newSignature).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - TypeRepositoryPackage.OPERATION__SIGNATURE, null, msgs);
 			msgs = basicSetSignature(newSignature, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -162,10 +162,6 @@ public class OperationImpl extends EntityImpl implements Operation {
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
 				return basicSetComponentType((ComponentType)otherEnd, msgs);
-			case TypeRepositoryPackage.OPERATION__SIGNATURE:
-				if (signature != null)
-					msgs = ((InternalEObject)signature).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - TypeRepositoryPackage.OPERATION__SIGNATURE, null, msgs);
-				return basicSetSignature((Signature)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -178,10 +174,10 @@ public class OperationImpl extends EntityImpl implements Operation {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				return basicSetComponentType(null, msgs);
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				return basicSetSignature(null, msgs);
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				return basicSetComponentType(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -208,10 +204,10 @@ public class OperationImpl extends EntityImpl implements Operation {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				return getComponentType();
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				return getSignature();
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				return getComponentType();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -224,11 +220,11 @@ public class OperationImpl extends EntityImpl implements Operation {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				setComponentType((ComponentType)newValue);
-				return;
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				setSignature((Signature)newValue);
+				return;
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				setComponentType((ComponentType)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -242,11 +238,11 @@ public class OperationImpl extends EntityImpl implements Operation {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				setComponentType((ComponentType)null);
-				return;
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				setSignature((Signature)null);
+				return;
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				setComponentType((ComponentType)null);
 				return;
 		}
 		super.eUnset(featureID);
@@ -260,10 +256,10 @@ public class OperationImpl extends EntityImpl implements Operation {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
-				return getComponentType() != null;
 			case TypeRepositoryPackage.OPERATION__SIGNATURE:
 				return signature != null;
+			case TypeRepositoryPackage.OPERATION__COMPONENT_TYPE:
+				return getComponentType() != null;
 		}
 		return super.eIsSet(featureID);
 	}

@@ -9,6 +9,7 @@ package de.cau.se.slastic.metamodel.componentAssembly;
 import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,6 +20,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
  * The following features are supported:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getComponentType <em>Component Type</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getProvidingConnectors <em>Providing Connectors</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,5 +54,21 @@ public interface AssemblyComponent extends FQNamedEntity {
 	 * @generated
 	 */
 	void setComponentType(ComponentType value);
+
+	/**
+	 * Returns the value of the '<em><b>Providing Connectors</b></em>' reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Providing Connectors</em>' reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Providing Connectors</em>' reference list.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyComponent_ProvidingConnectors()
+	 * @model ordered="false"
+	 * @generated
+	 */
+	EList<AssemblyConnector> getProvidingConnectors();
 
 } // AssemblyComponent

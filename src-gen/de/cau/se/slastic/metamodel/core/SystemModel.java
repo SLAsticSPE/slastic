@@ -13,6 +13,7 @@ import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentModel;
 
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,7 +34,7 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
  * @model
  * @generated
  */
-public interface SystemModel extends SLAsticModel {
+public interface SystemModel extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Type Repository Model</b></em>' containment reference.
 	 * <!-- begin-user-doc -->

@@ -4,9 +4,11 @@
  *
  * $Id$
  */
-package de.cau.se.slastic.metamodel.core.util;
+package de.cau.se.slastic.metamodel.usage.util;
 
-import de.cau.se.slastic.metamodel.core.*;
+import de.cau.se.slastic.metamodel.core.SLAsticModel;
+
+import de.cau.se.slastic.metamodel.usage.*;
 
 import java.util.List;
 
@@ -23,17 +25,17 @@ import org.eclipse.emf.ecore.EObject;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see de.cau.se.slastic.metamodel.core.CorePackage
+ * @see de.cau.se.slastic.metamodel.usage.UsagePackage
  * @generated
  */
-public class CoreSwitch<T> {
+public class UsageSwitch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static CorePackage modelPackage;
+	protected static UsagePackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -41,9 +43,9 @@ public class CoreSwitch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public CoreSwitch() {
+	public UsageSwitch() {
 		if (modelPackage == null) {
-			modelPackage = CorePackage.eINSTANCE;
+			modelPackage = UsagePackage.eINSTANCE;
 		}
 	}
 
@@ -87,49 +89,34 @@ public class CoreSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case CorePackage.KIEKER_ANALYSIS_EVENT: {
-				KiekerAnalysisEvent kiekerAnalysisEvent = (KiekerAnalysisEvent)theEObject;
-				T result = caseKiekerAnalysisEvent(kiekerAnalysisEvent);
+			case UsagePackage.USAGE_MODEL: {
+				UsageModel usageModel = (UsageModel)theEObject;
+				T result = caseUsageModel(usageModel);
+				if (result == null) result = caseSLAsticModel(usageModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.NAMED_ENTITY: {
-				NamedEntity namedEntity = (NamedEntity)theEObject;
-				T result = caseNamedEntity(namedEntity);
-				if (result == null) result = caseEntity(namedEntity);
+			case UsagePackage.CALLING_RELATIONSHIP: {
+				CallingRelationship callingRelationship = (CallingRelationship)theEObject;
+				T result = caseCallingRelationship(callingRelationship);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.ENTITY: {
-				Entity entity = (Entity)theEObject;
-				T result = caseEntity(entity);
+			case UsagePackage.FREQUENCY_DISTRIBUTION: {
+				FrequencyDistribution frequencyDistribution = (FrequencyDistribution)theEObject;
+				T result = caseFrequencyDistribution(frequencyDistribution);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.FQ_NAMED_ENTITY: {
-				FQNamedEntity fqNamedEntity = (FQNamedEntity)theEObject;
-				T result = caseFQNamedEntity(fqNamedEntity);
-				if (result == null) result = caseNamedEntity(fqNamedEntity);
-				if (result == null) result = caseEntity(fqNamedEntity);
+			case UsagePackage.OPERATION_CALL_FREQUENCY: {
+				OperationCallFrequency operationCallFrequency = (OperationCallFrequency)theEObject;
+				T result = caseOperationCallFrequency(operationCallFrequency);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.IEVENT: {
-				IEvent iEvent = (IEvent)theEObject;
-				T result = caseIEvent(iEvent);
-				if (result == null) result = caseKiekerAnalysisEvent(iEvent);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CorePackage.SL_ASTIC_MODEL: {
-				SLAsticModel slAsticModel = (SLAsticModel)theEObject;
-				T result = caseSLAsticModel(slAsticModel);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case CorePackage.SYSTEM_MODEL: {
-				SystemModel systemModel = (SystemModel)theEObject;
-				T result = caseSystemModel(systemModel);
+			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY: {
+				AssemblyConnectorCallFrequency assemblyConnectorCallFrequency = (AssemblyConnectorCallFrequency)theEObject;
+				T result = caseAssemblyConnectorCallFrequency(assemblyConnectorCallFrequency);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -138,62 +125,77 @@ public class CoreSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Kieker Analysis Event</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Kieker Analysis Event</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Model</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseKiekerAnalysisEvent(KiekerAnalysisEvent object) {
+	public T caseUsageModel(UsageModel object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Named Entity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Calling Relationship</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Named Entity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Calling Relationship</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseNamedEntity(NamedEntity object) {
+	public T caseCallingRelationship(CallingRelationship object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Entity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Frequency Distribution</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Entity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Frequency Distribution</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseEntity(Entity object) {
+	public T caseFrequencyDistribution(FrequencyDistribution object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>FQ Named Entity</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Call Frequency</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>FQ Named Entity</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Call Frequency</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseFQNamedEntity(FQNamedEntity object) {
+	public T caseOperationCallFrequency(OperationCallFrequency object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Assembly Connector Call Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assembly Connector Call Frequency</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssemblyConnectorCallFrequency(AssemblyConnectorCallFrequency object) {
 		return null;
 	}
 
@@ -213,36 +215,6 @@ public class CoreSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>IEvent</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>IEvent</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIEvent(IEvent object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>System Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>System Model</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseSystemModel(SystemModel object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -257,4 +229,4 @@ public class CoreSwitch<T> {
 		return null;
 	}
 
-} //CoreSwitch
+} //UsageSwitch

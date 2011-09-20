@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getParamTypes <em>Param Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getReturnType <em>Return Type</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation <em>Operation</em>}</li>
  * </ul>
  * </p>
  *
@@ -70,33 +69,5 @@ public interface Signature extends NamedEntity {
 	 * @generated
 	 */
 	void setReturnType(String value);
-
-	/**
-	 * Returns the value of the '<em><b>Operation</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operation</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operation</em>' container reference.
-	 * @see #setOperation(Operation)
-	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getSignature_Operation()
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature
-	 * @model opposite="signature" required="true" transient="false" ordered="false"
-	 * @generated
-	 */
-	Operation getOperation();
-
-	/**
-	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation <em>Operation</em>}' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Operation</em>' container reference.
-	 * @see #getOperation()
-	 * @generated
-	 */
-	void setOperation(Operation value);
 
 } // Signature

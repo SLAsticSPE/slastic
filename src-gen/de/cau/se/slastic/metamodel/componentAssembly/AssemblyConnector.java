@@ -19,6 +19,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
  * The following features are supported:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getConnectorType <em>Connector Type</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent <em>Providing Component</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,5 +53,31 @@ public interface AssemblyConnector extends FQNamedEntity {
 	 * @generated
 	 */
 	void setConnectorType(ConnectorType value);
+
+	/**
+	 * Returns the value of the '<em><b>Providing Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Providing Component</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Providing Component</em>' reference.
+	 * @see #setProvidingComponent(AssemblyComponent)
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyConnector_ProvidingComponent()
+	 * @model required="true" ordered="false"
+	 * @generated
+	 */
+	AssemblyComponent getProvidingComponent();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent <em>Providing Component</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Providing Component</em>' reference.
+	 * @see #getProvidingComponent()
+	 * @generated
+	 */
+	void setProvidingComponent(AssemblyComponent value);
 
 } // AssemblyConnector

@@ -52,6 +52,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
+import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -143,6 +145,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		PlanPackageImpl thePlanPackage = (PlanPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) instanceof PlanPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) : PlanPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		AdaptationPackageImpl theAdaptationPackage = (AdaptationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) instanceof AdaptationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) : AdaptationPackage.eINSTANCE);
+		UsagePackageImpl theUsagePackage = (UsagePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) instanceof UsagePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) : UsagePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theComponentAssemblyPackage.createPackageContents();
@@ -156,6 +159,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		thePlanPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
 		theAdaptationPackage.createPackageContents();
+		theUsagePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theComponentAssemblyPackage.initializePackageContents();
@@ -169,6 +173,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		thePlanPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
 		theAdaptationPackage.initializePackageContents();
+		theUsagePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theComponentAssemblyPackage.freeze();
@@ -202,6 +207,15 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAssemblyComponent_ProvidingConnectors() {
+		return (EReference)assemblyComponentEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAssemblyConnector() {
 		return assemblyConnectorEClass;
 	}
@@ -213,6 +227,15 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 */
 	public EReference getAssemblyConnector_ConnectorType() {
 		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssemblyConnector_ProvidingComponent() {
+		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -272,9 +295,11 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		// Create classes and their features
 		assemblyComponentEClass = createEClass(ASSEMBLY_COMPONENT);
 		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__COMPONENT_TYPE);
+		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS);
 
 		assemblyConnectorEClass = createEClass(ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__CONNECTOR_TYPE);
+		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT);
 
 		componentAssemblyModelEClass = createEClass(COMPONENT_ASSEMBLY_MODEL);
 		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS);
@@ -320,9 +345,11 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		// Initialize classes and features; add operations and parameters
 		initEClass(assemblyComponentEClass, AssemblyComponent.class, "AssemblyComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyComponent_ComponentType(), theTypeRepositoryPackage.getComponentType(), null, "componentType", null, 1, 1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponent_ProvidingConnectors(), this.getAssemblyConnector(), null, "providingConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(assemblyConnectorEClass, AssemblyConnector.class, "AssemblyConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyConnector_ConnectorType(), theTypeRepositoryPackage.getConnectorType(), null, "connectorType", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyConnector_ProvidingComponent(), this.getAssemblyComponent(), null, "providingComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(componentAssemblyModelEClass, ComponentAssemblyModel.class, "ComponentAssemblyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentAssemblyModel_AssemblyComponents(), this.getAssemblyComponent(), null, "assemblyComponents", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

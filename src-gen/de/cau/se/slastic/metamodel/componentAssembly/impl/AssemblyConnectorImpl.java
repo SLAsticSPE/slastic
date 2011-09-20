@@ -6,6 +6,7 @@
  */
 package de.cau.se.slastic.metamodel.componentAssembly.impl;
 
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
 
@@ -28,6 +29,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl#getConnectorType <em>Connector Type</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl#getProvidingComponent <em>Providing Component</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,6 +45,16 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 	 * @ordered
 	 */
 	protected ConnectorType connectorType;
+
+	/**
+	 * The cached value of the '{@link #getProvidingComponent() <em>Providing Component</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getProvidingComponent()
+	 * @generated
+	 * @ordered
+	 */
+	protected AssemblyComponent providingComponent;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -106,12 +118,53 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public AssemblyComponent getProvidingComponent() {
+		if (providingComponent != null && providingComponent.eIsProxy()) {
+			InternalEObject oldProvidingComponent = (InternalEObject)providingComponent;
+			providingComponent = (AssemblyComponent)eResolveProxy(oldProvidingComponent);
+			if (providingComponent != oldProvidingComponent) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT, oldProvidingComponent, providingComponent));
+			}
+		}
+		return providingComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssemblyComponent basicGetProvidingComponent() {
+		return providingComponent;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setProvidingComponent(AssemblyComponent newProvidingComponent) {
+		AssemblyComponent oldProvidingComponent = providingComponent;
+		providingComponent = newProvidingComponent;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT, oldProvidingComponent, providingComponent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE:
 				if (resolve) return getConnectorType();
 				return basicGetConnectorType();
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				if (resolve) return getProvidingComponent();
+				return basicGetProvidingComponent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -126,6 +179,9 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE:
 				setConnectorType((ConnectorType)newValue);
+				return;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				setProvidingComponent((AssemblyComponent)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -142,6 +198,9 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE:
 				setConnectorType((ConnectorType)null);
 				return;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				setProvidingComponent((AssemblyComponent)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -156,6 +215,8 @@ public class AssemblyConnectorImpl extends FQNamedEntityImpl implements Assembly
 		switch (featureID) {
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE:
 				return connectorType != null;
+			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT:
+				return providingComponent != null;
 		}
 		return super.eIsSet(featureID);
 	}
