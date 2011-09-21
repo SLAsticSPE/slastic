@@ -15,6 +15,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
@@ -114,6 +115,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		 * componentDiscoveryMode
 		 */
 		final String componentTypeLookupFQName;
+		final String interfaceLookupFQName;
 		final String assemblyComponentLookupFQName;
 		final String operationLookupName;
 
@@ -134,9 +136,16 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			componentTypeLookupFQName =
 					assemblyComponentLookupFQName
 							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
+			final String[] componentTypeFQNameSplit = NameUtils.splitFullyQualifiedName(componentTypeLookupFQName);
+			interfaceLookupFQName =
+					NameUtils
+							.createFQName(componentTypeFQNameSplit[0],
+									AbstractModelReconstructionComponent.DEFAULT_INTERFACE_PREFIX
+											+ componentTypeFQNameSplit[1]);
 		}
 
 		final ComponentType lookedUpComponentType;
+		final Interface lookedUpInterface;
 		final ExecutionContainerType lookedUpContainerType;
 		{
 			/* Check type repository contents */
@@ -151,7 +160,24 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 					lookedUpComponentType, slasticComponentExecRec
 							.getDeploymentComponent().getAssemblyComponent()
 							.getComponentType());
-			/* 2. Lookup container type and compare with record content */
+
+			/*
+			 * 2. Lookup interface by name, make sure that it contains the
+			 * signature and make sure that the interface is contained in the
+			 * list of provided interfaces.
+			 */
+			lookedUpInterface =
+					mgr.getTypeRepositoryManager().lookupInterface(interfaceLookupFQName);
+			Assert.assertNotNull("Lookup of interface " + interfaceLookupFQName + " returned null",
+					lookedUpInterface);
+			final de.cau.se.slastic.metamodel.typeRepository.Signature signature =
+					mgr.getTypeRepositoryManager().lookupSignature(lookedUpInterface, operationLookupName,
+							this.signature.getReturnType(), this.signature.getParamTypeList());
+			Assert.assertNotNull("Lookup of signature returned null", signature);
+			Assert.assertTrue("Interface not contained in list of provided interfaces", lookedUpComponentType
+					.getProvidedInterfaces().contains(lookedUpInterface));
+
+			/* 3. Lookup container type and compare with record content */
 			final String containerTypeLookupFQName =
 					this.kiekerRecord.hostName
 							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
@@ -168,6 +194,30 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 							.getExecutionContainerType());
 		}
 
+		/* Check the operation */
+		final Operation lookedUpOperation;
+		{
+			lookedUpOperation =
+					mgr.getTypeRepositoryManager().lookupOperation(
+							lookedUpComponentType,
+							operationLookupName,
+							this.signature.getReturnType(),
+							this.signature.getParamTypeList());
+			Assert
+					.assertNotNull(
+							String
+									.format(
+											"Lookup of operation '%s %s(%s)' for component type '%s' returned null",
+											this.signature.getReturnType(),
+											operationLookupName,
+											StringUtils.join(this.signature
+													.getParamTypeList(), ","),
+													lookedUpComponentType),
+							lookedUpOperation);
+			Assert.assertSame("Unexpected operation", slasticComponentExecRec
+					.getOperation(), lookedUpOperation);
+		}
+
 		final AssemblyComponent lookedUpAssemblyComponent;
 		{
 			/* Check component assembly contents */
@@ -182,30 +232,6 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			Assert.assertSame("Unexpected assembly component",
 					lookedUpAssemblyComponent, slasticComponentExecRec
 							.getDeploymentComponent().getAssemblyComponent());
-		}
-
-		final Operation lookedUpOperation;
-		{
-			lookedUpOperation =
-					mgr.getTypeRepositoryManager().lookupOperation(
-							lookedUpAssemblyComponent.getComponentType(),
-							operationLookupName,
-							this.signature.getReturnType(),
-							this.signature.getParamTypeList());
-			Assert
-					.assertNotNull(
-							String
-									.format(
-											"Lookup of operation '%s %s(%s)' for component type '%s' returned null",
-											this.signature.getReturnType(),
-											operationLookupName,
-											StringUtils.join(this.signature
-													.getParamTypeList(), ","),
-											lookedUpAssemblyComponent
-													.getComponentType()),
-							lookedUpOperation);
-			Assert.assertSame("Unexpected operation", slasticComponentExecRec
-					.getOperation(), lookedUpOperation);
 		}
 
 		/* Check execution environment contents */

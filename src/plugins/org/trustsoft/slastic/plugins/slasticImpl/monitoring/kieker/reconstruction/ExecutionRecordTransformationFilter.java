@@ -106,7 +106,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			final AssemblyConnector assemblyConnector =
 					this.getAssemblyModelManager().lookupAssemblyConnector(componentOrConnectorName);
 			if (assemblyConnector != null) {
-				/* Is a connector execution */
+				/* Is an (explicit) connector execution */
 				final ConnectorOperationExecution newConnectorExec =
 						MonitoringFactory.eINSTANCE.createConnectorOperationExecution();
 				newConnectorExec.setAssemblyConnector(assemblyConnector);

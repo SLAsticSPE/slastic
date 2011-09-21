@@ -41,4 +41,15 @@ public interface IAssemblyConnectorsManager {
     public AssemblyConnector createAndRegisterAssemblyConnector (
             final String fullyQualifiedName,
             final ConnectorType connectorType);
+    
+    /**
+     * Creates and registers a new assembly connector with a random 
+     * but unique full-qualified name and of type connectorType.
+     *
+     * @param connectorType
+     * @return the new assembly connector
+     */
+    public AssemblyConnector createAndRegisterAssemblyConnector (
+            final ConnectorType connectorType);
+    
 }
