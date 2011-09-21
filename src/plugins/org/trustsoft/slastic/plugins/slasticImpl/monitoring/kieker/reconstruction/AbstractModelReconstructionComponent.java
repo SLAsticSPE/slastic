@@ -295,7 +295,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 			final Interface iface =
 					this.getTypeModelManager().createAndRegisterInterface(
 							fqIfaceName);
-			componentType.getProvidedInterfaces().add(iface);
+			this.getTypeModelManager().registerProvidedInterface(componentType, iface);
 		}
 
 		return this.getAssemblyModelManager().createAndRegisterAssemblyComponent(fqComponentName, componentType);

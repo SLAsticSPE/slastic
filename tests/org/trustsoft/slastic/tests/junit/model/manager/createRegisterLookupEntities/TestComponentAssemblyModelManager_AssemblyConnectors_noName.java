@@ -3,16 +3,16 @@ package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEnti
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.AssemblyConnectorsManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 
 /**
  * Tests the functionalities provided by the connector assembly manager for creating,
@@ -23,11 +23,9 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
  */
 public class TestComponentAssemblyModelManager_AssemblyConnectors_noName extends TestCase {
 
-    private static final Log log = LogFactory.getLog(TestComponentAssemblyModelManager_AssemblyConnectors_noName.class);
+    //private static final Log log = LogFactory.getLog(TestComponentAssemblyModelManager_AssemblyConnectors_noName.class);
 
-    public void testCreateLookupConnectorWithGeneratedName() throws Exception {
-    	super.setUp();
-    	
+    public void testCreateLookupConnectorWithGeneratedName() throws Exception {   	
     	final SystemModel systemModel = ModelManager.createInitializedSystemModel();
     	final ModelManager systemModelManager = new ModelManager(systemModel);
     	final ComponentAssemblyModelManager componentAssemblyModelManager =  systemModelManager.getComponentAssemblyModelManager();
@@ -37,11 +35,13 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors_noName extends
          * create one with a generated name or use an existing one, if a
          * connector type with this name exists already.
          */
-        final String connectorTypeName = "AConnectorType"; 
+        final String connectorTypeName = "AConnectorType";
+        final TypeRepositoryModelManager typeModelMgr = systemModelManager.getTypeRepositoryManager();
         ConnectorType connectorType = // use existing type instance if it exists already
-        	systemModelManager.getTypeRepositoryManager().lookupConnectorType(connectorTypeName);
+        	typeModelMgr.lookupConnectorType(connectorTypeName);
         if (connectorType == null){
-            connectorType = systemModelManager.getTypeRepositoryManager().createAndRegisterConnectorType(connectorTypeName);
+            final Interface iface = typeModelMgr.createAndRegisterInterface("ISomething");
+            connectorType = typeModelMgr.createAndRegisterConnectorType(connectorTypeName, iface);
         }
         Assert.assertNotNull("Test invalid: connectorType == null", connectorType);
         

@@ -71,6 +71,6 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	@Override
 	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent) {
-		return this.connect(assemblyConnector, requiringComponent, providingComponent);
+		return this.assemblyConnectorsManager.connect(assemblyConnector, requiringComponent, providingComponent);
 	}
 }

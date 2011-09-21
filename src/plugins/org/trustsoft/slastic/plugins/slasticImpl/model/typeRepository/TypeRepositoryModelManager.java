@@ -97,9 +97,9 @@ public class TypeRepositoryModelManager extends
 
 	@Override
 	public ConnectorType createAndRegisterConnectorType(
-			final String fullyQualifiedName) {
+			final String fullyQualifiedName, final Interface iface) {
 		return this.connectorTypeManager
-				.createAndRegisterConnectorType(fullyQualifiedName);
+				.createAndRegisterConnectorType(fullyQualifiedName, iface);
 	}
 
 	@Override
@@ -233,5 +233,15 @@ public class TypeRepositoryModelManager extends
 	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType,
 			final String[] argTypes) {
 		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes);
+	}
+
+	@Override
+	public void registerProvidedInterface(final ComponentType componentType, final Interface providedInterface) {
+		this.componentTypeManager.registerProvidedInterface(componentType, providedInterface);
+	}
+
+	@Override
+	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface) {
+		this.componentTypeManager.registerRequiredInterface(componentType, requiredInterface);
 	}
 }

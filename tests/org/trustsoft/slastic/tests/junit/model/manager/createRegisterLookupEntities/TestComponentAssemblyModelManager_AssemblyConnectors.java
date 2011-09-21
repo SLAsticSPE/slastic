@@ -1,14 +1,19 @@
 package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEntities;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
-import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
-import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
-import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import junit.framework.Assert;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
+import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
+import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 
 /**
  * Tests the functionalities provided by the connector assembly manager for creating,
@@ -27,9 +32,9 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors extends Abstra
     }
 
     @Override
-    protected AssemblyConnector createAndRegisterEntity(AbstractModelManager<ComponentAssemblyModel> mgr, String fqEntityName, ModelManager systemModelMgr) {
+    protected AssemblyConnector createAndRegisterEntity(final AbstractModelManager<ComponentAssemblyModel> mgr, final String fqEntityName, final ModelManager systemModelMgr) {
         if (! (mgr instanceof ComponentAssemblyModelManager)){
-            fail("mgr must be instance of ComponentAssemblyModelManager");
+            Assert.fail("mgr must be instance of ComponentAssemblyModelManager");
             return null;
         }
         /*
@@ -37,36 +42,39 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors extends Abstra
          * create one with a generated name or use an existing one, if a
          * connector type with this name exists already.
          */
-        String connectorTypeName = fqEntityName+"Type"; // create type name from assembly connector name
+        final String connectorTypeName = fqEntityName+"Type"; // create type name from assembly connector name
+        final TypeRepositoryModelManager typeModelMgr = systemModelMgr.getTypeRepositoryManager();
+        
         ConnectorType connectorType = // use existing type instance if it exists already
-                systemModelMgr.getTypeRepositoryManager().lookupConnectorType(connectorTypeName);
+                typeModelMgr.lookupConnectorType(connectorTypeName);
         if (connectorType == null){
-            connectorType = systemModelMgr.getTypeRepositoryManager().createAndRegisterConnectorType(connectorTypeName);
+            final Interface iface = typeModelMgr.createAndRegisterInterface("I"+fqEntityName);
+            connectorType = systemModelMgr.getTypeRepositoryManager().createAndRegisterConnectorType(connectorTypeName, iface);
         }
-        assertNotNull("Test invalid: connectorType == null", connectorType);
+        Assert.assertNotNull("Test invalid: connectorType == null", connectorType);
         return ((ComponentAssemblyModelManager)mgr).createAndRegisterAssemblyConnector(fqEntityName, connectorType);
     }
 
     @Override
-    protected AssemblyConnector lookupEntity(AbstractModelManager<ComponentAssemblyModel> mgr, String fqEntityName) {
+    protected AssemblyConnector lookupEntity(final AbstractModelManager<ComponentAssemblyModel> mgr, final String fqEntityName) {
         if (! (mgr instanceof ComponentAssemblyModelManager)){
-            fail("mgr must be instance of ComponentAssemblyModelManager");
+            Assert.fail("mgr must be instance of ComponentAssemblyModelManager");
             return null;
         }
         return ((ComponentAssemblyModelManager)mgr).lookupAssemblyConnector(fqEntityName);
     }
 
     @Override
-    protected AssemblyConnector lookupEntity(AbstractModelManager<ComponentAssemblyModel> mgr, long entityId) {
+    protected AssemblyConnector lookupEntity(final AbstractModelManager<ComponentAssemblyModel> mgr, final long entityId) {
         if (! (mgr instanceof ComponentAssemblyModelManager)){
-            fail("mgr must be instance of ComponentAssemblyModelManager");
+            Assert.fail("mgr must be instance of ComponentAssemblyModelManager");
             return null;
         }
         return ((ComponentAssemblyModelManager)mgr).lookupAssemblyConnector(entityId);
     }
 
     @Override
-    protected AbstractModelManager<ComponentAssemblyModel> getModelManager(ModelManager systemModelMgr) {
+    protected AbstractModelManager<ComponentAssemblyModel> getModelManager(final ModelManager systemModelMgr) {
         return systemModelMgr.getComponentAssemblyModelManager();
     }
 }
