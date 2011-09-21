@@ -5,6 +5,7 @@ import java.util.List;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
@@ -52,5 +53,12 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
 	@Override
 	protected AssemblyConnector createEntity() {
 		return ComponentAssemblyFactory.eINSTANCE.createAssemblyConnector();
+	}
+
+	@Override
+	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
+			final AssemblyComponent providingComponent) {
+		// TODO: implement
+		return false;
 	}
 }

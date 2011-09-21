@@ -67,4 +67,10 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	public AssemblyConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
 		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(connectorType);
 	}
+
+	@Override
+	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
+			final AssemblyComponent providingComponent) {
+		return this.connect(assemblyConnector, requiringComponent, providingComponent);
+	}
 }
