@@ -38,18 +38,14 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  * 
  */
 public class TestUsageModelSimple extends TestCase {
-	/** Create {@link ModelManager} for empty {@link SystemModel} */
+	/** Create {@link ModelManager} with empty {@link SystemModel} and {@link UsageModel} */
 	private final ModelManager systemModelManager = new ModelManager();
 	private final TypeRepositoryModelManager typeMgr = this.systemModelManager.getTypeRepositoryManager();
 	private final ComponentAssemblyModelManager assemblyMgr = this.systemModelManager
 			.getComponentAssemblyModelManager();
 
-	/**
-	 * The {@link UsageModelManager} is only used to retrieve the
-	 * {@link UsageModel}.
-	 */
-	private final UsageModelManager usageModelManager = new UsageModelManager();
-	private final UsageModel usageModel = this.usageModelManager.getModel();
+	/** Since we are modifying the {@link UsageModel} directly, we need to retrieve it. */
+	private final UsageModel usageModel = this.systemModelManager.getUsageModelManager().getModel();
 
 	private final ExecutionRecordTransformationFilter execRecFilter =
 			new ExecutionRecordTransformationFilter(this.systemModelManager,
