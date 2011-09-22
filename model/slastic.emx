@@ -6934,21 +6934,21 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_NnwEwdpJEeCt4bZH5yXw5Q" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_NnvdsdpJEeCt4bZH5yXw5Q" y="-186"/>
             </children>
-            <children xmi:type="notation:DecorationNode" xmi:id="_Nnwr0NpJEeCt4bZH5yXw5Q" visible="false" type="ToMultiplicityLabel" element="_NnlssNpJEeCt4bZH5yXw5Q">
+            <children xmi:type="notation:DecorationNode" xmi:id="_Nnwr0NpJEeCt4bZH5yXw5Q" type="ToMultiplicityLabel" element="_NnlssNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_Nnwr0tpJEeCt4bZH5yXw5Q" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnwr0dpJEeCt4bZH5yXw5Q" y="396"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnwr0dpJEeCt4bZH5yXw5Q" x="105" y="-344"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_NnxS4NpJEeCt4bZH5yXw5Q" visible="false" type="ToRoleLabel" element="_NnlssNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_NnxS4tpJEeCt4bZH5yXw5Q" type="ToRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_NnxS4dpJEeCt4bZH5yXw5Q" x="1375" y="1905"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_NnxS4dpJEeCt4bZH5yXw5Q" x="2264"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_Nnx58NpJEeCt4bZH5yXw5Q" type="FromMultiplicityLabel" element="_NnjQcNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_Nnx58tpJEeCt4bZH5yXw5Q" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnx58dpJEeCt4bZH5yXw5Q" x="-372" y="-143"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnx58dpJEeCt4bZH5yXw5Q" x="-55" y="323"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_Nnx589pJEeCt4bZH5yXw5Q" type="FromRoleLabel" element="_NnjQcNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_NnyhANpJEeCt4bZH5yXw5Q" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnx59NpJEeCt4bZH5yXw5Q" x="-151" y="-1818"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Nnx59NpJEeCt4bZH5yXw5Q" x="-109" y="-1605"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_NnyhAdpJEeCt4bZH5yXw5Q" type="ToQualifierLabel" element="_NnlssNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_NnzIENpJEeCt4bZH5yXw5Q" type="QualifierCompartment"/>
@@ -6966,7 +6966,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_Nn09QNpJEeCt4bZH5yXw5Q" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_Nn0WMtpJEeCt4bZH5yXw5Q" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Nnu2odpJEeCt4bZH5yXw5Q" points="[-367, 462, -1399, -1167]$[-367, 1353, -1399, -276]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Nnu2odpJEeCt4bZH5yXw5Q" points="[-49, 462, -1081, -1167]$[-49, 1353, -1081, -276]"/>
           </edges>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_kzcIQNpJEeCt4bZH5yXw5Q" element="_kzOF0NpJEeCt4bZH5yXw5Q" source="_leSRgNpIEeCt4bZH5yXw5Q" target="_4x9fcNo5EeCt4bZH5yXw5Q" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_kzcvUNpJEeCt4bZH5yXw5Q" type="NameLabel">
@@ -6976,7 +6976,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_kzdWYtpJEeCt4bZH5yXw5Q" type="ToMultiplicityLabel" element="_kzSXQNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_kzd9cNpJEeCt4bZH5yXw5Q" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_kzdWY9pJEeCt4bZH5yXw5Q" x="-975" y="-228"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_kzdWY9pJEeCt4bZH5yXw5Q" x="-1039" y="-206"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_kzd9cdpJEeCt4bZH5yXw5Q" visible="false" type="ToRoleLabel" element="_kzSXQNpJEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_kzekgNpJEeCt4bZH5yXw5Q" type="ToRole"/>
@@ -7132,9 +7132,9 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         <ownedAttribute xmi:id="_usDBkNpIEeCt4bZH5yXw5Q" name="frequency" visibility="private">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_NnjQcNpJEeCt4bZH5yXw5Q" name="assemblyConnectors" visibility="private" type="_fyeQkKFMEd-l1J3OQ8v6iQ" association="_NniCUNpJEeCt4bZH5yXw5Q">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NnkekdpJEeCt4bZH5yXw5Q" value="*"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NnkekNpJEeCt4bZH5yXw5Q"/>
+        <ownedAttribute xmi:id="_NnjQcNpJEeCt4bZH5yXw5Q" name="assemblyConnector" visibility="private" type="_fyeQkKFMEd-l1J3OQ8v6iQ" association="_NniCUNpJEeCt4bZH5yXw5Q">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NnkekdpJEeCt4bZH5yXw5Q" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NnkekNpJEeCt4bZH5yXw5Q" value="1"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_kzP7ANpJEeCt4bZH5yXw5Q" name="signature" visibility="private" type="_r39PMIYbEeCT5-op6hhvRg" association="_kzOF0NpJEeCt4bZH5yXw5Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kzRJIdpJEeCt4bZH5yXw5Q" value="1"/>
@@ -7149,8 +7149,8 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_NniCUNpJEeCt4bZH5yXw5Q" memberEnd="_NnjQcNpJEeCt4bZH5yXw5Q _NnlssNpJEeCt4bZH5yXw5Q">
         <ownedEnd xmi:id="_NnlssNpJEeCt4bZH5yXw5Q" name="assemblyConnectorCallFrequency" visibility="private" type="_lePOMNpIEeCt4bZH5yXw5Q" association="_NniCUNpJEeCt4bZH5yXw5Q">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Nnm60dpJEeCt4bZH5yXw5Q" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Nnm60NpJEeCt4bZH5yXw5Q" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Nnm60dpJEeCt4bZH5yXw5Q" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Nnm60NpJEeCt4bZH5yXw5Q"/>
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_kzOF0NpJEeCt4bZH5yXw5Q" memberEnd="_kzP7ANpJEeCt4bZH5yXw5Q _kzSXQNpJEeCt4bZH5yXw5Q">
@@ -7160,13 +7160,13 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_PaGsYNq7EeC_me4TSKli2A" name="FrequencyDistribution">
-        <ownedAttribute xmi:id="_mm6xQNq7EeC_me4TSKli2A" name="values" visibility="private">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <ownedAttribute xmi:id="_mm6xQNq7EeC_me4TSKli2A" name="values" visibility="private" isUnique="false">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5hFVMdq7EeC_me4TSKli2A" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5hFVMNq7EeC_me4TSKli2A"/>
         </ownedAttribute>
-        <ownedAttribute xmi:id="_xfLUQNq7EeC_me4TSKli2A" name="frequencies" visibility="private">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <ownedAttribute xmi:id="_xfLUQNq7EeC_me4TSKli2A" name="frequencies" visibility="private" isUnique="false">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_597CMNq7EeC_me4TSKli2A" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_596bINq7EeC_me4TSKli2A"/>
         </ownedAttribute>

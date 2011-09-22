@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getFrequency <em>Frequency</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getAssemblyConnectors <em>Assembly Connectors</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getAssemblyConnector <em>Assembly Connector</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
@@ -64,14 +64,14 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 	protected long frequency = FREQUENCY_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getAssemblyConnectors() <em>Assembly Connectors</em>}' reference list.
+	 * The cached value of the '{@link #getAssemblyConnector() <em>Assembly Connector</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAssemblyConnectors()
+	 * @see #getAssemblyConnector()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AssemblyConnector> assemblyConnectors;
+	protected AssemblyConnector assemblyConnector;
 
 	/**
 	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' reference.
@@ -128,11 +128,37 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AssemblyConnector> getAssemblyConnectors() {
-		if (assemblyConnectors == null) {
-			assemblyConnectors = new EObjectResolvingEList<AssemblyConnector>(AssemblyConnector.class, this, UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS);
+	public AssemblyConnector getAssemblyConnector() {
+		if (assemblyConnector != null && assemblyConnector.eIsProxy()) {
+			InternalEObject oldAssemblyConnector = (InternalEObject)assemblyConnector;
+			assemblyConnector = (AssemblyConnector)eResolveProxy(oldAssemblyConnector);
+			if (assemblyConnector != oldAssemblyConnector) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR, oldAssemblyConnector, assemblyConnector));
+			}
 		}
-		return assemblyConnectors;
+		return assemblyConnector;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AssemblyConnector basicGetAssemblyConnector() {
+		return assemblyConnector;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setAssemblyConnector(AssemblyConnector newAssemblyConnector) {
+		AssemblyConnector oldAssemblyConnector = assemblyConnector;
+		assemblyConnector = newAssemblyConnector;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR, oldAssemblyConnector, assemblyConnector));
 	}
 
 	/**
@@ -183,8 +209,9 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 		switch (featureID) {
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY:
 				return getFrequency();
-			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS:
-				return getAssemblyConnectors();
+			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR:
+				if (resolve) return getAssemblyConnector();
+				return basicGetAssemblyConnector();
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE:
 				if (resolve) return getSignature();
 				return basicGetSignature();
@@ -204,9 +231,8 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY:
 				setFrequency((Long)newValue);
 				return;
-			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS:
-				getAssemblyConnectors().clear();
-				getAssemblyConnectors().addAll((Collection<? extends AssemblyConnector>)newValue);
+			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR:
+				setAssemblyConnector((AssemblyConnector)newValue);
 				return;
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE:
 				setSignature((Signature)newValue);
@@ -226,8 +252,8 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY:
 				setFrequency(FREQUENCY_EDEFAULT);
 				return;
-			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS:
-				getAssemblyConnectors().clear();
+			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR:
+				setAssemblyConnector((AssemblyConnector)null);
 				return;
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE:
 				setSignature((Signature)null);
@@ -246,8 +272,8 @@ public class AssemblyConnectorCallFrequencyImpl extends EObjectImpl implements A
 		switch (featureID) {
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY:
 				return frequency != FREQUENCY_EDEFAULT;
-			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS:
-				return assemblyConnectors != null && !assemblyConnectors.isEmpty();
+			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR:
+				return assemblyConnector != null;
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE:
 				return signature != null;
 		}

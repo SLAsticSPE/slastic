@@ -442,9 +442,9 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="FrequencyDistribution">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="values" ordered="false"
-          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          unique="false" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequencies" ordered="false"
-          upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+          unique="false" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OperationCallFrequency">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" ordered="false"
@@ -455,8 +455,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnectorCallFrequency">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" ordered="false"
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnectors" ordered="false"
-          upperBound="-1" eType="#//componentAssembly/AssemblyConnector"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnector" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyConnector"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="signature" ordered="false"
           lowerBound="1" eType="#//typeRepository/Signature"/>
     </eClassifiers>

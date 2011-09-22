@@ -14,6 +14,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.Exec
 import org.trustsoft.slastic.plugins.slasticImpl.model.reconfiguration.IReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.reconfiguration.ReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
@@ -24,6 +25,7 @@ import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
 import de.cau.se.slastic.metamodel.reconfiguration.plan.ReconfigurationPlan;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import de.cau.se.slastic.metamodel.usage.UsageModel;
 
 /**
  * 
@@ -42,14 +44,20 @@ public class ModelManager extends AbstractModelManagerComponent {
 	
 	/** Will be created in {@link #init()} */
 	private volatile SystemModel systemModel;
+	
+	/** Will be created in {@link #init()} */
+	private volatile UsageModel usageModel;
 
-	/* Managers for the sub-models */
+	/* Managers for the system sub-models */
 	private volatile TypeRepositoryModelManager typeRepositoryManager;
 	private volatile ComponentAssemblyModelManager componentAssemblyModelManager;
 	private volatile ExecutionEnvironmentModelManager executionEnvironmentModelManager;
 	private volatile ComponentDeploymentModelManager componentDeploymentModelManager;
 	private volatile IReconfigurationManager reconfigurationManager;
 
+	/* Manager for the usage model */
+	private volatile UsageModelManager usageModelManager;
+	
 	/* Manager for maintaining mappings between architectural and implementation-level
 	 * among monitoring and reconfiguration managers */
 	private final Arch2ImplNameMappingManager arch2ImplNameMappingManager = 

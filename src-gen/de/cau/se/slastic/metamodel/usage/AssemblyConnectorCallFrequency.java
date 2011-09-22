@@ -23,7 +23,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getFrequency <em>Frequency</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnectors <em>Assembly Connectors</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
@@ -60,20 +60,30 @@ public interface AssemblyConnectorCallFrequency extends EObject {
 	void setFrequency(long value);
 
 	/**
-	 * Returns the value of the '<em><b>Assembly Connectors</b></em>' reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector}.
+	 * Returns the value of the '<em><b>Assembly Connector</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Assembly Connectors</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Assembly Connector</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Assembly Connectors</em>' reference list.
-	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getAssemblyConnectorCallFrequency_AssemblyConnectors()
-	 * @model ordered="false"
+	 * @return the value of the '<em>Assembly Connector</em>' reference.
+	 * @see #setAssemblyConnector(AssemblyConnector)
+	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getAssemblyConnectorCallFrequency_AssemblyConnector()
+	 * @model required="true" ordered="false"
 	 * @generated
 	 */
-	EList<AssemblyConnector> getAssemblyConnectors();
+	AssemblyConnector getAssemblyConnector();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Assembly Connector</em>' reference.
+	 * @see #getAssemblyConnector()
+	 * @generated
+	 */
+	void setAssemblyConnector(AssemblyConnector value);
 
 	/**
 	 * Returns the value of the '<em><b>Signature</b></em>' reference.

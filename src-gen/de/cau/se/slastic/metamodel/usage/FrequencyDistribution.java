@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface FrequencyDistribution extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Values</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Integer}.
+	 * The list contents are of type {@link java.lang.Long}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Values</em>' attribute list isn't clear,
@@ -39,14 +39,14 @@ public interface FrequencyDistribution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Values</em>' attribute list.
 	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getFrequencyDistribution_Values()
-	 * @model ordered="false"
+	 * @model unique="false" ordered="false"
 	 * @generated
 	 */
-	EList<Integer> getValues();
+	EList<Long> getValues();
 
 	/**
 	 * Returns the value of the '<em><b>Frequencies</b></em>' attribute list.
-	 * The list contents are of type {@link java.lang.Integer}.
+	 * The list contents are of type {@link java.lang.Long}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Frequencies</em>' attribute list isn't clear,
@@ -55,9 +55,9 @@ public interface FrequencyDistribution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Frequencies</em>' attribute list.
 	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getFrequencyDistribution_Frequencies()
-	 * @model ordered="false"
+	 * @model unique="false" ordered="false"
 	 * @generated
 	 */
-	EList<Integer> getFrequencies();
+	EList<Long> getFrequencies();
 
 } // FrequencyDistribution

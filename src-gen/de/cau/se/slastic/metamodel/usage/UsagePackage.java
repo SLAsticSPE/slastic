@@ -256,13 +256,13 @@ public interface UsagePackage extends EPackage {
 	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Assembly Connectors</b></em>' reference list.
+	 * The feature id for the '<em><b>Assembly Connector</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS = 1;
+	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR = 1;
 
 	/**
 	 * The feature id for the '<em><b>Signature</b></em>' reference.
@@ -466,15 +466,15 @@ public interface UsagePackage extends EPackage {
 	EAttribute getAssemblyConnectorCallFrequency_Frequency();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnectors <em>Assembly Connectors</em>}'.
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Assembly Connectors</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnectors()
+	 * @return the meta object for the reference '<em>Assembly Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector()
 	 * @see #getAssemblyConnectorCallFrequency()
 	 * @generated
 	 */
-	EReference getAssemblyConnectorCallFrequency_AssemblyConnectors();
+	EReference getAssemblyConnectorCallFrequency_AssemblyConnector();
 
 	/**
 	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getSignature <em>Signature</em>}'.
@@ -656,12 +656,12 @@ public interface UsagePackage extends EPackage {
 		EAttribute ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY = eINSTANCE.getAssemblyConnectorCallFrequency_Frequency();
 
 		/**
-		 * The meta object literal for the '<em><b>Assembly Connectors</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Assembly Connector</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS = eINSTANCE.getAssemblyConnectorCallFrequency_AssemblyConnectors();
+		EReference ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR = eINSTANCE.getAssemblyConnectorCallFrequency_AssemblyConnector();
 
 		/**
 		 * The meta object literal for the '<em><b>Signature</b></em>' reference feature.

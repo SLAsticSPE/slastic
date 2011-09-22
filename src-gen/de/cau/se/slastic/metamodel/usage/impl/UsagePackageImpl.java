@@ -361,7 +361,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAssemblyConnectorCallFrequency_AssemblyConnectors() {
+	public EReference getAssemblyConnectorCallFrequency_AssemblyConnector() {
 		return (EReference)assemblyConnectorCallFrequencyEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -423,7 +423,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		assemblyConnectorCallFrequencyEClass = createEClass(ASSEMBLY_CONNECTOR_CALL_FREQUENCY);
 		createEAttribute(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY);
-		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTORS);
+		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE);
 	}
 
@@ -475,8 +475,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEReference(getCallingRelationship_FrequencyDistribution(), this.getFrequencyDistribution(), null, "frequencyDistribution", null, 1, 1, CallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(frequencyDistributionEClass, FrequencyDistribution.class, "FrequencyDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFrequencyDistribution_Values(), ecorePackage.getEInt(), "values", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEAttribute(getFrequencyDistribution_Frequencies(), ecorePackage.getEInt(), "frequencies", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getFrequencyDistribution_Values(), ecorePackage.getELong(), "values", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getFrequencyDistribution_Frequencies(), ecorePackage.getELong(), "frequencies", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(operationCallFrequencyEClass, OperationCallFrequency.class, "OperationCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOperationCallFrequency_Frequency(), ecorePackage.getELong(), "frequency", null, 1, 1, OperationCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -484,7 +484,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		initEClass(assemblyConnectorCallFrequencyEClass, AssemblyConnectorCallFrequency.class, "AssemblyConnectorCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAssemblyConnectorCallFrequency_Frequency(), ecorePackage.getELong(), "frequency", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyConnectorCallFrequency_AssemblyConnectors(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnectors", null, 0, -1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyConnectorCallFrequency_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnector", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getAssemblyConnectorCallFrequency_Signature(), theTypeRepositoryPackage.getSignature(), null, "signature", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		// Create resource

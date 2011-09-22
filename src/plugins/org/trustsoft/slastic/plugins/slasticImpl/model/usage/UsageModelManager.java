@@ -11,6 +11,7 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
+import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 
 /**
@@ -20,8 +21,13 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
 
+	public UsageModelManager() {
+		this(UsageFactory.eINSTANCE.createUsageModel());
+	}
+	
 	public UsageModelManager(final UsageModel model) {
 		super(model);
+		// TODO: fill internal maps
 	}
 
 	@Override

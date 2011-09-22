@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 /**
@@ -42,7 +43,7 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Integer> values;
+	protected EList<Long> values;
 
 	/**
 	 * The cached value of the '{@link #getFrequencies() <em>Frequencies</em>}' attribute list.
@@ -52,7 +53,7 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Integer> frequencies;
+	protected EList<Long> frequencies;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -78,9 +79,9 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Integer> getValues() {
+	public EList<Long> getValues() {
 		if (values == null) {
-			values = new EDataTypeUniqueEList<Integer>(Integer.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__VALUES);
+			values = new EDataTypeEList<Long>(Long.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__VALUES);
 		}
 		return values;
 	}
@@ -90,9 +91,9 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Integer> getFrequencies() {
+	public EList<Long> getFrequencies() {
 		if (frequencies == null) {
-			frequencies = new EDataTypeUniqueEList<Integer>(Integer.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__FREQUENCIES);
+			frequencies = new EDataTypeEList<Long>(Long.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__FREQUENCIES);
 		}
 		return frequencies;
 	}
@@ -124,11 +125,11 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 		switch (featureID) {
 			case UsagePackage.FREQUENCY_DISTRIBUTION__VALUES:
 				getValues().clear();
-				getValues().addAll((Collection<? extends Integer>)newValue);
+				getValues().addAll((Collection<? extends Long>)newValue);
 				return;
 			case UsagePackage.FREQUENCY_DISTRIBUTION__FREQUENCIES:
 				getFrequencies().clear();
-				getFrequencies().addAll((Collection<? extends Integer>)newValue);
+				getFrequencies().addAll((Collection<? extends Long>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
