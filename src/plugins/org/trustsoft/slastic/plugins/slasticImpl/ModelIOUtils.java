@@ -45,32 +45,33 @@ public class ModelIOUtils {
 		// return (ReconfigurationModel) readXMIModel(model_fn,
 		// reconfMM.ReconfMMPackage.class.getName());
 		return (ReconfigurationModel) ModelIOUtils.loadModels(
-				new EPackage[]{reconfMM.ReconfMMPackage.eINSTANCE},
-				new String[] {model_fn})[0];
+				new EPackage[] { reconfMM.ReconfMMPackage.eINSTANCE },
+				new String[] { model_fn })[0];
 	}
 
 	public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) throws IOException {
 		// return (SLAsticResourceEnvironment) readXMIModel(model_fn,
 		// org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
-		return (SLAsticResourceEnvironment) ModelIOUtils.loadModels(
-				new EPackage[] {org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE},
-				new String[] {model_fn})[0];
+		return (SLAsticResourceEnvironment) ModelIOUtils
+				.loadModels(
+						new EPackage[] { org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE },
+						new String[] { model_fn })[0];
 	}
 
 	public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) throws IOException {
 		// return (SLAsticQoSAnnotations) readXMIModel(model_fn,
 		// org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
 		return (SLAsticQoSAnnotations) ModelIOUtils.loadModels(
-				new EPackage[] {org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE},
-				new String[] {model_fn})[0];
+				new EPackage[] { org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE },
+				new String[] { model_fn })[0];
 	}
 
 	public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) throws IOException {
 		// return (TypeRepositoryModel) readXMIModel(model_fn,
 		// de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
 		return (TypeRepositoryModel) ModelIOUtils.loadModels(
-				new EPackage[] {de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE},
-				new String[] {model_fn})[0];
+				new EPackage[] { de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE },
+				new String[] { model_fn })[0];
 	}
 
 	/**
@@ -158,12 +159,29 @@ public class ModelIOUtils {
 				new String[] { systemModelOutputFn, usageModelFn });
 	}
 
+	/**
+	 * Loads the {@link SystemModel} from the given file.
+	 * 
+	 * @param inputFn
+	 * @return
+	 * @throws IOException
+	 */
 	public static SystemModel loadSystemModel(final String inputFn) throws IOException {
 		return (SystemModel) ModelIOUtils.loadModels(
 				new EPackage[] { CorePackage.eINSTANCE },
 				new String[] { inputFn })[0];
 	}
 
+	/**
+	 * Loads a {@link SystemModel} and a {@link UsageModel} from the given
+	 * files. Both file names must not be null.
+	 * 
+	 * @param systemInputFn
+	 * @param usageModelFn
+	 * @return an array with index 0 being the {@link SystemModel} and index 1
+	 *         being the {@link UsageModel}
+	 * @throws IOException
+	 */
 	public static EObject[] loadSystemAndUsageModel(final String systemInputFn, final String usageModelFn)
 			throws IOException {
 		return ModelIOUtils.loadModels(

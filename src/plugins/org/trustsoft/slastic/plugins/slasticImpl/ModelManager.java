@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.EObject;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
@@ -92,14 +93,16 @@ public class ModelManager extends AbstractModelManagerComponent {
 		this(systemModel, ModelManager.createInitializedUsageModel());
 	}
 
-	public ModelManager(final String systemModel_inputFile, final String usageModel_inputFile) throws IOException {
-		// Model Manager with system and usage model loaded from file
-		this(ModelManager.loadSystemModel(systemModel_inputFile), ModelManager.loadUsageModel(usageModel_inputFile));
-	}
-
 	public ModelManager(final SystemModel systemModel, final UsageModel usageModel) {
 		this.systemModel = systemModel;
 		this.usageModel = usageModel;
+		this.initManagers();
+	}
+
+	public ModelManager(final String systemModel_inputFile, final String usageModel_inputFile) throws IOException {
+		final EObject[] models = ModelManager.loadSystemAndUsageModel(systemModel_inputFile, usageModel_inputFile);
+		this.systemModel = (SystemModel) models[0];
+		this.usageModel = (UsageModel) models[1];
 		this.initManagers();
 	}
 
@@ -176,57 +179,50 @@ public class ModelManager extends AbstractModelManagerComponent {
 
 	@Override
 	public boolean init() {
-		{ // Initialize the system model
-			final String systemModel_inputFile = super.getInitProperty(
-					ModelManager.PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
+		final String systemModel_inputFile =
+				super.getInitProperty(ModelManager.PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
+		final String usageModel_inputFile =
+				super.getInitProperty(ModelManager.PROP_NAME_USAGE_MODEL__INPUT_FN, "");
 
-			this.systemModel_outputFile =
-					this.getComponentContext()
-							.createFileInContextDir("output.slastic")
-							.getAbsolutePath();
+		if (systemModel_inputFile.isEmpty()) {
+			// In this case, we create new system and usage models
+			ModelManager.log.info("No input filename for system model given --- creating new models");
+			this.systemModel = ModelManager.createInitializedSystemModel();
+			this.usageModel = ModelManager.createInitializedUsageModel();
+		} else {
+			if (usageModel_inputFile.isEmpty()) {
+				// Load system model from file but create empty usage model
 
-			if (systemModel_inputFile.isEmpty()) {
-				ModelManager.log
-						.info("No input filename for system model given --- creating new model");
-				this.systemModel = ModelManager.createInitializedSystemModel();
-			} else {
-				ModelManager.log.info("Loading system model from file "
-						+ systemModel_inputFile);
 				try {
 					this.systemModel = ModelManager.loadSystemModel(systemModel_inputFile);
 				} catch (final IOException ex) {
 					ModelManager.log.error("Failed to load system model from "
-							+ systemModel_inputFile, ex);
+								+ systemModel_inputFile, ex);
 					return false;
 				}
-			}
-		}
 
-		{ // Initialize the usage model
-			final String usageModel_inputFile = super.getInitProperty(
-					ModelManager.PROP_NAME_USAGE_MODEL__INPUT_FN, "");
-
-			this.usageModel_outputFile =
-					this.getComponentContext()
-							.createFileInContextDir("output.slasticusage")
-							.getAbsolutePath();
-
-			if (usageModel_inputFile.isEmpty()) {
 				ModelManager.log
 						.info("No input filename for usage model given --- creating new model");
 				this.usageModel = ModelManager.createInitializedUsageModel();
 			} else {
-				ModelManager.log.info("Loading usage model from file "
-						+ usageModel_inputFile);
+				// Load both system model and usage from files
 				try {
-					this.usageModel = ModelManager.loadUsageModel(usageModel_inputFile);
+					final EObject[] models =
+							ModelManager.loadSystemAndUsageModel(systemModel_inputFile, usageModel_inputFile);
+					this.systemModel = (SystemModel) models[0];
+					this.usageModel = (UsageModel) models[1];
 				} catch (final IOException ex) {
 					ModelManager.log.error("Failed to load usage model from "
-							+ usageModel_inputFile, ex);
+								+ usageModel_inputFile, ex);
 					return false;
 				}
 			}
 		}
+
+		this.systemModel_outputFile =
+				this.getComponentContext().createFileInContextDir("output.slastic").getAbsolutePath();
+		this.usageModel_outputFile =
+				this.getComponentContext().createFileInContextDir("output.slasticusage").getAbsolutePath();
 
 		return this.initManagers();
 	}
@@ -238,9 +234,12 @@ public class ModelManager extends AbstractModelManagerComponent {
 		return ModelIOUtils.loadSystemModel(systemModel_inputFile);
 	}
 
-	private static UsageModel loadUsageModel(final String usageModel_inputFile)
+	private static EObject[] loadSystemAndUsageModel(final String systemModel_inputFile,
+			final String usageModel_inputFile)
 			throws IOException {
-		throw new UnsupportedOperationException("Missing implementation");
+		ModelManager.log.info("Loading system model from file " + systemModel_inputFile
+				+ " and usage model from file " + usageModel_inputFile);
+		return ModelIOUtils.loadSystemAndUsageModel(systemModel_inputFile, usageModel_inputFile);
 	}
 
 	@Override
