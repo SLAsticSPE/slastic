@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.tests.junit.model.manager.usage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -78,12 +80,14 @@ public class TestUsageModelSimple extends TestCase {
 	/**
 	 * Manually fills the {@link UsageModel} without using the
 	 * {@link UsageModelManager}.
+	 * @throws IOException 
 	 */
-	public void testManuallyFillModel() {
+	public void testManuallyFillModel() throws IOException {
 		this.initModelAndVars();
 		this.addOperationCallFrequencies();
 		this.addCallingRelationship();
 		this.addAssemblyConnectorCallFrequencies();
+		this.saveModels();
 	}
 
 	/**
@@ -176,6 +180,20 @@ public class TestUsageModelSimple extends TestCase {
 		// TODO: Add frequency for system-provided connector
 	}
 
+	private void saveModels() throws IOException {
+	       /* Create a tmp files the models will be saved to
+         * and mark the files to be deleted on jvm termination */
+        final File tmpSystemModelFile =
+                File.createTempFile("systemModel-", "");
+        //tmpSystemModelFile.deleteOnExit();
+        
+        final File tmpUsageModelFile =
+            File.createTempFile("usageModel-", "");
+        //tmpSystemModelFile.deleteOnExit();
+        
+        this.systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
+	}
+	
 	private final CallingRelationship createCallingRelationship(final Operation op, final Interface iface,
 			final Signature signature,
 			final TreeMap<Long, Long> frequencyDistribution) {

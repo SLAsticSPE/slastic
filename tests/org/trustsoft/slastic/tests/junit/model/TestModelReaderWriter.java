@@ -1,14 +1,16 @@
 package org.trustsoft.slastic.tests.junit.model;
 
-import de.cau.se.slastic.metamodel.core.CoreFactory;
-import de.cau.se.slastic.metamodel.core.SystemModel;
-import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import java.io.File;
 import java.io.IOException;
+
+import junit.framework.Assert;
 import junit.framework.TestCase;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+
+import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 
 /**
  *
@@ -29,11 +31,15 @@ public class TestModelReaderWriter extends TestCase {
         final String fqnComponentType0 = "a.b.C";
         final String fqnComponentType1 = "a.b.D";
 
-        /* Create a tmp file the type repository model will be saved to
-         * and mark the file to be deleted on jvm termination */
-        final File tmpFile =
+        /* Create a tmp files the models will be saved to
+         * and mark the files to be deleted on jvm termination */
+        final File tmpSystemModelFile =
                 File.createTempFile("systemModel-", "");
-        tmpFile.deleteOnExit();
+        //tmpSystemModelFile.deleteOnExit();
+        
+        final File tmpUsageModelFile =
+            File.createTempFile("usageModel-", "");
+        //tmpSystemModelFile.deleteOnExit();
 
         /* Create a system model with two components types and save it to the
          * tmp file */
@@ -43,20 +49,21 @@ public class TestModelReaderWriter extends TestCase {
                 systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType0);
         final ComponentType componentType1 =
                 systemModelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqnComponentType1);
-        log.info("Saving system model to file " + tmpFile.getAbsolutePath());
-        systemModelManager.saveModel(tmpFile.getAbsolutePath());
+        TestModelReaderWriter.log.info("Saving system model to file " + tmpSystemModelFile.getAbsolutePath() 
+        		+ " and usage model to file " + tmpUsageModelFile.getAbsolutePath());
+        systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
 
         /* Load the model from the file */
-        log.info("Loading system model from file " + tmpFile.getAbsolutePath());
+        TestModelReaderWriter.log.info("Loading system model from file " + tmpSystemModelFile.getAbsolutePath());
         final ModelManager systemModelManagerLoadedModel =
-                new ModelManager(tmpFile.getAbsolutePath());
+                new ModelManager(tmpSystemModelFile.getAbsolutePath());
         final ComponentType componentType0Loaded =
                 systemModelManagerLoadedModel.getTypeRepositoryManager().lookupComponentType(fqnComponentType0);
         final ComponentType componentType1Loaded =
                 systemModelManagerLoadedModel.getTypeRepositoryManager().lookupComponentType(fqnComponentType1);
 
         /* Perform a simple (incomplete) equality check */
-        assertEquals(componentType0.getId(), componentType0Loaded.getId());
-        assertEquals(componentType1.getId(), componentType1Loaded.getId());
+        Assert.assertEquals(componentType0.getId(), componentType0Loaded.getId());
+        Assert.assertEquals(componentType1.getId(), componentType1Loaded.getId());
     }
 }

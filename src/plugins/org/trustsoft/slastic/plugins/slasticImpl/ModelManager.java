@@ -266,16 +266,16 @@ public class ModelManager extends AbstractModelManagerComponent {
 	@Override
 	public void terminate(final boolean error) {
 		ModelManager.log.info("Terminating model manager");
-		this.saveModel();
+		this.saveModels();
 	}
 
-	public void saveModel(final String outputFn) throws IOException {
-		ModelIOUtils.saveSystemModel(this.systemModel, outputFn);
+	public void saveModels(final String systemModelOutputFn, final String usageModelOutputFn) throws IOException {
+		ModelIOUtils.saveModels(this.systemModel, systemModelOutputFn, this.usageModel, usageModelOutputFn);
 	}
 
-	private void saveModel() {
+	private void saveModels() {
 		try {
-			this.saveModel(this.systemModel_outputFile);
+			this.saveModels(this.systemModel_outputFile, this.usageModel_outputFile);
 		} catch (final IOException exc) {
 			ModelManager.log.error(
 					"An IOException occured while saving models", exc);
