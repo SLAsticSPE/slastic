@@ -37,11 +37,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getComponentTypes <em>Component Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getExecutionContainerTypes <em>Execution Container Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getInterfaces <em>Interfaces</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getConnectorTypes <em>Connector Types</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getResourceTypes <em>Resource Types</em>}</li>
  * </ul>
  * </p>
@@ -49,16 +49,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * @generated
  */
 public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRepositoryModel {
-	/**
-	 * The cached value of the '{@link #getNetworkLinkTypes() <em>Network Link Types</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getNetworkLinkTypes()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<NetworkLinkType> networkLinkTypes;
-
 	/**
 	 * The cached value of the '{@link #getComponentTypes() <em>Component Types</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -100,6 +90,16 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	protected EList<ConnectorType> connectorTypes;
 
 	/**
+	 * The cached value of the '{@link #getNetworkLinkTypes() <em>Network Link Types</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getNetworkLinkTypes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<NetworkLinkType> networkLinkTypes;
+
+	/**
 	 * The cached value of the '{@link #getResourceTypes() <em>Resource Types</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -135,7 +135,7 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	 */
 	public EList<NetworkLinkType> getNetworkLinkTypes() {
 		if (networkLinkTypes == null) {
-			networkLinkTypes = new EObjectContainmentWithInverseEList<NetworkLinkType>(NetworkLinkType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES, TypeRepositoryPackage.NETWORK_LINK_TYPE__REPOSITORY);
+			networkLinkTypes = new EObjectContainmentEList<NetworkLinkType>(NetworkLinkType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES);
 		}
 		return networkLinkTypes;
 	}
@@ -205,26 +205,9 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNetworkLinkTypes()).basicAdd(otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				return ((InternalEList<?>)getNetworkLinkTypes()).basicRemove(otherEnd, msgs);
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES:
 				return ((InternalEList<?>)getComponentTypes()).basicRemove(otherEnd, msgs);
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES:
@@ -233,6 +216,8 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 				return ((InternalEList<?>)getInterfaces()).basicRemove(otherEnd, msgs);
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES:
 				return ((InternalEList<?>)getConnectorTypes()).basicRemove(otherEnd, msgs);
+			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
+				return ((InternalEList<?>)getNetworkLinkTypes()).basicRemove(otherEnd, msgs);
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__RESOURCE_TYPES:
 				return ((InternalEList<?>)getResourceTypes()).basicRemove(otherEnd, msgs);
 		}
@@ -247,8 +232,6 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				return getNetworkLinkTypes();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES:
 				return getComponentTypes();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES:
@@ -257,6 +240,8 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 				return getInterfaces();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES:
 				return getConnectorTypes();
+			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
+				return getNetworkLinkTypes();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__RESOURCE_TYPES:
 				return getResourceTypes();
 		}
@@ -272,10 +257,6 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				getNetworkLinkTypes().clear();
-				getNetworkLinkTypes().addAll((Collection<? extends NetworkLinkType>)newValue);
-				return;
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES:
 				getComponentTypes().clear();
 				getComponentTypes().addAll((Collection<? extends ComponentType>)newValue);
@@ -291,6 +272,10 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES:
 				getConnectorTypes().clear();
 				getConnectorTypes().addAll((Collection<? extends ConnectorType>)newValue);
+				return;
+			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
+				getNetworkLinkTypes().clear();
+				getNetworkLinkTypes().addAll((Collection<? extends NetworkLinkType>)newValue);
 				return;
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__RESOURCE_TYPES:
 				getResourceTypes().clear();
@@ -308,9 +293,6 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				getNetworkLinkTypes().clear();
-				return;
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES:
 				getComponentTypes().clear();
 				return;
@@ -322,6 +304,9 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 				return;
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES:
 				getConnectorTypes().clear();
+				return;
+			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
+				getNetworkLinkTypes().clear();
 				return;
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__RESOURCE_TYPES:
 				getResourceTypes().clear();
@@ -338,8 +323,6 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
-				return networkLinkTypes != null && !networkLinkTypes.isEmpty();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES:
 				return componentTypes != null && !componentTypes.isEmpty();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES:
@@ -348,6 +331,8 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 				return interfaces != null && !interfaces.isEmpty();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES:
 				return connectorTypes != null && !connectorTypes.isEmpty();
+			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES:
+				return networkLinkTypes != null && !networkLinkTypes.isEmpty();
 			case TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__RESOURCE_TYPES:
 				return resourceTypes != null && !resourceTypes.isEmpty();
 		}

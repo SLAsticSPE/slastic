@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl#getParamTypes <em>Param Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl#getReturnType <em>Return Type</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.SignatureImpl#getOperation <em>Operation</em>}</li>
  * </ul>
  * </p>
  *
@@ -133,92 +132,6 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operation getOperation() {
-		if (eContainerFeatureID() != TypeRepositoryPackage.SIGNATURE__OPERATION) return null;
-		return (Operation)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetOperation(Operation newOperation, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newOperation, TypeRepositoryPackage.SIGNATURE__OPERATION, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setOperation(Operation newOperation) {
-		if (newOperation != eInternalContainer() || (eContainerFeatureID() != TypeRepositoryPackage.SIGNATURE__OPERATION && newOperation != null)) {
-			if (EcoreUtil.isAncestor(this, newOperation))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newOperation != null)
-				msgs = ((InternalEObject)newOperation).eInverseAdd(this, TypeRepositoryPackage.OPERATION__SIGNATURE, Operation.class, msgs);
-			msgs = basicSetOperation(newOperation, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TypeRepositoryPackage.SIGNATURE__OPERATION, newOperation, newOperation));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				if (eInternalContainer() != null)
-					msgs = eBasicRemoveFromContainer(msgs);
-				return basicSetOperation((Operation)otherEnd, msgs);
-		}
-		return super.eInverseAdd(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				return basicSetOperation(null, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
-		switch (eContainerFeatureID()) {
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				return eInternalContainer().eInverseRemove(this, TypeRepositoryPackage.OPERATION__SIGNATURE, Operation.class, msgs);
-		}
-		return super.eBasicRemoveFromContainerFeature(msgs);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -226,8 +139,6 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 				return getParamTypes();
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				return getReturnType();
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				return getOperation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,9 +159,6 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				setReturnType((String)newValue);
 				return;
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				setOperation((Operation)newValue);
-				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -269,9 +177,6 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				setReturnType(RETURN_TYPE_EDEFAULT);
 				return;
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				setOperation((Operation)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -288,8 +193,6 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 				return paramTypes != null && !paramTypes.isEmpty();
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				return RETURN_TYPE_EDEFAULT == null ? returnType != null : !RETURN_TYPE_EDEFAULT.equals(returnType);
-			case TypeRepositoryPackage.SIGNATURE__OPERATION:
-				return getOperation() != null;
 		}
 		return super.eIsSet(featureID);
 	}

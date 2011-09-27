@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see de.cau.se.slastic.metamodel.core.CorePackage#getSLAsticModel()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface SLAsticModel extends EObject {

@@ -1,9 +1,12 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
-import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 import java.util.List;
+
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+
+import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 
 /**
  *
@@ -27,8 +30,10 @@ public class ConnectorTypesManager extends AbstractFQNamedEntityManager<Connecto
 
     @Override
     public ConnectorType createAndRegisterConnectorType(
-            final String fullyQualifiedName) {
-        return this.createAndRegister(fullyQualifiedName);
+            final String fullyQualifiedName, final Interface iface) {
+    	final ConnectorType ct = this.createAndRegister(fullyQualifiedName);
+    	ct.setInterface(iface);
+    	return ct;
     }
 
     @Override

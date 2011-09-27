@@ -4,7 +4,9 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractTransformationComponent;
 
@@ -16,6 +18,7 @@ import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
@@ -255,32 +258,47 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	public static final String DEFAULT_TYPE_POSTFIX = "__T";
 
 	/**
+	 * Prefix to be used for naming {@link Interface}s corresponding to
+	 * {@link ComponentType}s.
+	 */
+	public static final String DEFAULT_INTERFACE_PREFIX = "I";
+
+	/**
 	 * <p>
-	 * Creates a new {@link AssemblyComponent} with the given componentName. The
-	 * associated {@link ComponentType} is selected by using a (existing or
+	 * Creates a new {@link AssemblyComponent} with the given fqComponentName.
+	 * The associated {@link ComponentType} is selected by using a (existing or
 	 * newly created by the method) {@link ComponentType} with the same name.
 	 * </p>
 	 * 
 	 * <p>
-	 * An assembly component with the name componentName must not be registered
-	 * prior to the call.
+	 * An assembly component with the name fqComponentName must not be
+	 * registered prior to the call.
 	 * </p>
 	 * 
-	 * @param componentName
+	 * @param fqComponentName
 	 * @return
 	 */
-	public AssemblyComponent createAssemblyComponent(final String componentName) {
+	public AssemblyComponent createAssemblyComponent(final String fqComponentName) {
 
 		ComponentType componentType =
 				this.getTypeModelManager().lookupComponentType(
-						componentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+						fqComponentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
 		if (componentType == null) {
 			componentType =
 					this.getTypeModelManager().createAndRegisterComponentType(
-							componentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+							fqComponentName + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX);
+
+			/* Also create a corresponding (provided) interface */
+			final String fqIfaceName =
+					NameUtils.createFQName(componentType.getPackageName(),
+							AbstractModelReconstructionComponent.DEFAULT_INTERFACE_PREFIX + componentType.getName());
+			final Interface iface =
+					this.getTypeModelManager().createAndRegisterInterface(
+							fqIfaceName);
+			this.getTypeModelManager().registerProvidedInterface(componentType, iface);
 		}
 
-		return this.getAssemblyModelManager().createAndRegisterAssemblyComponent(componentName, componentType);
+		return this.getAssemblyModelManager().createAndRegisterAssemblyComponent(fqComponentName, componentType);
 	}
 
 	/**
@@ -354,6 +372,19 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 			res =
 					this.getTypeModelManager().createAndRegisterOperation(componentType, kiekerSignature.getName(),
 							kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+
+			/* Now, we want to add the new operation also to the interface */
+			final EList<Interface> providedInterfaces = res.getComponentType().getProvidedInterfaces();
+			if (providedInterfaces.isEmpty()) {
+				AbstractModelReconstructionComponent.log.warn("Component type " + componentType
+						+ " has no provided interface yet. Cannot add operation signature.");
+			} else {
+				// Add the operation to the last interface in the list (as this
+				// should be the one we've added in #createAssemblyComponent)
+				final Interface iface = providedInterfaces.get(providedInterfaces.size() - 1);
+				this.getTypeModelManager().createAndRegisterSignature(iface, kiekerSignature.getName(),
+						kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+			}
 		}
 
 		return res;
@@ -375,7 +406,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 		}
 
 		return this.getExecutionEnvModelManager().createAndRegisterExecutionContainer(containerName, containerType,
-				/* mark allocated */ true);
+				/* mark allocated */true);
 	}
 
 	public static final String DEFAULT_GENERIC_RESOURCE_TYPE_NAME = "DEFAULT.GENERIC_RESOURCE_TYPE";

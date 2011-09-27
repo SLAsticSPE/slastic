@@ -13,8 +13,12 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 
 import java.util.Collection;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
@@ -32,7 +36,7 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  */
 public class InterfaceImpl extends FQNamedEntityImpl implements Interface {
 	/**
-	 * The cached value of the '{@link #getSignatures() <em>Signatures</em>}' reference list.
+	 * The cached value of the '{@link #getSignatures() <em>Signatures</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getSignatures()
@@ -67,9 +71,23 @@ public class InterfaceImpl extends FQNamedEntityImpl implements Interface {
 	 */
 	public EList<Signature> getSignatures() {
 		if (signatures == null) {
-			signatures = new EObjectResolvingEList<Signature>(Signature.class, this, TypeRepositoryPackage.INTERFACE__SIGNATURES);
+			signatures = new EObjectContainmentEList<Signature>(Signature.class, this, TypeRepositoryPackage.INTERFACE__SIGNATURES);
 		}
 		return signatures;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case TypeRepositoryPackage.INTERFACE__SIGNATURES:
+				return ((InternalEList<?>)getSignatures()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**

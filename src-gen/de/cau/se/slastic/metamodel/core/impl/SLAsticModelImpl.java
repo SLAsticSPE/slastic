@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public class SLAsticModelImpl extends EObjectImpl implements SLAsticModel {
+public abstract class SLAsticModelImpl extends EObjectImpl implements SLAsticModel {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

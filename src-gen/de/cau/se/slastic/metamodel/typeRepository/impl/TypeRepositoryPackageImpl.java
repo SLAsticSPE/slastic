@@ -58,6 +58,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
+import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -192,6 +194,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		PlanPackageImpl thePlanPackage = (PlanPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) instanceof PlanPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) : PlanPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		AdaptationPackageImpl theAdaptationPackage = (AdaptationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) instanceof AdaptationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) : AdaptationPackage.eINSTANCE);
+		UsagePackageImpl theUsagePackage = (UsagePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) instanceof UsagePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) : UsagePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theTypeRepositoryPackage.createPackageContents();
@@ -205,6 +208,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		thePlanPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
 		theAdaptationPackage.createPackageContents();
+		theUsagePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theTypeRepositoryPackage.initializePackageContents();
@@ -218,6 +222,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		thePlanPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
 		theAdaptationPackage.initializePackageContents();
+		theUsagePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theTypeRepositoryPackage.freeze();
@@ -261,7 +266,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getComponentType_Operations() {
-		return (EReference)componentTypeEClass.getEStructuralFeatures().get(1);
+		return (EReference)componentTypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -270,7 +275,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getComponentType_RequiredInterfaces() {
-		return (EReference)componentTypeEClass.getEStructuralFeatures().get(2);
+		return (EReference)componentTypeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -323,15 +328,6 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getSignature_Operation() {
-		return (EReference)signatureEClass.getEStructuralFeatures().get(2);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getOperation() {
 		return operationEClass;
 	}
@@ -342,7 +338,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getOperation_ComponentType() {
-		return (EReference)operationEClass.getEStructuralFeatures().get(0);
+		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -351,7 +347,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getOperation_Signature() {
-		return (EReference)operationEClass.getEStructuralFeatures().get(1);
+		return (EReference)operationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -361,6 +357,15 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 */
 	public EClass getConnectorType() {
 		return connectorTypeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getConnectorType_Interface() {
+		return (EReference)connectorTypeEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -395,15 +400,6 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getNetworkLinkType_Repository() {
-		return (EReference)networkLinkTypeEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getTypeRepositoryModel() {
 		return typeRepositoryModelEClass;
 	}
@@ -414,7 +410,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getTypeRepositoryModel_NetworkLinkTypes() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(0);
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -423,7 +419,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getTypeRepositoryModel_ComponentTypes() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(1);
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -432,7 +428,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getTypeRepositoryModel_ExecutionContainerTypes() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(2);
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -441,7 +437,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getTypeRepositoryModel_Interfaces() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(3);
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -450,7 +446,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * @generated
 	 */
 	public EReference getTypeRepositoryModel_ConnectorTypes() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(4);
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -494,8 +490,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 
 		componentTypeEClass = createEClass(COMPONENT_TYPE);
 		createEReference(componentTypeEClass, COMPONENT_TYPE__PROVIDED_INTERFACES);
-		createEReference(componentTypeEClass, COMPONENT_TYPE__OPERATIONS);
 		createEReference(componentTypeEClass, COMPONENT_TYPE__REQUIRED_INTERFACES);
+		createEReference(componentTypeEClass, COMPONENT_TYPE__OPERATIONS);
 
 		interfaceEClass = createEClass(INTERFACE);
 		createEReference(interfaceEClass, INTERFACE__SIGNATURES);
@@ -503,26 +499,25 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		signatureEClass = createEClass(SIGNATURE);
 		createEAttribute(signatureEClass, SIGNATURE__PARAM_TYPES);
 		createEAttribute(signatureEClass, SIGNATURE__RETURN_TYPE);
-		createEReference(signatureEClass, SIGNATURE__OPERATION);
 
 		operationEClass = createEClass(OPERATION);
-		createEReference(operationEClass, OPERATION__COMPONENT_TYPE);
 		createEReference(operationEClass, OPERATION__SIGNATURE);
+		createEReference(operationEClass, OPERATION__COMPONENT_TYPE);
 
 		connectorTypeEClass = createEClass(CONNECTOR_TYPE);
+		createEReference(connectorTypeEClass, CONNECTOR_TYPE__INTERFACE);
 
 		executionContainerTypeEClass = createEClass(EXECUTION_CONTAINER_TYPE);
 		createEReference(executionContainerTypeEClass, EXECUTION_CONTAINER_TYPE__RESOURCES);
 
 		networkLinkTypeEClass = createEClass(NETWORK_LINK_TYPE);
-		createEReference(networkLinkTypeEClass, NETWORK_LINK_TYPE__REPOSITORY);
 
 		typeRepositoryModelEClass = createEClass(TYPE_REPOSITORY_MODEL);
-		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES);
 		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__COMPONENT_TYPES);
 		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES);
 		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__INTERFACES);
 		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES);
+		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES);
 		createEReference(typeRepositoryModelEClass, TYPE_REPOSITORY_MODEL__RESOURCE_TYPES);
 	}
 
@@ -577,35 +572,34 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 
 		initEClass(componentTypeEClass, ComponentType.class, "ComponentType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getComponentType_ProvidedInterfaces(), this.getInterface(), null, "providedInterfaces", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getComponentType_Operations(), this.getOperation(), this.getOperation_ComponentType(), "operations", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComponentType_RequiredInterfaces(), this.getInterface(), null, "requiredInterfaces", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentType_Operations(), this.getOperation(), this.getOperation_ComponentType(), "operations", null, 0, -1, ComponentType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(interfaceEClass, Interface.class, "Interface", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getInterface_Signatures(), this.getSignature(), null, "signatures", null, 0, -1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getInterface_Signatures(), this.getSignature(), null, "signatures", null, 0, -1, Interface.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(signatureEClass, Signature.class, "Signature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSignature_ParamTypes(), ecorePackage.getEString(), "paramTypes", null, 0, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getSignature_ReturnType(), ecorePackage.getEString(), "returnType", null, 1, 1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getSignature_Operation(), this.getOperation(), this.getOperation_Signature(), "operation", null, 1, 1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getOperation_Signature(), this.getSignature(), null, "signature", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOperation_ComponentType(), this.getComponentType(), this.getComponentType_Operations(), "componentType", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getOperation_Signature(), this.getSignature(), this.getSignature_Operation(), "signature", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(connectorTypeEClass, ConnectorType.class, "ConnectorType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getConnectorType_Interface(), this.getInterface(), null, "interface", null, 1, 1, ConnectorType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(executionContainerTypeEClass, ExecutionContainerType.class, "ExecutionContainerType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExecutionContainerType_Resources(), theExecutionEnvironmentPackage.getResourceSpecification(), null, "resources", null, 0, -1, ExecutionContainerType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(networkLinkTypeEClass, NetworkLinkType.class, "NetworkLinkType", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getNetworkLinkType_Repository(), this.getTypeRepositoryModel(), this.getTypeRepositoryModel_NetworkLinkTypes(), "repository", null, 1, 1, NetworkLinkType.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(typeRepositoryModelEClass, TypeRepositoryModel.class, "TypeRepositoryModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getTypeRepositoryModel_NetworkLinkTypes(), this.getNetworkLinkType(), this.getNetworkLinkType_Repository(), "networkLinkTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTypeRepositoryModel_ComponentTypes(), this.getComponentType(), null, "componentTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTypeRepositoryModel_ExecutionContainerTypes(), this.getExecutionContainerType(), null, "executionContainerTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTypeRepositoryModel_Interfaces(), this.getInterface(), null, "interfaces", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTypeRepositoryModel_ConnectorTypes(), this.getConnectorType(), null, "connectorTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getTypeRepositoryModel_NetworkLinkTypes(), this.getNetworkLinkType(), null, "networkLinkTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getTypeRepositoryModel_ResourceTypes(), this.getResourceType(), null, "resourceTypes", null, 0, -1, TypeRepositoryModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		// Create resource

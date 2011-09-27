@@ -56,6 +56,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
+import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -176,6 +178,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		PlanPackageImpl thePlanPackage = (PlanPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) instanceof PlanPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) : PlanPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		AdaptationPackageImpl theAdaptationPackage = (AdaptationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) instanceof AdaptationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) : AdaptationPackage.eINSTANCE);
+		UsagePackageImpl theUsagePackage = (UsagePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) instanceof UsagePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) : UsagePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theCorePackage.createPackageContents();
@@ -189,6 +192,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		thePlanPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
 		theAdaptationPackage.createPackageContents();
+		theUsagePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theCorePackage.initializePackageContents();
@@ -202,6 +206,7 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		thePlanPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
 		theAdaptationPackage.initializePackageContents();
+		theUsagePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theCorePackage.freeze();
@@ -387,9 +392,9 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		fqNamedEntityEClass = createEClass(FQ_NAMED_ENTITY);
 		createEAttribute(fqNamedEntityEClass, FQ_NAMED_ENTITY__PACKAGE_NAME);
 
-		slAsticModelEClass = createEClass(SL_ASTIC_MODEL);
-
 		iEventEClass = createEClass(IEVENT);
+
+		slAsticModelEClass = createEClass(SL_ASTIC_MODEL);
 
 		systemModelEClass = createEClass(SYSTEM_MODEL);
 		createEReference(systemModelEClass, SYSTEM_MODEL__TYPE_REPOSITORY_MODEL);
@@ -435,7 +440,6 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		namedEntityEClass.getESuperTypes().add(this.getEntity());
 		fqNamedEntityEClass.getESuperTypes().add(this.getNamedEntity());
 		iEventEClass.getESuperTypes().add(this.getKiekerAnalysisEvent());
-		systemModelEClass.getESuperTypes().add(this.getSLAsticModel());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(kiekerAnalysisEventEClass, KiekerAnalysisEvent.class, "KiekerAnalysisEvent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -450,9 +454,9 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 		initEClass(fqNamedEntityEClass, FQNamedEntity.class, "FQNamedEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getFQNamedEntity_PackageName(), ecorePackage.getEString(), "packageName", null, 1, 1, FQNamedEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
-		initEClass(slAsticModelEClass, SLAsticModel.class, "SLAsticModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-
 		initEClass(iEventEClass, IEvent.class, "IEvent", IS_ABSTRACT, IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(slAsticModelEClass, SLAsticModel.class, "SLAsticModel", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(systemModelEClass, SystemModel.class, "SystemModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getSystemModel_TypeRepositoryModel(), theTypeRepositoryPackage.getTypeRepositoryModel(), null, "typeRepositoryModel", null, 1, 1, SystemModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

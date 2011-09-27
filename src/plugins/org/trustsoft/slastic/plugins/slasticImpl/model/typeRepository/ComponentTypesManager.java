@@ -3,9 +3,14 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.util.SignatureUtils;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
@@ -17,13 +22,22 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 public class ComponentTypesManager extends
 		AbstractFQNamedEntityManager<ComponentType> implements
 		IComponentTypesManager {
+
+	private static final Log log = LogFactory.getLog(ComponentTypesManager.class);
+
+	/**
+	 * 
+	 * @param componentTypes
+	 */
 	public ComponentTypesManager(final List<ComponentType> componentTypes) {
 		super(componentTypes);
+		// TODO: To fix the problem below, we should now determine the
+		// highest operation id existent in the model.
 	}
 
 	// TODO: I'm pretty sure we'll have problems with this when starting with a
 	// deserialized model
-	private volatile long nextId = 1;
+	private volatile long nextOperationId = 1;
 
 	@Override
 	public ComponentType lookupComponentType(final String fullyQualifiedName) {
@@ -64,16 +78,9 @@ public class ComponentTypesManager extends
 		res = TypeRepositoryFactory.eINSTANCE.createOperation();
 		res.setActive(true); // TODO: required?
 		res.setComponentType(componentType);
-		res.setId(this.nextId++);
-		final Signature signature =
-				TypeRepositoryFactory.eINSTANCE.createSignature();
-		signature.setName(operationName);
-		signature.setReturnType(returnType);
+		res.setId(this.nextOperationId++);
 
-		for (final String paramType : argTypes) {
-			signature.getParamTypes().add(paramType);
-		}
-
+		final Signature signature = SignatureUtils.createSignature(operationName, argTypes, returnType);
 		res.setSignature(signature);
 
 		return res;
@@ -106,5 +113,29 @@ public class ComponentTypesManager extends
 
 		// no matching operation
 		return null;
+	}
+
+	@Override
+	public void registerProvidedInterface(final ComponentType componentType, final Interface providedInterface) {
+		final EList<Interface> providedInterfaces = componentType.getProvidedInterfaces();
+
+		if (providedInterfaces.contains(providedInterface)) {
+			ComponentTypesManager.log.warn("Interface " + providedInterface
+					+ " already contained in list of interfaces provided by " + componentType);
+		} else {
+			providedInterfaces.add(providedInterface);
+		}
+	}
+
+	@Override
+	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface) {
+		final EList<Interface> requiredInterfaces = componentType.getRequiredInterfaces();
+
+		if (requiredInterfaces.contains(requiredInterface)) {
+			ComponentTypesManager.log.warn("Interface " + requiredInterface
+					+ " already contained in list of interfaces required by " + componentType);
+		} else {
+			requiredInterfaces.add(requiredInterface);
+		}
 	}
 }

@@ -224,16 +224,7 @@ public interface CorePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getSLAsticModel()
 	 * @generated
 	 */
-	int SL_ASTIC_MODEL = 4;
-
-	/**
-	 * The number of structural features of the '<em>SL Astic Model</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SL_ASTIC_MODEL_FEATURE_COUNT = 0;
+	int SL_ASTIC_MODEL = 5;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.core.IEvent <em>IEvent</em>}' class.
@@ -243,7 +234,7 @@ public interface CorePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getIEvent()
 	 * @generated
 	 */
-	int IEVENT = 5;
+	int IEVENT = 4;
 
 	/**
 	 * The number of structural features of the '<em>IEvent</em>' class.
@@ -253,6 +244,15 @@ public interface CorePackage extends EPackage {
 	 * @ordered
 	 */
 	int IEVENT_FEATURE_COUNT = KIEKER_ANALYSIS_EVENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>SL Astic Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SL_ASTIC_MODEL_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.core.impl.SystemModelImpl <em>System Model</em>}' class.
@@ -271,7 +271,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYSTEM_MODEL__TYPE_REPOSITORY_MODEL = SL_ASTIC_MODEL_FEATURE_COUNT + 0;
+	int SYSTEM_MODEL__TYPE_REPOSITORY_MODEL = 0;
 
 	/**
 	 * The feature id for the '<em><b>Component Assembly Model</b></em>' containment reference.
@@ -280,7 +280,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYSTEM_MODEL__COMPONENT_ASSEMBLY_MODEL = SL_ASTIC_MODEL_FEATURE_COUNT + 1;
+	int SYSTEM_MODEL__COMPONENT_ASSEMBLY_MODEL = 1;
 
 	/**
 	 * The feature id for the '<em><b>Component Deployment Model</b></em>' containment reference.
@@ -289,7 +289,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYSTEM_MODEL__COMPONENT_DEPLOYMENT_MODEL = SL_ASTIC_MODEL_FEATURE_COUNT + 2;
+	int SYSTEM_MODEL__COMPONENT_DEPLOYMENT_MODEL = 2;
 
 	/**
 	 * The feature id for the '<em><b>Execution Environment Model</b></em>' containment reference.
@@ -298,7 +298,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYSTEM_MODEL__EXECUTION_ENVIRONMENT_MODEL = SL_ASTIC_MODEL_FEATURE_COUNT + 3;
+	int SYSTEM_MODEL__EXECUTION_ENVIRONMENT_MODEL = 3;
 
 	/**
 	 * The number of structural features of the '<em>System Model</em>' class.
@@ -307,7 +307,7 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SYSTEM_MODEL_FEATURE_COUNT = SL_ASTIC_MODEL_FEATURE_COUNT + 4;
+	int SYSTEM_MODEL_FEATURE_COUNT = 4;
 
 
 	/**

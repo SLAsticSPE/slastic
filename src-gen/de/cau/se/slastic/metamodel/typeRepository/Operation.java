@@ -16,8 +16,8 @@ import de.cau.se.slastic.metamodel.core.Entity;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}</li>
  * </ul>
  * </p>
  *
@@ -56,7 +56,6 @@ public interface Operation extends Entity {
 
 	/**
 	 * Returns the value of the '<em><b>Signature</b></em>' containment reference.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation <em>Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Signature</em>' reference isn't clear,
@@ -66,8 +65,7 @@ public interface Operation extends Entity {
 	 * @return the value of the '<em>Signature</em>' containment reference.
 	 * @see #setSignature(Signature)
 	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getOperation_Signature()
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation
-	 * @model opposite="operation" containment="true" required="true" ordered="false"
+	 * @model containment="true" required="true" ordered="false"
 	 * @generated
 	 */
 	Signature getSignature();

@@ -56,6 +56,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
+import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -175,6 +177,7 @@ public class PlanPackageImpl extends EPackageImpl implements PlanPackage {
 		MonitoringPackageImpl theMonitoringPackage = (MonitoringPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI) instanceof MonitoringPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI) : MonitoringPackage.eINSTANCE);
 		SpecificationPackageImpl theSpecificationPackage = (SpecificationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) instanceof SpecificationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(SpecificationPackage.eNS_URI) : SpecificationPackage.eINSTANCE);
 		AdaptationPackageImpl theAdaptationPackage = (AdaptationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) instanceof AdaptationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) : AdaptationPackage.eINSTANCE);
+		UsagePackageImpl theUsagePackage = (UsagePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) instanceof UsagePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) : UsagePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		thePlanPackage.createPackageContents();
@@ -188,6 +191,7 @@ public class PlanPackageImpl extends EPackageImpl implements PlanPackage {
 		theMonitoringPackage.createPackageContents();
 		theSpecificationPackage.createPackageContents();
 		theAdaptationPackage.createPackageContents();
+		theUsagePackage.createPackageContents();
 
 		// Initialize created meta-data
 		thePlanPackage.initializePackageContents();
@@ -201,6 +205,7 @@ public class PlanPackageImpl extends EPackageImpl implements PlanPackage {
 		theMonitoringPackage.initializePackageContents();
 		theSpecificationPackage.initializePackageContents();
 		theAdaptationPackage.initializePackageContents();
+		theUsagePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		thePlanPackage.freeze();

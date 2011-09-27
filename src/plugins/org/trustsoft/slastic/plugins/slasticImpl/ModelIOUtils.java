@@ -18,82 +18,174 @@ import reconfMM.ReconfigurationModel;
 import de.cau.se.slastic.metamodel.core.CorePackage;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
+import de.cau.se.slastic.metamodel.usage.UsageModel;
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public class ModelIOUtils {
 
-    private static final Log log = LogFactory.getLog(ModelIOUtils.class);
+	private static final Log log = LogFactory.getLog(ModelIOUtils.class);
 
-    public static slal.Model readSLAModel(final String model_fn) {
-        throw new UnsupportedOperationException("Not supported any more");
-//        final String OUTPUT_SLOT_NAME = "theModel";
-//        final ParserComponent slaModelParser = new ParserComponent();
-//        slaModelParser.setModelFile(model_fn);
-//        slaModelParser.setOutputSlot(OUTPUT_SLOT_NAME);
-//        final WorkflowContext ctx = new WorkflowContextDefaultImpl();
-//        slaModelParser.invoke(ctx, new NullProgressMonitor(), new IssuesImpl());
-//        return (slal.Model) ctx.get(OUTPUT_SLOT_NAME);
-    }
+	public static slal.Model readSLAModel(final String model_fn) {
+		throw new UnsupportedOperationException("Not supported any more");
+		// final String OUTPUT_SLOT_NAME = "theModel";
+		// final ParserComponent slaModelParser = new ParserComponent();
+		// slaModelParser.setModelFile(model_fn);
+		// slaModelParser.setOutputSlot(OUTPUT_SLOT_NAME);
+		// final WorkflowContext ctx = new WorkflowContextDefaultImpl();
+		// slaModelParser.invoke(ctx, new NullProgressMonitor(), new
+		// IssuesImpl());
+		// return (slal.Model) ctx.get(OUTPUT_SLOT_NAME);
+	}
 
-    public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) throws IOException {
-        //return (ReconfigurationModel) readXMIModel(model_fn, reconfMM.ReconfMMPackage.class.getName());
-        return (ReconfigurationModel) ModelIOUtils.loadModel(reconfMM.ReconfMMPackage.eINSTANCE, model_fn);
-    }
+	public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) throws IOException {
+		// return (ReconfigurationModel) readXMIModel(model_fn,
+		// reconfMM.ReconfMMPackage.class.getName());
+		return (ReconfigurationModel) ModelIOUtils.loadModels(
+				new EPackage[] { reconfMM.ReconfMMPackage.eINSTANCE },
+				new String[] { model_fn })[0];
+	}
 
-    public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) throws IOException {
-        //return (SLAsticResourceEnvironment) readXMIModel(model_fn, org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
-        return (SLAsticResourceEnvironment) ModelIOUtils.loadModel(org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE, model_fn);
-    }
+	public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) throws IOException {
+		// return (SLAsticResourceEnvironment) readXMIModel(model_fn,
+		// org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
+		return (SLAsticResourceEnvironment) ModelIOUtils
+				.loadModels(
+						new EPackage[] { org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE },
+						new String[] { model_fn })[0];
+	}
 
-    public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) throws IOException {
-        //return (SLAsticQoSAnnotations) readXMIModel(model_fn, org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
-        return (SLAsticQoSAnnotations) ModelIOUtils.loadModel(org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE, model_fn);
-    }
+	public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) throws IOException {
+		// return (SLAsticQoSAnnotations) readXMIModel(model_fn,
+		// org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
+		return (SLAsticQoSAnnotations) ModelIOUtils.loadModels(
+				new EPackage[] { org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE },
+				new String[] { model_fn })[0];
+	}
 
-    public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) throws IOException {
-        //return (TypeRepositoryModel) readXMIModel(model_fn, de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
-        return (TypeRepositoryModel) ModelIOUtils.loadModel(de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE, model_fn);
-    }
+	public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) throws IOException {
+		// return (TypeRepositoryModel) readXMIModel(model_fn,
+		// de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
+		return (TypeRepositoryModel) ModelIOUtils.loadModels(
+				new EPackage[] { de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE },
+				new String[] { model_fn })[0];
+	}
 
-    protected static void saveModel(final EObject model, final String outputFn) throws IOException {
-        final ResourceSet resourceSet = new ResourceSetImpl();
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */
-                new XMIResourceFactoryImpl());
-        final Resource resource = resourceSet.createResource(URI.createFileURI(outputFn));
-        resource.getContents().add(model);
-        resource.save(null);
+	/**
+	 * Saves all models to the corresponding output files using the same
+	 * {@link ResourceSet}.
+	 * 
+	 * @param models
+	 * @param outputFns
+	 * @throws IOException
+	 */
+	protected static void saveModels(final EObject[] models, final String[] outputFns) throws IOException {
+		if (models.length != outputFns.length) {
+			ModelIOUtils.log.error("Number of models and output file name must be equal. " +
+					"Found: " + models.length + " <> " + outputFns.length);
+			return;
+		}
 
-    }
+		final ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
+																 * matches any
+																 * extension
+																 */
+						new XMIResourceFactoryImpl());
 
-    protected static EObject loadModel(final EPackage ePackage, final String inputFn, final ResourceSet resourceSet) throws IOException {
-        resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */
-                new XMIResourceFactoryImpl());
-        final Resource resource = resourceSet.createResource(URI.createFileURI(inputFn));
-        resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
-// load resource
-        resource.load(null);
-        return resource.getContents().get(0);
-    }
-    protected static EObject loadModel(final EPackage ePackage, final String inputFn) throws IOException {
-    	final ResourceSet resourceSet = new ResourceSetImpl();
-    	resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */
-                new XMIResourceFactoryImpl());
-        final Resource resource = resourceSet.createResource(URI.createFileURI(inputFn));
-        resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
-// load resource
-        resource.load(null);
-        return resource.getContents().get(0);
-    }
+		for (int i = 0; i < models.length; i++) {
+			final Resource resource = resourceSet.createResource(URI.createFileURI(outputFns[i]));
+			resource.getContents().add(models[i]);
+			resource.save(null);
+		}
+	}
 
-    public static void saveSystemModel(final SystemModel systemModel, final String outputFn) throws IOException {
-        ModelIOUtils.log.info("Trying to save system model " + systemModel + " to file " + outputFn);
-        ModelIOUtils.saveModel(systemModel, outputFn);
-    }
+	protected static EObject loadModel(final EPackage ePackage, final String inputFn, final ResourceSet resourceSet)
+			throws IOException {
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
+																 * matches any
+																 * extension
+																 */
+						new XMIResourceFactoryImpl());
+		final Resource resource = resourceSet.createResource(URI.createFileURI(inputFn));
+		resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
+		// load resource
+		resource.load(null);
+		return resource.getContents().get(0);
+	}
 
-    public static SystemModel loadSystemModel(final String inputFn) throws IOException {
-        return (SystemModel) ModelIOUtils.loadModel(CorePackage.eINSTANCE, inputFn);
-    }
+	protected static EObject[] loadModels(final EPackage[] ePackages, final String[] inputFns) throws IOException {
+		if (ePackages.length != inputFns.length) {
+			ModelIOUtils.log.error("Number of epackages and intput file names must be equal. " +
+					"Found: " + ePackages.length + " <> " + inputFns.length);
+			return null;
+		}
+
+		final EObject[] models = new EObject[ePackages.length];
+
+		final ResourceSet resourceSet = new ResourceSetImpl();
+		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
+																 * matches any
+																 * extension
+																 */
+						new XMIResourceFactoryImpl());
+
+		for (int i = 0; i < models.length; i++) {
+			final Resource resource = resourceSet.createResource(URI.createFileURI(inputFns[i]));
+			resourceSet.getPackageRegistry().put(ePackages[i].getNsURI(), ePackages[i]);
+			// load resource
+			resource.load(null);
+			models[i] = resource.getContents().get(0);
+
+		}
+
+		return models;
+	}
+
+	public static void saveModels(
+			final SystemModel systemModel, final String systemModelOutputFn,
+			final UsageModel usageModel, final String usageModelFn) throws IOException {
+		ModelIOUtils.log.info("Trying to save system model to file " + systemModelOutputFn +
+				" and usage model to file " + usageModelFn);
+
+		ModelIOUtils.saveModels(
+				new EObject[] { systemModel, usageModel },
+				new String[] { systemModelOutputFn, usageModelFn });
+	}
+
+	/**
+	 * Loads the {@link SystemModel} from the given file.
+	 * 
+	 * @param inputFn
+	 * @return
+	 * @throws IOException
+	 */
+	public static SystemModel loadSystemModel(final String inputFn) throws IOException {
+		return (SystemModel) ModelIOUtils.loadModels(
+				new EPackage[] { CorePackage.eINSTANCE },
+				new String[] { inputFn })[0];
+	}
+
+	/**
+	 * Loads a {@link SystemModel} and a {@link UsageModel} from the given
+	 * files. Both file names must not be null.
+	 * 
+	 * @param systemInputFn
+	 * @param usageModelFn
+	 * @return an array with index 0 being the {@link SystemModel} and index 1
+	 *         being the {@link UsageModel}
+	 * @throws IOException
+	 */
+	public static EObject[] loadSystemAndUsageModel(final String systemInputFn, final String usageModelFn)
+			throws IOException {
+		return ModelIOUtils.loadModels(
+				new EPackage[] { CorePackage.eINSTANCE, UsagePackage.eINSTANCE },
+				new String[] { systemInputFn, usageModelFn });
+	}
 }

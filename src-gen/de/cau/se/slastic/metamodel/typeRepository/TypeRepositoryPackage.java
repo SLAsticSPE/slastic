@@ -172,22 +172,22 @@ public interface TypeRepositoryPackage extends EPackage {
 	int COMPONENT_TYPE__PROVIDED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int COMPONENT_TYPE__OPERATIONS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
-
-	/**
 	 * The feature id for the '<em><b>Required Interfaces</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_TYPE__REQUIRED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+	int COMPONENT_TYPE__REQUIRED_INTERFACES = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Operations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_TYPE__OPERATIONS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of structural features of the '<em>Component Type</em>' class.
@@ -245,7 +245,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	int INTERFACE__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Signatures</b></em>' reference list.
+	 * The feature id for the '<em><b>Signatures</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -318,22 +318,13 @@ public interface TypeRepositoryPackage extends EPackage {
 	int SIGNATURE__RETURN_TYPE = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Operation</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SIGNATURE__OPERATION = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
-
-	/**
 	 * The number of structural features of the '<em>Signature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE_FEATURE_COUNT = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 3;
+	int SIGNATURE_FEATURE_COUNT = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
@@ -364,22 +355,22 @@ public interface TypeRepositoryPackage extends EPackage {
 	int OPERATION__ACTIVE = CorePackage.ENTITY__ACTIVE;
 
 	/**
-	 * The feature id for the '<em><b>Component Type</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int OPERATION__COMPONENT_TYPE = CorePackage.ENTITY_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Signature</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION__SIGNATURE = CorePackage.ENTITY_FEATURE_COUNT + 1;
+	int OPERATION__SIGNATURE = CorePackage.ENTITY_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Component Type</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__COMPONENT_TYPE = CorePackage.ENTITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Operation</em>' class.
@@ -437,13 +428,22 @@ public interface TypeRepositoryPackage extends EPackage {
 	int CONNECTOR_TYPE__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
 
 	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CONNECTOR_TYPE__INTERFACE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Connector Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CONNECTOR_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
+	int CONNECTOR_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.ExecutionContainerTypeImpl <em>Execution Container Type</em>}' class.
@@ -556,22 +556,13 @@ public interface TypeRepositoryPackage extends EPackage {
 	int NETWORK_LINK_TYPE__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
 
 	/**
-	 * The feature id for the '<em><b>Repository</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NETWORK_LINK_TYPE__REPOSITORY = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Network Link Type</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NETWORK_LINK_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+	int NETWORK_LINK_TYPE_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl <em>Model</em>}' class.
@@ -584,22 +575,13 @@ public interface TypeRepositoryPackage extends EPackage {
 	int TYPE_REPOSITORY_MODEL = 8;
 
 	/**
-	 * The feature id for the '<em><b>Network Link Types</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 0;
-
-	/**
 	 * The feature id for the '<em><b>Component Types</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REPOSITORY_MODEL__COMPONENT_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 1;
+	int TYPE_REPOSITORY_MODEL__COMPONENT_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Execution Container Types</b></em>' containment reference list.
@@ -608,7 +590,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
+	int TYPE_REPOSITORY_MODEL__EXECUTION_CONTAINER_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Interfaces</b></em>' containment reference list.
@@ -617,7 +599,7 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REPOSITORY_MODEL__INTERFACES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
+	int TYPE_REPOSITORY_MODEL__INTERFACES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Connector Types</b></em>' containment reference list.
@@ -626,7 +608,16 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
+	int TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Network Link Types</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Resource Types</b></em>' containment reference list.
@@ -711,10 +702,10 @@ public interface TypeRepositoryPackage extends EPackage {
 	EClass getInterface();
 
 	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.Interface#getSignatures <em>Signatures</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.Interface#getSignatures <em>Signatures</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Signatures</em>'.
+	 * @return the meta object for the containment reference list '<em>Signatures</em>'.
 	 * @see de.cau.se.slastic.metamodel.typeRepository.Interface#getSignatures()
 	 * @see #getInterface()
 	 * @generated
@@ -752,17 +743,6 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getSignature_ReturnType();
-
-	/**
-	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation <em>Operation</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Operation</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Signature#getOperation()
-	 * @see #getSignature()
-	 * @generated
-	 */
-	EReference getSignature_Operation();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.Operation <em>Operation</em>}'.
@@ -807,6 +787,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	EClass getConnectorType();
 
 	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.typeRepository.ConnectorType#getInterface <em>Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Interface</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.ConnectorType#getInterface()
+	 * @see #getConnectorType()
+	 * @generated
+	 */
+	EReference getConnectorType_Interface();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType <em>Execution Container Type</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -836,17 +827,6 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getNetworkLinkType();
-
-	/**
-	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType#getRepository <em>Repository</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Repository</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType#getRepository()
-	 * @see #getNetworkLinkType()
-	 * @generated
-	 */
-	EReference getNetworkLinkType_Repository();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel <em>Model</em>}'.
@@ -1001,7 +981,7 @@ public interface TypeRepositoryPackage extends EPackage {
 		EClass INTERFACE = eINSTANCE.getInterface();
 
 		/**
-		 * The meta object literal for the '<em><b>Signatures</b></em>' reference list feature.
+		 * The meta object literal for the '<em><b>Signatures</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -1033,14 +1013,6 @@ public interface TypeRepositoryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SIGNATURE__RETURN_TYPE = eINSTANCE.getSignature_ReturnType();
-
-		/**
-		 * The meta object literal for the '<em><b>Operation</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference SIGNATURE__OPERATION = eINSTANCE.getSignature_Operation();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
@@ -1079,6 +1051,14 @@ public interface TypeRepositoryPackage extends EPackage {
 		EClass CONNECTOR_TYPE = eINSTANCE.getConnectorType();
 
 		/**
+		 * The meta object literal for the '<em><b>Interface</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CONNECTOR_TYPE__INTERFACE = eINSTANCE.getConnectorType_Interface();
+
+		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.ExecutionContainerTypeImpl <em>Execution Container Type</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1105,14 +1085,6 @@ public interface TypeRepositoryPackage extends EPackage {
 		 * @generated
 		 */
 		EClass NETWORK_LINK_TYPE = eINSTANCE.getNetworkLinkType();
-
-		/**
-		 * The meta object literal for the '<em><b>Repository</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference NETWORK_LINK_TYPE__REPOSITORY = eINSTANCE.getNetworkLinkType_Repository();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl <em>Model</em>}' class.

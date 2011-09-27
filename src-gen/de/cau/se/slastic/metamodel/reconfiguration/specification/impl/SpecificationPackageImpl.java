@@ -50,6 +50,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.UsagePackage;
+import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -127,6 +129,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		MonitoringPackageImpl theMonitoringPackage = (MonitoringPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI) instanceof MonitoringPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI) : MonitoringPackage.eINSTANCE);
 		PlanPackageImpl thePlanPackage = (PlanPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) instanceof PlanPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(PlanPackage.eNS_URI) : PlanPackage.eINSTANCE);
 		AdaptationPackageImpl theAdaptationPackage = (AdaptationPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) instanceof AdaptationPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(AdaptationPackage.eNS_URI) : AdaptationPackage.eINSTANCE);
+		UsagePackageImpl theUsagePackage = (UsagePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) instanceof UsagePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(UsagePackage.eNS_URI) : UsagePackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theSpecificationPackage.createPackageContents();
@@ -140,6 +143,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		theMonitoringPackage.createPackageContents();
 		thePlanPackage.createPackageContents();
 		theAdaptationPackage.createPackageContents();
+		theUsagePackage.createPackageContents();
 
 		// Initialize created meta-data
 		theSpecificationPackage.initializePackageContents();
@@ -153,6 +157,7 @@ public class SpecificationPackageImpl extends EPackageImpl implements Specificat
 		theMonitoringPackage.initializePackageContents();
 		thePlanPackage.initializePackageContents();
 		theAdaptationPackage.initializePackageContents();
+		theUsagePackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
 		theSpecificationPackage.freeze();

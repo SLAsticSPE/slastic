@@ -114,12 +114,6 @@ public class CoreSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case CorePackage.SL_ASTIC_MODEL: {
-				SLAsticModel slAsticModel = (SLAsticModel)theEObject;
-				T result = caseSLAsticModel(slAsticModel);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case CorePackage.IEVENT: {
 				IEvent iEvent = (IEvent)theEObject;
 				T result = caseIEvent(iEvent);
@@ -127,10 +121,15 @@ public class CoreSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case CorePackage.SL_ASTIC_MODEL: {
+				SLAsticModel slAsticModel = (SLAsticModel)theEObject;
+				T result = caseSLAsticModel(slAsticModel);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case CorePackage.SYSTEM_MODEL: {
 				SystemModel systemModel = (SystemModel)theEObject;
 				T result = caseSystemModel(systemModel);
-				if (result == null) result = caseSLAsticModel(systemModel);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

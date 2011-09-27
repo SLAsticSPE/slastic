@@ -1,13 +1,14 @@
 package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEntities;
 
-import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import junit.framework.Assert;
+
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+
+import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 
 /**
  * Tests the functionalities provided by the type repository manager for creating,
@@ -18,7 +19,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
  */
 public class TestTypeRepositoryModelManager_ComponentTypes extends AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<TypeRepositoryModel, ComponentType> {
 
-    private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_ComponentTypes.class);
+    //private static final Log log = LogFactory.getLog(TestTypeRepositoryModelManager_ComponentTypes.class);
 
     @Override
     protected TypeRepositoryModel createModel() {
@@ -26,34 +27,34 @@ public class TestTypeRepositoryModelManager_ComponentTypes extends AbstractSubmo
     }
 
     @Override
-    protected ComponentType createAndRegisterEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName, ModelManager systemModelMgr) {
+    protected ComponentType createAndRegisterEntity(final AbstractModelManager<TypeRepositoryModel> mgr, final String fqEntityName, final ModelManager systemModelMgr) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
-            fail("mgr must be instance of TypeRepositoryModelManager");
+            Assert.fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
         return ((TypeRepositoryModelManager)mgr).createAndRegisterComponentType(fqEntityName);
     }
 
     @Override
-    protected ComponentType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, String fqEntityName) {
+    protected ComponentType lookupEntity(final AbstractModelManager<TypeRepositoryModel> mgr, final String fqEntityName) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
-            fail("mgr must be instance of TypeRepositoryModelManager");
+            Assert.fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
         return ((TypeRepositoryModelManager)mgr).lookupComponentType(fqEntityName);
     }
 
     @Override
-    protected ComponentType lookupEntity(AbstractModelManager<TypeRepositoryModel> mgr, long entityId) {
+    protected ComponentType lookupEntity(final AbstractModelManager<TypeRepositoryModel> mgr, final long entityId) {
         if (! (mgr instanceof TypeRepositoryModelManager)){
-            fail("mgr must be instance of TypeRepositoryModelManager");
+            Assert.fail("mgr must be instance of TypeRepositoryModelManager");
             return null;
         }
         return ((TypeRepositoryModelManager)mgr).lookupComponentType(entityId);
     }
 
     @Override
-    protected AbstractModelManager<TypeRepositoryModel> getModelManager(ModelManager systemModelMgr) {
+    protected AbstractModelManager<TypeRepositoryModel> getModelManager(final ModelManager systemModelMgr) {
         return systemModelMgr.getTypeRepositoryManager();
     }
 }

@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 
 /**
  *
@@ -28,12 +29,13 @@ public interface IConnectorTypesManager {
 
     /**
      * Creates and registers a new connector type with the given full-qualified
-     * name fullyQualifiedName.
+     * name fullyQualifiedName supporting the given interface.
      *
      * @param fullyQualifiedName
+     * @param iface 
      * @return the new connector type
      * @throws IllegalArgumentException if a connector type with the given
      * fully-qualified name has already been registered
      */
-    public ConnectorType createAndRegisterConnectorType (final String fullyQualifiedName);
+    public ConnectorType createAndRegisterConnectorType (final String fullyQualifiedName, final Interface iface);
 }

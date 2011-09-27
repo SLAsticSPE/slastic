@@ -53,15 +53,6 @@ public interface CoreFactory extends EFactory {
 	FQNamedEntity createFQNamedEntity();
 
 	/**
-	 * Returns a new object of class '<em>SL Astic Model</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>SL Astic Model</em>'.
-	 * @generated
-	 */
-	SLAsticModel createSLAsticModel();
-
-	/**
 	 * Returns a new object of class '<em>System Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

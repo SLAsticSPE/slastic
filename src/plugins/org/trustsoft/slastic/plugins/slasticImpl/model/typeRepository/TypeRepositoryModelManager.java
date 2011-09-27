@@ -11,6 +11,7 @@ import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
+import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
@@ -96,9 +97,9 @@ public class TypeRepositoryModelManager extends
 
 	@Override
 	public ConnectorType createAndRegisterConnectorType(
-			final String fullyQualifiedName) {
+			final String fullyQualifiedName, final Interface iface) {
 		return this.connectorTypeManager
-				.createAndRegisterConnectorType(fullyQualifiedName);
+				.createAndRegisterConnectorType(fullyQualifiedName, iface);
 	}
 
 	@Override
@@ -221,5 +222,26 @@ public class TypeRepositoryModelManager extends
 			final String operationName, final String returnType, final String[] argTypes) {
 		return this.componentTypeManager.lookupOperation(componentType,
 				operationName, returnType, argTypes);
+	}
+
+	@Override
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
+		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes);
+	}
+
+	@Override
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType,
+			final String[] argTypes) {
+		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes);
+	}
+
+	@Override
+	public void registerProvidedInterface(final ComponentType componentType, final Interface providedInterface) {
+		this.componentTypeManager.registerProvidedInterface(componentType, providedInterface);
+	}
+
+	@Override
+	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface) {
+		this.componentTypeManager.registerRequiredInterface(componentType, requiredInterface);
 	}
 }

@@ -106,13 +106,15 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			final AssemblyConnector assemblyConnector =
 					this.getAssemblyModelManager().lookupAssemblyConnector(componentOrConnectorName);
 			if (assemblyConnector != null) {
-				/* Is a connector execution */
+				/* Is an (explicit) connector execution */
 				final ConnectorOperationExecution newConnectorExec =
 						MonitoringFactory.eINSTANCE.createConnectorOperationExecution();
 				newConnectorExec.setAssemblyConnector(assemblyConnector);
 				newConnectorExec.setExecutionContainer(executionContainer);
 				newConnectorExec.setExecutionContainer(executionContainer);
 				newExecution = newConnectorExec;
+				
+				// TODO: operations for connector executions ...
 			} else {
 				/* Is an execution of a component (existing or non-existing) */
 				final DeploymentComponentOperationExecution newComponentExec =
@@ -150,9 +152,6 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			 * 2.) Initialize the values common for component and connector
 			 * executions.
 			 */
-
-			// TODO: operations for connector executions ...
-
 			newExecution.setEoi(execution.eoi);
 			newExecution.setEss(execution.ess);
 			newExecution.setSessionId(execution.sessionId);

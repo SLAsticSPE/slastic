@@ -1,26 +1,25 @@
 package org.trustsoft.slastic.plugins.pcm;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Map;
 
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
+import org.trustsoft.slastic.plugins.starter.MyURIConverterImpl;
 
 import de.uka.ipd.sdq.pcm.allocation.Allocation;
 import de.uka.ipd.sdq.pcm.repository.Repository;
 import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
-import java.util.Collection;
-import java.util.Map;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
-import org.trustsoft.slastic.plugins.starter.MyURIConverterImpl;
 
 /**
  *
@@ -36,7 +35,9 @@ public class PCMModelReader extends ModelIOUtils {
     }
 
     public static void storeRepository(final Repository repos, final String model_fn, final ResourceSet resourceSet) throws IOException {
-        ModelIOUtils.saveModel(repos, model_fn);
+        ModelIOUtils.saveModels(
+        		new EObject[] {repos}, 
+        		new String[] {model_fn});
     }
 
     public static System readSystem(final String model_fn, final ResourceSet resourceSet) throws IOException {
@@ -45,7 +46,9 @@ public class PCMModelReader extends ModelIOUtils {
     }
 
     public static void storeSystem(final System system, final String model_fn, final ResourceSet resourceSet) throws IOException {
-        ModelIOUtils.saveModel(system, model_fn);
+        ModelIOUtils.saveModels(
+        		new EObject[] {system}, 
+        		new String[] {model_fn});
     }
 
     public static Allocation readAllocation(final String model_fn, final ResourceSet resourceSet) throws IOException {
@@ -54,7 +57,9 @@ public class PCMModelReader extends ModelIOUtils {
     }
 
     public static void storeAllocation(final Allocation allocation, final String model_fn, final ResourceSet resourceSet) throws IOException {
-        ModelIOUtils.saveModel(allocation, model_fn);
+        ModelIOUtils.saveModels(
+        		new EObject[] {allocation}, 
+        		new String[] {model_fn});
     }
 
     public static ResourceEnvironment readResourceEnvironment(final String model_fn, final ResourceSet resourceSet) throws IOException {
@@ -63,7 +68,9 @@ public class PCMModelReader extends ModelIOUtils {
     }
 
     public static void storeResourceEnvironment(final ResourceEnvironment resEnv, final String model_fn) throws IOException {
-        ModelIOUtils.saveModel(resEnv, model_fn);
+        ModelIOUtils.saveModels(
+        		new EObject[] {resEnv}, 
+        		new String[] {model_fn});
     }
 
     public static PCMModelSet readPCMModel(
@@ -88,7 +95,7 @@ public class PCMModelReader extends ModelIOUtils {
             PCMModelReader.log.info("Loaded PCM repository model: "
                     + pcmRepository.getEntityName());
         }
-         System pcmSystem = PCMModelReader.readSystem(
+         final System pcmSystem = PCMModelReader.readSystem(
                 pcmSystemModel_fn, set);
         if (pcmSystem == null) {
             PCMModelReader.log.error("Failed to read PCM system from file '"
@@ -101,7 +108,7 @@ public class PCMModelReader extends ModelIOUtils {
             PCMModelReader.log.info("Loaded PCM system model: "
                     + pcmSystem.getEntityName());
         }
-        Allocation pcmAllocation = PCMModelReader.readAllocation(
+        final Allocation pcmAllocation = PCMModelReader.readAllocation(
                 pcmAllocationModel_fn, set);
         if (pcmAllocation == null) {
             PCMModelReader.log.error("Failed to read PCM allocation from file '"
@@ -114,7 +121,7 @@ public class PCMModelReader extends ModelIOUtils {
             PCMModelReader.log.info("Loaded PCM allocation model: "
                     + pcmAllocation.getEntityName());
         }
-        ResourceEnvironment pcmResourceEnvironment = PCMModelReader.readResourceEnvironment(
+        final ResourceEnvironment pcmResourceEnvironment = PCMModelReader.readResourceEnvironment(
                 pcmResourceEnvironmentModel_fn, set);
         if (pcmResourceEnvironment == null) {
             PCMModelReader.log.error("Failed to read PCM resource environment from file '"

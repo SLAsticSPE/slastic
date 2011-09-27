@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
 /**
@@ -73,4 +74,22 @@ public interface IComponentTypesManager {
 	public Operation createAndRegisterOperation(
 			final ComponentType componentType, final String operationName,
 			final String returnType, final String[] argTypes);
+
+	/**
+	 * Registers the given {@link Interface} in the given {@link ComponentType}'s
+	 * list of provided interfaces.
+	 * 
+	 * @param componentType
+	 * @param providedInterface 
+	 */
+	public void registerProvidedInterface(final ComponentType componentType, final Interface providedInterface);
+
+	/**
+	 * Register the given {@link Interface} in the given {@link ComponentType}'s
+	 * list of required interfaces.
+	 * 
+	 * @param componentType
+	 * @param requiredInterface
+	 */
+	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface);
 }

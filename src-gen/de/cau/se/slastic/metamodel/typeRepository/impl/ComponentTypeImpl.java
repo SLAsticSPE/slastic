@@ -34,8 +34,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getProvidedInterfaces <em>Provided Interfaces</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getOperations <em>Operations</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getRequiredInterfaces <em>Required Interfaces</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getOperations <em>Operations</em>}</li>
  * </ul>
  * </p>
  *
@@ -53,16 +53,6 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	protected EList<Interface> providedInterfaces;
 
 	/**
-	 * The cached value of the '{@link #getOperations() <em>Operations</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getOperations()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Operation> operations;
-
-	/**
 	 * The cached value of the '{@link #getRequiredInterfaces() <em>Required Interfaces</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -71,6 +61,16 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	 * @ordered
 	 */
 	protected EList<Interface> requiredInterfaces;
+
+	/**
+	 * The cached value of the '{@link #getOperations() <em>Operations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getOperations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Operation> operations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,10 +166,10 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 		switch (featureID) {
 			case TypeRepositoryPackage.COMPONENT_TYPE__PROVIDED_INTERFACES:
 				return getProvidedInterfaces();
-			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
-				return getOperations();
 			case TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES:
 				return getRequiredInterfaces();
+			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
+				return getOperations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -187,13 +187,13 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 				getProvidedInterfaces().clear();
 				getProvidedInterfaces().addAll((Collection<? extends Interface>)newValue);
 				return;
-			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
-				getOperations().clear();
-				getOperations().addAll((Collection<? extends Operation>)newValue);
-				return;
 			case TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES:
 				getRequiredInterfaces().clear();
 				getRequiredInterfaces().addAll((Collection<? extends Interface>)newValue);
+				return;
+			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
+				getOperations().clear();
+				getOperations().addAll((Collection<? extends Operation>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -210,11 +210,11 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 			case TypeRepositoryPackage.COMPONENT_TYPE__PROVIDED_INTERFACES:
 				getProvidedInterfaces().clear();
 				return;
-			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
-				getOperations().clear();
-				return;
 			case TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES:
 				getRequiredInterfaces().clear();
+				return;
+			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
+				getOperations().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -230,10 +230,10 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 		switch (featureID) {
 			case TypeRepositoryPackage.COMPONENT_TYPE__PROVIDED_INTERFACES:
 				return providedInterfaces != null && !providedInterfaces.isEmpty();
-			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
-				return operations != null && !operations.isEmpty();
 			case TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES:
 				return requiredInterfaces != null && !requiredInterfaces.isEmpty();
+			case TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS:
+				return operations != null && !operations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

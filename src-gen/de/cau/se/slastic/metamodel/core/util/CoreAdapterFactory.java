@@ -88,12 +88,12 @@ public class CoreAdapterFactory extends AdapterFactoryImpl {
 				return createFQNamedEntityAdapter();
 			}
 			@Override
-			public Adapter caseSLAsticModel(SLAsticModel object) {
-				return createSLAsticModelAdapter();
-			}
-			@Override
 			public Adapter caseIEvent(IEvent object) {
 				return createIEventAdapter();
+			}
+			@Override
+			public Adapter caseSLAsticModel(SLAsticModel object) {
+				return createSLAsticModelAdapter();
 			}
 			@Override
 			public Adapter caseSystemModel(SystemModel object) {

@@ -1,11 +1,12 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
+import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
+
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
-import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
  *
@@ -61,4 +62,15 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
             final ConnectorType connectorType) {
         return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName, connectorType);
     }
+
+	@Override
+	public AssemblyConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
+		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(connectorType);
+	}
+
+	@Override
+	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
+			final AssemblyComponent providingComponent) {
+		return this.assemblyConnectorsManager.connect(assemblyConnector, requiringComponent, providingComponent);
+	}
 }

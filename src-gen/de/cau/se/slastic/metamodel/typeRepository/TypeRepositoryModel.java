@@ -18,11 +18,11 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getComponentTypes <em>Component Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getExecutionContainerTypes <em>Execution Container Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getInterfaces <em>Interfaces</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getConnectorTypes <em>Connector Types</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getResourceTypes <em>Resource Types</em>}</li>
  * </ul>
  * </p>
@@ -35,7 +35,6 @@ public interface TypeRepositoryModel extends SLAsticModel {
 	/**
 	 * Returns the value of the '<em><b>Network Link Types</b></em>' containment reference list.
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType}.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType#getRepository <em>Repository</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Network Link Types</em>' containment reference list isn't clear,
@@ -44,8 +43,7 @@ public interface TypeRepositoryModel extends SLAsticModel {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Network Link Types</em>' containment reference list.
 	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getTypeRepositoryModel_NetworkLinkTypes()
-	 * @see de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType#getRepository
-	 * @model opposite="repository" containment="true" ordered="false"
+	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
 	EList<NetworkLinkType> getNetworkLinkTypes();

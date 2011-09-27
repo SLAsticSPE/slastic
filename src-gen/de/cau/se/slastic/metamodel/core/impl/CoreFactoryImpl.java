@@ -63,7 +63,6 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 			case CorePackage.NAMED_ENTITY: return createNamedEntity();
 			case CorePackage.ENTITY: return createEntity();
 			case CorePackage.FQ_NAMED_ENTITY: return createFQNamedEntity();
-			case CorePackage.SL_ASTIC_MODEL: return createSLAsticModel();
 			case CorePackage.SYSTEM_MODEL: return createSystemModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -98,16 +97,6 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	public FQNamedEntity createFQNamedEntity() {
 		FQNamedEntityImpl fqNamedEntity = new FQNamedEntityImpl();
 		return fqNamedEntity;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public SLAsticModel createSLAsticModel() {
-		SLAsticModelImpl slAsticModel = new SLAsticModelImpl();
-		return slAsticModel;
 	}
 
 	/**
