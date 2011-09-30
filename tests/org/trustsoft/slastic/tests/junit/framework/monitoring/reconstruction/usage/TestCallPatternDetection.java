@@ -2,7 +2,6 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.us
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,26 +24,35 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 
 /**
  * 
+ * 
  * @author Andre van Hoorn
  * 
  */
 public class TestCallPatternDetection extends TestCase {
-	private static final int NUM_TRACES_TO_GENERATE = 10;
+	private static final int NUM_TRACES_TO_GENERATE = 3;
+
+	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 5000;
 
 	// TODO: Register ExceptionHandler
 	private final EPServiceProvider epService =
 			EPServiceProviderFactory.createInstanceWithEMFSupport();
 
 	private final ExecutionCounter executionCounter = new ExecutionCounter();
-	private final CallPatternReceiver callPatternReceiver = new CallPatternReceiver();
+	// private final CallPatternReceiver callPatternReceiver = new
+	// CallPatternReceiver();
+	private final TraceReceiver traceReceiver = 
+		new TraceReceiver(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	/**
+	 * @throws InterruptedException 
 	 * 
 	 */
-	public void testCreateSendReceiveEvent() {
+	public void testCreateSendReceiveEvent() throws InterruptedException {
 		this.registerSubscribers();
 
 		this.sendBookstoreTraces();
+		// We have to wait this time, to make sure that all traces are detected
+		Thread.sleep(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 		this.checkResults();
 	}
@@ -55,10 +63,17 @@ public class TestCallPatternDetection extends TestCase {
 				this.executionCounter.getCEPStatement());
 		statement.setSubscriber(this.executionCounter);
 
-		// Register an CallPatternReceiver
-		final EPStatement statement2 = this.epService.getEPAdministrator().createEPL(
-				this.callPatternReceiver.getCEPStatement());
-		statement2.addListener(this.callPatternReceiver);
+		// Register a CallPatternReceiver
+		// final EPStatement statement2 =
+		// this.epService.getEPAdministrator().createEPL(
+		// this.callPatternReceiver.getCEPStatement());
+		// statement2.addListener(this.callPatternReceiver);
+
+		// Register a TraceReceiver
+		final EPStatement statement2 =
+				this.epService.getEPAdministrator().createEPL(
+						this.traceReceiver.getCEPStatement());
+		statement2.addListener(this.traceReceiver);
 	}
 
 	private void checkResults() {
@@ -68,12 +83,15 @@ public class TestCallPatternDetection extends TestCase {
 				TestCallPatternDetection.NUM_TRACES_TO_GENERATE
 						* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE,
 						this.executionCounter.getNumEventsReceived());
+		System.out.println(this.executionCounter.getNumEventsReceived() + " Events");
 
-		for (final Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution> p : this.callPatternReceiver
-				.getCalls()) {
-			System.out.println(p);
-		}
-		System.out.println(this.callPatternReceiver.getCalls().size() + " Pairs");
+		// for (final Pair<DeploymentComponentOperationExecution,
+		// DeploymentComponentOperationExecution> p : this.callPatternReceiver
+		// .getCalls()) {
+		// System.out.println(p);
+		// }
+		// System.out.println(this.callPatternReceiver.getCalls().size() +
+		// " Pairs");
 	}
 
 	/**
@@ -97,7 +115,7 @@ public class TestCallPatternDetection extends TestCase {
 			bookstoreExecutions.addAll(bookstoreTrace);
 		}
 
-		Collections.shuffle(bookstoreExecutions);
+		// Collections.shuffle(bookstoreExecutions);
 
 		for (final DeploymentComponentOperationExecution exec : bookstoreExecutions) {
 			this.epService.getEPRuntime().sendEvent(exec);
@@ -143,35 +161,115 @@ class ExecutionCounter implements ICEPEventReceiver {
  * @author Andre van Hoorn
  * 
  */
+class TraceReceiver implements ICEPEventReceiver, UpdateListener {
+	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
+			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
+
+	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
+	private static final String VAR_NAME = "a_traceId";
+
+	private final long traceDetectionTimeOutMillis;
+
+	public TraceReceiver(final long traceDetectionTimeOutMillis) {
+		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
+	}
+
+	/**
+	 * Expression with place holders replaced in {@link #EXPRESSION}.
+	 */
+	private static final String EXPRESSION_TEMPLATE =
+			"select * from EXECUTION_EVENT_TYPE "
+					+ "match_recognize ("
+					+ "partition by traceId "
+					+ "measures A[0] as VAR_NAME "
+					+ "pattern (A+?) "
+					// Interval is not working, yet: Returns only the first execution
+					//+ "interval INTERVAL seconds " 
+					+ "define A as true"
+					+ ")";
+
+	/**
+	 * The CEP query for call events
+	 */
+	private static final String EXPRESSION =
+			TraceReceiver.EXPRESSION_TEMPLATE
+					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver.EXECUTION_EVENT_TYPE)
+					.replaceAll("VAR_NAME", TraceReceiver.VAR_NAME);
+
+	@Override
+	public String getCEPStatement() {
+		return TraceReceiver.EXPRESSION
+				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis/1000));
+	}
+
+	@Override
+	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
+		System.out.println("");
+		for (final EventBean newEvent : newEvents) {
+			System.out.println(newEvent.get(TraceReceiver.VAR_NAME));
+		}
+	}
+
+	/**
+	 * @return the calls
+	 */
+	public Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> getCalls() {
+		return this.calls;
+	}
+}
+
+/**
+ * !WORKS BUT MAKES NO SENSE (the recognized pairs are not necessarily in a call
+ * relationship)
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 class CallPatternReceiver implements ICEPEventReceiver, UpdateListener {
 	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
 			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
 
 	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-	private static final String EXEC0_NAME = "exec0";
-	private static final String EXEC1_NAME = "exec1";
+	private static final String CALLER_NAME = "callerExec";
+	private static final String CALLEE_NAME = "calleeExec";
 
-	private static final String expression = "select * from pattern ["
-			+ "every "
-			+ CallPatternReceiver.EXEC0_NAME + "=" + CallPatternReceiver.EXECUTION_EVENT_TYPE
-			+ " -> "
-			+ CallPatternReceiver.EXEC1_NAME + "=" + CallPatternReceiver.EXECUTION_EVENT_TYPE
-			+ "(traceId=" + CallPatternReceiver.EXEC0_NAME +".traceId)"
-			+ " ]";
+	/**
+	 * Expression with place holders replaced in {@link #EXPRESSION}.
+	 */
+	private static final String EXPRESSION_TEMPLATE =
+			"select * from "
+					+ "pattern "
+					+ "[ every "
+					+ "CALLER_NAME=EXECUTION_EVENT_TYPE"
+					+ "->"
+					+ "CALLEE_NAME=EXECUTION_EVENT_TYPE(traceId=CALLER_NAME.traceId and ess=CALLER_NAME.ess+1)"
+					+ " ]";
+
+	/**
+	 * The CEP query for call events
+	 */
+	private static final String EXPRESSION =
+			CallPatternReceiver.EXPRESSION_TEMPLATE
+					.replaceAll("EXECUTION_EVENT_TYPE", CallPatternReceiver.EXECUTION_EVENT_TYPE)
+					.replaceAll("CALLER_NAME", CallPatternReceiver.CALLER_NAME)
+					.replaceAll("CALLEE_NAME", CallPatternReceiver.CALLEE_NAME);
 
 	@Override
 	public String getCEPStatement() {
-		return CallPatternReceiver.expression;
+		return CallPatternReceiver.EXPRESSION;
 	}
 
 	@Override
 	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		final DeploymentComponentOperationExecution exec0 =
-				(DeploymentComponentOperationExecution) newEvents[0].get(CallPatternReceiver.EXEC0_NAME);
-		final DeploymentComponentOperationExecution exec1 =
-				(DeploymentComponentOperationExecution) newEvents[0].get(CallPatternReceiver.EXEC1_NAME);
-		this.calls.add(
-				new Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>(exec0, exec1));
+		for (final EventBean newEvent : newEvents) {
+			final DeploymentComponentOperationExecution exec0 =
+					(DeploymentComponentOperationExecution) newEvent.get(CallPatternReceiver.CALLER_NAME);
+			final DeploymentComponentOperationExecution exec1 =
+					(DeploymentComponentOperationExecution) newEvent.get(CallPatternReceiver.CALLEE_NAME);
+			this.calls.add(
+					new Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>(exec0,
+							exec1));
+		}
 	}
 
 	/**
