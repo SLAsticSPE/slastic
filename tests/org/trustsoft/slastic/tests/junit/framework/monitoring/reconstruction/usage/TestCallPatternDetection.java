@@ -139,7 +139,7 @@ interface ICEPEventReceiver {
 }
 
 /**
- * Counts the total number of {@link DeploymentComponentOperationExecution}s
+ * Counts the total number of {@link DeploymentComponentOperationExecution}s.
  * 
  * @author Andre van Hoorn
  * 
@@ -164,78 +164,6 @@ class ExecutionCounter implements ICEPEventReceiver {
 	 */
 	public int getNumEventsReceived() {
 		return this.numEventsReceived.get();
-	}
-}
-
-/**
- * @author Andre van Hoorn
- * 
- */
-class TraceReceiver2 implements ICEPEventReceiver, UpdateListener {
-	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
-			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
-
-	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-	private static final String CALLER_NAME = "callerExec";
-	private static final String CALLEE_NAME = "calleeExec";
-
-	private final long traceDetectionTimeOutMillis;
-
-	public TraceReceiver2(final long traceDetectionTimeOutMillis) {
-		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
-	}
-
-	/**
-	 * Expression with place holders replaced in {@link #EXPRESSION}.
-	 */
-	private static final String EXPRESSION_TEMPLATE =
-			"select * from "
-					+ "pattern "
-					+ "[ every "
-					+ "CALLER_NAME=EXECUTION_EVENT_TYPE"
-					+ "->"
-					// FIXME: Bound [1:] does not capture traces with a single
-					// execution
-					+ "[1:] CALLEE_NAME=EXECUTION_EVENT_TYPE(traceId=CALLER_NAME.traceId)"
-					// + " until timer:within(INTERVAL seconds) "
-					+ "]";
-
-	/**
-	 * The CEP query for call events
-	 */
-	private static final String EXPRESSION =
-			TraceReceiver2.EXPRESSION_TEMPLATE
-					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver2.EXECUTION_EVENT_TYPE)
-					.replaceAll("CALLER_NAME", TraceReceiver2.CALLER_NAME)
-					.replaceAll("CALLEE_NAME", TraceReceiver2.CALLEE_NAME);
-
-	@Override
-	public String getCEPStatement() {
-		return TraceReceiver2.EXPRESSION
-				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
-	}
-
-	@Override
-	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		System.out.println(newEvents.length + " newEvents");
-		for (final EventBean newEvent : newEvents) {
-			final DeploymentComponentOperationExecution exec0 =
-					(DeploymentComponentOperationExecution) newEvent.get(TraceReceiver2.CALLER_NAME);
-			System.out.println(exec0);
-
-			final DeploymentComponentOperationExecution[] exec1n =
-					(DeploymentComponentOperationExecution[]) newEvent.get(TraceReceiver2.CALLEE_NAME);
-			for (final DeploymentComponentOperationExecution exec : exec1n) {
-				System.out.println(exec);
-			}
-		}
-	}
-
-	/**
-	 * @return the calls
-	 */
-	public Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> getCalls() {
-		return this.calls;
 	}
 }
 
@@ -266,8 +194,6 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 					+ "partition by traceId "
 					+ "measures A as VAR_NAME "
 					+ "pattern (A+) "
-					// Interval is not working, yet: Returns only the first
-					// execution
 					+ "interval INTERVAL seconds "
 					+ "define A as true"
 					+ ")";
@@ -276,11 +202,12 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 	 * The CEP query for call events
 	 */
 	private static final String EXPRESSION =
+			/*
+			 * INTERVAL will be replaced in getCEPStatement
+			 */
 			TraceReceiver.EXPRESSION_TEMPLATE
 					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver.EXECUTION_EVENT_TYPE)
 					.replaceAll("VAR_NAME", TraceReceiver.VAR_NAME);
-
-	// INTERAL replaced in getCEPStatement
 
 	@Override
 	public String getCEPStatement() {
@@ -291,8 +218,7 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 	@Override
 	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
 		// newEvents contains an array of DeploymentComponentOperationExecution
-		// for
-		// a single trace id.
+		// for a single trace id.
 		System.out.println(newEvents.length + " newEvents");
 		for (final EventBean newEvent : newEvents) {
 			final DeploymentComponentOperationExecution[] exec1n =
@@ -301,68 +227,6 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 			for (final DeploymentComponentOperationExecution exec : exec1n) {
 				System.out.println(exec);
 			}
-		}
-	}
-
-	/**
-	 * @return the calls
-	 */
-	public Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> getCalls() {
-		return this.calls;
-	}
-}
-
-/**
- * !WORKS BUT MAKES NO SENSE (the recognized pairs are not necessarily in a call
- * relationship)
- * 
- * @author Andre van Hoorn
- * 
- */
-class CallPatternReceiver implements ICEPEventReceiver, UpdateListener {
-	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
-			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
-
-	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-	private static final String CALLER_NAME = "callerExec";
-	private static final String CALLEE_NAME = "calleeExec";
-
-	/**
-	 * Expression with place holders replaced in {@link #EXPRESSION}.
-	 */
-	private static final String EXPRESSION_TEMPLATE =
-			"select * from "
-					+ "pattern "
-					+ "[ every "
-					+ "CALLER_NAME=EXECUTION_EVENT_TYPE"
-					+ "->"
-					+ "CALLEE_NAME=EXECUTION_EVENT_TYPE(traceId=CALLER_NAME.traceId and ess=CALLER_NAME.ess+1)"
-					+ " ]";
-
-	/**
-	 * The CEP query for call events
-	 */
-	private static final String EXPRESSION =
-			CallPatternReceiver.EXPRESSION_TEMPLATE
-					.replaceAll("EXECUTION_EVENT_TYPE", CallPatternReceiver.EXECUTION_EVENT_TYPE)
-					.replaceAll("CALLER_NAME", CallPatternReceiver.CALLER_NAME)
-					.replaceAll("CALLEE_NAME", CallPatternReceiver.CALLEE_NAME);
-
-	@Override
-	public String getCEPStatement() {
-		return CallPatternReceiver.EXPRESSION;
-	}
-
-	@Override
-	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		for (final EventBean newEvent : newEvents) {
-			final DeploymentComponentOperationExecution exec0 =
-					(DeploymentComponentOperationExecution) newEvent.get(CallPatternReceiver.CALLER_NAME);
-			final DeploymentComponentOperationExecution exec1 =
-					(DeploymentComponentOperationExecution) newEvent.get(CallPatternReceiver.CALLEE_NAME);
-			this.calls.add(
-					new Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>(exec0,
-							exec1));
 		}
 	}
 
