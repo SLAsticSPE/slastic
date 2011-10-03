@@ -40,22 +40,13 @@ public class TestCallPatternDetection extends TestCase {
 	private final ExecutionCounter executionCounter = new ExecutionCounter();
 	// private final CallPatternReceiver callPatternReceiver = new
 	// CallPatternReceiver();
-	private final TraceReceiver traceReceiver = 
-		new TraceReceiver(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
+	private final TraceReceiver traceReceiver =
+			new
+			TraceReceiver(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
-	/**
-	 * @throws InterruptedException 
-	 * 
-	 */
-	public void testCreateSendReceiveEvent() throws InterruptedException {
-		this.registerSubscribers();
-
-		this.sendBookstoreTraces();
-		// We have to wait this time, to make sure that all traces are detected
-		Thread.sleep(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
-
-		this.checkResults();
-	}
+	// private final TraceReceiver2 traceReceiver2 =
+	// new
+	// TraceReceiver2(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	private void registerSubscribers() {
 		// Register an ExecutionCounter
@@ -69,11 +60,16 @@ public class TestCallPatternDetection extends TestCase {
 		// this.callPatternReceiver.getCEPStatement());
 		// statement2.addListener(this.callPatternReceiver);
 
-		// Register a TraceReceiver
+		// final Register a TraceReceiver
 		final EPStatement statement2 =
 				this.epService.getEPAdministrator().createEPL(
 						this.traceReceiver.getCEPStatement());
 		statement2.addListener(this.traceReceiver);
+
+		// final EPStatement statement3 =
+		// this.epService.getEPAdministrator().createEPL(
+		// this.traceReceiver2.getCEPStatement());
+		// statement3.addListener(this.traceReceiver2);
 	}
 
 	private void checkResults() {
@@ -121,6 +117,21 @@ public class TestCallPatternDetection extends TestCase {
 			this.epService.getEPRuntime().sendEvent(exec);
 		}
 	}
+
+	/**
+	 * @throws InterruptedException
+	 * 
+	 */
+	public void testCreateSendReceiveEvent() throws InterruptedException {
+		this.registerSubscribers();
+
+		this.sendBookstoreTraces();
+		// We have to wait this time, to make sure that all traces are detected
+		Thread.sleep(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
+
+		this.checkResults();
+	}
+
 }
 
 interface ICEPEventReceiver {
@@ -157,6 +168,78 @@ class ExecutionCounter implements ICEPEventReceiver {
 }
 
 /**
+ * @author Andre van Hoorn
+ * 
+ */
+class TraceReceiver2 implements ICEPEventReceiver, UpdateListener {
+	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
+			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
+
+	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
+	private static final String CALLER_NAME = "callerExec";
+	private static final String CALLEE_NAME = "calleeExec";
+
+	private final long traceDetectionTimeOutMillis;
+
+	public TraceReceiver2(final long traceDetectionTimeOutMillis) {
+		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
+	}
+
+	/**
+	 * Expression with place holders replaced in {@link #EXPRESSION}.
+	 */
+	private static final String EXPRESSION_TEMPLATE =
+			"select * from "
+					+ "pattern "
+					+ "[ every "
+					+ "CALLER_NAME=EXECUTION_EVENT_TYPE"
+					+ "->"
+					// FIXME: Bound [1:] does not capture traces with a single
+					// execution
+					+ "[1:] CALLEE_NAME=EXECUTION_EVENT_TYPE(traceId=CALLER_NAME.traceId)"
+					// + " until timer:within(INTERVAL seconds) "
+					+ "]";
+
+	/**
+	 * The CEP query for call events
+	 */
+	private static final String EXPRESSION =
+			TraceReceiver2.EXPRESSION_TEMPLATE
+					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver2.EXECUTION_EVENT_TYPE)
+					.replaceAll("CALLER_NAME", TraceReceiver2.CALLER_NAME)
+					.replaceAll("CALLEE_NAME", TraceReceiver2.CALLEE_NAME);
+
+	@Override
+	public String getCEPStatement() {
+		return TraceReceiver2.EXPRESSION
+				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
+	}
+
+	@Override
+	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
+		System.out.println(newEvents.length + " newEvents");
+		for (final EventBean newEvent : newEvents) {
+			final DeploymentComponentOperationExecution exec0 =
+					(DeploymentComponentOperationExecution) newEvent.get(TraceReceiver2.CALLER_NAME);
+			System.out.println(exec0);
+
+			final DeploymentComponentOperationExecution[] exec1n =
+					(DeploymentComponentOperationExecution[]) newEvent.get(TraceReceiver2.CALLEE_NAME);
+			for (final DeploymentComponentOperationExecution exec : exec1n) {
+				System.out.println(exec);
+			}
+		}
+	}
+
+	/**
+	 * @return the calls
+	 */
+	public Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> getCalls() {
+		return this.calls;
+	}
+}
+
+/**
  * 
  * @author Andre van Hoorn
  * 
@@ -181,10 +264,11 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 			"select * from EXECUTION_EVENT_TYPE "
 					+ "match_recognize ("
 					+ "partition by traceId "
-					+ "measures A[0] as VAR_NAME "
-					+ "pattern (A+?) "
-					// Interval is not working, yet: Returns only the first execution
-					//+ "interval INTERVAL seconds " 
+					+ "measures A as VAR_NAME "
+					+ "pattern (A+) "
+					// Interval is not working, yet: Returns only the first
+					// execution
+					+ "interval INTERVAL seconds "
 					+ "define A as true"
 					+ ")";
 
@@ -196,17 +280,27 @@ class TraceReceiver implements ICEPEventReceiver, UpdateListener {
 					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver.EXECUTION_EVENT_TYPE)
 					.replaceAll("VAR_NAME", TraceReceiver.VAR_NAME);
 
+	// INTERAL replaced in getCEPStatement
+
 	@Override
 	public String getCEPStatement() {
 		return TraceReceiver.EXPRESSION
-				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis/1000));
+				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
 	@Override
 	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		System.out.println("");
+		// newEvents contains an array of DeploymentComponentOperationExecution
+		// for
+		// a single trace id.
+		System.out.println(newEvents.length + " newEvents");
 		for (final EventBean newEvent : newEvents) {
-			System.out.println(newEvent.get(TraceReceiver.VAR_NAME));
+			final DeploymentComponentOperationExecution[] exec1n =
+					(DeploymentComponentOperationExecution[]) newEvent.get(TraceReceiver.VAR_NAME);
+			System.out.println("New trace: " + exec1n[0].getTraceId());
+			for (final DeploymentComponentOperationExecution exec : exec1n) {
+				System.out.println(exec);
+			}
 		}
 	}
 
