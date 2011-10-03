@@ -2,6 +2,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.us
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,6 +10,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.control.ICEPEventReceiver;
+import org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction.TraceReconstructor;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 import org.trustsoft.slastic.tests.junit.framework.esper.EPServiceProviderFactory;
@@ -16,15 +19,10 @@ import org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.exa
 
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
-import com.espertech.esper.client.EventBean;
-import com.espertech.esper.client.UpdateListener;
-import com.espertech.esper.collection.Pair;
 
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 
 /**
- * 
- * 
  * @author Andre van Hoorn
  * 
  */
@@ -38,15 +36,10 @@ public class TestCallPatternDetection extends TestCase {
 			EPServiceProviderFactory.createInstanceWithEMFSupport();
 
 	private final ExecutionCounter executionCounter = new ExecutionCounter();
-	// private final CallPatternReceiver callPatternReceiver = new
-	// CallPatternReceiver();
-	private final TraceReceiver traceReceiver =
-			new
-			TraceReceiver(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
-	// private final TraceReceiver2 traceReceiver2 =
-	// new
-	// TraceReceiver2(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
+	private final TraceReconstructor traceReceiver =
+			new
+			TraceReconstructor(this.epService, TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	private void registerSubscribers() {
 		// Register an ExecutionCounter
@@ -54,22 +47,11 @@ public class TestCallPatternDetection extends TestCase {
 				this.executionCounter.getCEPStatement());
 		statement.setSubscriber(this.executionCounter);
 
-		// Register a CallPatternReceiver
-		// final EPStatement statement2 =
-		// this.epService.getEPAdministrator().createEPL(
-		// this.callPatternReceiver.getCEPStatement());
-		// statement2.addListener(this.callPatternReceiver);
-
 		// final Register a TraceReceiver
 		final EPStatement statement2 =
 				this.epService.getEPAdministrator().createEPL(
 						this.traceReceiver.getCEPStatement());
 		statement2.addListener(this.traceReceiver);
-
-		// final EPStatement statement3 =
-		// this.epService.getEPAdministrator().createEPL(
-		// this.traceReceiver2.getCEPStatement());
-		// statement3.addListener(this.traceReceiver2);
 	}
 
 	private void checkResults() {
@@ -81,13 +63,7 @@ public class TestCallPatternDetection extends TestCase {
 						this.executionCounter.getNumEventsReceived());
 		System.out.println(this.executionCounter.getNumEventsReceived() + " Events");
 
-		// for (final Pair<DeploymentComponentOperationExecution,
-		// DeploymentComponentOperationExecution> p : this.callPatternReceiver
-		// .getCalls()) {
-		// System.out.println(p);
-		// }
-		// System.out.println(this.callPatternReceiver.getCalls().size() +
-		// " Pairs");
+		// TODO: check reconstructed traces
 	}
 
 	/**
@@ -111,7 +87,7 @@ public class TestCallPatternDetection extends TestCase {
 			bookstoreExecutions.addAll(bookstoreTrace);
 		}
 
-		// Collections.shuffle(bookstoreExecutions);
+		Collections.shuffle(bookstoreExecutions);
 
 		for (final DeploymentComponentOperationExecution exec : bookstoreExecutions) {
 			this.epService.getEPRuntime().sendEvent(exec);
@@ -132,10 +108,6 @@ public class TestCallPatternDetection extends TestCase {
 		this.checkResults();
 	}
 
-}
-
-interface ICEPEventReceiver {
-	public String getCEPStatement();
 }
 
 /**
@@ -164,76 +136,5 @@ class ExecutionCounter implements ICEPEventReceiver {
 	 */
 	public int getNumEventsReceived() {
 		return this.numEventsReceived.get();
-	}
-}
-
-/**
- * 
- * @author Andre van Hoorn
- * 
- */
-class TraceReceiver implements ICEPEventReceiver, UpdateListener {
-	private final Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> calls =
-			new ArrayList<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>>();
-
-	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-	private static final String VAR_NAME = "a_traceId";
-
-	private final long traceDetectionTimeOutMillis;
-
-	public TraceReceiver(final long traceDetectionTimeOutMillis) {
-		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
-	}
-
-	/**
-	 * Expression with place holders replaced in {@link #EXPRESSION}.
-	 */
-	private static final String EXPRESSION_TEMPLATE =
-			"select * from EXECUTION_EVENT_TYPE "
-					+ "match_recognize ("
-					+ "partition by traceId "
-					+ "measures A as VAR_NAME "
-					+ "pattern (A+) "
-					+ "interval INTERVAL seconds "
-					+ "define A as true"
-					+ ")";
-
-	/**
-	 * The CEP query for call events
-	 */
-	private static final String EXPRESSION =
-			/*
-			 * INTERVAL will be replaced in getCEPStatement
-			 */
-			TraceReceiver.EXPRESSION_TEMPLATE
-					.replaceAll("EXECUTION_EVENT_TYPE", TraceReceiver.EXECUTION_EVENT_TYPE)
-					.replaceAll("VAR_NAME", TraceReceiver.VAR_NAME);
-
-	@Override
-	public String getCEPStatement() {
-		return TraceReceiver.EXPRESSION
-				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
-	}
-
-	@Override
-	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		// newEvents contains an array of DeploymentComponentOperationExecution
-		// for a single trace id.
-		System.out.println(newEvents.length + " newEvents");
-		for (final EventBean newEvent : newEvents) {
-			final DeploymentComponentOperationExecution[] exec1n =
-					(DeploymentComponentOperationExecution[]) newEvent.get(TraceReceiver.VAR_NAME);
-			System.out.println("New trace: " + exec1n[0].getTraceId());
-			for (final DeploymentComponentOperationExecution exec : exec1n) {
-				System.out.println(exec);
-			}
-		}
-	}
-
-	/**
-	 * @return the calls
-	 */
-	public Collection<Pair<DeploymentComponentOperationExecution, DeploymentComponentOperationExecution>> getCalls() {
-		return this.calls;
 	}
 }

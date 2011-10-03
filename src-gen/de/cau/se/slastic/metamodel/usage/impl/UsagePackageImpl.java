@@ -558,6 +558,15 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getValidExecutionTrace_MessageTrace() {
+		return (EReference)validExecutionTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getInvalidTrace() {
 		return invalidTraceEClass;
 	}
@@ -657,6 +666,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		createEReference(executionTraceEClass, EXECUTION_TRACE__OPERATION_EXECUTIONS);
 
 		validExecutionTraceEClass = createEClass(VALID_EXECUTION_TRACE);
+		createEReference(validExecutionTraceEClass, VALID_EXECUTION_TRACE__MESSAGE_TRACE);
 
 		invalidTraceEClass = createEClass(INVALID_TRACE);
 
@@ -754,6 +764,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEReference(getExecutionTrace_OperationExecutions(), theMonitoringPackage.getOperationExecution(), null, "operationExecutions", null, 1, -1, ExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(validExecutionTraceEClass, ValidExecutionTrace.class, "ValidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValidExecutionTrace_MessageTrace(), this.getMessageTrace(), null, "messageTrace", null, 1, 1, ValidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(invalidTraceEClass, InvalidTrace.class, "InvalidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
