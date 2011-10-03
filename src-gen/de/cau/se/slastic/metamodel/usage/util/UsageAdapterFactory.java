@@ -94,6 +94,46 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 				return createAssemblyConnectorCallFrequencyAdapter();
 			}
 			@Override
+			public Adapter caseTrace(Trace object) {
+				return createTraceAdapter();
+			}
+			@Override
+			public Adapter caseMessageTrace(MessageTrace object) {
+				return createMessageTraceAdapter();
+			}
+			@Override
+			public Adapter caseValidTrace(ValidTrace object) {
+				return createValidTraceAdapter();
+			}
+			@Override
+			public Adapter caseMessage(Message object) {
+				return createMessageAdapter();
+			}
+			@Override
+			public Adapter caseExecutionTrace(ExecutionTrace object) {
+				return createExecutionTraceAdapter();
+			}
+			@Override
+			public Adapter caseValidExecutionTrace(ValidExecutionTrace object) {
+				return createValidExecutionTraceAdapter();
+			}
+			@Override
+			public Adapter caseInvalidTrace(InvalidTrace object) {
+				return createInvalidTraceAdapter();
+			}
+			@Override
+			public Adapter caseInvalidExecutionTrace(InvalidExecutionTrace object) {
+				return createInvalidExecutionTraceAdapter();
+			}
+			@Override
+			public Adapter caseSynchronousCallMessage(SynchronousCallMessage object) {
+				return createSynchronousCallMessageAdapter();
+			}
+			@Override
+			public Adapter caseSynchronousReplyMessage(SynchronousReplyMessage object) {
+				return createSynchronousReplyMessageAdapter();
+			}
+			@Override
 			public Adapter caseSLAsticModel(SLAsticModel object) {
 				return createSLAsticModelAdapter();
 			}
@@ -184,6 +224,146 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAssemblyConnectorCallFrequencyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.Trace <em>Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.Trace
+	 * @generated
+	 */
+	public Adapter createTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.MessageTrace <em>Message Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.MessageTrace
+	 * @generated
+	 */
+	public Adapter createMessageTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ValidTrace <em>Valid Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidTrace
+	 * @generated
+	 */
+	public Adapter createValidTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.Message <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.Message
+	 * @generated
+	 */
+	public Adapter createMessageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
+	 * @generated
+	 */
+	public Adapter createExecutionTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace <em>Valid Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidExecutionTrace
+	 * @generated
+	 */
+	public Adapter createValidExecutionTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.InvalidTrace <em>Invalid Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.InvalidTrace
+	 * @generated
+	 */
+	public Adapter createInvalidTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace <em>Invalid Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace
+	 * @generated
+	 */
+	public Adapter createInvalidExecutionTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.SynchronousCallMessage <em>Synchronous Call Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.SynchronousCallMessage
+	 * @generated
+	 */
+	public Adapter createSynchronousCallMessageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage <em>Synchronous Reply Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage
+	 * @generated
+	 */
+	public Adapter createSynchronousReplyMessageAdapter() {
 		return null;
 	}
 

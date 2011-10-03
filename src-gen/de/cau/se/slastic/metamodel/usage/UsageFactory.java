@@ -71,6 +71,60 @@ public interface UsageFactory extends EFactory {
 	AssemblyConnectorCallFrequency createAssemblyConnectorCallFrequency();
 
 	/**
+	 * Returns a new object of class '<em>Message Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Message Trace</em>'.
+	 * @generated
+	 */
+	MessageTrace createMessageTrace();
+
+	/**
+	 * Returns a new object of class '<em>Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Message</em>'.
+	 * @generated
+	 */
+	Message createMessage();
+
+	/**
+	 * Returns a new object of class '<em>Valid Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Valid Execution Trace</em>'.
+	 * @generated
+	 */
+	ValidExecutionTrace createValidExecutionTrace();
+
+	/**
+	 * Returns a new object of class '<em>Invalid Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Invalid Execution Trace</em>'.
+	 * @generated
+	 */
+	InvalidExecutionTrace createInvalidExecutionTrace();
+
+	/**
+	 * Returns a new object of class '<em>Synchronous Call Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Synchronous Call Message</em>'.
+	 * @generated
+	 */
+	SynchronousCallMessage createSynchronousCallMessage();
+
+	/**
+	 * Returns a new object of class '<em>Synchronous Reply Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Synchronous Reply Message</em>'.
+	 * @generated
+	 */
+	SynchronousReplyMessage createSynchronousReplyMessage();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

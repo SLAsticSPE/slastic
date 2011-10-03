@@ -65,6 +65,12 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 			case UsagePackage.FREQUENCY_DISTRIBUTION: return createFrequencyDistribution();
 			case UsagePackage.OPERATION_CALL_FREQUENCY: return createOperationCallFrequency();
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY: return createAssemblyConnectorCallFrequency();
+			case UsagePackage.MESSAGE_TRACE: return createMessageTrace();
+			case UsagePackage.MESSAGE: return createMessage();
+			case UsagePackage.VALID_EXECUTION_TRACE: return createValidExecutionTrace();
+			case UsagePackage.INVALID_EXECUTION_TRACE: return createInvalidExecutionTrace();
+			case UsagePackage.SYNCHRONOUS_CALL_MESSAGE: return createSynchronousCallMessage();
+			case UsagePackage.SYNCHRONOUS_REPLY_MESSAGE: return createSynchronousReplyMessage();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -118,6 +124,66 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 	public AssemblyConnectorCallFrequency createAssemblyConnectorCallFrequency() {
 		AssemblyConnectorCallFrequencyImpl assemblyConnectorCallFrequency = new AssemblyConnectorCallFrequencyImpl();
 		return assemblyConnectorCallFrequency;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public MessageTrace createMessageTrace() {
+		MessageTraceImpl messageTrace = new MessageTraceImpl();
+		return messageTrace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Message createMessage() {
+		MessageImpl message = new MessageImpl();
+		return message;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ValidExecutionTrace createValidExecutionTrace() {
+		ValidExecutionTraceImpl validExecutionTrace = new ValidExecutionTraceImpl();
+		return validExecutionTrace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public InvalidExecutionTrace createInvalidExecutionTrace() {
+		InvalidExecutionTraceImpl invalidExecutionTrace = new InvalidExecutionTraceImpl();
+		return invalidExecutionTrace;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SynchronousCallMessage createSynchronousCallMessage() {
+		SynchronousCallMessageImpl synchronousCallMessage = new SynchronousCallMessageImpl();
+		return synchronousCallMessage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SynchronousReplyMessage createSynchronousReplyMessage() {
+		SynchronousReplyMessageImpl synchronousReplyMessage = new SynchronousReplyMessageImpl();
+		return synchronousReplyMessage;
 	}
 
 	/**
