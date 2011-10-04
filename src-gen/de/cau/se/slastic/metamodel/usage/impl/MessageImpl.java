@@ -27,6 +27,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * The following features are implemented:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl#getSender <em>Sender</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl#getReceiver <em>Receiver</em>}</li>
  * </ul>
  * </p>
@@ -43,6 +44,26 @@ public class MessageImpl extends EObjectImpl implements Message {
 	 * @ordered
 	 */
 	protected OperationExecution sender;
+
+	/**
+	 * The default value of the '{@link #getTimestamp() <em>Timestamp</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimestamp()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final long TIMESTAMP_EDEFAULT = 0L;
+
+	/**
+	 * The cached value of the '{@link #getTimestamp() <em>Timestamp</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTimestamp()
+	 * @generated
+	 * @ordered
+	 */
+	protected long timestamp = TIMESTAMP_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getReceiver() <em>Receiver</em>}' reference.
@@ -116,6 +137,27 @@ public class MessageImpl extends EObjectImpl implements Message {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTimestamp(long newTimestamp) {
+		long oldTimestamp = timestamp;
+		timestamp = newTimestamp;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, UsagePackage.MESSAGE__TIMESTAMP, oldTimestamp, timestamp));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public OperationExecution getReceiver() {
 		if (receiver != null && receiver.eIsProxy()) {
 			InternalEObject oldReceiver = (InternalEObject)receiver;
@@ -160,6 +202,8 @@ public class MessageImpl extends EObjectImpl implements Message {
 			case UsagePackage.MESSAGE__SENDER:
 				if (resolve) return getSender();
 				return basicGetSender();
+			case UsagePackage.MESSAGE__TIMESTAMP:
+				return getTimestamp();
 			case UsagePackage.MESSAGE__RECEIVER:
 				if (resolve) return getReceiver();
 				return basicGetReceiver();
@@ -177,6 +221,9 @@ public class MessageImpl extends EObjectImpl implements Message {
 		switch (featureID) {
 			case UsagePackage.MESSAGE__SENDER:
 				setSender((OperationExecution)newValue);
+				return;
+			case UsagePackage.MESSAGE__TIMESTAMP:
+				setTimestamp((Long)newValue);
 				return;
 			case UsagePackage.MESSAGE__RECEIVER:
 				setReceiver((OperationExecution)newValue);
@@ -196,6 +243,9 @@ public class MessageImpl extends EObjectImpl implements Message {
 			case UsagePackage.MESSAGE__SENDER:
 				setSender((OperationExecution)null);
 				return;
+			case UsagePackage.MESSAGE__TIMESTAMP:
+				setTimestamp(TIMESTAMP_EDEFAULT);
+				return;
 			case UsagePackage.MESSAGE__RECEIVER:
 				setReceiver((OperationExecution)null);
 				return;
@@ -213,10 +263,28 @@ public class MessageImpl extends EObjectImpl implements Message {
 		switch (featureID) {
 			case UsagePackage.MESSAGE__SENDER:
 				return sender != null;
+			case UsagePackage.MESSAGE__TIMESTAMP:
+				return timestamp != TIMESTAMP_EDEFAULT;
 			case UsagePackage.MESSAGE__RECEIVER:
 				return receiver != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (timestamp: ");
+		result.append(timestamp);
+		result.append(')');
+		return result.toString();
 	}
 
 } //MessageImpl

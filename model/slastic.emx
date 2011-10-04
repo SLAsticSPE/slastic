@@ -7154,14 +7154,14 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_r-X2MO3XEeCk8s0VzqdzMQ" visible="false" type="StructureCompartment"/>
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_r-Tkwe3XEeCk8s0VzqdzMQ" x="14375" y="3717"/>
           </children>
-          <children xmi:type="umlnotation:UMLShape" xmi:id="_W-1EsO3YEeCk8s0VzqdzMQ" element="_W-xaUO3YEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
+          <children xmi:type="umlnotation:UMLShape" xmi:id="_W-1EsO3YEeCk8s0VzqdzMQ" element="_W-xaUO3YEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" showListVisibility="Text" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_W-1rwO3YEeCk8s0VzqdzMQ" type="ImageCompartment">
               <layoutConstraint xmi:type="notation:Size" xmi:id="_W-1rwe3YEeCk8s0VzqdzMQ" width="1320" height="1320"/>
             </children>
             <children xmi:type="notation:BasicDecorationNode" xmi:id="_W-2S0O3YEeCk8s0VzqdzMQ" type="Stereotype"/>
             <children xmi:type="notation:BasicDecorationNode" xmi:id="_W-2S0e3YEeCk8s0VzqdzMQ" type="Name"/>
             <children xmi:type="notation:BasicDecorationNode" xmi:id="_W-254O3YEeCk8s0VzqdzMQ" type="Parent"/>
-            <children xmi:type="notation:SemanticListCompartment" xmi:id="_W-254e3YEeCk8s0VzqdzMQ" visible="false" type="AttributeCompartment"/>
+            <children xmi:type="notation:SemanticListCompartment" xmi:id="_W-254e3YEeCk8s0VzqdzMQ" type="AttributeCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_W-3g8O3YEeCk8s0VzqdzMQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_W-3g8e3YEeCk8s0VzqdzMQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_W-3g8u3YEeCk8s0VzqdzMQ" visible="false" type="StructureCompartment"/>
@@ -7178,7 +7178,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_Yghg8e3YEeCk8s0VzqdzMQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_YgiIAO3YEeCk8s0VzqdzMQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_YgiIAe3YEeCk8s0VzqdzMQ" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YgfEse3YEeCk8s0VzqdzMQ" x="2214" y="6088"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YgfEse3YEeCk8s0VzqdzMQ" x="3316" y="6563"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_Z0tssO3YEeCk8s0VzqdzMQ" element="_Z0qCUO3YEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_Z0u60O3YEeCk8s0VzqdzMQ" type="ImageCompartment">
@@ -7191,7 +7191,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_Z0wwAO3YEeCk8s0VzqdzMQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_Z0wwAe3YEeCk8s0VzqdzMQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_Z0xXEO3YEeCk8s0VzqdzMQ" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z0tsse3YEeCk8s0VzqdzMQ" x="6710" y="6088"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z0tsse3YEeCk8s0VzqdzMQ" x="7470" y="6563"/>
           </children>
           <element xsi:nil="true"/>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_3-2QYO3VEeCk8s0VzqdzMQ" element="_3-H3oO3VEeCk8s0VzqdzMQ" source="_zHeRwO3VEeCk8s0VzqdzMQ" target="_k-KYQO3WEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
@@ -7395,7 +7395,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_AZfvMO3bEeCk8s0VzqdzMQ" type="FromMultiplicityLabel" element="_AZUwEO3bEeCk8s0VzqdzMQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_AZfvMu3bEeCk8s0VzqdzMQ" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_AZfvMe3bEeCk8s0VzqdzMQ" x="-107" y="-396"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_AZfvMe3bEeCk8s0VzqdzMQ" x="-107" y="-546"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_AZfvM-3bEeCk8s0VzqdzMQ" type="FromRoleLabel" element="_AZUwEO3bEeCk8s0VzqdzMQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_AZgWQO3bEeCk8s0VzqdzMQ" type="FromRole"/>
@@ -7433,7 +7433,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_uvjt8O3jEeCk8s0VzqdzMQ" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uvjG4e3jEeCk8s0VzqdzMQ" y="-186"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uvif0O3jEeCk8s0VzqdzMQ" points="[-1885, -276, 533, 1003]$[-1885, -1002, 533, 277]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uvif0O3jEeCk8s0VzqdzMQ" points="[-1997, -297, 1226, 975]$[-1997, -786, 1226, 486]"/>
           </edges>
         </contents>
       </eAnnotations>
@@ -7572,8 +7572,8 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
       <packagedElement xmi:type="uml:Class" xmi:id="_zHanYO3VEeCk8s0VzqdzMQ" name="MessageTrace">
         <generalization xmi:id="_3-H3oO3VEeCk8s0VzqdzMQ" general="_k-GG0O3WEeCk8s0VzqdzMQ"/>
         <ownedAttribute xmi:id="_AZUwEO3bEeCk8s0VzqdzMQ" name="messages" visibility="private" type="_W-xaUO3YEeCk8s0VzqdzMQ" aggregation="shared" association="_AZS64O3bEeCk8s0VzqdzMQ">
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AZV-MO3bEeCk8s0VzqdzMQ" value="1"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AZVXIO3bEeCk8s0VzqdzMQ" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_AZV-MO3bEeCk8s0VzqdzMQ" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_AZVXIO3bEeCk8s0VzqdzMQ" value="2"/>
         </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_0PDk4O3VEeCk8s0VzqdzMQ" name="ExecutionTrace" isAbstract="true">
@@ -7607,6 +7607,9 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         <ownedAttribute xmi:id="_qV0ukO3YEeCk8s0VzqdzMQ" name="sender" visibility="private" type="_MawhwKoPEd-O9v5GGkzICw" association="_qVy5YO3YEeCk8s0VzqdzMQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qV18se3YEeCk8s0VzqdzMQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qV18sO3YEeCk8s0VzqdzMQ" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:id="_LZ9e0O6SEeCN0cdnVM6_1A" name="timestamp" visibility="private">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
         </ownedAttribute>
         <ownedAttribute xmi:id="_1HgvgO3YEeCk8s0VzqdzMQ" name="receiver" visibility="private" type="_MawhwKoPEd-O9v5GGkzICw" association="_1HfhYO3YEeCk8s0VzqdzMQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_1Hh9oO3YEeCk8s0VzqdzMQ" value="1"/>

@@ -6,6 +6,8 @@
  */
 package de.cau.se.slastic.metamodel.usage;
 
+import org.eclipse.emf.common.util.EList;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -25,29 +27,19 @@ package de.cau.se.slastic.metamodel.usage;
  */
 public interface MessageTrace extends ValidTrace {
 	/**
-	 * Returns the value of the '<em><b>Messages</b></em>' reference.
+	 * Returns the value of the '<em><b>Messages</b></em>' reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.usage.Message}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Messages</em>' reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Messages</em>' reference.
-	 * @see #setMessages(Message)
+	 * @return the value of the '<em>Messages</em>' reference list.
 	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getMessageTrace_Messages()
-	 * @model required="true" ordered="false"
+	 * @model lower="2" ordered="false"
 	 * @generated
 	 */
-	Message getMessages();
-
-	/**
-	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.usage.MessageTrace#getMessages <em>Messages</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Messages</em>' reference.
-	 * @see #getMessages()
-	 * @generated
-	 */
-	void setMessages(Message value);
+	EList<Message> getMessages();
 
 } // MessageTrace

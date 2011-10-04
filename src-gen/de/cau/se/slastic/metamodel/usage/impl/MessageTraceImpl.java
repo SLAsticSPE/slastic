@@ -10,9 +10,12 @@ import de.cau.se.slastic.metamodel.usage.Message;
 import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
+import java.util.Collection;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -32,14 +35,14 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  */
 public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	/**
-	 * The cached value of the '{@link #getMessages() <em>Messages</em>}' reference.
+	 * The cached value of the '{@link #getMessages() <em>Messages</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @see #getMessages()
 	 * @generated
 	 * @ordered
 	 */
-	protected Message messages;
+	protected EList<Message> messages;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -65,37 +68,11 @@ public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Message getMessages() {
-		if (messages != null && messages.eIsProxy()) {
-			InternalEObject oldMessages = (InternalEObject)messages;
-			messages = (Message)eResolveProxy(oldMessages);
-			if (messages != oldMessages) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, UsagePackage.MESSAGE_TRACE__MESSAGES, oldMessages, messages));
-			}
+	public EList<Message> getMessages() {
+		if (messages == null) {
+			messages = new EObjectResolvingEList<Message>(Message.class, this, UsagePackage.MESSAGE_TRACE__MESSAGES);
 		}
 		return messages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Message basicGetMessages() {
-		return messages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setMessages(Message newMessages) {
-		Message oldMessages = messages;
-		messages = newMessages;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, UsagePackage.MESSAGE_TRACE__MESSAGES, oldMessages, messages));
 	}
 
 	/**
@@ -107,8 +84,7 @@ public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
 			case UsagePackage.MESSAGE_TRACE__MESSAGES:
-				if (resolve) return getMessages();
-				return basicGetMessages();
+				return getMessages();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -118,11 +94,13 @@ public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case UsagePackage.MESSAGE_TRACE__MESSAGES:
-				setMessages((Message)newValue);
+				getMessages().clear();
+				getMessages().addAll((Collection<? extends Message>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -137,7 +115,7 @@ public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case UsagePackage.MESSAGE_TRACE__MESSAGES:
-				setMessages((Message)null);
+				getMessages().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -152,7 +130,7 @@ public class MessageTraceImpl extends ValidTraceImpl implements MessageTrace {
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
 			case UsagePackage.MESSAGE_TRACE__MESSAGES:
-				return messages != null;
+				return messages != null && !messages.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

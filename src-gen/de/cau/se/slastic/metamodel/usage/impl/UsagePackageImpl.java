@@ -522,8 +522,17 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getMessage_Timestamp() {
+		return (EAttribute)messageEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getMessage_Receiver() {
-		return (EReference)messageEClass.getEStructuralFeatures().get(1);
+		return (EReference)messageEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -551,15 +560,6 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 */
 	public EClass getValidExecutionTrace() {
 		return validExecutionTraceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getValidExecutionTrace_MessageTrace() {
-		return (EReference)validExecutionTraceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -660,13 +660,13 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		messageEClass = createEClass(MESSAGE);
 		createEReference(messageEClass, MESSAGE__SENDER);
+		createEAttribute(messageEClass, MESSAGE__TIMESTAMP);
 		createEReference(messageEClass, MESSAGE__RECEIVER);
 
 		executionTraceEClass = createEClass(EXECUTION_TRACE);
 		createEReference(executionTraceEClass, EXECUTION_TRACE__OPERATION_EXECUTIONS);
 
 		validExecutionTraceEClass = createEClass(VALID_EXECUTION_TRACE);
-		createEReference(validExecutionTraceEClass, VALID_EXECUTION_TRACE__MESSAGE_TRACE);
 
 		invalidTraceEClass = createEClass(INVALID_TRACE);
 
@@ -752,19 +752,19 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEAttribute(getTrace_TraceId(), ecorePackage.getELong(), "traceId", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(messageTraceEClass, MessageTrace.class, "MessageTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getMessageTrace_Messages(), this.getMessage(), null, "messages", null, 1, 1, MessageTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getMessageTrace_Messages(), this.getMessage(), null, "messages", null, 2, -1, MessageTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(validTraceEClass, ValidTrace.class, "ValidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(messageEClass, Message.class, "Message", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMessage_Sender(), theMonitoringPackage.getOperationExecution(), null, "sender", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getMessage_Timestamp(), ecorePackage.getELong(), "timestamp", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getMessage_Receiver(), theMonitoringPackage.getOperationExecution(), null, "receiver", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(executionTraceEClass, ExecutionTrace.class, "ExecutionTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExecutionTrace_OperationExecutions(), theMonitoringPackage.getOperationExecution(), null, "operationExecutions", null, 1, -1, ExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(validExecutionTraceEClass, ValidExecutionTrace.class, "ValidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getValidExecutionTrace_MessageTrace(), this.getMessageTrace(), null, "messageTrace", null, 1, 1, ValidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(invalidTraceEClass, InvalidTrace.class, "InvalidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
