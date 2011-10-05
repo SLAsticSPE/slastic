@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -196,7 +197,7 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 	 *             if the trace is invalid
 	 * @return
 	 */
-	public static MessageTrace reconstructTrace(final List<OperationExecution> executions,
+	public static MessageTrace reconstructTrace(final Collection<? extends OperationExecution> executions,
 			final OperationExecution rootExecution) throws IllegalStateException {
 		long traceId = -1;
 

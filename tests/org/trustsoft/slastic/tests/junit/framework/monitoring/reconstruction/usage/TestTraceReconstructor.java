@@ -23,10 +23,12 @@ import com.espertech.esper.client.EPStatement;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 
 /**
+ * Tests the {@link TraceReconstructor}.
+ * 
  * @author Andre van Hoorn
  * 
  */
-public class TestCallPatternDetection extends TestCase {
+public class TestTraceReconstructor extends TestCase {
 	private static final int NUM_TRACES_TO_GENERATE = 3;
 
 	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 5000;
@@ -39,7 +41,7 @@ public class TestCallPatternDetection extends TestCase {
 
 	private final TraceReconstructor traceReceiver =
 			new
-			TraceReconstructor(this.epService, TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
+			TraceReconstructor(this.epService, TestTraceReconstructor.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	private void registerSubscribers() {
 		// Register an ExecutionCounter
@@ -58,7 +60,7 @@ public class TestCallPatternDetection extends TestCase {
 		// Assert that the ExecutionCounter received the correct number of
 		// events
 		Assert.assertEquals("Unexpected number of executions received",
-				TestCallPatternDetection.NUM_TRACES_TO_GENERATE
+				TestTraceReconstructor.NUM_TRACES_TO_GENERATE
 						* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE,
 						this.executionCounter.getNumEventsReceived());
 		System.out.println(this.executionCounter.getNumEventsReceived() + " Events");
@@ -75,13 +77,12 @@ public class TestCallPatternDetection extends TestCase {
 		final ExecutionRecordTransformationFilter execRecFilter =
 				new ExecutionRecordTransformationFilter(systemModelManager,
 						NameUtils.ABSTRACTION_MODE_CLASS);
-		;
 
 		final List<DeploymentComponentOperationExecution> bookstoreExecutions =
-				new ArrayList<DeploymentComponentOperationExecution>(TestCallPatternDetection.NUM_TRACES_TO_GENERATE
+				new ArrayList<DeploymentComponentOperationExecution>(TestTraceReconstructor.NUM_TRACES_TO_GENERATE
 						* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
 
-		for (int i = 0; i < TestCallPatternDetection.NUM_TRACES_TO_GENERATE; i++) {
+		for (int i = 0; i < TestTraceReconstructor.NUM_TRACES_TO_GENERATE; i++) {
 			final Collection<DeploymentComponentOperationExecution> bookstoreTrace =
 					BookstoreTraceFactory.createBookstoreTrace(execRecFilter, i);
 			bookstoreExecutions.addAll(bookstoreTrace);
@@ -102,8 +103,8 @@ public class TestCallPatternDetection extends TestCase {
 		this.registerSubscribers();
 
 		this.sendBookstoreTraces();
-		// We have to wait this time, to make sure that all traces are detected
-		Thread.sleep(TestCallPatternDetection.TRACE_DETECTION_TIMEOUT_MILLIS);
+		// We have to wait for this time period, to make sure that all traces are detected
+		Thread.sleep(TestTraceReconstructor.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 		this.checkResults();
 	}
