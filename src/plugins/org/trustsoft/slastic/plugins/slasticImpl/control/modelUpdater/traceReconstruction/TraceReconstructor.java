@@ -271,7 +271,6 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 						new IllegalStateException("Ess are only allowed to increment by 1 --"
 								+ "but found sequence <" + prevE.getEss() + "," + curE.getEss() + ">" + "(Execution: "
 								+ curE + ")");
-				TraceReconstructor.LOG.fatal("Found invalid trace:" + ex.getMessage());
 				throw ex;
 			}
 			if (!eSeqIt.hasNext()) { // empty stack completely, since no more

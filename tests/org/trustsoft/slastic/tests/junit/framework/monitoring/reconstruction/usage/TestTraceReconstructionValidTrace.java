@@ -28,7 +28,7 @@ import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
  * @author Andre van Hoorn
  * 
  */
-public class TestTraceReconstruction extends TestCase {
+public class TestTraceReconstructionValidTrace extends TestCase {
 
 	// TODO: acquire rootExecution from Usage Model
 	private static final DeploymentComponentOperationExecution rootExec =
@@ -48,7 +48,7 @@ public class TestTraceReconstruction extends TestCase {
 		final Collection<? extends OperationExecution> bookstoreTrace =
 				BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 
-		final MessageTrace mt = TraceReconstructor.reconstructTrace(bookstoreTrace, TestTraceReconstruction.rootExec);
+		final MessageTrace mt = TraceReconstructor.reconstructTrace(bookstoreTrace, TestTraceReconstructionValidTrace.rootExec);
 		this.checkResultValidTrace(mt);
 	}
 
@@ -137,7 +137,7 @@ public class TestTraceReconstruction extends TestCase {
 		}
 
 		if ((expectedSenderName == null) && (expectedSenderEoi == -1) && (expectedSenderEss == -1)) {
-			Assert.assertSame("Expected sender execution to be the root execution", TestTraceReconstruction.rootExec,
+			Assert.assertSame("Expected sender execution to be the root execution", TestTraceReconstructionValidTrace.rootExec,
 					senderCompOpExec);
 		} else {
 			Assert.assertEquals("Unexpected component name of sender execution", senderCompOpExec
@@ -161,7 +161,7 @@ public class TestTraceReconstruction extends TestCase {
 		}
 
 		if ((expectedReceiverName == null) && (expectedReceiverEoi == -1) && (expectedReceiverEss == -1)) {
-			Assert.assertSame("Expected receiver execution to be the root execution", TestTraceReconstruction.rootExec,
+			Assert.assertSame("Expected receiver execution to be the root execution", TestTraceReconstructionValidTrace.rootExec,
 					receiverCompOpExec);
 		} else {
 			Assert.assertEquals("Unexpected component name of receiver execution",
