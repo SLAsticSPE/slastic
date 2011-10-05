@@ -28,7 +28,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  * @author Andre van Hoorn
  * 
  */
-public class TestTraceReconstructor extends TestCase {
+public class TestTraceReconstructorCEPComponent extends TestCase {
 	private static final int NUM_TRACES_TO_GENERATE = 3;
 
 	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 5000;
@@ -41,7 +41,7 @@ public class TestTraceReconstructor extends TestCase {
 
 	private final TraceReconstructor traceReceiver =
 			new
-			TraceReconstructor(this.epService, TestTraceReconstructor.TRACE_DETECTION_TIMEOUT_MILLIS);
+			TraceReconstructor(this.epService, TestTraceReconstructorCEPComponent.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	private void registerSubscribers() {
 		// Register an ExecutionCounter
@@ -60,7 +60,7 @@ public class TestTraceReconstructor extends TestCase {
 		// Assert that the ExecutionCounter received the correct number of
 		// events
 		Assert.assertEquals("Unexpected number of executions received",
-				TestTraceReconstructor.NUM_TRACES_TO_GENERATE
+				TestTraceReconstructorCEPComponent.NUM_TRACES_TO_GENERATE
 						* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE,
 						this.executionCounter.getNumEventsReceived());
 		System.out.println(this.executionCounter.getNumEventsReceived() + " Events");
@@ -79,10 +79,10 @@ public class TestTraceReconstructor extends TestCase {
 						NameUtils.ABSTRACTION_MODE_CLASS);
 
 		final List<DeploymentComponentOperationExecution> bookstoreExecutions =
-				new ArrayList<DeploymentComponentOperationExecution>(TestTraceReconstructor.NUM_TRACES_TO_GENERATE
+				new ArrayList<DeploymentComponentOperationExecution>(TestTraceReconstructorCEPComponent.NUM_TRACES_TO_GENERATE
 						* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
 
-		for (int i = 0; i < TestTraceReconstructor.NUM_TRACES_TO_GENERATE; i++) {
+		for (int i = 0; i < TestTraceReconstructorCEPComponent.NUM_TRACES_TO_GENERATE; i++) {
 			final Collection<DeploymentComponentOperationExecution> bookstoreTrace =
 					BookstoreTraceFactory.createBookstoreTrace(execRecFilter, i);
 			bookstoreExecutions.addAll(bookstoreTrace);
@@ -104,7 +104,7 @@ public class TestTraceReconstructor extends TestCase {
 
 		this.sendBookstoreTraces();
 		// We have to wait for this time period, to make sure that all traces are detected
-		Thread.sleep(TestTraceReconstructor.TRACE_DETECTION_TIMEOUT_MILLIS);
+		Thread.sleep(TestTraceReconstructorCEPComponent.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 		this.checkResults();
 	}
