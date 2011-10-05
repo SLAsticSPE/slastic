@@ -488,13 +488,22 @@ public interface UsagePackage extends EPackage {
 	int VALID_EXECUTION_TRACE__OPERATION_EXECUTIONS = EXECUTION_TRACE__OPERATION_EXECUTIONS;
 
 	/**
+	 * The feature id for the '<em><b>Message Trace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE__MESSAGE_TRACE = EXECUTION_TRACE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Valid Execution Trace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 0;
+	int VALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.
@@ -985,6 +994,17 @@ public interface UsagePackage extends EPackage {
 	EClass getValidExecutionTrace();
 
 	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace#getMessageTrace <em>Message Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Message Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidExecutionTrace#getMessageTrace()
+	 * @see #getValidExecutionTrace()
+	 * @generated
+	 */
+	EReference getValidExecutionTrace_MessageTrace();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.InvalidTrace <em>Invalid Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1315,6 +1335,14 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EClass VALID_EXECUTION_TRACE = eINSTANCE.getValidExecutionTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Trace</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALID_EXECUTION_TRACE__MESSAGE_TRACE = eINSTANCE.getValidExecutionTrace_MessageTrace();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.

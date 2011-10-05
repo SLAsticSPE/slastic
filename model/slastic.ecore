@@ -481,7 +481,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="operationExecutions"
           ordered="false" lowerBound="1" upperBound="-1" eType="#//monitoring/OperationExecution"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ValidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/ValidTrace"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ValidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/ValidTrace">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="messageTrace" ordered="false"
+          lowerBound="1" eType="#//usage/MessageTrace"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidTrace" abstract="true" eSuperTypes="#//usage/Trace"/>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/InvalidTrace"/>
     <eClassifiers xsi:type="ecore:EClass" name="SynchronousCallMessage" eSuperTypes="#//usage/Message"/>
