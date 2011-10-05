@@ -7191,7 +7191,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_Z0wwAO3YEeCk8s0VzqdzMQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_Z0wwAe3YEeCk8s0VzqdzMQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_Z0xXEO3YEeCk8s0VzqdzMQ" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z0tsse3YEeCk8s0VzqdzMQ" x="7470" y="6563"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Z0tsse3YEeCk8s0VzqdzMQ" x="7886" y="6563"/>
           </children>
           <element xsi:nil="true"/>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_3-2QYO3VEeCk8s0VzqdzMQ" element="_3-H3oO3VEeCk8s0VzqdzMQ" source="_zHeRwO3VEeCk8s0VzqdzMQ" target="_k-KYQO3WEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
@@ -7377,7 +7377,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_1HuK4-3YEeCk8s0VzqdzMQ" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_1HuK4u3YEeCk8s0VzqdzMQ" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_1Hp5ce3YEeCk8s0VzqdzMQ" points="[965, 190, -7080, 190]$[6274, 190, -1771, 190]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_1Hp5ce3YEeCk8s0VzqdzMQ" points="[1282, -55, -5560, 131]$[5071, -55, -1771, 131]"/>
           </edges>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_AZd6AO3bEeCk8s0VzqdzMQ" element="_AZS64O3bEeCk8s0VzqdzMQ" source="_zHeRwO3VEeCk8s0VzqdzMQ" target="_W-1EsO3YEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_AZd6Au3bEeCk8s0VzqdzMQ" type="NameLabel">
@@ -7433,7 +7433,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_uvjt8O3jEeCk8s0VzqdzMQ" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_uvjG4e3jEeCk8s0VzqdzMQ" y="-186"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uvif0O3jEeCk8s0VzqdzMQ" points="[-1997, -297, 1226, 975]$[-1997, -786, 1226, 486]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uvif0O3jEeCk8s0VzqdzMQ" points="[-1781, -276, 2015, 898]$[-1781, -886, 2015, 288]$[-2514, -886, 1282, 288]"/>
           </edges>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_9pVc8O9UEeCN0cdnVM6_1A" element="_9mkc0O9UEeCN0cdnVM6_1A" source="_eu4ykO3WEeCk8s0VzqdzMQ" target="_zHeRwO3VEeCk8s0VzqdzMQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_9paVcO9UEeCN0cdnVM6_1A" type="NameLabel">
