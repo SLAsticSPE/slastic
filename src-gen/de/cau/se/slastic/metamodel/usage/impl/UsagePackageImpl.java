@@ -52,12 +52,22 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTyp
 
 import de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
+import de.cau.se.slastic.metamodel.usage.ExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
+import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
+import de.cau.se.slastic.metamodel.usage.InvalidTrace;
+import de.cau.se.slastic.metamodel.usage.Message;
+import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
+import de.cau.se.slastic.metamodel.usage.SynchronousCallMessage;
+import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
+import de.cau.se.slastic.metamodel.usage.Trace;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
+import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
+import de.cau.se.slastic.metamodel.usage.ValidTrace;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -106,6 +116,76 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * @generated
 	 */
 	private EClass assemblyConnectorCallFrequencyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass traceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass messageTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass validTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass messageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass executionTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass validExecutionTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invalidTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass invalidExecutionTraceEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass synchronousCallMessageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass synchronousReplyMessageEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -379,6 +459,159 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getTrace() {
+		return traceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getTrace_TraceId() {
+		return (EAttribute)traceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMessageTrace() {
+		return messageTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMessageTrace_Messages() {
+		return (EReference)messageTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getValidTrace() {
+		return validTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getMessage() {
+		return messageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMessage_Sender() {
+		return (EReference)messageEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getMessage_Timestamp() {
+		return (EAttribute)messageEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getMessage_Receiver() {
+		return (EReference)messageEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getExecutionTrace() {
+		return executionTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExecutionTrace_OperationExecutions() {
+		return (EReference)executionTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getValidExecutionTrace() {
+		return validExecutionTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getValidExecutionTrace_MessageTrace() {
+		return (EReference)validExecutionTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInvalidTrace() {
+		return invalidTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getInvalidExecutionTrace() {
+		return invalidExecutionTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSynchronousCallMessage() {
+		return synchronousCallMessageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSynchronousReplyMessage() {
+		return synchronousReplyMessageEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsageFactory getUsageFactory() {
 		return (UsageFactory)getEFactoryInstance();
 	}
@@ -425,6 +658,33 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		createEAttribute(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY);
 		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE);
+
+		traceEClass = createEClass(TRACE);
+		createEAttribute(traceEClass, TRACE__TRACE_ID);
+
+		messageTraceEClass = createEClass(MESSAGE_TRACE);
+		createEReference(messageTraceEClass, MESSAGE_TRACE__MESSAGES);
+
+		validTraceEClass = createEClass(VALID_TRACE);
+
+		messageEClass = createEClass(MESSAGE);
+		createEReference(messageEClass, MESSAGE__SENDER);
+		createEAttribute(messageEClass, MESSAGE__TIMESTAMP);
+		createEReference(messageEClass, MESSAGE__RECEIVER);
+
+		executionTraceEClass = createEClass(EXECUTION_TRACE);
+		createEReference(executionTraceEClass, EXECUTION_TRACE__OPERATION_EXECUTIONS);
+
+		validExecutionTraceEClass = createEClass(VALID_EXECUTION_TRACE);
+		createEReference(validExecutionTraceEClass, VALID_EXECUTION_TRACE__MESSAGE_TRACE);
+
+		invalidTraceEClass = createEClass(INVALID_TRACE);
+
+		invalidExecutionTraceEClass = createEClass(INVALID_EXECUTION_TRACE);
+
+		synchronousCallMessageEClass = createEClass(SYNCHRONOUS_CALL_MESSAGE);
+
+		synchronousReplyMessageEClass = createEClass(SYNCHRONOUS_REPLY_MESSAGE);
 	}
 
 	/**
@@ -454,6 +714,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		CorePackage theCorePackage = (CorePackage)EPackage.Registry.INSTANCE.getEPackage(CorePackage.eNS_URI);
 		TypeRepositoryPackage theTypeRepositoryPackage = (TypeRepositoryPackage)EPackage.Registry.INSTANCE.getEPackage(TypeRepositoryPackage.eNS_URI);
 		ComponentAssemblyPackage theComponentAssemblyPackage = (ComponentAssemblyPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentAssemblyPackage.eNS_URI);
+		MonitoringPackage theMonitoringPackage = (MonitoringPackage)EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -461,6 +722,16 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		// Add supertypes to classes
 		usageModelEClass.getESuperTypes().add(theCorePackage.getSLAsticModel());
+		messageTraceEClass.getESuperTypes().add(this.getValidTrace());
+		validTraceEClass.getESuperTypes().add(this.getTrace());
+		executionTraceEClass.getESuperTypes().add(this.getTrace());
+		validExecutionTraceEClass.getESuperTypes().add(this.getExecutionTrace());
+		validExecutionTraceEClass.getESuperTypes().add(this.getValidTrace());
+		invalidTraceEClass.getESuperTypes().add(this.getTrace());
+		invalidExecutionTraceEClass.getESuperTypes().add(this.getExecutionTrace());
+		invalidExecutionTraceEClass.getESuperTypes().add(this.getInvalidTrace());
+		synchronousCallMessageEClass.getESuperTypes().add(this.getMessage());
+		synchronousReplyMessageEClass.getESuperTypes().add(this.getMessage());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(usageModelEClass, UsageModel.class, "UsageModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -486,6 +757,33 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEAttribute(getAssemblyConnectorCallFrequency_Frequency(), ecorePackage.getELong(), "frequency", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getAssemblyConnectorCallFrequency_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnector", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getAssemblyConnectorCallFrequency_Signature(), theTypeRepositoryPackage.getSignature(), null, "signature", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(traceEClass, Trace.class, "Trace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTrace_TraceId(), ecorePackage.getELong(), "traceId", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(messageTraceEClass, MessageTrace.class, "MessageTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMessageTrace_Messages(), this.getMessage(), null, "messages", null, 2, -1, MessageTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(validTraceEClass, ValidTrace.class, "ValidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(messageEClass, Message.class, "Message", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getMessage_Sender(), theMonitoringPackage.getOperationExecution(), null, "sender", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getMessage_Timestamp(), ecorePackage.getELong(), "timestamp", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getMessage_Receiver(), theMonitoringPackage.getOperationExecution(), null, "receiver", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(executionTraceEClass, ExecutionTrace.class, "ExecutionTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getExecutionTrace_OperationExecutions(), theMonitoringPackage.getOperationExecution(), null, "operationExecutions", null, 1, -1, ExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(validExecutionTraceEClass, ValidExecutionTrace.class, "ValidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValidExecutionTrace_MessageTrace(), this.getMessageTrace(), null, "messageTrace", null, 1, 1, ValidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(invalidTraceEClass, InvalidTrace.class, "InvalidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(invalidExecutionTraceEClass, InvalidExecutionTrace.class, "InvalidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(synchronousCallMessageEClass, SynchronousCallMessage.class, "SynchronousCallMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(synchronousReplyMessageEClass, SynchronousReplyMessage.class, "SynchronousReplyMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

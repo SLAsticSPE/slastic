@@ -284,6 +284,386 @@ public interface UsagePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.TraceImpl <em>Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.TraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getTrace()
+	 * @generated
+	 */
+	int TRACE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE__TRACE_ID = 0;
+
+	/**
+	 * The number of structural features of the '<em>Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TRACE_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl <em>Valid Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidTrace()
+	 * @generated
+	 */
+	int VALID_TRACE = 7;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_TRACE__TRACE_ID = TRACE__TRACE_ID;
+
+	/**
+	 * The number of structural features of the '<em>Valid Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl <em>Message Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessageTrace()
+	 * @generated
+	 */
+	int MESSAGE_TRACE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_TRACE__TRACE_ID = VALID_TRACE__TRACE_ID;
+
+	/**
+	 * The feature id for the '<em><b>Messages</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_TRACE__MESSAGES = VALID_TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Message Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_TRACE_FEATURE_COUNT = VALID_TRACE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl <em>Message</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.MessageImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessage()
+	 * @generated
+	 */
+	int MESSAGE = 8;
+
+	/**
+	 * The feature id for the '<em><b>Sender</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__SENDER = 0;
+
+	/**
+	 * The feature id for the '<em><b>Timestamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__TIMESTAMP = 1;
+
+	/**
+	 * The feature id for the '<em><b>Receiver</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE__RECEIVER = 2;
+
+	/**
+	 * The number of structural features of the '<em>Message</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl <em>Execution Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
+	 * @generated
+	 */
+	int EXECUTION_TRACE = 9;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_TRACE__TRACE_ID = TRACE__TRACE_ID;
+
+	/**
+	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_TRACE__OPERATION_EXECUTIONS = TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Execution Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int EXECUTION_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidExecutionTraceImpl <em>Valid Execution Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.ValidExecutionTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidExecutionTrace()
+	 * @generated
+	 */
+	int VALID_EXECUTION_TRACE = 10;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE__TRACE_ID = EXECUTION_TRACE__TRACE_ID;
+
+	/**
+	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE__OPERATION_EXECUTIONS = EXECUTION_TRACE__OPERATION_EXECUTIONS;
+
+	/**
+	 * The feature id for the '<em><b>Message Trace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE__MESSAGE_TRACE = EXECUTION_TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Valid Execution Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidTrace()
+	 * @generated
+	 */
+	int INVALID_TRACE = 11;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_TRACE__TRACE_ID = TRACE__TRACE_ID;
+
+	/**
+	 * The number of structural features of the '<em>Invalid Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidExecutionTraceImpl <em>Invalid Execution Trace</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.InvalidExecutionTraceImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidExecutionTrace()
+	 * @generated
+	 */
+	int INVALID_EXECUTION_TRACE = 12;
+
+	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_EXECUTION_TRACE__TRACE_ID = EXECUTION_TRACE__TRACE_ID;
+
+	/**
+	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_EXECUTION_TRACE__OPERATION_EXECUTIONS = EXECUTION_TRACE__OPERATION_EXECUTIONS;
+
+	/**
+	 * The number of structural features of the '<em>Invalid Execution Trace</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl <em>Synchronous Call Message</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousCallMessage()
+	 * @generated
+	 */
+	int SYNCHRONOUS_CALL_MESSAGE = 13;
+
+	/**
+	 * The feature id for the '<em><b>Sender</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_CALL_MESSAGE__SENDER = MESSAGE__SENDER;
+
+	/**
+	 * The feature id for the '<em><b>Timestamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_CALL_MESSAGE__TIMESTAMP = MESSAGE__TIMESTAMP;
+
+	/**
+	 * The feature id for the '<em><b>Receiver</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_CALL_MESSAGE__RECEIVER = MESSAGE__RECEIVER;
+
+	/**
+	 * The number of structural features of the '<em>Synchronous Call Message</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_CALL_MESSAGE_FEATURE_COUNT = MESSAGE_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousReplyMessageImpl <em>Synchronous Reply Message</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.SynchronousReplyMessageImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousReplyMessage()
+	 * @generated
+	 */
+	int SYNCHRONOUS_REPLY_MESSAGE = 14;
+
+	/**
+	 * The feature id for the '<em><b>Sender</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_REPLY_MESSAGE__SENDER = MESSAGE__SENDER;
+
+	/**
+	 * The feature id for the '<em><b>Timestamp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_REPLY_MESSAGE__TIMESTAMP = MESSAGE__TIMESTAMP;
+
+	/**
+	 * The feature id for the '<em><b>Receiver</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_REPLY_MESSAGE__RECEIVER = MESSAGE__RECEIVER;
+
+	/**
+	 * The number of structural features of the '<em>Synchronous Reply Message</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYNCHRONOUS_REPLY_MESSAGE_FEATURE_COUNT = MESSAGE_FEATURE_COUNT + 0;
+
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.UsageModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -488,6 +868,183 @@ public interface UsagePackage extends EPackage {
 	EReference getAssemblyConnectorCallFrequency_Signature();
 
 	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.Trace <em>Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Trace
+	 * @generated
+	 */
+	EClass getTrace();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.usage.Trace#getTraceId <em>Trace Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Trace Id</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Trace#getTraceId()
+	 * @see #getTrace()
+	 * @generated
+	 */
+	EAttribute getTrace_TraceId();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.MessageTrace <em>Message Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Message Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.MessageTrace
+	 * @generated
+	 */
+	EClass getMessageTrace();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.usage.MessageTrace#getMessages <em>Messages</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Messages</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.MessageTrace#getMessages()
+	 * @see #getMessageTrace()
+	 * @generated
+	 */
+	EReference getMessageTrace_Messages();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ValidTrace <em>Valid Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Valid Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidTrace
+	 * @generated
+	 */
+	EClass getValidTrace();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.Message <em>Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Message</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Message
+	 * @generated
+	 */
+	EClass getMessage();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.Message#getSender <em>Sender</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Sender</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Message#getSender()
+	 * @see #getMessage()
+	 * @generated
+	 */
+	EReference getMessage_Sender();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.usage.Message#getTimestamp <em>Timestamp</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Timestamp</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Message#getTimestamp()
+	 * @see #getMessage()
+	 * @generated
+	 */
+	EAttribute getMessage_Timestamp();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.Message#getReceiver <em>Receiver</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Receiver</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.Message#getReceiver()
+	 * @see #getMessage()
+	 * @generated
+	 */
+	EReference getMessage_Receiver();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Execution Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
+	 * @generated
+	 */
+	EClass getExecutionTrace();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions <em>Operation Executions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Operation Executions</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions()
+	 * @see #getExecutionTrace()
+	 * @generated
+	 */
+	EReference getExecutionTrace_OperationExecutions();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace <em>Valid Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Valid Execution Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidExecutionTrace
+	 * @generated
+	 */
+	EClass getValidExecutionTrace();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace#getMessageTrace <em>Message Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Message Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidExecutionTrace#getMessageTrace()
+	 * @see #getValidExecutionTrace()
+	 * @generated
+	 */
+	EReference getValidExecutionTrace_MessageTrace();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.InvalidTrace <em>Invalid Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invalid Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.InvalidTrace
+	 * @generated
+	 */
+	EClass getInvalidTrace();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace <em>Invalid Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Invalid Execution Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace
+	 * @generated
+	 */
+	EClass getInvalidExecutionTrace();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.SynchronousCallMessage <em>Synchronous Call Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Synchronous Call Message</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.SynchronousCallMessage
+	 * @generated
+	 */
+	EClass getSynchronousCallMessage();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage <em>Synchronous Reply Message</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Synchronous Reply Message</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage
+	 * @generated
+	 */
+	EClass getSynchronousReplyMessage();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -670,6 +1227,162 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EReference ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE = eINSTANCE.getAssemblyConnectorCallFrequency_Signature();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.TraceImpl <em>Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.TraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getTrace()
+		 * @generated
+		 */
+		EClass TRACE = eINSTANCE.getTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Trace Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TRACE__TRACE_ID = eINSTANCE.getTrace_TraceId();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl <em>Message Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessageTrace()
+		 * @generated
+		 */
+		EClass MESSAGE_TRACE = eINSTANCE.getMessageTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Messages</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MESSAGE_TRACE__MESSAGES = eINSTANCE.getMessageTrace_Messages();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl <em>Valid Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidTrace()
+		 * @generated
+		 */
+		EClass VALID_TRACE = eINSTANCE.getValidTrace();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl <em>Message</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.MessageImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessage()
+		 * @generated
+		 */
+		EClass MESSAGE = eINSTANCE.getMessage();
+
+		/**
+		 * The meta object literal for the '<em><b>Sender</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MESSAGE__SENDER = eINSTANCE.getMessage_Sender();
+
+		/**
+		 * The meta object literal for the '<em><b>Timestamp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MESSAGE__TIMESTAMP = eINSTANCE.getMessage_Timestamp();
+
+		/**
+		 * The meta object literal for the '<em><b>Receiver</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MESSAGE__RECEIVER = eINSTANCE.getMessage_Receiver();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl <em>Execution Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
+		 * @generated
+		 */
+		EClass EXECUTION_TRACE = eINSTANCE.getExecutionTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation Executions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXECUTION_TRACE__OPERATION_EXECUTIONS = eINSTANCE.getExecutionTrace_OperationExecutions();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidExecutionTraceImpl <em>Valid Execution Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.ValidExecutionTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidExecutionTrace()
+		 * @generated
+		 */
+		EClass VALID_EXECUTION_TRACE = eINSTANCE.getValidExecutionTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Message Trace</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference VALID_EXECUTION_TRACE__MESSAGE_TRACE = eINSTANCE.getValidExecutionTrace_MessageTrace();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidTrace()
+		 * @generated
+		 */
+		EClass INVALID_TRACE = eINSTANCE.getInvalidTrace();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidExecutionTraceImpl <em>Invalid Execution Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.InvalidExecutionTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidExecutionTrace()
+		 * @generated
+		 */
+		EClass INVALID_EXECUTION_TRACE = eINSTANCE.getInvalidExecutionTrace();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl <em>Synchronous Call Message</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousCallMessage()
+		 * @generated
+		 */
+		EClass SYNCHRONOUS_CALL_MESSAGE = eINSTANCE.getSynchronousCallMessage();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousReplyMessageImpl <em>Synchronous Reply Message</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.SynchronousReplyMessageImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousReplyMessage()
+		 * @generated
+		 */
+		EClass SYNCHRONOUS_REPLY_MESSAGE = eINSTANCE.getSynchronousReplyMessage();
 
 	}
 

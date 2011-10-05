@@ -120,6 +120,79 @@ public class UsageSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UsagePackage.TRACE: {
+				Trace trace = (Trace)theEObject;
+				T result = caseTrace(trace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.MESSAGE_TRACE: {
+				MessageTrace messageTrace = (MessageTrace)theEObject;
+				T result = caseMessageTrace(messageTrace);
+				if (result == null) result = caseValidTrace(messageTrace);
+				if (result == null) result = caseTrace(messageTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.VALID_TRACE: {
+				ValidTrace validTrace = (ValidTrace)theEObject;
+				T result = caseValidTrace(validTrace);
+				if (result == null) result = caseTrace(validTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.MESSAGE: {
+				Message message = (Message)theEObject;
+				T result = caseMessage(message);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.EXECUTION_TRACE: {
+				ExecutionTrace executionTrace = (ExecutionTrace)theEObject;
+				T result = caseExecutionTrace(executionTrace);
+				if (result == null) result = caseTrace(executionTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.VALID_EXECUTION_TRACE: {
+				ValidExecutionTrace validExecutionTrace = (ValidExecutionTrace)theEObject;
+				T result = caseValidExecutionTrace(validExecutionTrace);
+				if (result == null) result = caseExecutionTrace(validExecutionTrace);
+				if (result == null) result = caseValidTrace(validExecutionTrace);
+				if (result == null) result = caseTrace(validExecutionTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.INVALID_TRACE: {
+				InvalidTrace invalidTrace = (InvalidTrace)theEObject;
+				T result = caseInvalidTrace(invalidTrace);
+				if (result == null) result = caseTrace(invalidTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.INVALID_EXECUTION_TRACE: {
+				InvalidExecutionTrace invalidExecutionTrace = (InvalidExecutionTrace)theEObject;
+				T result = caseInvalidExecutionTrace(invalidExecutionTrace);
+				if (result == null) result = caseExecutionTrace(invalidExecutionTrace);
+				if (result == null) result = caseInvalidTrace(invalidExecutionTrace);
+				if (result == null) result = caseTrace(invalidExecutionTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.SYNCHRONOUS_CALL_MESSAGE: {
+				SynchronousCallMessage synchronousCallMessage = (SynchronousCallMessage)theEObject;
+				T result = caseSynchronousCallMessage(synchronousCallMessage);
+				if (result == null) result = caseMessage(synchronousCallMessage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.SYNCHRONOUS_REPLY_MESSAGE: {
+				SynchronousReplyMessage synchronousReplyMessage = (SynchronousReplyMessage)theEObject;
+				T result = caseSynchronousReplyMessage(synchronousReplyMessage);
+				if (result == null) result = caseMessage(synchronousReplyMessage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -196,6 +269,156 @@ public class UsageSwitch<T> {
 	 * @generated
 	 */
 	public T caseAssemblyConnectorCallFrequency(AssemblyConnectorCallFrequency object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseTrace(Trace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Message Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Message Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMessageTrace(MessageTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Valid Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Valid Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseValidTrace(ValidTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Message</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseMessage(Message object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExecutionTrace(ExecutionTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Valid Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Valid Execution Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseValidExecutionTrace(ValidExecutionTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidTrace(InvalidTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Invalid Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Invalid Execution Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseInvalidExecutionTrace(InvalidExecutionTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Synchronous Call Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Synchronous Call Message</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSynchronousCallMessage(SynchronousCallMessage object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Synchronous Reply Message</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Synchronous Reply Message</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSynchronousReplyMessage(SynchronousReplyMessage object) {
 		return null;
 	}
 

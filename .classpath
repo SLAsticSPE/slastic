@@ -66,15 +66,11 @@
 	<classpathentry kind="lib" path="lib/guice-throwingproviders-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/esper-4.0.0.jar" sourcepath="/home/voorn/svn_work/sw_DALenaRobert/SLAstic-Framework/additional-resources/esper-4.0.0-sources/esper-4.0.0-src.zip">
-		<attributes>
-			<attribute name="javadoc_location" value="http://esper.codehaus.org/esper-4.0.0/doc/api/"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="lib/libjri.so"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/kieker-1.4-dev-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/esper-4.3.0.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
