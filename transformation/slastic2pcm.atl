@@ -8,7 +8,16 @@ create
 	RESOURCEENVIRONMENT: Pcm, 
 	ALLOCATION: Pcm,
 	SYSTEM: Pcm
-from IN: Slastic;
+from 
+	IN: Slastic, 
+	USAGE: Slastic;
+
+--------------------------------------------------------------------------------
+-- Helpers
+--------------------------------------------------------------------------------
+
+helper def: getUsageModel: Slastic!UsageModel = 
+	Slastic!UsageModel.allInstances()->asSequence()->first();
 
 --------------------------------------------------------------------------------
 -- Create ResourceRepository
@@ -66,6 +75,15 @@ rule NewProvidedRole(interface: Pcm!Interface, componentType: Slastic!ComponentT
 	}
 }
 
+rule NewRequiredRole(interface: Slastic!Interface) {
+	to tgt: Pcm!RequiredRole in REPOSITORY (
+		entityName <- interface.name
+	)
+	do {
+		tgt;
+	}
+}
+
 rule NewParameter(name: String) {
 	to tgt: Pcm!Parameter in REPOSITORY (
 		parameterName <- name
@@ -98,6 +116,12 @@ rule ComponentTypeToBasicComponent {
 				interface.id = 'i' + src.id.toString() 
 			),
 			src
+		),
+		requiredRoles_InterfaceRequiringEntity <- src.requiredInterfaces->collect(interface | 
+			thisModule.NewRequiredRole(interface)
+		),
+		serviceEffectSpecifications__BasicComponent <- src.operations->collect(operation | 
+			thisModule.NewResourceDemandingSEFF(operation)
 		)
 	)
 }
@@ -109,6 +133,110 @@ rule SignatureToSignature {
 		parameters__Signature <- src.paramTypes->collect(paramType | 
 			thisModule.NewParameter(paramType)
 		)
+	)
+}
+
+lazy rule NewResourceDemandingSEFF {
+	from src: Slastic!Operation
+	using {
+		usageModel: Slastic!UsageModel = thisModule.getUsageModel;
+		callingRelationships: Sequence(Slastic!CallingRelationship) = usageModel.callingRelationships->select(relationship | 
+			relationship.callingOperation = src
+		);
+		start: Pcm!AbstractAction = thisModule.NewStartAction();
+		loopSequence: Sequence(Pcm!AbstractAction) = Sequence{start};
+	}
+	to tgt: Pcm!ResourceDemandingSEFF in REPOSITORY (
+		describedService__SEFF <- src.signature,
+		id <- src.id.toString(),
+		steps_Behaviour <- 
+			loopSequence.append(
+				callingRelationships->collect(relationship |
+					thisModule.NewLoopBehaviour(relationship)
+				)
+			).append(thisModule.NewStopAction(loopSequence.last()))
+	)
+	-- Link the elements of the loop sequence.
+	do {
+		for (elem in tgt.steps_Behaviour.subSequence(2, tgt.steps_Behaviour.size())) {
+			elem.refSetValue('predecessor_AbstractAction', tgt.steps_Behaviour.at(tgt.steps_Behaviour.indexOf(elem) - 1));
+		}
+	}
+}
+
+lazy rule NewLoopBehaviour {
+	from relationship: Slastic!CallingRelationship
+	to tgt: Pcm!LoopAction in REPOSITORY (
+		bodyBehaviour_Loop <- thisModule.NewLoopBody(relationship),
+		iterationCount_LoopAction <- thisModule.NewPmfFromFrequencyDistribution(relationship.frequencyDistribution)
+	)
+}
+
+lazy rule NewLoopBody {
+	from src: Slastic!CallingRelationship
+	using {
+		start: Pcm!StartAction = thisModule.NewStartAction();
+		eca: Pcm!ExternalCallAction = thisModule.NewExternalCallAction(start, src.calledSignature);
+		stop: Pcm!StopAction = thisModule.NewStopAction(eca);
+	}
+	to tgt: Pcm!ResourceDemandingBehaviour in REPOSITORY (
+		steps_Behaviour <- Sequence {
+			start, eca, stop
+		}
+	)
+}
+
+rule NewStartAction() {
+	to tgt: Pcm!StartAction in REPOSITORY (
+		
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewStopAction(predecessor: Pcm!AbstractAction) {
+	to tgt: Pcm!StopAction in REPOSITORY (
+		predecessor_AbstractAction <- predecessor
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewExternalCallAction(predecessor: Pcm!AbstractAction, signature: Slastic!Signature) {
+	to tgt: Pcm!ExternalCallAction in REPOSITORY (
+		predecessor_AbstractAction <- predecessor,
+		calledService_ExternalService <- signature
+	)
+	do {
+		tgt;
+	}
+}
+
+lazy rule NewPmfFromFrequencyDistribution {
+	from src: Slastic!FrequencyDistribution
+	using {
+		callCount: Real = src.frequencies->iterate(e; res: Real = 0 |
+			res + e
+		);
+		relativeFrequencies: Sequence(Real) = src.frequencies->iterate(e; res: Sequence(Real) = Sequence{} |
+			res.append((1/callCount)*e)
+			-- (1/callCount)*e means e/callCount, which doesn't work with atl's type system.
+		);
+		pmfs: Sequence(Sequence(Integer)) = 
+			src.values->iterate(e; res : Sequence(Integer) = Sequence{} |
+				res.append(Sequence{e,relativeFrequencies->at(res.size() + 1)})
+			-- Using the size of the result as an iteration counter for the list of relative frequencies.
+		);
+		pmfString: String = 
+			'IntPMF[' + 
+			pmfs->iterate(pmf; output: String = '' |
+				output + '(' + pmf.at(1) + ';' + (pmf.at(2)) + ')'
+		) + ']';
+	}
+	to tgt: Pcm!PCMRandomVariable in REPOSITORY (
+		specification <- pmfString
 	)
 }
 
@@ -138,7 +266,7 @@ rule ExecutionContainerToResourceContainer {
 
 rule ResourceSpecificationToProcessingResourceSpecification {
 	from src: Slastic!ResourceSpecification
-	to tgt: Pcm!ProcessingResourceSpecification  in RESOURCEENVIRONMENT (
+	to tgt: Pcm!ProcessingResourceSpecification in RESOURCEENVIRONMENT (
 		-- TODO Support resource types other than cpu resources.
 		activeResourceType_ActiveResourceSpecification <- 
 		if src.resourceType.name = 'CPU_RESOURCE_TYPE'
@@ -160,7 +288,7 @@ rule NewProvidedRoleFromComponent(component: Pcm!BasicComponent, interface: Pcm!
 }
 
 rule NewProvidedDelegationConnector() {
-	to tgt: Pcm!ProvidedDelegationConnector (
+	to tgt: Pcm!ProvidedDelegationConnector in SYSTEM (
 		
 	)
 }
@@ -189,7 +317,7 @@ rule AssemblyComponentToAssemblyContext {
 
 rule AssemblyConnectorToAssemblyConnector {
 	from src: Slastic!AssemblyConnector
-	to tgt: Pcm!AssemblyConnector (
+	to tgt: Pcm!AssemblyConnector in SYSTEM (
 		
 	)
 }
