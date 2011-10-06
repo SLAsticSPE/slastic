@@ -23,7 +23,7 @@ helper def: getUsageModel: Slastic!UsageModel =
 -- Create ResourceRepository
 --------------------------------------------------------------------------------
 
-rule InitializeResourceRepository() {
+entrypoint rule InitializeResourceRepository() {
 	to tgt: Pcm!ResourceRepository in RESOURCETYPE (
 		availableResourceTypes_ResourceRepository <- Sequence{
 			thisModule.NewProcessingResourceType('CPU','_oro4gG3fEdy4YaaT-RYrLQ'),
@@ -52,32 +52,26 @@ rule NewCommunicationLinkResourceType(name: String, id: String){
 -- Transform typeRepositoryModel to RepositoryModel
 --------------------------------------------------------------------------------
 
-rule NewInterface(componentType: Slastic!ComponentType) {
-	to tgt: Pcm!Interface in REPOSITORY (
-		id <- 'i' + componentType.id.toString(),
-		entityName <- 'I' + componentType.name,
-		signatures__Interface <- componentType.operations->collect(operation | 
-			operation.signature
-		)
-	) 
-	do {
-		tgt;
-	}
-}
-
-rule NewProvidedRole(interface: Pcm!Interface, componentType: Slastic!ComponentType) {
+rule NewProvidedRole(interface: Slastic!Interface, componentType: Slastic!ComponentType) {
 	to tgt: Pcm!ProvidedRole in REPOSITORY (
-		entityName <- 'Provided_' + interface.entityName + '_' + componentType.name,
-		providedInterface__ProvidedRole <- interface
+		id <- 'pr' + interface.id.toString() + '_' + componentType.id.toString(),
+		entityName <- 'Provided_' + interface.name + '_' + componentType.name,
+		providedInterface__ProvidedRole <- Pcm!Interface.allInstances()->any(pcm_interface | 
+			pcm_interface.id = 'i' + interface.id.toString()
+		)
 	)
 	do {
 		tgt;
 	}
 }
 
-rule NewRequiredRole(interface: Slastic!Interface) {
+rule NewRequiredRole(interface: Slastic!Interface, componentType: Slastic!ComponentType) {
 	to tgt: Pcm!RequiredRole in REPOSITORY (
-		entityName <- interface.name
+		id <- 'rr' + interface.id.toString() + '_' + componentType.id.toString(),
+		entityName <- 'Required_' + interface.name + '_' + componentType.name,
+		requiredInterface__RequiredRole <- Pcm!Interface.allInstances()->any(pcm_interface | 
+			pcm_interface.id = 'i' + interface.id.toString()
+		)
 	)
 	do {
 		tgt;
@@ -96,29 +90,35 @@ rule NewParameter(name: String) {
 rule TypeRepositoryModelToRepository {
 	from src: Slastic!TypeRepositoryModel
 	to tgt: Pcm!Repository in REPOSITORY (
-		id <- '1',
+		-- Assuming there is only one repository.
+		id <- 'repository_1',
 		entityName <- 'defaultRepository',
-		-- Create dummy interfaces.
-		interfaces__Repository <- src.componentTypes->collect(component | 
-			thisModule.NewInterface(component)
-		),
+		interfaces__Repository <- src.interfaces,
 		components__Repository <- src.componentTypes
+	)
+}
+
+rule InterfaceToInterface {
+	from src: Slastic!Interface
+	to tgt: Pcm!Interface in REPOSITORY (
+		id <- 'i' + src.id.toString(),
+		entityName <- src.name,
+		signatures__Interface <- src.signatures->collect(signature | 
+			thisModule.SignatureToSignature(signature)
+		)
 	)
 }
 
 rule ComponentTypeToBasicComponent {
 	from src: Slastic!ComponentType
 	to tgt: Pcm!BasicComponent in REPOSITORY (
-		id <- src.id.toString(),
+		id <- 'c' + src.id.toString(),
 		entityName <- src.name,
-		providedRoles_InterfaceProvidingEntity <- thisModule.NewProvidedRole(
-			tgt.repository_ProvidesComponentType.interfaces__Repository->any(interface | 
-				interface.id = 'i' + src.id.toString() 
-			),
-			src
+		providedRoles_InterfaceProvidingEntity <- src.providedInterfaces->collect(interface | 
+			thisModule.NewProvidedRole(interface, src)
 		),
 		requiredRoles_InterfaceRequiringEntity <- src.requiredInterfaces->collect(interface | 
-			thisModule.NewRequiredRole(interface)
+			thisModule.NewRequiredRole(interface, src)
 		),
 		serviceEffectSpecifications__BasicComponent <- src.operations->collect(operation | 
 			thisModule.NewResourceDemandingSEFF(operation)
@@ -126,7 +126,7 @@ rule ComponentTypeToBasicComponent {
 	)
 }
 
-rule SignatureToSignature {
+lazy rule SignatureToSignature {
 	from src: Slastic!Signature
 	to tgt: Pcm!Signature in REPOSITORY (
 		serviceName <- src.name,
@@ -143,18 +143,20 @@ lazy rule NewResourceDemandingSEFF {
 		callingRelationships: Sequence(Slastic!CallingRelationship) = usageModel.callingRelationships->select(relationship | 
 			relationship.callingOperation = src
 		);
-		start: Pcm!AbstractAction = thisModule.NewStartAction();
-		loopSequence: Sequence(Pcm!AbstractAction) = Sequence{start};
+		loopSequence: Sequence(Pcm!AbstractAction) = Sequence{thisModule.NewStartAction(), thisModule.NewInternalAction()};
 	}
 	to tgt: Pcm!ResourceDemandingSEFF in REPOSITORY (
-		describedService__SEFF <- src.signature,
-		id <- src.id.toString(),
+		describedService__SEFF <- Pcm!Signature.allInstances()->any(signature | 
+			signature.serviceName = src.signature.name -- TODO: Check if this could cause problems.
+		),
+		id <- 'seff' + src.id.toString(),
 		steps_Behaviour <- 
 			loopSequence.append(
 				callingRelationships->collect(relationship |
 					thisModule.NewLoopBehaviour(relationship)
 				)
-			).append(thisModule.NewStopAction(loopSequence.last()))
+			).append(thisModule.NewInternalAction())
+			.append(thisModule.NewStopAction())
 	)
 	-- Link the elements of the loop sequence.
 	do {
@@ -175,15 +177,23 @@ lazy rule NewLoopBehaviour {
 lazy rule NewLoopBody {
 	from src: Slastic!CallingRelationship
 	using {
-		start: Pcm!StartAction = thisModule.NewStartAction();
-		eca: Pcm!ExternalCallAction = thisModule.NewExternalCallAction(start, src.calledSignature);
-		stop: Pcm!StopAction = thisModule.NewStopAction(eca);
+		loopBodySequence: Sequence(Pcm!AbstractAction) = Sequence{
+			thisModule.NewStartAction(),
+			thisModule.NewInternalAction(),
+			thisModule.NewExternalCallAction(src.calledSignature),
+			thisModule.NewInternalAction(),
+			thisModule.NewStopAction()
+		};
 	}
 	to tgt: Pcm!ResourceDemandingBehaviour in REPOSITORY (
-		steps_Behaviour <- Sequence {
-			start, eca, stop
-		}
+		steps_Behaviour <- loopBodySequence
 	)
+	-- Link the elements of the sequence.
+	do {
+		for (elem in tgt.steps_Behaviour.subSequence(2, tgt.steps_Behaviour.size())) {
+			elem.refSetValue('predecessor_AbstractAction', tgt.steps_Behaviour.at(tgt.steps_Behaviour.indexOf(elem) - 1));
+		}
+	}
 }
 
 rule NewStartAction() {
@@ -195,19 +205,50 @@ rule NewStartAction() {
 	}
 }
 
-rule NewStopAction(predecessor: Pcm!AbstractAction) {
+rule NewStopAction() {
 	to tgt: Pcm!StopAction in REPOSITORY (
-		predecessor_AbstractAction <- predecessor
+										  
 	)
 	do {
 		tgt;
 	}
 }
 
-rule NewExternalCallAction(predecessor: Pcm!AbstractAction, signature: Slastic!Signature) {
+rule NewExternalCallAction(signature: Slastic!Signature) {
 	to tgt: Pcm!ExternalCallAction in REPOSITORY (
-		predecessor_AbstractAction <- predecessor,
-		calledService_ExternalService <- signature
+		calledService_ExternalService <- Pcm!Signature.allInstances()->any(pcm_signature | 
+			pcm_signature.serviceName = signature.name -- TODO: Check if this could cause problems.
+		)
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewInternalAction() {
+	to tgt: Pcm!InternalAction in REPOSITORY (
+		resourceDemand_Action <- thisModule.NewResourceDemandPlaceholder()
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewResourceDemandPlaceholder() {
+	to tgt: Pcm!ParametricResourceDemand in REPOSITORY (
+		requiredResource_ParametricResourceDemand <- Pcm!ProcessingResourceType.allInstances()->any(resourceType | 
+			resourceType.entityName = 'CPU'
+		),
+		specification_ParametericResourceDemand <- thisModule.NewPcmRandomVariable('1')
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewPcmRandomVariable(specification: String) {
+	to tgt: Pcm!PCMRandomVariable (
+		specification <- specification
 	)
 	do {
 		tgt;
@@ -251,7 +292,7 @@ rule ExecutionEnvironmentModelToResourceEnvironment {
 	)
 	do {
 		-- TODO Resource repository should be dynamically loaded, instead of being created with fixed parameters.
-		thisModule.InitializeResourceRepository();
+		--thisModule.InitializeResourceRepository();
 	}
 }
 
@@ -279,6 +320,7 @@ rule ResourceSpecificationToProcessingResourceSpecification {
 --------------------------------------------------------------------------------
 -- Transform componentAssemblyModel to SystemModel
 --------------------------------------------------------------------------------
+
 rule NewProvidedRoleFromComponent(component: Pcm!BasicComponent, interface: Pcm!Interface) {
 	to tgt: Pcm!ProvidedRole in SYSTEM(
 		id <- 'p' + interface.id,
@@ -296,7 +338,7 @@ rule NewProvidedDelegationConnector() {
 rule ComponentAssemblyModelToSystem {
 	from src: Slastic!ComponentAssemblyModel
 	to tgt: Pcm!System in SYSTEM (
-		id <- '1',
+		id <- 'system_1',
 		entityName <- 'defaultSystem',
 		childComponentContexts_ComposedStructure <- src.assemblyComponents,
 		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors,
@@ -309,16 +351,32 @@ rule ComponentAssemblyModelToSystem {
 rule AssemblyComponentToAssemblyContext {
 	from src: Slastic!AssemblyComponent
 	to tgt: Pcm!AssemblyContext in SYSTEM (
-		id <- src.id.toString(),
-		entityName <- 'Assembly_' + src.name,
-		encapsulatedComponent_ChildComponentContext <- src.componentType
+		id <- 'ac' + src.id.toString(),
+		entityName <- 'Assembly_' + src.componentType.name,
+		encapsulatedComponent_ChildComponentContext <- src.componentType		
 	)
 }
 
 rule AssemblyConnectorToAssemblyConnector {
 	from src: Slastic!AssemblyConnector
 	to tgt: Pcm!AssemblyConnector in SYSTEM (
-		
+		entityName <- src.name,
+		requiringChildComponentContext_CompositeAssemblyConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
+			assemblyContext.id = 'ac' + src.requiringComponent.id.toString()
+		),
+		providingChildComponentContext_CompositeAssemblyConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
+			assemblyContext.id = 'ac' + src.providingComponent.id.toString()
+		),
+		requiredRole_CompositeAssemblyConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
+			assemblyContext.id = 'ac' + src.requiringComponent.id.toString()
+		).encapsulatedComponent_ChildComponentContext.requiredRoles_InterfaceRequiringEntity->any(role | 
+			'i' + src.connectorType.interface.id.toString() = role.requiredInterface__RequiredRole.id
+		),
+		providedRole_CompositeAssemblyConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
+			assemblyContext.id = 'ac' + src.providingComponent.id.toString()
+		).encapsulatedComponent_ChildComponentContext.providedRoles_InterfaceProvidingEntity->any(role | 
+			'i' + src.connectorType.interface.id.toString() = role.providedInterface__ProvidedRole.id
+		)
 	)
 }
 
@@ -339,7 +397,7 @@ rule DeploymentComponentToAllocationContext {
 	to tgt: Pcm!AllocationContext in ALLOCATION (
 		id <- src.id.toString(),
 		entityName <- 'Allocation_' + Pcm!AssemblyContext.allInstances()->
-			any(acontext | acontext.id = src.assemblyComponent.id.toString()).entityName,
+			any(acontext | acontext.id = 'ac' + src.assemblyComponent.id.toString()).entityName,
 		resourceContainer_AllocationContext <- Pcm!ResourceContainer.allInstances()->
 			any(container | container.id = src.executionContainer.id.toString()),
 		assemblyContext_AllocationContext <-Pcm!AssemblyContext.allInstances()->
