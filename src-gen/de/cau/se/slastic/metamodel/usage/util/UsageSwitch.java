@@ -147,19 +147,19 @@ public class UsageSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UsagePackage.EXECUTION_TRACE: {
-				ExecutionTrace executionTrace = (ExecutionTrace)theEObject;
-				T result = caseExecutionTrace(executionTrace);
-				if (result == null) result = caseTrace(executionTrace);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case UsagePackage.VALID_EXECUTION_TRACE: {
 				ValidExecutionTrace validExecutionTrace = (ValidExecutionTrace)theEObject;
 				T result = caseValidExecutionTrace(validExecutionTrace);
 				if (result == null) result = caseExecutionTrace(validExecutionTrace);
 				if (result == null) result = caseValidTrace(validExecutionTrace);
 				if (result == null) result = caseTrace(validExecutionTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.EXECUTION_TRACE: {
+				ExecutionTrace executionTrace = (ExecutionTrace)theEObject;
+				T result = caseExecutionTrace(executionTrace);
+				if (result == null) result = caseTrace(executionTrace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}

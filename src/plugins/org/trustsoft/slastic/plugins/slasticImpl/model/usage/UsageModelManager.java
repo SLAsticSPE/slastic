@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
+import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
@@ -20,7 +22,9 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  *
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
-
+	public static final DeploymentComponentOperationExecution rootExec =
+			MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
+	
 	public UsageModelManager() {
 		this(UsageFactory.eINSTANCE.createUsageModel());
 	}

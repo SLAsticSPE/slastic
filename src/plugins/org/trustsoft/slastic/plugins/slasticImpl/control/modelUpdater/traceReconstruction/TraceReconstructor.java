@@ -9,30 +9,33 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.exolab.jms.net.connector.IllegalStateException;
-import org.trustsoft.slastic.plugins.slasticImpl.control.ICEPEventReceiver;
+import org.trustsoft.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 
 import com.espertech.esper.client.EPServiceProvider;
+import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.UpdateListener;
 
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
+import de.cau.se.slastic.metamodel.usage.ExecutionTrace;
+import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.Message;
 import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.SynchronousCallMessage;
 import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
+import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
-	private static final Log LOG = LogFactory.getLog(TraceReconstructor.class);
+public class TraceReconstructor implements UpdateListener {
+	// private static final Log LOG =
+	// LogFactory.getLog(TraceReconstructor.class);
 
 	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
 	private static final String VAR_NAME = "a_traceId";
@@ -41,9 +44,21 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 
 	private final long traceDetectionTimeOutMillis;
 
+	/**
+	 * Constructs a {@link TraceReconstructor} which registers itself as a
+	 * subscriber to the given {@link EPServiceProvider}.
+	 * 
+	 * @param epService
+	 * @param traceDetectionTimeOutMillis
+	 */
 	public TraceReconstructor(final EPServiceProvider epService, final long traceDetectionTimeOutMillis) {
 		this.epService = epService;
 		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
+
+		final EPStatement statement2 =
+				this.epService.getEPAdministrator().createEPL(
+						this.getCEPStatement());
+		statement2.addListener(this);
 	}
 
 	/**
@@ -70,8 +85,7 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 					.replaceAll("EXECUTION_EVENT_TYPE", TraceReconstructor.EXECUTION_EVENT_TYPE)
 					.replaceAll("VAR_NAME", TraceReconstructor.VAR_NAME);
 
-	@Override
-	public String getCEPStatement() {
+	private String getCEPStatement() {
 		return TraceReconstructor.EXPRESSION
 				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
@@ -80,42 +94,85 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
 		// newEvents contains an array of DeploymentComponentOperationExecution
 		// for a single trace id.
-		System.out.println(newEvents.length + " newEvents");
 		for (final EventBean newEvent : newEvents) {
-			final DeploymentComponentOperationExecution[] exec1n =
-					(DeploymentComponentOperationExecution[]) newEvent.get(TraceReconstructor.VAR_NAME);
-			System.out.println("New trace: " + exec1n[0].getTraceId());
-			for (final DeploymentComponentOperationExecution exec : exec1n) {
-				System.out.println(exec);
+			// Processing a single trace
+
+			final OperationExecution[] exec1n =
+					(OperationExecution[]) newEvent.get(TraceReconstructor.VAR_NAME);
+			final Collection<OperationExecution> executionsForTrace =
+					new ArrayList<OperationExecution>(exec1n.length);
+
+			for (final OperationExecution exec : exec1n) {
+				executionsForTrace.add(exec);
 			}
 
-			// TODO: reconstruct trace and send it via epService
+			final ExecutionTrace validOrInvalidExecutionTrace =
+					TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.rootExec);
+			this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
 		}
 	}
 
 	/**
+	 * Reconstructs an {@link ExecutionTrace}, valid or invalid, from the given
+	 * set of {@link OperationExecution}s. The returned trace is of type
+	 * {@link ValidExecutionTrace} if a valid trace could be reconstructed from
+	 * the given executions (in this case, the property
+	 * {@link ValidExecutionTrace#getMessageTrace()} is properly set). If the
+	 * trace reconstruction failed, the method returns a trace of type
+	 * {@link InvalidExecutionTrace}.
+	 * 
+	 * @param executions
+	 * @param rootExecution
+	 * @return the (valid or invalid) {@link ExecutionTrace}
+	 */
+	public static ExecutionTrace reconstructTraceSave(final Collection<? extends OperationExecution> executions,
+			final OperationExecution rootExecution) {
+		ExecutionTrace retTrace = null; // make javac happy
+		try {
+			final MessageTrace mt = TraceReconstructor.reconstructMessageTrace(executions, rootExecution);
+			final ValidExecutionTrace validTrace = mt.getExecutionTrace();
+			retTrace = validTrace;
+		} catch (final IllegalStateException e) {
+			final InvalidExecutionTrace invalidTrace = UsageFactory.eINSTANCE.createInvalidExecutionTrace();
+			invalidTrace.setErrorMsg(e.getMessage());
+			/*
+			 * we cannot add all executions to
+			 * invalidTrace.getOperationExecutions() and sort this list since
+			 * the EList implementation raises an IllegalArgumentException (The
+			 * 'no duplicates' constraint is violated) while being sorted.
+			 */
+			final List<OperationExecution> sortedExecutions = new ArrayList<OperationExecution>(executions.size());
+			sortedExecutions.addAll(executions);
+			// order executions by eoi
+			TraceReconstructor.sortExecutionListByEoiAndCheckTraceId(sortedExecutions);
+			invalidTrace.getOperationExecutions().addAll(sortedExecutions);
+			retTrace = invalidTrace;
+		}
+		return retTrace;
+	}
+
+	/**
 	 * Sorts the given set of {@link OperationExecution}s by
-	 * {@link OperationExecution#getEoi()}.
+	 * {@link OperationExecution#getEoi()} and checks if all
+	 * {@link OperationExecution}s have an equal
+	 * {@link OperationExecution#getTraceId()}.
 	 * 
 	 * @param executions
 	 *            each must have the same
 	 *            {@link OperationExecution#getTraceId()}
-	 * @throws IllegalStateException
-	 *             if not all {@link OperationExecution#getTraceId()}s in the
-	 *             set are equal
+	 * @return true iff all {@link OperationExecution#getTraceId()}s in the set
+	 *         are equal
 	 */
-	private static void sortExecutionSet(final List<OperationExecution> executions) throws IllegalStateException {
-		final AtomicReference<IllegalStateException> iseRef =
-				new AtomicReference<IllegalStateException>();
+	private static boolean sortExecutionListByEoiAndCheckTraceId(final List<OperationExecution> executions) {
+		final AtomicReference<Boolean> allExecutionsHaveEqualTraceID =
+				new AtomicReference<Boolean>(true);
 
 		Collections.sort(executions, new Comparator<OperationExecution>() {
 
 			@Override
 			public int compare(final OperationExecution e1, final OperationExecution e2) {
 				if (e1.getTraceId() != e2.getTraceId()) {
-					// will be thrown by the containing method
-					iseRef.set(new IllegalStateException("traceId must be equal for each execution " +
-							"in the given set. Found " + e1.getTraceId() + " != " + e2.getTraceId()));
+					allExecutionsHaveEqualTraceID.set(false);
 				}
 
 				if (e1.getEoi() < e2.getEoi()) {
@@ -129,9 +186,7 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 			}
 		});
 
-		if (iseRef.get() != null) {
-			throw iseRef.get();
-		}
+		return allExecutionsHaveEqualTraceID.get();
 	}
 
 	/**
@@ -178,10 +233,12 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 	 * @param messages
 	 * @return
 	 */
-	private static final MessageTrace createMessageTrace(final long traceId, final List<Message> messages) {
+	private static final MessageTrace createMessageTrace(final long traceId, final List<Message> messages,
+			final ValidExecutionTrace validExecutionTrace) {
 		final MessageTrace mt = UsageFactory.eINSTANCE.createMessageTrace();
 		mt.setTraceId(traceId);
 		mt.getMessages().addAll(messages);
+		mt.setExecutionTrace(validExecutionTrace);
 		return mt;
 	}
 
@@ -197,18 +254,23 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 	 *             if the trace is invalid
 	 * @return
 	 */
-	public static MessageTrace reconstructTrace(final Collection<? extends OperationExecution> executions,
+	public static MessageTrace reconstructMessageTrace(final Collection<? extends OperationExecution> executions,
 			final OperationExecution rootExecution) throws IllegalStateException {
-		long traceId = -1;
-
 		final List<Message> mSeq =
 				/*
 				 * 2 messages per execution (call and reply)
 				 */
 				new ArrayList<Message>(executions.size() * 2);
 		final Stack<Message> curStack = new Stack<Message>();
-		final List<OperationExecution> sortedExecutions = new ArrayList<OperationExecution>(executions);
-		TraceReconstructor.sortExecutionSet(sortedExecutions);
+
+		long traceId = -1;
+
+		final List<OperationExecution> sortedExecutions = new ArrayList<OperationExecution>(executions.size());
+		sortedExecutions.addAll(executions);
+
+		if (!TraceReconstructor.sortExecutionListByEoiAndCheckTraceId(sortedExecutions)) {
+			throw new IllegalStateException("Not all executions have an equal trace id");
+		}
 
 		final Iterator<OperationExecution> eSeqIt = sortedExecutions.iterator();
 
@@ -217,14 +279,15 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 		for (int itNum = 0; eSeqIt.hasNext(); itNum++) {
 			final OperationExecution curE = eSeqIt.next();
 
-			if (traceId == -1) {
+			if (itNum == 0) {
 				// Retrieve trace id from first execution in list
 				traceId = curE.getTraceId();
 			} else {
 				// Make sure that the trace id of all executions are equal
 				if (traceId != curE.getTraceId()) {
-					throw new IllegalStateException("First execution must have ess "
-									+ "0 (found " + curE.getEss() + ")\n Causing execution: " + curE);
+					throw new IllegalStateException("All executions must have an equal trace id; "
+									+ "expecting " + traceId + ", found " + curE.getTraceId()
+							+ ")\n Causing execution: " + curE);
 				}
 			}
 
@@ -290,7 +353,11 @@ public class TraceReconstructor implements ICEPEventReceiver, UpdateListener {
 			}
 			prevE = curE; // prepair next loop
 		}
-		final MessageTrace mt = TraceReconstructor.createMessageTrace(traceId, mSeq);
+
+		final ValidExecutionTrace validExecTrace = UsageFactory.eINSTANCE.createValidExecutionTrace();
+		validExecTrace.setTraceId(traceId);
+		validExecTrace.getOperationExecutions().addAll(sortedExecutions);
+		final MessageTrace mt = TraceReconstructor.createMessageTrace(traceId, mSeq, validExecTrace);
 		return mt;
 	}
 }

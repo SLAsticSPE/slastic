@@ -110,12 +110,12 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 				return createMessageAdapter();
 			}
 			@Override
-			public Adapter caseExecutionTrace(ExecutionTrace object) {
-				return createExecutionTraceAdapter();
-			}
-			@Override
 			public Adapter caseValidExecutionTrace(ValidExecutionTrace object) {
 				return createValidExecutionTraceAdapter();
+			}
+			@Override
+			public Adapter caseExecutionTrace(ExecutionTrace object) {
+				return createExecutionTraceAdapter();
 			}
 			@Override
 			public Adapter caseInvalidTrace(InvalidTrace object) {

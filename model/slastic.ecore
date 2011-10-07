@@ -460,15 +460,17 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="signature" ordered="false"
           lowerBound="1" eType="#//typeRepository/Signature"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Trace" abstract="true">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceId" ordered="false"
-          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Trace" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="MessageTrace" eSuperTypes="#//usage/ValidTrace">
       <eStructuralFeatures xsi:type="ecore:EReference" name="messages" ordered="false"
           lowerBound="2" upperBound="-1" eType="#//usage/Message"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="executionTrace" ordered="false"
+          lowerBound="1" eType="#//usage/ValidExecutionTrace" eOpposite="#//usage/ValidExecutionTrace/messageTrace"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ValidTrace" abstract="true" eSuperTypes="#//usage/Trace"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ValidTrace" abstract="true" eSuperTypes="#//usage/Trace">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="traceId" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Message">
       <eStructuralFeatures xsi:type="ecore:EReference" name="sender" ordered="false"
           lowerBound="1" eType="#//monitoring/OperationExecution"/>
@@ -477,16 +479,19 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="receiver" ordered="false"
           lowerBound="1" eType="#//monitoring/OperationExecution"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ValidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/ValidTrace">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="messageTrace" ordered="false"
+          lowerBound="1" eType="#//usage/MessageTrace" eOpposite="#//usage/MessageTrace/executionTrace"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionTrace" abstract="true" eSuperTypes="#//usage/Trace">
       <eStructuralFeatures xsi:type="ecore:EReference" name="operationExecutions"
           ordered="false" lowerBound="1" upperBound="-1" eType="#//monitoring/OperationExecution"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ValidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/ValidTrace">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="messageTrace" ordered="false"
-          lowerBound="1" eType="#//usage/MessageTrace"/>
-    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="InvalidTrace" abstract="true" eSuperTypes="#//usage/Trace"/>
-    <eClassifiers xsi:type="ecore:EClass" name="InvalidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/InvalidTrace"/>
+    <eClassifiers xsi:type="ecore:EClass" name="InvalidExecutionTrace" eSuperTypes="#//usage/ExecutionTrace #//usage/InvalidTrace">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="errorMsg" ordered="false"
+          lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SynchronousCallMessage" eSuperTypes="#//usage/Message"/>
     <eClassifiers xsi:type="ecore:EClass" name="SynchronousReplyMessage" eSuperTypes="#//usage/Message"/>
   </eSubpackages>

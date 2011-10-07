@@ -294,22 +294,13 @@ public interface UsagePackage extends EPackage {
 	int TRACE = 5;
 
 	/**
-	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int TRACE__TRACE_ID = 0;
-
-	/**
 	 * The number of structural features of the '<em>Trace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int TRACE_FEATURE_COUNT = 1;
+	int TRACE_FEATURE_COUNT = 0;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl <em>Valid Trace</em>}' class.
@@ -328,7 +319,7 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALID_TRACE__TRACE_ID = TRACE__TRACE_ID;
+	int VALID_TRACE__TRACE_ID = TRACE_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Valid Trace</em>' class.
@@ -337,7 +328,7 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALID_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 0;
+	int VALID_TRACE_FEATURE_COUNT = TRACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl <em>Message Trace</em>}' class.
@@ -368,13 +359,22 @@ public interface UsagePackage extends EPackage {
 	int MESSAGE_TRACE__MESSAGES = VALID_TRACE_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Execution Trace</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MESSAGE_TRACE__EXECUTION_TRACE = VALID_TRACE_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Message Trace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MESSAGE_TRACE_FEATURE_COUNT = VALID_TRACE_FEATURE_COUNT + 1;
+	int MESSAGE_TRACE_FEATURE_COUNT = VALID_TRACE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl <em>Message</em>}' class.
@@ -430,16 +430,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
 	 * @generated
 	 */
-	int EXECUTION_TRACE = 9;
-
-	/**
-	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int EXECUTION_TRACE__TRACE_ID = TRACE__TRACE_ID;
+	int EXECUTION_TRACE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
@@ -467,16 +458,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidExecutionTrace()
 	 * @generated
 	 */
-	int VALID_EXECUTION_TRACE = 10;
-
-	/**
-	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int VALID_EXECUTION_TRACE__TRACE_ID = EXECUTION_TRACE__TRACE_ID;
+	int VALID_EXECUTION_TRACE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
@@ -488,13 +470,22 @@ public interface UsagePackage extends EPackage {
 	int VALID_EXECUTION_TRACE__OPERATION_EXECUTIONS = EXECUTION_TRACE__OPERATION_EXECUTIONS;
 
 	/**
+	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VALID_EXECUTION_TRACE__TRACE_ID = EXECUTION_TRACE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Message Trace</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int VALID_EXECUTION_TRACE__MESSAGE_TRACE = EXECUTION_TRACE_FEATURE_COUNT + 0;
+	int VALID_EXECUTION_TRACE__MESSAGE_TRACE = EXECUTION_TRACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of structural features of the '<em>Valid Execution Trace</em>' class.
@@ -503,7 +494,7 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int VALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 1;
+	int VALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.
@@ -514,15 +505,6 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	int INVALID_TRACE = 11;
-
-	/**
-	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INVALID_TRACE__TRACE_ID = TRACE__TRACE_ID;
 
 	/**
 	 * The number of structural features of the '<em>Invalid Trace</em>' class.
@@ -544,15 +526,6 @@ public interface UsagePackage extends EPackage {
 	int INVALID_EXECUTION_TRACE = 12;
 
 	/**
-	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int INVALID_EXECUTION_TRACE__TRACE_ID = EXECUTION_TRACE__TRACE_ID;
-
-	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -562,13 +535,22 @@ public interface UsagePackage extends EPackage {
 	int INVALID_EXECUTION_TRACE__OPERATION_EXECUTIONS = EXECUTION_TRACE__OPERATION_EXECUTIONS;
 
 	/**
+	 * The feature id for the '<em><b>Error Msg</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INVALID_EXECUTION_TRACE__ERROR_MSG = EXECUTION_TRACE_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Invalid Execution Trace</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int INVALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 0;
+	int INVALID_EXECUTION_TRACE_FEATURE_COUNT = EXECUTION_TRACE_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl <em>Synchronous Call Message</em>}' class.
@@ -878,17 +860,6 @@ public interface UsagePackage extends EPackage {
 	EClass getTrace();
 
 	/**
-	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.usage.Trace#getTraceId <em>Trace Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Trace Id</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.Trace#getTraceId()
-	 * @see #getTrace()
-	 * @generated
-	 */
-	EAttribute getTrace_TraceId();
-
-	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.MessageTrace <em>Message Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -910,6 +881,17 @@ public interface UsagePackage extends EPackage {
 	EReference getMessageTrace_Messages();
 
 	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.MessageTrace#getExecutionTrace <em>Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Execution Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.MessageTrace#getExecutionTrace()
+	 * @see #getMessageTrace()
+	 * @generated
+	 */
+	EReference getMessageTrace_ExecutionTrace();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ValidTrace <em>Valid Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -918,6 +900,17 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getValidTrace();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.usage.ValidTrace#getTraceId <em>Trace Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Trace Id</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ValidTrace#getTraceId()
+	 * @see #getValidTrace()
+	 * @generated
+	 */
+	EAttribute getValidTrace_TraceId();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.Message <em>Message</em>}'.
@@ -1023,6 +1016,17 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getInvalidExecutionTrace();
+
+	/**
+	 * Returns the meta object for the attribute '{@link de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace#getErrorMsg <em>Error Msg</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Error Msg</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace#getErrorMsg()
+	 * @see #getInvalidExecutionTrace()
+	 * @generated
+	 */
+	EAttribute getInvalidExecutionTrace_ErrorMsg();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.SynchronousCallMessage <em>Synchronous Call Message</em>}'.
@@ -1239,14 +1243,6 @@ public interface UsagePackage extends EPackage {
 		EClass TRACE = eINSTANCE.getTrace();
 
 		/**
-		 * The meta object literal for the '<em><b>Trace Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute TRACE__TRACE_ID = eINSTANCE.getTrace_TraceId();
-
-		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageTraceImpl <em>Message Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1265,6 +1261,14 @@ public interface UsagePackage extends EPackage {
 		EReference MESSAGE_TRACE__MESSAGES = eINSTANCE.getMessageTrace_Messages();
 
 		/**
+		 * The meta object literal for the '<em><b>Execution Trace</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MESSAGE_TRACE__EXECUTION_TRACE = eINSTANCE.getMessageTrace_ExecutionTrace();
+
+		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidTraceImpl <em>Valid Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1273,6 +1277,14 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EClass VALID_TRACE = eINSTANCE.getValidTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Trace Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute VALID_TRACE__TRACE_ID = eINSTANCE.getValidTrace_TraceId();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.MessageImpl <em>Message</em>}' class.
@@ -1363,6 +1375,14 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EClass INVALID_EXECUTION_TRACE = eINSTANCE.getInvalidExecutionTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Error Msg</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute INVALID_EXECUTION_TRACE__ERROR_MSG = eINSTANCE.getInvalidExecutionTrace_ErrorMsg();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.SynchronousCallMessageImpl <em>Synchronous Call Message</em>}' class.
