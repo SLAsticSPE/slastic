@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.usage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
@@ -42,15 +43,15 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	/**
 	 * Operation call frequencies (operation id x frequency) 
 	 */
-	private final HashMap<Long, OperationCallFrequency> opCallFrequencies = new HashMap<Long, OperationCallFrequency>();
+	private final Map<Long, OperationCallFrequency> opCallFrequencies = new HashMap<Long, OperationCallFrequency>();
 	
 	/**
 	 * Calling relationships among {@link Operation}s and {@link Signature}s of an {@link Interface}.   
 	 */
-	private final HashMap<Long, CallingRelationship> opCallRelationships = new HashMap<Long, CallingRelationship>();
+	private final Map<Long, CallingRelationship> opCallRelationships = new HashMap<Long, CallingRelationship>();
 	
 	/** Frequencies of calls to {@link Signature}s of an {@link AssemblyConnector} */
-	private final HashMap<Long, AssemblyConnectorCallFrequency> connectorCallFrequencies = new HashMap<Long, AssemblyConnectorCallFrequency>();
+	private final Map<Long, AssemblyConnectorCallFrequency> connectorCallFrequencies = new HashMap<Long, AssemblyConnectorCallFrequency>();
 
 	/**
 	 * 

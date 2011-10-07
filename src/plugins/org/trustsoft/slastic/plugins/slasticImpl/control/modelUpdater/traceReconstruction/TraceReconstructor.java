@@ -55,10 +55,10 @@ public class TraceReconstructor implements UpdateListener {
 		this.epService = epService;
 		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
 
-		final EPStatement statement2 =
+		final EPStatement statement =
 				this.epService.getEPAdministrator().createEPL(
 						this.getCEPStatement());
-		statement2.addListener(this);
+		statement.addListener(this);
 	}
 
 	/**

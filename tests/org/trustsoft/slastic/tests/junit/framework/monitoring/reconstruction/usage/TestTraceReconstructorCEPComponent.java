@@ -230,22 +230,22 @@ abstract class AbstractExecutionTraceCollector<H extends ExecutionTrace> impleme
 
 class ValidExecutionTraceCollector extends AbstractExecutionTraceCollector<ValidExecutionTrace> {
 
-	private static final String expression = "select * from "
+	private static final String EXPRESSION = "select * from "
 			+ ValidExecutionTrace.class.getName();
 
 	@Override
 	public String getCEPStatement() {
-		return ValidExecutionTraceCollector.expression;
+		return ValidExecutionTraceCollector.EXPRESSION;
 	}
 }
 
 class InvalidExecutionTraceCollector extends AbstractExecutionTraceCollector<ValidExecutionTrace> {
 
-	private static final String expression = "select * from "
+	private static final String EXPRESSION = "select * from "
 			+ InvalidExecutionTrace.class.getName();
 
 	@Override
 	public String getCEPStatement() {
-		return InvalidExecutionTraceCollector.expression;
+		return InvalidExecutionTraceCollector.EXPRESSION;
 	}
 }
