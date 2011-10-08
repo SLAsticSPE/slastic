@@ -157,13 +157,18 @@ public class ModelManager extends AbstractModelManagerComponent {
 					this.systemModel.getTypeRepositoryModel());
 			this.componentAssemblyModelManager =
 					new ComponentAssemblyModelManager(
-							this.systemModel.getComponentAssemblyModel());
+							this.systemModel.getComponentAssemblyModel(),
+							this.typeRepositoryManager);
 			this.executionEnvironmentModelManager =
 					new ExecutionEnvironmentModelManager(
-							this.systemModel.getExecutionEnvironmentModel());
+							this.systemModel.getExecutionEnvironmentModel(),
+							this.typeRepositoryManager);
 			this.componentDeploymentModelManager =
 					new ComponentDeploymentModelManager(
-							this.systemModel.getComponentDeploymentModel());
+							this.systemModel.getComponentDeploymentModel(),
+							this.typeRepositoryManager,
+							this.componentAssemblyModelManager,
+							this.executionEnvironmentModelManager);
 			this.reconfigurationManager = new ReconfigurationManager(
 					this.typeRepositoryManager,
 					this.componentAssemblyModelManager,

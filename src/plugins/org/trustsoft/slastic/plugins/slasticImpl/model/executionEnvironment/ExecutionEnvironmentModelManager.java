@@ -3,6 +3,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 import java.util.Collection;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionEnvironmentModel;
@@ -31,6 +32,7 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 	// containerNameMapping =
 	// new ConcurrentHashMap<String, ExecutionContainer>();
 
+	private final TypeRepositoryModelManager typeRepositoryModelManager;
 	private final ExecutionContainersManager executionContainersManager;
 	private final NetworkLinksManager networkLinksManager;
 
@@ -40,14 +42,16 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 
 	private ExecutionEnvironmentModelManager() {
 		super(null);
+		this.typeRepositoryModelManager = null;
 		this.executionContainersManager = null;
 		this.networkLinksManager = null;
 		// TODO: remove?
 		// this.executionContainersAllocationManager = null;
 	}
 
-	public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel) {
+	public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel, final TypeRepositoryModelManager typeRepositoryManager) {
 		super(executionEnvironmentModel);
+		this.typeRepositoryModelManager = typeRepositoryManager;
 		this.executionContainersManager =
 				new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
 		this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());

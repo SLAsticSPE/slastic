@@ -5,6 +5,7 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
+import de.cau.se.slastic.metamodel.typeRepository.Signature;
 
 /**
  * 
@@ -31,6 +32,20 @@ public interface IAssemblyConnectorsManager {
 	 * @return the looked up assembly connector
 	 */
 	public AssemblyConnector lookupAssemblyConnector(final long id);
+
+	/**
+	 * Returns the {@link AssemblyConnector} which connects the two given
+	 * {@link AssemblyComponent}s and whose {@link Interface} declares the given
+	 * {@link Signature}.
+	 * 
+	 * @param requiringComponent
+	 * @param providingComponent
+	 * @param signature
+	 * @return the requested {@link AssemblyConnector} or null if it doesn't
+	 *         exist.
+	 */
+	public AssemblyConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
+			final AssemblyComponent providingComponent, final Signature signature);
 
 	/**
 	 * Creates and registers a new assembly connector with the given
@@ -60,10 +75,12 @@ public interface IAssemblyConnectorsManager {
 	/**
 	 * Connects the given {@link AssemblyComponent}s by the given
 	 * {@link AssemblyConnector}. Note that the {@link Interface} corresponding
-	 * to the {@link AssemblyConnector}'s type {@link ConnectorType#getInterface()}
-	 * must be contained in the requiring component's list of required interfaces
-	 * {@link ComponentType#getRequiredInterfaces()} and in the providing component's
-	 * list of provided interfaces {@link ComponentType#getProvidedInterfaces()}. 
+	 * to the {@link AssemblyConnector}'s type
+	 * {@link ConnectorType#getInterface()} must be contained in the requiring
+	 * component's list of required interfaces
+	 * {@link ComponentType#getRequiredInterfaces()} and in the providing
+	 * component's list of provided interfaces
+	 * {@link ComponentType#getProvidedInterfaces()}.
 	 * 
 	 * @param assemblyConnector
 	 * @param requiringComponent

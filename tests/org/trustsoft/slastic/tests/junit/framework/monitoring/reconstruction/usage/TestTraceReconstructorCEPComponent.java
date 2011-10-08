@@ -48,9 +48,11 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 	private static final int NUM_EXECUTIONS_TO_REMOVE_FROM_INVALID_TRACES = 1;
 
 	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 2000;
-	private static final long SHUTDOWN_TIMEOUT_MILLIS = 4000; // time to wait
-																// for CEP to
-																// complete
+	
+	/**
+	 * Time to wait for CEP to complete.
+	 */
+	private static final long SHUTDOWN_TIMEOUT_MILLIS = 4000;
 
 	private int nextTraceId = 0;
 
@@ -80,15 +82,14 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 	 * @throws InterruptedException
 	 * 
 	 */
-	public void testCreateSendReceiveEvent() throws InterruptedException {
+	public void testTraceReconstructoreValidAndInvalidTraces() throws InterruptedException {
 		this.registerSubscribers();
 
-		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_VALID_TRACES_TO_GENERATE, false); // do
-																											// not
-																											// break
-																											// traces
-		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_INVALID_TRACES_TO_GENERATE, true); // break
-																											// traces
+		// Send unbroken (broken = false) traces:
+		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_VALID_TRACES_TO_GENERATE, false); 
+		
+		// Send broken (broken = true) traces:
+		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_INVALID_TRACES_TO_GENERATE, true);
 
 		// We have to wait for this time period, to make sure that all traces
 		// are detected

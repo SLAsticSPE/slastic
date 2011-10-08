@@ -49,9 +49,9 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors_noName extends
         final AssemblyConnector assemblyConnector = componentAssemblyModelManager.createAndRegisterAssemblyConnector(connectorType);
         final String fqConnectorName = NameUtils.createFQName(assemblyConnector.getPackageName(), assemblyConnector.getName());
         Assert.assertNotNull("Connector name is null!", fqConnectorName);
-        Assert.assertTrue("Expecting connector name to start with " + AssemblyConnectorsManager.ASSEMBLY_NO_NAME_PREFIX,
-        		fqConnectorName.startsWith(AssemblyConnectorsManager.ASSEMBLY_NO_NAME_PREFIX));
-        Assert.assertTrue("Connector name should be longer than prefix", fqConnectorName.length()>AssemblyConnectorsManager.ASSEMBLY_NO_NAME_PREFIX.length());
+        Assert.assertTrue("Expecting connector name to start with " + AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX,
+        		fqConnectorName.startsWith(AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX));
+        Assert.assertTrue("Connector name should be longer than prefix", fqConnectorName.length()>AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX.length());
         
         /* Now, we'll perform a lookup */
         final AssemblyConnector lookedUpConnector = componentAssemblyModelManager.lookupAssemblyConnector(fqConnectorName);

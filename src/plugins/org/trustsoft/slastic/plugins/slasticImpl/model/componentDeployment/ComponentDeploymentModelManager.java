@@ -5,6 +5,9 @@ import java.util.Collection;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.ExecutionEnvironmentModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentModel;
@@ -22,16 +25,25 @@ public class ComponentDeploymentModelManager extends
 	private static final Log log = LogFactory
 			.getLog(ComponentDeploymentModelManager.class);
 
+	private final TypeRepositoryModelManager typeRepositoryModelManager;
+	private final ComponentAssemblyModelManager componentAssemblyModelManager;
+	private final ExecutionEnvironmentModelManager executionEnvironmentModelManager;
 	private final DeploymentComponentsManager deploymentComponentsManager;
 
 	private ComponentDeploymentModelManager() {
 		super(null);
+		this.typeRepositoryModelManager = null;
+		this.componentAssemblyModelManager = null;
+		this.executionEnvironmentModelManager = null;
 		this.deploymentComponentsManager = null;
 	}
 
 	public ComponentDeploymentModelManager(
-			final ComponentDeploymentModel ComponentDeploymentModel) {
+			final ComponentDeploymentModel ComponentDeploymentModel, final TypeRepositoryModelManager typeRepositoryManager, final ComponentAssemblyModelManager componentAssemblyModelManager, final ExecutionEnvironmentModelManager executionEnvironmentModelManager) {
 		super(ComponentDeploymentModel);
+		this.typeRepositoryModelManager = typeRepositoryManager;
+		this.componentAssemblyModelManager = componentAssemblyModelManager;
+		this.executionEnvironmentModelManager = executionEnvironmentModelManager;
 		this.deploymentComponentsManager = new DeploymentComponentsManager(
 				ComponentDeploymentModel.getDeploymentComponents());
 	}

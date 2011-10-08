@@ -72,7 +72,7 @@ public class TestAssemblyConnectorCreation extends TestCase {
 		/* Connect (and assert that this was --- claimed to be --- successful) */
 		Assert.assertTrue("Failed to connect assembly components via connector",
 				componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
-
+		
 		/* Assert that it was really successful by navigating the model */
 		Assert.assertSame("Requiring component not registered in connector", requiringAsmComp,
 				asmConn.getRequiringComponent());
