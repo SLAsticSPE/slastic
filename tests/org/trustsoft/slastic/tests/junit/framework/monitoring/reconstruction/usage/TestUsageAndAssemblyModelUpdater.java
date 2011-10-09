@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.usage;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,9 +74,10 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 	 * Executes the test.
 	 * 
 	 * @throws InterruptedException
+	 * @throws IOException 
 	 * 
 	 */
-	public void testUsageAndAssemblyModelUpdater() throws InterruptedException {
+	public void testUsageAndAssemblyModelUpdater() throws InterruptedException, IOException {
 		this.sendBookstoreTraces(TestUsageAndAssemblyModelUpdater.NUM_VALID_TRACES_TO_GENERATE);
 
 		// We have to wait for this time period, to make sure that all traces
@@ -84,9 +87,25 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 		Thread.sleep(TestUsageAndAssemblyModelUpdater.SHUTDOWN_TIMEOUT_MILLIS);
 
 		this.checkSystemModel();
-		// TODO: further tests on assembly/usage model
+		// TODO: further tests on usage model
+		
+		this.saveModels();
 	}
 
+	private void saveModels() throws IOException {
+	       /* Create a tmp files the models will be saved to
+      * and mark the files to be deleted on jvm termination */
+     final File tmpSystemModelFile =
+             File.createTempFile(this.getClass().getSimpleName()+"-systemModel-", "");
+     //tmpSystemModelFile.deleteOnExit();
+     
+     final File tmpUsageModelFile =
+         File.createTempFile(this.getClass().getSimpleName()+"-usageModel-", "");
+     //tmpSystemModelFile.deleteOnExit();
+     
+     this.systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
+	}
+	
 	/**
 	 * Makes sure that the required interfaces have been updated properly.
 	 */
