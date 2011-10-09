@@ -10,7 +10,9 @@ import de.cau.se.slastic.metamodel.usage.UsagePackage;
 import de.cau.se.slastic.metamodel.usage.ValidTrace;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -36,6 +38,7 @@ public abstract class ValidTraceImpl extends TraceImpl implements ValidTrace {
 	 * @ordered
 	 */
 	protected static final long TRACE_ID_EDEFAULT = 0L;
+
 	/**
 	 * The cached value of the '{@link #getTraceId() <em>Trace Id</em>}' attribute.
 	 * <!-- begin-user-doc -->

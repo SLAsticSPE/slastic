@@ -10,7 +10,9 @@ import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -36,6 +38,7 @@ public class InvalidExecutionTraceImpl extends ExecutionTraceImpl implements Inv
 	 * @ordered
 	 */
 	protected static final String ERROR_MSG_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getErrorMsg() <em>Error Msg</em>}' attribute.
 	 * <!-- begin-user-doc -->

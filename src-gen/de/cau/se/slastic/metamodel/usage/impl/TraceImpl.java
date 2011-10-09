@@ -9,11 +9,8 @@ package de.cau.se.slastic.metamodel.usage.impl;
 import de.cau.se.slastic.metamodel.usage.Trace;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
-import org.eclipse.emf.common.notify.Notification;
-
 import org.eclipse.emf.ecore.EClass;
 
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**

@@ -670,17 +670,6 @@ public interface TypeRepositoryPackage extends EPackage {
 	EReference getComponentType_ProvidedInterfaces();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Operations</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations()
-	 * @see #getComponentType()
-	 * @generated
-	 */
-	EReference getComponentType_Operations();
-
-	/**
 	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getRequiredInterfaces <em>Required Interfaces</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -690,6 +679,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getComponentType_RequiredInterfaces();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Operations</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations()
+	 * @see #getComponentType()
+	 * @generated
+	 */
+	EReference getComponentType_Operations();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.Interface <em>Interface</em>}'.
@@ -755,17 +755,6 @@ public interface TypeRepositoryPackage extends EPackage {
 	EClass getOperation();
 
 	/**
-	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Component Type</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType()
-	 * @see #getOperation()
-	 * @generated
-	 */
-	EReference getOperation_ComponentType();
-
-	/**
 	 * Returns the meta object for the containment reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -775,6 +764,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOperation_Signature();
+
+	/**
+	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Component Type</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType()
+	 * @see #getOperation()
+	 * @generated
+	 */
+	EReference getOperation_ComponentType();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.typeRepository.ConnectorType <em>Connector Type</em>}'.
@@ -839,17 +839,6 @@ public interface TypeRepositoryPackage extends EPackage {
 	EClass getTypeRepositoryModel();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes <em>Network Link Types</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Network Link Types</em>'.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes()
-	 * @see #getTypeRepositoryModel()
-	 * @generated
-	 */
-	EReference getTypeRepositoryModel_NetworkLinkTypes();
-
-	/**
 	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getComponentTypes <em>Component Types</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -892,6 +881,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getTypeRepositoryModel_ConnectorTypes();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes <em>Network Link Types</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Network Link Types</em>'.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes()
+	 * @see #getTypeRepositoryModel()
+	 * @generated
+	 */
+	EReference getTypeRepositoryModel_NetworkLinkTypes();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel#getResourceTypes <em>Resource Types</em>}'.
@@ -955,20 +955,20 @@ public interface TypeRepositoryPackage extends EPackage {
 		EReference COMPONENT_TYPE__PROVIDED_INTERFACES = eINSTANCE.getComponentType_ProvidedInterfaces();
 
 		/**
-		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference COMPONENT_TYPE__OPERATIONS = eINSTANCE.getComponentType_Operations();
-
-		/**
 		 * The meta object literal for the '<em><b>Required Interfaces</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference COMPONENT_TYPE__REQUIRED_INTERFACES = eINSTANCE.getComponentType_RequiredInterfaces();
+
+		/**
+		 * The meta object literal for the '<em><b>Operations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_TYPE__OPERATIONS = eINSTANCE.getComponentType_Operations();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.InterfaceImpl <em>Interface</em>}' class.
@@ -1025,20 +1025,20 @@ public interface TypeRepositoryPackage extends EPackage {
 		EClass OPERATION = eINSTANCE.getOperation();
 
 		/**
-		 * The meta object literal for the '<em><b>Component Type</b></em>' container reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference OPERATION__COMPONENT_TYPE = eINSTANCE.getOperation_ComponentType();
-
-		/**
 		 * The meta object literal for the '<em><b>Signature</b></em>' containment reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference OPERATION__SIGNATURE = eINSTANCE.getOperation_Signature();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Type</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION__COMPONENT_TYPE = eINSTANCE.getOperation_ComponentType();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.typeRepository.impl.ConnectorTypeImpl <em>Connector Type</em>}' class.
@@ -1097,14 +1097,6 @@ public interface TypeRepositoryPackage extends EPackage {
 		EClass TYPE_REPOSITORY_MODEL = eINSTANCE.getTypeRepositoryModel();
 
 		/**
-		 * The meta object literal for the '<em><b>Network Link Types</b></em>' containment reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES = eINSTANCE.getTypeRepositoryModel_NetworkLinkTypes();
-
-		/**
 		 * The meta object literal for the '<em><b>Component Types</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1135,6 +1127,14 @@ public interface TypeRepositoryPackage extends EPackage {
 		 * @generated
 		 */
 		EReference TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES = eINSTANCE.getTypeRepositoryModel_ConnectorTypes();
+
+		/**
+		 * The meta object literal for the '<em><b>Network Link Types</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES = eINSTANCE.getTypeRepositoryModel_NetworkLinkTypes();
 
 		/**
 		 * The meta object literal for the '<em><b>Resource Types</b></em>' containment reference list feature.

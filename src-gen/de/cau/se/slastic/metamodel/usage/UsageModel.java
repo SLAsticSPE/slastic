@@ -20,7 +20,8 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.UsageModel#getCallingRelationships <em>Calling Relationships</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.UsageModel#getOperationCallFrequencies <em>Operation Call Frequencies</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyConnectorCallFrequencies <em>Assembly Connector Call Frequencies</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyComponentConnectorCallFrequencies <em>Assembly Component Connector Call Frequencies</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.UsageModel#getSystemProvidedInterfaceDelegationConnectorFrequencies <em>System Provided Interface Delegation Connector Frequencies</em>}</li>
  * </ul>
  * </p>
  *
@@ -62,19 +63,35 @@ public interface UsageModel extends SLAsticModel {
 	EList<OperationCallFrequency> getOperationCallFrequencies();
 
 	/**
-	 * Returns the value of the '<em><b>Assembly Connector Call Frequencies</b></em>' containment reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency}.
+	 * Returns the value of the '<em><b>Assembly Component Connector Call Frequencies</b></em>' containment reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Assembly Connector Call Frequencies</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Assembly Component Connector Call Frequencies</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Assembly Connector Call Frequencies</em>' containment reference list.
-	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getUsageModel_AssemblyConnectorCallFrequencies()
+	 * @return the value of the '<em>Assembly Component Connector Call Frequencies</em>' containment reference list.
+	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getUsageModel_AssemblyComponentConnectorCallFrequencies()
 	 * @model containment="true" ordered="false"
 	 * @generated
 	 */
-	EList<AssemblyConnectorCallFrequency> getAssemblyConnectorCallFrequencies();
+	EList<AssemblyComponentConnectorCallFrequency> getAssemblyComponentConnectorCallFrequencies();
+
+	/**
+	 * Returns the value of the '<em><b>System Provided Interface Delegation Connector Frequencies</b></em>' containment reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>System Provided Interface Delegation Connector Frequencies</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>System Provided Interface Delegation Connector Frequencies</em>' containment reference list.
+	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies()
+	 * @model containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<SystemProvidedInterfaceDelegationConnectorFrequency> getSystemProvidedInterfaceDelegationConnectorFrequencies();
 
 } // UsageModel

@@ -46,24 +46,6 @@ public interface ComponentType extends FQNamedEntity {
 	EList<Interface> getProvidedInterfaces();
 
 	/**
-	 * Returns the value of the '<em><b>Operations</b></em>' containment reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.Operation}.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Operations</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Operations</em>' containment reference list.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getComponentType_Operations()
-	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType
-	 * @model opposite="componentType" containment="true" ordered="false"
-	 * @generated
-	 */
-	EList<Operation> getOperations();
-
-	/**
 	 * Returns the value of the '<em><b>Required Interfaces</b></em>' reference list.
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.Interface}.
 	 * <!-- begin-user-doc -->
@@ -78,5 +60,23 @@ public interface ComponentType extends FQNamedEntity {
 	 * @generated
 	 */
 	EList<Interface> getRequiredInterfaces();
+
+	/**
+	 * Returns the value of the '<em><b>Operations</b></em>' containment reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.Operation}.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Operations</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Operations</em>' containment reference list.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getComponentType_Operations()
+	 * @see de.cau.se.slastic.metamodel.typeRepository.Operation#getComponentType
+	 * @model opposite="componentType" containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<Operation> getOperations();
 
 } // ComponentType

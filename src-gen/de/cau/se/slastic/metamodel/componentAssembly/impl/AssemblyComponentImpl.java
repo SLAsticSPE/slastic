@@ -7,7 +7,7 @@
 package de.cau.se.slastic.metamodel.componentAssembly.impl;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
 
 import de.cau.se.slastic.metamodel.core.impl.FQNamedEntityImpl;
@@ -15,17 +15,19 @@ import de.cau.se.slastic.metamodel.core.impl.FQNamedEntityImpl;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 
 import java.util.Collection;
-import org.eclipse.emf.common.notify.Notification;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,7 +63,7 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AssemblyConnector> providingConnectors;
+	protected EList<AssemblyComponentConnector> providingConnectors;
 
 	/**
 	 * The cached value of the '{@link #getRequiringConnectors() <em>Requiring Connectors</em>}' reference list.
@@ -71,7 +73,7 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AssemblyConnector> requiringConnectors;
+	protected EList<AssemblyComponentConnector> requiringConnectors;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -135,9 +137,9 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AssemblyConnector> getProvidingConnectors() {
+	public EList<AssemblyComponentConnector> getProvidingConnectors() {
 		if (providingConnectors == null) {
-			providingConnectors = new EObjectWithInverseResolvingEList<AssemblyConnector>(AssemblyConnector.class, this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT);
+			providingConnectors = new EObjectWithInverseResolvingEList<AssemblyComponentConnector>(AssemblyComponentConnector.class, this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS, ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT);
 		}
 		return providingConnectors;
 	}
@@ -147,9 +149,9 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AssemblyConnector> getRequiringConnectors() {
+	public EList<AssemblyComponentConnector> getRequiringConnectors() {
 		if (requiringConnectors == null) {
-			requiringConnectors = new EObjectWithInverseResolvingEList<AssemblyConnector>(AssemblyConnector.class, this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS, ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT);
+			requiringConnectors = new EObjectWithInverseResolvingEList<AssemblyComponentConnector>(AssemblyComponentConnector.class, this, ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS, ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT);
 		}
 		return requiringConnectors;
 	}
@@ -220,11 +222,11 @@ public class AssemblyComponentImpl extends FQNamedEntityImpl implements Assembly
 				return;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS:
 				getProvidingConnectors().clear();
-				getProvidingConnectors().addAll((Collection<? extends AssemblyConnector>)newValue);
+				getProvidingConnectors().addAll((Collection<? extends AssemblyComponentConnector>)newValue);
 				return;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS:
 				getRequiringConnectors().clear();
-				getRequiringConnectors().addAll((Collection<? extends AssemblyConnector>)newValue);
+				getRequiringConnectors().addAll((Collection<? extends AssemblyComponentConnector>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);

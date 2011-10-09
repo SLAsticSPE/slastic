@@ -9,7 +9,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
@@ -19,7 +19,7 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
  * 
  * @author Andre van Hoorn
  */
-public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<AssemblyConnector> implements
+public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<AssemblyComponentConnector> implements
 		IAssemblyConnectorsManager {
 	private static final Log log = LogFactory.getLog(AssemblyConnectorsManager.class);
 
@@ -27,49 +27,49 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
 
 	private final TypeRepositoryModelManager typeRepositoryModelManager;
 	
-	public AssemblyConnectorsManager(final List<AssemblyConnector> AssemblyConnectors, final TypeRepositoryModelManager typeRepositoryModelManager) {
+	public AssemblyConnectorsManager(final List<AssemblyComponentConnector> AssemblyConnectors, final TypeRepositoryModelManager typeRepositoryModelManager) {
 		super(AssemblyConnectors);
 		this.typeRepositoryModelManager = typeRepositoryModelManager;
 	}
 	
 	@Override
-	public AssemblyConnector createAndRegisterAssemblyConnector(
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
 			final String fullyQualifiedName,
 			final ConnectorType connectorType) {
-		final AssemblyConnector assemblyConnector =
+		final AssemblyComponentConnector assemblyConnector =
 				this.createAndRegister(fullyQualifiedName);
 		assemblyConnector.setConnectorType(connectorType);
 		return assemblyConnector;
 	}
 
 	@Override
-	public AssemblyConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
 		final String rndName = NameUtils.createUniqueName(AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX);
 
 		return this.createAndRegisterAssemblyConnector(rndName, connectorType);
 	}
 
 	@Override
-	protected AssemblyConnector createEntity() {
-		return ComponentAssemblyFactory.eINSTANCE.createAssemblyConnector();
+	protected AssemblyComponentConnector createEntity() {
+		return ComponentAssemblyFactory.eINSTANCE.createAssemblyComponentConnector();
 	}
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(
+	public AssemblyComponentConnector lookupAssemblyConnector(
 			final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(final long id) {
+	public AssemblyComponentConnector lookupAssemblyConnector(final long id) {
 		return this.lookupEntityById(id);
 	}
 
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent, final Signature signature) {
-		for (final AssemblyConnector connector : requiringComponent.getProvidingConnectors()) {
+		for (final AssemblyComponentConnector connector : requiringComponent.getProvidingConnectors()) {
 			final Signature lookedUpSignature = 
 				this.typeRepositoryModelManager.lookupSignature(connector.getConnectorType().getInterface(), 
 						signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[]{}));
@@ -82,7 +82,7 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
 	}
 	
 	@Override
-	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
+	public boolean connect(final AssemblyComponentConnector assemblyConnector, final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent) {
 		/* First, we need to make sure that the interfaces match */
 		final Interface connectorInterface = assemblyConnector.getConnectorType().getInterface();

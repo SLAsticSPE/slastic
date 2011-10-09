@@ -27,7 +27,6 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -133,18 +132,6 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<NetworkLinkType> getNetworkLinkTypes() {
-		if (networkLinkTypes == null) {
-			networkLinkTypes = new EObjectContainmentEList<NetworkLinkType>(NetworkLinkType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES);
-		}
-		return networkLinkTypes;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<ComponentType> getComponentTypes() {
 		if (componentTypes == null) {
 			componentTypes = new EObjectContainmentEList<ComponentType>(ComponentType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__COMPONENT_TYPES);
@@ -186,6 +173,18 @@ public class TypeRepositoryModelImpl extends SLAsticModelImpl implements TypeRep
 			connectorTypes = new EObjectContainmentEList<ConnectorType>(ConnectorType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__CONNECTOR_TYPES);
 		}
 		return connectorTypes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<NetworkLinkType> getNetworkLinkTypes() {
+		if (networkLinkTypes == null) {
+			networkLinkTypes = new EObjectContainmentEList<NetworkLinkType>(NetworkLinkType.class, this, TypeRepositoryPackage.TYPE_REPOSITORY_MODEL__NETWORK_LINK_TYPES);
+		}
+		return networkLinkTypes;
 	}
 
 	/**

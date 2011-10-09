@@ -24,7 +24,6 @@ package de.cau.se.slastic.metamodel.usage;
  * @generated
  */
 public interface InvalidExecutionTrace extends ExecutionTrace, InvalidTrace {
-
 	/**
 	 * Returns the value of the '<em><b>Error Msg</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,4 +49,5 @@ public interface InvalidExecutionTrace extends ExecutionTrace, InvalidTrace {
 	 * @generated
 	 */
 	void setErrorMsg(String value);
+
 } // InvalidExecutionTrace

@@ -8,9 +8,10 @@ package de.cau.se.slastic.metamodel.usage.impl;
 
 import de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl;
 
-import de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
+import de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
+import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 
@@ -35,7 +36,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.UsageModelImpl#getCallingRelationships <em>Calling Relationships</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.UsageModelImpl#getOperationCallFrequencies <em>Operation Call Frequencies</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.UsageModelImpl#getAssemblyConnectorCallFrequencies <em>Assembly Connector Call Frequencies</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.UsageModelImpl#getAssemblyComponentConnectorCallFrequencies <em>Assembly Component Connector Call Frequencies</em>}</li>
+ *   <li>{@link de.cau.se.slastic.metamodel.usage.impl.UsageModelImpl#getSystemProvidedInterfaceDelegationConnectorFrequencies <em>System Provided Interface Delegation Connector Frequencies</em>}</li>
  * </ul>
  * </p>
  *
@@ -63,14 +65,24 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 	protected EList<OperationCallFrequency> operationCallFrequencies;
 
 	/**
-	 * The cached value of the '{@link #getAssemblyConnectorCallFrequencies() <em>Assembly Connector Call Frequencies</em>}' containment reference list.
+	 * The cached value of the '{@link #getAssemblyComponentConnectorCallFrequencies() <em>Assembly Component Connector Call Frequencies</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAssemblyConnectorCallFrequencies()
+	 * @see #getAssemblyComponentConnectorCallFrequencies()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AssemblyConnectorCallFrequency> assemblyConnectorCallFrequencies;
+	protected EList<AssemblyComponentConnectorCallFrequency> assemblyComponentConnectorCallFrequencies;
+
+	/**
+	 * The cached value of the '{@link #getSystemProvidedInterfaceDelegationConnectorFrequencies() <em>System Provided Interface Delegation Connector Frequencies</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSystemProvidedInterfaceDelegationConnectorFrequencies()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<SystemProvidedInterfaceDelegationConnectorFrequency> systemProvidedInterfaceDelegationConnectorFrequencies;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -120,11 +132,23 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AssemblyConnectorCallFrequency> getAssemblyConnectorCallFrequencies() {
-		if (assemblyConnectorCallFrequencies == null) {
-			assemblyConnectorCallFrequencies = new EObjectContainmentEList<AssemblyConnectorCallFrequency>(AssemblyConnectorCallFrequency.class, this, UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES);
+	public EList<AssemblyComponentConnectorCallFrequency> getAssemblyComponentConnectorCallFrequencies() {
+		if (assemblyComponentConnectorCallFrequencies == null) {
+			assemblyComponentConnectorCallFrequencies = new EObjectContainmentEList<AssemblyComponentConnectorCallFrequency>(AssemblyComponentConnectorCallFrequency.class, this, UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES);
 		}
-		return assemblyConnectorCallFrequencies;
+		return assemblyComponentConnectorCallFrequencies;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EList<SystemProvidedInterfaceDelegationConnectorFrequency> getSystemProvidedInterfaceDelegationConnectorFrequencies() {
+		if (systemProvidedInterfaceDelegationConnectorFrequencies == null) {
+			systemProvidedInterfaceDelegationConnectorFrequencies = new EObjectContainmentEList<SystemProvidedInterfaceDelegationConnectorFrequency>(SystemProvidedInterfaceDelegationConnectorFrequency.class, this, UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES);
+		}
+		return systemProvidedInterfaceDelegationConnectorFrequencies;
 	}
 
 	/**
@@ -139,8 +163,10 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 				return ((InternalEList<?>)getCallingRelationships()).basicRemove(otherEnd, msgs);
 			case UsagePackage.USAGE_MODEL__OPERATION_CALL_FREQUENCIES:
 				return ((InternalEList<?>)getOperationCallFrequencies()).basicRemove(otherEnd, msgs);
-			case UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES:
-				return ((InternalEList<?>)getAssemblyConnectorCallFrequencies()).basicRemove(otherEnd, msgs);
+			case UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES:
+				return ((InternalEList<?>)getAssemblyComponentConnectorCallFrequencies()).basicRemove(otherEnd, msgs);
+			case UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES:
+				return ((InternalEList<?>)getSystemProvidedInterfaceDelegationConnectorFrequencies()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -157,8 +183,10 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 				return getCallingRelationships();
 			case UsagePackage.USAGE_MODEL__OPERATION_CALL_FREQUENCIES:
 				return getOperationCallFrequencies();
-			case UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES:
-				return getAssemblyConnectorCallFrequencies();
+			case UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES:
+				return getAssemblyComponentConnectorCallFrequencies();
+			case UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES:
+				return getSystemProvidedInterfaceDelegationConnectorFrequencies();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -180,9 +208,13 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 				getOperationCallFrequencies().clear();
 				getOperationCallFrequencies().addAll((Collection<? extends OperationCallFrequency>)newValue);
 				return;
-			case UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES:
-				getAssemblyConnectorCallFrequencies().clear();
-				getAssemblyConnectorCallFrequencies().addAll((Collection<? extends AssemblyConnectorCallFrequency>)newValue);
+			case UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES:
+				getAssemblyComponentConnectorCallFrequencies().clear();
+				getAssemblyComponentConnectorCallFrequencies().addAll((Collection<? extends AssemblyComponentConnectorCallFrequency>)newValue);
+				return;
+			case UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES:
+				getSystemProvidedInterfaceDelegationConnectorFrequencies().clear();
+				getSystemProvidedInterfaceDelegationConnectorFrequencies().addAll((Collection<? extends SystemProvidedInterfaceDelegationConnectorFrequency>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -202,8 +234,11 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 			case UsagePackage.USAGE_MODEL__OPERATION_CALL_FREQUENCIES:
 				getOperationCallFrequencies().clear();
 				return;
-			case UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES:
-				getAssemblyConnectorCallFrequencies().clear();
+			case UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES:
+				getAssemblyComponentConnectorCallFrequencies().clear();
+				return;
+			case UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES:
+				getSystemProvidedInterfaceDelegationConnectorFrequencies().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -221,8 +256,10 @@ public class UsageModelImpl extends SLAsticModelImpl implements UsageModel {
 				return callingRelationships != null && !callingRelationships.isEmpty();
 			case UsagePackage.USAGE_MODEL__OPERATION_CALL_FREQUENCIES:
 				return operationCallFrequencies != null && !operationCallFrequencies.isEmpty();
-			case UsagePackage.USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES:
-				return assemblyConnectorCallFrequencies != null && !assemblyConnectorCallFrequencies.isEmpty();
+			case UsagePackage.USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES:
+				return assemblyComponentConnectorCallFrequencies != null && !assemblyComponentConnectorCallFrequencies.isEmpty();
+			case UsagePackage.USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES:
+				return systemProvidedInterfaceDelegationConnectorFrequencies != null && !systemProvidedInterfaceDelegationConnectorFrequencies.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

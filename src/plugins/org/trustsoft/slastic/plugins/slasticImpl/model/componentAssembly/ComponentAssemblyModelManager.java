@@ -4,7 +4,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
@@ -32,7 +32,7 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 		super(componentAssemblyModel);
 		this.typeRepositoryModelManager = typeRepositoryManager;
 		this.assemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
-		this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyConnectors(), this.typeRepositoryModelManager);
+		this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyComponentConnectors(), this.typeRepositoryModelManager);
 	}
 
 	@Override
@@ -53,35 +53,35 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(final String fullyQualifiedName) {
+	public AssemblyComponentConnector lookupAssemblyConnector(final String fullyQualifiedName) {
 		return this.assemblyConnectorsManager.lookupAssemblyConnector(fullyQualifiedName);
 	}
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(final long id) {
+	public AssemblyComponentConnector lookupAssemblyConnector(final long id) {
 		return this.assemblyConnectorsManager.lookupAssemblyConnector(id);
 	}
 
 	@Override
-	public AssemblyConnector createAndRegisterAssemblyConnector(
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
 			final String fullyQualifiedName,
 			final ConnectorType connectorType) {
 		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName, connectorType);
 	}
 
 	@Override
-	public AssemblyConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType) {
 		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(connectorType);
 	}
 
 	@Override
-	public boolean connect(final AssemblyConnector assemblyConnector, final AssemblyComponent requiringComponent,
+	public boolean connect(final AssemblyComponentConnector assemblyConnector, final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent) {
 		return this.assemblyConnectorsManager.connect(assemblyConnector, requiringComponent, providingComponent);
 	}
 
 	@Override
-	public AssemblyConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent, final Signature signature) {
 		return this.assemblyConnectorsManager
 				.lookupAssemblyConnector(requiringComponent, providingComponent, signature);

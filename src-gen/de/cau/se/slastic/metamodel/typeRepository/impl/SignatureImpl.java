@@ -8,27 +8,20 @@ package de.cau.se.slastic.metamodel.typeRepository.impl;
 
 import de.cau.se.slastic.metamodel.core.impl.NamedEntityImpl;
 
-import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->

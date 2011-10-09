@@ -59,7 +59,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
+
 import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -265,8 +267,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentType_Operations() {
-		return (EReference)componentTypeEClass.getEStructuralFeatures().get(2);
+	public EReference getComponentType_RequiredInterfaces() {
+		return (EReference)componentTypeEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -274,8 +276,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentType_RequiredInterfaces() {
-		return (EReference)componentTypeEClass.getEStructuralFeatures().get(1);
+	public EReference getComponentType_Operations() {
+		return (EReference)componentTypeEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -337,8 +339,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOperation_ComponentType() {
-		return (EReference)operationEClass.getEStructuralFeatures().get(1);
+	public EReference getOperation_Signature() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -346,8 +348,8 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getOperation_Signature() {
-		return (EReference)operationEClass.getEStructuralFeatures().get(0);
+	public EReference getOperation_ComponentType() {
+		return (EReference)operationEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -409,15 +411,6 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getTypeRepositoryModel_NetworkLinkTypes() {
-		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getTypeRepositoryModel_ComponentTypes() {
 		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(0);
 	}
@@ -447,6 +440,15 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 */
 	public EReference getTypeRepositoryModel_ConnectorTypes() {
 		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getTypeRepositoryModel_NetworkLinkTypes() {
+		return (EReference)typeRepositoryModelEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**

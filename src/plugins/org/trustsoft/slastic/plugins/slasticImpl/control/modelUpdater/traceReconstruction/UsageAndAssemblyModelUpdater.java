@@ -15,7 +15,7 @@ import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
@@ -158,7 +158,7 @@ public class UsageAndAssemblyModelUpdater {
 					final AssemblyComponent providingComponent = sender.getDeploymentComponent().getAssemblyComponent();
 					final Signature signature = sender.getOperation().getSignature();
 
-					AssemblyConnector connector =
+					AssemblyComponentConnector connector =
 							this.assemblyModelManager.lookupAssemblyConnector(requiringComponent, providingComponent,
 									signature);
 					if (connector == null) {

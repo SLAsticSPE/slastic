@@ -90,13 +90,22 @@ public interface UsagePackage extends EPackage {
 	int USAGE_MODEL__OPERATION_CALL_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Assembly Connector Call Frequencies</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Assembly Component Connector Call Frequencies</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
+	int USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>System Provided Interface Delegation Connector Frequencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -105,7 +114,7 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int USAGE_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
+	int USAGE_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.CallingRelationshipImpl <em>Calling Relationship</em>}' class.
@@ -244,7 +253,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getAssemblyConnectorCallFrequency()
 	 * @generated
 	 */
-	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY = 4;
+	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY = 5;
 
 	/**
 	 * The feature id for the '<em><b>Frequency</b></em>' attribute.
@@ -256,22 +265,13 @@ public interface UsagePackage extends EPackage {
 	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY = 0;
 
 	/**
-	 * The feature id for the '<em><b>Assembly Connector</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR = 1;
-
-	/**
 	 * The feature id for the '<em><b>Signature</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE = 2;
+	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE = 1;
 
 	/**
 	 * The number of structural features of the '<em>Assembly Connector Call Frequency</em>' class.
@@ -280,8 +280,99 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT = 3;
+	int ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT = 2;
 
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyComponentConnectorCallFrequencyImpl <em>Assembly Component Connector Call Frequency</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.AssemblyComponentConnectorCallFrequencyImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getAssemblyComponentConnectorCallFrequency()
+	 * @generated
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY = 4;
+
+	/**
+	 * The feature id for the '<em><b>Frequency</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY__FREQUENCY = ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY;
+
+	/**
+	 * The feature id for the '<em><b>Signature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY__SIGNATURE = ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE;
+
+	/**
+	 * The feature id for the '<em><b>Connector</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY__CONNECTOR = ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Assembly Component Connector Call Frequency</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT = ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT + 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.SystemProvidedInterfaceDelegationConnectorFrequencyImpl <em>System Provided Interface Delegation Connector Frequency</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.usage.impl.SystemProvidedInterfaceDelegationConnectorFrequencyImpl
+	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSystemProvidedInterfaceDelegationConnectorFrequency()
+	 * @generated
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY = 6;
+
+	/**
+	 * The feature id for the '<em><b>Frequency</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY__FREQUENCY = ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY;
+
+	/**
+	 * The feature id for the '<em><b>Signature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY__SIGNATURE = ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE;
+
+	/**
+	 * The feature id for the '<em><b>Connector</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY__CONNECTOR = ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>System Provided Interface Delegation Connector Frequency</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY_FEATURE_COUNT = ASSEMBLY_CONNECTOR_CALL_FREQUENCY_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.usage.impl.TraceImpl <em>Trace</em>}' class.
@@ -291,7 +382,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getTrace()
 	 * @generated
 	 */
-	int TRACE = 5;
+	int TRACE = 7;
 
 	/**
 	 * The number of structural features of the '<em>Trace</em>' class.
@@ -310,7 +401,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidTrace()
 	 * @generated
 	 */
-	int VALID_TRACE = 7;
+	int VALID_TRACE = 9;
 
 	/**
 	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
@@ -338,7 +429,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessageTrace()
 	 * @generated
 	 */
-	int MESSAGE_TRACE = 6;
+	int MESSAGE_TRACE = 8;
 
 	/**
 	 * The feature id for the '<em><b>Trace Id</b></em>' attribute.
@@ -384,7 +475,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getMessage()
 	 * @generated
 	 */
-	int MESSAGE = 8;
+	int MESSAGE = 10;
 
 	/**
 	 * The feature id for the '<em><b>Sender</b></em>' reference.
@@ -430,7 +521,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
 	 * @generated
 	 */
-	int EXECUTION_TRACE = 10;
+	int EXECUTION_TRACE = 12;
 
 	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
@@ -458,7 +549,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getValidExecutionTrace()
 	 * @generated
 	 */
-	int VALID_EXECUTION_TRACE = 9;
+	int VALID_EXECUTION_TRACE = 11;
 
 	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
@@ -504,7 +595,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidTrace()
 	 * @generated
 	 */
-	int INVALID_TRACE = 11;
+	int INVALID_TRACE = 13;
 
 	/**
 	 * The number of structural features of the '<em>Invalid Trace</em>' class.
@@ -523,7 +614,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getInvalidExecutionTrace()
 	 * @generated
 	 */
-	int INVALID_EXECUTION_TRACE = 12;
+	int INVALID_EXECUTION_TRACE = 14;
 
 	/**
 	 * The feature id for the '<em><b>Operation Executions</b></em>' reference list.
@@ -560,7 +651,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousCallMessage()
 	 * @generated
 	 */
-	int SYNCHRONOUS_CALL_MESSAGE = 13;
+	int SYNCHRONOUS_CALL_MESSAGE = 15;
 
 	/**
 	 * The feature id for the '<em><b>Sender</b></em>' reference.
@@ -606,7 +697,7 @@ public interface UsagePackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSynchronousReplyMessage()
 	 * @generated
 	 */
-	int SYNCHRONOUS_REPLY_MESSAGE = 14;
+	int SYNCHRONOUS_REPLY_MESSAGE = 16;
 
 	/**
 	 * The feature id for the '<em><b>Sender</b></em>' reference.
@@ -678,15 +769,26 @@ public interface UsagePackage extends EPackage {
 	EReference getUsageModel_OperationCallFrequencies();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyConnectorCallFrequencies <em>Assembly Connector Call Frequencies</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyComponentConnectorCallFrequencies <em>Assembly Component Connector Call Frequencies</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Assembly Connector Call Frequencies</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyConnectorCallFrequencies()
+	 * @return the meta object for the containment reference list '<em>Assembly Component Connector Call Frequencies</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.UsageModel#getAssemblyComponentConnectorCallFrequencies()
 	 * @see #getUsageModel()
 	 * @generated
 	 */
-	EReference getUsageModel_AssemblyConnectorCallFrequencies();
+	EReference getUsageModel_AssemblyComponentConnectorCallFrequencies();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.usage.UsageModel#getSystemProvidedInterfaceDelegationConnectorFrequencies <em>System Provided Interface Delegation Connector Frequencies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>System Provided Interface Delegation Connector Frequencies</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.UsageModel#getSystemProvidedInterfaceDelegationConnectorFrequencies()
+	 * @see #getUsageModel()
+	 * @generated
+	 */
+	EReference getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.CallingRelationship <em>Calling Relationship</em>}'.
@@ -807,6 +909,27 @@ public interface UsagePackage extends EPackage {
 	EReference getOperationCallFrequency_Operation();
 
 	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency <em>Assembly Component Connector Call Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Assembly Component Connector Call Frequency</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency
+	 * @generated
+	 */
+	EClass getAssemblyComponentConnectorCallFrequency();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency#getConnector <em>Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency#getConnector()
+	 * @see #getAssemblyComponentConnectorCallFrequency()
+	 * @generated
+	 */
+	EReference getAssemblyComponentConnectorCallFrequency_Connector();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency <em>Assembly Connector Call Frequency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -828,17 +951,6 @@ public interface UsagePackage extends EPackage {
 	EAttribute getAssemblyConnectorCallFrequency_Frequency();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Assembly Connector</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector()
-	 * @see #getAssemblyConnectorCallFrequency()
-	 * @generated
-	 */
-	EReference getAssemblyConnectorCallFrequency_AssemblyConnector();
-
-	/**
 	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -848,6 +960,27 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAssemblyConnectorCallFrequency_Signature();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency <em>System Provided Interface Delegation Connector Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>System Provided Interface Delegation Connector Frequency</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency
+	 * @generated
+	 */
+	EClass getSystemProvidedInterfaceDelegationConnectorFrequency();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency#getConnector <em>Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency#getConnector()
+	 * @see #getSystemProvidedInterfaceDelegationConnectorFrequency()
+	 * @generated
+	 */
+	EReference getSystemProvidedInterfaceDelegationConnectorFrequency_Connector();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.Trace <em>Trace</em>}'.
@@ -956,27 +1089,6 @@ public interface UsagePackage extends EPackage {
 	EReference getMessage_Receiver();
 
 	/**
-	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Execution Trace</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
-	 * @generated
-	 */
-	EClass getExecutionTrace();
-
-	/**
-	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions <em>Operation Executions</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Operation Executions</em>'.
-	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions()
-	 * @see #getExecutionTrace()
-	 * @generated
-	 */
-	EReference getExecutionTrace_OperationExecutions();
-
-	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace <em>Valid Execution Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -996,6 +1108,27 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getValidExecutionTrace_MessageTrace();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Execution Trace</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
+	 * @generated
+	 */
+	EClass getExecutionTrace();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions <em>Operation Executions</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Operation Executions</em>'.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions()
+	 * @see #getExecutionTrace()
+	 * @generated
+	 */
+	EReference getExecutionTrace_OperationExecutions();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.usage.InvalidTrace <em>Invalid Trace</em>}'.
@@ -1097,12 +1230,20 @@ public interface UsagePackage extends EPackage {
 		EReference USAGE_MODEL__OPERATION_CALL_FREQUENCIES = eINSTANCE.getUsageModel_OperationCallFrequencies();
 
 		/**
-		 * The meta object literal for the '<em><b>Assembly Connector Call Frequencies</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Assembly Component Connector Call Frequencies</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES = eINSTANCE.getUsageModel_AssemblyConnectorCallFrequencies();
+		EReference USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES = eINSTANCE.getUsageModel_AssemblyComponentConnectorCallFrequencies();
+
+		/**
+		 * The meta object literal for the '<em><b>System Provided Interface Delegation Connector Frequencies</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES = eINSTANCE.getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.CallingRelationshipImpl <em>Calling Relationship</em>}' class.
@@ -1199,6 +1340,24 @@ public interface UsagePackage extends EPackage {
 		EReference OPERATION_CALL_FREQUENCY__OPERATION = eINSTANCE.getOperationCallFrequency_Operation();
 
 		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyComponentConnectorCallFrequencyImpl <em>Assembly Component Connector Call Frequency</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.AssemblyComponentConnectorCallFrequencyImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getAssemblyComponentConnectorCallFrequency()
+		 * @generated
+		 */
+		EClass ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY = eINSTANCE.getAssemblyComponentConnectorCallFrequency();
+
+		/**
+		 * The meta object literal for the '<em><b>Connector</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY__CONNECTOR = eINSTANCE.getAssemblyComponentConnectorCallFrequency_Connector();
+
+		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl <em>Assembly Connector Call Frequency</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1217,20 +1376,30 @@ public interface UsagePackage extends EPackage {
 		EAttribute ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY = eINSTANCE.getAssemblyConnectorCallFrequency_Frequency();
 
 		/**
-		 * The meta object literal for the '<em><b>Assembly Connector</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR = eINSTANCE.getAssemblyConnectorCallFrequency_AssemblyConnector();
-
-		/**
 		 * The meta object literal for the '<em><b>Signature</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EReference ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE = eINSTANCE.getAssemblyConnectorCallFrequency_Signature();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.SystemProvidedInterfaceDelegationConnectorFrequencyImpl <em>System Provided Interface Delegation Connector Frequency</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.SystemProvidedInterfaceDelegationConnectorFrequencyImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getSystemProvidedInterfaceDelegationConnectorFrequency()
+		 * @generated
+		 */
+		EClass SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY = eINSTANCE.getSystemProvidedInterfaceDelegationConnectorFrequency();
+
+		/**
+		 * The meta object literal for the '<em><b>Connector</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY__CONNECTOR = eINSTANCE.getSystemProvidedInterfaceDelegationConnectorFrequency_Connector();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.TraceImpl <em>Trace</em>}' class.
@@ -1321,24 +1490,6 @@ public interface UsagePackage extends EPackage {
 		EReference MESSAGE__RECEIVER = eINSTANCE.getMessage_Receiver();
 
 		/**
-		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl <em>Execution Trace</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl
-		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
-		 * @generated
-		 */
-		EClass EXECUTION_TRACE = eINSTANCE.getExecutionTrace();
-
-		/**
-		 * The meta object literal for the '<em><b>Operation Executions</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference EXECUTION_TRACE__OPERATION_EXECUTIONS = eINSTANCE.getExecutionTrace_OperationExecutions();
-
-		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ValidExecutionTraceImpl <em>Valid Execution Trace</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1355,6 +1506,24 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EReference VALID_EXECUTION_TRACE__MESSAGE_TRACE = eINSTANCE.getValidExecutionTrace_MessageTrace();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl <em>Execution Trace</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.usage.impl.ExecutionTraceImpl
+		 * @see de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl#getExecutionTrace()
+		 * @generated
+		 */
+		EClass EXECUTION_TRACE = eINSTANCE.getExecutionTrace();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation Executions</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference EXECUTION_TRACE__OPERATION_EXECUTIONS = eINSTANCE.getExecutionTrace_OperationExecutions();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.usage.impl.InvalidTraceImpl <em>Invalid Trace</em>}' class.

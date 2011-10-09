@@ -24,7 +24,6 @@ package de.cau.se.slastic.metamodel.usage;
  * @generated
  */
 public interface ValidTrace extends Trace {
-
 	/**
 	 * Returns the value of the '<em><b>Trace Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,4 +49,5 @@ public interface ValidTrace extends Trace {
 	 * @generated
 	 */
 	void setTraceId(long value);
+
 } // ValidTrace

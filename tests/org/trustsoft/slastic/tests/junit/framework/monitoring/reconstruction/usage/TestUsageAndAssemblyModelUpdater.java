@@ -22,7 +22,7 @@ import org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.exa
 import com.espertech.esper.client.EPServiceProvider;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
@@ -135,7 +135,7 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 		// Some tests on the assembly model
 		Assert.assertEquals("Unexpected number of providing connectors for CRM assembly",
 				1, crmAssembly.getProvidingConnectors().size());
-		final AssemblyConnector asmConnect_crm_catalog = crmAssembly.getProvidingConnectors().get(0);
+		final AssemblyComponentConnector asmConnect_crm_catalog = crmAssembly.getProvidingConnectors().get(0);
 		Assert.assertEquals("Unexpected interface of asmConnect_crm_catalog",
 				catalogInterface, asmConnect_crm_catalog.getConnectorType().getInterface());
 		Assert.assertSame("Incomplete assembly of crm with connector asmConnect_crm_catalog", 
@@ -146,7 +146,7 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 				catalogAssembly.getRequiringConnectors().contains(asmConnect_crm_catalog));
 		Assert.assertEquals("Unexpected number of requiring connectors for CRM assembly",
 				1, crmAssembly.getRequiringConnectors().size());
-		final AssemblyConnector asmConnect_bookstore_crm = crmAssembly.getRequiringConnectors().get(0);
+		final AssemblyComponentConnector asmConnect_bookstore_crm = crmAssembly.getRequiringConnectors().get(0);
 		Assert.assertEquals("Unexpected interface of asmConnect_bookstore_crm",
 				crmInterface, asmConnect_bookstore_crm.getConnectorType().getInterface());
 		Assert.assertSame("Incomplete assembly of crm with connector asmConnect_bookstore_crm", 
@@ -175,8 +175,8 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 				bookstoreAssembly.getProvidingConnectors().contains(asmConnect_bookstore_crm));
 		Assert.assertSame("Incomplete assembly of bookstore with connector asmConnect_bookstore_crm", 
 				bookstoreAssembly, asmConnect_bookstore_crm.getRequiringComponent());
-		AssemblyConnector asmConnect_bookstore_catalog = null;
-		for (final AssemblyConnector c : bookstoreAssembly.getProvidingConnectors()) {
+		AssemblyComponentConnector asmConnect_bookstore_catalog = null;
+		for (final AssemblyComponentConnector c : bookstoreAssembly.getProvidingConnectors()) {
 			if (!c.equals(asmConnect_bookstore_crm)) {
 				asmConnect_bookstore_catalog = c;
 			}

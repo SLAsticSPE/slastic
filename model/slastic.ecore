@@ -231,25 +231,56 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ComponentType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="providingConnectors"
-          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyConnector"
-          eOpposite="#//componentAssembly/AssemblyConnector/requiringComponent"/>
+          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyComponentConnector"
+          eOpposite="#//componentAssembly/AssemblyComponentConnector/requiringComponent"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiringConnectors"
-          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyConnector"
-          eOpposite="#//componentAssembly/AssemblyConnector/providingComponent"/>
+          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyComponentConnector"
+          eOpposite="#//componentAssembly/AssemblyComponentConnector/providingComponent"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" eSuperTypes="#//core/FQNamedEntity">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
-          lowerBound="1" eType="#//typeRepository/ConnectorType"/>
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyComponentConnector" eSuperTypes="#//core/FQNamedEntity #//componentAssembly/AssemblyConnector">
       <eStructuralFeatures xsi:type="ecore:EReference" name="providingComponent" ordered="false"
           lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/requiringConnectors"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiringComponent" ordered="false"
           lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/providingConnectors"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
+          lowerBound="1" eType="#//typeRepository/ConnectorType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemInterfaceDelegationConnector"
+        abstract="true" eSuperTypes="#//componentAssembly/AssemblyConnector"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemProvidedInterfaceDelegationConnector"
+        eSuperTypes="#//componentAssembly/SystemInterfaceDelegationConnector">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="providingComponent" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentAssemblyModel"
+          ordered="false" lowerBound="1" eType="#//componentAssembly/ComponentAssemblyModel"
+          eOpposite="#//componentAssembly/ComponentAssemblyModel/systemProvidedInterfaceDelegationConnectors"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemRequiredInterfaceDelegationConnector"
+        eSuperTypes="#//componentAssembly/SystemInterfaceDelegationConnector">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requiringComponent" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="componentAssemblyModel"
+          ordered="false" lowerBound="1" eType="#//componentAssembly/ComponentAssemblyModel"
+          eOpposite="#//componentAssembly/ComponentAssemblyModel/systemRequiredInterfaceDelegationConnectors"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ComponentAssemblyModel" eSuperTypes="#//core/SLAsticModel">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemProvidedInterfaceDelegationConnectors"
+          ordered="false" lowerBound="1" upperBound="-1" eType="#//componentAssembly/SystemProvidedInterfaceDelegationConnector"
+          containment="true" eOpposite="#//componentAssembly/SystemProvidedInterfaceDelegationConnector/componentAssemblyModel"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemRequiredInterfaceDelegationConnectors"
+          ordered="false" upperBound="-1" eType="#//componentAssembly/SystemRequiredInterfaceDelegationConnector"
+          containment="true" eOpposite="#//componentAssembly/SystemRequiredInterfaceDelegationConnector/componentAssemblyModel"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponents" ordered="false"
           upperBound="-1" eType="#//componentAssembly/AssemblyComponent" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnectors" ordered="false"
-          upperBound="-1" eType="#//componentAssembly/AssemblyConnector" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponentConnectors"
+          ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyComponentConnector"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemProvidedInterfaces"
+          ordered="false" lowerBound="1" upperBound="-1" eType="#//typeRepository/Interface"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemRequiredInterfaces"
+          ordered="false" upperBound="-1" eType="#//typeRepository/Interface"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="componentDeployment" nsURI="http:///metamodel/componentDeployment.ecore"
@@ -291,7 +322,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ConnectorOperationExecution" eSuperTypes="#//monitoring/OperationExecution">
       <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnector" ordered="false"
-          lowerBound="1" eType="#//componentAssembly/AssemblyConnector"/>
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponentConnector"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainer" ordered="false"
           lowerBound="1" eType="#//executionEnvironment/ExecutionContainer"/>
     </eClassifiers>
@@ -426,8 +457,11 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="operationCallFrequencies"
           ordered="false" upperBound="-1" eType="#//usage/OperationCallFrequency"
           containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnectorCallFrequencies"
-          ordered="false" upperBound="-1" eType="#//usage/AssemblyConnectorCallFrequency"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyComponentConnectorCallFrequencies"
+          ordered="false" upperBound="-1" eType="#//usage/AssemblyComponentConnectorCallFrequency"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemProvidedInterfaceDelegationConnectorFrequencies"
+          ordered="false" upperBound="-1" eType="#//usage/SystemProvidedInterfaceDelegationConnectorFrequency"
           containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CallingRelationship">
@@ -452,13 +486,21 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="operation" ordered="false"
           lowerBound="1" eType="#//typeRepository/Operation"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnectorCallFrequency">
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyComponentConnectorCallFrequency"
+        eSuperTypes="#//usage/AssemblyConnectorCallFrequency">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connector" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/AssemblyComponentConnector"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnectorCallFrequency" abstract="true">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" ordered="false"
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="assemblyConnector" ordered="false"
-          lowerBound="1" eType="#//componentAssembly/AssemblyConnector"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="signature" ordered="false"
           lowerBound="1" eType="#//typeRepository/Signature"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemProvidedInterfaceDelegationConnectorFrequency"
+        eSuperTypes="#//usage/AssemblyConnectorCallFrequency">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connector" ordered="false"
+          lowerBound="1" eType="#//componentAssembly/SystemProvidedInterfaceDelegationConnector"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Trace" abstract="true"/>
     <eClassifiers xsi:type="ecore:EClass" name="MessageTrace" eSuperTypes="#//usage/ValidTrace">

@@ -217,16 +217,6 @@ public interface CorePackage extends EPackage {
 	int FQ_NAMED_ENTITY_FEATURE_COUNT = NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
-	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl <em>SL Astic Model</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl
-	 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getSLAsticModel()
-	 * @generated
-	 */
-	int SL_ASTIC_MODEL = 5;
-
-	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.core.IEvent <em>IEvent</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -244,6 +234,16 @@ public interface CorePackage extends EPackage {
 	 * @ordered
 	 */
 	int IEVENT_FEATURE_COUNT = KIEKER_ANALYSIS_EVENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl <em>SL Astic Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl
+	 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getSLAsticModel()
+	 * @generated
+	 */
+	int SL_ASTIC_MODEL = 5;
 
 	/**
 	 * The number of structural features of the '<em>SL Astic Model</em>' class.
@@ -395,16 +395,6 @@ public interface CorePackage extends EPackage {
 	EAttribute getFQNamedEntity_PackageName();
 
 	/**
-	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.core.SLAsticModel <em>SL Astic Model</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>SL Astic Model</em>'.
-	 * @see de.cau.se.slastic.metamodel.core.SLAsticModel
-	 * @generated
-	 */
-	EClass getSLAsticModel();
-
-	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.core.IEvent <em>IEvent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -413,6 +403,16 @@ public interface CorePackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIEvent();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.core.SLAsticModel <em>SL Astic Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>SL Astic Model</em>'.
+	 * @see de.cau.se.slastic.metamodel.core.SLAsticModel
+	 * @generated
+	 */
+	EClass getSLAsticModel();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.core.SystemModel <em>System Model</em>}'.
@@ -563,16 +563,6 @@ public interface CorePackage extends EPackage {
 		EAttribute FQ_NAMED_ENTITY__PACKAGE_NAME = eINSTANCE.getFQNamedEntity_PackageName();
 
 		/**
-		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl <em>SL Astic Model</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl
-		 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getSLAsticModel()
-		 * @generated
-		 */
-		EClass SL_ASTIC_MODEL = eINSTANCE.getSLAsticModel();
-
-		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.core.IEvent <em>IEvent</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -581,6 +571,16 @@ public interface CorePackage extends EPackage {
 		 * @generated
 		 */
 		EClass IEVENT = eINSTANCE.getIEvent();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl <em>SL Astic Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.core.impl.SLAsticModelImpl
+		 * @see de.cau.se.slastic.metamodel.core.impl.CorePackageImpl#getSLAsticModel()
+		 * @generated
+		 */
+		EClass SL_ASTIC_MODEL = eINSTANCE.getSLAsticModel();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.core.impl.SystemModelImpl <em>System Model</em>}' class.

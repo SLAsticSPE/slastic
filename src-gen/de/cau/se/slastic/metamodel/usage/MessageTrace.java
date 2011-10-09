@@ -8,7 +8,6 @@ package de.cau.se.slastic.metamodel.usage;
 
 import org.eclipse.emf.common.util.EList;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Message Trace</b></em>'.
@@ -32,7 +31,7 @@ public interface MessageTrace extends ValidTrace {
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.usage.Message}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Messages</em>' reference isn't clear,
+	 * If the meaning of the '<em>Messages</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->

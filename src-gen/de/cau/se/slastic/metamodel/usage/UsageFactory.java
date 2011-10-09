@@ -62,13 +62,22 @@ public interface UsageFactory extends EFactory {
 	OperationCallFrequency createOperationCallFrequency();
 
 	/**
-	 * Returns a new object of class '<em>Assembly Connector Call Frequency</em>'.
+	 * Returns a new object of class '<em>Assembly Component Connector Call Frequency</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Assembly Connector Call Frequency</em>'.
+	 * @return a new object of class '<em>Assembly Component Connector Call Frequency</em>'.
 	 * @generated
 	 */
-	AssemblyConnectorCallFrequency createAssemblyConnectorCallFrequency();
+	AssemblyComponentConnectorCallFrequency createAssemblyComponentConnectorCallFrequency();
+
+	/**
+	 * Returns a new object of class '<em>System Provided Interface Delegation Connector Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>System Provided Interface Delegation Connector Frequency</em>'.
+	 * @generated
+	 */
+	SystemProvidedInterfaceDelegationConnectorFrequency createSystemProvidedInterfaceDelegationConnectorFrequency();
 
 	/**
 	 * Returns a new object of class '<em>Message Trace</em>'.

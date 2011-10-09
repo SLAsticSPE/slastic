@@ -6,11 +6,7 @@
  */
 package de.cau.se.slastic.metamodel.usage;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
-
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -23,13 +19,12 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * <ul>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getFrequency <em>Frequency</em>}</li>
- *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getSignature <em>Signature</em>}</li>
  * </ul>
  * </p>
  *
  * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getAssemblyConnectorCallFrequency()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface AssemblyConnectorCallFrequency extends EObject {
@@ -58,32 +53,6 @@ public interface AssemblyConnectorCallFrequency extends EObject {
 	 * @generated
 	 */
 	void setFrequency(long value);
-
-	/**
-	 * Returns the value of the '<em><b>Assembly Connector</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Assembly Connector</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Assembly Connector</em>' reference.
-	 * @see #setAssemblyConnector(AssemblyConnector)
-	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getAssemblyConnectorCallFrequency_AssemblyConnector()
-	 * @model required="true" ordered="false"
-	 * @generated
-	 */
-	AssemblyConnector getAssemblyConnector();
-
-	/**
-	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency#getAssemblyConnector <em>Assembly Connector</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Assembly Connector</em>' reference.
-	 * @see #getAssemblyConnector()
-	 * @generated
-	 */
-	void setAssemblyConnector(AssemblyConnector value);
 
 	/**
 	 * Returns the value of the '<em><b>Signature</b></em>' reference.

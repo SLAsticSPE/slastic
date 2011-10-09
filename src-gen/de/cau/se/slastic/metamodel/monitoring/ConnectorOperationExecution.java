@@ -6,7 +6,7 @@
  */
 package de.cau.se.slastic.metamodel.monitoring;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 
@@ -37,12 +37,12 @@ public interface ConnectorOperationExecution extends OperationExecution {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Assembly Connector</em>' reference.
-	 * @see #setAssemblyConnector(AssemblyConnector)
+	 * @see #setAssemblyConnector(AssemblyComponentConnector)
 	 * @see de.cau.se.slastic.metamodel.monitoring.MonitoringPackage#getConnectorOperationExecution_AssemblyConnector()
 	 * @model required="true" ordered="false"
 	 * @generated
 	 */
-	AssemblyConnector getAssemblyConnector();
+	AssemblyComponentConnector getAssemblyConnector();
 
 	/**
 	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.monitoring.ConnectorOperationExecution#getAssemblyConnector <em>Assembly Connector</em>}' reference.
@@ -52,7 +52,7 @@ public interface ConnectorOperationExecution extends OperationExecution {
 	 * @see #getAssemblyConnector()
 	 * @generated
 	 */
-	void setAssemblyConnector(AssemblyConnector value);
+	void setAssemblyConnector(AssemblyComponentConnector value);
 
 	/**
 	 * Returns the value of the '<em><b>Execution Container</b></em>' reference.

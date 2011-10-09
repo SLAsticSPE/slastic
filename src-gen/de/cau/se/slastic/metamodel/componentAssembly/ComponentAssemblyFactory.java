@@ -35,13 +35,31 @@ public interface ComponentAssemblyFactory extends EFactory {
 	AssemblyComponent createAssemblyComponent();
 
 	/**
-	 * Returns a new object of class '<em>Assembly Connector</em>'.
+	 * Returns a new object of class '<em>Assembly Component Connector</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Assembly Connector</em>'.
+	 * @return a new object of class '<em>Assembly Component Connector</em>'.
 	 * @generated
 	 */
-	AssemblyConnector createAssemblyConnector();
+	AssemblyComponentConnector createAssemblyComponentConnector();
+
+	/**
+	 * Returns a new object of class '<em>System Provided Interface Delegation Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>System Provided Interface Delegation Connector</em>'.
+	 * @generated
+	 */
+	SystemProvidedInterfaceDelegationConnector createSystemProvidedInterfaceDelegationConnector();
+
+	/**
+	 * Returns a new object of class '<em>System Required Interface Delegation Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>System Required Interface Delegation Connector</em>'.
+	 * @generated
+	 */
+	SystemRequiredInterfaceDelegationConnector createSystemRequiredInterfaceDelegationConnector();
 
 	/**
 	 * Returns a new object of class '<em>Model</em>'.

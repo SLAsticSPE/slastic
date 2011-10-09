@@ -57,7 +57,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
+
 import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -620,7 +622,7 @@ public class MonitoringPackageImpl extends EPackageImpl implements MonitoringPac
 		initEReference(getDeploymentComponentOperationExecution_Operation(), theTypeRepositoryPackage.getOperation(), null, "operation", null, 1, 1, DeploymentComponentOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(connectorOperationExecutionEClass, ConnectorOperationExecution.class, "ConnectorOperationExecution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getConnectorOperationExecution_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnector", null, 1, 1, ConnectorOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getConnectorOperationExecution_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyComponentConnector(), null, "assemblyConnector", null, 1, 1, ConnectorOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getConnectorOperationExecution_ExecutionContainer(), theExecutionEnvironmentPackage.getExecutionContainer(), null, "executionContainer", null, 1, 1, ConnectorOperationExecution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(resourceUtilizationEClass, ResourceUtilization.class, "ResourceUtilization", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

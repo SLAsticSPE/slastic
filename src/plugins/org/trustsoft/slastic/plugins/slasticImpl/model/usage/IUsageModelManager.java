@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.usage;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
 
 /**
@@ -12,10 +12,10 @@ public interface IUsageModelManager {
 
 	/**
 	 * Notifies about a call to the {@link Signature} of the given
-	 * {@link AssemblyConnector}.
+	 * {@link AssemblyComponentConnector}.
 	 * 
 	 * @param assemblyConnector
 	 * @param signature
 	 */
-	public void assemblyConnectorCall(final AssemblyConnector assemblyConnector, final Signature signature);
+	public void assemblyConnectorCall(final AssemblyComponentConnector assemblyConnector, final Signature signature);
 }

@@ -9,7 +9,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.Assembl
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
@@ -46,7 +46,7 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors_noName extends
         Assert.assertNotNull("Test invalid: connectorType == null", connectorType);
         
         /* Now, we'll create an assembly connector without providing a name and do some checks on the name */ 
-        final AssemblyConnector assemblyConnector = componentAssemblyModelManager.createAndRegisterAssemblyConnector(connectorType);
+        final AssemblyComponentConnector assemblyConnector = componentAssemblyModelManager.createAndRegisterAssemblyConnector(connectorType);
         final String fqConnectorName = NameUtils.createFQName(assemblyConnector.getPackageName(), assemblyConnector.getName());
         Assert.assertNotNull("Connector name is null!", fqConnectorName);
         Assert.assertTrue("Expecting connector name to start with " + AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX,
@@ -54,7 +54,7 @@ public class TestComponentAssemblyModelManager_AssemblyConnectors_noName extends
         Assert.assertTrue("Connector name should be longer than prefix", fqConnectorName.length()>AssemblyConnectorsManager.ASMCONNECT_NO_NAME_PREFIX.length());
         
         /* Now, we'll perform a lookup */
-        final AssemblyConnector lookedUpConnector = componentAssemblyModelManager.lookupAssemblyConnector(fqConnectorName);
+        final AssemblyComponentConnector lookedUpConnector = componentAssemblyModelManager.lookupAssemblyConnector(fqConnectorName);
         Assert.assertNotNull("Failed to lookup assembly connector with name " + fqConnectorName, lookedUpConnector);
     }
 }

@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
@@ -71,47 +72,6 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ComponentType getComponentType() {
-		if (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE) return null;
-		return (ComponentType)eContainer();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetComponentType(ComponentType newComponentType, NotificationChain msgs) {
-		msgs = eBasicSetContainer((InternalEObject)newComponentType, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, msgs);
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setComponentType(ComponentType newComponentType) {
-		if (newComponentType != eInternalContainer() || (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE && newComponentType != null)) {
-			if (EcoreUtil.isAncestor(this, newComponentType))
-				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
-			NotificationChain msgs = null;
-			if (eInternalContainer() != null)
-				msgs = eBasicRemoveFromContainer(msgs);
-			if (newComponentType != null)
-				msgs = ((InternalEObject)newComponentType).eInverseAdd(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
-			msgs = basicSetComponentType(newComponentType, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, newComponentType, newComponentType));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Signature getSignature() {
 		return signature;
 	}
@@ -148,6 +108,47 @@ public class OperationImpl extends EntityImpl implements Operation {
 		}
 		else if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TypeRepositoryPackage.OPERATION__SIGNATURE, newSignature, newSignature));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ComponentType getComponentType() {
+		if (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE) return null;
+		return (ComponentType)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetComponentType(ComponentType newComponentType, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newComponentType, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setComponentType(ComponentType newComponentType) {
+		if (newComponentType != eInternalContainer() || (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE && newComponentType != null)) {
+			if (EcoreUtil.isAncestor(this, newComponentType))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newComponentType != null)
+				msgs = ((InternalEObject)newComponentType).eInverseAdd(this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, ComponentType.class, msgs);
+			msgs = basicSetComponentType(newComponentType, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE, newComponentType, newComponentType));
 	}
 
 	/**

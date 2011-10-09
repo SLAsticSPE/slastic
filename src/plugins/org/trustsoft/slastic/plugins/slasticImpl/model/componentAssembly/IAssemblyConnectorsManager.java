@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
@@ -21,7 +21,7 @@ public interface IAssemblyConnectorsManager {
 	 *            the fully-qualified name of the assembly connector to lookup
 	 * @return the looked up assembly connector
 	 */
-	public AssemblyConnector lookupAssemblyConnector(final String fullyQualifiedName);
+	public AssemblyComponentConnector lookupAssemblyConnector(final String fullyQualifiedName);
 
 	/**
 	 * Returns the assembly connector with the given id or null if no execution
@@ -31,20 +31,20 @@ public interface IAssemblyConnectorsManager {
 	 *            the id of the assembly connector to lookup
 	 * @return the looked up assembly connector
 	 */
-	public AssemblyConnector lookupAssemblyConnector(final long id);
+	public AssemblyComponentConnector lookupAssemblyConnector(final long id);
 
 	/**
-	 * Returns the {@link AssemblyConnector} which connects the two given
+	 * Returns the {@link AssemblyComponentConnector} which connects the two given
 	 * {@link AssemblyComponent}s and whose {@link Interface} declares the given
 	 * {@link Signature}.
 	 * 
 	 * @param requiringComponent
 	 * @param providingComponent
 	 * @param signature
-	 * @return the requested {@link AssemblyConnector} or null if it doesn't
+	 * @return the requested {@link AssemblyComponentConnector} or null if it doesn't
 	 *         exist.
 	 */
-	public AssemblyConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
 			final AssemblyComponent providingComponent, final Signature signature);
 
 	/**
@@ -58,7 +58,7 @@ public interface IAssemblyConnectorsManager {
 	 *             if an assembly connector with the given fully-qualified name
 	 *             has already been registered
 	 */
-	public AssemblyConnector createAndRegisterAssemblyConnector(
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
 			final String fullyQualifiedName,
 			final ConnectorType connectorType);
 
@@ -69,13 +69,13 @@ public interface IAssemblyConnectorsManager {
 	 * @param connectorType
 	 * @return the new assembly connector
 	 */
-	public AssemblyConnector createAndRegisterAssemblyConnector(
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
 			final ConnectorType connectorType);
 
 	/**
 	 * Connects the given {@link AssemblyComponent}s by the given
-	 * {@link AssemblyConnector}. Note that the {@link Interface} corresponding
-	 * to the {@link AssemblyConnector}'s type
+	 * {@link AssemblyComponentConnector}. Note that the {@link Interface} corresponding
+	 * to the {@link AssemblyComponentConnector}'s type
 	 * {@link ConnectorType#getInterface()} must be contained in the requiring
 	 * component's list of required interfaces
 	 * {@link ComponentType#getRequiredInterfaces()} and in the providing
@@ -87,6 +87,6 @@ public interface IAssemblyConnectorsManager {
 	 * @param providingComponent
 	 * @return true if the connection could successfully be established
 	 */
-	public boolean connect(AssemblyConnector assemblyConnector, AssemblyComponent requiringComponent,
+	public boolean connect(AssemblyComponentConnector assemblyConnector, AssemblyComponent requiringComponent,
 			AssemblyComponent providingComponent);
 }

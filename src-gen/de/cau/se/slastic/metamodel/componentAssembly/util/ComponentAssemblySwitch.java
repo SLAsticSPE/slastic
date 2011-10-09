@@ -101,12 +101,42 @@ public class ComponentAssemblySwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR: {
+				AssemblyComponentConnector assemblyComponentConnector = (AssemblyComponentConnector)theEObject;
+				T result = caseAssemblyComponentConnector(assemblyComponentConnector);
+				if (result == null) result = caseFQNamedEntity(assemblyComponentConnector);
+				if (result == null) result = caseAssemblyConnector(assemblyComponentConnector);
+				if (result == null) result = caseNamedEntity(assemblyComponentConnector);
+				if (result == null) result = caseEntity(assemblyComponentConnector);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR: {
 				AssemblyConnector assemblyConnector = (AssemblyConnector)theEObject;
 				T result = caseAssemblyConnector(assemblyConnector);
-				if (result == null) result = caseFQNamedEntity(assemblyConnector);
-				if (result == null) result = caseNamedEntity(assemblyConnector);
-				if (result == null) result = caseEntity(assemblyConnector);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentAssemblyPackage.SYSTEM_INTERFACE_DELEGATION_CONNECTOR: {
+				SystemInterfaceDelegationConnector systemInterfaceDelegationConnector = (SystemInterfaceDelegationConnector)theEObject;
+				T result = caseSystemInterfaceDelegationConnector(systemInterfaceDelegationConnector);
+				if (result == null) result = caseAssemblyConnector(systemInterfaceDelegationConnector);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentAssemblyPackage.SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR: {
+				SystemProvidedInterfaceDelegationConnector systemProvidedInterfaceDelegationConnector = (SystemProvidedInterfaceDelegationConnector)theEObject;
+				T result = caseSystemProvidedInterfaceDelegationConnector(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = caseSystemInterfaceDelegationConnector(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = caseAssemblyConnector(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ComponentAssemblyPackage.SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR: {
+				SystemRequiredInterfaceDelegationConnector systemRequiredInterfaceDelegationConnector = (SystemRequiredInterfaceDelegationConnector)theEObject;
+				T result = caseSystemRequiredInterfaceDelegationConnector(systemRequiredInterfaceDelegationConnector);
+				if (result == null) result = caseSystemInterfaceDelegationConnector(systemRequiredInterfaceDelegationConnector);
+				if (result == null) result = caseAssemblyConnector(systemRequiredInterfaceDelegationConnector);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -137,6 +167,21 @@ public class ComponentAssemblySwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Assembly Component Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assembly Component Connector</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssemblyComponentConnector(AssemblyComponentConnector object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Assembly Connector</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -148,6 +193,51 @@ public class ComponentAssemblySwitch<T> {
 	 * @generated
 	 */
 	public T caseAssemblyConnector(AssemblyConnector object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>System Interface Delegation Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>System Interface Delegation Connector</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSystemInterfaceDelegationConnector(SystemInterfaceDelegationConnector object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>System Provided Interface Delegation Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>System Provided Interface Delegation Connector</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSystemProvidedInterfaceDelegationConnector(SystemProvidedInterfaceDelegationConnector object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>System Required Interface Delegation Connector</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>System Required Interface Delegation Connector</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSystemRequiredInterfaceDelegationConnector(SystemRequiredInterfaceDelegationConnector object) {
 		return null;
 	}
 

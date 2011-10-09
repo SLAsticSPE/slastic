@@ -24,7 +24,6 @@ package de.cau.se.slastic.metamodel.usage;
  * @generated
  */
 public interface ValidExecutionTrace extends ExecutionTrace, ValidTrace {
-
 	/**
 	 * Returns the value of the '<em><b>Message Trace</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.usage.MessageTrace#getExecutionTrace <em>Execution Trace</em>}'.
@@ -52,4 +51,5 @@ public interface ValidExecutionTrace extends ExecutionTrace, ValidTrace {
 	 * @generated
 	 */
 	void setMessageTrace(MessageTrace value);
+
 } // ValidExecutionTrace

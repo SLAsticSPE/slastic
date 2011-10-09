@@ -16,14 +16,14 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -108,11 +108,11 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Operation> getOperations() {
-		if (operations == null) {
-			operations = new EObjectContainmentWithInverseEList<Operation>(Operation.class, this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE);
+	public EList<Interface> getRequiredInterfaces() {
+		if (requiredInterfaces == null) {
+			requiredInterfaces = new EObjectResolvingEList<Interface>(Interface.class, this, TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES);
 		}
-		return operations;
+		return requiredInterfaces;
 	}
 
 	/**
@@ -120,11 +120,11 @@ public class ComponentTypeImpl extends FQNamedEntityImpl implements ComponentTyp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Interface> getRequiredInterfaces() {
-		if (requiredInterfaces == null) {
-			requiredInterfaces = new EObjectResolvingEList<Interface>(Interface.class, this, TypeRepositoryPackage.COMPONENT_TYPE__REQUIRED_INTERFACES);
+	public EList<Operation> getOperations() {
+		if (operations == null) {
+			operations = new EObjectContainmentWithInverseEList<Operation>(Operation.class, this, TypeRepositoryPackage.COMPONENT_TYPE__OPERATIONS, TypeRepositoryPackage.OPERATION__COMPONENT_TYPE);
 		}
-		return requiredInterfaces;
+		return operations;
 	}
 
 	/**

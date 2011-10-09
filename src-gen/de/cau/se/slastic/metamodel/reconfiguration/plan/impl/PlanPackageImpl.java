@@ -57,7 +57,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
+
 import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;

@@ -9,12 +9,14 @@ package de.cau.se.slastic.metamodel.usage.impl;
 import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
-
 import de.cau.se.slastic.metamodel.usage.ValidTrace;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
@@ -41,6 +43,7 @@ public class ValidExecutionTraceImpl extends ExecutionTraceImpl implements Valid
 	 * @ordered
 	 */
 	protected static final long TRACE_ID_EDEFAULT = 0L;
+
 	/**
 	 * The cached value of the '{@link #getTraceId() <em>Trace Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -50,6 +53,7 @@ public class ValidExecutionTraceImpl extends ExecutionTraceImpl implements Valid
 	 * @ordered
 	 */
 	protected long traceId = TRACE_ID_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getMessageTrace() <em>Message Trace</em>}' reference.
 	 * <!-- begin-user-doc -->

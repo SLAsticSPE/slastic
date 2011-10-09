@@ -33,22 +33,6 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface TypeRepositoryModel extends SLAsticModel {
 	/**
-	 * Returns the value of the '<em><b>Network Link Types</b></em>' containment reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Network Link Types</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Network Link Types</em>' containment reference list.
-	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getTypeRepositoryModel_NetworkLinkTypes()
-	 * @model containment="true" ordered="false"
-	 * @generated
-	 */
-	EList<NetworkLinkType> getNetworkLinkTypes();
-
-	/**
 	 * Returns the value of the '<em><b>Component Types</b></em>' containment reference list.
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.ComponentType}.
 	 * <!-- begin-user-doc -->
@@ -111,6 +95,22 @@ public interface TypeRepositoryModel extends SLAsticModel {
 	 * @generated
 	 */
 	EList<ConnectorType> getConnectorTypes();
+
+	/**
+	 * Returns the value of the '<em><b>Network Link Types</b></em>' containment reference list.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Network Link Types</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Network Link Types</em>' containment reference list.
+	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getTypeRepositoryModel_NetworkLinkTypes()
+	 * @model containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<NetworkLinkType> getNetworkLinkTypes();
 
 	/**
 	 * Returns the value of the '<em><b>Resource Types</b></em>' containment reference list.

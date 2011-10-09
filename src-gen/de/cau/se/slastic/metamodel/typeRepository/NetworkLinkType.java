@@ -19,5 +19,4 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  * @generated
  */
 public interface NetworkLinkType extends FQNamedEntity {
-
 } // NetworkLinkType

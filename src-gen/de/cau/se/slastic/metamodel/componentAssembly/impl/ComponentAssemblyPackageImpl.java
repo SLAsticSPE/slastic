@@ -11,10 +11,14 @@ import de.cau.se.slastic.metamodel.adaptation.AdaptationPackage;
 import de.cau.se.slastic.metamodel.adaptation.impl.AdaptationPackageImpl;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector;
 
 import de.cau.se.slastic.metamodel.componentDeployment.ComponentDeploymentPackage;
 
@@ -53,7 +57,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
+
 import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -79,7 +85,35 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass assemblyComponentConnectorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass assemblyConnectorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass systemInterfaceDelegationConnectorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass systemProvidedInterfaceDelegationConnectorEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass systemRequiredInterfaceDelegationConnectorEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -225,6 +259,33 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAssemblyComponentConnector() {
+		return assemblyComponentConnectorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssemblyComponentConnector_ProvidingComponent() {
+		return (EReference)assemblyComponentConnectorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssemblyComponentConnector_RequiringComponent() {
+		return (EReference)assemblyComponentConnectorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAssemblyConnector() {
 		return assemblyConnectorEClass;
 	}
@@ -243,8 +304,8 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAssemblyConnector_ProvidingComponent() {
-		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(1);
+	public EClass getSystemInterfaceDelegationConnector() {
+		return systemInterfaceDelegationConnectorEClass;
 	}
 
 	/**
@@ -252,8 +313,53 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAssemblyConnector_RequiringComponent() {
-		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(2);
+	public EClass getSystemProvidedInterfaceDelegationConnector() {
+		return systemProvidedInterfaceDelegationConnectorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSystemProvidedInterfaceDelegationConnector_ProvidingComponent() {
+		return (EReference)systemProvidedInterfaceDelegationConnectorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSystemProvidedInterfaceDelegationConnector_ComponentAssemblyModel() {
+		return (EReference)systemProvidedInterfaceDelegationConnectorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getSystemRequiredInterfaceDelegationConnector() {
+		return systemRequiredInterfaceDelegationConnectorEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSystemRequiredInterfaceDelegationConnector_RequiringComponent() {
+		return (EReference)systemRequiredInterfaceDelegationConnectorEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSystemRequiredInterfaceDelegationConnector_ComponentAssemblyModel() {
+		return (EReference)systemRequiredInterfaceDelegationConnectorEClass.getEStructuralFeatures().get(1);
 	}
 
 	/**
@@ -270,7 +376,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentAssemblyModel_AssemblyComponents() {
+	public EReference getComponentAssemblyModel_SystemProvidedInterfaceDelegationConnectors() {
 		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -279,8 +385,44 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getComponentAssemblyModel_AssemblyConnectors() {
+	public EReference getComponentAssemblyModel_SystemRequiredInterfaceDelegationConnectors() {
 		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentAssemblyModel_AssemblyComponents() {
+		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentAssemblyModel_AssemblyComponentConnectors() {
+		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentAssemblyModel_SystemProvidedInterfaces() {
+		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getComponentAssemblyModel_SystemRequiredInterfaces() {
+		return (EReference)componentAssemblyModelEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -316,14 +458,30 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__PROVIDING_CONNECTORS);
 		createEReference(assemblyComponentEClass, ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS);
 
+		assemblyComponentConnectorEClass = createEClass(ASSEMBLY_COMPONENT_CONNECTOR);
+		createEReference(assemblyComponentConnectorEClass, ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT);
+		createEReference(assemblyComponentConnectorEClass, ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT);
+
 		assemblyConnectorEClass = createEClass(ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__CONNECTOR_TYPE);
-		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT);
-		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT);
+
+		systemInterfaceDelegationConnectorEClass = createEClass(SYSTEM_INTERFACE_DELEGATION_CONNECTOR);
+
+		systemProvidedInterfaceDelegationConnectorEClass = createEClass(SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR);
+		createEReference(systemProvidedInterfaceDelegationConnectorEClass, SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__PROVIDING_COMPONENT);
+		createEReference(systemProvidedInterfaceDelegationConnectorEClass, SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL);
+
+		systemRequiredInterfaceDelegationConnectorEClass = createEClass(SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR);
+		createEReference(systemRequiredInterfaceDelegationConnectorEClass, SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__REQUIRING_COMPONENT);
+		createEReference(systemRequiredInterfaceDelegationConnectorEClass, SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL);
 
 		componentAssemblyModelEClass = createEClass(COMPONENT_ASSEMBLY_MODEL);
+		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTORS);
+		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTORS);
 		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS);
-		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_CONNECTORS);
+		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENT_CONNECTORS);
+		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACES);
+		createEReference(componentAssemblyModelEClass, COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACES);
 	}
 
 	/**
@@ -359,23 +517,43 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 
 		// Add supertypes to classes
 		assemblyComponentEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
-		assemblyConnectorEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
+		assemblyComponentConnectorEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
+		assemblyComponentConnectorEClass.getESuperTypes().add(this.getAssemblyConnector());
+		systemInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getAssemblyConnector());
+		systemProvidedInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getSystemInterfaceDelegationConnector());
+		systemRequiredInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getSystemInterfaceDelegationConnector());
 		componentAssemblyModelEClass.getESuperTypes().add(theCorePackage.getSLAsticModel());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(assemblyComponentEClass, AssemblyComponent.class, "AssemblyComponent", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyComponent_ComponentType(), theTypeRepositoryPackage.getComponentType(), null, "componentType", null, 1, 1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyComponent_ProvidingConnectors(), this.getAssemblyConnector(), this.getAssemblyConnector_RequiringComponent(), "providingConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyComponent_RequiringConnectors(), this.getAssemblyConnector(), this.getAssemblyConnector_ProvidingComponent(), "requiringConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponent_ProvidingConnectors(), this.getAssemblyComponentConnector(), this.getAssemblyComponentConnector_RequiringComponent(), "providingConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponent_RequiringConnectors(), this.getAssemblyComponentConnector(), this.getAssemblyComponentConnector_ProvidingComponent(), "requiringConnectors", null, 0, -1, AssemblyComponent.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
-		initEClass(assemblyConnectorEClass, AssemblyConnector.class, "AssemblyConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(assemblyComponentConnectorEClass, AssemblyComponentConnector.class, "AssemblyComponentConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAssemblyComponentConnector_ProvidingComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_RequiringConnectors(), "providingComponent", null, 1, 1, AssemblyComponentConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyComponentConnector_RequiringComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_ProvidingConnectors(), "requiringComponent", null, 1, 1, AssemblyComponentConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(assemblyConnectorEClass, AssemblyConnector.class, "AssemblyConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyConnector_ConnectorType(), theTypeRepositoryPackage.getConnectorType(), null, "connectorType", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyConnector_ProvidingComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_RequiringConnectors(), "providingComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyConnector_RequiringComponent(), this.getAssemblyComponent(), this.getAssemblyComponent_ProvidingConnectors(), "requiringComponent", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(systemInterfaceDelegationConnectorEClass, SystemInterfaceDelegationConnector.class, "SystemInterfaceDelegationConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(systemProvidedInterfaceDelegationConnectorEClass, SystemProvidedInterfaceDelegationConnector.class, "SystemProvidedInterfaceDelegationConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSystemProvidedInterfaceDelegationConnector_ProvidingComponent(), this.getAssemblyComponent(), null, "providingComponent", null, 1, 1, SystemProvidedInterfaceDelegationConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getSystemProvidedInterfaceDelegationConnector_ComponentAssemblyModel(), this.getComponentAssemblyModel(), this.getComponentAssemblyModel_SystemProvidedInterfaceDelegationConnectors(), "componentAssemblyModel", null, 1, 1, SystemProvidedInterfaceDelegationConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(systemRequiredInterfaceDelegationConnectorEClass, SystemRequiredInterfaceDelegationConnector.class, "SystemRequiredInterfaceDelegationConnector", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSystemRequiredInterfaceDelegationConnector_RequiringComponent(), this.getAssemblyComponent(), null, "requiringComponent", null, 1, 1, SystemRequiredInterfaceDelegationConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getSystemRequiredInterfaceDelegationConnector_ComponentAssemblyModel(), this.getComponentAssemblyModel(), this.getComponentAssemblyModel_SystemRequiredInterfaceDelegationConnectors(), "componentAssemblyModel", null, 1, 1, SystemRequiredInterfaceDelegationConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(componentAssemblyModelEClass, ComponentAssemblyModel.class, "ComponentAssemblyModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getComponentAssemblyModel_SystemProvidedInterfaceDelegationConnectors(), this.getSystemProvidedInterfaceDelegationConnector(), this.getSystemProvidedInterfaceDelegationConnector_ComponentAssemblyModel(), "systemProvidedInterfaceDelegationConnectors", null, 1, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentAssemblyModel_SystemRequiredInterfaceDelegationConnectors(), this.getSystemRequiredInterfaceDelegationConnector(), this.getSystemRequiredInterfaceDelegationConnector_ComponentAssemblyModel(), "systemRequiredInterfaceDelegationConnectors", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getComponentAssemblyModel_AssemblyComponents(), this.getAssemblyComponent(), null, "assemblyComponents", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getComponentAssemblyModel_AssemblyConnectors(), this.getAssemblyConnector(), null, "assemblyConnectors", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentAssemblyModel_AssemblyComponentConnectors(), this.getAssemblyComponentConnector(), null, "assemblyComponentConnectors", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentAssemblyModel_SystemProvidedInterfaces(), theTypeRepositoryPackage.getInterface(), null, "systemProvidedInterfaces", null, 1, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getComponentAssemblyModel_SystemRequiredInterfaces(), theTypeRepositoryPackage.getInterface(), null, "systemRequiredInterfaces", null, 0, -1, ComponentAssemblyModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);
