@@ -7,7 +7,8 @@ create
 	REPOSITORY: Pcm,
 	RESOURCEENVIRONMENT: Pcm, 
 	ALLOCATION: Pcm,
-	SYSTEM: Pcm
+	SYSTEM: Pcm,
+	USAGEMODEL: Pcm
 from 
 	IN: Slastic, 
 	USAGE: Slastic;
@@ -402,5 +403,16 @@ rule DeploymentComponentToAllocationContext {
 			any(container | container.id = src.executionContainer.id.toString()),
 		assemblyContext_AllocationContext <-Pcm!AssemblyContext.allInstances()->
 			any(acontext | acontext.id = src.assemblyComponent.id.toString())
+	)
+}
+
+--------------------------------------------------------------------------------
+-- Create UsageModel
+--------------------------------------------------------------------------------
+
+rule UsageModelToUsageModel {
+	from src: Slastic!UsageModel
+	to tgt: Pcm!UsageModel in USAGEMODEL (
+		
 	)
 }
