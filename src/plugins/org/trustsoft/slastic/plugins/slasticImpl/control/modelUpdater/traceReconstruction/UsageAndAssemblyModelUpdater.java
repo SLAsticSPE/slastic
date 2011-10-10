@@ -134,29 +134,49 @@ public class UsageAndAssemblyModelUpdater {
 					return false;
 				}
 
-				if (!receiver.equals(UsageModelManager.rootExec)) {
-					// TODO: executionCallRelationshipCallee: update usage model
-					// or
-					// store processed relationship
-					// in list (would provide better testability)
+				// TODO: executionCallRelationshipCallee: update usage model
+				// or
+				// store processed relationship
+				// in list (would provide better testability)
 
-					/*
-					 * Update receiver's (i.e., caller's) calling relationship
-					 */
-					final ExecutionCallRelationships executionCallRelationshipCaller =
+				/*
+				 * Update receiver's (i.e., caller's) calling relationship
+				 */
+				final ExecutionCallRelationships executionCallRelationshipCaller =
 							executionCallRelationships.peek();
-					// Validity check during development; can be removed as soon
-					// as
-					// implementation stable
-					if (!executionCallRelationshipCaller.getExecution().equals(receiver)) {
-						UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
+				// Validity check during development; can be removed as soon
+				// as
+				// implementation stable
+				if (!executionCallRelationshipCaller.getExecution().equals(receiver)) {
+					UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
 								+ executionCallRelationshipCaller.getExecution() + " vs. " + receiver);
-						return false;
-					}
+					return false;
+				}
+
+				final AssemblyComponent providingComponent = sender.getDeploymentComponent().getAssemblyComponent();
+				final Signature signature = sender.getOperation().getSignature();
+				final Interface iface =
+						this.typeRepositoryModelManager.lookupProvidedInterfaceForSignature(
+								providingComponent.getComponentType(), signature);
+				if (iface == null) {
+					UsageAndAssemblyModelUpdater.LOG.error("Callee " + providingComponent
+							+ " does not provide interface with given signature " + signature);
+					return false;
+				}
+
+				final Interface calledInterface;
+
+				final String signatureName = signature.getName();
+				final String signatureRetType = signature.getReturnType();
+				final String[] signatureArgTypes = signature.getParamTypes().toArray(new String[] {});
+
+				if (receiver.equals(UsageModelManager.rootExec)) {
+					// TODO: hier weiter!
+					calledInterface = null;
+					
+				} else {
 					final AssemblyComponent requiringComponent =
 							receiver.getDeploymentComponent().getAssemblyComponent();
-					final AssemblyComponent providingComponent = sender.getDeploymentComponent().getAssemblyComponent();
-					final Signature signature = sender.getOperation().getSignature();
 
 					AssemblyComponentConnector connector =
 							this.assemblyModelManager.lookupAssemblyConnector(requiringComponent, providingComponent,
@@ -164,24 +184,16 @@ public class UsageAndAssemblyModelUpdater {
 					if (connector == null) {
 						// requiring and providing component aren't connected,
 						// yet -> connect
-						final Interface iface =
-								this.typeRepositoryModelManager.lookupProvidedInterfaceForSignature(
-										providingComponent.getComponentType(), signature);
-						if (iface == null) {
-							UsageAndAssemblyModelUpdater.LOG.error("Callee " + providingComponent
-									+ " does not provide interface with given signature " + signature);
-							return false;
-						}
-						
 						/*
-						 * If if the requiring component doesn't have the interface in its list of
-						 * required interfaces, yet -> add it.
+						 * If if the requiring component doesn't have the
+						 * interface in its list of required interfaces, yet ->
+						 * add it.
 						 */
 						final ComponentType requiringType = requiringComponent.getComponentType();
 						if (!requiringType.getRequiredInterfaces().contains(iface)) {
 							this.typeRepositoryModelManager.registerRequiredInterface(requiringType, iface);
 						}
-						
+
 						final ConnectorType connectorT =
 								this.typeRepositoryModelManager.createAndRegisterConnectorType(iface);
 						connector = this.assemblyModelManager.createAndRegisterAssemblyConnector(connectorT);
@@ -192,17 +204,13 @@ public class UsageAndAssemblyModelUpdater {
 						}
 
 					}
+					calledInterface = connector.getConnectorType().getInterface();
+				}
 
-					final Interface calledInterface = connector.getConnectorType().getInterface();
-					final String signatureName = signature.getName();
-					final String signatureRetType = signature.getReturnType();
-					final String[] signatureArgTypes = signature.getParamTypes().toArray(new String[] {});
-
-					final Signature interfaceSignature =
+				final Signature interfaceSignature =
 							this.typeRepositoryModelManager.lookupSignature(calledInterface,
 									signatureName, signatureRetType, signatureArgTypes);
-					executionCallRelationshipCaller.incCount(calledInterface, interfaceSignature);
-				}
+				executionCallRelationshipCaller.incCount(calledInterface, interfaceSignature);
 			} else {
 				UsageAndAssemblyModelUpdater.LOG.error("Unexpected message type: " + message);
 				return false;

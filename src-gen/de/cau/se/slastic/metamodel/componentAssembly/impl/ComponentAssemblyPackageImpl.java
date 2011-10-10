@@ -517,8 +517,8 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 
 		// Add supertypes to classes
 		assemblyComponentEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
-		assemblyComponentConnectorEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		assemblyComponentConnectorEClass.getESuperTypes().add(this.getAssemblyConnector());
+		assemblyConnectorEClass.getESuperTypes().add(theCorePackage.getFQNamedEntity());
 		systemInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getAssemblyConnector());
 		systemProvidedInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getSystemInterfaceDelegationConnector());
 		systemRequiredInterfaceDelegationConnectorEClass.getESuperTypes().add(this.getSystemInterfaceDelegationConnector());

@@ -6,6 +6,7 @@
  */
 package de.cau.se.slastic.metamodel.componentAssembly;
 
+import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 
 import org.eclipse.emf.ecore.EObject;
@@ -26,7 +27,7 @@ import org.eclipse.emf.ecore.EObject;
  * @model abstract="true"
  * @generated
  */
-public interface AssemblyConnector extends EObject {
+public interface AssemblyConnector extends FQNamedEntity {
 	/**
 	 * Returns the value of the '<em><b>Connector Type</b></em>' reference.
 	 * <!-- begin-user-doc -->

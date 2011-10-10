@@ -104,8 +104,8 @@ public class ComponentAssemblySwitch<T> {
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR: {
 				AssemblyComponentConnector assemblyComponentConnector = (AssemblyComponentConnector)theEObject;
 				T result = caseAssemblyComponentConnector(assemblyComponentConnector);
-				if (result == null) result = caseFQNamedEntity(assemblyComponentConnector);
 				if (result == null) result = caseAssemblyConnector(assemblyComponentConnector);
+				if (result == null) result = caseFQNamedEntity(assemblyComponentConnector);
 				if (result == null) result = caseNamedEntity(assemblyComponentConnector);
 				if (result == null) result = caseEntity(assemblyComponentConnector);
 				if (result == null) result = defaultCase(theEObject);
@@ -114,6 +114,9 @@ public class ComponentAssemblySwitch<T> {
 			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR: {
 				AssemblyConnector assemblyConnector = (AssemblyConnector)theEObject;
 				T result = caseAssemblyConnector(assemblyConnector);
+				if (result == null) result = caseFQNamedEntity(assemblyConnector);
+				if (result == null) result = caseNamedEntity(assemblyConnector);
+				if (result == null) result = caseEntity(assemblyConnector);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -121,6 +124,9 @@ public class ComponentAssemblySwitch<T> {
 				SystemInterfaceDelegationConnector systemInterfaceDelegationConnector = (SystemInterfaceDelegationConnector)theEObject;
 				T result = caseSystemInterfaceDelegationConnector(systemInterfaceDelegationConnector);
 				if (result == null) result = caseAssemblyConnector(systemInterfaceDelegationConnector);
+				if (result == null) result = caseFQNamedEntity(systemInterfaceDelegationConnector);
+				if (result == null) result = caseNamedEntity(systemInterfaceDelegationConnector);
+				if (result == null) result = caseEntity(systemInterfaceDelegationConnector);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -129,6 +135,9 @@ public class ComponentAssemblySwitch<T> {
 				T result = caseSystemProvidedInterfaceDelegationConnector(systemProvidedInterfaceDelegationConnector);
 				if (result == null) result = caseSystemInterfaceDelegationConnector(systemProvidedInterfaceDelegationConnector);
 				if (result == null) result = caseAssemblyConnector(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = caseFQNamedEntity(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = caseNamedEntity(systemProvidedInterfaceDelegationConnector);
+				if (result == null) result = caseEntity(systemProvidedInterfaceDelegationConnector);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -137,6 +146,9 @@ public class ComponentAssemblySwitch<T> {
 				T result = caseSystemRequiredInterfaceDelegationConnector(systemRequiredInterfaceDelegationConnector);
 				if (result == null) result = caseSystemInterfaceDelegationConnector(systemRequiredInterfaceDelegationConnector);
 				if (result == null) result = caseAssemblyConnector(systemRequiredInterfaceDelegationConnector);
+				if (result == null) result = caseFQNamedEntity(systemRequiredInterfaceDelegationConnector);
+				if (result == null) result = caseNamedEntity(systemRequiredInterfaceDelegationConnector);
+				if (result == null) result = caseEntity(systemRequiredInterfaceDelegationConnector);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
