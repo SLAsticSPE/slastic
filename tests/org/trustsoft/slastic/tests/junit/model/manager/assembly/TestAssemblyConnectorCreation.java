@@ -11,7 +11,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeReposi
 import org.trustsoft.slastic.tests.junit.model.ModelEntityCreationUtils;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
@@ -66,13 +66,13 @@ public class TestAssemblyConnectorCreation extends TestCase {
 
 		
 		/* Create assembly connector, register interface in type */
-		final AssemblyConnector asmConn =
+		final AssemblyComponentConnector asmConn =
 				ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", iface);
 
 		/* Connect (and assert that this was --- claimed to be --- successful) */
 		Assert.assertTrue("Failed to connect assembly components via connector",
 				componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
-
+		
 		/* Assert that it was really successful by navigating the model */
 		Assert.assertSame("Requiring component not registered in connector", requiringAsmComp,
 				asmConn.getRequiringComponent());
@@ -90,7 +90,7 @@ public class TestAssemblyConnectorCreation extends TestCase {
 
 	/**
 	 * Makes sure that invalid connections (in this case an
-	 * {@link AssemblyConnector} with an {@link Interface} different than that
+	 * {@link AssemblyComponentConnector} with an {@link Interface} different than that
 	 * of {@link AssemblyComponent}s) raise an error.
 	 */
 	public void testUnmatchingConnector() {
@@ -135,7 +135,7 @@ public class TestAssemblyConnectorCreation extends TestCase {
 						/* required interface */componentIface);
 
 		/* Create assembly connector, register interface in type */
-		final AssemblyConnector asmConn =
+		final AssemblyComponentConnector asmConn =
 				ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", connectorIface);
 
 		/* Connect (and assert that this was --- claimed to be --- successful) */

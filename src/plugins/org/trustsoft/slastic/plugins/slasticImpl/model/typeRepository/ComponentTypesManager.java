@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -25,12 +24,16 @@ public class ComponentTypesManager extends
 
 	private static final Log log = LogFactory.getLog(ComponentTypesManager.class);
 
+	private final InterfacesManager interfacesManager;
+	
 	/**
 	 * 
 	 * @param componentTypes
+	 * @param interfaceManager 
 	 */
-	public ComponentTypesManager(final List<ComponentType> componentTypes) {
+	public ComponentTypesManager(final List<ComponentType> componentTypes, final InterfacesManager interfaceManager) {
 		super(componentTypes);
+		this.interfacesManager = interfaceManager;
 		// TODO: To fix the problem below, we should now determine the
 		// highest operation id existent in the model.
 	}
@@ -38,16 +41,6 @@ public class ComponentTypesManager extends
 	// TODO: I'm pretty sure we'll have problems with this when starting with a
 	// deserialized model
 	private volatile long nextOperationId = 1;
-
-	@Override
-	public ComponentType lookupComponentType(final String fullyQualifiedName) {
-		return this.lookup(fullyQualifiedName);
-	}
-
-	@Override
-	public ComponentType lookupComponentType(final long id) {
-		return this.lookupEntityById(id);
-	}
 
 	@Override
 	public ComponentType createAndRegisterComponentType(
@@ -60,6 +53,16 @@ public class ComponentTypesManager extends
 		return TypeRepositoryFactory.eINSTANCE.createComponentType();
 	}
 
+	@Override
+	public ComponentType lookupComponentType(final String fullyQualifiedName) {
+		return this.lookup(fullyQualifiedName);
+	}
+
+	@Override
+	public ComponentType lookupComponentType(final long id) {
+		return this.lookupEntityById(id);
+	}
+	
 	@Override
 	public Operation createAndRegisterOperation(
 			final ComponentType componentType, final String operationName,
@@ -90,25 +93,12 @@ public class ComponentTypesManager extends
 	public Operation lookupOperation(final ComponentType componentType,
 			final String operationName, final String returnType,
 			final String[] argTypes) {
+		final Signature argSignature = SignatureUtils.createSignature(operationName, argTypes, returnType);
+		
 		for (final Operation op : componentType.getOperations()) {
-			final Signature signature = op.getSignature();
-			// compare operation name
-			if (!signature.getName().equals(operationName)) {
-				continue;
+			if (SignatureUtils.signaturesEqual(argSignature, op.getSignature())) {
+				return op;
 			}
-			// compare return type
-			if (!signature.getReturnType().equals(returnType)) {
-				continue;
-			}
-			// compare argument types
-			if (!Arrays.equals(signature.getParamTypes().toArray(), argTypes)) {
-				continue;
-			}
-			/*
-			 * if we reached this position, the current operation matches the
-			 * requested operation
-			 */
-			return op;
 		}
 
 		// no matching operation
@@ -137,5 +127,33 @@ public class ComponentTypesManager extends
 		} else {
 			requiredInterfaces.add(requiredInterface);
 		}
+	}
+	
+	// TODO: need a test for this method
+	@Override
+	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature) {
+		final List<Interface> providedInterfaces = componentType.getProvidedInterfaces();
+		for (final Interface iface : providedInterfaces) {
+			final Signature lookedupSignature = this.interfacesManager.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[]{}));
+			if (lookedupSignature != null) {
+				return iface;
+			}
+		}
+		// no matching interface found
+		return null;
+	}
+
+	// TODO: need a test for this method
+	@Override
+	public Interface lookupRequiredInterfaceForSignature(final ComponentType componentType, final Signature signature) {
+		final List<Interface> requiredInterfaces = componentType.getProvidedInterfaces();
+		for (final Interface iface : requiredInterfaces) {
+			final Signature lookedupSignature = this.interfacesManager.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[]{}));
+			if (lookedupSignature != null) {
+				return iface;
+			}
+		}
+		// no matching interface found
+		return null;
 	}
 }

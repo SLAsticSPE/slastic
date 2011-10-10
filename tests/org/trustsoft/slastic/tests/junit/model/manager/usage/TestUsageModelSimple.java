@@ -19,13 +19,13 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 import org.trustsoft.slastic.tests.junit.model.ModelEntityCreationUtils;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
-import de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
+import de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
@@ -60,7 +60,7 @@ public class TestUsageModelSimple extends TestCase {
 	private volatile DeploymentComponentOperationExecution opExecBb;
 	private volatile Interface commonInterfaceB;
 
-	private volatile AssemblyConnector asmConnector;
+	private volatile AssemblyComponentConnector asmConnector;
 
 	/**
 	 * Intermediate data structure capturing the distribution of calls from
@@ -94,7 +94,7 @@ public class TestUsageModelSimple extends TestCase {
 	 * Initializes a {@link SystemModel} by creating (among other entities) the
 	 * {@link AssemblyComponent}s {@link #requiringAsmCompA} and
 	 * {@link #providingAsmCompB} properly connected via the
-	 * {@link AssemblyConnector} {@link #asmConnector} with the common Interface
+	 * {@link AssemblyComponentConnector} {@link #asmConnector} with the common Interface
 	 * {@link #commonInterfaceB}.
 	 */
 	private void initModelAndVars() {
@@ -160,7 +160,7 @@ public class TestUsageModelSimple extends TestCase {
 
 	/**
 	 * Adds frequencies for calls to the {@link Signature} b(..) of the
-	 * {@link AssemblyConnector} {@link #asmConnector}.
+	 * {@link AssemblyComponentConnector} {@link #asmConnector}.
 	 */
 	private void addAssemblyConnectorCallFrequencies() {
 		int numCallsAa = 0;
@@ -170,12 +170,12 @@ public class TestUsageModelSimple extends TestCase {
 			numCallsBb += e.getValue() * e.getKey();
 		}
 
-		final AssemblyConnectorCallFrequency asmCallFreqAaToBb =
-				UsageFactory.eINSTANCE.createAssemblyConnectorCallFrequency();
-		asmCallFreqAaToBb.setAssemblyConnector(this.asmConnector);
+		final AssemblyComponentConnectorCallFrequency asmCallFreqAaToBb =
+				UsageFactory.eINSTANCE.createAssemblyComponentConnectorCallFrequency();
+		asmCallFreqAaToBb.setConnector(this.asmConnector);
 		asmCallFreqAaToBb.setSignature(this.opExecBb.getOperation().getSignature());
 		asmCallFreqAaToBb.setFrequency(numCallsBb);
-		this.usageModel.getAssemblyConnectorCallFrequencies().add(asmCallFreqAaToBb);
+		this.usageModel.getAssemblyComponentConnectorCallFrequencies().add(asmCallFreqAaToBb);
 
 		// TODO: Add frequency for system-provided connector
 	}

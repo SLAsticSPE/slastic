@@ -27,11 +27,37 @@ import de.cau.se.slastic.metamodel.core.Entity;
  */
 public interface Operation extends Entity {
 	/**
+	 * Returns the value of the '<em><b>Signature</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Signature</em>' containment reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Signature</em>' containment reference.
+	 * @see #setSignature(Signature)
+	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getOperation_Signature()
+	 * @model containment="true" required="true" ordered="false"
+	 * @generated
+	 */
+	Signature getSignature();
+
+	/**
+	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Signature</em>' containment reference.
+	 * @see #getSignature()
+	 * @generated
+	 */
+	void setSignature(Signature value);
+
+	/**
 	 * Returns the value of the '<em><b>Component Type</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.typeRepository.ComponentType#getOperations <em>Operations</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Component Type</em>' reference isn't clear,
+	 * If the meaning of the '<em>Component Type</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -53,31 +79,5 @@ public interface Operation extends Entity {
 	 * @generated
 	 */
 	void setComponentType(ComponentType value);
-
-	/**
-	 * Returns the value of the '<em><b>Signature</b></em>' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Signature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Signature</em>' containment reference.
-	 * @see #setSignature(Signature)
-	 * @see de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage#getOperation_Signature()
-	 * @model containment="true" required="true" ordered="false"
-	 * @generated
-	 */
-	Signature getSignature();
-
-	/**
-	 * Sets the value of the '{@link de.cau.se.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Signature</em>' containment reference.
-	 * @see #getSignature()
-	 * @generated
-	 */
-	void setSignature(Signature value);
 
 } // Operation

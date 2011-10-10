@@ -114,9 +114,23 @@ public class UsageSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case UsagePackage.ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY: {
+				AssemblyComponentConnectorCallFrequency assemblyComponentConnectorCallFrequency = (AssemblyComponentConnectorCallFrequency)theEObject;
+				T result = caseAssemblyComponentConnectorCallFrequency(assemblyComponentConnectorCallFrequency);
+				if (result == null) result = caseAssemblyConnectorCallFrequency(assemblyComponentConnectorCallFrequency);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY: {
 				AssemblyConnectorCallFrequency assemblyConnectorCallFrequency = (AssemblyConnectorCallFrequency)theEObject;
 				T result = caseAssemblyConnectorCallFrequency(assemblyConnectorCallFrequency);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY: {
+				SystemProvidedInterfaceDelegationConnectorFrequency systemProvidedInterfaceDelegationConnectorFrequency = (SystemProvidedInterfaceDelegationConnectorFrequency)theEObject;
+				T result = caseSystemProvidedInterfaceDelegationConnectorFrequency(systemProvidedInterfaceDelegationConnectorFrequency);
+				if (result == null) result = caseAssemblyConnectorCallFrequency(systemProvidedInterfaceDelegationConnectorFrequency);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -147,19 +161,19 @@ public class UsageSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case UsagePackage.EXECUTION_TRACE: {
-				ExecutionTrace executionTrace = (ExecutionTrace)theEObject;
-				T result = caseExecutionTrace(executionTrace);
-				if (result == null) result = caseTrace(executionTrace);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
 			case UsagePackage.VALID_EXECUTION_TRACE: {
 				ValidExecutionTrace validExecutionTrace = (ValidExecutionTrace)theEObject;
 				T result = caseValidExecutionTrace(validExecutionTrace);
 				if (result == null) result = caseExecutionTrace(validExecutionTrace);
 				if (result == null) result = caseValidTrace(validExecutionTrace);
 				if (result == null) result = caseTrace(validExecutionTrace);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.EXECUTION_TRACE: {
+				ExecutionTrace executionTrace = (ExecutionTrace)theEObject;
+				T result = caseExecutionTrace(executionTrace);
+				if (result == null) result = caseTrace(executionTrace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -258,6 +272,21 @@ public class UsageSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Assembly Component Connector Call Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Assembly Component Connector Call Frequency</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseAssemblyComponentConnectorCallFrequency(AssemblyComponentConnectorCallFrequency object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Assembly Connector Call Frequency</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -269,6 +298,21 @@ public class UsageSwitch<T> {
 	 * @generated
 	 */
 	public T caseAssemblyConnectorCallFrequency(AssemblyConnectorCallFrequency object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>System Provided Interface Delegation Connector Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>System Provided Interface Delegation Connector Frequency</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseSystemProvidedInterfaceDelegationConnectorFrequency(SystemProvidedInterfaceDelegationConnectorFrequency object) {
 		return null;
 	}
 
@@ -333,21 +377,6 @@ public class UsageSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseExecutionTrace(ExecutionTrace object) {
-		return null;
-	}
-
-	/**
 	 * Returns the result of interpreting the object as an instance of '<em>Valid Execution Trace</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -359,6 +388,21 @@ public class UsageSwitch<T> {
 	 * @generated
 	 */
 	public T caseValidExecutionTrace(ValidExecutionTrace object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Execution Trace</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseExecutionTrace(ExecutionTrace object) {
 		return null;
 	}
 

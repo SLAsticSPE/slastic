@@ -18,7 +18,6 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceT
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
 /**
- * TODO: interfaces, network link types
  * 
  * @author Andre van Hoorn
  */
@@ -48,14 +47,14 @@ public class TypeRepositoryModelManager extends
 	public TypeRepositoryModelManager(
 			final TypeRepositoryModel typeRepositoryModel) {
 		super(typeRepositoryModel);
+		this.interfaceManager =
+			new InterfacesManager(typeRepositoryModel.getInterfaces());
 		this.componentTypeManager =
 				new ComponentTypesManager(typeRepositoryModel
-						.getComponentTypes());
+						.getComponentTypes(), this.interfaceManager);
 		this.connectorTypeManager =
 				new ConnectorTypesManager(typeRepositoryModel
 						.getConnectorTypes());
-		this.interfaceManager =
-				new InterfacesManager(typeRepositoryModel.getInterfaces());
 		this.executionContainerTypeManager =
 				new ExecutionContainerTypesManager(typeRepositoryModel
 						.getExecutionContainerTypes());
@@ -102,6 +101,11 @@ public class TypeRepositoryModelManager extends
 				.createAndRegisterConnectorType(fullyQualifiedName, iface);
 	}
 
+	@Override
+	public ConnectorType createAndRegisterConnectorType(final Interface iface) {
+		return this.connectorTypeManager.createAndRegisterConnectorType(iface);
+	}
+	
 	@Override
 	public Interface lookupInterface(final String fullyQualifiedName) {
 		return this.interfaceManager.lookupInterface(fullyQualifiedName);
@@ -225,12 +229,14 @@ public class TypeRepositoryModelManager extends
 	}
 
 	@Override
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType,
+			final String[] argTypes) {
 		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes);
 	}
-
+	
 	@Override
-	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType,
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName,
+			final String returnType,
 			final String[] argTypes) {
 		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes);
 	}
@@ -243,5 +249,15 @@ public class TypeRepositoryModelManager extends
 	@Override
 	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface) {
 		this.componentTypeManager.registerRequiredInterface(componentType, requiredInterface);
+	}
+	
+	@Override
+	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature) {
+		return this.componentTypeManager.lookupProvidedInterfaceForSignature(componentType, signature);
+	}
+
+	@Override
+	public Interface lookupRequiredInterfaceForSignature(final ComponentType componentType, final Signature signature) {
+		return this.componentTypeManager.lookupRequiredInterfaceForSignature(componentType, signature);
 	}
 }

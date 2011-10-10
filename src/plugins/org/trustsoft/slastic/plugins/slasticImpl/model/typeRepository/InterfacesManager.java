@@ -15,6 +15,12 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
  * @author Andre van Hoorn
  */
 public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> implements IInterfacesManager {
+	
+	/**
+	 * 
+	 * @param interfaces
+	 * @param componentTypeManager
+	 */
 	public InterfacesManager(final List<Interface> interfaces) {
 		super(interfaces);
 	}

@@ -8,7 +8,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.core.IEvent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -52,10 +52,10 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 	 * object with {@link OperationExecutionRecord#className} parameter whose
 	 * value equals classname:
 	 * <ol>
-	 * <li>If an {@link AssemblyConnector} with a full-qualified name that
+	 * <li>If an {@link AssemblyComponentConnector} with a full-qualified name that
 	 * equals classname is registered, the execution is assumed to be a
 	 * {@link ConnectorOperationExecution}. An instance referencing to the
-	 * {@link AssemblyConnector} is created.</li>
+	 * {@link AssemblyComponentConnector} is created.</li>
 	 * <li>Otherwise, the execution is assumed to be a
 	 * {@link DeploymentComponentOperationExecution}. An instance referencing to
 	 * an {@link AssemblyComponent} with the full-qualified name that equals
@@ -103,7 +103,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			 * 1.) Determine whether this is a deployment component execution or
 			 * a connector execution.
 			 */
-			final AssemblyConnector assemblyConnector =
+			final AssemblyComponentConnector assemblyConnector =
 					this.getAssemblyModelManager().lookupAssemblyConnector(componentOrConnectorName);
 			if (assemblyConnector != null) {
 				/* Is an (explicit) connector execution */

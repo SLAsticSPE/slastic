@@ -61,7 +61,9 @@ public class ComponentAssemblyFactoryImpl extends EFactoryImpl implements Compon
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT: return createAssemblyComponent();
-			case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR: return createAssemblyConnector();
+			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR: return createAssemblyComponentConnector();
+			case ComponentAssemblyPackage.SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR: return createSystemProvidedInterfaceDelegationConnector();
+			case ComponentAssemblyPackage.SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR: return createSystemRequiredInterfaceDelegationConnector();
 			case ComponentAssemblyPackage.COMPONENT_ASSEMBLY_MODEL: return createComponentAssemblyModel();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
@@ -83,9 +85,29 @@ public class ComponentAssemblyFactoryImpl extends EFactoryImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AssemblyConnector createAssemblyConnector() {
-		AssemblyConnectorImpl assemblyConnector = new AssemblyConnectorImpl();
-		return assemblyConnector;
+	public AssemblyComponentConnector createAssemblyComponentConnector() {
+		AssemblyComponentConnectorImpl assemblyComponentConnector = new AssemblyComponentConnectorImpl();
+		return assemblyComponentConnector;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemProvidedInterfaceDelegationConnector createSystemProvidedInterfaceDelegationConnector() {
+		SystemProvidedInterfaceDelegationConnectorImpl systemProvidedInterfaceDelegationConnector = new SystemProvidedInterfaceDelegationConnectorImpl();
+		return systemProvidedInterfaceDelegationConnector;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemRequiredInterfaceDelegationConnector createSystemRequiredInterfaceDelegationConnector() {
+		SystemRequiredInterfaceDelegationConnectorImpl systemRequiredInterfaceDelegationConnector = new SystemRequiredInterfaceDelegationConnectorImpl();
+		return systemRequiredInterfaceDelegationConnector;
 	}
 
 	/**

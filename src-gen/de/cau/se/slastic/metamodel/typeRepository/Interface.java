@@ -7,6 +7,7 @@
 package de.cau.se.slastic.metamodel.typeRepository;
 
 import de.cau.se.slastic.metamodel.core.FQNamedEntity;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -26,13 +27,12 @@ import org.eclipse.emf.common.util.EList;
  * @generated
  */
 public interface Interface extends FQNamedEntity {
-
 	/**
 	 * Returns the value of the '<em><b>Signatures</b></em>' containment reference list.
 	 * The list contents are of type {@link de.cau.se.slastic.metamodel.typeRepository.Signature}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Signatures</em>' reference list isn't clear,
+	 * If the meaning of the '<em>Signatures</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
@@ -42,4 +42,5 @@ public interface Interface extends FQNamedEntity {
 	 * @generated
 	 */
 	EList<Signature> getSignatures();
+
 } // Interface

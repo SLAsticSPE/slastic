@@ -6,7 +6,7 @@
  */
 package de.cau.se.slastic.metamodel.monitoring.impl;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 
@@ -43,7 +43,7 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	 * @generated
 	 * @ordered
 	 */
-	protected AssemblyConnector assemblyConnector;
+	protected AssemblyComponentConnector assemblyConnector;
 
 	/**
 	 * The cached value of the '{@link #getExecutionContainer() <em>Execution Container</em>}' reference.
@@ -79,10 +79,10 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AssemblyConnector getAssemblyConnector() {
+	public AssemblyComponentConnector getAssemblyConnector() {
 		if (assemblyConnector != null && assemblyConnector.eIsProxy()) {
 			InternalEObject oldAssemblyConnector = (InternalEObject)assemblyConnector;
-			assemblyConnector = (AssemblyConnector)eResolveProxy(oldAssemblyConnector);
+			assemblyConnector = (AssemblyComponentConnector)eResolveProxy(oldAssemblyConnector);
 			if (assemblyConnector != oldAssemblyConnector) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__ASSEMBLY_CONNECTOR, oldAssemblyConnector, assemblyConnector));
@@ -96,7 +96,7 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AssemblyConnector basicGetAssemblyConnector() {
+	public AssemblyComponentConnector basicGetAssemblyConnector() {
 		return assemblyConnector;
 	}
 
@@ -105,8 +105,8 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAssemblyConnector(AssemblyConnector newAssemblyConnector) {
-		AssemblyConnector oldAssemblyConnector = assemblyConnector;
+	public void setAssemblyConnector(AssemblyComponentConnector newAssemblyConnector) {
+		AssemblyComponentConnector oldAssemblyConnector = assemblyConnector;
 		assemblyConnector = newAssemblyConnector;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__ASSEMBLY_CONNECTOR, oldAssemblyConnector, assemblyConnector));
@@ -177,7 +177,7 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__ASSEMBLY_CONNECTOR:
-				setAssemblyConnector((AssemblyConnector)newValue);
+				setAssemblyConnector((AssemblyComponentConnector)newValue);
 				return;
 			case MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__EXECUTION_CONTAINER:
 				setExecutionContainer((ExecutionContainer)newValue);
@@ -195,7 +195,7 @@ public class ConnectorOperationExecutionImpl extends OperationExecutionImpl impl
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__ASSEMBLY_CONNECTOR:
-				setAssemblyConnector((AssemblyConnector)null);
+				setAssemblyConnector((AssemblyComponentConnector)null);
 				return;
 			case MonitoringPackage.CONNECTOR_OPERATION_EXECUTION__EXECUTION_CONTAINER:
 				setExecutionContainer((ExecutionContainer)null);

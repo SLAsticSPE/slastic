@@ -1,10 +1,13 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.usage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
+import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
+import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 import de.cau.se.slastic.metamodel.typeRepository.Signature;
@@ -20,7 +23,9 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  *
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
-
+	public static final DeploymentComponentOperationExecution rootExec =
+			MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
+	
 	public UsageModelManager() {
 		this(UsageFactory.eINSTANCE.createUsageModel());
 	}
@@ -31,22 +36,22 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public void assemblyConnectorCall(final AssemblyConnector assemblyConnector, final Signature signature) {
+	public void assemblyConnectorCall(final AssemblyComponentConnector assemblyConnector, final Signature signature) {
 		// TODO
 	}
 	
 	/**
 	 * Operation call frequencies (operation id x frequency) 
 	 */
-	private final HashMap<Long, OperationCallFrequency> opCallFrequencies = new HashMap<Long, OperationCallFrequency>();
+	private final Map<Long, OperationCallFrequency> opCallFrequencies = new HashMap<Long, OperationCallFrequency>();
 	
 	/**
 	 * Calling relationships among {@link Operation}s and {@link Signature}s of an {@link Interface}.   
 	 */
-	private final HashMap<Long, CallingRelationship> opCallRelationships = new HashMap<Long, CallingRelationship>();
+	private final Map<Long, CallingRelationship> opCallRelationships = new HashMap<Long, CallingRelationship>();
 	
-	/** Frequencies of calls to {@link Signature}s of an {@link AssemblyConnector} */
-	private final HashMap<Long, AssemblyConnectorCallFrequency> connectorCallFrequencies = new HashMap<Long, AssemblyConnectorCallFrequency>();
+	/** Frequencies of calls to {@link Signature}s of an {@link AssemblyComponentConnector} */
+	private final Map<Long, AssemblyConnectorCallFrequency> connectorCallFrequencies = new HashMap<Long, AssemblyConnectorCallFrequency>();
 
 	/**
 	 * 

@@ -64,7 +64,8 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 			case UsagePackage.CALLING_RELATIONSHIP: return createCallingRelationship();
 			case UsagePackage.FREQUENCY_DISTRIBUTION: return createFrequencyDistribution();
 			case UsagePackage.OPERATION_CALL_FREQUENCY: return createOperationCallFrequency();
-			case UsagePackage.ASSEMBLY_CONNECTOR_CALL_FREQUENCY: return createAssemblyConnectorCallFrequency();
+			case UsagePackage.ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY: return createAssemblyComponentConnectorCallFrequency();
+			case UsagePackage.SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY: return createSystemProvidedInterfaceDelegationConnectorFrequency();
 			case UsagePackage.MESSAGE_TRACE: return createMessageTrace();
 			case UsagePackage.MESSAGE: return createMessage();
 			case UsagePackage.VALID_EXECUTION_TRACE: return createValidExecutionTrace();
@@ -121,9 +122,19 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AssemblyConnectorCallFrequency createAssemblyConnectorCallFrequency() {
-		AssemblyConnectorCallFrequencyImpl assemblyConnectorCallFrequency = new AssemblyConnectorCallFrequencyImpl();
-		return assemblyConnectorCallFrequency;
+	public AssemblyComponentConnectorCallFrequency createAssemblyComponentConnectorCallFrequency() {
+		AssemblyComponentConnectorCallFrequencyImpl assemblyComponentConnectorCallFrequency = new AssemblyComponentConnectorCallFrequencyImpl();
+		return assemblyComponentConnectorCallFrequency;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public SystemProvidedInterfaceDelegationConnectorFrequency createSystemProvidedInterfaceDelegationConnectorFrequency() {
+		SystemProvidedInterfaceDelegationConnectorFrequencyImpl systemProvidedInterfaceDelegationConnectorFrequency = new SystemProvidedInterfaceDelegationConnectorFrequencyImpl();
+		return systemProvidedInterfaceDelegationConnectorFrequency;
 	}
 
 	/**

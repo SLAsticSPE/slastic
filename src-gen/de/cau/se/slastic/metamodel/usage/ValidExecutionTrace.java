@@ -24,9 +24,9 @@ package de.cau.se.slastic.metamodel.usage;
  * @generated
  */
 public interface ValidExecutionTrace extends ExecutionTrace, ValidTrace {
-
 	/**
 	 * Returns the value of the '<em><b>Message Trace</b></em>' reference.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.usage.MessageTrace#getExecutionTrace <em>Execution Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Message Trace</em>' reference isn't clear,
@@ -36,7 +36,8 @@ public interface ValidExecutionTrace extends ExecutionTrace, ValidTrace {
 	 * @return the value of the '<em>Message Trace</em>' reference.
 	 * @see #setMessageTrace(MessageTrace)
 	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getValidExecutionTrace_MessageTrace()
-	 * @model required="true" ordered="false"
+	 * @see de.cau.se.slastic.metamodel.usage.MessageTrace#getExecutionTrace
+	 * @model opposite="executionTrace" required="true" ordered="false"
 	 * @generated
 	 */
 	MessageTrace getMessageTrace();
@@ -50,4 +51,5 @@ public interface ValidExecutionTrace extends ExecutionTrace, ValidTrace {
 	 * @generated
 	 */
 	void setMessageTrace(MessageTrace value);
+
 } // ValidExecutionTrace

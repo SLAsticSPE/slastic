@@ -57,7 +57,9 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
+
 import de.cau.se.slastic.metamodel.usage.impl.UsagePackageImpl;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -105,14 +107,14 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass slAsticModelEClass = null;
+	private EClass iEventEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass iEventEClass = null;
+	private EClass slAsticModelEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -294,8 +296,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getSLAsticModel() {
-		return slAsticModelEClass;
+	public EClass getIEvent() {
+		return iEventEClass;
 	}
 
 	/**
@@ -303,8 +305,8 @@ public class CorePackageImpl extends EPackageImpl implements CorePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIEvent() {
-		return iEventEClass;
+	public EClass getSLAsticModel() {
+		return slAsticModelEClass;
 	}
 
 	/**

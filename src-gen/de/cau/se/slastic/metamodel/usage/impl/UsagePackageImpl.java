@@ -50,6 +50,7 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPac
 
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
 
+import de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 import de.cau.se.slastic.metamodel.usage.ExecutionTrace;
@@ -61,13 +62,14 @@ import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
 import de.cau.se.slastic.metamodel.usage.SynchronousCallMessage;
 import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
+import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
 import de.cau.se.slastic.metamodel.usage.Trace;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 import de.cau.se.slastic.metamodel.usage.UsagePackage;
-
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.ValidTrace;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -115,7 +117,21 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	private EClass assemblyComponentConnectorCallFrequencyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	private EClass assemblyConnectorCallFrequencyEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass systemProvidedInterfaceDelegationConnectorFrequencyEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -150,14 +166,14 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass executionTraceEClass = null;
+	private EClass validExecutionTraceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass validExecutionTraceEClass = null;
+	private EClass executionTraceEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -315,8 +331,17 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getUsageModel_AssemblyConnectorCallFrequencies() {
+	public EReference getUsageModel_AssemblyComponentConnectorCallFrequencies() {
 		return (EReference)usageModelEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies() {
+		return (EReference)usageModelEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -423,6 +448,24 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAssemblyComponentConnectorCallFrequency() {
+		return assemblyComponentConnectorCallFrequencyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssemblyComponentConnectorCallFrequency_Connector() {
+		return (EReference)assemblyComponentConnectorCallFrequencyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAssemblyConnectorCallFrequency() {
 		return assemblyConnectorCallFrequencyEClass;
 	}
@@ -441,7 +484,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAssemblyConnectorCallFrequency_AssemblyConnector() {
+	public EReference getAssemblyConnectorCallFrequency_Signature() {
 		return (EReference)assemblyConnectorCallFrequencyEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -450,8 +493,17 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getAssemblyConnectorCallFrequency_Signature() {
-		return (EReference)assemblyConnectorCallFrequencyEClass.getEStructuralFeatures().get(2);
+	public EClass getSystemProvidedInterfaceDelegationConnectorFrequency() {
+		return systemProvidedInterfaceDelegationConnectorFrequencyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getSystemProvidedInterfaceDelegationConnectorFrequency_Connector() {
+		return (EReference)systemProvidedInterfaceDelegationConnectorFrequencyEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -461,15 +513,6 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 */
 	public EClass getTrace() {
 		return traceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getTrace_TraceId() {
-		return (EAttribute)traceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -495,8 +538,26 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getMessageTrace_ExecutionTrace() {
+		return (EReference)messageTraceEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getValidTrace() {
 		return validTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getValidTrace_TraceId() {
+		return (EAttribute)validTraceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -540,24 +601,6 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getExecutionTrace() {
-		return executionTraceEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getExecutionTrace_OperationExecutions() {
-		return (EReference)executionTraceEClass.getEStructuralFeatures().get(0);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EClass getValidExecutionTrace() {
 		return validExecutionTraceEClass;
 	}
@@ -576,6 +619,24 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getExecutionTrace() {
+		return executionTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getExecutionTrace_OperationExecutions() {
+		return (EReference)executionTraceEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getInvalidTrace() {
 		return invalidTraceEClass;
 	}
@@ -587,6 +648,15 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 */
 	public EClass getInvalidExecutionTrace() {
 		return invalidExecutionTraceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getInvalidExecutionTrace_ErrorMsg() {
+		return (EAttribute)invalidExecutionTraceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -638,7 +708,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		usageModelEClass = createEClass(USAGE_MODEL);
 		createEReference(usageModelEClass, USAGE_MODEL__CALLING_RELATIONSHIPS);
 		createEReference(usageModelEClass, USAGE_MODEL__OPERATION_CALL_FREQUENCIES);
-		createEReference(usageModelEClass, USAGE_MODEL__ASSEMBLY_CONNECTOR_CALL_FREQUENCIES);
+		createEReference(usageModelEClass, USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES);
+		createEReference(usageModelEClass, USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES);
 
 		callingRelationshipEClass = createEClass(CALLING_RELATIONSHIP);
 		createEReference(callingRelationshipEClass, CALLING_RELATIONSHIP__CALLED_INTERFACE);
@@ -654,33 +725,40 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		createEAttribute(operationCallFrequencyEClass, OPERATION_CALL_FREQUENCY__FREQUENCY);
 		createEReference(operationCallFrequencyEClass, OPERATION_CALL_FREQUENCY__OPERATION);
 
+		assemblyComponentConnectorCallFrequencyEClass = createEClass(ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY);
+		createEReference(assemblyComponentConnectorCallFrequencyEClass, ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCY__CONNECTOR);
+
 		assemblyConnectorCallFrequencyEClass = createEClass(ASSEMBLY_CONNECTOR_CALL_FREQUENCY);
 		createEAttribute(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__FREQUENCY);
-		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorCallFrequencyEClass, ASSEMBLY_CONNECTOR_CALL_FREQUENCY__SIGNATURE);
 
+		systemProvidedInterfaceDelegationConnectorFrequencyEClass = createEClass(SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY);
+		createEReference(systemProvidedInterfaceDelegationConnectorFrequencyEClass, SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCY__CONNECTOR);
+
 		traceEClass = createEClass(TRACE);
-		createEAttribute(traceEClass, TRACE__TRACE_ID);
 
 		messageTraceEClass = createEClass(MESSAGE_TRACE);
 		createEReference(messageTraceEClass, MESSAGE_TRACE__MESSAGES);
+		createEReference(messageTraceEClass, MESSAGE_TRACE__EXECUTION_TRACE);
 
 		validTraceEClass = createEClass(VALID_TRACE);
+		createEAttribute(validTraceEClass, VALID_TRACE__TRACE_ID);
 
 		messageEClass = createEClass(MESSAGE);
 		createEReference(messageEClass, MESSAGE__SENDER);
 		createEAttribute(messageEClass, MESSAGE__TIMESTAMP);
 		createEReference(messageEClass, MESSAGE__RECEIVER);
 
-		executionTraceEClass = createEClass(EXECUTION_TRACE);
-		createEReference(executionTraceEClass, EXECUTION_TRACE__OPERATION_EXECUTIONS);
-
 		validExecutionTraceEClass = createEClass(VALID_EXECUTION_TRACE);
 		createEReference(validExecutionTraceEClass, VALID_EXECUTION_TRACE__MESSAGE_TRACE);
+
+		executionTraceEClass = createEClass(EXECUTION_TRACE);
+		createEReference(executionTraceEClass, EXECUTION_TRACE__OPERATION_EXECUTIONS);
 
 		invalidTraceEClass = createEClass(INVALID_TRACE);
 
 		invalidExecutionTraceEClass = createEClass(INVALID_EXECUTION_TRACE);
+		createEAttribute(invalidExecutionTraceEClass, INVALID_EXECUTION_TRACE__ERROR_MSG);
 
 		synchronousCallMessageEClass = createEClass(SYNCHRONOUS_CALL_MESSAGE);
 
@@ -722,11 +800,13 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		// Add supertypes to classes
 		usageModelEClass.getESuperTypes().add(theCorePackage.getSLAsticModel());
+		assemblyComponentConnectorCallFrequencyEClass.getESuperTypes().add(this.getAssemblyConnectorCallFrequency());
+		systemProvidedInterfaceDelegationConnectorFrequencyEClass.getESuperTypes().add(this.getAssemblyConnectorCallFrequency());
 		messageTraceEClass.getESuperTypes().add(this.getValidTrace());
 		validTraceEClass.getESuperTypes().add(this.getTrace());
-		executionTraceEClass.getESuperTypes().add(this.getTrace());
 		validExecutionTraceEClass.getESuperTypes().add(this.getExecutionTrace());
 		validExecutionTraceEClass.getESuperTypes().add(this.getValidTrace());
+		executionTraceEClass.getESuperTypes().add(this.getTrace());
 		invalidTraceEClass.getESuperTypes().add(this.getTrace());
 		invalidExecutionTraceEClass.getESuperTypes().add(this.getExecutionTrace());
 		invalidExecutionTraceEClass.getESuperTypes().add(this.getInvalidTrace());
@@ -737,7 +817,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEClass(usageModelEClass, UsageModel.class, "UsageModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getUsageModel_CallingRelationships(), this.getCallingRelationship(), null, "callingRelationships", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getUsageModel_OperationCallFrequencies(), this.getOperationCallFrequency(), null, "operationCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getUsageModel_AssemblyConnectorCallFrequencies(), this.getAssemblyConnectorCallFrequency(), null, "assemblyConnectorCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUsageModel_AssemblyComponentConnectorCallFrequencies(), this.getAssemblyComponentConnectorCallFrequency(), null, "assemblyComponentConnectorCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies(), this.getSystemProvidedInterfaceDelegationConnectorFrequency(), null, "systemProvidedInterfaceDelegationConnectorFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(callingRelationshipEClass, CallingRelationship.class, "CallingRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCallingRelationship_CalledInterface(), theTypeRepositoryPackage.getInterface(), null, "calledInterface", null, 1, 1, CallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -753,33 +834,40 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEAttribute(getOperationCallFrequency_Frequency(), ecorePackage.getELong(), "frequency", null, 1, 1, OperationCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getOperationCallFrequency_Operation(), theTypeRepositoryPackage.getOperation(), null, "operation", null, 1, 1, OperationCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
-		initEClass(assemblyConnectorCallFrequencyEClass, AssemblyConnectorCallFrequency.class, "AssemblyConnectorCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(assemblyComponentConnectorCallFrequencyEClass, AssemblyComponentConnectorCallFrequency.class, "AssemblyComponentConnectorCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getAssemblyComponentConnectorCallFrequency_Connector(), theComponentAssemblyPackage.getAssemblyComponentConnector(), null, "connector", null, 1, 1, AssemblyComponentConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
+		initEClass(assemblyConnectorCallFrequencyEClass, AssemblyConnectorCallFrequency.class, "AssemblyConnectorCallFrequency", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAssemblyConnectorCallFrequency_Frequency(), ecorePackage.getELong(), "frequency", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getAssemblyConnectorCallFrequency_AssemblyConnector(), theComponentAssemblyPackage.getAssemblyConnector(), null, "assemblyConnector", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getAssemblyConnectorCallFrequency_Signature(), theTypeRepositoryPackage.getSignature(), null, "signature", null, 1, 1, AssemblyConnectorCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
+		initEClass(systemProvidedInterfaceDelegationConnectorFrequencyEClass, SystemProvidedInterfaceDelegationConnectorFrequency.class, "SystemProvidedInterfaceDelegationConnectorFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getSystemProvidedInterfaceDelegationConnectorFrequency_Connector(), theComponentAssemblyPackage.getSystemProvidedInterfaceDelegationConnector(), null, "connector", null, 1, 1, SystemProvidedInterfaceDelegationConnectorFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
 		initEClass(traceEClass, Trace.class, "Trace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getTrace_TraceId(), ecorePackage.getELong(), "traceId", null, 1, 1, Trace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(messageTraceEClass, MessageTrace.class, "MessageTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMessageTrace_Messages(), this.getMessage(), null, "messages", null, 2, -1, MessageTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getMessageTrace_ExecutionTrace(), this.getValidExecutionTrace(), this.getValidExecutionTrace_MessageTrace(), "executionTrace", null, 1, 1, MessageTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(validTraceEClass, ValidTrace.class, "ValidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getValidTrace_TraceId(), ecorePackage.getELong(), "traceId", null, 1, 1, ValidTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(messageEClass, Message.class, "Message", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getMessage_Sender(), theMonitoringPackage.getOperationExecution(), null, "sender", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getMessage_Timestamp(), ecorePackage.getELong(), "timestamp", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getMessage_Receiver(), theMonitoringPackage.getOperationExecution(), null, "receiver", null, 1, 1, Message.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
+		initEClass(validExecutionTraceEClass, ValidExecutionTrace.class, "ValidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getValidExecutionTrace_MessageTrace(), this.getMessageTrace(), this.getMessageTrace_ExecutionTrace(), "messageTrace", null, 1, 1, ValidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
 		initEClass(executionTraceEClass, ExecutionTrace.class, "ExecutionTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExecutionTrace_OperationExecutions(), theMonitoringPackage.getOperationExecution(), null, "operationExecutions", null, 1, -1, ExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-
-		initEClass(validExecutionTraceEClass, ValidExecutionTrace.class, "ValidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getValidExecutionTrace_MessageTrace(), this.getMessageTrace(), null, "messageTrace", null, 1, 1, ValidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(invalidTraceEClass, InvalidTrace.class, "InvalidTrace", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(invalidExecutionTraceEClass, InvalidExecutionTrace.class, "InvalidExecutionTrace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getInvalidExecutionTrace_ErrorMsg(), ecorePackage.getEString(), "errorMsg", null, 1, 1, InvalidExecutionTrace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(synchronousCallMessageEClass, SynchronousCallMessage.class, "SynchronousCallMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

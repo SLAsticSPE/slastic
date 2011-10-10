@@ -1,4 +1,4 @@
-#Tue Oct 04 17:42:37 CEST 2011
+#Fri Oct 07 09:32:47 CEST 2011
 sp_cleanup.add_missing_override_annotations=true
 sp_cleanup.convert_to_enhanced_for_loop=true
 sp_cleanup.use_this_for_non_static_method_access_only_if_necessary=false
@@ -28,7 +28,7 @@ sp_cleanup.remove_trailing_whitespaces_all=true
 sp_cleanup.add_missing_deprecated_annotations=true
 sp_cleanup.add_missing_annotations=true
 sp_cleanup.never_use_parentheses_in_expressions=false
-formatter_profile=_Unmanaged profile 'Eclipse [built-in] AVH2'
+formatter_profile=_Unmanaged profile 'Unmanaged profile 'Eclipse [built-in] AVH3''
 sp_cleanup.organize_imports=true
 sp_cleanup.format_source_code_changes_only=false
 sp_cleanup.always_use_blocks=true

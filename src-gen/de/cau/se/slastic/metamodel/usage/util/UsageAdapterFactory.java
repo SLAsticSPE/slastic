@@ -90,8 +90,16 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 				return createOperationCallFrequencyAdapter();
 			}
 			@Override
+			public Adapter caseAssemblyComponentConnectorCallFrequency(AssemblyComponentConnectorCallFrequency object) {
+				return createAssemblyComponentConnectorCallFrequencyAdapter();
+			}
+			@Override
 			public Adapter caseAssemblyConnectorCallFrequency(AssemblyConnectorCallFrequency object) {
 				return createAssemblyConnectorCallFrequencyAdapter();
+			}
+			@Override
+			public Adapter caseSystemProvidedInterfaceDelegationConnectorFrequency(SystemProvidedInterfaceDelegationConnectorFrequency object) {
+				return createSystemProvidedInterfaceDelegationConnectorFrequencyAdapter();
 			}
 			@Override
 			public Adapter caseTrace(Trace object) {
@@ -110,12 +118,12 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 				return createMessageAdapter();
 			}
 			@Override
-			public Adapter caseExecutionTrace(ExecutionTrace object) {
-				return createExecutionTraceAdapter();
-			}
-			@Override
 			public Adapter caseValidExecutionTrace(ValidExecutionTrace object) {
 				return createValidExecutionTraceAdapter();
+			}
+			@Override
+			public Adapter caseExecutionTrace(ExecutionTrace object) {
+				return createExecutionTraceAdapter();
 			}
 			@Override
 			public Adapter caseInvalidTrace(InvalidTrace object) {
@@ -214,6 +222,20 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency <em>Assembly Component Connector Call Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency
+	 * @generated
+	 */
+	public Adapter createAssemblyComponentConnectorCallFrequencyAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.AssemblyConnectorCallFrequency <em>Assembly Connector Call Frequency</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -224,6 +246,20 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAssemblyConnectorCallFrequencyAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency <em>System Provided Interface Delegation Connector Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency
+	 * @generated
+	 */
+	public Adapter createSystemProvidedInterfaceDelegationConnectorFrequencyAdapter() {
 		return null;
 	}
 
@@ -284,20 +320,6 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
-	 * @generated
-	 */
-	public Adapter createExecutionTraceAdapter() {
-		return null;
-	}
-
-	/**
 	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ValidExecutionTrace <em>Valid Execution Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -308,6 +330,20 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createValidExecutionTraceAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.usage.ExecutionTrace <em>Execution Trace</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.usage.ExecutionTrace
+	 * @generated
+	 */
+	public Adapter createExecutionTraceAdapter() {
 		return null;
 	}
 

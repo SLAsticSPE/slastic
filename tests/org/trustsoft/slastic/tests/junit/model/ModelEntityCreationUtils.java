@@ -3,7 +3,7 @@ package org.trustsoft.slastic.tests.junit.model;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
-import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
@@ -45,7 +45,7 @@ public class ModelEntityCreationUtils {
 	 * @param fqAssemblyComponentName
 	 * @return
 	 */
-	public static AssemblyConnector createAssemblyConnector(
+	public static AssemblyComponentConnector createAssemblyConnector(
 			final ModelManager modelManager,
 			final String fqConnectorTypeName,
 			final Interface iface) {

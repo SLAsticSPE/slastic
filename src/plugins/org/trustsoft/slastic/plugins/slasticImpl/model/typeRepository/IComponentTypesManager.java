@@ -3,6 +3,7 @@ package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
+import de.cau.se.slastic.metamodel.typeRepository.Signature;
 
 /**
  * 
@@ -76,11 +77,11 @@ public interface IComponentTypesManager {
 			final String returnType, final String[] argTypes);
 
 	/**
-	 * Registers the given {@link Interface} in the given {@link ComponentType}'s
-	 * list of provided interfaces.
+	 * Registers the given {@link Interface} in the given {@link ComponentType}
+	 * 's list of provided interfaces.
 	 * 
 	 * @param componentType
-	 * @param providedInterface 
+	 * @param providedInterface
 	 */
 	public void registerProvidedInterface(final ComponentType componentType, final Interface providedInterface);
 
@@ -92,4 +93,24 @@ public interface IComponentTypesManager {
 	 * @param requiredInterface
 	 */
 	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface);
+	
+	/**
+	 * Returns the {@link Interface} declaring the given {@link Signature}
+	 * provided by the given {@link ComponentType}.
+	 * 
+	 * @param componentType
+	 * @param signature
+	 * @return
+	 */
+	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature);
+	
+	/**
+	 * Returns the {@link Interface} declaring the given {@link Signature}
+	 * required by the given {@link ComponentType}.
+	 * 
+	 * @param componentType
+	 * @param signature
+	 * @return
+	 */
+	public Interface lookupRequiredInterfaceForSignature(final ComponentType componentType, final Signature signature);
 }

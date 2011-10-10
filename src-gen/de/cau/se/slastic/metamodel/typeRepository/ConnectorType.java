@@ -25,7 +25,6 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  * @generated
  */
 public interface ConnectorType extends FQNamedEntity {
-
 	/**
 	 * Returns the value of the '<em><b>Interface</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -51,4 +50,5 @@ public interface ConnectorType extends FQNamedEntity {
 	 * @generated
 	 */
 	void setInterface(Interface value);
+
 } // ConnectorType

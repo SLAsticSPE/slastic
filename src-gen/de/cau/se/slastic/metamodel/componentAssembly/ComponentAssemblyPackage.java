@@ -143,14 +143,14 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_COMPONENT_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
 
 	/**
-	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl <em>Assembly Component Connector</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getAssemblyConnector()
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getAssemblyComponentConnector()
 	 * @generated
 	 */
-	int ASSEMBLY_CONNECTOR = 1;
+	int ASSEMBLY_COMPONENT_CONNECTOR = 1;
 
 	/**
 	 * The feature id for the '<em><b>Id</b></em>' attribute.
@@ -159,7 +159,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__ID = CorePackage.FQ_NAMED_ENTITY__ID;
+	int ASSEMBLY_COMPONENT_CONNECTOR__ID = CorePackage.FQ_NAMED_ENTITY__ID;
 
 	/**
 	 * The feature id for the '<em><b>Active</b></em>' attribute.
@@ -168,7 +168,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__ACTIVE = CorePackage.FQ_NAMED_ENTITY__ACTIVE;
+	int ASSEMBLY_COMPONENT_CONNECTOR__ACTIVE = CorePackage.FQ_NAMED_ENTITY__ACTIVE;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -177,7 +177,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__NAME = CorePackage.FQ_NAMED_ENTITY__NAME;
+	int ASSEMBLY_COMPONENT_CONNECTOR__NAME = CorePackage.FQ_NAMED_ENTITY__NAME;
 
 	/**
 	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
@@ -186,7 +186,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
+	int ASSEMBLY_COMPONENT_CONNECTOR__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
@@ -195,7 +195,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
+	int ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
@@ -204,7 +204,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+	int ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
@@ -213,7 +213,35 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+	int ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Assembly Component Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getAssemblyConnector()
+	 * @generated
+	 */
+	int ASSEMBLY_CONNECTOR = 2;
+
+	/**
+	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = 0;
 
 	/**
 	 * The number of structural features of the '<em>Assembly Connector</em>' class.
@@ -222,7 +250,127 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
+	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl <em>System Interface Delegation Connector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemInterfaceDelegationConnector()
+	 * @generated
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR = 3;
+
+	/**
+	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = ASSEMBLY_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The number of structural features of the '<em>System Interface Delegation Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT = ASSEMBLY_CONNECTOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl <em>System Provided Interface Delegation Connector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemProvidedInterfaceDelegationConnector()
+	 * @generated
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR = 4;
+
+	/**
+	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__PROVIDING_COMPONENT = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Component Assembly Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>System Provided Interface Delegation Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 2;
+
+	/**
+	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl <em>System Required Interface Delegation Connector</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemRequiredInterfaceDelegationConnector()
+	 * @generated
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR = 5;
+
+	/**
+	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__REQUIRING_COMPONENT = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Component Assembly Model</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>System Required Interface Delegation Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT = SYSTEM_INTERFACE_DELEGATION_CONNECTOR_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl <em>Model</em>}' class.
@@ -232,7 +380,25 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getComponentAssemblyModel()
 	 * @generated
 	 */
-	int COMPONENT_ASSEMBLY_MODEL = 2;
+	int COMPONENT_ASSEMBLY_MODEL = 6;
+
+	/**
+	 * The feature id for the '<em><b>System Provided Interface Delegation Connectors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTORS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>System Required Interface Delegation Connectors</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTORS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Assembly Components</b></em>' containment reference list.
@@ -241,16 +407,34 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 0;
+	int COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
 
 	/**
-	 * The feature id for the '<em><b>Assembly Connectors</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Assembly Component Connectors</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_CONNECTORS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 1;
+	int COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENT_CONNECTORS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>System Provided Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>System Required Interfaces</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -259,7 +443,7 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int COMPONENT_ASSEMBLY_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 2;
+	int COMPONENT_ASSEMBLY_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 6;
 
 
 	/**
@@ -306,6 +490,38 @@ public interface ComponentAssemblyPackage extends EPackage {
 	EReference getAssemblyComponent_RequiringConnectors();
 
 	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector <em>Assembly Component Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Assembly Component Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector
+	 * @generated
+	 */
+	EClass getAssemblyComponentConnector();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getProvidingComponent <em>Providing Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Providing Component</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getProvidingComponent()
+	 * @see #getAssemblyComponentConnector()
+	 * @generated
+	 */
+	EReference getAssemblyComponentConnector_ProvidingComponent();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getRequiringComponent <em>Requiring Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Requiring Component</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getRequiringComponent()
+	 * @see #getAssemblyComponentConnector()
+	 * @generated
+	 */
+	EReference getAssemblyComponentConnector_RequiringComponent();
+
+	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector <em>Assembly Connector</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -327,26 +543,78 @@ public interface ComponentAssemblyPackage extends EPackage {
 	EReference getAssemblyConnector_ConnectorType();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent <em>Providing Component</em>}'.
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector <em>System Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>System Interface Delegation Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector
+	 * @generated
+	 */
+	EClass getSystemInterfaceDelegationConnector();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector <em>System Provided Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>System Provided Interface Delegation Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector
+	 * @generated
+	 */
+	EClass getSystemProvidedInterfaceDelegationConnector();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector#getProvidingComponent <em>Providing Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Providing Component</em>'.
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent()
-	 * @see #getAssemblyConnector()
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector#getProvidingComponent()
+	 * @see #getSystemProvidedInterfaceDelegationConnector()
 	 * @generated
 	 */
-	EReference getAssemblyConnector_ProvidingComponent();
+	EReference getSystemProvidedInterfaceDelegationConnector_ProvidingComponent();
 
 	/**
-	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent <em>Requiring Component</em>}'.
+	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector#getComponentAssemblyModel <em>Component Assembly Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Component Assembly Model</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector#getComponentAssemblyModel()
+	 * @see #getSystemProvidedInterfaceDelegationConnector()
+	 * @generated
+	 */
+	EReference getSystemProvidedInterfaceDelegationConnector_ComponentAssemblyModel();
+
+	/**
+	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector <em>System Required Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>System Required Interface Delegation Connector</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector
+	 * @generated
+	 */
+	EClass getSystemRequiredInterfaceDelegationConnector();
+
+	/**
+	 * Returns the meta object for the reference '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getRequiringComponent <em>Requiring Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the reference '<em>Requiring Component</em>'.
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent()
-	 * @see #getAssemblyConnector()
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getRequiringComponent()
+	 * @see #getSystemRequiredInterfaceDelegationConnector()
 	 * @generated
 	 */
-	EReference getAssemblyConnector_RequiringComponent();
+	EReference getSystemRequiredInterfaceDelegationConnector_RequiringComponent();
+
+	/**
+	 * Returns the meta object for the container reference '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getComponentAssemblyModel <em>Component Assembly Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the container reference '<em>Component Assembly Model</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getComponentAssemblyModel()
+	 * @see #getSystemRequiredInterfaceDelegationConnector()
+	 * @generated
+	 */
+	EReference getSystemRequiredInterfaceDelegationConnector_ComponentAssemblyModel();
 
 	/**
 	 * Returns the meta object for class '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel <em>Model</em>}'.
@@ -357,6 +625,28 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getComponentAssemblyModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaceDelegationConnectors <em>System Provided Interface Delegation Connectors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>System Provided Interface Delegation Connectors</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaceDelegationConnectors()
+	 * @see #getComponentAssemblyModel()
+	 * @generated
+	 */
+	EReference getComponentAssemblyModel_SystemProvidedInterfaceDelegationConnectors();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaceDelegationConnectors <em>System Required Interface Delegation Connectors</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>System Required Interface Delegation Connectors</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaceDelegationConnectors()
+	 * @see #getComponentAssemblyModel()
+	 * @generated
+	 */
+	EReference getComponentAssemblyModel_SystemRequiredInterfaceDelegationConnectors();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getAssemblyComponents <em>Assembly Components</em>}'.
@@ -370,15 +660,37 @@ public interface ComponentAssemblyPackage extends EPackage {
 	EReference getComponentAssemblyModel_AssemblyComponents();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getAssemblyConnectors <em>Assembly Connectors</em>}'.
+	 * Returns the meta object for the containment reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getAssemblyComponentConnectors <em>Assembly Component Connectors</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Assembly Connectors</em>'.
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getAssemblyConnectors()
+	 * @return the meta object for the containment reference list '<em>Assembly Component Connectors</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getAssemblyComponentConnectors()
 	 * @see #getComponentAssemblyModel()
 	 * @generated
 	 */
-	EReference getComponentAssemblyModel_AssemblyConnectors();
+	EReference getComponentAssemblyModel_AssemblyComponentConnectors();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaces <em>System Provided Interfaces</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>System Provided Interfaces</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaces()
+	 * @see #getComponentAssemblyModel()
+	 * @generated
+	 */
+	EReference getComponentAssemblyModel_SystemProvidedInterfaces();
+
+	/**
+	 * Returns the meta object for the reference list '{@link de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaces <em>System Required Interfaces</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>System Required Interfaces</em>'.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaces()
+	 * @see #getComponentAssemblyModel()
+	 * @generated
+	 */
+	EReference getComponentAssemblyModel_SystemRequiredInterfaces();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -437,6 +749,32 @@ public interface ComponentAssemblyPackage extends EPackage {
 		EReference ASSEMBLY_COMPONENT__REQUIRING_CONNECTORS = eINSTANCE.getAssemblyComponent_RequiringConnectors();
 
 		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl <em>Assembly Component Connector</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getAssemblyComponentConnector()
+		 * @generated
+		 */
+		EClass ASSEMBLY_COMPONENT_CONNECTOR = eINSTANCE.getAssemblyComponentConnector();
+
+		/**
+		 * The meta object literal for the '<em><b>Providing Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT = eINSTANCE.getAssemblyComponentConnector_ProvidingComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Requiring Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT = eINSTANCE.getAssemblyComponentConnector_RequiringComponent();
+
+		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -455,12 +793,50 @@ public interface ComponentAssemblyPackage extends EPackage {
 		EReference ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = eINSTANCE.getAssemblyConnector_ConnectorType();
 
 		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl <em>System Interface Delegation Connector</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemInterfaceDelegationConnector()
+		 * @generated
+		 */
+		EClass SYSTEM_INTERFACE_DELEGATION_CONNECTOR = eINSTANCE.getSystemInterfaceDelegationConnector();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl <em>System Provided Interface Delegation Connector</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemProvidedInterfaceDelegationConnector()
+		 * @generated
+		 */
+		EClass SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR = eINSTANCE.getSystemProvidedInterfaceDelegationConnector();
+
+		/**
 		 * The meta object literal for the '<em><b>Providing Component</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ASSEMBLY_CONNECTOR__PROVIDING_COMPONENT = eINSTANCE.getAssemblyConnector_ProvidingComponent();
+		EReference SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__PROVIDING_COMPONENT = eINSTANCE.getSystemProvidedInterfaceDelegationConnector_ProvidingComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Assembly Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL = eINSTANCE.getSystemProvidedInterfaceDelegationConnector_ComponentAssemblyModel();
+
+		/**
+		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl <em>System Required Interface Delegation Connector</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl
+		 * @see de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl#getSystemRequiredInterfaceDelegationConnector()
+		 * @generated
+		 */
+		EClass SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR = eINSTANCE.getSystemRequiredInterfaceDelegationConnector();
 
 		/**
 		 * The meta object literal for the '<em><b>Requiring Component</b></em>' reference feature.
@@ -468,7 +844,15 @@ public interface ComponentAssemblyPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ASSEMBLY_CONNECTOR__REQUIRING_COMPONENT = eINSTANCE.getAssemblyConnector_RequiringComponent();
+		EReference SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__REQUIRING_COMPONENT = eINSTANCE.getSystemRequiredInterfaceDelegationConnector_RequiringComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Component Assembly Model</b></em>' container reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL = eINSTANCE.getSystemRequiredInterfaceDelegationConnector_ComponentAssemblyModel();
 
 		/**
 		 * The meta object literal for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl <em>Model</em>}' class.
@@ -481,6 +865,22 @@ public interface ComponentAssemblyPackage extends EPackage {
 		EClass COMPONENT_ASSEMBLY_MODEL = eINSTANCE.getComponentAssemblyModel();
 
 		/**
+		 * The meta object literal for the '<em><b>System Provided Interface Delegation Connectors</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTORS = eINSTANCE.getComponentAssemblyModel_SystemProvidedInterfaceDelegationConnectors();
+
+		/**
+		 * The meta object literal for the '<em><b>System Required Interface Delegation Connectors</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTORS = eINSTANCE.getComponentAssemblyModel_SystemRequiredInterfaceDelegationConnectors();
+
+		/**
 		 * The meta object literal for the '<em><b>Assembly Components</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -489,12 +889,28 @@ public interface ComponentAssemblyPackage extends EPackage {
 		EReference COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENTS = eINSTANCE.getComponentAssemblyModel_AssemblyComponents();
 
 		/**
-		 * The meta object literal for the '<em><b>Assembly Connectors</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Assembly Component Connectors</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_CONNECTORS = eINSTANCE.getComponentAssemblyModel_AssemblyConnectors();
+		EReference COMPONENT_ASSEMBLY_MODEL__ASSEMBLY_COMPONENT_CONNECTORS = eINSTANCE.getComponentAssemblyModel_AssemblyComponentConnectors();
+
+		/**
+		 * The meta object literal for the '<em><b>System Provided Interfaces</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_ASSEMBLY_MODEL__SYSTEM_PROVIDED_INTERFACES = eINSTANCE.getComponentAssemblyModel_SystemProvidedInterfaces();
+
+		/**
+		 * The meta object literal for the '<em><b>System Required Interfaces</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference COMPONENT_ASSEMBLY_MODEL__SYSTEM_REQUIRED_INTERFACES = eINSTANCE.getComponentAssemblyModel_SystemRequiredInterfaces();
 
 	}
 

@@ -38,4 +38,14 @@ public interface IConnectorTypesManager {
      * fully-qualified name has already been registered
      */
     public ConnectorType createAndRegisterConnectorType (final String fullyQualifiedName, final Interface iface);
+    
+	/**
+     * Creates and registers a new connector type with with a random but unique
+     * full-qualified name name fullyQualifiedName supporting the given interface.
+     *
+     * @param fullyQualifiedName
+     * @param iface 
+     * @return the new connector type
+	 */
+    public ConnectorType createAndRegisterConnectorType (final Interface iface);
 }

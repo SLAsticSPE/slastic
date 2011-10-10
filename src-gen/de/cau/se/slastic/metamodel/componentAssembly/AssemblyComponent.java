@@ -9,6 +9,7 @@ package de.cau.se.slastic.metamodel.componentAssembly;
 import de.cau.se.slastic.metamodel.core.FQNamedEntity;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
+
 import org.eclipse.emf.common.util.EList;
 
 /**
@@ -58,8 +59,8 @@ public interface AssemblyComponent extends FQNamedEntity {
 
 	/**
 	 * Returns the value of the '<em><b>Providing Connectors</b></em>' reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector}.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent <em>Requiring Component</em>}'.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector}.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getRequiringComponent <em>Requiring Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Providing Connectors</em>' reference list isn't clear,
@@ -68,16 +69,16 @@ public interface AssemblyComponent extends FQNamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Providing Connectors</em>' reference list.
 	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyComponent_ProvidingConnectors()
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getRequiringComponent
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getRequiringComponent
 	 * @model opposite="requiringComponent" ordered="false"
 	 * @generated
 	 */
-	EList<AssemblyConnector> getProvidingConnectors();
+	EList<AssemblyComponentConnector> getProvidingConnectors();
 
 	/**
 	 * Returns the value of the '<em><b>Requiring Connectors</b></em>' reference list.
-	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector}.
-	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent <em>Providing Component</em>}'.
+	 * The list contents are of type {@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector}.
+	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getProvidingComponent <em>Providing Component</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Requiring Connectors</em>' reference list isn't clear,
@@ -86,10 +87,10 @@ public interface AssemblyComponent extends FQNamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Requiring Connectors</em>' reference list.
 	 * @see de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyComponent_RequiringConnectors()
-	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector#getProvidingComponent
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector#getProvidingComponent
 	 * @model opposite="providingComponent" ordered="false"
 	 * @generated
 	 */
-	EList<AssemblyConnector> getRequiringConnectors();
+	EList<AssemblyComponentConnector> getRequiringConnectors();
 
 } // AssemblyComponent

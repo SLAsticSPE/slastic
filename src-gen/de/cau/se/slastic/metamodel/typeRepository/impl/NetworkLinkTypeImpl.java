@@ -9,18 +9,9 @@ package de.cau.se.slastic.metamodel.typeRepository.impl;
 import de.cau.se.slastic.metamodel.core.impl.FQNamedEntityImpl;
 
 import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
-import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->

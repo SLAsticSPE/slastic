@@ -81,8 +81,24 @@ public class ComponentAssemblyAdapterFactory extends AdapterFactoryImpl {
 				return createAssemblyComponentAdapter();
 			}
 			@Override
+			public Adapter caseAssemblyComponentConnector(AssemblyComponentConnector object) {
+				return createAssemblyComponentConnectorAdapter();
+			}
+			@Override
 			public Adapter caseAssemblyConnector(AssemblyConnector object) {
 				return createAssemblyConnectorAdapter();
+			}
+			@Override
+			public Adapter caseSystemInterfaceDelegationConnector(SystemInterfaceDelegationConnector object) {
+				return createSystemInterfaceDelegationConnectorAdapter();
+			}
+			@Override
+			public Adapter caseSystemProvidedInterfaceDelegationConnector(SystemProvidedInterfaceDelegationConnector object) {
+				return createSystemProvidedInterfaceDelegationConnectorAdapter();
+			}
+			@Override
+			public Adapter caseSystemRequiredInterfaceDelegationConnector(SystemRequiredInterfaceDelegationConnector object) {
+				return createSystemRequiredInterfaceDelegationConnectorAdapter();
 			}
 			@Override
 			public Adapter caseComponentAssemblyModel(ComponentAssemblyModel object) {
@@ -139,6 +155,20 @@ public class ComponentAssemblyAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector <em>Assembly Component Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector
+	 * @generated
+	 */
+	public Adapter createAssemblyComponentConnectorAdapter() {
+		return null;
+	}
+
+	/**
 	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector <em>Assembly Connector</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
@@ -149,6 +179,48 @@ public class ComponentAssemblyAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAssemblyConnectorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector <em>System Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector
+	 * @generated
+	 */
+	public Adapter createSystemInterfaceDelegationConnectorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector <em>System Provided Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector
+	 * @generated
+	 */
+	public Adapter createSystemProvidedInterfaceDelegationConnectorAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector <em>System Required Interface Delegation Connector</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see de.cau.se.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector
+	 * @generated
+	 */
+	public Adapter createSystemRequiredInterfaceDelegationConnectorAdapter() {
 		return null;
 	}
 
