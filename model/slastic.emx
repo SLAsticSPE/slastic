@@ -4626,7 +4626,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCccPJ-EeCrteEUR2CQUA" type="FromRoleLabel" element="_mBu6cPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_mCCccvJ-EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="43" y="-2259"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="-460" y="-2552"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCcc_J-EeCrteEUR2CQUA" type="ToQualifierLabel" element="_mB1oIPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_mCDDgPJ-EeCrteEUR2CQUA" type="QualifierCompartment"/>

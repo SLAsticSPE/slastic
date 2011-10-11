@@ -4,6 +4,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
@@ -52,6 +53,26 @@ public class ModelEntityCreationUtils {
 		final ConnectorType connectorType =
 				modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
 		return modelManager.getComponentAssemblyModelManager().createAndRegisterAssemblyConnector(connectorType);
+	}
+
+	/**
+	 * Creates a new {@link SystemProvidedInterfaceDelegationConnector} based on
+	 * the connector type with the name fqComponentTypeName and supported
+	 * interface.
+	 * 
+	 * @param mgr
+	 * @param fqComponentTypeName
+	 * @param fqAssemblyComponentName
+	 * @return
+	 */
+	public static SystemProvidedInterfaceDelegationConnector createSystemProvidedDelegationConnector(
+			final ModelManager modelManager,
+			final String fqConnectorTypeName,
+			final Interface iface) {
+		final ConnectorType connectorType =
+				modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
+		return modelManager.getComponentAssemblyModelManager().createAndRegisterProvidedInterfaceDelegationConnector(
+				connectorType);
 	}
 
 	/**

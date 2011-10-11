@@ -26,7 +26,7 @@ public class SystemProvidedInterfacesManager extends
 
 	public final static String SYSPROVCONNECT_NO_NAME_PREFIX = "ASM_SYSPROVCONN_NN_";
 
-	private final TypeRepositoryModelManager typeRepositoryModelManager; // TODO: required?
+	private final TypeRepositoryModelManager typeRepositoryModelManager;
 	private final List<Interface> systemProvidedInterfaces;
 
 	public SystemProvidedInterfacesManager(
@@ -94,7 +94,14 @@ public class SystemProvidedInterfacesManager extends
 	@Override
 	public boolean delegate(final SystemProvidedInterfaceDelegationConnector delegationConnector,
 			final Interface providedInterface, final AssemblyComponent providingComponent) {
-		/* First, we need to make sure that the interfaces match */
+		/* First, we need to check if the interface is in the list of system-provided interfaces */
+		if (! this.systemProvidedInterfaces.contains(providedInterface)) {
+			SystemProvidedInterfacesManager.log.error("Interface " + providedInterface + " not contained in the list of syste-provided " +
+					"interfaces");
+			return false;
+		}
+		
+		/* Seconds, we need to make sure that the interfaces match */
 		final Interface connectorInterface = delegationConnector.getConnectorType().getInterface();
 		if (!providingComponent.getComponentType().getProvidedInterfaces().contains(connectorInterface)) {
 			SystemProvidedInterfacesManager.log.error("Providing component's type " + providingComponent
@@ -103,8 +110,7 @@ public class SystemProvidedInterfacesManager extends
 		}
 
 		/*
-		 * The interfaces match -> connect (reverse direction set by EMF
-		 * framework classes)
+		 * The interfaces match -> connect
 		 */
 		delegationConnector.setProvidingComponent(providingComponent);
 

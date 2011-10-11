@@ -20,6 +20,7 @@ import org.trustsoft.slastic.tests.junit.model.ModelEntityCreationUtils;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
@@ -55,12 +56,15 @@ public class TestUsageModelSimple extends TestCase {
 
 	private volatile AssemblyComponent requiringAsmCompA;
 	private volatile DeploymentComponentOperationExecution opExecAa;
+	private volatile Interface providedInterfaceA;
 
 	private volatile AssemblyComponent providingAsmCompB;
 	private volatile DeploymentComponentOperationExecution opExecBb;
 	private volatile Interface commonInterfaceB;
 
 	private volatile AssemblyComponentConnector asmConnector;
+	
+	private volatile SystemProvidedInterfaceDelegationConnector sysProvDelegationConnector;
 
 	/**
 	 * Intermediate data structure capturing the distribution of calls from
@@ -113,9 +117,14 @@ public class TestUsageModelSimple extends TestCase {
 				this.fillSystemModelByOperationExecution("package.ComponentA", this.commonInterfaceB,
 						"opA", Long.class.getName(), new String[] { Boolean.class.getName() });
 		this.requiringAsmCompA = this.opExecAa.getDeploymentComponent().getAssemblyComponent();
+		this.providedInterfaceA = this.requiringAsmCompA.getComponentType().getProvidedInterfaces().get(0);
 
 		// Connect the two components
 		this.connect(this.requiringAsmCompA, this.providingAsmCompB, this.commonInterfaceB);
+		
+		// Delegate system-provided interface
+		this.assemblyMgr.registerSystemProvidedInterface(this.providedInterfaceA);
+		this.delegate(this.requiringAsmCompA, this.providedInterfaceA);
 	}
 
 	/**
@@ -263,6 +272,12 @@ public class TestUsageModelSimple extends TestCase {
 			final Interface iface) {
 		this.asmConnector =
 				ModelEntityCreationUtils.createAssemblyConnector(this.systemModelManager, "ConnectorT", iface);
-		this.assemblyMgr.connect(this.asmConnector, requiringComponent, providingComponent);
+		Assert.assertTrue("Failed to connect", this.assemblyMgr.connect(this.asmConnector, requiringComponent, providingComponent));
+	}
+	
+	private void delegate(final AssemblyComponent providingComponent, final Interface iface) {
+		this.sysProvDelegationConnector = 
+			ModelEntityCreationUtils.createSystemProvidedDelegationConnector(this.systemModelManager, "SysProvConnectT", iface);
+		Assert.assertTrue("Failed to delegate", this.assemblyMgr.delegate(this.sysProvDelegationConnector, iface, providingComponent));
 	}
 }
