@@ -9,6 +9,7 @@ package de.cau.se.slastic.metamodel.componentAssembly.impl;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
 
+import de.cau.se.slastic.metamodel.core.impl.FQNamedEntityImpl;
 import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -32,7 +33,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *
  * @generated
  */
-public abstract class AssemblyConnectorImpl extends EObjectImpl implements AssemblyConnector {
+public abstract class AssemblyConnectorImpl extends FQNamedEntityImpl implements AssemblyConnector {
 	/**
 	 * The cached value of the '{@link #getConnectorType() <em>Connector Type</em>}' reference.
 	 * <!-- begin-user-doc -->

@@ -153,78 +153,6 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_COMPONENT_CONNECTOR = 1;
 
 	/**
-	 * The feature id for the '<em><b>Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__ID = CorePackage.FQ_NAMED_ENTITY__ID;
-
-	/**
-	 * The feature id for the '<em><b>Active</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__ACTIVE = CorePackage.FQ_NAMED_ENTITY__ACTIVE;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__NAME = CorePackage.FQ_NAMED_ENTITY__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
-
-	/**
-	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
-
-	/**
-	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
-
-	/**
-	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
-
-	/**
-	 * The number of structural features of the '<em>Assembly Component Connector</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ASSEMBLY_COMPONENT_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 3;
-
-	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyConnectorImpl <em>Assembly Connector</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -235,13 +163,49 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_CONNECTOR = 2;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__ID = CorePackage.FQ_NAMED_ENTITY__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__ACTIVE = CorePackage.FQ_NAMED_ENTITY__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__NAME = CorePackage.FQ_NAMED_ENTITY__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__PACKAGE_NAME = CorePackage.FQ_NAMED_ENTITY__PACKAGE_NAME;
+
+	/**
 	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = 0;
+	int ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
 	 * The number of structural features of the '<em>Assembly Connector</em>' class.
@@ -250,7 +214,79 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = 1;
+	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__ID = ASSEMBLY_CONNECTOR__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__ACTIVE = ASSEMBLY_CONNECTOR__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__NAME = ASSEMBLY_CONNECTOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__PACKAGE_NAME = ASSEMBLY_CONNECTOR__PACKAGE_NAME;
+
+	/**
+	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE = ASSEMBLY_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT = ASSEMBLY_CONNECTOR_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT = ASSEMBLY_CONNECTOR_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Assembly Component Connector</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR_FEATURE_COUNT = ASSEMBLY_CONNECTOR_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link de.cau.se.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl <em>System Interface Delegation Connector</em>}' class.
@@ -261,6 +297,42 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR = 3;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ID = ASSEMBLY_CONNECTOR__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ACTIVE = ASSEMBLY_CONNECTOR__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__NAME = ASSEMBLY_CONNECTOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__PACKAGE_NAME = ASSEMBLY_CONNECTOR__PACKAGE_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
@@ -289,6 +361,42 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR = 4;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__ID = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__ACTIVE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__NAME = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__PACKAGE_NAME = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__PACKAGE_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Connector Type</b></em>' reference.
@@ -335,6 +443,42 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR = 5;
+
+	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__ID = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ID;
+
+	/**
+	 * The feature id for the '<em><b>Active</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__ACTIVE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__ACTIVE;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__NAME = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Package Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__PACKAGE_NAME = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__PACKAGE_NAME;
 
 	/**
 	 * The feature id for the '<em><b>Connector Type</b></em>' reference.

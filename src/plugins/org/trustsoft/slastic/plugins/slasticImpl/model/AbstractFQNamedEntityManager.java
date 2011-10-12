@@ -12,7 +12,11 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  */
 public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 		extends AbstractEntityManager<T> {
-	private final Map<String, T> entitiesByFullQualifiedName =
+	
+	/**
+	 * 
+	 */
+	private final Map<String, T> entitiesByFullyQualifiedName =
 			new HashMap<String, T>();
 
 
@@ -25,16 +29,16 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 	}
 
 	public T lookup(final String fullyQualifiedName) {
-		return this.entitiesByFullQualifiedName.get(fullyQualifiedName);
+		return this.entitiesByFullyQualifiedName.get(fullyQualifiedName);
 	}
 
 	@Override
 	protected abstract T createEntity();
 
 	public T createAndRegister(final String fullyQualifiedName) {
-		if (this.entitiesByFullQualifiedName.containsKey(fullyQualifiedName)) {
+		if (this.entitiesByFullyQualifiedName.containsKey(fullyQualifiedName)) {
 			throw new IllegalArgumentException("Element with name "
-					+ fullyQualifiedName + "exists already");
+					+ fullyQualifiedName + " exists already");
 		}
 		final T newEntity = super.createAndRegisterEntity();
 		final String[] fqnSplit =
@@ -47,7 +51,7 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 
 	protected void assignNameIdAndRegister(final T entity,
 			final String fullyQualifiedName) {
-		if (this.entitiesByFullQualifiedName.containsKey(fullyQualifiedName)) {
+		if (this.entitiesByFullyQualifiedName.containsKey(fullyQualifiedName)) {
 			throw new IllegalArgumentException("Element with name "
 					+ fullyQualifiedName + "exists already");
 		}
@@ -65,10 +69,10 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 	private void addEntitiyToNameMap(final T entity) {
 		if (entity.getPackageName().isEmpty()) {
 			/* no package name */
-			this.entitiesByFullQualifiedName.put(entity.getName(), entity);
+			this.entitiesByFullyQualifiedName.put(entity.getName(), entity);
 		} else {
 			/* separate package name and type name by '.' */
-			this.entitiesByFullQualifiedName.put(entity.getPackageName() + "."
+			this.entitiesByFullyQualifiedName.put(entity.getPackageName() + "."
 					+ entity.getName(), entity);
 		}
 	}

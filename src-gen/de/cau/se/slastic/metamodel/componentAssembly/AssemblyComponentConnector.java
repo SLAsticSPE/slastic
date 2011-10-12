@@ -25,7 +25,7 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  * @model
  * @generated
  */
-public interface AssemblyComponentConnector extends FQNamedEntity, AssemblyConnector {
+public interface AssemblyComponentConnector extends AssemblyConnector {
 	/**
 	 * Returns the value of the '<em><b>Providing Component</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors <em>Requiring Connectors</em>}'.

@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl#getConnectorType <em>Connector Type</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl#getProvidingComponent <em>Providing Component</em>}</li>
  *   <li>{@link de.cau.se.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl#getRequiringComponent <em>Requiring Component</em>}</li>
  * </ul>
@@ -38,17 +37,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements AssemblyComponentConnector {
-	/**
-	 * The cached value of the '{@link #getConnectorType() <em>Connector Type</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getConnectorType()
-	 * @generated
-	 * @ordered
-	 */
-	protected ConnectorType connectorType;
-
+public class AssemblyComponentConnectorImpl extends AssemblyConnectorImpl implements AssemblyComponentConnector {
 	/**
 	 * The cached value of the '{@link #getProvidingComponent() <em>Providing Component</em>}' reference.
 	 * <!-- begin-user-doc -->
@@ -86,44 +75,6 @@ public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements
 	@Override
 	protected EClass eStaticClass() {
 		return ComponentAssemblyPackage.Literals.ASSEMBLY_COMPONENT_CONNECTOR;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ConnectorType getConnectorType() {
-		if (connectorType != null && connectorType.eIsProxy()) {
-			InternalEObject oldConnectorType = (InternalEObject)connectorType;
-			connectorType = (ConnectorType)eResolveProxy(oldConnectorType);
-			if (connectorType != oldConnectorType) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE, oldConnectorType, connectorType));
-			}
-		}
-		return connectorType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ConnectorType basicGetConnectorType() {
-		return connectorType;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setConnectorType(ConnectorType newConnectorType) {
-		ConnectorType oldConnectorType = connectorType;
-		connectorType = newConnectorType;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE, oldConnectorType, connectorType));
 	}
 
 	/**
@@ -290,9 +241,6 @@ public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE:
-				if (resolve) return getConnectorType();
-				return basicGetConnectorType();
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT:
 				if (resolve) return getProvidingComponent();
 				return basicGetProvidingComponent();
@@ -311,9 +259,6 @@ public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE:
-				setConnectorType((ConnectorType)newValue);
-				return;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT:
 				setProvidingComponent((AssemblyComponent)newValue);
 				return;
@@ -332,9 +277,6 @@ public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE:
-				setConnectorType((ConnectorType)null);
-				return;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT:
 				setProvidingComponent((AssemblyComponent)null);
 				return;
@@ -353,46 +295,12 @@ public class AssemblyComponentConnectorImpl extends FQNamedEntityImpl implements
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE:
-				return connectorType != null;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__PROVIDING_COMPONENT:
 				return providingComponent != null;
 			case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__REQUIRING_COMPONENT:
 				return requiringComponent != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
-		if (baseClass == AssemblyConnector.class) {
-			switch (derivedFeatureID) {
-				case ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE: return ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE;
-				default: return -1;
-			}
-		}
-		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public int eDerivedStructuralFeatureID(int baseFeatureID, Class<?> baseClass) {
-		if (baseClass == AssemblyConnector.class) {
-			switch (baseFeatureID) {
-				case ComponentAssemblyPackage.ASSEMBLY_CONNECTOR__CONNECTOR_TYPE: return ComponentAssemblyPackage.ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE;
-				default: return -1;
-			}
-		}
-		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
 	}
 
 } //AssemblyComponentConnectorImpl

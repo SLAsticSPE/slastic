@@ -237,13 +237,14 @@
           ordered="false" upperBound="-1" eType="#//componentAssembly/AssemblyComponentConnector"
           eOpposite="#//componentAssembly/AssemblyComponentConnector/providingComponent"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AssemblyComponentConnector" eSuperTypes="#//core/FQNamedEntity #//componentAssembly/AssemblyConnector">
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyComponentConnector" eSuperTypes="#//componentAssembly/AssemblyConnector">
       <eStructuralFeatures xsi:type="ecore:EReference" name="providingComponent" ordered="false"
           lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/requiringConnectors"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="requiringComponent" ordered="false"
           lowerBound="1" eType="#//componentAssembly/AssemblyComponent" eOpposite="#//componentAssembly/AssemblyComponent/providingConnectors"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" abstract="true">
+    <eClassifiers xsi:type="ecore:EClass" name="AssemblyConnector" abstract="true"
+        eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ConnectorType"/>
     </eClassifiers>

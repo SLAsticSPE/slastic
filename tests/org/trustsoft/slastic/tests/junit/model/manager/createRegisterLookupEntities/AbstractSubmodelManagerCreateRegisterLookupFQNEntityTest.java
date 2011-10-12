@@ -2,8 +2,6 @@ package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEnti
 
 import junit.framework.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
@@ -17,7 +15,7 @@ import de.cau.se.slastic.metamodel.core.SystemModel;
  */
 public abstract class AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<M extends SLAsticModel, T extends FQNamedEntity> extends AbstractSubmodelManagerCreateRegisterLookupEntityTest<M, T> {
 
-    private static final Log log = LogFactory.getLog(AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest.class);
+    //private static final Log log = LogFactory.getLog(AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest.class);
 
     protected abstract T createAndRegisterEntity(AbstractModelManager<M> mgr, String fqEntityName, ModelManager systemModelMgr);
 

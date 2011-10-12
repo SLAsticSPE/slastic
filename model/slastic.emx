@@ -4626,7 +4626,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCccPJ-EeCrteEUR2CQUA" type="FromRoleLabel" element="_mBu6cPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_mCCccvJ-EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="43" y="-2259"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="-460" y="-2552"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCcc_J-EeCrteEUR2CQUA" type="ToQualifierLabel" element="_mB1oIPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_mCDDgPJ-EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4710,7 +4710,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tQ2-IPJ_EeCrteEUR2CQUA" type="FromRoleLabel" element="_tQntkPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tQ2-IvJ_EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2-IfJ_EeCrteEUR2CQUA" x="-630" y="-1085"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2-IfJ_EeCrteEUR2CQUA" x="-568" y="508"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tQ3lMPJ_EeCrteEUR2CQUA" type="ToQualifierLabel" element="_tQqw4PJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_tQ4zUPJ_EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4906,14 +4906,6 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_m_hGEKFMEd-l1J3OQ8v6iQ" x="9125" y="6750"/>
           </children>
           <element xsi:nil="true"/>
-          <edges xmi:type="umlnotation:UMLConnector" xmi:id="_jS-i4KFMEd-l1J3OQ8v6iQ" element="_jS9UwKFMEd-l1J3OQ8v6iQ" source="_fygFwKFMEd-l1J3OQ8v6iQ" target="_czR7kKFMEd-l1J3OQ8v6iQ" fontName="Arial" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
-            <children xmi:type="notation:DecorationNode" xmi:id="_jS-i46FMEd-l1J3OQ8v6iQ" type="NameLabel">
-              <children xmi:type="notation:BasicDecorationNode" xmi:id="_jS-i5aFMEd-l1J3OQ8v6iQ" type="Stereotype"/>
-              <children xmi:type="notation:BasicDecorationNode" xmi:id="_jS_J8KFMEd-l1J3OQ8v6iQ" type="Name"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_jS-i5KFMEd-l1J3OQ8v6iQ" y="-220"/>
-            </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jS-i4qFMEd-l1J3OQ8v6iQ" points="[-3, -13, -1, 67]$[-62, -81, -60, -1]"/>
-          </edges>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_ocSmEKFMEd-l1J3OQ8v6iQ" element="_ocMfcKFMEd-l1J3OQ8v6iQ" source="_fygFwKFMEd-l1J3OQ8v6iQ" target="_m_gfAKFMEd-l1J3OQ8v6iQ" fontName="Arial" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_ocSmE6FMEd-l1J3OQ8v6iQ" type="NameLabel">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_ocTNIKFMEd-l1J3OQ8v6iQ" type="Stereotype"/>
@@ -5011,7 +5003,6 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_fyeQkKFMEd-l1J3OQ8v6iQ" name="AssemblyComponentConnector">
-        <generalization xmi:id="_jS9UwKFMEd-l1J3OQ8v6iQ" general="_LsnOYJ8DEd-l1J3OQ8v6iQ"/>
         <generalization xmi:id="_fvc5gPJ9EeCrteEUR2CQUA" general="_PM7-4PJ8EeCrteEUR2CQUA"/>
         <ownedAttribute xmi:id="_O45F4NowEeCt4bZH5yXw5Q" name="requiringComponent" visibility="private" type="_-QLbEKFKEd-l1J3OQ8v6iQ" association="_O4NJYNowEeCt4bZH5yXw5Q">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_O47iINowEeCt4bZH5yXw5Q" value="1"/>
@@ -5037,6 +5028,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
       <packagedElement xmi:type="uml:Association" xmi:id="_O4NJYNowEeCt4bZH5yXw5Q" memberEnd="_O4onMNowEeCt4bZH5yXw5Q _O45F4NowEeCt4bZH5yXw5Q"/>
       <packagedElement xmi:type="uml:Association" xmi:id="_EGVs0NoxEeCt4bZH5yXw5Q" memberEnd="_EGXiANoxEeCt4bZH5yXw5Q _EGZ-QNoxEeCt4bZH5yXw5Q"/>
       <packagedElement xmi:type="uml:Class" xmi:id="_PM7-4PJ8EeCrteEUR2CQUA" name="AssemblyConnector" isAbstract="true">
+        <generalization xmi:id="_Q9_qwPNWEeCtZs4xBF8inw" general="_LsnOYJ8DEd-l1J3OQ8v6iQ"/>
         <ownedAttribute xmi:id="_ocNGgKFMEd-l1J3OQ8v6iQ" name="connectorType" visibility="private" type="_TIjGYJ8BEd-l1J3OQ8v6iQ" association="_ocMfcKFMEd-l1J3OQ8v6iQ">
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ocOUoaFMEd-l1J3OQ8v6iQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ocOUoKFMEd-l1J3OQ8v6iQ" value="1"/>
