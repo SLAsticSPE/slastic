@@ -30,6 +30,7 @@ import de.cau.se.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency
 import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
 import de.cau.se.slastic.metamodel.usage.OperationCallFrequency;
+import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 
@@ -179,25 +180,36 @@ public class TestUsageModelSimple extends TestCase {
 			numCallsBb += e.getValue() * e.getKey();
 		}
 
+		/*
+		 * Frequency for assembly component connector
+		 */
 		final AssemblyComponentConnectorCallFrequency asmCallFreqAaToBb =
 				UsageFactory.eINSTANCE.createAssemblyComponentConnectorCallFrequency();
 		asmCallFreqAaToBb.setConnector(this.asmConnector);
-		asmCallFreqAaToBb.setSignature(this.opExecBb.getOperation().getSignature());
+		asmCallFreqAaToBb.setSignature(this.commonInterfaceB.getSignatures().get(0));
 		asmCallFreqAaToBb.setFrequency(numCallsBb);
 		this.usageModel.getAssemblyComponentConnectorCallFrequencies().add(asmCallFreqAaToBb);
-
-		// TODO: Add frequency for system-provided connector
+		
+		/*
+		 * Frequency for system-provided interface delegation connector
+		 */
+		final SystemProvidedInterfaceDelegationConnectorFrequency sysProvDelegFreqAa = 
+			UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
+		sysProvDelegFreqAa.setConnector(this.sysProvDelegationConnector);
+		sysProvDelegFreqAa.setSignature(this.providedInterfaceA.getSignatures().get(0));
+		sysProvDelegFreqAa.setFrequency(numCallsAa);
+		this.usageModel.getSystemProvidedInterfaceDelegationConnectorFrequencies().add(sysProvDelegFreqAa);
 	}
-
+	
 	private void saveModels() throws IOException {
 	       /* Create a tmp files the models will be saved to
          * and mark the files to be deleted on jvm termination */
         final File tmpSystemModelFile =
-                File.createTempFile("systemModel-", "");
+                File.createTempFile(this.getClass().getSimpleName() +"-systemModel-", "");
         //tmpSystemModelFile.deleteOnExit();
         
         final File tmpUsageModelFile =
-            File.createTempFile("usageModel-", "");
+            File.createTempFile(this.getClass().getSimpleName() +"-usageModel-", "");
         //tmpSystemModelFile.deleteOnExit();
         
         this.systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
