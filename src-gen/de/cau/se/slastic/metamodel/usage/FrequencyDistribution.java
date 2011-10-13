@@ -39,7 +39,7 @@ public interface FrequencyDistribution extends EObject {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Values</em>' attribute list.
 	 * @see de.cau.se.slastic.metamodel.usage.UsagePackage#getFrequencyDistribution_Values()
-	 * @model unique="false" ordered="false"
+	 * @model
 	 * @generated
 	 */
 	EList<Long> getValues();

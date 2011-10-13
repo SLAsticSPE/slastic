@@ -32,8 +32,6 @@ import de.cau.se.slastic.metamodel.usage.Message;
 import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.SynchronousCallMessage;
 import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
-import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
-import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 
@@ -128,13 +126,7 @@ public class UsageAndAssemblyModelUpdater {
 		 */
 		Signature entryCallInterfaceSignature = null;
 
-		/**
-		 * Member variables will be initialized when entry call returns.
-		 */
-		final SystemProvidedInterfaceDelegationConnectorFrequency sysProvDelegFreq =
-				UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
-
-		// TODO: assemblyConnectorCallFrequencies
+		// TODO: assemblyComponentConnectorCallFrequencies
 
 		for (final Message message : mt.getMessages()) {
 			final DeploymentComponentOperationExecution sender =
@@ -181,7 +173,6 @@ public class UsageAndAssemblyModelUpdater {
 				}
 				// Store execution call relationship for returned execution:
 				executionCallRelationships.add(executionCallRelationshipCallee);
-
 				/*
 				 * Update receiver's (i.e., caller's) calling relationship
 				 */
@@ -221,7 +212,7 @@ public class UsageAndAssemblyModelUpdater {
 							this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent,
 									operationSignature);
 					entryCallInterfaceSignature = returningInterfaceSignature;
-				} else { // no entry call
+				} else { // reply message not originating from entry call
 					final AssemblyComponent requiringComponent =
 							receiver.getDeploymentComponent().getAssemblyComponent();
 
@@ -249,7 +240,6 @@ public class UsageAndAssemblyModelUpdater {
 									+ providingComponent + " via " + connector);
 							return false;
 						}
-
 					}
 
 					/*
@@ -286,6 +276,7 @@ public class UsageAndAssemblyModelUpdater {
 		 * TODO: Updating calling relationships 
 		 */
 		// hier weiter!
+		
 
 		return true;
 	}
