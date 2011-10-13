@@ -1,7 +1,10 @@
 package org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Stack;
 
 import org.apache.commons.logging.Log;
@@ -17,6 +20,7 @@ import com.espertech.esper.client.EPStatement;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
@@ -28,6 +32,8 @@ import de.cau.se.slastic.metamodel.usage.Message;
 import de.cau.se.slastic.metamodel.usage.MessageTrace;
 import de.cau.se.slastic.metamodel.usage.SynchronousCallMessage;
 import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
+import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
+import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 
@@ -84,12 +90,52 @@ public class UsageAndAssemblyModelUpdater {
 		}
 	}
 
+	/**
+	 * TODO: improve performance (the way we lookup entities can increased heavily)
+	 * 
+	 * @param validExecutionTrace
+	 * @return
+	 */
 	private boolean processTrace(final ValidExecutionTrace validExecutionTrace) {
 		final MessageTrace mt = validExecutionTrace.getMessageTrace();
 
-		final Stack<ExecutionCallRelationships> executionCallRelationships = new Stack<ExecutionCallRelationships>();
+		/**
+		 * Used as an intermediate data-structure to keep track of interface signatures
+		 * called by the distinct executions within this trace.
+		 */
+		final Stack<ExecutionCallRelationships> executionCallRelationshipStack = new Stack<ExecutionCallRelationships>();
+
+		/**
+		 * Maintains the frequency of calls to distinct operations within this trace.
+		 */
 		final Map<Operation, Long> operationCallFrequencies = new HashMap<Operation, Long>();
+
+		/**
+		 * For each Execution, this list contains the frequencies of called interface
+		 * signatures.
+		 */
+		final List<ExecutionCallRelationships> executionCallRelationships = 
+			new ArrayList<ExecutionCallRelationships>();
+		
+		/**
+		 * Connector used to delegate this trace's entry call. Will be set on return of entry
+		 * call.
+		 */
+		SystemProvidedInterfaceDelegationConnector sysProvDelegConnector = null;
+
+		/**
+		 * Entry call signature invoked in this trace. Will be set on return of entry call.
+		 */
+		Signature entryCallInterfaceSignature = null;
+
+		/**
+		 * Member variables will be initialized when entry call returns.
+		 */
+		final SystemProvidedInterfaceDelegationConnectorFrequency sysProvDelegFreq =
+				UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
+
 		// TODO: assemblyConnectorCallFrequencies
+
 		for (final Message message : mt.getMessages()) {
 			final DeploymentComponentOperationExecution sender =
 					(DeploymentComponentOperationExecution) message.getSender();
@@ -119,13 +165,13 @@ public class UsageAndAssemblyModelUpdater {
 				 * operation (will be modified on returns)
 				 */
 				final ExecutionCallRelationships executionCallRelationship = new ExecutionCallRelationships(receiver);
-				executionCallRelationships.push(executionCallRelationship);
+				executionCallRelationshipStack.push(executionCallRelationship);
 			} else if (message instanceof SynchronousReplyMessage) {
 				/*
 				 * Pop calling relationship of returned execution
 				 * (callee/sender)
 				 */
-				final ExecutionCallRelationships executionCallRelationshipCallee = executionCallRelationships.pop();
+				final ExecutionCallRelationships executionCallRelationshipCallee = executionCallRelationshipStack.pop();
 				// Validity check during development; can be removed as soon as
 				// implementation stable
 				if (!executionCallRelationshipCallee.getExecution().equals(sender)) {
@@ -133,17 +179,14 @@ public class UsageAndAssemblyModelUpdater {
 							+ executionCallRelationshipCallee.getExecution() + " vs. " + sender);
 					return false;
 				}
-
-				// TODO: executionCallRelationshipCallee: update usage model
-				// or
-				// store processed relationship
-				// in list (would provide better testability)
+				// Store execution call relationship for returned execution:
+				executionCallRelationships.add(executionCallRelationshipCallee);
 
 				/*
 				 * Update receiver's (i.e., caller's) calling relationship
 				 */
 				final ExecutionCallRelationships executionCallRelationshipCaller =
-							executionCallRelationships.peek();
+							executionCallRelationshipStack.peek();
 				// Validity check during development; can be removed as soon
 				// as
 				// implementation stable
@@ -154,33 +197,37 @@ public class UsageAndAssemblyModelUpdater {
 				}
 
 				final AssemblyComponent providingComponent = sender.getDeploymentComponent().getAssemblyComponent();
-				final Signature signature = sender.getOperation().getSignature();
+				final Signature operationSignature = sender.getOperation().getSignature();
 				final Interface iface =
 						this.typeRepositoryModelManager.lookupProvidedInterfaceForSignature(
-								providingComponent.getComponentType(), signature);
+								providingComponent.getComponentType(), operationSignature);
 				if (iface == null) {
 					UsageAndAssemblyModelUpdater.LOG.error("Callee " + providingComponent
-							+ " does not provide interface with given signature " + signature);
+							+ " does not provide interface with given signature " + operationSignature);
 					return false;
 				}
 
-				final Interface calledInterface;
+				final String signatureName = operationSignature.getName();
+				final String signatureRetType = operationSignature.getReturnType();
+				final String[] signatureArgTypes = operationSignature.getParamTypes().toArray(new String[] {});
 
-				final String signatureName = signature.getName();
-				final String signatureRetType = signature.getReturnType();
-				final String[] signatureArgTypes = signature.getParamTypes().toArray(new String[] {});
+				final Signature returningInterfaceSignature =
+						this.typeRepositoryModelManager.lookupSignature(
+								iface,
+								signatureName, signatureRetType, signatureArgTypes);
 
 				if (receiver.equals(UsageModelManager.rootExec)) {
-					// TODO: hier weiter!
-					calledInterface = null;
-					
-				} else {
+					sysProvDelegConnector =
+							this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent,
+									operationSignature);
+					entryCallInterfaceSignature = returningInterfaceSignature;
+				} else { // no entry call
 					final AssemblyComponent requiringComponent =
 							receiver.getDeploymentComponent().getAssemblyComponent();
 
 					AssemblyComponentConnector connector =
 							this.assemblyModelManager.lookupAssemblyConnector(requiringComponent, providingComponent,
-									signature);
+									operationSignature);
 					if (connector == null) {
 						// requiring and providing component aren't connected,
 						// yet -> connect
@@ -204,34 +251,99 @@ public class UsageAndAssemblyModelUpdater {
 						}
 
 					}
-					calledInterface = connector.getConnectorType().getInterface();
-				}
 
-				final Signature interfaceSignature =
-							this.typeRepositoryModelManager.lookupSignature(calledInterface,
-									signatureName, signatureRetType, signatureArgTypes);
-				executionCallRelationshipCaller.incCount(calledInterface, interfaceSignature);
+					/*
+					 * Update call frequency of receiving execution to
+					 * interface's signature
+					 */
+					executionCallRelationshipCaller.incCount(iface, returningInterfaceSignature);
+				}
 			} else {
 				UsageAndAssemblyModelUpdater.LOG.error("Unexpected message type: " + message);
 				return false;
 			}
 		}
 
-		// TODO: operationCallFrequencies: update usage model or store processed
-		// relationship in
-		// list (would provide better testability)
-
-		// TODO: Currently, I'd favor a "batch" update of the usage model for
-		// traces that have been processed successfully
+		/*
+		 * Updating call frequency to signature of system-provided interface
+		 */
+		if ((sysProvDelegConnector == null) || (entryCallInterfaceSignature == null)) {
+			UsageAndAssemblyModelUpdater.LOG.error("called system-provided delegation connector and/or signature not set");
+			return false;
+		} else {
+			this.usageModelManager.incSystemProvidedInterfaceSignatureCallFreq(sysProvDelegConnector,
+					entryCallInterfaceSignature);
+		}
+		
+		/*
+		 * Updating operation call frequency.
+		 */
+		for (final Entry<Operation, Long> opCallFreq : operationCallFrequencies.entrySet()) {
+			this.usageModelManager.incOperationCallFreq(opCallFreq.getKey(), opCallFreq.getValue());
+		}
+		
+		/*
+		 * TODO: Updating calling relationships 
+		 */
+		// hier weiter!
 
 		return true;
 	}
 }
 
+/**
+ * For an {@link Interface}, this data structure maintains call frequencies to
+ * the declared {@link Signature}s.
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
+class InterfaceSignatureCallFrequencies {
+	private final Interface iface;
+
+	private final Map<Signature, Long> frequencies =
+			new HashMap<Signature, Long>();
+
+	public InterfaceSignatureCallFrequencies(final Interface iface) {
+		this.iface = iface;
+	}
+
+	/**
+	 * @return the {@link Interface}
+	 */
+	public final Interface getIface() {
+		return this.iface;
+	}
+
+	/**
+	 * @return the frequencies
+	 */
+	public final Map<Signature, Long> getFrequencies() {
+		return this.frequencies;
+	}
+
+	public void incCount(final Signature signature) {
+		final Long frequency = this.frequencies.get(signature);
+		if (frequency == null) {
+			this.frequencies.put(signature, 1l);
+		} else {
+			this.frequencies.put(signature, frequency + 1);
+		}
+	}
+}
+
+/**
+ * For an {@link OperationExecution}, this data structure maintains call
+ * frequencies to {@link Interface} {@link Signature}s.
+ * 
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 class ExecutionCallRelationships {
 	private final OperationExecution execution;
-	private final Map<Interface, Map<Signature, Long>> interfaceSignatureCallFrequencies =
-			new HashMap<Interface, Map<Signature, Long>>();
+	private final Map<Interface, InterfaceSignatureCallFrequencies> interfaceSignatureCallFrequencies =
+			new HashMap<Interface, InterfaceSignatureCallFrequencies>();
 
 	public ExecutionCallRelationships(final OperationExecution execution) {
 		this.execution = execution;
@@ -243,18 +355,13 @@ class ExecutionCallRelationships {
 	 */
 	public void incCount(final Interface iface, final Signature signature) {
 		// Lookup signature call frequencies for the required interface
-		Map<Signature, Long> signatureCallFrequencies = this.interfaceSignatureCallFrequencies.get(iface);
-		if (signatureCallFrequencies == null) { // map doesn't exist, yet
-			signatureCallFrequencies = new HashMap<Signature, Long>();
+		InterfaceSignatureCallFrequencies signatureCallFrequencies = this.interfaceSignatureCallFrequencies.get(iface);
+		if (signatureCallFrequencies == null) { // map doesn't exist, yet ->
+												// create
+			signatureCallFrequencies = new InterfaceSignatureCallFrequencies(iface);
 			this.interfaceSignatureCallFrequencies.put(iface, signatureCallFrequencies);
 		}
-
-		final Long frequency = signatureCallFrequencies.get(signature);
-		if (frequency == null) {
-			signatureCallFrequencies.put(signature, 1l);
-		} else {
-			signatureCallFrequencies.put(signature, frequency + 1);
-		}
+		signatureCallFrequencies.incCount(signature);
 	}
 
 	/**
@@ -270,7 +377,7 @@ class ExecutionCallRelationships {
 	 * 
 	 * @return
 	 */
-	public Map<Interface, Map<Signature, Long>> getCallFrequencies() {
+	public Map<Interface, InterfaceSignatureCallFrequencies> getCallFrequencies() {
 		return this.interfaceSignatureCallFrequencies;
 	}
 }
