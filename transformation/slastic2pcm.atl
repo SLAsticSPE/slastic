@@ -326,14 +326,10 @@ rule NewProvidedRoleFromComponent(component: Pcm!BasicComponent, interface: Pcm!
 	to tgt: Pcm!ProvidedRole in SYSTEM(
 		id <- 'p' + interface.id,
 		entityName <- 'Provided_' + interface.entityName,
-		providedInterface__ProvidedRole <- component.providedRoles_InterfaceProvidingEntity.first()
+		providedInterface__ProvidedRole <- component.providedRoles_InterfaceProvidingEntity->any(role | 
+			role.providedInterface__ProvidedRole.id = interface.id
+		)
 	) do { tgt; }
-}
-
-rule NewProvidedDelegationConnector() {
-	to tgt: Pcm!ProvidedDelegationConnector in SYSTEM (
-		
-	)
 }
 
 rule ComponentAssemblyModelToSystem {
@@ -342,10 +338,17 @@ rule ComponentAssemblyModelToSystem {
 		id <- 'system_1',
 		entityName <- 'defaultSystem',
 		childComponentContexts_ComposedStructure <- src.assemblyComponents,
-		compositeAssemblyConnectors_ComposedStructure <- src.assemblyConnectors,
-		providedRoles_InterfaceProvidingEntity <- Pcm!BasicComponent.allInstances()->collect(component | 
-			component.providedRoles_InterfaceProvidingEntity).flatten()->collect(providedRole | 
-				thisModule.NewProvidedRoleFromComponent(providedRole.providingEntity_ProvidedRole, providedRole.providedInterface__ProvidedRole))
+		compositeAssemblyConnectors_ComposedStructure <- src.assemblyComponentConnectors,
+		providedRoles_InterfaceProvidingEntity <- src.systemProvidedInterfaceDelegationConnectors->collect(connector | 
+			thisModule.NewProvidedRoleFromComponent(Pcm!BasicComponent.allInstances()->any(component | 
+					component.id = 'c' + connector.providingComponent.componentType.id
+				),
+				Pcm!Interface.allInstances()->any(interface | 
+					interface.id = 'i' + connector.connectorType.interface.id
+				)
+			)
+		),
+		providedDelegationConnectors_ComposedStructure <- src.systemProvidedInterfaceDelegationConnectors
 	)
 }
 
@@ -358,8 +361,8 @@ rule AssemblyComponentToAssemblyContext {
 	)
 }
 
-rule AssemblyConnectorToAssemblyConnector {
-	from src: Slastic!AssemblyConnector
+rule AssemblyComponentConnectorToAssemblyConnector {
+	from src: Slastic!AssemblyComponentConnector
 	to tgt: Pcm!AssemblyConnector in SYSTEM (
 		entityName <- src.name,
 		requiringChildComponentContext_CompositeAssemblyConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
@@ -377,6 +380,24 @@ rule AssemblyConnectorToAssemblyConnector {
 			assemblyContext.id = 'ac' + src.providingComponent.id.toString()
 		).encapsulatedComponent_ChildComponentContext.providedRoles_InterfaceProvidingEntity->any(role | 
 			'i' + src.connectorType.interface.id.toString() = role.providedInterface__ProvidedRole.id
+		)
+	)
+}
+
+rule SystemProvidedInterfaceDelegationConnectorToProvidedDelegationConnector {
+	from src: Slastic!SystemProvidedInterfaceDelegationConnector
+	to tgt: Pcm!ProvidedDelegationConnector in SYSTEM (
+		entityName <- 'ProvDelegation Provided_' + src.connectorType.interface.name + ' -> Provided_' + src.connectorType.interface.name + '_' + src.providingComponent.componentType.name,
+		outerProvidedRole_ProvidedDelegationConnector <- Pcm!System.allInstances().first().providedRoles_InterfaceProvidingEntity->any(role | 
+			role.id = 'pi' + src.connectorType.interface.id
+		),
+		childComponentContext_ProvidedDelegationConnector <- Pcm!AssemblyContext.allInstances()->any(assemblyContext | 
+			assemblyContext.id = 'ac' + src.providingComponent.id.toString()
+		),
+		innerProvidedRole_ProvidedDelegationConnector <- Pcm!BasicComponent.allInstances()->any(component | 
+			component.id = 'c' + src.providingComponent.componentType.id
+		).providedRoles_InterfaceProvidingEntity->any(role | 
+			role.providedInterface__ProvidedRole.id = 'i' + src.connectorType.interface.id
 		)
 	)
 }
