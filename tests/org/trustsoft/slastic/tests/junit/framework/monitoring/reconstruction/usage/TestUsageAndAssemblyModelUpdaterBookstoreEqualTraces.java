@@ -42,7 +42,7 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  * @author Andre van Hoorn
  * 
  */
-public class TestUsageAndAssemblyModelUpdater extends TestCase {
+public class TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces extends TestCase {
 	private static final Log LOG = LogFactory.getLog(TestTraceReconstructorCEPComponent.class);
 
 	private static final int NUM_VALID_TRACES_TO_GENERATE = 3;
@@ -68,7 +68,7 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 	 */
 	@SuppressWarnings("unused")
 	private final TraceReconstructor traceReceiver =
-			new TraceReconstructor(this.epService, TestUsageAndAssemblyModelUpdater.TRACE_DETECTION_TIMEOUT_MILLIS);
+			new TraceReconstructor(this.epService, TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	/**
 	 * Constructs a {@link UsageAndAssemblyModelUpdater} which registers itself
@@ -86,13 +86,13 @@ public class TestUsageAndAssemblyModelUpdater extends TestCase {
 	 * 
 	 */
 	public void testUsageAndAssemblyModelUpdater() throws InterruptedException, IOException {
-		this.sendBookstoreTraces(TestUsageAndAssemblyModelUpdater.NUM_VALID_TRACES_TO_GENERATE);
+		this.sendBookstoreTraces(TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE);
 
 		// We have to wait for this time period, to make sure that all traces
 		// are detected
-		TestUsageAndAssemblyModelUpdater.LOG.info("Waiting "
-				+ TestUsageAndAssemblyModelUpdater.SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
-		Thread.sleep(TestUsageAndAssemblyModelUpdater.SHUTDOWN_TIMEOUT_MILLIS);
+		TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.LOG.info("Waiting "
+				+ TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
+		Thread.sleep(TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.SHUTDOWN_TIMEOUT_MILLIS);
 
 		this.checkSystemModel();
 		// TODO: further tests on usage model
