@@ -105,7 +105,8 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 			cr.setCallingOperation(operation);
 			cr.setCalledInterface(iface);
 			cr.setCalledSignature(signature);
-			// empty list cr.getFrequencyDistribution() automatically created
+			cr.setFrequencyDistribution(UsageFactory.eINSTANCE.createFrequencyDistribution());
+			super.getModel().getCallingRelationships().add(cr);
 		}
 
 		// Now, update frequency distribution

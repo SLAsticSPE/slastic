@@ -89,7 +89,8 @@ public class UsageAndAssemblyModelUpdater {
 	}
 
 	/**
-	 * TODO: improve performance (the way we lookup entities can increased heavily)
+	 * TODO: improve performance (the way we lookup entities can increased
+	 * heavily)
 	 * 
 	 * @param validExecutionTrace
 	 * @return
@@ -98,31 +99,34 @@ public class UsageAndAssemblyModelUpdater {
 		final MessageTrace mt = validExecutionTrace.getMessageTrace();
 
 		/**
-		 * Used as an intermediate data-structure to keep track of interface signatures
-		 * called by the distinct executions within this trace.
+		 * Used as an intermediate data-structure to keep track of interface
+		 * signatures called by the distinct executions within this trace.
 		 */
-		final Stack<ExecutionCallRelationships> executionCallRelationshipStack = new Stack<ExecutionCallRelationships>();
+		final Stack<ExecutionCallRelationships> executionCallRelationshipStack =
+				new Stack<ExecutionCallRelationships>();
 
 		/**
-		 * Maintains the frequency of calls to distinct operations within this trace.
+		 * Maintains the frequency of calls to distinct operations within this
+		 * trace.
 		 */
 		final Map<Operation, Long> operationCallFrequencies = new HashMap<Operation, Long>();
 
 		/**
-		 * For each Execution, this list contains the frequencies of called interface
-		 * signatures.
+		 * For each Execution, this list contains the frequencies of called
+		 * interface signatures.
 		 */
-		final List<ExecutionCallRelationships> executionCallRelationships = 
-			new ArrayList<ExecutionCallRelationships>();
-		
+		final List<ExecutionCallRelationships> executionCallRelationships =
+				new ArrayList<ExecutionCallRelationships>();
+
 		/**
-		 * Connector used to delegate this trace's entry call. Will be set on return of entry
-		 * call.
+		 * Connector used to delegate this trace's entry call. Will be set on
+		 * return of entry call.
 		 */
 		SystemProvidedInterfaceDelegationConnector sysProvDelegConnector = null;
 
 		/**
-		 * Entry call signature invoked in this trace. Will be set on return of entry call.
+		 * Entry call signature invoked in this trace. Will be set on return of
+		 * entry call.
 		 */
 		Signature entryCallInterfaceSignature = null;
 
@@ -145,11 +149,15 @@ public class UsageAndAssemblyModelUpdater {
 				/*
 				 * Update receiver's (callee's) operation call frequency
 				 */
-				final Long operationCallFrequency = operationCallFrequencies.get(receiver.getOperation());
-				if (operationCallFrequency == null) {
-					operationCallFrequencies.put(receiver.getOperation(), 1l);
+				final Operation calledOperation = receiver.getOperation();
+				final Long operationCallFrequency = operationCallFrequencies.get(calledOperation);
+				final long oldFrequency = (operationCallFrequency == null) ? 0 : operationCallFrequency;
+				UsageAndAssemblyModelUpdater.LOG.warn((oldFrequency +1)+"th call to : " + calledOperation);
+				if (oldFrequency == 0) {
+					operationCallFrequencies.put(calledOperation, 1l);
 				} else {
-					operationCallFrequencies.put(receiver.getOperation(), operationCallFrequency + 1);
+					UsageAndAssemblyModelUpdater.LOG.warn("new value: " + (oldFrequency + 1));
+					operationCallFrequencies.put(calledOperation, oldFrequency + 1);
 				}
 
 				/*
@@ -173,19 +181,6 @@ public class UsageAndAssemblyModelUpdater {
 				}
 				// Store execution call relationship for returned execution:
 				executionCallRelationships.add(executionCallRelationshipCallee);
-				/*
-				 * Update receiver's (i.e., caller's) calling relationship
-				 */
-				final ExecutionCallRelationships executionCallRelationshipCaller =
-							executionCallRelationshipStack.peek();
-				// Validity check during development; can be removed as soon
-				// as
-				// implementation stable
-				if (!executionCallRelationshipCaller.getExecution().equals(receiver)) {
-					UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
-								+ executionCallRelationshipCaller.getExecution() + " vs. " + receiver);
-					return false;
-				}
 
 				final AssemblyComponent providingComponent = sender.getDeploymentComponent().getAssemblyComponent();
 				final Signature operationSignature = sender.getOperation().getSignature();
@@ -208,11 +203,38 @@ public class UsageAndAssemblyModelUpdater {
 								signatureName, signatureRetType, signatureArgTypes);
 
 				if (receiver.equals(UsageModelManager.rootExec)) {
+					entryCallInterfaceSignature = returningInterfaceSignature;
 					sysProvDelegConnector =
 							this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent,
 									operationSignature);
-					entryCallInterfaceSignature = returningInterfaceSignature;
+					if (sysProvDelegConnector == null) { // not yet registered
+															// -> register!
+						// Register system-provided interface (which may be
+						// registered already)
+						this.assemblyModelManager.registerSystemProvidedInterface(iface);
+						final ConnectorType connectorType =
+								this.modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(iface);
+						sysProvDelegConnector = this.assemblyModelManager.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
+						this.assemblyModelManager.delegate(sysProvDelegConnector, iface, providingComponent);
+					}
 				} else { // reply message not originating from entry call
+					/*
+					 * Update receiver's (i.e., caller's) calling relationship.
+					 * Note that the peek operation must be executed in this
+					 * block, because otherwise, we'll get an
+					 * EmptyStackException for the entry call.
+					 */
+					final ExecutionCallRelationships executionCallRelationshipCaller =
+								executionCallRelationshipStack.peek();
+					// Validity check during development; can be removed as soon
+					// as
+					// implementation stable
+					if (!executionCallRelationshipCaller.getExecution().equals(receiver)) {
+						UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
+									+ executionCallRelationshipCaller.getExecution() + " vs. " + receiver);
+						return false;
+					}
+
 					final AssemblyComponent requiringComponent =
 							receiver.getDeploymentComponent().getAssemblyComponent();
 
@@ -258,25 +280,45 @@ public class UsageAndAssemblyModelUpdater {
 		 * Updating call frequency to signature of system-provided interface
 		 */
 		if ((sysProvDelegConnector == null) || (entryCallInterfaceSignature == null)) {
-			UsageAndAssemblyModelUpdater.LOG.error("called system-provided delegation connector and/or signature not set");
+			UsageAndAssemblyModelUpdater.LOG
+					.error("called system-provided delegation connector and/or signature not set; "
+							+ "connector: " + sysProvDelegConnector + " ; signature: " + entryCallInterfaceSignature);
 			return false;
 		} else {
 			this.usageModelManager.incSystemProvidedInterfaceSignatureCallFreq(sysProvDelegConnector,
 					entryCallInterfaceSignature);
 		}
-		
+
 		/*
 		 * Updating operation call frequency.
 		 */
 		for (final Entry<Operation, Long> opCallFreq : operationCallFrequencies.entrySet()) {
 			this.usageModelManager.incOperationCallFreq(opCallFreq.getKey(), opCallFreq.getValue());
 		}
-		
+
 		/*
-		 * TODO: Updating calling relationships 
+		 * Updating calling relationships by iterating over all
+		 * executionCallRelationships
 		 */
-		// hier weiter!
-		
+		for (final ExecutionCallRelationships execCR : executionCallRelationships) {
+			final OperationExecution opExec = execCR.getExecution();
+			if (!(opExec instanceof DeploymentComponentOperationExecution)) {
+				UsageAndAssemblyModelUpdater.LOG.error("Only supporting executions of type "
+						+ DeploymentComponentOperationExecution.class.getName()
+						+ " so far; found: " + execCR.getClass().getName());
+				return false;
+			}
+			final Operation operation = ((DeploymentComponentOperationExecution) execCR.getExecution()).getOperation();
+
+			for (final InterfaceSignatureCallFrequencies ifaceFreq : execCR.getCallFrequencies().values()) {
+				final Interface iface = ifaceFreq.getIface();
+				for (final Entry<Signature, Long> signatureFreq : ifaceFreq.getFrequencies().entrySet()) {
+					final Signature signature = signatureFreq.getKey();
+					this.usageModelManager.incCallingRelationshipFreq(operation, iface,
+							signature, signatureFreq.getValue());
+				}
+			}
+		}
 
 		return true;
 	}
