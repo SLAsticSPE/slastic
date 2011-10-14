@@ -70,9 +70,18 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	@Override
 	public void incSystemProvidedInterfaceSignatureCallFreq(final SystemProvidedInterfaceDelegationConnector connector,
 			final Signature signature) {
-		final SystemProvidedInterfaceDelegationConnectorFrequency freq =
+		SystemProvidedInterfaceDelegationConnectorFrequency freq =
 				this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
 
+		if (freq == null) {
+			// no observations for connector signature, yet -> create and add
+			freq = UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
+			freq.setConnector(connector);
+			freq.setSignature(signature);
+			freq.setFrequency(0);
+			super.getModel().getSystemProvidedInterfaceDelegationConnectorFrequencies().add(freq);
+		}
+		
 		// Now, increment frequency:
 		final long oldFrequency = freq.getFrequency();
 		freq.setFrequency(oldFrequency + 1);
@@ -105,6 +114,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 		if (freq == null) {
 			freq = UsageFactory.eINSTANCE.createOperationCallFrequency();
 			freq.setOperation(operation);
+			freq.setFrequency(0);
 			super.getModel().getOperationCallFrequencies().add(freq);
 		}
 

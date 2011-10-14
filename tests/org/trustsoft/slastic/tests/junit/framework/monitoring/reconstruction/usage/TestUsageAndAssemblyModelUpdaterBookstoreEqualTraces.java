@@ -3,6 +3,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.us
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceRecon
 import org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction.UsageAndAssemblyModelUpdater;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import org.trustsoft.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 import org.trustsoft.slastic.tests.junit.framework.esper.EPServiceProviderFactory;
 import org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.exampleTraces.BookstoreTraceFactory;
@@ -26,10 +28,15 @@ import com.espertech.esper.client.EPServiceProvider;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
+import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
+import de.cau.se.slastic.metamodel.typeRepository.Operation;
+import de.cau.se.slastic.metamodel.typeRepository.Signature;
 import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryModel;
+import de.cau.se.slastic.metamodel.usage.CallingRelationship;
+import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 
 /**
@@ -68,7 +75,8 @@ public class TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces extends TestCa
 	 */
 	@SuppressWarnings("unused")
 	private final TraceReconstructor traceReceiver =
-			new TraceReconstructor(this.epService, TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.TRACE_DETECTION_TIMEOUT_MILLIS);
+			new TraceReconstructor(this.epService,
+					TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	/**
 	 * Constructs a {@link UsageAndAssemblyModelUpdater} which registers itself
@@ -91,11 +99,11 @@ public class TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces extends TestCa
 		// We have to wait for this time period, to make sure that all traces
 		// are detected
 		TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.LOG.info("Waiting "
-				+ TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
+				+ TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.SHUTDOWN_TIMEOUT_MILLIS
+				+ " millis for timeout to elapse");
 		Thread.sleep(TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.SHUTDOWN_TIMEOUT_MILLIS);
 
 		this.checkSystemModel();
-		// TODO: further tests on usage model
 
 		this.saveModels();
 	}
@@ -221,6 +229,77 @@ public class TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces extends TestCa
 		Assert.assertTrue(
 				"Missing connector asmConnect_bookstore_catalog in Catalog assembly's list of requiring connectors",
 				catalogAssembly.getRequiringConnectors().contains(asmConnect_bookstore_catalog));
+
+		// Test system-provided interface and delegation connectors
+		Assert.assertEquals("Unexpected number of system-provided interfaces",
+				1, assemblyModelManager.getSystemProvidedInterfaces().size());
+		final Interface bookstoreInterface = bookstoreType.getProvidedInterfaces().get(0);
+		Assert.assertSame("Missing expected system-provided interface",
+				bookstoreInterface, assemblyModelManager.getSystemProvidedInterfaces().get(0));
+		final Signature bookstoreInterfaceSignature =
+				bookstoreInterface.getSignatures().get(0);
+		final SystemProvidedInterfaceDelegationConnector sysProvDelegConnector =
+				assemblyModelManager.lookupProvidedInterfaceDelegationConnector(bookstoreAssembly,
+						bookstoreInterfaceSignature);
+		Assert.assertNotNull("Failed to lookup system-provided delegation connector", sysProvDelegConnector);
+
+		/*
+		 * And some tests on the usage model
+		 */
+		final UsageModelManager usageModelManager = this.systemModelManager.getUsageModelManager();
+
+		// Test operation call frequencies
+		final Operation opBookstore_searchBook = bookstoreType.getOperations().get(0);
+		Assert.assertEquals("Unexpected number of calls to Bookstore operation",
+				TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE,
+				usageModelManager.lookupOperationCallFreq(opBookstore_searchBook));
+		final Operation opCatalog_getBook = catalogType.getOperations().get(0);
+		Assert.assertEquals("Unexpected number of calls to Catalog operation",
+				2 * TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE,
+				usageModelManager.lookupOperationCallFreq(opCatalog_getBook));
+		final Operation opCrm_getOffers = crmType.getOperations().get(0);
+		Assert.assertEquals("Unexpected number of calls to CRM operation",
+				TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE,
+				usageModelManager.lookupOperationCallFreq(opCrm_getOffers));
+
+		// Test system-provided delegation connector call frequencies
+		Assert.assertEquals("Unexpected number of calls to system-provided delegation connector interface",
+				TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE,
+				usageModelManager.lookupSystemProvidedInterfaceDelegationConnectorFrequency(sysProvDelegConnector,
+						bookstoreInterfaceSignature));
+
+		// Test call relationship
+		final Signature catalogSignature = catalogInterface.getSignatures().get(0);
+		final Signature crmSignature = crmInterface.getSignatures().get(0);
+		// Relationship Bookstore.searchBook()->ICatalog.getBook()
+		final CallingRelationship crBookstore_searchBook__ICatalog_getBook =
+				usageModelManager.lookupCallingRelationship(opBookstore_searchBook, catalogInterface, catalogSignature);
+		final FrequencyDistribution fdBookstoreCatalog =
+				crBookstore_searchBook__ICatalog_getBook.getFrequencyDistribution();
+		this.compareFrequencyDistribution(fdBookstoreCatalog, new Long[] { 1l },
+				new Long[] { TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE + 0l });
+		// Relationship Bookstore.searchBook()->ICRM.getOffers
+		final CallingRelationship crBookstore_searchBook__ICRM_getOffers = 
+			usageModelManager.lookupCallingRelationship(opBookstore_searchBook, crmInterface, crmSignature);
+		final FrequencyDistribution fdBookstoreCRM = 
+			crBookstore_searchBook__ICRM_getOffers.getFrequencyDistribution();
+		this.compareFrequencyDistribution(fdBookstoreCRM, new Long[] { 1l },
+				new Long[] { TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE + 0l });
+		// Relationship CRM.getOffers()->ICatalog.getBook
+		final CallingRelationship crCRM_getOffers__ICatalog_getBook = 
+			usageModelManager.lookupCallingRelationship(opCrm_getOffers, catalogInterface, catalogSignature);
+		final FrequencyDistribution fdCrmCatalog = 
+			crCRM_getOffers__ICatalog_getBook.getFrequencyDistribution();
+		this.compareFrequencyDistribution(fdCrmCatalog, new Long[] { 1l },
+				new Long[] { TestUsageAndAssemblyModelUpdaterBookstoreEqualTraces.NUM_VALID_TRACES_TO_GENERATE + 0l });
+	}
+
+	private void compareFrequencyDistribution(final FrequencyDistribution fd, final Long[] expectedValues,
+			final Long[] expectedFrequencies) {
+		final Long[] observedValues = fd.getValues().toArray(new Long[] {});
+		Assert.assertTrue("Unexpected values in fd " + fd, Arrays.equals(expectedValues, observedValues));
+		final Long[] observedFrequencies = fd.getFrequencies().toArray(new Long[] {});
+		Assert.assertTrue("Unexpected frequencies in fd", Arrays.equals(expectedFrequencies, observedFrequencies));
 	}
 
 	/**

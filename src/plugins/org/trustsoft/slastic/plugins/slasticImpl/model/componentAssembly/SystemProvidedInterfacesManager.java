@@ -121,4 +121,9 @@ public class SystemProvidedInterfacesManager extends
 	public boolean registerSystemProvidedInterface(final Interface iface) {
 		return this.systemProvidedInterfaces.add(iface); // set is unique. Hence, we don't check if contained already
 	}
+
+	@Override
+	public List<Interface> getSystemProvidedInterfaces() {
+		return this.systemProvidedInterfaces;
+	}
 }

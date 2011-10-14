@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
+import java.util.List;
+
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
@@ -14,6 +16,13 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
  */
 public interface ISystemProvidedInterfacesManager {
 
+	/**
+	 * Returns the system-provided {@link Interface}s.
+	 * 
+	 * @return
+	 */
+	public List<Interface> getSystemProvidedInterfaces();
+	
 	/**
 	 * Adds the given {@link Interface} to the list of system-provided
 	 * interfaces.
