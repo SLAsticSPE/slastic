@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.usage;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
@@ -23,6 +25,8 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  * 
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
+	private static final Log LOG = LogFactory.getLog(UsageModelManager.class);
+	
 	public static final DeploymentComponentOperationExecution rootExec =
 			MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
 
@@ -83,7 +87,8 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 
 		// Now, increment frequency
 		final long oldFrequency = freq.getFrequency();
-		freq.setFrequency(oldFrequency + 1);
+		freq.setFrequency(oldFrequency + frequency);
+		UsageModelManager.LOG.warn("incOperationCallFreq( " + operation + ") : " + freq.getFrequency());
 	}
 
 	@Override

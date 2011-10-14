@@ -147,18 +147,12 @@ public class UsageAndAssemblyModelUpdater {
 				}
 
 				/*
-				 * Update receiver's (callee's) operation call frequency
+				 * Increment receiver's (callee's) operation call frequency by one
 				 */
 				final Operation calledOperation = receiver.getOperation();
 				final Long operationCallFrequency = operationCallFrequencies.get(calledOperation);
-				final long oldFrequency = (operationCallFrequency == null) ? 0 : operationCallFrequency;
-				UsageAndAssemblyModelUpdater.LOG.warn((oldFrequency +1)+"th call to : " + calledOperation);
-				if (oldFrequency == 0) {
-					operationCallFrequencies.put(calledOperation, 1l);
-				} else {
-					UsageAndAssemblyModelUpdater.LOG.warn("new value: " + (oldFrequency + 1));
-					operationCallFrequencies.put(calledOperation, oldFrequency + 1);
-				}
+				final long newFrequency = (operationCallFrequency == null) ? 1 : operationCallFrequency + 1;
+				operationCallFrequencies.put(calledOperation, newFrequency);
 
 				/*
 				 * Create receiver's (callee's) calling relationship for called
@@ -214,7 +208,9 @@ public class UsageAndAssemblyModelUpdater {
 						this.assemblyModelManager.registerSystemProvidedInterface(iface);
 						final ConnectorType connectorType =
 								this.modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(iface);
-						sysProvDelegConnector = this.assemblyModelManager.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
+						sysProvDelegConnector =
+								this.assemblyModelManager
+										.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
 						this.assemblyModelManager.delegate(sysProvDelegConnector, iface, providingComponent);
 					}
 				} else { // reply message not originating from entry call
