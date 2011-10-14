@@ -20,8 +20,9 @@ public class BookstoreTraceFactory {
 	public static final String BOOKSTORE_ASSEMBLY_COMPONENT_NAME = "Bookstore";
 	public static final String BOOKSTORE_OPERATION_SIGNATURE = "searchBook()";
 	public static final String CATALOG_ASSEMBLY_COMPONENT_NAME = "Catalog";
-	public static final String CATALOG_OPERATION_SIGNATURE = "getBoook";
+	public static final String CATALOG_OPERATION_SIGNATURE = "getBook";
 	public static final String CRM_ASSEMBLY_COMPONENT_NAME = "CRM";
+	public static final String CRM_OPERATION_SIGNATURE = "getOffers";
 
 	/**
 	 * Returns the collection of {@link DeploymentComponentOperationExecution}s for 
@@ -50,7 +51,7 @@ public class BookstoreTraceFactory {
 						BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, 1, 1);
 		final DeploymentComponentOperationExecution exec21_crmGetOffers =
 				BookstoreTraceFactory.createExecution(execRecFilter, BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME, traceId, 2, 1);
+						BookstoreTraceFactory.CRM_OPERATION_SIGNATURE, traceId, 2, 1);
 		final DeploymentComponentOperationExecution exec32_catalogGetBook =
 				BookstoreTraceFactory.createExecution(execRecFilter,
 						BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,

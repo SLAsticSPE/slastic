@@ -26,7 +26,7 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
 	private static final Log LOG = LogFactory.getLog(UsageModelManager.class);
-	
+
 	public static final DeploymentComponentOperationExecution rootExec =
 			MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
 
@@ -40,27 +40,38 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public void incSystemProvidedInterfaceSignatureCallFreq(final SystemProvidedInterfaceDelegationConnector connector,
+	public long lookupSystemProvidedInterfaceDelegationConnectorFrequency(
+			final SystemProvidedInterfaceDelegationConnector connector,
 			final Signature signature) {
-		SystemProvidedInterfaceDelegationConnectorFrequency freq = null;
+		final SystemProvidedInterfaceDelegationConnectorFrequency freq =
+				this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
 
+		if (freq == null) {
+			return 0;
+		} else {
+			return freq.getFrequency();
+		}
+	}
+
+	private SystemProvidedInterfaceDelegationConnectorFrequency lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(
+			final SystemProvidedInterfaceDelegationConnector connector,
+			final Signature signature) {
 		for (final SystemProvidedInterfaceDelegationConnectorFrequency freqTmp : super.getModel()
 				.getSystemProvidedInterfaceDelegationConnectorFrequencies()) {
 			if (freqTmp.getConnector().equals(connector) && freqTmp.getSignature().equals(signature)) {
 				// found the matching structure
-				freq = freqTmp;
-				break;
+				return freqTmp;
 			}
-			// else: continue
+			// else: continue loop
 		}
+		return null;
+	}
 
-		if (freq == null) {
-			// no observations for connector signature, yet -> create and add
-			freq = UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
-			freq.setConnector(connector);
-			freq.setSignature(signature);
-			super.getModel().getSystemProvidedInterfaceDelegationConnectorFrequencies().add(freq);
-		}
+	@Override
+	public void incSystemProvidedInterfaceSignatureCallFreq(final SystemProvidedInterfaceDelegationConnector connector,
+			final Signature signature) {
+		final SystemProvidedInterfaceDelegationConnectorFrequency freq =
+				this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
 
 		// Now, increment frequency:
 		final long oldFrequency = freq.getFrequency();
@@ -68,16 +79,28 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public void incOperationCallFreq(final Operation operation, final long frequency) {
-		OperationCallFrequency freq = null;
+	public long lookupOperationCallFreq(final Operation operation) {
+		final OperationCallFrequency freq = this.lookupOperationCallFreqObj(operation);
+		if (freq == null) {
+			return 0;
+		} else {
+			return freq.getFrequency();
+		}
+	}
 
+	private OperationCallFrequency lookupOperationCallFreqObj(final Operation operation) {
 		for (final OperationCallFrequency freqTmp : super.getModel().getOperationCallFrequencies()) {
 			if (freqTmp.getOperation().equals(operation)) {
 				// found the matching structure
-				freq = freqTmp;
-				break;
+				return freqTmp;
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public void incOperationCallFreq(final Operation operation, final long frequency) {
+		OperationCallFrequency freq = this.lookupOperationCallFreqObj(operation);
 
 		if (freq == null) {
 			freq = UsageFactory.eINSTANCE.createOperationCallFrequency();
@@ -92,19 +115,23 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature,
-			final long frequency) {
-		CallingRelationship cr = null;
-
+	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface,
+			final Signature signature) {
 		for (final CallingRelationship crTmp : super.getModel().getCallingRelationships()) {
 			if (crTmp.getCallingOperation().equals(operation) && crTmp.getCalledInterface().equals(iface)
 					&& crTmp.getCalledSignature().equals(signature)) {
 				// found the matching structure
-				cr = crTmp;
-				break;
+				return crTmp;
 			}
 		}
-		
+		return null;
+	}
+
+	@Override
+	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature,
+			final long frequency) {
+		CallingRelationship cr = this.lookupCallingRelationship(operation, iface, signature);
+
 		if (cr == null) {
 			cr = UsageFactory.eINSTANCE.createCallingRelationship();
 			cr.setCallingOperation(operation);
@@ -115,29 +142,31 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 		}
 
 		// Now, update frequency distribution
-		UsageModelManager.incFrequency(cr.getFrequencyDistribution(), frequency);		
+		UsageModelManager.incFrequency(cr.getFrequencyDistribution(), frequency);
 	}
-	
+
 	/**
 	 * 
-	 * @param fd note, that {@link FrequencyDistribution#getValues()} is ordered!
+	 * @param fd
+	 *            note, that {@link FrequencyDistribution#getValues()} is
+	 *            ordered!
 	 * @param frequency
 	 */
-	public static void incFrequency (final FrequencyDistribution fd, final long frequency) {
+	public static void incFrequency(final FrequencyDistribution fd, final long frequency) {
 		final EList<Long> valueListSorted = fd.getValues();
 		final EList<Long> frequencyList = fd.getFrequencies();
-		
+
 		final int pos = valueListSorted.indexOf(frequency);
 		if (pos == -1) { // not in list, add
 			valueListSorted.add(frequency);
-			// We have to sort the list manually, as the ordered feature of 
+			// We have to sort the list manually, as the ordered feature of
 			// EList doesn't seem to work
 			ECollections.sort(valueListSorted);
 			final int posAdded = valueListSorted.indexOf(frequency);
 			frequencyList.add(posAdded, 1l);
 		} else { // the easy case! just increment the value by one
 			final long oldFrequency = frequencyList.get(pos);
-			frequencyList.set(pos, oldFrequency+1);
+			frequencyList.set(pos, oldFrequency + 1);
 		}
 	}
 }
