@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,7 +81,7 @@ public class FrequencyDistributionImpl extends EObjectImpl implements FrequencyD
 	 */
 	public EList<Long> getValues() {
 		if (values == null) {
-			values = new EDataTypeEList<Long>(Long.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__VALUES);
+			values = new EDataTypeUniqueEList<Long>(Long.class, this, UsagePackage.FREQUENCY_DISTRIBUTION__VALUES);
 		}
 		return values;
 	}

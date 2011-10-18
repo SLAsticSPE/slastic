@@ -1,5 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
+import java.util.List;
+
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
@@ -130,5 +132,10 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	public boolean delegate(final SystemProvidedInterfaceDelegationConnector delegationConnector,
 			final Interface providedInterface, final AssemblyComponent providingComponent) {
 		return this.systemProvidedInterfacesManager.delegate(delegationConnector, providedInterface, providingComponent);
+	}
+
+	@Override
+	public List<Interface> getSystemProvidedInterfaces() {
+		return this.systemProvidedInterfacesManager.getSystemProvidedInterfaces();
 	}
 }

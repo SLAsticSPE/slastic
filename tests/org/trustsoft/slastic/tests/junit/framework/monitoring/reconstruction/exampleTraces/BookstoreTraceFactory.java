@@ -20,12 +20,14 @@ public class BookstoreTraceFactory {
 	public static final String BOOKSTORE_ASSEMBLY_COMPONENT_NAME = "Bookstore";
 	public static final String BOOKSTORE_OPERATION_SIGNATURE = "searchBook()";
 	public static final String CATALOG_ASSEMBLY_COMPONENT_NAME = "Catalog";
-	public static final String CATALOG_OPERATION_SIGNATURE = "getBoook";
+	public static final String CATALOG_OPERATION_SIGNATURE = "getBook";
 	public static final String CRM_ASSEMBLY_COMPONENT_NAME = "CRM";
+	public static final String CRM_OPERATION_SIGNATURE = "getOffers";
 
 	/**
-	 * Returns the collection of {@link DeploymentComponentOperationExecution}s for 
-	 * a bookstore trace employing the given {@link ExecutionRecordTransformationFilter}.
+	 * Returns the collection of {@link DeploymentComponentOperationExecution}s
+	 * for a bookstore trace employing the given
+	 * {@link ExecutionRecordTransformationFilter}.
 	 * 
 	 * @param execRecFilter
 	 * @param traceId
@@ -50,20 +52,75 @@ public class BookstoreTraceFactory {
 						BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, 1, 1);
 		final DeploymentComponentOperationExecution exec21_crmGetOffers =
 				BookstoreTraceFactory.createExecution(execRecFilter, BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME, traceId, 2, 1);
+						BookstoreTraceFactory.CRM_OPERATION_SIGNATURE, traceId, 2, 1);
 		final DeploymentComponentOperationExecution exec32_catalogGetBook =
 				BookstoreTraceFactory.createExecution(execRecFilter,
 						BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
 						BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, 3, 2);
 
 		/*
-		 * Add the executions 
+		 * Add the executions
 		 */
 		retCollection.add(exec11_catalogGetBook);
 		retCollection.add(exec32_catalogGetBook);
 		retCollection.add(exec21_crmGetOffers);
 		retCollection.add(exec00_bookstoreSearchBook);
-		
+
+		return retCollection;
+	}
+
+	/**
+	 * Returns the collection of {@link DeploymentComponentOperationExecution}s
+	 * for a bookstore trace with a given number of loops in it employing the given
+	 * {@link ExecutionRecordTransformationFilter}.
+	 * 
+	 * @param execRecFilter
+	 * @param traceId
+	 * @param numCalls_BookstoreSearchBook_CatalogGetBook
+	 * @param numCalls_BookstoreSearchBook_CrmGetOffers
+	 * @param numCalls_CrmGetOffers_CatalogGetBook
+	 * @return
+	 */
+	public static Collection<DeploymentComponentOperationExecution> createBookstoreTraceWithLoops(
+			final ExecutionRecordTransformationFilter execRecFilter,
+			final long traceId,
+			final int numCalls_BookstoreSearchBook_CatalogGetBook,
+			final int numCalls_BookstoreSearchBook_CrmGetOffers,
+			final int numCalls_CrmGetOffers_CatalogGetBook) {
+		final Collection<DeploymentComponentOperationExecution> retCollection =
+				new ArrayList<DeploymentComponentOperationExecution>(BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
+
+		int nextEoi = 0;
+
+		/* Execution of Bookstore.searchBook() */
+		retCollection.add(
+				BookstoreTraceFactory.createExecution(execRecFilter,
+						BookstoreTraceFactory.BOOKSTORE_ASSEMBLY_COMPONENT_NAME,
+						BookstoreTraceFactory.BOOKSTORE_OPERATION_SIGNATURE, traceId, nextEoi++, 0));
+
+		/* Executions of Catalog.getBook(), called by Bookstore.searchBook() */
+		for (int i = 0; i < numCalls_BookstoreSearchBook_CatalogGetBook; i++) {
+			retCollection.add(
+					BookstoreTraceFactory.createExecution(execRecFilter,
+							BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
+							BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
+		}
+
+		/* Executions of CRM.getOffers(), called by Bookstore.searchBook() */
+		for (int i = 0; i < numCalls_BookstoreSearchBook_CrmGetOffers; i++) {
+			retCollection.add(
+					BookstoreTraceFactory.createExecution(execRecFilter,
+							BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME,
+							BookstoreTraceFactory.CRM_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
+			/* Executions of Catalog.getBook(), called by CRM.getOffers() */
+			for (int j = 0; j < numCalls_CrmGetOffers_CatalogGetBook; j++) {
+				retCollection.add(
+						BookstoreTraceFactory.createExecution(execRecFilter,
+								BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
+								BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 2));
+			}
+		}
+
 		return retCollection;
 	}
 

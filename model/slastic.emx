@@ -7566,7 +7566,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_0SSAM_KEEeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_0SSAMvKEEeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_0SOV0fKEEeCrteEUR2CQUA" points="[1177, -201, -2420, -6005]$[7615, -201, 4018, -6005]$[7615, 5530, 4018, -274]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_0SOV0fKEEeCrteEUR2CQUA" points="[1144, -201, -2195, -6005]$[7078, -201, 3739, -6005]$[7078, 5507, 3739, -297]"/>
           </edges>
         </contents>
         <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_tG4BQO3VEeCk8s0VzqdzMQ" type="Class" name="traces">
@@ -8107,7 +8107,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
         </ownedEnd>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_PaGsYNq7EeC_me4TSKli2A" name="FrequencyDistribution">
-        <ownedAttribute xmi:id="_mm6xQNq7EeC_me4TSKli2A" name="values" visibility="private" isUnique="false">
+        <ownedAttribute xmi:id="_mm6xQNq7EeC_me4TSKli2A" name="values" visibility="private" isOrdered="true">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5hFVMdq7EeC_me4TSKli2A" value="*"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5hFVMNq7EeC_me4TSKli2A"/>

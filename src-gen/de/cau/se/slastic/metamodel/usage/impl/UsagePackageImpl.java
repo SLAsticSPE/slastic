@@ -827,7 +827,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEReference(getCallingRelationship_FrequencyDistribution(), this.getFrequencyDistribution(), null, "frequencyDistribution", null, 1, 1, CallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(frequencyDistributionEClass, FrequencyDistribution.class, "FrequencyDistribution", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getFrequencyDistribution_Values(), ecorePackage.getELong(), "values", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getFrequencyDistribution_Values(), ecorePackage.getELong(), "values", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getFrequencyDistribution_Frequencies(), ecorePackage.getELong(), "frequencies", null, 0, -1, FrequencyDistribution.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(operationCallFrequencyEClass, OperationCallFrequency.class, "OperationCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
