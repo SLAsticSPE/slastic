@@ -3,7 +3,7 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import kieker.analysis.util.PropertyMap;
@@ -27,7 +27,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 
 	private String eucatoolsPath;
 
-	private HashMap<String, String> emis;
+	private Map<String, String> emis;
 
 	private Collection<String[]> initialNodeInstances;
 
@@ -181,7 +181,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 					EucalyptusApplicationCloudingServiceConfiguration.loadStringConfigurationProperty(props,
 							ConfigurationProperty.EUCA_EMIS);
 			final PropertyMap propertyMap = new PropertyMap(emisString, ";", ":");
-			final HashMap<String, String> emis = propertyMap.getMap();
+			final Map<String, String> emis = propertyMap.getMap();
 			configuration.setEMIs(emis);
 		}
 
@@ -434,7 +434,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	}
 
 	@Override
-	public HashMap<String, String> getEMIs() {
+	public Map<String, String> getEMIs() {
 		return this.emis;
 	}
 
@@ -442,7 +442,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	 * @param emis
 	 *            the emis to set
 	 */
-	public final void setEMIs(final HashMap<String, String> emis) {
+	public final void setEMIs(final Map<String, String> emis) {
 		this.emis = emis;
 		EucalyptusApplicationCloudingServiceConfiguration.log.debug("Setting emis: " + this.emis);
 	}

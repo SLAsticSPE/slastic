@@ -81,9 +81,7 @@ public class UsageAndAssemblyModelUpdater {
 	 * @param validExecutionTrace
 	 */
 	public void update(final ValidExecutionTrace validExecutionTrace) {
-		if (this.processTrace(validExecutionTrace)) {
-			UsageAndAssemblyModelUpdater.LOG.info("Succesfully processed trace: " + validExecutionTrace);
-		} else {
+		if (!this.processTrace(validExecutionTrace)) {
 			UsageAndAssemblyModelUpdater.LOG.error("Failed to process trace: " + validExecutionTrace);
 		}
 	}

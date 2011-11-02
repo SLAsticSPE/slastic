@@ -69,8 +69,8 @@
 	<classpathentry kind="lib" path="lib/libjri.so"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-1.4-dev-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/esper-4.3.0.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-1.4.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
