@@ -79,9 +79,9 @@ and terminate.
 
    $ bin/slastic-FS-Kieker.sh \
       --start-framework slastic.framework.properties \
-      --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve \
       --kieker-pipeName monitoringPipe0 \
-      --realtime-mode false
+      --realtime-mode false \
+      --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve
      
 2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
