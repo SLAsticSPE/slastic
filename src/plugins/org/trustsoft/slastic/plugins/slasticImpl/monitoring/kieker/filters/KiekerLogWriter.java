@@ -30,8 +30,8 @@ public class KiekerLogWriter implements IMonitoringRecordReceiver {
 		/* Configuring asynchronous file system writer */
 		configuration.setProperty(Configuration.WRITER_CLASSNAME, AsyncFsWriter.class.getName());
 		// Custom storage path
-		configuration.setProperty(AsyncFsWriter.CONFIG__PATH, storagePath);
-		configuration.setProperty(AsyncFsWriter.CONFIG__TEMP, Boolean.toString(false));
+		configuration.setProperty(AsyncFsWriter.CONFIG_PATH, storagePath);
+		configuration.setProperty(AsyncFsWriter.CONFIG_TEMP, Boolean.toString(false));
 		// Block on full queue
 		configuration.setProperty(AsyncFsWriter.class.getName()+".QueueFullBehavior", Integer.toString(1));
 		// Enable "replay mode", i.e., the logging timestamps in the records are kept as-is

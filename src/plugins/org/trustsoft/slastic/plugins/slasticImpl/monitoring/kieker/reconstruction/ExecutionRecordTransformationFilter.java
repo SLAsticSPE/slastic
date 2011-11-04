@@ -80,7 +80,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		/* Will become the return value. */
 		final OperationExecution newExecution;
 
-		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(execution.hostName);
+		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(execution.getHostName());
 
 		/*
 		 * The values of the variables componentOrConnectorName and
@@ -90,7 +90,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		final String operationName; // will be used, as soon as the meta-model
 									// supports operations
 		{
-			final String[] fqnSplit = NameUtils.splitFullyQualifiedName(execution.className);
+			final String[] fqnSplit = NameUtils.splitFullyQualifiedName(execution.getClassName());
 			final String[] abstractedName =
 					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1], execution.getOperationName(),
 							this.componentDiscoveryHierarchyLevel);
@@ -152,12 +152,12 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			 * 2.) Initialize the values common for component and connector
 			 * executions.
 			 */
-			newExecution.setEoi(execution.eoi);
-			newExecution.setEss(execution.ess);
-			newExecution.setSessionId(execution.sessionId);
-			newExecution.setTin(execution.tin);
-			newExecution.setTout(execution.tout);
-			newExecution.setTraceId(execution.traceId);
+			newExecution.setEoi(execution.getEoi());
+			newExecution.setEss(execution.getEss());
+			newExecution.setSessionId(execution.getSessionId());
+			newExecution.setTin(execution.getTin());
+			newExecution.setTout(execution.getTout());
+			newExecution.setTraceId(execution.getTraceId());
 		}
 
 		return newExecution;

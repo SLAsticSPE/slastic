@@ -38,19 +38,18 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 	private final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
 	{
-		this.kiekerRecord.className =
-				this.packageName + "." + this.classNameNoPackage;
-		this.kiekerRecord.eoi = 77;
-		this.kiekerRecord.ess = 98;
-		this.kiekerRecord.hostName = "theHostname";
-		this.kiekerRecord.operationName =
+		this.kiekerRecord.setClassName(this.packageName + "." + this.classNameNoPackage);
+		this.kiekerRecord.setEoi(77);
+		this.kiekerRecord.setEss(98);
+		this.kiekerRecord.setHostName("theHostname");
+		this.kiekerRecord.setOperationName(
 				String.format("%s %s(%s)", this.signature.getReturnType(),
 						this.signature.getName(), StringUtils.join(
-								this.signature.getParamTypeList(), ","));
-		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
-		this.kiekerRecord.tin = 65656868l;
-		this.kiekerRecord.tout = 9878787887l;
-		this.kiekerRecord.traceId = 88878787877887l;
+								this.signature.getParamTypeList(), ",")));
+		this.kiekerRecord.setSessionId("ZUKGHGF435JJ");
+		this.kiekerRecord.setTin(65656868l);
+		this.kiekerRecord.setTout(9878787887l);
+		this.kiekerRecord.setTraceId(88878787877887l);
 	}
 
 	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
@@ -96,16 +95,16 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 			 * records:
 			 */
 			Assert.assertEquals("Unexpected session ID",
-					this.kiekerRecord.sessionId, slasticExecRec.getSessionId());
+					this.kiekerRecord.getSessionId(), slasticExecRec.getSessionId());
 			Assert.assertEquals("Unexpected trace ID",
-					this.kiekerRecord.traceId, slasticExecRec.getTraceId());
-			Assert.assertEquals("Unexpected tin", this.kiekerRecord.tin,
+					this.kiekerRecord.getTraceId(), slasticExecRec.getTraceId());
+			Assert.assertEquals("Unexpected tin", this.kiekerRecord.getTin(),
 					slasticExecRec.getTin());
-			Assert.assertEquals("Unexpected tout", this.kiekerRecord.tout,
+			Assert.assertEquals("Unexpected tout", this.kiekerRecord.getTout(),
 					slasticExecRec.getTout());
-			Assert.assertEquals("Unexpected eoi", this.kiekerRecord.eoi,
+			Assert.assertEquals("Unexpected eoi", this.kiekerRecord.getEoi(),
 					slasticExecRec.getEoi());
-			Assert.assertEquals("Unexpected ess", this.kiekerRecord.ess,
+			Assert.assertEquals("Unexpected ess", this.kiekerRecord.getEss(),
 					slasticExecRec.getEss());
 		}
 
@@ -179,7 +178,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 
 			/* 3. Lookup container type and compare with record content */
 			final String containerTypeLookupFQName =
-					this.kiekerRecord.hostName
+					this.kiekerRecord.getHostName()
 							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 			lookedUpContainerType =
 					mgr.getTypeRepositoryManager()
@@ -239,8 +238,8 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this
 				.checkExecutionContainerAndType(
 						mgr,
-						this.kiekerRecord.hostName,
-						this.kiekerRecord.hostName
+						this.kiekerRecord.getHostName(),
+						this.kiekerRecord.getHostName()
 								+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 						slasticComponentExecRec.getDeploymentComponent()
 								.getExecutionContainer());

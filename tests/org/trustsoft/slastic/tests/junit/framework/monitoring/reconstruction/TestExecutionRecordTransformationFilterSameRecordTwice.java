@@ -24,16 +24,15 @@ public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 	final OperationExecutionRecord kiekerRecord =
 			new OperationExecutionRecord();
 	{
-		this.kiekerRecord.className = "package.subpackage.classname";
-		this.kiekerRecord.eoi = 77;
-		this.kiekerRecord.ess = 98;
-		this.kiekerRecord.hostName = "theHostname";
-		this.kiekerRecord.operationName =
-			"com.ibatis.jpetstore.service.AccountService.getAccount(java.lang.String, java.lang.String)";
-		this.kiekerRecord.sessionId = "ZUKGHGF435JJ";
-		this.kiekerRecord.tin = 65656868l;
-		this.kiekerRecord.tout = 9878787887l;
-		this.kiekerRecord.traceId = 88878787877887l;
+		this.kiekerRecord.setClassName("package.subpackage.classname");
+		this.kiekerRecord.setEoi(77);
+		this.kiekerRecord.setEss(98);
+		this.kiekerRecord.setHostName("theHostname");
+		this.kiekerRecord.setOperationName("com.ibatis.jpetstore.service.AccountService.getAccount(java.lang.String, java.lang.String)");
+		this.kiekerRecord.setSessionId("ZUKGHGF435JJ");
+		this.kiekerRecord.setTin(65656868l);
+		this.kiekerRecord.setTout(9878787887l);
+		this.kiekerRecord.setTraceId(88878787877887l);
 	}
 
 	public void testEntitiesReUsed() {

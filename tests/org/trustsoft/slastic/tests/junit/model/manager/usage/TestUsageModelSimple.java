@@ -254,17 +254,17 @@ public class TestUsageModelSimple extends TestCase {
 		final OperationExecutionRecord kiekerRecord =
 				new OperationExecutionRecord();
 		{
-			kiekerRecord.className = fqAssemblyComponentName;
-			kiekerRecord.eoi = 77;
-			kiekerRecord.ess = 98;
-			kiekerRecord.hostName = "theHostname";
-			kiekerRecord.operationName =
+			kiekerRecord.setClassName(fqAssemblyComponentName);
+			kiekerRecord.setEoi(77);
+			kiekerRecord.setEss(98);
+			kiekerRecord.setHostName("theHostname");
+			kiekerRecord.setOperationName(
 					new StringBuilder(opName).append("(").append(StringUtils.join(paramTypes, ',')).append(')')
-							.toString();
-			kiekerRecord.sessionId = "ZUKGHGF435JJ";
-			kiekerRecord.tin = 65656868l;
-			kiekerRecord.tout = 9878787887l;
-			kiekerRecord.traceId = 88878787877887l;
+							.toString());
+			kiekerRecord.setSessionId("ZUKGHGF435JJ");
+			kiekerRecord.setTin(65656868l);
+			kiekerRecord.setTout(9878787887l);
+			kiekerRecord.setTraceId(88878787877887l);
 		}
 
 		final DeploymentComponentOperationExecution slasticRecord =

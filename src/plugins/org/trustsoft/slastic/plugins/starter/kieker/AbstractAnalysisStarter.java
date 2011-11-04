@@ -136,7 +136,7 @@ public abstract class AbstractAnalysisStarter {
 		/* Configuring name pipe writer */
 		configuration.setProperty(Configuration.WRITER_CLASSNAME,
 				PipeWriter.class.getName());
-		configuration.setProperty(PipeWriter.CONFIG__PIPENAME,
+		configuration.setProperty(PipeWriter.CONFIG_PIPENAME,
 				"monitoringPipe0");
 		// TODO: Is this correct?? Enable "replay mode", i.e., the logging
 		// timestamps in the records are kept as-is

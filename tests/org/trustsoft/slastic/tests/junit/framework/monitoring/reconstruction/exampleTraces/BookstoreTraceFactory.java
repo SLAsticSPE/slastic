@@ -137,15 +137,15 @@ public class BookstoreTraceFactory {
 		final OperationExecutionRecord kiekerRecord =
 				new OperationExecutionRecord();
 		{
-			kiekerRecord.className = fqAssemblyComponentName;
-			kiekerRecord.eoi = eoi;
-			kiekerRecord.ess = ess;
-			kiekerRecord.hostName = "theHostname";
-			kiekerRecord.operationName = opSignature;
-			kiekerRecord.sessionId = "ZUKGHGF435JJ";
-			kiekerRecord.tin = 65656868l;
-			kiekerRecord.tout = 9878787887l;
-			kiekerRecord.traceId = traceId;
+			kiekerRecord.setClassName(fqAssemblyComponentName);
+			kiekerRecord.setEoi(eoi);
+			kiekerRecord.setEss(ess);
+			kiekerRecord.setHostName("theHostname");
+			kiekerRecord.setOperationName(opSignature);
+			kiekerRecord.setSessionId("ZUKGHGF435JJ");
+			kiekerRecord.setTin(65656868l);
+			kiekerRecord.setTout(9878787887l);
+			kiekerRecord.setTraceId(traceId);
 		}
 
 		final DeploymentComponentOperationExecution slasticRecord =

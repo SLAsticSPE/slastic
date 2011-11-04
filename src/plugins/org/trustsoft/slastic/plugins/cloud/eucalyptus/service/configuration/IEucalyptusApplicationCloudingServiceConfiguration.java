@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServlet;
@@ -50,7 +50,7 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	 * 
 	 * @return
 	 */
-	public HashMap<String, String> getEMIs();
+	public Map<String, String> getEMIs();
 
 	/**
 	 * Returns a list of node instances to create initially. Each element of the

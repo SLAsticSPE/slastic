@@ -52,9 +52,9 @@ public class StackFrame {
 				this.calledServiceName, Long.parseLong(this.traceId),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter),
 				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
-		rec.ess = depth;
-		rec.eoi = this.eoi;
-		rec.hostName = this.serverId;
+		rec.setEss(depth);
+		rec.setEoi(this.eoi);
+		rec.setHostName(this.serverId);
 		return rec;
 	}
 
