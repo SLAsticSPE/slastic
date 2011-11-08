@@ -6,6 +6,7 @@ import org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformatio
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 
 import de.cau.se.slastic.metamodel.core.SystemModel;
+import de.cau.se.slastic.metamodel.usage.UsageModel;
 
 /**
  * 
@@ -33,7 +34,8 @@ public class PerformancePredictor extends AbstractPerformancePredictorComponent 
 		final ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
 		final SlasticToPcmTranformation transformation = new SlasticToPcmTranformation();
 		final SystemModel systemModel = modelManager.getSystemModel();
-		transformation.transform(systemModel);
+		final UsageModel usageModel = modelManager.getUsageModel();
+		transformation.transform(systemModel, usageModel);
 		transformation.extractPcmModel(this.getComponentContext(), "output");
 	}
 }

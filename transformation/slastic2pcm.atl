@@ -10,8 +10,8 @@ create
 	SYSTEM: Pcm,
 	USAGEMODEL: Pcm
 from 
-	IN: Slastic, 
-	USAGE: Slastic;
+	SLASTIC_SYSTEM: Slastic, 
+	SLASTIC_USAGE: Slastic;
 
 --------------------------------------------------------------------------------
 -- Helpers
@@ -94,6 +94,7 @@ rule TypeRepositoryModelToRepository {
 		-- Assuming there is only one repository.
 		id <- 'repository_1',
 		entityName <- 'defaultRepository',
+		repositoryDescription <- 'repository description',
 		interfaces__Repository <- src.interfaces,
 		components__Repository <- src.componentTypes
 	)
@@ -121,7 +122,7 @@ rule ComponentTypeToBasicComponent {
 		requiredRoles_InterfaceRequiringEntity <- src.requiredInterfaces->collect(interface | 
 			thisModule.NewRequiredRole(interface, src)
 		),
-		serviceEffectSpecifications__BasicComponent <- src.operations->collect(operation | 
+		serviceEffectSpecifications__BasicComponent <- src.operations->collect(operation |  
 			thisModule.NewResourceDemandingSEFF(operation)
 		)
 	)
@@ -144,7 +145,7 @@ lazy rule NewResourceDemandingSEFF {
 		callingRelationships: Sequence(Slastic!CallingRelationship) = usageModel.callingRelationships->select(relationship | 
 			relationship.callingOperation = src
 		);
-		loopSequence: Sequence(Pcm!AbstractAction) = Sequence{thisModule.NewStartAction(), thisModule.NewInternalAction()};
+		loopSequence: Sequence(Pcm!AbstractAction) = Sequence{thisModule.NewStartAction(), thisModule.NewInternalAction('setup_' + src.signature.name)};
 	}
 	to tgt: Pcm!ResourceDemandingSEFF in REPOSITORY (
 		describedService__SEFF <- Pcm!Signature.allInstances()->any(signature | 
@@ -156,7 +157,7 @@ lazy rule NewResourceDemandingSEFF {
 				callingRelationships->collect(relationship |
 					thisModule.NewLoopBehaviour(relationship)
 				)
-			).append(thisModule.NewInternalAction())
+			).append(thisModule.NewInternalAction('teardown_' + src.signature.name))
 			.append(thisModule.NewStopAction())
 	)
 	-- Link the elements of the loop sequence.
@@ -170,6 +171,7 @@ lazy rule NewResourceDemandingSEFF {
 lazy rule NewLoopBehaviour {
 	from relationship: Slastic!CallingRelationship
 	to tgt: Pcm!LoopAction in REPOSITORY (
+		entityName <- 'loop_' + relationship.calledSignature.name, 
 		bodyBehaviour_Loop <- thisModule.NewLoopBody(relationship),
 		iterationCount_LoopAction <- thisModule.NewPmfFromFrequencyDistribution(relationship.frequencyDistribution)
 	)
@@ -180,9 +182,9 @@ lazy rule NewLoopBody {
 	using {
 		loopBodySequence: Sequence(Pcm!AbstractAction) = Sequence{
 			thisModule.NewStartAction(),
-			thisModule.NewInternalAction(),
-			thisModule.NewExternalCallAction(src.calledSignature),
-			thisModule.NewInternalAction(),
+			thisModule.NewInternalAction('setup_' + src.calledSignature.name),
+			thisModule.NewExternalCallAction(src),
+			thisModule.NewInternalAction('teardown_' + src.calledSignature.name),
 			thisModule.NewStopAction()
 		};
 	}
@@ -215,10 +217,15 @@ rule NewStopAction() {
 	}
 }
 
-rule NewExternalCallAction(signature: Slastic!Signature) {
+rule NewExternalCallAction(relationship: Slastic!CallingRelationship) {
 	to tgt: Pcm!ExternalCallAction in REPOSITORY (
 		calledService_ExternalService <- Pcm!Signature.allInstances()->any(pcm_signature | 
-			pcm_signature.serviceName = signature.name -- TODO: Check if this could cause problems.
+			pcm_signature.serviceName = relationship.calledSignature.name -- TODO: Check if this could cause problems.
+		),
+		role_ExternalService <- Pcm!BasicComponent.allInstances()->any(component | 
+			component.id = 'c' + relationship.callingOperation.componentType.id.toString()
+		).requiredRoles_InterfaceRequiringEntity->any(role | 
+			role.requiredInterface__RequiredRole.id = 'i' + relationship.calledInterface.id.toString()
 		)
 	)
 	do {
@@ -226,8 +233,9 @@ rule NewExternalCallAction(signature: Slastic!Signature) {
 	}
 }
 
-rule NewInternalAction() {
+rule NewInternalAction(name: String) {
 	to tgt: Pcm!InternalAction in REPOSITORY (
+		entityName <- name,
 		resourceDemand_Action <- thisModule.NewResourceDemandPlaceholder()
 	)
 	do {
@@ -314,9 +322,11 @@ rule ResourceSpecificationToProcessingResourceSpecification {
 		if src.resourceType.name = 'CPU_RESOURCE_TYPE'
 			then Pcm!ProcessingResourceType.allInstances()->any(type | type.id = '_oro4gG3fEdy4YaaT-RYrLQ')
 			else OclUndefined
-		endif
+		endif,
+		processingRate_ProcessingResourceSpecification <- thisModule.NewPcmRandomVariable('100')
 	)
 }
+
 
 --------------------------------------------------------------------------------
 -- Transform componentAssemblyModel to SystemModel
@@ -328,7 +338,7 @@ rule NewProvidedRoleFromComponent(component: Pcm!BasicComponent, interface: Pcm!
 		entityName <- 'Provided_' + interface.entityName,
 		providedInterface__ProvidedRole <- component.providedRoles_InterfaceProvidingEntity->any(role | 
 			role.providedInterface__ProvidedRole.id = interface.id
-		)
+		).providedInterface__ProvidedRole
 	) do { tgt; }
 }
 
@@ -409,21 +419,22 @@ rule SystemProvidedInterfaceDelegationConnectorToProvidedDelegationConnector {
 rule ComponentDeploymentModelToAllocation {
 	from src: Slastic!ComponentDeploymentModel
 	to tgt: Pcm!Allocation in ALLOCATION (
-		id <- '1',
-		allocationContexts_Allocation <- src.deploymentComponents
+		id <- 'allocation_1',
+		allocationContexts_Allocation <- src.deploymentComponents,
+		system_Allocation <- Pcm!System.allInstances().first()
 	)
 }
 
 rule DeploymentComponentToAllocationContext {
 	from src: Slastic!DeploymentComponent
 	to tgt: Pcm!AllocationContext in ALLOCATION (
-		id <- src.id.toString(),
+		id <- 'alc' + src.id.toString(),
 		entityName <- 'Allocation_' + Pcm!AssemblyContext.allInstances()->
 			any(acontext | acontext.id = 'ac' + src.assemblyComponent.id.toString()).entityName,
 		resourceContainer_AllocationContext <- Pcm!ResourceContainer.allInstances()->
 			any(container | container.id = src.executionContainer.id.toString()),
 		assemblyContext_AllocationContext <-Pcm!AssemblyContext.allInstances()->
-			any(acontext | acontext.id = src.assemblyComponent.id.toString())
+			any(acontext | acontext.id = 'ac' + src.assemblyComponent.id.toString())
 	)
 }
 
@@ -434,6 +445,75 @@ rule DeploymentComponentToAllocationContext {
 rule UsageModelToUsageModel {
 	from src: Slastic!UsageModel
 	to tgt: Pcm!UsageModel in USAGEMODEL (
-		
+		usageScenario_UsageModel <- Slastic!SystemProvidedInterfaceDelegationConnector.allInstances()->collect(connector | 
+			Pcm!Interface.allInstances()->any(interface | 
+				interface.id = 'i' + connector.connectorType.interface.id.toString()
+			).signatures__Interface->collect(signature | 
+				thisModule.NewUsageScenario(signature)
+			)
+		)
 	)
+}
+
+rule NewUsageScenario(signature: Pcm!Signature) {
+	to tgt: Pcm!UsageScenario in USAGEMODEL (
+		id <- 'usage_' + signature.serviceName,  
+		scenarioBehaviour_UsageScenario <- thisModule.NewScenarioBehaviour(signature),
+		workload_UsageScenario <- thisModule.NewWorkload()
+	)
+	do {
+		tgt;
+	}
+}
+
+rule NewScenarioBehaviour(signature: Pcm!Signature) {
+	to tgt: Pcm!ScenarioBehaviour in USAGEMODEL (
+		actions_ScenarioBehaviour <- Sequence {
+			thisModule.NewStart(),
+			thisModule.NewEntryLevelSystemCall(signature),
+			thisModule.NewStop()
+		}
+	)
+	-- Link the elements of the sequence.
+	do {
+		for (elem in tgt.actions_ScenarioBehaviour.subSequence(2, tgt.actions_ScenarioBehaviour.size())) {
+			elem.refSetValue('predecessor', tgt.actions_ScenarioBehaviour.at(tgt.actions_ScenarioBehaviour.indexOf(elem) - 1));
+		}
+		tgt;
+	}
+}
+
+rule NewStart(){
+	to tgt: Pcm!Start in USAGEMODEL (
+		 
+	) do { 
+		tgt; 
+	}
+}
+
+rule NewStop(){
+	to tgt: Pcm!Stop in USAGEMODEL (
+		 
+	) do { 
+		tgt; 
+	}
+}
+
+rule NewEntryLevelSystemCall(signature: Pcm!Signature) {
+	to tgt: Pcm!EntryLevelSystemCall in USAGEMODEL (
+		providedRole_EntryLevelSystemCall <- Pcm!System.allInstances().first().providedRoles_InterfaceProvidingEntity->any(role | 
+			signature.interface_Signature = role.providedInterface__ProvidedRole
+		),
+		signature_EntryLevelSystemCall <- signature
+	) do {
+		tgt;
+	}
+}
+
+rule NewWorkload(){
+	to tgt: Pcm!OpenWorkload in USAGEMODEL (
+		interArrivalTime_OpenWorkload <- thisModule.NewPcmRandomVariable('1')
+	) do {
+		tgt;
+	}
 }

@@ -15,6 +15,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
@@ -29,8 +31,10 @@ import org.eclipse.m2m.atl.core.emf.EMFReferenceModel;
 import org.eclipse.m2m.atl.core.launch.ILauncher;
 import org.eclipse.m2m.atl.engine.emfvm.launch.EMFVMLauncher;
 import org.trustsoft.slastic.common.IComponentContext;
+import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 
 import de.cau.se.slastic.metamodel.core.SystemModel;
+import de.cau.se.slastic.metamodel.usage.UsageModel;
 
 /**
  * @author Nicolas Günther
@@ -47,6 +51,7 @@ public class SlasticToPcmTranformation {
 	private IModel pcmResourceEnvironmentModel;
 	private IModel pcmAllocationModel;
 	private IModel pcmSystemModel;
+	private IModel pcmUsageModel;
 
 	public IModel getPcmResourceTypeModel() {
 		return this.pcmResourceTypeModel;
@@ -68,18 +73,32 @@ public class SlasticToPcmTranformation {
 		return this.pcmSystemModel;
 	}
 
+	public IModel getPcmUsageModel() {
+		return this.pcmUsageModel;
+	}
+
 	private void createResources() {
 		this.transformationResource = SlasticToPcmTranformation.class.getResource("/transformation/slastic2pcm.asm");
 		this.slasticMetaModelResource = SlasticToPcmTranformation.class.getResource("/model/slastic.ecore");
 		this.pcmMetaModelResource = SlasticToPcmTranformation.class.getResource("/model/pcm.ecore");
 	}
 
-	public void transform(final SystemModel inputModel) {
-		this.transform(inputModel.eResource().getURI().toString());
+	public void transform(final SystemModel systemModel, final UsageModel usageModel) {
+		this.transform(systemModel.eResource(), usageModel.eResource());
 	}
+	
+	public void transform(final String systemModelPath, final String usageModelPath) throws IOException{
+		final EObject[] models = ModelIOUtils.loadSystemAndUsageModel(systemModelPath, usageModelPath);
 
-	public void transform(final String inputPath) {
-		EMFModel slasticModel = null;
+		final SystemModel systemModel = (SystemModel) models[0];
+		final UsageModel usageModel = (UsageModel) models[1];
+		this.transform(systemModel.eResource(), usageModel.eResource());
+	}
+	
+	public void transform(final Resource systemModelResource, final Resource usageModelResource) {
+		EMFModel slasticSystemModel = null;
+		EMFModel slasticUsageModel = null;
+		
 		try {
 			this.createResources();
 			final ModelFactory modelFactory = new EMFModelFactory();
@@ -88,7 +107,7 @@ public class SlasticToPcmTranformation {
 					.newReferenceModel();
 			final IReferenceModel pcmMetaModel = modelFactory
 					.newReferenceModel();
-
+			
 			final EMFInjector injector = new EMFInjector();
 
 			injector.inject(slasticMetaModel,
@@ -99,32 +118,47 @@ public class SlasticToPcmTranformation {
 			final ILauncher launcher = new EMFVMLauncher();
 			launcher.initialize(Collections.<String, Object> emptyMap());
 
-			slasticModel = (EMFModel) modelFactory.newModel(slasticMetaModel);
+			slasticSystemModel = (EMFModel) modelFactory.newModel(slasticMetaModel);
+			slasticUsageModel = (EMFModel) modelFactory.newModel(slasticMetaModel);
 
-			injector.inject(slasticModel, inputPath);
-
+			injector.inject(slasticSystemModel, systemModelResource.getURI().toString());
+			injector.inject(slasticUsageModel, usageModelResource.getURI().toString());
+			
+			SlasticToPcmTranformation.log.info("slasticSystemModel: " + slasticSystemModel);
+			SlasticToPcmTranformation.log.info("slasticUsageModel: " + slasticUsageModel);
+			
 			this.pcmResourceTypeModel = modelFactory.newModel(pcmMetaModel);
 			this.pcmRepositoryModel = modelFactory.newModel(pcmMetaModel);
 			this.pcmResourceEnvironmentModel = modelFactory.newModel(pcmMetaModel);
 			this.pcmAllocationModel = modelFactory.newModel(pcmMetaModel);
 			this.pcmSystemModel = modelFactory.newModel(pcmMetaModel);
+			this.pcmUsageModel = modelFactory.newModel(pcmMetaModel);
 
-			launcher.addInModel(slasticModel, "IN", "Slastic");
+			// The names of the models have to correspond to those defined in
+			// the atl module.
+			launcher.addInModel(slasticSystemModel, "SLASTIC_SYSTEM", "Slastic");
+			launcher.addInModel(slasticUsageModel, "SLASTIC_USAGE", "Slastic");
 			launcher.addOutModel(this.pcmResourceTypeModel, "RESOURCETYPE", "Pcm");
 			launcher.addOutModel(this.pcmRepositoryModel, "REPOSITORY", "Pcm");
 			launcher.addOutModel(this.pcmResourceEnvironmentModel, "RESOURCEENVIRONMENT", "Pcm");
 			launcher.addOutModel(this.pcmAllocationModel, "ALLOCATION", "Pcm");
 			launcher.addOutModel(this.pcmSystemModel, "SYSTEM", "Pcm");
+			launcher.addOutModel(this.pcmUsageModel, "USAGEMODEL", "Pcm");
 
 			final Map<String, Object> launchOptions = new HashMap<String, Object>();
 			launchOptions.put("allowInterModelReferences", "true");
 
-			SlasticToPcmTranformation.log.info(String.format(
-					"Launching transformation of slastic model instance [%s] to pcm.", slasticModel.toString()));
+			SlasticToPcmTranformation.log
+					.info(String
+							.format(
+									"Launching transformation of slastic system model instance [%s] and slastic usage model instance [%s] to pcm.",
+									slasticSystemModel.toString(), slasticUsageModel.toString()));
 			launcher.launch(ILauncher.RUN_MODE, null, launchOptions, this.transformationResource.openStream());
 		} catch (final ATLCoreException e) {
-			SlasticToPcmTranformation.log.error(String.format("Error transforming slastic model instance [%s] to pcm.",
-					slasticModel.toString()), e);
+			SlasticToPcmTranformation.log
+					.error(String
+							.format("Error transforming slastic system model instance [%s] and slastic usage model instance [%s] to pcm.",
+									slasticSystemModel.toString(), slasticUsageModel.toString()), e);
 		} catch (final IOException e) {
 			SlasticToPcmTranformation.log.error(
 					String.format("Cannot open stream for transformation resource [%s].",
@@ -153,6 +187,8 @@ public class SlasticToPcmTranformation {
 				new File(directory, outputFilePrefix + ".allocation").getPath(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmSystemModel,
 				new File(directory, outputFilePrefix + ".system").getPath(), extractOptions);
+		this.extractPcmModel(extractor, this.pcmUsageModel,
+				new File(directory, outputFilePrefix + ".usagemodel").getPath(), extractOptions);
 	}
 
 	private void extractPcmModel(final IExtractor extractor, final IModel model, final String outputPath,
@@ -168,31 +204,45 @@ public class SlasticToPcmTranformation {
 									outputPath), e);
 		}
 	}
-
+	
 	public static void main(final String[] args) {
 		final CommandLineParser parser = new BasicParser();
 		final Options options = new Options();
 		final HelpFormatter helpFormatter = new HelpFormatter();
 
 		options.addOption("h", "help", false, "Print this usage information");
-		options.addOption("i", "input", true, "SLAstic model instance input file");
+		options.addOption("s", "system", true,
+				"SLAstic system model instance input file");
+		options.addOption("u", "usage", true,
+				"SLAstic usage model instance input file");
 		options.addOption("p", "path", true, "Path for PCM model output files");
 		options.addOption("o", "output", true, "Prefix for PCM output files");
 
-		String inputPath = null;
+		String systemModelPath = null;
+		String usageModelPath = null;
 		String outputPath = ".";
 		String outputFilePrefix = "output";
 		try {
 			final CommandLine commandLine = parser.parse(options, args);
 			if (commandLine.hasOption('h')) {
-				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(),
+						options);
 				System.exit(0);
 			}
-			if (commandLine.hasOption('i')) {
-				inputPath = commandLine.getOptionValue('i');
+			if (commandLine.hasOption('s')) {
+				systemModelPath = commandLine.getOptionValue('s');
 			} else {
-				System.err.println("A SLAstic input model instance has to be specified");
-				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+				System.err.println("A SLAstic system and usage model instance has to be specified");
+				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(),
+						options);
+				System.exit(0);
+			}
+			if (commandLine.hasOption('u')) {
+				usageModelPath = commandLine.getOptionValue('u');
+			} else {
+				System.err.println("A SLAstic usage input model instance has to be specified");
+				helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(),
+						options);
 				System.exit(0);
 			}
 			if (commandLine.hasOption('p')) {
@@ -203,11 +253,18 @@ public class SlasticToPcmTranformation {
 			}
 		} catch (final ParseException e) {
 			System.err.println("Error parsing arguments: " + e.getMessage());
-			helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(), options);
+			helpFormatter.printHelp(SlasticToPcmTranformation.class.getName(),
+					options);
 			System.exit(0);
 		}
-		final SlasticToPcmTranformation transformation = new SlasticToPcmTranformation();
-		transformation.transform(inputPath);
+		final SlasticToPcmTranformation transformation = new
+				SlasticToPcmTranformation();
+		try {
+			transformation.transform(systemModelPath, usageModelPath);
+		} catch (final IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		transformation.extractPcmModel(new File(outputPath), outputFilePrefix);
 	}
 }
