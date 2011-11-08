@@ -359,15 +359,23 @@ public class FrameworkInstance {
 		}
 	}
 
+	// TODO: Terminate in reverse order of initialization?
 	private void terminateAllComponents(final boolean error) {
+		{
+			// TODO: HACK
+			FrameworkInstance.log
+					.warn("HACK: Implement hack to forward time for some delay, e.g. in trace reconstruction, to elapse ...");
+			final long forwardByMillis = 1000 * 60 * 2; // 2 minutes
+			final long nextTime = this.configuration.controlComponent.getCurrentTimeMillis() + forwardByMillis;
+			this.configuration.controlComponent.setCurrentTimeMillis(nextTime);
+		}
+
 		this.terminateComponent(this.configuration.monitoringManagerComponent,
 				"MonitoringManagerComponent", error);
-		this.terminateComponent(this.configuration.controlComponent,
-				"ControlComponent", error);
-		this.terminateComponent(this.configuration.modelManagerComponent,
-				"ModelManagerComponent", error);
 		this.terminateComponent(this.configuration.modelUpdaterComponent,
 				"ModelUpdaterComponent", error);
+		this.terminateComponent(this.configuration.modelManagerComponent,
+				"ModelManagerComponent", error);
 		this.terminateComponent(this.configuration.analysisComponent,
 				"AnalysisComponent", error);
 		this.terminateComponent(
@@ -383,6 +391,8 @@ public class FrameworkInstance {
 		this.terminateComponent(
 				this.configuration.reconfigurationManagerComponent,
 				"ReconfigurationManagerComponent", error);
+		this.terminateComponent(this.configuration.controlComponent,
+				"ControlComponent", error);
 	}
 
 	private boolean executeComponent(final AbstractSLAsticComponent component,
@@ -442,7 +452,8 @@ public class FrameworkInstance {
 			public void run() {
 				FrameworkInstance.log
 						.info("ShutdownHook notifies SLAstic framework to terminate");
-				FrameworkInstance.this.terminate(false); // not setting error flag
+				FrameworkInstance.this.terminate(false); // not setting error
+															// flag
 			}
 		}));
 

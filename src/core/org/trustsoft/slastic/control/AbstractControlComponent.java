@@ -189,4 +189,6 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 			final AbstractReconfigurationManagerComponent reconfigurationManager) {
 		this.reconfigurationManager = reconfigurationManager;
 	}
+	
+	// TODO: implement non-final terminate method which destroys the CEP engine 
 }

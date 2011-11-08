@@ -68,6 +68,6 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 
 	@Override
 	public void terminate(final boolean error) {
-		// do nothing
+		// No need to do something
 	}
 }
