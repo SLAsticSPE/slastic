@@ -9,7 +9,7 @@ BINDIR=$(dirname $0)
 L4JPROPS="${BINDIR}/log4j.properties"
 L4JPROPSEXAMPLE="${BINDIR}/log4j.properties.example"
 
-JAVAARGS="-Dlog4j.configuration=${L4JPROPS} -Xms56m -Xmx1024m"
+JAVAARGS="-Dlog4j.configuration=${L4JPROPS} -Xms56m -Xmx2048m"
 MAINCLASSNAME=org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem
 CLASSPATH=$(ls lib/*.jar | tr "\n" ":")$(ls dist/*.jar | tr "\n" ":")
 

@@ -17,7 +17,7 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 	private static final Log log = LogFactory.getLog(ModelUpdater.class);
 
 	// TODO: turn into property
-	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 2000;
+	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 1000;
 
 	/**
 	 * Will be initialized in {@link #execute()}.
