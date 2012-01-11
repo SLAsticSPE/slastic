@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.core:SystemModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel.core="http:///metamodel/core.ecore">
+  <typeRepositoryModel>
+    <componentTypes active="true" name="Catalog__T" packageName="bookstoreTracing" providedInterfaces="//@typeRepositoryModel/@interfaces.0">
+      <operations id="1" active="true">
+        <signature name="getBook" returnType="N/A">
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="1" active="true" name="CRM__T" packageName="bookstoreTracing" providedInterfaces="//@typeRepositoryModel/@interfaces.1" requiredInterfaces="//@typeRepositoryModel/@interfaces.0">
+      <operations id="2" active="true">
+        <signature name="getOffers" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="2" active="true" name="Bookstore__T" packageName="bookstoreTracing" providedInterfaces="//@typeRepositoryModel/@interfaces.2" requiredInterfaces="//@typeRepositoryModel/@interfaces.0 //@typeRepositoryModel/@interfaces.1">
+      <operations id="3" active="true">
+        <signature name="searchBook" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <executionContainerTypes active="true" name="SRV1__T" packageName=""/>
+    <executionContainerTypes id="1" active="true" name="SRV0__T" packageName=""/>
+    <interfaces active="true" name="ICatalog__T" packageName="bookstoreTracing">
+      <signatures name="getBook" returnType="N/A">
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="1" active="true" name="ICRM__T" packageName="bookstoreTracing">
+      <signatures name="getOffers" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="2" active="true" name="IBookstore__T" packageName="bookstoreTracing">
+      <signatures name="searchBook" returnType="N/A"/>
+    </interfaces>
+    <connectorTypes active="true" name="CONNECTOR_T_b584431e-ddac-4ab3-a46d-495bf2d67f7d" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="1" active="true" name="CONNECTOR_T_574d6391-6be7-4d23-a7a4-a42404911788" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="2" active="true" name="CONNECTOR_T_5b905d43-9774-488b-95dd-757b6aa82c5c" packageName="" interface="//@typeRepositoryModel/@interfaces.1"/>
+    <connectorTypes id="3" active="true" name="CONNECTOR_T_eeb43dee-c452-4f1e-b40d-2dbad1807208" packageName="" interface="//@typeRepositoryModel/@interfaces.2"/>
+  </typeRepositoryModel>
+  <componentAssemblyModel systemProvidedInterfaces="//@typeRepositoryModel/@interfaces.2">
+    <systemProvidedInterfaceDelegationConnectors active="true" name="ASM_SYSPROVCONN_NN_9cc78a52-4869-44d6-b0f5-1f55df222150" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.3" providingComponent="//@componentAssemblyModel/@assemblyComponents.2"/>
+    <assemblyComponents active="true" name="Catalog" packageName="bookstoreTracing" componentType="//@typeRepositoryModel/@componentTypes.0" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.1"/>
+    <assemblyComponents id="1" active="true" name="CRM" packageName="bookstoreTracing" componentType="//@typeRepositoryModel/@componentTypes.1" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.1" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.2"/>
+    <assemblyComponents id="2" active="true" name="Bookstore" packageName="bookstoreTracing" componentType="//@typeRepositoryModel/@componentTypes.2" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.2"/>
+    <assemblyComponentConnectors active="true" name="ASM_CONN_NN_3b877dae-7290-40a1-9111-6bf440512686" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.0" providingComponent="//@componentAssemblyModel/@assemblyComponents.0" requiringComponent="//@componentAssemblyModel/@assemblyComponents.2"/>
+    <assemblyComponentConnectors id="1" active="true" name="ASM_CONN_NN_7836c60a-dd86-46ba-8031-eeddb6da8cd2" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.1" providingComponent="//@componentAssemblyModel/@assemblyComponents.0" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="2" active="true" name="ASM_CONN_NN_c02d33ca-ab1d-4a58-947f-ae9defedab54" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.2" providingComponent="//@componentAssemblyModel/@assemblyComponents.1" requiringComponent="//@componentAssemblyModel/@assemblyComponents.2"/>
+  </componentAssemblyModel>
+  <componentDeploymentModel>
+    <deploymentComponents active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="1" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.1"/>
+    <deploymentComponents id="2" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.1" executionContainer="//@executionEnvironmentModel/@executionContainers.1"/>
+    <deploymentComponents id="3" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.2" executionContainer="//@executionEnvironmentModel/@executionContainers.1"/>
+  </componentDeploymentModel>
+  <executionEnvironmentModel>
+    <executionContainers active="true" name="SRV1" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0"/>
+    <executionContainers id="1" active="true" name="SRV0" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.1"/>
+  </executionEnvironmentModel>
+</metamodel.core:SystemModel>

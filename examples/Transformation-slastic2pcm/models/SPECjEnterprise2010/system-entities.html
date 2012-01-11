@@ -1,0 +1,1689 @@
+<html><head><title>System Model Reconstructed by Kieker.TraceAnalysis</title>
+<style type="text/css">
+.colTitle { font-family:sans; font-size:11px; }
+.cell { font-family:monospace; font-size:10px; }
+h1 { font-family:sans; font-size:14px; }
+</style>
+</head><body>
+<pre>
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</pre>
+<h1>Component Types</h1>
+<table border="1"><tr>
+<th class="colTitle">ID</th>
+<th class="colTitle">Package</th>
+<th class="colTitle">Name</th>
+<th class="colTitle">Operations</th>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-39">39</a></td>
+<td>org.spec.jent.ejb.mfg.mdb</td>
+<td>ReceiveMDB</td>
+<td><li><a href="#OPERATION-132">onMessage(javax.jms.Message):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-38">38</a></td>
+<td>org.spec.jent.supplier.web</td>
+<td>BuyerService</td>
+<td><li><a href="#OPERATION-129">processDeliveryMessage(org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageType):N/A</a></li><li><a href="#OPERATION-133">processDeliveryAttach(org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageAttachType):N/A</a></li><li><a href="#OPERATION-134">processDelivery(org.spec.jent.ws.buyer.supplierdeliverymessage.InlineDeliveryMessageType):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-37">37</a></td>
+<td>org.spec.jent.ejb.supplier.entity</td>
+<td>PurchaseOrderLine</td>
+<td><li><a href="#OPERATION-124">markDelivered():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-36">36</a></td>
+<td>org.spec.jent.supplier.web</td>
+<td>SupplierDomainServlet</td>
+<td><li><a href="#OPERATION-122">incrementTxCounter():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-35">35</a></td>
+<td>org.spec.jent.ejb.orders.mdb</td>
+<td>FulfillOrderMDB</td>
+<td><li><a href="#OPERATION-111">onMessage(javax.jms.Message):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-34">34</a></td>
+<td>org.spec.jent.ejb.mfg.mdb</td>
+<td>LargerOrderMDB</td>
+<td><li><a href="#OPERATION-109">onMessage(javax.jms.Message):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-33">33</a></td>
+<td>org.spec.jent.ejb.supplier.mdb</td>
+<td>PurchaseOrderMDB</td>
+<td><li><a href="#OPERATION-101">transformPOLines(java.util.List,org.spec.jent.ws.supplier.purchaseorder.SimplePurchaseOrderType):N/A</a></li><li><a href="#OPERATION-102">transformPurchaseOrder(org.spec.jent.ejb.supplier.entity.PurchaseOrder):N/A</a></li><li><a href="#OPERATION-117">sendAttachmentPO(org.spec.jent.ejb.supplier.entity.PurchaseOrder):N/A</a></li><li><a href="#OPERATION-118">sendPO(org.spec.jent.ejb.supplier.entity.PurchaseOrder):N/A</a></li><li><a href="#OPERATION-120">onMessage(javax.jms.Message):N/A</a></li><li><a href="#OPERATION-121">sendInlinePO(org.spec.jent.ejb.supplier.entity.PurchaseOrder):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-32">32</a></td>
+<td>org.spec.jent.ejb.supplier.mdb</td>
+<td>BuyerSegmentCache</td>
+<td><li><a href="#OPERATION-100">_getInstance():N/A</a></li><li><a href="#OPERATION-103">access$000(org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache):N/A</a></li><li><a href="#OPERATION-104">access$100(org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-31">31</a></td>
+<td>org.spec.jent.ejb.supplier.mdb</td>
+<td>BuyerMDB</td>
+<td><li><a href="#OPERATION-93">onMessage(javax.jms.Message):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-30">30</a></td>
+<td>org.spec.jent.ejb.supplier.entity</td>
+<td>PurchaseOrder</td>
+<td><li><a href="#OPERATION-89">addLine(java.lang.String,int,int,java.math.BigDecimal,int,java.lang.String):N/A</a></li><li><a href="#OPERATION-94">hashCode():N/A</a></li><li><a href="#OPERATION-119">markSent():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-29">29</a></td>
+<td>org.spec.jent.ejb.supplier.entity</td>
+<td>SComponent</td>
+<td><li><a href="#OPERATION-85">requiresNewPurchaseOrder(int):N/A</a></li><li><a href="#OPERATION-88">updateQuantities(int,int):N/A</a></li><li><a href="#OPERATION-126">updateDemand(int):N/A</a></li><li><a href="#OPERATION-127">deliveredQuantity(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-28">28</a></td>
+<td>org.spec.jent.ejb.supplier.session</td>
+<td>SupplierSession</td>
+<td><li><a href="#OPERATION-84">findComponent(java.lang.String,int):N/A</a></li><li><a href="#OPERATION-86">createRequisition(java.util.List):N/A</a></li><li><a href="#OPERATION-87">findSupplierComponent(java.lang.String,int):N/A</a></li><li><a href="#OPERATION-90">createPurchaseOrder(org.spec.jent.ejb.supplier.entity.Supplier,int,int,org.spec.jent.ejb.supplier.entity.ComponentOrder[]):N/A</a></li><li><a href="#OPERATION-91">createPO(int,org.spec.jent.ejb.supplier.entity.Supplier,int,java.util.List):N/A</a></li><li><a href="#OPERATION-92">purchase(int,java.util.List):N/A</a></li><li><a href="#OPERATION-115">findSupplier(int):N/A</a></li><li><a href="#OPERATION-116">createIndividualPOs(int,org.spec.jent.ejb.supplier.entity.SupplierComponent[],int,java.util.List):N/A</a></li><li><a href="#OPERATION-123">findPurchaseOrder(int,int):N/A</a></li><li><a href="#OPERATION-125">sendPurchaseOrder(org.spec.jent.common.util.DeliveryInfo):N/A</a></li><li><a href="#OPERATION-128">processDelivery(org.spec.jent.common.util.DeliveryInfo):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-27">27</a></td>
+<td>org.spec.jent.ejb.mfg.session</td>
+<td>MessageSenderSession</td>
+<td><li><a href="#OPERATION-83">sendRequisitionToBuyer(int,org.spec.jent.ejb.mfg.entity.WorkOrder,java.util.List):N/A</a></li><li><a href="#OPERATION-108">sendOrderFulfilledMessage(org.spec.jent.ejb.mfg.entity.WorkOrder):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-26">26</a></td>
+<td>org.spec.jent.ejb.orders.entity</td>
+<td>CustomerInventory</td>
+<td><li><a href="#OPERATION-79">equals(java.lang.Object):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-25">25</a></td>
+<td>org.spec.jent.ejb.orders.session</td>
+<td>ItemBrowserSession</td>
+<td><li><a href="#OPERATION-63">browseForward():N/A</a></li><li><a href="#OPERATION-64">browseReverse():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-24">24</a></td>
+<td>org.spec.jent.ejb.mfg.session</td>
+<td>WorkOrderSession</td>
+<td><li><a href="#OPERATION-59">process(org.spec.jent.ejb.mfg.entity.WorkOrder,int):N/A</a></li><li><a href="#OPERATION-60">scheduleWorkOrder(java.lang.String,int,int,int,java.util.Calendar):N/A</a></li><li><a href="#OPERATION-65">findWorkOrder(int,int,boolean):N/A</a></li><li><a href="#OPERATION-68">updateWorkOrder(int,int):N/A</a></li><li><a href="#OPERATION-72">finish(org.spec.jent.ejb.mfg.entity.WorkOrder):N/A</a></li><li><a href="#OPERATION-73">completeWorkOrder(int,int):N/A</a></li><li><a href="#OPERATION-107">scheduleWorkOrder(int,int,java.lang.String,int,int,java.util.Calendar):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-23">23</a></td>
+<td>org.spec.jent.ejb.mfg.entity</td>
+<td>WorkOrder</td>
+<td><li><a href="#OPERATION-58">advanceStatus():N/A</a></li><li><a href="#OPERATION-67">update():N/A</a></li><li><a href="#OPERATION-70">setStatusCompleted():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-22">22</a></td>
+<td>org.spec.jent.ejb.mfg.entity</td>
+<td>Inventory</td>
+<td><li><a href="#OPERATION-56">reduceQuantityOnHand(int):N/A</a></li><li><a href="#OPERATION-71">addQuantityOnHand(int):N/A</a></li><li><a href="#OPERATION-78">addQuantityInOrder(int):N/A</a></li><li><a href="#OPERATION-130">reduceQuantityInOrder(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-21">21</a></td>
+<td>org.spec.jent.ejb.mfg.session</td>
+<td>MfgSession</td>
+<td><li><a href="#OPERATION-55">findAssembly(java.lang.String):N/A</a></li><li><a href="#OPERATION-131">deliver(java.lang.String,int,int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-20">20</a></td>
+<td>org.spec.jent.ejb.mfg.entity</td>
+<td>WorkOrderStatus</td>
+<td><li><a href="#OPERATION-54">canProcess():N/A</a></li><li><a href="#OPERATION-57">values():N/A</a></li><li><a href="#OPERATION-66">canUpdate():N/A</a></li><li><a href="#OPERATION-69">canFinish():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-19">19</a></td>
+<td>org.spec.jent.servlet.helper</td>
+<td>SpecUtils</td>
+<td><li><a href="#OPERATION-50">formatDate(java.util.Calendar):N/A</a></li><li><a href="#OPERATION-51">formatCurrency(java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-61">formatNumber(java.math.BigDecimal):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-18">18</a></td>
+<td>org.spec.jent.ejb.orders.session</td>
+<td>LargeOrderSenderSession</td>
+<td><li><a href="#OPERATION-35">sendOrdersToManufacturing(java.util.List,int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-17">17</a></td>
+<td>org.spec.jent.servlet.helper</td>
+<td>SpecAction</td>
+<td><li><a href="#OPERATION-31">doPurchase(int,org.spec.jent.ejb.shoppingcart.entity.ShoppingCart,int,boolean,boolean):N/A</a></li><li><a href="#OPERATION-32">atomicityTestOne():N/A</a></li><li><a href="#OPERATION-33">atomicityTestTwo():N/A</a></li><li><a href="#OPERATION-36">atomicityTestThree():N/A</a></li><li><a href="#OPERATION-45">updateItemJDBC(java.lang.String,java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-48">login(int):N/A</a></li><li><a href="#OPERATION-81">sell(int,int,boolean):N/A</a></li><li><a href="#OPERATION-113">cancel(int):N/A</a></li><li><a href="#OPERATION-135">logout(javax.servlet.http.HttpSession):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-16">16</a></td>
+<td>org.spec.jent.ejb.orders.entity</td>
+<td>Order</td>
+<td><li><a href="#OPERATION-23">assertValidPercentage(double):N/A</a></li><li><a href="#OPERATION-26">addOrderLine(org.spec.jent.ejb.orders.entity.Item,int,java.math.BigDecimal,java.util.Calendar,java.math.BigDecimal):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-15">15</a></td>
+<td>org.spec.jent.ejb.orders.session</td>
+<td>OrderSession</td>
+<td><li><a href="#OPERATION-22">checkCustomerCredit(java.lang.Integer,java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-30">newOrder(int,org.spec.jent.ejb.shoppingcart.entity.ShoppingCart,int,boolean,boolean):N/A</a></li><li><a href="#OPERATION-112">cancelOrder(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-14">14</a></td>
+<td>org.spec.jent.ejb.orders.entity</td>
+<td>Customer</td>
+<td><li><a href="#OPERATION-19">hashCode():N/A</a></li><li><a href="#OPERATION-20">hasSufficientCredit(java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-27">addInventory(org.spec.jent.ejb.orders.entity.Item,int,java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-28">changeBalance(java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-41">toString():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-13">13</a></td>
+<td>org.spec.jent.ejb.shoppingcart.entity</td>
+<td>ShoppingCart</td>
+<td><li><a href="#OPERATION-18">addItem(org.spec.jent.ejb.orders.entity.Item,int):N/A</a></li><li><a href="#OPERATION-25">calculatePrice(org.spec.jent.ejb.orders.entity.Item,int):N/A</a></li><li><a href="#OPERATION-34">removeItem(org.spec.jent.ejb.orders.entity.Item):N/A</a></li><li><a href="#OPERATION-75">clear():N/A</a></li><li><a href="#OPERATION-96">removeItem(java.lang.String):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-12">12</a></td>
+<td>org.spec.jent.ejb.orders.entity</td>
+<td>Item</td>
+<td><li><a href="#OPERATION-17">hashCode():N/A</a></li><li><a href="#OPERATION-24">equals(java.lang.Object):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-11">11</a></td>
+<td>org.spec.jent.ejb.orders.session</td>
+<td>CustomerSession</td>
+<td><li><a href="#OPERATION-16">selectCustomerWithGoodCredit(java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-21">checkCustomerCredit(int,java.math.BigDecimal):N/A</a></li><li><a href="#OPERATION-29">addInventory(java.lang.Integer,org.spec.jent.ejb.shoppingcart.entity.ShoppingCart,java.math.BigDecimal,boolean):N/A</a></li><li><a href="#OPERATION-43">validateCustomer(java.lang.Integer):N/A</a></li><li><a href="#OPERATION-80">sellInventory(java.lang.Integer,java.lang.Integer,boolean):N/A</a></li><li><a href="#OPERATION-110">addInventory(java.lang.Integer,org.spec.jent.ejb.orders.entity.Item,int,java.math.BigDecimal):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-10">10</a></td>
+<td>org.spec.jent.ejb.orders.session</td>
+<td>OrderAuditSession</td>
+<td><li><a href="#OPERATION-15">validateInitialValues(int):N/A</a></li><li><a href="#OPERATION-38">externalUpdateTest():N/A</a></li><li><a href="#OPERATION-39">incrementOrderTotal(int):N/A</a></li><li><a href="#OPERATION-40">jpaWriteThroughTest():N/A</a></li><li><a href="#OPERATION-42">phantomDeleteTest(int):N/A</a></li><li><a href="#OPERATION-44">phantomDeleteReadTest(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-9">9</a></td>
+<td>org.spec.jent.ejb.supplier.session</td>
+<td>SupplierAuditSession</td>
+<td><li><a href="#OPERATION-13">validateInitialValues(int):N/A</a></li><li><a href="#OPERATION-14">validateRunPropertiesFromDB(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-8">8</a></td>
+<td>org.spec.jent.ejb.mfg.session</td>
+<td>MfgAuditSession</td>
+<td><li><a href="#OPERATION-12">validateInitialValues(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-7">7</a></td>
+<td>org.spec.jent.servlet.helper</td>
+<td>SpecServletAction</td>
+<td><li><a href="#OPERATION-8">requestDispatch(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String):N/A</a></li><li><a href="#OPERATION-9">doSupplierSetAllURLs(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse):N/A</a></li><li><a href="#OPERATION-37">doAtomicityTests(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse):N/A</a></li><li><a href="#OPERATION-46">doCacheTest(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,int,java.lang.String):N/A</a></li><li><a href="#OPERATION-47">load(double):N/A</a></li><li><a href="#OPERATION-49">incrementVisit(javax.servlet.http.HttpSession,java.lang.String):N/A</a></li><li><a href="#OPERATION-52">doHome(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer,java.lang.String):N/A</a></li><li><a href="#OPERATION-53">doLogin(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-62">doVehicleQuotes(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer,java.lang.String,int):N/A</a></li><li><a href="#OPERATION-74">doAddToShoppingCart(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-76">doDeferedPurchase(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-77">doInventory(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-82">doSell(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-95">doShoppingCart(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-97">postInvoke(javax.servlet.http.HttpServletRequest,org.spec.jent.ejb.shoppingcart.entity.ShoppingCart):N/A</a></li><li><a href="#OPERATION-98">doRemoveFromShoppingCart(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-99">doClearCart(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-105">processError(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String,int,java.lang.Exception):N/A</a></li><li><a href="#OPERATION-106">doPurchase(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer,int):N/A</a></li><li><a href="#OPERATION-114">doCancelOrder(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li><li><a href="#OPERATION-136">doLogout(javax.servlet.ServletContext,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.Integer):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-6">6</a></td>
+<td>org.spec.jent.loader.entity</td>
+<td>Loader</td>
+<td><li><a href="#OPERATION-7">step(int):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-5">5</a></td>
+<td>org.spec.jent.loader.entity</td>
+<td>Loader$State</td>
+<td><li><a href="#OPERATION-6">values():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-4">4</a></td>
+<td>org.spec.jent.loader.entity</td>
+<td>Section$State</td>
+<td><li><a href="#OPERATION-5">values():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-3">3</a></td>
+<td>org.spec.jent.ejb.orders.entity</td>
+<td>OrderStatus</td>
+<td><li><a href="#OPERATION-4">values():N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-2">2</a></td>
+<td>org.spec.jent.servlet</td>
+<td>SpecAppServlet</td>
+<td><li><a href="#OPERATION-2">init(javax.servlet.ServletConfig):N/A</a></li><li><a href="#OPERATION-10">performTask(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse):N/A</a></li><li><a href="#OPERATION-11">doGet(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse):N/A</a></li></td>
+</tr>
+<tr class="cell">
+<td><a name="COMPONENT_TYPE-1">1</a></td>
+<td>org.spec.jent.servlet.helper</td>
+<td>SpecBeanFactory</td>
+<td><li><a href="#OPERATION-1">initalize():N/A</a></li><li><a href="#OPERATION-3">lookup(java.lang.String):N/A</a></li></td>
+</tr>
+</table>
+<h1>Operations</h1>
+<table border="1"><tr>
+<th class="colTitle">ID</th>
+<th class="colTitle">Component type</th>
+<th class="colTitle">Name</th>
+<th class="colTitle">Parameter types</th>
+<th class="colTitle">Return type</th>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-136">136</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doLogout</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-135">135</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>logout</td>
+<td><li>javax.servlet.http.HttpSession</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-134">134</a></td>
+<td><a href="#COMPONENT_TYPE-38">org.spec.jent.supplier.web.BuyerService</a></td>
+<td>processDelivery</td>
+<td><li>org.spec.jent.ws.buyer.supplierdeliverymessage.InlineDeliveryMessageType</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-133">133</a></td>
+<td><a href="#COMPONENT_TYPE-38">org.spec.jent.supplier.web.BuyerService</a></td>
+<td>processDeliveryAttach</td>
+<td><li>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageAttachType</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-132">132</a></td>
+<td><a href="#COMPONENT_TYPE-39">org.spec.jent.ejb.mfg.mdb.ReceiveMDB</a></td>
+<td>onMessage</td>
+<td><li>javax.jms.Message</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-131">131</a></td>
+<td><a href="#COMPONENT_TYPE-21">org.spec.jent.ejb.mfg.session.MfgSession</a></td>
+<td>deliver</td>
+<td><li>java.lang.String</li><li>int</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-130">130</a></td>
+<td><a href="#COMPONENT_TYPE-22">org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+<td>reduceQuantityInOrder</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-129">129</a></td>
+<td><a href="#COMPONENT_TYPE-38">org.spec.jent.supplier.web.BuyerService</a></td>
+<td>processDeliveryMessage</td>
+<td><li>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageType</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-128">128</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>processDelivery</td>
+<td><li>org.spec.jent.common.util.DeliveryInfo</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-127">127</a></td>
+<td><a href="#COMPONENT_TYPE-29">org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+<td>deliveredQuantity</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-126">126</a></td>
+<td><a href="#COMPONENT_TYPE-29">org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+<td>updateDemand</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-125">125</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>sendPurchaseOrder</td>
+<td><li>org.spec.jent.common.util.DeliveryInfo</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-124">124</a></td>
+<td><a href="#COMPONENT_TYPE-37">org.spec.jent.ejb.supplier.entity.PurchaseOrderLine</a></td>
+<td>markDelivered</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-123">123</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>findPurchaseOrder</td>
+<td><li>int</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-122">122</a></td>
+<td><a href="#COMPONENT_TYPE-36">org.spec.jent.supplier.web.SupplierDomainServlet</a></td>
+<td>incrementTxCounter</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-121">121</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>sendInlinePO</td>
+<td><li>org.spec.jent.ejb.supplier.entity.PurchaseOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-120">120</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>onMessage</td>
+<td><li>javax.jms.Message</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-119">119</a></td>
+<td><a href="#COMPONENT_TYPE-30">org.spec.jent.ejb.supplier.entity.PurchaseOrder</a></td>
+<td>markSent</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-118">118</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>sendPO</td>
+<td><li>org.spec.jent.ejb.supplier.entity.PurchaseOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-117">117</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>sendAttachmentPO</td>
+<td><li>org.spec.jent.ejb.supplier.entity.PurchaseOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-116">116</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>createIndividualPOs</td>
+<td><li>int</li><li>org.spec.jent.ejb.supplier.entity.SupplierComponent[]</li><li>int</li><li>java.util.List</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-115">115</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>findSupplier</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-114">114</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doCancelOrder</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-113">113</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>cancel</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-112">112</a></td>
+<td><a href="#COMPONENT_TYPE-15">org.spec.jent.ejb.orders.session.OrderSession</a></td>
+<td>cancelOrder</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-111">111</a></td>
+<td><a href="#COMPONENT_TYPE-35">org.spec.jent.ejb.orders.mdb.FulfillOrderMDB</a></td>
+<td>onMessage</td>
+<td><li>javax.jms.Message</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-110">110</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>addInventory</td>
+<td><li>java.lang.Integer</li><li>org.spec.jent.ejb.orders.entity.Item</li><li>int</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-109">109</a></td>
+<td><a href="#COMPONENT_TYPE-34">org.spec.jent.ejb.mfg.mdb.LargerOrderMDB</a></td>
+<td>onMessage</td>
+<td><li>javax.jms.Message</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-108">108</a></td>
+<td><a href="#COMPONENT_TYPE-27">org.spec.jent.ejb.mfg.session.MessageSenderSession</a></td>
+<td>sendOrderFulfilledMessage</td>
+<td><li>org.spec.jent.ejb.mfg.entity.WorkOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-107">107</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>scheduleWorkOrder</td>
+<td><li>int</li><li>int</li><li>java.lang.String</li><li>int</li><li>int</li><li>java.util.Calendar</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-106">106</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doPurchase</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-105">105</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>processError</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.String</li><li>int</li><li>java.lang.Exception</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-104">104</a></td>
+<td><a href="#COMPONENT_TYPE-32">org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</a></td>
+<td>access$100</td>
+<td><li>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-103">103</a></td>
+<td><a href="#COMPONENT_TYPE-32">org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</a></td>
+<td>access$000</td>
+<td><li>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-102">102</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>transformPurchaseOrder</td>
+<td><li>org.spec.jent.ejb.supplier.entity.PurchaseOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-101">101</a></td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td>transformPOLines</td>
+<td><li>java.util.List</li><li>org.spec.jent.ws.supplier.purchaseorder.SimplePurchaseOrderType</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-100">100</a></td>
+<td><a href="#COMPONENT_TYPE-32">org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</a></td>
+<td>_getInstance</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-99">99</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doClearCart</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-98">98</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doRemoveFromShoppingCart</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-97">97</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>postInvoke</td>
+<td><li>javax.servlet.http.HttpServletRequest</li><li>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-96">96</a></td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td>removeItem</td>
+<td><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-95">95</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doShoppingCart</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-94">94</a></td>
+<td><a href="#COMPONENT_TYPE-30">org.spec.jent.ejb.supplier.entity.PurchaseOrder</a></td>
+<td>hashCode</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-93">93</a></td>
+<td><a href="#COMPONENT_TYPE-31">org.spec.jent.ejb.supplier.mdb.BuyerMDB</a></td>
+<td>onMessage</td>
+<td><li>javax.jms.Message</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-92">92</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>purchase</td>
+<td><li>int</li><li>java.util.List</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-91">91</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>createPO</td>
+<td><li>int</li><li>org.spec.jent.ejb.supplier.entity.Supplier</li><li>int</li><li>java.util.List</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-90">90</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>createPurchaseOrder</td>
+<td><li>org.spec.jent.ejb.supplier.entity.Supplier</li><li>int</li><li>int</li><li>org.spec.jent.ejb.supplier.entity.ComponentOrder[]</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-89">89</a></td>
+<td><a href="#COMPONENT_TYPE-30">org.spec.jent.ejb.supplier.entity.PurchaseOrder</a></td>
+<td>addLine</td>
+<td><li>java.lang.String</li><li>int</li><li>int</li><li>java.math.BigDecimal</li><li>int</li><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-88">88</a></td>
+<td><a href="#COMPONENT_TYPE-29">org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+<td>updateQuantities</td>
+<td><li>int</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-87">87</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>findSupplierComponent</td>
+<td><li>java.lang.String</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-86">86</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>createRequisition</td>
+<td><li>java.util.List</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-85">85</a></td>
+<td><a href="#COMPONENT_TYPE-29">org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+<td>requiresNewPurchaseOrder</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-84">84</a></td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td>findComponent</td>
+<td><li>java.lang.String</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-83">83</a></td>
+<td><a href="#COMPONENT_TYPE-27">org.spec.jent.ejb.mfg.session.MessageSenderSession</a></td>
+<td>sendRequisitionToBuyer</td>
+<td><li>int</li><li>org.spec.jent.ejb.mfg.entity.WorkOrder</li><li>java.util.List</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-82">82</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doSell</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-81">81</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>sell</td>
+<td><li>int</li><li>int</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-80">80</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>sellInventory</td>
+<td><li>java.lang.Integer</li><li>java.lang.Integer</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-79">79</a></td>
+<td><a href="#COMPONENT_TYPE-26">org.spec.jent.ejb.orders.entity.CustomerInventory</a></td>
+<td>equals</td>
+<td><li>java.lang.Object</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-78">78</a></td>
+<td><a href="#COMPONENT_TYPE-22">org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+<td>addQuantityInOrder</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-77">77</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doInventory</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-76">76</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doDeferedPurchase</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-75">75</a></td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td>clear</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-74">74</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doAddToShoppingCart</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-73">73</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>completeWorkOrder</td>
+<td><li>int</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-72">72</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>finish</td>
+<td><li>org.spec.jent.ejb.mfg.entity.WorkOrder</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-71">71</a></td>
+<td><a href="#COMPONENT_TYPE-22">org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+<td>addQuantityOnHand</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-70">70</a></td>
+<td><a href="#COMPONENT_TYPE-23">org.spec.jent.ejb.mfg.entity.WorkOrder</a></td>
+<td>setStatusCompleted</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-69">69</a></td>
+<td><a href="#COMPONENT_TYPE-20">org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+<td>canFinish</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-68">68</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>updateWorkOrder</td>
+<td><li>int</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-67">67</a></td>
+<td><a href="#COMPONENT_TYPE-23">org.spec.jent.ejb.mfg.entity.WorkOrder</a></td>
+<td>update</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-66">66</a></td>
+<td><a href="#COMPONENT_TYPE-20">org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+<td>canUpdate</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-65">65</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>findWorkOrder</td>
+<td><li>int</li><li>int</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-64">64</a></td>
+<td><a href="#COMPONENT_TYPE-25">org.spec.jent.ejb.orders.session.ItemBrowserSession</a></td>
+<td>browseReverse</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-63">63</a></td>
+<td><a href="#COMPONENT_TYPE-25">org.spec.jent.ejb.orders.session.ItemBrowserSession</a></td>
+<td>browseForward</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-62">62</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doVehicleQuotes</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li><li>java.lang.String</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-61">61</a></td>
+<td><a href="#COMPONENT_TYPE-19">org.spec.jent.servlet.helper.SpecUtils</a></td>
+<td>formatNumber</td>
+<td><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-60">60</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>scheduleWorkOrder</td>
+<td><li>java.lang.String</li><li>int</li><li>int</li><li>int</li><li>java.util.Calendar</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-59">59</a></td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td>process</td>
+<td><li>org.spec.jent.ejb.mfg.entity.WorkOrder</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-58">58</a></td>
+<td><a href="#COMPONENT_TYPE-23">org.spec.jent.ejb.mfg.entity.WorkOrder</a></td>
+<td>advanceStatus</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-57">57</a></td>
+<td><a href="#COMPONENT_TYPE-20">org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+<td>values</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-56">56</a></td>
+<td><a href="#COMPONENT_TYPE-22">org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+<td>reduceQuantityOnHand</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-55">55</a></td>
+<td><a href="#COMPONENT_TYPE-21">org.spec.jent.ejb.mfg.session.MfgSession</a></td>
+<td>findAssembly</td>
+<td><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-54">54</a></td>
+<td><a href="#COMPONENT_TYPE-20">org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+<td>canProcess</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-53">53</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doLogin</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-52">52</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doHome</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.Integer</li><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-51">51</a></td>
+<td><a href="#COMPONENT_TYPE-19">org.spec.jent.servlet.helper.SpecUtils</a></td>
+<td>formatCurrency</td>
+<td><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-50">50</a></td>
+<td><a href="#COMPONENT_TYPE-19">org.spec.jent.servlet.helper.SpecUtils</a></td>
+<td>formatDate</td>
+<td><li>java.util.Calendar</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-49">49</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>incrementVisit</td>
+<td><li>javax.servlet.http.HttpSession</li><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-48">48</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>login</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-47">47</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>load</td>
+<td><li>double</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-46">46</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doCacheTest</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>int</li><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-45">45</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>updateItemJDBC</td>
+<td><li>java.lang.String</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-44">44</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>phantomDeleteReadTest</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-43">43</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>validateCustomer</td>
+<td><li>java.lang.Integer</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-42">42</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>phantomDeleteTest</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-41">41</a></td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td>toString</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-40">40</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>jpaWriteThroughTest</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-39">39</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>incrementOrderTotal</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-38">38</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>externalUpdateTest</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-37">37</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doAtomicityTests</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-36">36</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>atomicityTestThree</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-35">35</a></td>
+<td><a href="#COMPONENT_TYPE-18">org.spec.jent.ejb.orders.session.LargeOrderSenderSession</a></td>
+<td>sendOrdersToManufacturing</td>
+<td><li>java.util.List</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-34">34</a></td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td>removeItem</td>
+<td><li>org.spec.jent.ejb.orders.entity.Item</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-33">33</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>atomicityTestTwo</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-32">32</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>atomicityTestOne</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-31">31</a></td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+<td>doPurchase</td>
+<td><li>int</li><li>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</li><li>int</li><li>boolean</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-30">30</a></td>
+<td><a href="#COMPONENT_TYPE-15">org.spec.jent.ejb.orders.session.OrderSession</a></td>
+<td>newOrder</td>
+<td><li>int</li><li>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</li><li>int</li><li>boolean</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-29">29</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>addInventory</td>
+<td><li>java.lang.Integer</li><li>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</li><li>java.math.BigDecimal</li><li>boolean</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-28">28</a></td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td>changeBalance</td>
+<td><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-27">27</a></td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td>addInventory</td>
+<td><li>org.spec.jent.ejb.orders.entity.Item</li><li>int</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-26">26</a></td>
+<td><a href="#COMPONENT_TYPE-16">org.spec.jent.ejb.orders.entity.Order</a></td>
+<td>addOrderLine</td>
+<td><li>org.spec.jent.ejb.orders.entity.Item</li><li>int</li><li>java.math.BigDecimal</li><li>java.util.Calendar</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-25">25</a></td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td>calculatePrice</td>
+<td><li>org.spec.jent.ejb.orders.entity.Item</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-24">24</a></td>
+<td><a href="#COMPONENT_TYPE-12">org.spec.jent.ejb.orders.entity.Item</a></td>
+<td>equals</td>
+<td><li>java.lang.Object</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-23">23</a></td>
+<td><a href="#COMPONENT_TYPE-16">org.spec.jent.ejb.orders.entity.Order</a></td>
+<td>assertValidPercentage</td>
+<td><li>double</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-22">22</a></td>
+<td><a href="#COMPONENT_TYPE-15">org.spec.jent.ejb.orders.session.OrderSession</a></td>
+<td>checkCustomerCredit</td>
+<td><li>java.lang.Integer</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-21">21</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>checkCustomerCredit</td>
+<td><li>int</li><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-20">20</a></td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td>hasSufficientCredit</td>
+<td><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-19">19</a></td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td>hashCode</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-18">18</a></td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td>addItem</td>
+<td><li>org.spec.jent.ejb.orders.entity.Item</li><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-17">17</a></td>
+<td><a href="#COMPONENT_TYPE-12">org.spec.jent.ejb.orders.entity.Item</a></td>
+<td>hashCode</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-16">16</a></td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td>selectCustomerWithGoodCredit</td>
+<td><li>java.math.BigDecimal</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-15">15</a></td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td>validateInitialValues</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-14">14</a></td>
+<td><a href="#COMPONENT_TYPE-9">org.spec.jent.ejb.supplier.session.SupplierAuditSession</a></td>
+<td>validateRunPropertiesFromDB</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-13">13</a></td>
+<td><a href="#COMPONENT_TYPE-9">org.spec.jent.ejb.supplier.session.SupplierAuditSession</a></td>
+<td>validateInitialValues</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-12">12</a></td>
+<td><a href="#COMPONENT_TYPE-8">org.spec.jent.ejb.mfg.session.MfgAuditSession</a></td>
+<td>validateInitialValues</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-11">11</a></td>
+<td><a href="#COMPONENT_TYPE-2">org.spec.jent.servlet.SpecAppServlet</a></td>
+<td>doGet</td>
+<td><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-10">10</a></td>
+<td><a href="#COMPONENT_TYPE-2">org.spec.jent.servlet.SpecAppServlet</a></td>
+<td>performTask</td>
+<td><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-9">9</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>doSupplierSetAllURLs</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-8">8</a></td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td>requestDispatch</td>
+<td><li>javax.servlet.ServletContext</li><li>javax.servlet.http.HttpServletRequest</li><li>javax.servlet.http.HttpServletResponse</li><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-7">7</a></td>
+<td><a href="#COMPONENT_TYPE-6">org.spec.jent.loader.entity.Loader</a></td>
+<td>step</td>
+<td><li>int</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-6">6</a></td>
+<td><a href="#COMPONENT_TYPE-5">org.spec.jent.loader.entity.Loader$State</a></td>
+<td>values</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-5">5</a></td>
+<td><a href="#COMPONENT_TYPE-4">org.spec.jent.loader.entity.Section$State</a></td>
+<td>values</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-4">4</a></td>
+<td><a href="#COMPONENT_TYPE-3">org.spec.jent.ejb.orders.entity.OrderStatus</a></td>
+<td>values</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-3">3</a></td>
+<td><a href="#COMPONENT_TYPE-1">org.spec.jent.servlet.helper.SpecBeanFactory</a></td>
+<td>lookup</td>
+<td><li>java.lang.String</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-2">2</a></td>
+<td><a href="#COMPONENT_TYPE-2">org.spec.jent.servlet.SpecAppServlet</a></td>
+<td>init</td>
+<td><li>javax.servlet.ServletConfig</li></td>
+<td>N/A</td>
+</tr>
+<tr class="cell">
+<td><a name="OPERATION-1">1</a></td>
+<td><a href="#COMPONENT_TYPE-1">org.spec.jent.servlet.helper.SpecBeanFactory</a></td>
+<td>initalize</td>
+<td>&nbsp;</td>
+<td>N/A</td>
+</tr>
+</table>
+<h1>Assembly Components</h1>
+<table border="1"><tr>
+<th class="colTitle">ID</th>
+<th class="colTitle">Name</th>
+<th class="colTitle">Component type</th>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-39">39</a></td>
+<td>@39</td>
+<td><a href="#COMPONENT_TYPE-39">org.spec.jent.ejb.mfg.mdb.ReceiveMDB</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-38">38</a></td>
+<td>@38</td>
+<td><a href="#COMPONENT_TYPE-38">org.spec.jent.supplier.web.BuyerService</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-37">37</a></td>
+<td>@37</td>
+<td><a href="#COMPONENT_TYPE-37">org.spec.jent.ejb.supplier.entity.PurchaseOrderLine</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-36">36</a></td>
+<td>@36</td>
+<td><a href="#COMPONENT_TYPE-36">org.spec.jent.supplier.web.SupplierDomainServlet</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-35">35</a></td>
+<td>@35</td>
+<td><a href="#COMPONENT_TYPE-35">org.spec.jent.ejb.orders.mdb.FulfillOrderMDB</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-34">34</a></td>
+<td>@34</td>
+<td><a href="#COMPONENT_TYPE-34">org.spec.jent.ejb.mfg.mdb.LargerOrderMDB</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-33">33</a></td>
+<td>@33</td>
+<td><a href="#COMPONENT_TYPE-33">org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-32">32</a></td>
+<td>@32</td>
+<td><a href="#COMPONENT_TYPE-32">org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-31">31</a></td>
+<td>@31</td>
+<td><a href="#COMPONENT_TYPE-31">org.spec.jent.ejb.supplier.mdb.BuyerMDB</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-30">30</a></td>
+<td>@30</td>
+<td><a href="#COMPONENT_TYPE-30">org.spec.jent.ejb.supplier.entity.PurchaseOrder</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-29">29</a></td>
+<td>@29</td>
+<td><a href="#COMPONENT_TYPE-29">org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-28">28</a></td>
+<td>@28</td>
+<td><a href="#COMPONENT_TYPE-28">org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-27">27</a></td>
+<td>@27</td>
+<td><a href="#COMPONENT_TYPE-27">org.spec.jent.ejb.mfg.session.MessageSenderSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-26">26</a></td>
+<td>@26</td>
+<td><a href="#COMPONENT_TYPE-26">org.spec.jent.ejb.orders.entity.CustomerInventory</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-25">25</a></td>
+<td>@25</td>
+<td><a href="#COMPONENT_TYPE-25">org.spec.jent.ejb.orders.session.ItemBrowserSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-24">24</a></td>
+<td>@24</td>
+<td><a href="#COMPONENT_TYPE-24">org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-23">23</a></td>
+<td>@23</td>
+<td><a href="#COMPONENT_TYPE-23">org.spec.jent.ejb.mfg.entity.WorkOrder</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-22">22</a></td>
+<td>@22</td>
+<td><a href="#COMPONENT_TYPE-22">org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-21">21</a></td>
+<td>@21</td>
+<td><a href="#COMPONENT_TYPE-21">org.spec.jent.ejb.mfg.session.MfgSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-20">20</a></td>
+<td>@20</td>
+<td><a href="#COMPONENT_TYPE-20">org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-19">19</a></td>
+<td>@19</td>
+<td><a href="#COMPONENT_TYPE-19">org.spec.jent.servlet.helper.SpecUtils</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-18">18</a></td>
+<td>@18</td>
+<td><a href="#COMPONENT_TYPE-18">org.spec.jent.ejb.orders.session.LargeOrderSenderSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-17">17</a></td>
+<td>@17</td>
+<td><a href="#COMPONENT_TYPE-17">org.spec.jent.servlet.helper.SpecAction</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-16">16</a></td>
+<td>@16</td>
+<td><a href="#COMPONENT_TYPE-16">org.spec.jent.ejb.orders.entity.Order</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-15">15</a></td>
+<td>@15</td>
+<td><a href="#COMPONENT_TYPE-15">org.spec.jent.ejb.orders.session.OrderSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-14">14</a></td>
+<td>@14</td>
+<td><a href="#COMPONENT_TYPE-14">org.spec.jent.ejb.orders.entity.Customer</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-13">13</a></td>
+<td>@13</td>
+<td><a href="#COMPONENT_TYPE-13">org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-12">12</a></td>
+<td>@12</td>
+<td><a href="#COMPONENT_TYPE-12">org.spec.jent.ejb.orders.entity.Item</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-11">11</a></td>
+<td>@11</td>
+<td><a href="#COMPONENT_TYPE-11">org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-10">10</a></td>
+<td>@10</td>
+<td><a href="#COMPONENT_TYPE-10">org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-9">9</a></td>
+<td>@9</td>
+<td><a href="#COMPONENT_TYPE-9">org.spec.jent.ejb.supplier.session.SupplierAuditSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-8">8</a></td>
+<td>@8</td>
+<td><a href="#COMPONENT_TYPE-8">org.spec.jent.ejb.mfg.session.MfgAuditSession</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-7">7</a></td>
+<td>@7</td>
+<td><a href="#COMPONENT_TYPE-7">org.spec.jent.servlet.helper.SpecServletAction</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-6">6</a></td>
+<td>@6</td>
+<td><a href="#COMPONENT_TYPE-6">org.spec.jent.loader.entity.Loader</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-5">5</a></td>
+<td>@5</td>
+<td><a href="#COMPONENT_TYPE-5">org.spec.jent.loader.entity.Loader$State</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-4">4</a></td>
+<td>@4</td>
+<td><a href="#COMPONENT_TYPE-4">org.spec.jent.loader.entity.Section$State</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-3">3</a></td>
+<td>@3</td>
+<td><a href="#COMPONENT_TYPE-3">org.spec.jent.ejb.orders.entity.OrderStatus</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-2">2</a></td>
+<td>@2</td>
+<td><a href="#COMPONENT_TYPE-2">org.spec.jent.servlet.SpecAppServlet</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ASSEMBLY_COMPONENT-1">1</a></td>
+<td>@1</td>
+<td><a href="#COMPONENT_TYPE-1">org.spec.jent.servlet.helper.SpecBeanFactory</a></td>
+</tr>
+</table>
+<h1>Execution Containers</h1>
+<table border="1"><tr>
+<th class="colTitle">ID</th>
+<th class="colTitle">Name</th>
+</tr>
+<tr class="cell">
+<td><a name="EXECUTION_CONTAINER-1">1</a></td>
+<td>blade3</td>
+</tr>
+</table>
+<h1>Deployment Components</h1>
+<table border="1"><tr>
+<th class="colTitle">ID</th>
+<th class="colTitle">Assembly component</th>
+<th class="colTitle">Execution container</th>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-39">39</a></td>
+<td><a href="#ALLOCATION_COMPONENT-39">@39:org.spec.jent.ejb.mfg.mdb.ReceiveMDB</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-38">38</a></td>
+<td><a href="#ALLOCATION_COMPONENT-38">@38:org.spec.jent.supplier.web.BuyerService</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-37">37</a></td>
+<td><a href="#ALLOCATION_COMPONENT-37">@37:org.spec.jent.ejb.supplier.entity.PurchaseOrderLine</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-36">36</a></td>
+<td><a href="#ALLOCATION_COMPONENT-36">@36:org.spec.jent.supplier.web.SupplierDomainServlet</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-35">35</a></td>
+<td><a href="#ALLOCATION_COMPONENT-35">@35:org.spec.jent.ejb.orders.mdb.FulfillOrderMDB</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-34">34</a></td>
+<td><a href="#ALLOCATION_COMPONENT-34">@34:org.spec.jent.ejb.mfg.mdb.LargerOrderMDB</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-33">33</a></td>
+<td><a href="#ALLOCATION_COMPONENT-33">@33:org.spec.jent.ejb.supplier.mdb.PurchaseOrderMDB</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-32">32</a></td>
+<td><a href="#ALLOCATION_COMPONENT-32">@32:org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-31">31</a></td>
+<td><a href="#ALLOCATION_COMPONENT-31">@31:org.spec.jent.ejb.supplier.mdb.BuyerMDB</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-30">30</a></td>
+<td><a href="#ALLOCATION_COMPONENT-30">@30:org.spec.jent.ejb.supplier.entity.PurchaseOrder</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-29">29</a></td>
+<td><a href="#ALLOCATION_COMPONENT-29">@29:org.spec.jent.ejb.supplier.entity.SComponent</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-28">28</a></td>
+<td><a href="#ALLOCATION_COMPONENT-28">@28:org.spec.jent.ejb.supplier.session.SupplierSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-27">27</a></td>
+<td><a href="#ALLOCATION_COMPONENT-27">@27:org.spec.jent.ejb.mfg.session.MessageSenderSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-26">26</a></td>
+<td><a href="#ALLOCATION_COMPONENT-26">@26:org.spec.jent.ejb.orders.entity.CustomerInventory</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-25">25</a></td>
+<td><a href="#ALLOCATION_COMPONENT-25">@25:org.spec.jent.ejb.orders.session.ItemBrowserSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-24">24</a></td>
+<td><a href="#ALLOCATION_COMPONENT-24">@24:org.spec.jent.ejb.mfg.session.WorkOrderSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-23">23</a></td>
+<td><a href="#ALLOCATION_COMPONENT-23">@23:org.spec.jent.ejb.mfg.entity.WorkOrder</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-22">22</a></td>
+<td><a href="#ALLOCATION_COMPONENT-22">@22:org.spec.jent.ejb.mfg.entity.Inventory</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-21">21</a></td>
+<td><a href="#ALLOCATION_COMPONENT-21">@21:org.spec.jent.ejb.mfg.session.MfgSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-20">20</a></td>
+<td><a href="#ALLOCATION_COMPONENT-20">@20:org.spec.jent.ejb.mfg.entity.WorkOrderStatus</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-19">19</a></td>
+<td><a href="#ALLOCATION_COMPONENT-19">@19:org.spec.jent.servlet.helper.SpecUtils</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-18">18</a></td>
+<td><a href="#ALLOCATION_COMPONENT-18">@18:org.spec.jent.ejb.orders.session.LargeOrderSenderSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-17">17</a></td>
+<td><a href="#ALLOCATION_COMPONENT-17">@17:org.spec.jent.servlet.helper.SpecAction</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-16">16</a></td>
+<td><a href="#ALLOCATION_COMPONENT-16">@16:org.spec.jent.ejb.orders.entity.Order</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-15">15</a></td>
+<td><a href="#ALLOCATION_COMPONENT-15">@15:org.spec.jent.ejb.orders.session.OrderSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-14">14</a></td>
+<td><a href="#ALLOCATION_COMPONENT-14">@14:org.spec.jent.ejb.orders.entity.Customer</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-13">13</a></td>
+<td><a href="#ALLOCATION_COMPONENT-13">@13:org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-12">12</a></td>
+<td><a href="#ALLOCATION_COMPONENT-12">@12:org.spec.jent.ejb.orders.entity.Item</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-11">11</a></td>
+<td><a href="#ALLOCATION_COMPONENT-11">@11:org.spec.jent.ejb.orders.session.CustomerSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-10">10</a></td>
+<td><a href="#ALLOCATION_COMPONENT-10">@10:org.spec.jent.ejb.orders.session.OrderAuditSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-9">9</a></td>
+<td><a href="#ALLOCATION_COMPONENT-9">@9:org.spec.jent.ejb.supplier.session.SupplierAuditSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-8">8</a></td>
+<td><a href="#ALLOCATION_COMPONENT-8">@8:org.spec.jent.ejb.mfg.session.MfgAuditSession</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-7">7</a></td>
+<td><a href="#ALLOCATION_COMPONENT-7">@7:org.spec.jent.servlet.helper.SpecServletAction</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-6">6</a></td>
+<td><a href="#ALLOCATION_COMPONENT-6">@6:org.spec.jent.loader.entity.Loader</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-5">5</a></td>
+<td><a href="#ALLOCATION_COMPONENT-5">@5:org.spec.jent.loader.entity.Loader$State</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-4">4</a></td>
+<td><a href="#ALLOCATION_COMPONENT-4">@4:org.spec.jent.loader.entity.Section$State</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-3">3</a></td>
+<td><a href="#ALLOCATION_COMPONENT-3">@3:org.spec.jent.ejb.orders.entity.OrderStatus</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-2">2</a></td>
+<td><a href="#ALLOCATION_COMPONENT-2">@2:org.spec.jent.servlet.SpecAppServlet</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+<tr class="cell">
+<td><a name="ALLOCATION_COMPONENT-1">1</a></td>
+<td><a href="#ALLOCATION_COMPONENT-1">@1:org.spec.jent.servlet.helper.SpecBeanFactory</a></td>
+<td><a href="#EXECUTION_CONTAINER-1">blade3</a></td>
+</tr>
+</table>
+<pre>
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+.
+</pre>
+</body></html>
