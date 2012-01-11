@@ -16,28 +16,28 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 public class OverallCPUUtilizationRuleEngine {
 	private static final Log log = LogFactory.getLog(OverallCPUUtilizationRuleEngine.class);
+	
+	private final static int DefaultStartOfVmInSec = 60;
 
 	private final ModelManager modelManager;
 	private final ConfigurationManager configurationManager;
 
 	private final ScheduledThreadPoolExecutor reconfigurationWorkerExecutor;
-	
+
 	private final List<AtomicReference<OverallCPUUtilizationEvent>> pendingOverallCPUUtilizationEvents =
 			new ArrayList<AtomicReference<OverallCPUUtilizationEvent>>();
 
 	private final OverallCPUUtilizationRuleSet ruleSet;
 
 	private final Map<CPUUtilizationRule, Long> provisioningStartedInSecMap = new HashMap<CPUUtilizationRule, Long>();
+	private final Map<CPUUtilizationRule, Integer> waitForVMStartInSecMap = new HashMap<CPUUtilizationRule, Integer>();
 
 	public OverallCPUUtilizationRuleEngine(final ModelManager modelManager,
 			final OverallCPUUtilizationRuleSet ruleSet,
 			final ConfigurationManager configurationManager) {
 		this.modelManager = modelManager;
-		
 		this.reconfigurationWorkerExecutor = this.createReconfigurationWorkerExecutor();
-
 		this.ruleSet = ruleSet;
-
 		this.configurationManager = configurationManager;
 	}
 
@@ -56,15 +56,16 @@ public class OverallCPUUtilizationRuleEngine {
 					+ fqExecutionContainerTypeName + "'");
 			return;
 		}
-		
+
 		final String assemblyComponentName = this.ruleSet.getAssemblyComponentName();
-		final AssemblyComponent assemblyComponent = this.modelManager.getComponentAssemblyModelManager().lookupAssemblyComponent(assemblyComponentName);
+		final AssemblyComponent assemblyComponent =
+				this.modelManager.getComponentAssemblyModelManager().lookupAssemblyComponent(assemblyComponentName);
 		if (assemblyComponent == null) {
 			OverallCPUUtilizationRuleEngine.log.error("Failed to lookup assembly component with name '"
 					+ assemblyComponentName + "'");
 			return;
 		}
-		
+
 		this.spawnAWorkerJob(currentTimestampMillis, cpuUtil, executionContainerType, assemblyComponent);
 	}
 
@@ -111,9 +112,18 @@ public class OverallCPUUtilizationRuleEngine {
 		final List<CPUUtilizationRule> rules = this.ruleSet.getRules();
 		final List<CPUUtilizationRule> result = new ArrayList<CPUUtilizationRule>();
 
-		// TODO wait for starting of vm
-
 		for (final CPUUtilizationRule rule : rules) {
+			Integer waitForVm = this.waitForVMStartInSecMap.get(rule);
+			if (waitForVm != null) {
+				waitForVm--;
+				if (waitForVm == 0) {
+					this.waitForVMStartInSecMap.put(rule, null);
+				} else {
+					this.waitForVMStartInSecMap.put(rule, waitForVm);
+					continue;
+				}
+			}
+
 			Long provisioningStartedInSec = this.provisioningStartedInSecMap.get(rule);
 			if (provisioningStartedInSec == null) {
 				provisioningStartedInSec = 0L;
@@ -130,6 +140,7 @@ public class OverallCPUUtilizationRuleEngine {
 					if ((timestampInSec - provisioningStartedInSec) > rule.getDurationInSec()) {
 						result.add(rule);
 						provisioningStartedInSec = 0L;
+						this.waitForVMStartInSecMap.put(rule, OverallCPUUtilizationRuleEngine.DefaultStartOfVmInSec);
 						break;
 					}
 				}
