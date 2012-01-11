@@ -1,0 +1,204 @@
+This example executes SLAstic which is configured to 
+use the following components: 
+ - A Monitoring Manager which receives monitoring data 
+   from a Kieker named pipe
+ - A Model Manager which maintains an extracted SLAstic
+   model at runtime
+ - A Performance Evaluator which transforms the received
+   performance data into time series.
+
+The file 'slastic.framework.properties' contains the 
+configuration. 
+
+When using custom components, the corresponding .jar file(s) 
+need(s) to be placed into the example's lib/ folder and the 
+configuration file needs to be adjusted accordingly.
+
+1. Preparation:
+1.1 Copy (or symlink) the following libraries from the dist/ 
+    directory of SLAstic's binary distribution:
+
+     slastic-<version>.jar
+
+1.2 Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+
+     antlr-runtime-3.2.jar
+     cglib-nodep-2.2.jar
+     commons-cli-1.2.jar
+     commons-lang-2.6.jar
+     commons-logging-1.1.1.jar
+     esper-4.0.0.jar
+     kieker-<version>.jar
+     org.eclipse.emf.common_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore_2.5.0.v200906151043.jar
+     org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar
+     ReconfigurationPlanMM_1.0.0.jar
+
+     // if log4j (http://logging.apache.org/) shall be used:
+     log4j-1.2.16.jar 
+     // Note, that log4j requires to pass a configuration file 
+     // as JVM argument (-Dlog4j.configuration).
+     // 1.) The slastic-<version>.jar contains a configuration 
+     //     which uses a console logger. This can be enabled 
+     //     by passing the following argument to the JVM:
+     //     -Dlog4j.configuration=META-INF/slastic.log4j.properties
+     // 2.) The bin/ directory includes an example log4j configuration 
+     //     file, log4j.properties.example, which redirects the 
+     //	    logging output to a file named 'slastic.log'. 
+     //	    Copy and adjust this configuration file, and pass the 
+     //	    location to the JVM using the above-mentioned JVM argument.
+     // 
+     // If no log4j configuration could be found, log4j reports the following:
+     //	   log4j:WARN No appenders could be found for logger (org.trustsoft.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+     // In this case, either make sure, that you passed the correct path 
+     // to the configuration file or remove log4j from the classpath
+
+1.3 When executing the file system example: 
+    Decompress the Kieker file 
+    system monitoring log archive kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip:
+
+    $ cd kieker-monitoring-logs/
+    $ unzip kieker-20110109-142520753-UTC-SINGLETON-varyingCurve.zip
+
+1.4 When executing the JMS example: 
+    Copy (or symlink) the following libraries from the lib/
+    directory of SLAstic's binary distribution:
+    
+    jms-1.1.jar
+    openjms-0.7.7-beta-1.jar
+   
+2. Execution (File System Monitoring Log)
+
+You have (at least) the following two alternatives to 
+start the SLAstic framework with the given configuration.
+In both cases you will solely see the framework initialize
+and terminate.
+
+2.1 Using the start script bin/slastic-FS-Kieker.sh (actually does 2.2):
+
+   $ bin/slastic-FS-Kieker.sh \
+      --start-framework slastic.framework.properties \
+      --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve \
+      --kieker-pipeName monitoringPipe0 \
+      --realtime-mode false
+     
+2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
+
+   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-1.3.dev.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-0.01a-SNAPSHOT.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
+
+java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib:lib/slastic-0.01a-SNAPSHOT.jar:lib/commons-cli-1.2.jar:lib/kieker-1.3.dev.jar org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTransformation
+
+
+2.3 Replay in real-time:
+
+In order to replay the file system monitoring log in real-time, 
+you need to set the property value of --realtime-mode to true
+
+This will take about 20 minutes for the included file system 
+monitoring log.
+
+3. Execution (JMS Monitoring Stream)
+
+As this JMS example plays well together with the JMS example from 
+the Kieker User Guide (kieker.sourceforge.net), please refer to 
+this resource and get the "appendix-JMS" example running, as a 
+first step.
+
+3.1 Start the JMS server, as described in the Kieker User Guide 
+
+In this example, we use the parameter values that fit to the OpenJMS
+server. When using other JMS implementations you need to change
+these values accordingly. For example, for ActiveMQ you'll at least
+need to use the following initial context factory class: 
+org.apache.activemq.jndi.ActiveMQInitialContextFactory
+
+3.2 Using the start script bin/slastic-JMS-Kieker.sh (actually does 3.2):
+
+    $ bin/slastic-JMS-Kieker.sh \
+       --start-framework slastic.framework.properties \
+       --jmsDestination queue1 \
+       --jmsProviderUrl tcp://127.0.0.1:3035/ \
+       --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory \
+       --kieker-pipeName monitoringPipe0
+
+3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
+
+    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
+
+3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
+
+    $ ant run-monitoring 
+
+3.5 When using the Monitoring Manager with a JMS reader, it does not 
+    terminate automatically. You need to press CTRL-C to do so.
+
+4. Inspection of results
+
+4.1 Results directory of a SLAstic run:
+
+After (actually during the execution), a directory named "slastic-<start-time>-UTC-/" is created 
+within the default temp dir. The directory contains sub-directories for each of the components. 
+
+In this case, the directory /tmp/slastic-20110513-153624827-UTC/ contains the follwing top-level
+sub-directories:
+
+	AdaptationPlanner/
+	Analysis/
+	Control/
+	ModelManager/
+	ModelUpdater/
+	MonitoringManager/
+	PerformanceEvaluator/
+	PerformancePredictor/
+	ReconfigurationManager/
+	WorkloadForecaster/
+
+4.2 Reconstructed Architectural Model
+
+During execution, the Model Manager reconstructs a SLAstic model. When the run terminates, 
+this model is serialized to file named 'output.slastic' in the Model Manager's directory.
+
+4.2 Kieker File System Monitoring Log: 
+
+The Monitoring Manager used, writes the received monitoring data into a file system
+monitoring log in its directory (MonitoringManagerComponent).
+
+In our case, we found the directory kieker-20110513-153624844-UTC-pc-vanhoorn-KiekerLogWriter/
+which contains exactly the monitoring data that was replayed for this framework run
+(However, the file names differ).
+
+4.3 Aggregated Performance Data Time Series
+
+The Performance Evaluator used mainly transforms the received monitoring data into 
+time series. These are contained in the respective sub-directories of the component
+(PerformanceEvaluator/PerformanceLogger/[...]/).
+
+For example, a time series file for operation execution counts looks as follows (excerpt):
+
+    == SNIP
+    timestamp;UTCString;deplCompID;executionContainer;assemblyComponent;count
+    # winTimeSec=60; outputIntervalSec=15
+    1294583189639;So, 9 Jan 2011 14:26:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);244
+    1294583204639;So, 9 Jan 2011 14:26:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);546
+    1294583219639;So, 9 Jan 2011 14:26:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);752
+    1294583234639;So, 9 Jan 2011 14:27:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);960
+    1294583249639;So, 9 Jan 2011 14:27:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);926
+    1294583264639;So, 9 Jan 2011 14:27:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1066
+    1294583279639;So, 9 Jan 2011 14:27:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1362
+    1294583294639;So, 9 Jan 2011 14:28:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1630
+    1294583309639;So, 9 Jan 2011 14:28:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1920
+    1294583324639;So, 9 Jan 2011 14:28:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1972
+    1294583339639;So, 9 Jan 2011 14:28:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1958
+    1294583354639;So, 9 Jan 2011 14:29:14 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2016
+    1294583369639;So, 9 Jan 2011 14:29:29 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2006
+    1294583384639;So, 9 Jan 2011 14:29:44 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);2030
+    1294583399639;So, 9 Jan 2011 14:29:59 +0000 (UTC);2;avanhoorn-thinkpad(1);DispatcherServlet(2);1986
+    == SNAP
+
+This can be easily processed with spread-sheet or statistics tools.
+
+The directory r-scripts/performance-logger/ contains an r-script called LoggerPlotScripts.r
+which can be used to visualize the generated time series files.
+
+java -classpath dist/slastic-0.01a-SNAPSHOT.jar:lib/org.eclipse.m2m.atl.common_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core.emf_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.drivers.emf4atl_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation -i examples/Kieker-PerformancePredictor-Configuration/resources/petstore.slastic -o petstore

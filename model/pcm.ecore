@@ -5,7 +5,7 @@
     nsURI="http://sdq.ipd.uka.de/PalladioComponentModel/1.0" nsPrefix="pcm">
   <eSubpackages name="core" nsURI="http://sdq.ipd.uka.de/PalladioComponentModel/Core/1.0"
       nsPrefix="">
-    <eClassifiers xsi:type="ecore:EClass" name="PCMRandomVariable" eSuperTypes="platform:/plugin/de.uka.ipd.sdq.stoex/model/stoex.ecore#//RandomVariable">
+    <eClassifiers xsi:type="ecore:EClass" name="PCMRandomVariable" eSuperTypes="stoex.ecore#//RandomVariable">
       <eOperations name="SpecificationMustNotBeNULL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
           <details key="documentation" value="not self.specification.oclIsUndefined() and self.specification &lt;> ''"/>
@@ -28,7 +28,7 @@
     </eClassifiers>
     <eSubpackages name="entity" nsURI="http://sdq.ipd.uka.de/PalladioComponentModel/Core/Entity/1.0"
         nsPrefix="">
-      <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="platform:/plugin/de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier #//core/entity/NamedElement"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="identifier.ecore#//Identifier #//core/entity/NamedElement"/>
       <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="entityName" ordered="false"
             lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
@@ -635,7 +635,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="specification_VariableCharacterisation"
           ordered="false" lowerBound="1" eType="#//core/PCMRandomVariable" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="CharacterisedVariable" eSuperTypes="platform:/plugin/de.uka.ipd.sdq.stoex/model/stoex.ecore#//Variable">
+    <eClassifiers xsi:type="ecore:EClass" name="CharacterisedVariable" eSuperTypes="stoex.ecore#//Variable">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="characterisationType"
           ordered="false" lowerBound="1" eType="#//parameter/VariableCharacterisationType"/>
     </eClassifiers>
@@ -644,7 +644,7 @@
           ordered="false" upperBound="-1" eType="#//parameter/VariableCharacterisation"
           containment="true"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="namedReference_VariableUsage"
-          ordered="false" lowerBound="1" eType="ecore:EClass platform:/plugin/de.uka.ipd.sdq.stoex/model/stoex.ecore#//AbstractNamedReference"
+          ordered="false" lowerBound="1" eType="ecore:EClass stoex.ecore#//AbstractNamedReference"
           containment="true"/>
     </eClassifiers>
   </eSubpackages>
@@ -713,7 +713,7 @@
         </eParameters>
       </eOperations>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ResourceDemandingSEFF" eSuperTypes="platform:/plugin/de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier #//seff/ServiceEffectSpecification #//seff/ResourceDemandingBehaviour"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceDemandingSEFF" eSuperTypes="identifier.ecore#//Identifier #//seff/ServiceEffectSpecification #//seff/ResourceDemandingBehaviour"/>
     <eClassifiers xsi:type="ecore:EClass" name="ResourceDemandingBehaviour">
       <eOperations name="ExactlyOneStopAction" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
         <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -823,7 +823,7 @@
           lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="AbstractBranchTransition" abstract="true"
-        eSuperTypes="platform:/plugin/de.uka.ipd.sdq.identifier/model/identifier.ecore#//Identifier">
+        eSuperTypes="identifier.ecore#//Identifier">
       <eStructuralFeatures xsi:type="ecore:EReference" name="branchBehaviour_BranchTransition"
           ordered="false" lowerBound="1" eType="#//seff/ResourceDemandingBehaviour"
           containment="true"/>
@@ -896,7 +896,7 @@
   </eSubpackages>
   <eSubpackages name="resourcetype" nsURI="http://sdq.ipd.uka.de/PalladioComponentModel/ResourceType/1.0"
       nsPrefix="">
-    <eClassifiers xsi:type="ecore:EClass" name="ResourceType" abstract="true" eSuperTypes="#//core/entity/Entity platform:/plugin/de.uka.ipd.sdq.units/model/Units.ecore#//UnitCarryingElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceType" abstract="true" eSuperTypes="#//core/entity/Entity Units.ecore#//UnitCarryingElement"/>
     <eClassifiers xsi:type="ecore:EClass" name="ResourceRepository">
       <eStructuralFeatures xsi:type="ecore:EReference" name="availableResourceTypes_ResourceRepository"
           ordered="false" upperBound="-1" eType="#//resourcetype/ResourceType" containment="true"/>
