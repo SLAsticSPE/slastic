@@ -317,7 +317,15 @@ public class ModelManager extends AbstractModelManagerComponent {
 						.createComponentDeploymentModel());
 		return systemModel;
 	}
-
+	
+	public SystemModel getSystemModel(){
+		return this.systemModel;
+	}
+	
+	public UsageModel getUsageModel(){
+		return this.usageModel;
+	}
+	
 	/**
 	 * Creates a new and empty usage model.
 	 * 

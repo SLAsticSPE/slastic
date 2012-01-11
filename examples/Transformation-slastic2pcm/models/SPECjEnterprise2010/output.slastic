@@ -1,0 +1,1633 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.core:SystemModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel.core="http:///metamodel/core.ecore">
+  <typeRepositoryModel>
+    <componentTypes active="true" name="SpecBeanFactory__T" packageName="org.spec.jent.servlet.helper" providedInterfaces="//@typeRepositoryModel/@interfaces.0">
+      <operations id="1" active="true">
+        <signature name="initalize" returnType="N/A"/>
+      </operations>
+      <operations id="3" active="true">
+        <signature name="lookup" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="1" active="true" name="SpecAppServlet__T" packageName="org.spec.jent.servlet" providedInterfaces="//@typeRepositoryModel/@interfaces.1" requiredInterfaces="//@typeRepositoryModel/@interfaces.0 //@typeRepositoryModel/@interfaces.6 //@typeRepositoryModel/@interfaces.1">
+      <operations id="2" active="true">
+        <signature name="init" returnType="N/A">
+          <paramTypes>javax.servlet.ServletConfig</paramTypes>
+        </signature>
+      </operations>
+      <operations id="10" active="true">
+        <signature name="performTask" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="11" active="true">
+        <signature name="doGet" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="2" active="true" name="OrderStatus__T" packageName="org.spec.jent.ejb.orders.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.2">
+      <operations id="4" active="true">
+        <signature name="values" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="3" active="true" name="Section$State__T" packageName="org.spec.jent.loader.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.3">
+      <operations id="5" active="true">
+        <signature name="values" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="4" active="true" name="Loader$State__T" packageName="org.spec.jent.loader.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.4">
+      <operations id="6" active="true">
+        <signature name="values" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="5" active="true" name="Loader__T" packageName="org.spec.jent.loader.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.5">
+      <operations id="7" active="true">
+        <signature name="step" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="6" active="true" name="SpecServletAction__T" packageName="org.spec.jent.servlet.helper" providedInterfaces="//@typeRepositoryModel/@interfaces.6" requiredInterfaces="//@typeRepositoryModel/@interfaces.0 //@typeRepositoryModel/@interfaces.2 //@typeRepositoryModel/@interfaces.5 //@typeRepositoryModel/@interfaces.6 //@typeRepositoryModel/@interfaces.16 //@typeRepositoryModel/@interfaces.18 //@typeRepositoryModel/@interfaces.24 //@typeRepositoryModel/@interfaces.12 //@typeRepositoryModel/@interfaces.11">
+      <operations id="8" active="true">
+        <signature name="requestDispatch" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="9" active="true">
+        <signature name="doSupplierSetAllURLs" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="37" active="true">
+        <signature name="doAtomicityTests" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="46" active="true">
+        <signature name="doCacheTest" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="47" active="true">
+        <signature name="load" returnType="N/A">
+          <paramTypes>double</paramTypes>
+        </signature>
+      </operations>
+      <operations id="49" active="true">
+        <signature name="incrementVisit" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpSession</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="52" active="true">
+        <signature name="doHome" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="53" active="true">
+        <signature name="doLogin" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="62" active="true">
+        <signature name="doVehicleQuotes" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="74" active="true">
+        <signature name="doAddToShoppingCart" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="76" active="true">
+        <signature name="doDeferedPurchase" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="77" active="true">
+        <signature name="doInventory" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="82" active="true">
+        <signature name="doSell" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="95" active="true">
+        <signature name="doShoppingCart" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="97" active="true">
+        <signature name="postInvoke" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+        </signature>
+      </operations>
+      <operations id="98" active="true">
+        <signature name="doRemoveFromShoppingCart" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="99" active="true">
+        <signature name="doClearCart" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="105" active="true">
+        <signature name="processError" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.Exception</paramTypes>
+        </signature>
+      </operations>
+      <operations id="106" active="true">
+        <signature name="doPurchase" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="114" active="true">
+        <signature name="doCancelOrder" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="136" active="true">
+        <signature name="doLogout" returnType="N/A">
+          <paramTypes>javax.servlet.ServletContext</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="7" active="true" name="MfgAuditSession__T" packageName="org.spec.jent.ejb.mfg.session" providedInterfaces="//@typeRepositoryModel/@interfaces.7">
+      <operations id="12" active="true">
+        <signature name="validateInitialValues" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="8" active="true" name="SupplierAuditSession__T" packageName="org.spec.jent.ejb.supplier.session" providedInterfaces="//@typeRepositoryModel/@interfaces.8">
+      <operations id="13" active="true">
+        <signature name="validateInitialValues" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="14" active="true">
+        <signature name="validateRunPropertiesFromDB" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="9" active="true" name="OrderAuditSession__T" packageName="org.spec.jent.ejb.orders.session" providedInterfaces="//@typeRepositoryModel/@interfaces.9" requiredInterfaces="//@typeRepositoryModel/@interfaces.9 //@typeRepositoryModel/@interfaces.13 //@typeRepositoryModel/@interfaces.10">
+      <operations id="15" active="true">
+        <signature name="validateInitialValues" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="38" active="true">
+        <signature name="externalUpdateTest" returnType="N/A"/>
+      </operations>
+      <operations id="39" active="true">
+        <signature name="incrementOrderTotal" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="40" active="true">
+        <signature name="jpaWriteThroughTest" returnType="N/A"/>
+      </operations>
+      <operations id="42" active="true">
+        <signature name="phantomDeleteTest" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="44" active="true">
+        <signature name="phantomDeleteReadTest" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="10" active="true" name="CustomerSession__T" packageName="org.spec.jent.ejb.orders.session" providedInterfaces="//@typeRepositoryModel/@interfaces.10" requiredInterfaces="//@typeRepositoryModel/@interfaces.13 //@typeRepositoryModel/@interfaces.25">
+      <operations id="16" active="true">
+        <signature name="selectCustomerWithGoodCredit" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="21" active="true">
+        <signature name="checkCustomerCredit" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="29" active="true">
+        <signature name="addInventory" returnType="N/A">
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="43" active="true">
+        <signature name="validateCustomer" returnType="N/A">
+          <paramTypes>java.lang.Integer</paramTypes>
+        </signature>
+      </operations>
+      <operations id="80" active="true">
+        <signature name="sellInventory" returnType="N/A">
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="110" active="true">
+        <signature name="addInventory" returnType="N/A">
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="11" active="true" name="Item__T" packageName="org.spec.jent.ejb.orders.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.11">
+      <operations id="17" active="true">
+        <signature name="hashCode" returnType="N/A"/>
+      </operations>
+      <operations id="24" active="true">
+        <signature name="equals" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="12" active="true" name="ShoppingCart__T" packageName="org.spec.jent.ejb.shoppingcart.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.12" requiredInterfaces="//@typeRepositoryModel/@interfaces.11 //@typeRepositoryModel/@interfaces.12">
+      <operations id="18" active="true">
+        <signature name="addItem" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="25" active="true">
+        <signature name="calculatePrice" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="34" active="true">
+        <signature name="removeItem" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        </signature>
+      </operations>
+      <operations id="75" active="true">
+        <signature name="clear" returnType="N/A"/>
+      </operations>
+      <operations id="96" active="true">
+        <signature name="removeItem" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="13" active="true" name="Customer__T" packageName="org.spec.jent.ejb.orders.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.13">
+      <operations id="19" active="true">
+        <signature name="hashCode" returnType="N/A"/>
+      </operations>
+      <operations id="20" active="true">
+        <signature name="hasSufficientCredit" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="27" active="true">
+        <signature name="addInventory" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="28" active="true">
+        <signature name="changeBalance" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="41" active="true">
+        <signature name="toString" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="14" active="true" name="OrderSession__T" packageName="org.spec.jent.ejb.orders.session" providedInterfaces="//@typeRepositoryModel/@interfaces.14" requiredInterfaces="//@typeRepositoryModel/@interfaces.10 //@typeRepositoryModel/@interfaces.14 //@typeRepositoryModel/@interfaces.15 //@typeRepositoryModel/@interfaces.11 //@typeRepositoryModel/@interfaces.12 //@typeRepositoryModel/@interfaces.17 //@typeRepositoryModel/@interfaces.13">
+      <operations id="22" active="true">
+        <signature name="checkCustomerCredit" returnType="N/A">
+          <paramTypes>java.lang.Integer</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="30" active="true">
+        <signature name="newOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="112" active="true">
+        <signature name="cancelOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="15" active="true" name="Order__T" packageName="org.spec.jent.ejb.orders.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.15">
+      <operations id="23" active="true">
+        <signature name="assertValidPercentage" returnType="N/A">
+          <paramTypes>double</paramTypes>
+        </signature>
+      </operations>
+      <operations id="26" active="true">
+        <signature name="addOrderLine" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>java.util.Calendar</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="16" active="true" name="SpecAction__T" packageName="org.spec.jent.servlet.helper" providedInterfaces="//@typeRepositoryModel/@interfaces.16" requiredInterfaces="//@typeRepositoryModel/@interfaces.0 //@typeRepositoryModel/@interfaces.10 //@typeRepositoryModel/@interfaces.12 //@typeRepositoryModel/@interfaces.14 //@typeRepositoryModel/@interfaces.16 //@typeRepositoryModel/@interfaces.11">
+      <operations id="31" active="true">
+        <signature name="doPurchase" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="32" active="true">
+        <signature name="atomicityTestOne" returnType="N/A"/>
+      </operations>
+      <operations id="33" active="true">
+        <signature name="atomicityTestTwo" returnType="N/A"/>
+      </operations>
+      <operations id="36" active="true">
+        <signature name="atomicityTestThree" returnType="N/A"/>
+      </operations>
+      <operations id="45" active="true">
+        <signature name="updateItemJDBC" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="48" active="true">
+        <signature name="login" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="81" active="true">
+        <signature name="sell" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="113" active="true">
+        <signature name="cancel" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="135" active="true">
+        <signature name="logout" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpSession</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="17" active="true" name="LargeOrderSenderSession__T" packageName="org.spec.jent.ejb.orders.session" providedInterfaces="//@typeRepositoryModel/@interfaces.17">
+      <operations id="35" active="true">
+        <signature name="sendOrdersToManufacturing" returnType="N/A">
+          <paramTypes>java.util.List</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="18" active="true" name="SpecUtils__T" packageName="org.spec.jent.servlet.helper" providedInterfaces="//@typeRepositoryModel/@interfaces.18">
+      <operations id="50" active="true">
+        <signature name="formatDate" returnType="N/A">
+          <paramTypes>java.util.Calendar</paramTypes>
+        </signature>
+      </operations>
+      <operations id="51" active="true">
+        <signature name="formatCurrency" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+      <operations id="61" active="true">
+        <signature name="formatNumber" returnType="N/A">
+          <paramTypes>java.math.BigDecimal</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="19" active="true" name="WorkOrderStatus__T" packageName="org.spec.jent.ejb.mfg.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.19">
+      <operations id="54" active="true">
+        <signature name="canProcess" returnType="N/A"/>
+      </operations>
+      <operations id="57" active="true">
+        <signature name="values" returnType="N/A"/>
+      </operations>
+      <operations id="66" active="true">
+        <signature name="canUpdate" returnType="N/A"/>
+      </operations>
+      <operations id="69" active="true">
+        <signature name="canFinish" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="20" active="true" name="MfgSession__T" packageName="org.spec.jent.ejb.mfg.session" providedInterfaces="//@typeRepositoryModel/@interfaces.20" requiredInterfaces="//@typeRepositoryModel/@interfaces.21">
+      <operations id="55" active="true">
+        <signature name="findAssembly" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="131" active="true">
+        <signature name="deliver" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="21" active="true" name="Inventory__T" packageName="org.spec.jent.ejb.mfg.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.21">
+      <operations id="56" active="true">
+        <signature name="reduceQuantityOnHand" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="71" active="true">
+        <signature name="addQuantityOnHand" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="78" active="true">
+        <signature name="addQuantityInOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="130" active="true">
+        <signature name="reduceQuantityInOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="22" active="true" name="WorkOrder__T" packageName="org.spec.jent.ejb.mfg.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.22" requiredInterfaces="//@typeRepositoryModel/@interfaces.19">
+      <operations id="58" active="true">
+        <signature name="advanceStatus" returnType="N/A"/>
+      </operations>
+      <operations id="67" active="true">
+        <signature name="update" returnType="N/A"/>
+      </operations>
+      <operations id="70" active="true">
+        <signature name="setStatusCompleted" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="23" active="true" name="WorkOrderSession__T" packageName="org.spec.jent.ejb.mfg.session" providedInterfaces="//@typeRepositoryModel/@interfaces.23" requiredInterfaces="//@typeRepositoryModel/@interfaces.19 //@typeRepositoryModel/@interfaces.20 //@typeRepositoryModel/@interfaces.21 //@typeRepositoryModel/@interfaces.22 //@typeRepositoryModel/@interfaces.23 //@typeRepositoryModel/@interfaces.26">
+      <operations id="59" active="true">
+        <signature name="process" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="60" active="true">
+        <signature name="scheduleWorkOrder" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.Calendar</paramTypes>
+        </signature>
+      </operations>
+      <operations id="65" active="true">
+        <signature name="findWorkOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>boolean</paramTypes>
+        </signature>
+      </operations>
+      <operations id="68" active="true">
+        <signature name="updateWorkOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="72" active="true">
+        <signature name="finish" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+        </signature>
+      </operations>
+      <operations id="73" active="true">
+        <signature name="completeWorkOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="107" active="true">
+        <signature name="scheduleWorkOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.Calendar</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="24" active="true" name="ItemBrowserSession__T" packageName="org.spec.jent.ejb.orders.session" providedInterfaces="//@typeRepositoryModel/@interfaces.24">
+      <operations id="63" active="true">
+        <signature name="browseForward" returnType="N/A"/>
+      </operations>
+      <operations id="64" active="true">
+        <signature name="browseReverse" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="25" active="true" name="CustomerInventory__T" packageName="org.spec.jent.ejb.orders.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.25">
+      <operations id="79" active="true">
+        <signature name="equals" returnType="N/A">
+          <paramTypes>java.lang.Object</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="26" active="true" name="MessageSenderSession__T" packageName="org.spec.jent.ejb.mfg.session" providedInterfaces="//@typeRepositoryModel/@interfaces.26">
+      <operations id="83" active="true">
+        <signature name="sendRequisitionToBuyer" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+          <paramTypes>java.util.List</paramTypes>
+        </signature>
+      </operations>
+      <operations id="108" active="true">
+        <signature name="sendOrderFulfilledMessage" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="27" active="true" name="SupplierSession__T" packageName="org.spec.jent.ejb.supplier.session" providedInterfaces="//@typeRepositoryModel/@interfaces.27" requiredInterfaces="//@typeRepositoryModel/@interfaces.27 //@typeRepositoryModel/@interfaces.28 //@typeRepositoryModel/@interfaces.29 //@typeRepositoryModel/@interfaces.36">
+      <operations id="84" active="true">
+        <signature name="findComponent" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="86" active="true">
+        <signature name="createRequisition" returnType="N/A">
+          <paramTypes>java.util.List</paramTypes>
+        </signature>
+      </operations>
+      <operations id="87" active="true">
+        <signature name="findSupplierComponent" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="90" active="true">
+        <signature name="createPurchaseOrder" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.entity.Supplier</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.supplier.entity.ComponentOrder[]</paramTypes>
+        </signature>
+      </operations>
+      <operations id="91" active="true">
+        <signature name="createPO" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.supplier.entity.Supplier</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.List</paramTypes>
+        </signature>
+      </operations>
+      <operations id="92" active="true">
+        <signature name="purchase" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.List</paramTypes>
+        </signature>
+      </operations>
+      <operations id="115" active="true">
+        <signature name="findSupplier" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="116" active="true">
+        <signature name="createIndividualPOs" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>org.spec.jent.ejb.supplier.entity.SupplierComponent[]</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.util.List</paramTypes>
+        </signature>
+      </operations>
+      <operations id="123" active="true">
+        <signature name="findPurchaseOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="125" active="true">
+        <signature name="sendPurchaseOrder" returnType="N/A">
+          <paramTypes>org.spec.jent.common.util.DeliveryInfo</paramTypes>
+        </signature>
+      </operations>
+      <operations id="128" active="true">
+        <signature name="processDelivery" returnType="N/A">
+          <paramTypes>org.spec.jent.common.util.DeliveryInfo</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="28" active="true" name="SComponent__T" packageName="org.spec.jent.ejb.supplier.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.28" requiredInterfaces="//@typeRepositoryModel/@interfaces.28">
+      <operations id="85" active="true">
+        <signature name="requiresNewPurchaseOrder" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="88" active="true">
+        <signature name="updateQuantities" returnType="N/A">
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="126" active="true">
+        <signature name="updateDemand" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+      <operations id="127" active="true">
+        <signature name="deliveredQuantity" returnType="N/A">
+          <paramTypes>int</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="29" active="true" name="PurchaseOrder__T" packageName="org.spec.jent.ejb.supplier.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.29">
+      <operations id="89" active="true">
+        <signature name="addLine" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.math.BigDecimal</paramTypes>
+          <paramTypes>int</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="94" active="true">
+        <signature name="hashCode" returnType="N/A"/>
+      </operations>
+      <operations id="119" active="true">
+        <signature name="markSent" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="30" active="true" name="BuyerMDB__T" packageName="org.spec.jent.ejb.supplier.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.30" requiredInterfaces="//@typeRepositoryModel/@interfaces.27">
+      <operations id="93" active="true">
+        <signature name="onMessage" returnType="N/A">
+          <paramTypes>javax.jms.Message</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="31" active="true" name="BuyerSegmentCache__T" packageName="org.spec.jent.ejb.supplier.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.31">
+      <operations id="100" active="true">
+        <signature name="_getInstance" returnType="N/A"/>
+      </operations>
+      <operations id="103" active="true">
+        <signature name="access$000" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</paramTypes>
+        </signature>
+      </operations>
+      <operations id="104" active="true">
+        <signature name="access$100" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="32" active="true" name="PurchaseOrderMDB__T" packageName="org.spec.jent.ejb.supplier.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.32" requiredInterfaces="//@typeRepositoryModel/@interfaces.32 //@typeRepositoryModel/@interfaces.29 //@typeRepositoryModel/@interfaces.31">
+      <operations id="101" active="true">
+        <signature name="transformPOLines" returnType="N/A">
+          <paramTypes>java.util.List</paramTypes>
+          <paramTypes>org.spec.jent.ws.supplier.purchaseorder.SimplePurchaseOrderType</paramTypes>
+        </signature>
+      </operations>
+      <operations id="102" active="true">
+        <signature name="transformPurchaseOrder" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+        </signature>
+      </operations>
+      <operations id="117" active="true">
+        <signature name="sendAttachmentPO" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+        </signature>
+      </operations>
+      <operations id="118" active="true">
+        <signature name="sendPO" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+        </signature>
+      </operations>
+      <operations id="120" active="true">
+        <signature name="onMessage" returnType="N/A">
+          <paramTypes>javax.jms.Message</paramTypes>
+        </signature>
+      </operations>
+      <operations id="121" active="true">
+        <signature name="sendInlinePO" returnType="N/A">
+          <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="33" active="true" name="LargerOrderMDB__T" packageName="org.spec.jent.ejb.mfg.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.33" requiredInterfaces="//@typeRepositoryModel/@interfaces.23">
+      <operations id="109" active="true">
+        <signature name="onMessage" returnType="N/A">
+          <paramTypes>javax.jms.Message</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="34" active="true" name="FulfillOrderMDB__T" packageName="org.spec.jent.ejb.orders.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.34" requiredInterfaces="//@typeRepositoryModel/@interfaces.10">
+      <operations id="111" active="true">
+        <signature name="onMessage" returnType="N/A">
+          <paramTypes>javax.jms.Message</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="35" active="true" name="SupplierDomainServlet__T" packageName="org.spec.jent.supplier.web" providedInterfaces="//@typeRepositoryModel/@interfaces.35">
+      <operations id="122" active="true">
+        <signature name="incrementTxCounter" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="36" active="true" name="PurchaseOrderLine__T" packageName="org.spec.jent.ejb.supplier.entity" providedInterfaces="//@typeRepositoryModel/@interfaces.36">
+      <operations id="124" active="true">
+        <signature name="markDelivered" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="37" active="true" name="BuyerService__T" packageName="org.spec.jent.supplier.web" providedInterfaces="//@typeRepositoryModel/@interfaces.37" requiredInterfaces="//@typeRepositoryModel/@interfaces.35 //@typeRepositoryModel/@interfaces.27 //@typeRepositoryModel/@interfaces.29 //@typeRepositoryModel/@interfaces.37">
+      <operations id="129" active="true">
+        <signature name="processDeliveryMessage" returnType="N/A">
+          <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageType</paramTypes>
+        </signature>
+      </operations>
+      <operations id="133" active="true">
+        <signature name="processDeliveryAttach" returnType="N/A">
+          <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageAttachType</paramTypes>
+        </signature>
+      </operations>
+      <operations id="134" active="true">
+        <signature name="processDelivery" returnType="N/A">
+          <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.InlineDeliveryMessageType</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="38" active="true" name="ReceiveMDB__T" packageName="org.spec.jent.ejb.mfg.mdb" providedInterfaces="//@typeRepositoryModel/@interfaces.38" requiredInterfaces="//@typeRepositoryModel/@interfaces.20">
+      <operations id="132" active="true">
+        <signature name="onMessage" returnType="N/A">
+          <paramTypes>javax.jms.Message</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <executionContainerTypes active="true" name="blade3__T" packageName=""/>
+    <interfaces active="true" name="ISpecBeanFactory__T" packageName="org.spec.jent.servlet.helper">
+      <signatures name="initalize" returnType="N/A"/>
+      <signatures name="lookup" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="1" active="true" name="ISpecAppServlet__T" packageName="org.spec.jent.servlet">
+      <signatures name="init" returnType="N/A">
+        <paramTypes>javax.servlet.ServletConfig</paramTypes>
+      </signatures>
+      <signatures name="performTask" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+      <signatures name="doGet" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="2" active="true" name="IOrderStatus__T" packageName="org.spec.jent.ejb.orders.entity">
+      <signatures name="values" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="3" active="true" name="ISection$State__T" packageName="org.spec.jent.loader.entity">
+      <signatures name="values" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="4" active="true" name="ILoader$State__T" packageName="org.spec.jent.loader.entity">
+      <signatures name="values" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="5" active="true" name="ILoader__T" packageName="org.spec.jent.loader.entity">
+      <signatures name="step" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="6" active="true" name="ISpecServletAction__T" packageName="org.spec.jent.servlet.helper">
+      <signatures name="requestDispatch" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="doSupplierSetAllURLs" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+      <signatures name="doAtomicityTests" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+      <signatures name="doCacheTest" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="load" returnType="N/A">
+        <paramTypes>double</paramTypes>
+      </signatures>
+      <signatures name="incrementVisit" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpSession</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="doHome" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="doLogin" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doVehicleQuotes" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="doAddToShoppingCart" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doDeferedPurchase" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doInventory" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doSell" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doShoppingCart" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="postInvoke" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+      </signatures>
+      <signatures name="doRemoveFromShoppingCart" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doClearCart" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="processError" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.lang.Exception</paramTypes>
+      </signatures>
+      <signatures name="doPurchase" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="doCancelOrder" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="doLogout" returnType="N/A">
+        <paramTypes>javax.servlet.ServletContext</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="7" active="true" name="IMfgAuditSession__T" packageName="org.spec.jent.ejb.mfg.session">
+      <signatures name="validateInitialValues" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="8" active="true" name="ISupplierAuditSession__T" packageName="org.spec.jent.ejb.supplier.session">
+      <signatures name="validateInitialValues" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="validateRunPropertiesFromDB" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="9" active="true" name="IOrderAuditSession__T" packageName="org.spec.jent.ejb.orders.session">
+      <signatures name="validateInitialValues" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="externalUpdateTest" returnType="N/A"/>
+      <signatures name="incrementOrderTotal" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="jpaWriteThroughTest" returnType="N/A"/>
+      <signatures name="phantomDeleteTest" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="phantomDeleteReadTest" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="10" active="true" name="ICustomerSession__T" packageName="org.spec.jent.ejb.orders.session">
+      <signatures name="selectCustomerWithGoodCredit" returnType="N/A">
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="checkCustomerCredit" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="addInventory" returnType="N/A">
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="validateCustomer" returnType="N/A">
+        <paramTypes>java.lang.Integer</paramTypes>
+      </signatures>
+      <signatures name="sellInventory" returnType="N/A">
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="addInventory" returnType="N/A">
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="11" active="true" name="IItem__T" packageName="org.spec.jent.ejb.orders.entity">
+      <signatures name="hashCode" returnType="N/A"/>
+      <signatures name="equals" returnType="N/A">
+        <paramTypes>java.lang.Object</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="12" active="true" name="IShoppingCart__T" packageName="org.spec.jent.ejb.shoppingcart.entity">
+      <signatures name="addItem" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="calculatePrice" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="removeItem" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+      </signatures>
+      <signatures name="clear" returnType="N/A"/>
+      <signatures name="removeItem" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="13" active="true" name="ICustomer__T" packageName="org.spec.jent.ejb.orders.entity">
+      <signatures name="hashCode" returnType="N/A"/>
+      <signatures name="hasSufficientCredit" returnType="N/A">
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="addInventory" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="changeBalance" returnType="N/A">
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="toString" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="14" active="true" name="IOrderSession__T" packageName="org.spec.jent.ejb.orders.session">
+      <signatures name="checkCustomerCredit" returnType="N/A">
+        <paramTypes>java.lang.Integer</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="newOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>boolean</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="cancelOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="15" active="true" name="IOrder__T" packageName="org.spec.jent.ejb.orders.entity">
+      <signatures name="assertValidPercentage" returnType="N/A">
+        <paramTypes>double</paramTypes>
+      </signatures>
+      <signatures name="addOrderLine" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.orders.entity.Item</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+        <paramTypes>java.util.Calendar</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="16" active="true" name="ISpecAction__T" packageName="org.spec.jent.servlet.helper">
+      <signatures name="doPurchase" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.shoppingcart.entity.ShoppingCart</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>boolean</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="atomicityTestOne" returnType="N/A"/>
+      <signatures name="atomicityTestTwo" returnType="N/A"/>
+      <signatures name="atomicityTestThree" returnType="N/A"/>
+      <signatures name="updateItemJDBC" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="login" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="sell" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="cancel" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="logout" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpSession</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="17" active="true" name="ILargeOrderSenderSession__T" packageName="org.spec.jent.ejb.orders.session">
+      <signatures name="sendOrdersToManufacturing" returnType="N/A">
+        <paramTypes>java.util.List</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="18" active="true" name="ISpecUtils__T" packageName="org.spec.jent.servlet.helper">
+      <signatures name="formatDate" returnType="N/A">
+        <paramTypes>java.util.Calendar</paramTypes>
+      </signatures>
+      <signatures name="formatCurrency" returnType="N/A">
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+      <signatures name="formatNumber" returnType="N/A">
+        <paramTypes>java.math.BigDecimal</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="19" active="true" name="IWorkOrderStatus__T" packageName="org.spec.jent.ejb.mfg.entity">
+      <signatures name="canProcess" returnType="N/A"/>
+      <signatures name="values" returnType="N/A"/>
+      <signatures name="canUpdate" returnType="N/A"/>
+      <signatures name="canFinish" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="20" active="true" name="IMfgSession__T" packageName="org.spec.jent.ejb.mfg.session">
+      <signatures name="findAssembly" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="deliver" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="21" active="true" name="IInventory__T" packageName="org.spec.jent.ejb.mfg.entity">
+      <signatures name="reduceQuantityOnHand" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="addQuantityOnHand" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="addQuantityInOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="reduceQuantityInOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="22" active="true" name="IWorkOrder__T" packageName="org.spec.jent.ejb.mfg.entity">
+      <signatures name="advanceStatus" returnType="N/A"/>
+      <signatures name="update" returnType="N/A"/>
+      <signatures name="setStatusCompleted" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="23" active="true" name="IWorkOrderSession__T" packageName="org.spec.jent.ejb.mfg.session">
+      <signatures name="process" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="scheduleWorkOrder" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.util.Calendar</paramTypes>
+      </signatures>
+      <signatures name="findWorkOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>boolean</paramTypes>
+      </signatures>
+      <signatures name="updateWorkOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="finish" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+      </signatures>
+      <signatures name="completeWorkOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="scheduleWorkOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.util.Calendar</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="24" active="true" name="IItemBrowserSession__T" packageName="org.spec.jent.ejb.orders.session">
+      <signatures name="browseForward" returnType="N/A"/>
+      <signatures name="browseReverse" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="25" active="true" name="ICustomerInventory__T" packageName="org.spec.jent.ejb.orders.entity">
+      <signatures name="equals" returnType="N/A">
+        <paramTypes>java.lang.Object</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="26" active="true" name="IMessageSenderSession__T" packageName="org.spec.jent.ejb.mfg.session">
+      <signatures name="sendRequisitionToBuyer" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+        <paramTypes>java.util.List</paramTypes>
+      </signatures>
+      <signatures name="sendOrderFulfilledMessage" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.mfg.entity.WorkOrder</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="27" active="true" name="ISupplierSession__T" packageName="org.spec.jent.ejb.supplier.session">
+      <signatures name="findComponent" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="createRequisition" returnType="N/A">
+        <paramTypes>java.util.List</paramTypes>
+      </signatures>
+      <signatures name="findSupplierComponent" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="createPurchaseOrder" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.entity.Supplier</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.supplier.entity.ComponentOrder[]</paramTypes>
+      </signatures>
+      <signatures name="createPO" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.supplier.entity.Supplier</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.util.List</paramTypes>
+      </signatures>
+      <signatures name="purchase" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.util.List</paramTypes>
+      </signatures>
+      <signatures name="findSupplier" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="createIndividualPOs" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>org.spec.jent.ejb.supplier.entity.SupplierComponent[]</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.util.List</paramTypes>
+      </signatures>
+      <signatures name="findPurchaseOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="sendPurchaseOrder" returnType="N/A">
+        <paramTypes>org.spec.jent.common.util.DeliveryInfo</paramTypes>
+      </signatures>
+      <signatures name="processDelivery" returnType="N/A">
+        <paramTypes>org.spec.jent.common.util.DeliveryInfo</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="28" active="true" name="ISComponent__T" packageName="org.spec.jent.ejb.supplier.entity">
+      <signatures name="requiresNewPurchaseOrder" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="updateQuantities" returnType="N/A">
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="updateDemand" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+      <signatures name="deliveredQuantity" returnType="N/A">
+        <paramTypes>int</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="29" active="true" name="IPurchaseOrder__T" packageName="org.spec.jent.ejb.supplier.entity">
+      <signatures name="addLine" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.math.BigDecimal</paramTypes>
+        <paramTypes>int</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="hashCode" returnType="N/A"/>
+      <signatures name="markSent" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="30" active="true" name="IBuyerMDB__T" packageName="org.spec.jent.ejb.supplier.mdb">
+      <signatures name="onMessage" returnType="N/A">
+        <paramTypes>javax.jms.Message</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="31" active="true" name="IBuyerSegmentCache__T" packageName="org.spec.jent.ejb.supplier.mdb">
+      <signatures name="_getInstance" returnType="N/A"/>
+      <signatures name="access$000" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</paramTypes>
+      </signatures>
+      <signatures name="access$100" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.mdb.BuyerSegmentCache</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="32" active="true" name="IPurchaseOrderMDB__T" packageName="org.spec.jent.ejb.supplier.mdb">
+      <signatures name="transformPOLines" returnType="N/A">
+        <paramTypes>java.util.List</paramTypes>
+        <paramTypes>org.spec.jent.ws.supplier.purchaseorder.SimplePurchaseOrderType</paramTypes>
+      </signatures>
+      <signatures name="transformPurchaseOrder" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+      </signatures>
+      <signatures name="sendAttachmentPO" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+      </signatures>
+      <signatures name="sendPO" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+      </signatures>
+      <signatures name="onMessage" returnType="N/A">
+        <paramTypes>javax.jms.Message</paramTypes>
+      </signatures>
+      <signatures name="sendInlinePO" returnType="N/A">
+        <paramTypes>org.spec.jent.ejb.supplier.entity.PurchaseOrder</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="33" active="true" name="ILargerOrderMDB__T" packageName="org.spec.jent.ejb.mfg.mdb">
+      <signatures name="onMessage" returnType="N/A">
+        <paramTypes>javax.jms.Message</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="34" active="true" name="IFulfillOrderMDB__T" packageName="org.spec.jent.ejb.orders.mdb">
+      <signatures name="onMessage" returnType="N/A">
+        <paramTypes>javax.jms.Message</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="35" active="true" name="ISupplierDomainServlet__T" packageName="org.spec.jent.supplier.web">
+      <signatures name="incrementTxCounter" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="36" active="true" name="IPurchaseOrderLine__T" packageName="org.spec.jent.ejb.supplier.entity">
+      <signatures name="markDelivered" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="37" active="true" name="IBuyerService__T" packageName="org.spec.jent.supplier.web">
+      <signatures name="processDeliveryMessage" returnType="N/A">
+        <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageType</paramTypes>
+      </signatures>
+      <signatures name="processDeliveryAttach" returnType="N/A">
+        <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.DeliveryMessageAttachType</paramTypes>
+      </signatures>
+      <signatures name="processDelivery" returnType="N/A">
+        <paramTypes>org.spec.jent.ws.buyer.supplierdeliverymessage.InlineDeliveryMessageType</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="38" active="true" name="IReceiveMDB__T" packageName="org.spec.jent.ejb.mfg.mdb">
+      <signatures name="onMessage" returnType="N/A">
+        <paramTypes>javax.jms.Message</paramTypes>
+      </signatures>
+    </interfaces>
+    <connectorTypes active="true" name="CONNECTOR_T_3ed527f5-e841-47c4-88c9-62e2fd59d171" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="1" active="true" name="CONNECTOR_T_6ad957b9-9b0e-4a52-95bd-d4a16c86e64e" packageName="" interface="//@typeRepositoryModel/@interfaces.1"/>
+    <connectorTypes id="2" active="true" name="CONNECTOR_T_dd282783-d699-46ea-8e97-8bb7ca286188" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="3" active="true" name="CONNECTOR_T_211567de-9fe9-4654-aa80-b7619e91264f" packageName="" interface="//@typeRepositoryModel/@interfaces.2"/>
+    <connectorTypes id="4" active="true" name="CONNECTOR_T_8bb7aab4-9ef7-412e-acec-5114f3a1e3fb" packageName="" interface="//@typeRepositoryModel/@interfaces.5"/>
+    <connectorTypes id="5" active="true" name="CONNECTOR_T_ea685529-8c98-49d5-bcde-ed1d5cbdfa78" packageName="" interface="//@typeRepositoryModel/@interfaces.6"/>
+    <connectorTypes id="6" active="true" name="CONNECTOR_T_24931646-9212-4679-92aa-d7202948b80c" packageName="" interface="//@typeRepositoryModel/@interfaces.6"/>
+    <connectorTypes id="7" active="true" name="CONNECTOR_T_bdae32bf-c0c4-4543-b5bd-397a0e8e684f" packageName="" interface="//@typeRepositoryModel/@interfaces.1"/>
+    <connectorTypes id="8" active="true" name="CONNECTOR_T_7189b4c9-5357-452b-bbe4-822ce2f3a899" packageName="" interface="//@typeRepositoryModel/@interfaces.5"/>
+    <connectorTypes id="9" active="true" name="CONNECTOR_T_abf3d592-4af6-4e54-86c0-d74660d2a150" packageName="" interface="//@typeRepositoryModel/@interfaces.7"/>
+    <connectorTypes id="10" active="true" name="CONNECTOR_T_bd5a218d-3ac2-4627-9796-6ee2aae197bb" packageName="" interface="//@typeRepositoryModel/@interfaces.8"/>
+    <connectorTypes id="11" active="true" name="CONNECTOR_T_ee2c9c32-19bb-4487-82e6-86f16d89bc6b" packageName="" interface="//@typeRepositoryModel/@interfaces.9"/>
+    <connectorTypes id="12" active="true" name="CONNECTOR_T_b58bb580-b4df-48b1-9a1e-d710bb5ba02e" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="13" active="true" name="CONNECTOR_T_ea46710c-397f-49d5-9413-eb48f8c20037" packageName="" interface="//@typeRepositoryModel/@interfaces.10"/>
+    <connectorTypes id="14" active="true" name="CONNECTOR_T_e85a74da-45a9-45b6-9185-e3686add5b63" packageName="" interface="//@typeRepositoryModel/@interfaces.11"/>
+    <connectorTypes id="15" active="true" name="CONNECTOR_T_3ceeb733-8cb2-436b-ae9f-055adc6351da" packageName="" interface="//@typeRepositoryModel/@interfaces.12"/>
+    <connectorTypes id="16" active="true" name="CONNECTOR_T_a57dcb8a-2a58-434b-aea7-b683baaa7d17" packageName="" interface="//@typeRepositoryModel/@interfaces.13"/>
+    <connectorTypes id="17" active="true" name="CONNECTOR_T_0e3c3311-32f3-4c6b-9f77-b395991d9634" packageName="" interface="//@typeRepositoryModel/@interfaces.10"/>
+    <connectorTypes id="18" active="true" name="CONNECTOR_T_663f7db0-a001-4a5f-b188-b3cefa5d833a" packageName="" interface="//@typeRepositoryModel/@interfaces.14"/>
+    <connectorTypes id="19" active="true" name="CONNECTOR_T_2aa26d94-44a3-4de2-84ae-5c608b4d0be2" packageName="" interface="//@typeRepositoryModel/@interfaces.15"/>
+    <connectorTypes id="20" active="true" name="CONNECTOR_T_f83093b4-d4c5-4417-a4b1-e33240d76fa4" packageName="" interface="//@typeRepositoryModel/@interfaces.11"/>
+    <connectorTypes id="21" active="true" name="CONNECTOR_T_00b38f20-db5d-45c0-b6d0-011693b5d29e" packageName="" interface="//@typeRepositoryModel/@interfaces.12"/>
+    <connectorTypes id="22" active="true" name="CONNECTOR_T_968dc809-b258-4c88-811e-1d865f40b1f3" packageName="" interface="//@typeRepositoryModel/@interfaces.14"/>
+    <connectorTypes id="23" active="true" name="CONNECTOR_T_ee696ee3-4bd7-480a-a6f9-72ae1b4a0336" packageName="" interface="//@typeRepositoryModel/@interfaces.16"/>
+    <connectorTypes id="24" active="true" name="CONNECTOR_T_1fea87f1-1dbe-45b2-9528-307f0ec6efe3" packageName="" interface="//@typeRepositoryModel/@interfaces.16"/>
+    <connectorTypes id="25" active="true" name="CONNECTOR_T_7cc8d865-16b1-4c57-860a-8502c6479c61" packageName="" interface="//@typeRepositoryModel/@interfaces.11"/>
+    <connectorTypes id="26" active="true" name="CONNECTOR_T_d65fad43-e804-49ce-b83f-561f50357b72" packageName="" interface="//@typeRepositoryModel/@interfaces.12"/>
+    <connectorTypes id="27" active="true" name="CONNECTOR_T_f4120028-dd42-4a56-b49c-af468755c40d" packageName="" interface="//@typeRepositoryModel/@interfaces.17"/>
+    <connectorTypes id="28" active="true" name="CONNECTOR_T_03d64d9e-fd13-4aba-b251-c99aafc64668" packageName="" interface="//@typeRepositoryModel/@interfaces.9"/>
+    <connectorTypes id="29" active="true" name="CONNECTOR_T_54ca34cd-ec95-4e3e-9326-06c42411fb7a" packageName="" interface="//@typeRepositoryModel/@interfaces.13"/>
+    <connectorTypes id="30" active="true" name="CONNECTOR_T_acb793b1-a346-4d6f-90ef-c1e1d3d2dad3" packageName="" interface="//@typeRepositoryModel/@interfaces.10"/>
+    <connectorTypes id="31" active="true" name="CONNECTOR_T_f52bea03-cef2-4fa4-bb82-a1ffe2360aef" packageName="" interface="//@typeRepositoryModel/@interfaces.18"/>
+    <connectorTypes id="32" active="true" name="CONNECTOR_T_f82851a0-f9fa-464b-81ab-6e1720b048a7" packageName="" interface="//@typeRepositoryModel/@interfaces.19"/>
+    <connectorTypes id="33" active="true" name="CONNECTOR_T_da96ea02-9ff4-4f13-919d-89b187a52034" packageName="" interface="//@typeRepositoryModel/@interfaces.20"/>
+    <connectorTypes id="34" active="true" name="CONNECTOR_T_1e24da46-159c-4e90-b45a-33cdb30a3a72" packageName="" interface="//@typeRepositoryModel/@interfaces.21"/>
+    <connectorTypes id="35" active="true" name="CONNECTOR_T_c08b711d-5764-46d1-8e5c-0c2cfa1e8e4f" packageName="" interface="//@typeRepositoryModel/@interfaces.19"/>
+    <connectorTypes id="36" active="true" name="CONNECTOR_T_382c95e1-ca53-45f9-a848-5f3693e45ff6" packageName="" interface="//@typeRepositoryModel/@interfaces.22"/>
+    <connectorTypes id="37" active="true" name="CONNECTOR_T_275ad889-3d5b-44a8-a2fc-b1ae3b89f814" packageName="" interface="//@typeRepositoryModel/@interfaces.23"/>
+    <connectorTypes id="38" active="true" name="CONNECTOR_T_cc87eabf-e7b4-453e-a267-ed3489a8b7a2" packageName="" interface="//@typeRepositoryModel/@interfaces.23"/>
+    <connectorTypes id="39" active="true" name="CONNECTOR_T_9aee86c4-150f-4494-aa45-335f6738b0f3" packageName="" interface="//@typeRepositoryModel/@interfaces.24"/>
+    <connectorTypes id="40" active="true" name="CONNECTOR_T_07681e7c-3c8b-4244-b457-8901a523587f" packageName="" interface="//@typeRepositoryModel/@interfaces.12"/>
+    <connectorTypes id="41" active="true" name="CONNECTOR_T_3735312c-aedc-4ade-bf69-77c2a27a2fb6" packageName="" interface="//@typeRepositoryModel/@interfaces.11"/>
+    <connectorTypes id="42" active="true" name="CONNECTOR_T_27eee266-e8db-4fb9-8c13-40b6aed985fa" packageName="" interface="//@typeRepositoryModel/@interfaces.26"/>
+    <connectorTypes id="43" active="true" name="CONNECTOR_T_19b405ca-21c2-4ce5-af74-85d4d54a2493" packageName="" interface="//@typeRepositoryModel/@interfaces.25"/>
+    <connectorTypes id="44" active="true" name="CONNECTOR_T_e8719d6f-386c-4d19-b200-b6e707e4e108" packageName="" interface="//@typeRepositoryModel/@interfaces.27"/>
+    <connectorTypes id="45" active="true" name="CONNECTOR_T_e87cd6dc-c30c-427a-a204-d7dd5e01a899" packageName="" interface="//@typeRepositoryModel/@interfaces.28"/>
+    <connectorTypes id="46" active="true" name="CONNECTOR_T_9aab556c-9f9c-48db-bc45-20c006246fad" packageName="" interface="//@typeRepositoryModel/@interfaces.29"/>
+    <connectorTypes id="47" active="true" name="CONNECTOR_T_624dbd09-42de-4545-bbfc-b7731d499e4a" packageName="" interface="//@typeRepositoryModel/@interfaces.27"/>
+    <connectorTypes id="48" active="true" name="CONNECTOR_T_1f49022b-1757-4242-93cf-1e29819ae175" packageName="" interface="//@typeRepositoryModel/@interfaces.30"/>
+    <connectorTypes id="49" active="true" name="CONNECTOR_T_b12c879a-3713-42e3-90c8-2cf44617464d" packageName="" interface="//@typeRepositoryModel/@interfaces.29"/>
+    <connectorTypes id="50" active="true" name="CONNECTOR_T_dc0ff94d-4a48-484e-9b89-aef2b014c432" packageName="" interface="//@typeRepositoryModel/@interfaces.13"/>
+    <connectorTypes id="51" active="true" name="CONNECTOR_T_6a8142d7-a896-44c4-af27-c7defc123c75" packageName="" interface="//@typeRepositoryModel/@interfaces.31"/>
+    <connectorTypes id="52" active="true" name="CONNECTOR_T_d0a3ff8f-a400-4aa3-9e25-f1658a9a6c93" packageName="" interface="//@typeRepositoryModel/@interfaces.23"/>
+    <connectorTypes id="53" active="true" name="CONNECTOR_T_964bf9ec-8529-457d-8468-bf8cf405a437" packageName="" interface="//@typeRepositoryModel/@interfaces.33"/>
+    <connectorTypes id="54" active="true" name="CONNECTOR_T_897246d8-8dfc-48d8-bf15-4b53e8bf7cc0" packageName="" interface="//@typeRepositoryModel/@interfaces.10"/>
+    <connectorTypes id="55" active="true" name="CONNECTOR_T_2d2c441a-ffda-4f07-88de-e0461a2be721" packageName="" interface="//@typeRepositoryModel/@interfaces.34"/>
+    <connectorTypes id="56" active="true" name="CONNECTOR_T_0c0706cd-9afa-4374-9972-aba29cc51157" packageName="" interface="//@typeRepositoryModel/@interfaces.11"/>
+    <connectorTypes id="57" active="true" name="CONNECTOR_T_0aaea244-3ac4-408f-b4b1-127ba89ae9b6" packageName="" interface="//@typeRepositoryModel/@interfaces.13"/>
+    <connectorTypes id="58" active="true" name="CONNECTOR_T_3525289c-adf6-4034-b301-7dd173c34779" packageName="" interface="//@typeRepositoryModel/@interfaces.32"/>
+    <connectorTypes id="59" active="true" name="CONNECTOR_T_704c0907-7ecf-4b82-84c7-f5eb065cc766" packageName="" interface="//@typeRepositoryModel/@interfaces.29"/>
+    <connectorTypes id="60" active="true" name="CONNECTOR_T_8bfa2ee5-5ec7-4976-a1d2-14c4b5f776a9" packageName="" interface="//@typeRepositoryModel/@interfaces.32"/>
+    <connectorTypes id="61" active="true" name="CONNECTOR_T_b458047a-8b78-4103-a26c-5996a5abda4a" packageName="" interface="//@typeRepositoryModel/@interfaces.31"/>
+    <connectorTypes id="62" active="true" name="CONNECTOR_T_41446b74-57d2-4350-8d11-0d288ef5b749" packageName="" interface="//@typeRepositoryModel/@interfaces.35"/>
+    <connectorTypes id="63" active="true" name="CONNECTOR_T_c47ef969-5e86-4364-824d-087d20dd9919" packageName="" interface="//@typeRepositoryModel/@interfaces.36"/>
+    <connectorTypes id="64" active="true" name="CONNECTOR_T_ee90cefc-e72d-4394-8057-c7e05780238c" packageName="" interface="//@typeRepositoryModel/@interfaces.28"/>
+    <connectorTypes id="65" active="true" name="CONNECTOR_T_2711eb05-a369-4f04-9330-350ac9588ce2" packageName="" interface="//@typeRepositoryModel/@interfaces.27"/>
+    <connectorTypes id="66" active="true" name="CONNECTOR_T_ab7727d5-61ec-4359-847b-6f5bc97412fe" packageName="" interface="//@typeRepositoryModel/@interfaces.29"/>
+    <connectorTypes id="67" active="true" name="CONNECTOR_T_f71ff910-6d5b-40cc-a7a5-84224b9daea8" packageName="" interface="//@typeRepositoryModel/@interfaces.37"/>
+    <connectorTypes id="68" active="true" name="CONNECTOR_T_72f334c4-c707-4e0b-8682-76fa1b86fbaf" packageName="" interface="//@typeRepositoryModel/@interfaces.37"/>
+    <connectorTypes id="69" active="true" name="CONNECTOR_T_b6253cdf-a542-4533-9a0a-3be5cdab3bc9" packageName="" interface="//@typeRepositoryModel/@interfaces.21"/>
+    <connectorTypes id="70" active="true" name="CONNECTOR_T_4b21ed31-6593-44cb-8f85-c5ef713198f7" packageName="" interface="//@typeRepositoryModel/@interfaces.20"/>
+    <connectorTypes id="71" active="true" name="CONNECTOR_T_ff2bccad-b999-4c6f-9f93-d4fa45ab40ab" packageName="" interface="//@typeRepositoryModel/@interfaces.38"/>
+  </typeRepositoryModel>
+  <componentAssemblyModel systemProvidedInterfaces="//@typeRepositoryModel/@interfaces.1 //@typeRepositoryModel/@interfaces.5 //@typeRepositoryModel/@interfaces.7 //@typeRepositoryModel/@interfaces.8 //@typeRepositoryModel/@interfaces.9 //@typeRepositoryModel/@interfaces.23 //@typeRepositoryModel/@interfaces.30 //@typeRepositoryModel/@interfaces.29 //@typeRepositoryModel/@interfaces.31 //@typeRepositoryModel/@interfaces.33 //@typeRepositoryModel/@interfaces.34 //@typeRepositoryModel/@interfaces.11 //@typeRepositoryModel/@interfaces.13 //@typeRepositoryModel/@interfaces.32 //@typeRepositoryModel/@interfaces.37 //@typeRepositoryModel/@interfaces.38">
+    <systemProvidedInterfaceDelegationConnectors active="true" name="ASM_SYSPROVCONN_NN_606fdf46-fcd1-4347-87e1-aa61db8e73df" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.1" providingComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <systemProvidedInterfaceDelegationConnectors id="1" active="true" name="ASM_SYSPROVCONN_NN_c1e5a33d-6cec-430f-ab09-a98cd4e8437a" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.8" providingComponent="//@componentAssemblyModel/@assemblyComponents.5"/>
+    <systemProvidedInterfaceDelegationConnectors id="2" active="true" name="ASM_SYSPROVCONN_NN_7903ed3b-4fc1-49e6-8ff7-7937404d93e6" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.9" providingComponent="//@componentAssemblyModel/@assemblyComponents.7"/>
+    <systemProvidedInterfaceDelegationConnectors id="3" active="true" name="ASM_SYSPROVCONN_NN_c55a40c2-2706-49e9-a65c-9644a9923674" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.10" providingComponent="//@componentAssemblyModel/@assemblyComponents.8"/>
+    <systemProvidedInterfaceDelegationConnectors id="4" active="true" name="ASM_SYSPROVCONN_NN_66e21337-387d-4e54-8b8b-b59f819e6f8c" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.11" providingComponent="//@componentAssemblyModel/@assemblyComponents.9"/>
+    <systemProvidedInterfaceDelegationConnectors id="5" active="true" name="ASM_SYSPROVCONN_NN_51ae8b30-d60c-46bd-8107-ed8d6bb272dd" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.38" providingComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <systemProvidedInterfaceDelegationConnectors id="6" active="true" name="ASM_SYSPROVCONN_NN_787687ee-dad2-4298-a8d2-5c0e4a2042fb" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.48" providingComponent="//@componentAssemblyModel/@assemblyComponents.30"/>
+    <systemProvidedInterfaceDelegationConnectors id="7" active="true" name="ASM_SYSPROVCONN_NN_a05b4794-91a0-49db-ba7c-84489c154ee3" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.49" providingComponent="//@componentAssemblyModel/@assemblyComponents.29"/>
+    <systemProvidedInterfaceDelegationConnectors id="8" active="true" name="ASM_SYSPROVCONN_NN_1cfca50c-d2c5-43e5-892a-4cfcd392b936" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.51" providingComponent="//@componentAssemblyModel/@assemblyComponents.31"/>
+    <systemProvidedInterfaceDelegationConnectors id="9" active="true" name="ASM_SYSPROVCONN_NN_fcd0f7ae-3786-4966-b8a4-7d9da0394d3b" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.53" providingComponent="//@componentAssemblyModel/@assemblyComponents.33"/>
+    <systemProvidedInterfaceDelegationConnectors id="10" active="true" name="ASM_SYSPROVCONN_NN_2c8d0966-49d7-4f29-8047-d98b8d877b07" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.55" providingComponent="//@componentAssemblyModel/@assemblyComponents.34"/>
+    <systemProvidedInterfaceDelegationConnectors id="11" active="true" name="ASM_SYSPROVCONN_NN_c6740ccb-3b6c-4d1c-8510-987481250faf" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.56" providingComponent="//@componentAssemblyModel/@assemblyComponents.11"/>
+    <systemProvidedInterfaceDelegationConnectors id="12" active="true" name="ASM_SYSPROVCONN_NN_84e0d63c-da64-4094-9c90-68f0765db5da" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.57" providingComponent="//@componentAssemblyModel/@assemblyComponents.13"/>
+    <systemProvidedInterfaceDelegationConnectors id="13" active="true" name="ASM_SYSPROVCONN_NN_3c53ad58-3ba5-4034-a82f-109226d2a631" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.60" providingComponent="//@componentAssemblyModel/@assemblyComponents.32"/>
+    <systemProvidedInterfaceDelegationConnectors id="14" active="true" name="ASM_SYSPROVCONN_NN_27b7c005-c3cf-40fc-9749-38c726d0f0fc" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.68" providingComponent="//@componentAssemblyModel/@assemblyComponents.37"/>
+    <systemProvidedInterfaceDelegationConnectors id="15" active="true" name="ASM_SYSPROVCONN_NN_1e013706-70c8-4c49-bc08-6a7c31108595" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.71" providingComponent="//@componentAssemblyModel/@assemblyComponents.38"/>
+    <assemblyComponents active="true" name="SpecBeanFactory" packageName="org.spec.jent.servlet.helper" componentType="//@typeRepositoryModel/@componentTypes.0" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.1 //@componentAssemblyModel/@assemblyComponentConnectors.7"/>
+    <assemblyComponents id="1" active="true" name="SpecAppServlet" packageName="org.spec.jent.servlet" componentType="//@typeRepositoryModel/@componentTypes.1" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.5 //@componentAssemblyModel/@assemblyComponentConnectors.6" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.6"/>
+    <assemblyComponents id="2" active="true" name="OrderStatus" packageName="org.spec.jent.ejb.orders.entity" componentType="//@typeRepositoryModel/@componentTypes.2" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.2"/>
+    <assemblyComponents id="3" active="true" name="Section$State" packageName="org.spec.jent.loader.entity" componentType="//@typeRepositoryModel/@componentTypes.3"/>
+    <assemblyComponents id="4" active="true" name="Loader$State" packageName="org.spec.jent.loader.entity" componentType="//@typeRepositoryModel/@componentTypes.4"/>
+    <assemblyComponents id="5" active="true" name="Loader" packageName="org.spec.jent.loader.entity" componentType="//@typeRepositoryModel/@componentTypes.5" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.3"/>
+    <assemblyComponents id="6" active="true" name="SpecServletAction" packageName="org.spec.jent.servlet.helper" componentType="//@typeRepositoryModel/@componentTypes.6" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.1 //@componentAssemblyModel/@assemblyComponentConnectors.2 //@componentAssemblyModel/@assemblyComponentConnectors.3 //@componentAssemblyModel/@assemblyComponentConnectors.4 //@componentAssemblyModel/@assemblyComponentConnectors.19 //@componentAssemblyModel/@assemblyComponentConnectors.26 //@componentAssemblyModel/@assemblyComponentConnectors.33 //@componentAssemblyModel/@assemblyComponentConnectors.34 //@componentAssemblyModel/@assemblyComponentConnectors.35" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.4 //@componentAssemblyModel/@assemblyComponentConnectors.5"/>
+    <assemblyComponents id="7" active="true" name="MfgAuditSession" packageName="org.spec.jent.ejb.mfg.session" componentType="//@typeRepositoryModel/@componentTypes.7"/>
+    <assemblyComponents id="8" active="true" name="SupplierAuditSession" packageName="org.spec.jent.ejb.supplier.session" componentType="//@typeRepositoryModel/@componentTypes.8"/>
+    <assemblyComponents id="9" active="true" name="OrderAuditSession" packageName="org.spec.jent.ejb.orders.session" componentType="//@typeRepositoryModel/@componentTypes.9" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.23 //@componentAssemblyModel/@assemblyComponentConnectors.24 //@componentAssemblyModel/@assemblyComponentConnectors.25" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.23"/>
+    <assemblyComponents id="10" active="true" name="CustomerSession" packageName="org.spec.jent.ejb.orders.session" componentType="//@typeRepositoryModel/@componentTypes.10" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.11 //@componentAssemblyModel/@assemblyComponentConnectors.37" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.8 //@componentAssemblyModel/@assemblyComponentConnectors.12 //@componentAssemblyModel/@assemblyComponentConnectors.25 //@componentAssemblyModel/@assemblyComponentConnectors.44"/>
+    <assemblyComponents id="11" active="true" name="Item" packageName="org.spec.jent.ejb.orders.entity" componentType="//@typeRepositoryModel/@componentTypes.11" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.9 //@componentAssemblyModel/@assemblyComponentConnectors.15 //@componentAssemblyModel/@assemblyComponentConnectors.20 //@componentAssemblyModel/@assemblyComponentConnectors.35"/>
+    <assemblyComponents id="12" active="true" name="ShoppingCart" packageName="org.spec.jent.ejb.shoppingcart.entity" componentType="//@typeRepositoryModel/@componentTypes.12" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.9 //@componentAssemblyModel/@assemblyComponentConnectors.21" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.10 //@componentAssemblyModel/@assemblyComponentConnectors.16 //@componentAssemblyModel/@assemblyComponentConnectors.21 //@componentAssemblyModel/@assemblyComponentConnectors.34"/>
+    <assemblyComponents id="13" active="true" name="Customer" packageName="org.spec.jent.ejb.orders.entity" componentType="//@typeRepositoryModel/@componentTypes.13" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.11 //@componentAssemblyModel/@assemblyComponentConnectors.24 //@componentAssemblyModel/@assemblyComponentConnectors.42"/>
+    <assemblyComponents id="14" active="true" name="OrderSession" packageName="org.spec.jent.ejb.orders.session" componentType="//@typeRepositoryModel/@componentTypes.14" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.12 //@componentAssemblyModel/@assemblyComponentConnectors.13 //@componentAssemblyModel/@assemblyComponentConnectors.14 //@componentAssemblyModel/@assemblyComponentConnectors.15 //@componentAssemblyModel/@assemblyComponentConnectors.16 //@componentAssemblyModel/@assemblyComponentConnectors.22 //@componentAssemblyModel/@assemblyComponentConnectors.42" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.13 //@componentAssemblyModel/@assemblyComponentConnectors.17"/>
+    <assemblyComponents id="15" active="true" name="Order" packageName="org.spec.jent.ejb.orders.entity" componentType="//@typeRepositoryModel/@componentTypes.15" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.14"/>
+    <assemblyComponents id="16" active="true" name="SpecAction" packageName="org.spec.jent.servlet.helper" componentType="//@typeRepositoryModel/@componentTypes.16" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.7 //@componentAssemblyModel/@assemblyComponentConnectors.8 //@componentAssemblyModel/@assemblyComponentConnectors.10 //@componentAssemblyModel/@assemblyComponentConnectors.17 //@componentAssemblyModel/@assemblyComponentConnectors.18 //@componentAssemblyModel/@assemblyComponentConnectors.20" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.18 //@componentAssemblyModel/@assemblyComponentConnectors.19"/>
+    <assemblyComponents id="17" active="true" name="LargeOrderSenderSession" packageName="org.spec.jent.ejb.orders.session" componentType="//@typeRepositoryModel/@componentTypes.17" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.22"/>
+    <assemblyComponents id="18" active="true" name="SpecUtils" packageName="org.spec.jent.servlet.helper" componentType="//@typeRepositoryModel/@componentTypes.18" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.26"/>
+    <assemblyComponents id="19" active="true" name="WorkOrderStatus" packageName="org.spec.jent.ejb.mfg.entity" componentType="//@typeRepositoryModel/@componentTypes.19" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.27 //@componentAssemblyModel/@assemblyComponentConnectors.30"/>
+    <assemblyComponents id="20" active="true" name="MfgSession" packageName="org.spec.jent.ejb.mfg.session" componentType="//@typeRepositoryModel/@componentTypes.20" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.54" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.28 //@componentAssemblyModel/@assemblyComponentConnectors.55"/>
+    <assemblyComponents id="21" active="true" name="Inventory" packageName="org.spec.jent.ejb.mfg.entity" componentType="//@typeRepositoryModel/@componentTypes.21" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.29 //@componentAssemblyModel/@assemblyComponentConnectors.54"/>
+    <assemblyComponents id="22" active="true" name="WorkOrder" packageName="org.spec.jent.ejb.mfg.entity" componentType="//@typeRepositoryModel/@componentTypes.22" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.30" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.31"/>
+    <assemblyComponents id="23" active="true" name="WorkOrderSession" packageName="org.spec.jent.ejb.mfg.session" componentType="//@typeRepositoryModel/@componentTypes.23" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.27 //@componentAssemblyModel/@assemblyComponentConnectors.28 //@componentAssemblyModel/@assemblyComponentConnectors.29 //@componentAssemblyModel/@assemblyComponentConnectors.31 //@componentAssemblyModel/@assemblyComponentConnectors.32 //@componentAssemblyModel/@assemblyComponentConnectors.36" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.32 //@componentAssemblyModel/@assemblyComponentConnectors.43"/>
+    <assemblyComponents id="24" active="true" name="ItemBrowserSession" packageName="org.spec.jent.ejb.orders.session" componentType="//@typeRepositoryModel/@componentTypes.24" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.33"/>
+    <assemblyComponents id="25" active="true" name="CustomerInventory" packageName="org.spec.jent.ejb.orders.entity" componentType="//@typeRepositoryModel/@componentTypes.25" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.37"/>
+    <assemblyComponents id="26" active="true" name="MessageSenderSession" packageName="org.spec.jent.ejb.mfg.session" componentType="//@typeRepositoryModel/@componentTypes.26" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.36"/>
+    <assemblyComponents id="27" active="true" name="SupplierSession" packageName="org.spec.jent.ejb.supplier.session" componentType="//@typeRepositoryModel/@componentTypes.27" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.38 //@componentAssemblyModel/@assemblyComponentConnectors.39 //@componentAssemblyModel/@assemblyComponentConnectors.40 //@componentAssemblyModel/@assemblyComponentConnectors.49" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.38 //@componentAssemblyModel/@assemblyComponentConnectors.41 //@componentAssemblyModel/@assemblyComponentConnectors.51"/>
+    <assemblyComponents id="28" active="true" name="SComponent" packageName="org.spec.jent.ejb.supplier.entity" componentType="//@typeRepositoryModel/@componentTypes.28" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.50" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.39 //@componentAssemblyModel/@assemblyComponentConnectors.50"/>
+    <assemblyComponents id="29" active="true" name="PurchaseOrder" packageName="org.spec.jent.ejb.supplier.entity" componentType="//@typeRepositoryModel/@componentTypes.29" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.40 //@componentAssemblyModel/@assemblyComponentConnectors.46 //@componentAssemblyModel/@assemblyComponentConnectors.52"/>
+    <assemblyComponents id="30" active="true" name="BuyerMDB" packageName="org.spec.jent.ejb.supplier.mdb" componentType="//@typeRepositoryModel/@componentTypes.30" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.41"/>
+    <assemblyComponents id="31" active="true" name="BuyerSegmentCache" packageName="org.spec.jent.ejb.supplier.mdb" componentType="//@typeRepositoryModel/@componentTypes.31" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.47"/>
+    <assemblyComponents id="32" active="true" name="PurchaseOrderMDB" packageName="org.spec.jent.ejb.supplier.mdb" componentType="//@typeRepositoryModel/@componentTypes.32" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.45 //@componentAssemblyModel/@assemblyComponentConnectors.46 //@componentAssemblyModel/@assemblyComponentConnectors.47" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.45"/>
+    <assemblyComponents id="33" active="true" name="LargerOrderMDB" packageName="org.spec.jent.ejb.mfg.mdb" componentType="//@typeRepositoryModel/@componentTypes.33" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.43"/>
+    <assemblyComponents id="34" active="true" name="FulfillOrderMDB" packageName="org.spec.jent.ejb.orders.mdb" componentType="//@typeRepositoryModel/@componentTypes.34" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.44"/>
+    <assemblyComponents id="35" active="true" name="SupplierDomainServlet" packageName="org.spec.jent.supplier.web" componentType="//@typeRepositoryModel/@componentTypes.35" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.48"/>
+    <assemblyComponents id="36" active="true" name="PurchaseOrderLine" packageName="org.spec.jent.ejb.supplier.entity" componentType="//@typeRepositoryModel/@componentTypes.36" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.49"/>
+    <assemblyComponents id="37" active="true" name="BuyerService" packageName="org.spec.jent.supplier.web" componentType="//@typeRepositoryModel/@componentTypes.37" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.48 //@componentAssemblyModel/@assemblyComponentConnectors.51 //@componentAssemblyModel/@assemblyComponentConnectors.52 //@componentAssemblyModel/@assemblyComponentConnectors.53" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.53"/>
+    <assemblyComponents id="38" active="true" name="ReceiveMDB" packageName="org.spec.jent.ejb.mfg.mdb" componentType="//@typeRepositoryModel/@componentTypes.38" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.55"/>
+    <assemblyComponentConnectors active="true" name="ASM_CONN_NN_07b8361a-0af0-4737-9f82-7afa5abf1913" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.0" providingComponent="//@componentAssemblyModel/@assemblyComponents.0" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="1" active="true" name="ASM_CONN_NN_e5b17ac3-a048-41fe-a8fa-ba8694e9eff4" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.2" providingComponent="//@componentAssemblyModel/@assemblyComponents.0" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="2" active="true" name="ASM_CONN_NN_b35a66a7-9bc4-4e0f-941e-a040048aa6fe" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.3" providingComponent="//@componentAssemblyModel/@assemblyComponents.2" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="3" active="true" name="ASM_CONN_NN_3fc2d058-856d-4c7b-8fbc-e0b9729edb55" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.4" providingComponent="//@componentAssemblyModel/@assemblyComponents.5" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="4" active="true" name="ASM_CONN_NN_d928db2e-c581-4a26-9d79-435930fe9d40" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.5" providingComponent="//@componentAssemblyModel/@assemblyComponents.6" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="5" active="true" name="ASM_CONN_NN_53291394-8195-418e-a480-27172ab82bdc" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.6" providingComponent="//@componentAssemblyModel/@assemblyComponents.6" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="6" active="true" name="ASM_CONN_NN_ba36d6b5-823e-4584-99c8-e37621861583" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.7" providingComponent="//@componentAssemblyModel/@assemblyComponents.1" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="7" active="true" name="ASM_CONN_NN_b7311019-e815-4e23-8eba-ef847483d842" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.12" providingComponent="//@componentAssemblyModel/@assemblyComponents.0" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="8" active="true" name="ASM_CONN_NN_58b4f80b-1c1d-4dd3-b9b3-8527313053ee" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.13" providingComponent="//@componentAssemblyModel/@assemblyComponents.10" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="9" active="true" name="ASM_CONN_NN_eb58874d-77f9-4999-b830-65b1dab34de7" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.14" providingComponent="//@componentAssemblyModel/@assemblyComponents.11" requiringComponent="//@componentAssemblyModel/@assemblyComponents.12"/>
+    <assemblyComponentConnectors id="10" active="true" name="ASM_CONN_NN_3f0109e9-1699-4e8d-87a9-0fecbc10443d" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.15" providingComponent="//@componentAssemblyModel/@assemblyComponents.12" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="11" active="true" name="ASM_CONN_NN_de2cce79-5907-47b3-bf94-34eabc08a016" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.16" providingComponent="//@componentAssemblyModel/@assemblyComponents.13" requiringComponent="//@componentAssemblyModel/@assemblyComponents.10"/>
+    <assemblyComponentConnectors id="12" active="true" name="ASM_CONN_NN_5b6fa127-ae77-4852-a986-8dd4043f89b2" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.17" providingComponent="//@componentAssemblyModel/@assemblyComponents.10" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="13" active="true" name="ASM_CONN_NN_809f6213-3a36-4993-8656-16bcb3ac8ed1" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.18" providingComponent="//@componentAssemblyModel/@assemblyComponents.14" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="14" active="true" name="ASM_CONN_NN_57eb5c81-c0e2-4f0f-a8b4-d7ad280ca292" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.19" providingComponent="//@componentAssemblyModel/@assemblyComponents.15" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="15" active="true" name="ASM_CONN_NN_470ed036-e485-45f2-bbcb-030ffb092779" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.20" providingComponent="//@componentAssemblyModel/@assemblyComponents.11" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="16" active="true" name="ASM_CONN_NN_d7873eb3-9421-407d-b7a1-4b53f569f94f" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.21" providingComponent="//@componentAssemblyModel/@assemblyComponents.12" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="17" active="true" name="ASM_CONN_NN_0953feca-f108-4e75-8078-fb745d6cb4fc" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.22" providingComponent="//@componentAssemblyModel/@assemblyComponents.14" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="18" active="true" name="ASM_CONN_NN_b6205516-59a3-498f-82be-4dd21791de9f" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.23" providingComponent="//@componentAssemblyModel/@assemblyComponents.16" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="19" active="true" name="ASM_CONN_NN_e1ee79e6-1f6e-4e62-8d16-9bc84fd33c94" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.24" providingComponent="//@componentAssemblyModel/@assemblyComponents.16" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="20" active="true" name="ASM_CONN_NN_2e6f4f6c-2ff2-46a9-a3f3-9e9ba4d26a8e" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.25" providingComponent="//@componentAssemblyModel/@assemblyComponents.11" requiringComponent="//@componentAssemblyModel/@assemblyComponents.16"/>
+    <assemblyComponentConnectors id="21" active="true" name="ASM_CONN_NN_08a8462e-4f6a-4509-8f21-a022d2f27f24" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.26" providingComponent="//@componentAssemblyModel/@assemblyComponents.12" requiringComponent="//@componentAssemblyModel/@assemblyComponents.12"/>
+    <assemblyComponentConnectors id="22" active="true" name="ASM_CONN_NN_46ed1812-613b-4fd5-bb67-52bd93540ca8" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.27" providingComponent="//@componentAssemblyModel/@assemblyComponents.17" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="23" active="true" name="ASM_CONN_NN_2b5c8085-9b0e-4cf5-b5c8-5678ad0b00a8" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.28" providingComponent="//@componentAssemblyModel/@assemblyComponents.9" requiringComponent="//@componentAssemblyModel/@assemblyComponents.9"/>
+    <assemblyComponentConnectors id="24" active="true" name="ASM_CONN_NN_1740da63-964c-45bf-aa11-07adeb252b94" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.29" providingComponent="//@componentAssemblyModel/@assemblyComponents.13" requiringComponent="//@componentAssemblyModel/@assemblyComponents.9"/>
+    <assemblyComponentConnectors id="25" active="true" name="ASM_CONN_NN_78275cfa-dae2-4d51-9348-9cca9b038794" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.30" providingComponent="//@componentAssemblyModel/@assemblyComponents.10" requiringComponent="//@componentAssemblyModel/@assemblyComponents.9"/>
+    <assemblyComponentConnectors id="26" active="true" name="ASM_CONN_NN_3eef760e-08b8-4861-968f-ccf156c0416f" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.31" providingComponent="//@componentAssemblyModel/@assemblyComponents.18" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="27" active="true" name="ASM_CONN_NN_d8dee841-6387-4e6e-b01c-24c80e19ecb5" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.32" providingComponent="//@componentAssemblyModel/@assemblyComponents.19" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="28" active="true" name="ASM_CONN_NN_b16407ee-9ae1-4492-af61-51ea8aa095ce" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.33" providingComponent="//@componentAssemblyModel/@assemblyComponents.20" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="29" active="true" name="ASM_CONN_NN_1930c6fb-d8ae-4635-afbd-be3a43ca0011" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.34" providingComponent="//@componentAssemblyModel/@assemblyComponents.21" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="30" active="true" name="ASM_CONN_NN_d37c5653-c298-4c39-84cf-6bb44547ae6a" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.35" providingComponent="//@componentAssemblyModel/@assemblyComponents.19" requiringComponent="//@componentAssemblyModel/@assemblyComponents.22"/>
+    <assemblyComponentConnectors id="31" active="true" name="ASM_CONN_NN_442b50d5-8cce-40f1-b17d-6ade32853392" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.36" providingComponent="//@componentAssemblyModel/@assemblyComponents.22" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="32" active="true" name="ASM_CONN_NN_b0ecee0b-6b83-4bf6-bcce-ebb7d838d906" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.37" providingComponent="//@componentAssemblyModel/@assemblyComponents.23" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="33" active="true" name="ASM_CONN_NN_52d5c750-ba4c-4973-802d-e59912b56ba0" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.39" providingComponent="//@componentAssemblyModel/@assemblyComponents.24" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="34" active="true" name="ASM_CONN_NN_b824a382-3808-4657-b9f6-8c0c1cd948f0" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.40" providingComponent="//@componentAssemblyModel/@assemblyComponents.12" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="35" active="true" name="ASM_CONN_NN_d6396432-4f89-44c8-be2c-c7b7f47645ce" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.41" providingComponent="//@componentAssemblyModel/@assemblyComponents.11" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="36" active="true" name="ASM_CONN_NN_cc477f60-37ea-4aaf-824d-eedff1f7be13" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.42" providingComponent="//@componentAssemblyModel/@assemblyComponents.26" requiringComponent="//@componentAssemblyModel/@assemblyComponents.23"/>
+    <assemblyComponentConnectors id="37" active="true" name="ASM_CONN_NN_f4a41ad6-c494-4e10-b4bc-48e96bd5b779" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.43" providingComponent="//@componentAssemblyModel/@assemblyComponents.25" requiringComponent="//@componentAssemblyModel/@assemblyComponents.10"/>
+    <assemblyComponentConnectors id="38" active="true" name="ASM_CONN_NN_292bbdd1-3e94-4744-93be-31e88308f254" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.44" providingComponent="//@componentAssemblyModel/@assemblyComponents.27" requiringComponent="//@componentAssemblyModel/@assemblyComponents.27"/>
+    <assemblyComponentConnectors id="39" active="true" name="ASM_CONN_NN_e4f5e0a9-09a4-404a-8d5d-24f69e8de916" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.45" providingComponent="//@componentAssemblyModel/@assemblyComponents.28" requiringComponent="//@componentAssemblyModel/@assemblyComponents.27"/>
+    <assemblyComponentConnectors id="40" active="true" name="ASM_CONN_NN_e13517cc-de79-4981-b492-c48b25ea7a8f" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.46" providingComponent="//@componentAssemblyModel/@assemblyComponents.29" requiringComponent="//@componentAssemblyModel/@assemblyComponents.27"/>
+    <assemblyComponentConnectors id="41" active="true" name="ASM_CONN_NN_5c118c84-f84c-4e16-8cc0-0cbb53da945e" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.47" providingComponent="//@componentAssemblyModel/@assemblyComponents.27" requiringComponent="//@componentAssemblyModel/@assemblyComponents.30"/>
+    <assemblyComponentConnectors id="42" active="true" name="ASM_CONN_NN_297a4d7d-1be9-43e9-abbc-e678a0fb408a" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.50" providingComponent="//@componentAssemblyModel/@assemblyComponents.13" requiringComponent="//@componentAssemblyModel/@assemblyComponents.14"/>
+    <assemblyComponentConnectors id="43" active="true" name="ASM_CONN_NN_93c207c1-46bb-4221-8b57-6be8a72a32d2" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.52" providingComponent="//@componentAssemblyModel/@assemblyComponents.23" requiringComponent="//@componentAssemblyModel/@assemblyComponents.33"/>
+    <assemblyComponentConnectors id="44" active="true" name="ASM_CONN_NN_a33f7f65-f590-48ed-a8f9-1499c619cc72" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.54" providingComponent="//@componentAssemblyModel/@assemblyComponents.10" requiringComponent="//@componentAssemblyModel/@assemblyComponents.34"/>
+    <assemblyComponentConnectors id="45" active="true" name="ASM_CONN_NN_a5891186-e6ec-47dc-83dc-f8b92dcc1542" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.58" providingComponent="//@componentAssemblyModel/@assemblyComponents.32" requiringComponent="//@componentAssemblyModel/@assemblyComponents.32"/>
+    <assemblyComponentConnectors id="46" active="true" name="ASM_CONN_NN_53d10541-e091-4558-9969-824c01170aa3" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.59" providingComponent="//@componentAssemblyModel/@assemblyComponents.29" requiringComponent="//@componentAssemblyModel/@assemblyComponents.32"/>
+    <assemblyComponentConnectors id="47" active="true" name="ASM_CONN_NN_acd6a455-0dcd-41f5-95e6-b03ca663ef18" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.61" providingComponent="//@componentAssemblyModel/@assemblyComponents.31" requiringComponent="//@componentAssemblyModel/@assemblyComponents.32"/>
+    <assemblyComponentConnectors id="48" active="true" name="ASM_CONN_NN_3a03a946-b3fc-4c13-a215-eb2634675b03" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.62" providingComponent="//@componentAssemblyModel/@assemblyComponents.35" requiringComponent="//@componentAssemblyModel/@assemblyComponents.37"/>
+    <assemblyComponentConnectors id="49" active="true" name="ASM_CONN_NN_82e781c1-46e8-480e-a460-b5519edc2fb4" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.63" providingComponent="//@componentAssemblyModel/@assemblyComponents.36" requiringComponent="//@componentAssemblyModel/@assemblyComponents.27"/>
+    <assemblyComponentConnectors id="50" active="true" name="ASM_CONN_NN_84dfd733-68ae-483e-bca3-7074bb9b2688" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.64" providingComponent="//@componentAssemblyModel/@assemblyComponents.28" requiringComponent="//@componentAssemblyModel/@assemblyComponents.28"/>
+    <assemblyComponentConnectors id="51" active="true" name="ASM_CONN_NN_fb8add43-6900-494f-a78d-836a740e5650" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.65" providingComponent="//@componentAssemblyModel/@assemblyComponents.27" requiringComponent="//@componentAssemblyModel/@assemblyComponents.37"/>
+    <assemblyComponentConnectors id="52" active="true" name="ASM_CONN_NN_aecf9575-0054-463d-8a66-d827e6ddb057" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.66" providingComponent="//@componentAssemblyModel/@assemblyComponents.29" requiringComponent="//@componentAssemblyModel/@assemblyComponents.37"/>
+    <assemblyComponentConnectors id="53" active="true" name="ASM_CONN_NN_7a388c28-2968-4d90-b393-9d8d09bbaaaf" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.67" providingComponent="//@componentAssemblyModel/@assemblyComponents.37" requiringComponent="//@componentAssemblyModel/@assemblyComponents.37"/>
+    <assemblyComponentConnectors id="54" active="true" name="ASM_CONN_NN_1a03097f-acc2-44ad-99c7-972b84017bee" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.69" providingComponent="//@componentAssemblyModel/@assemblyComponents.21" requiringComponent="//@componentAssemblyModel/@assemblyComponents.20"/>
+    <assemblyComponentConnectors id="55" active="true" name="ASM_CONN_NN_b93f9f9a-2b36-4b91-83ae-477b9f8f15b4" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.70" providingComponent="//@componentAssemblyModel/@assemblyComponents.20" requiringComponent="//@componentAssemblyModel/@assemblyComponents.38"/>
+  </componentAssemblyModel>
+  <componentDeploymentModel>
+    <deploymentComponents active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="1" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.1" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="2" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.2" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="3" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.3" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="4" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.4" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="5" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.5" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="6" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.6" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="7" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.7" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="8" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.8" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="9" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.9" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="10" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.10" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="11" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.11" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="12" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.12" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="13" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.13" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="14" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.14" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="15" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.15" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="16" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.16" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="17" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.17" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="18" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.18" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="19" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.19" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="20" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.20" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="21" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.21" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="22" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.22" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="23" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.23" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="24" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.24" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="25" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.25" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="26" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.26" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="27" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.27" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="28" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.28" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="29" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.29" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="30" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.30" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="31" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.31" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="32" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.32" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="33" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.33" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="34" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.34" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="35" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.35" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="36" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.36" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="37" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.37" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="38" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.38" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+  </componentDeploymentModel>
+  <executionEnvironmentModel>
+    <executionContainers active="true" name="blade3" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0"/>
+  </executionEnvironmentModel>
+</metamodel.core:SystemModel>

@@ -1,0 +1,4 @@
+lib/*.jar
+tmp/**/*
+*~
+bin/log4j.properties

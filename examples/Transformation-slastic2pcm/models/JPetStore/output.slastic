@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.core:SystemModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:metamodel.core="http:///metamodel/core.ecore" xmlns:metamodel.executionEnvironment="http:///metamodel/executionEnvironment.ecore" xmlns:metamodel.typeRepository.resourceTypes="http:///metamodel/typeRepository/resourceTypes.ecore">
+  <typeRepositoryModel>
+    <componentTypes active="true" name="OperationExecutionRegistrationAndLoggingFilter__T" packageName="kieker.monitoring.probe.servlet" providedInterfaces="//@typeRepositoryModel/@interfaces.0" requiredInterfaces="//@typeRepositoryModel/@interfaces.1">
+      <operations id="1" active="true">
+        <signature name="doFilter" returnType="N/A">
+          <paramTypes>ServletRequest request</paramTypes>
+          <paramTypes>ServletResponse response</paramTypes>
+          <paramTypes>FilterChain chain</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="1" active="true" name="DispatcherServlet__T" packageName="com.ibatis.jpetstore.web" providedInterfaces="//@typeRepositoryModel/@interfaces.1" requiredInterfaces="//@typeRepositoryModel/@interfaces.1 //@typeRepositoryModel/@interfaces.3 //@typeRepositoryModel/@interfaces.4 //@typeRepositoryModel/@interfaces.6 //@typeRepositoryModel/@interfaces.7">
+      <operations id="2" active="true">
+        <signature name="process" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="3" active="true">
+        <signature name="doGet" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+      <operations id="17" active="true">
+        <signature name="doPost" returnType="N/A">
+          <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+          <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="2" active="true" name="CatalogService__T" packageName="com.ibatis.jpetstore.service" providedInterfaces="//@typeRepositoryModel/@interfaces.2">
+      <operations id="4" active="true">
+        <signature name="getProductListByCategory" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="5" active="true">
+        <signature name="getCategory" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="7" active="true">
+        <signature name="getItemListByProduct" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="8" active="true">
+        <signature name="getProduct" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="10" active="true">
+        <signature name="getItem" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+      <operations id="12" active="true">
+        <signature name="isItemInStock" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="3" active="true" name="CatalogBean__T" packageName="com.ibatis.jpetstore.presentation" providedInterfaces="//@typeRepositoryModel/@interfaces.3" requiredInterfaces="//@typeRepositoryModel/@interfaces.2">
+      <operations id="6" active="true">
+        <signature name="viewCategory" returnType="N/A"/>
+      </operations>
+      <operations id="9" active="true">
+        <signature name="viewProduct" returnType="N/A"/>
+      </operations>
+      <operations id="11" active="true">
+        <signature name="viewItem" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="4" active="true" name="CartBean__T" packageName="com.ibatis.jpetstore.presentation" providedInterfaces="//@typeRepositoryModel/@interfaces.4" requiredInterfaces="//@typeRepositoryModel/@interfaces.2">
+      <operations id="13" active="true">
+        <signature name="addItemToCart" returnType="N/A"/>
+      </operations>
+      <operations id="14" active="true">
+        <signature name="viewCart" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="5" active="true" name="AccountService__T" packageName="com.ibatis.jpetstore.service" providedInterfaces="//@typeRepositoryModel/@interfaces.5">
+      <operations id="15" active="true">
+        <signature name="getAccount" returnType="N/A">
+          <paramTypes>java.lang.String</paramTypes>
+          <paramTypes>java.lang.String</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <componentTypes id="6" active="true" name="AccountBean__T" packageName="com.ibatis.jpetstore.presentation" providedInterfaces="//@typeRepositoryModel/@interfaces.6" requiredInterfaces="//@typeRepositoryModel/@interfaces.5 //@typeRepositoryModel/@interfaces.2">
+      <operations id="16" active="true">
+        <signature name="signon" returnType="N/A"/>
+      </operations>
+      <operations id="21" active="true">
+        <signature name="signoff" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="7" active="true" name="OrderBean__T" packageName="com.ibatis.jpetstore.presentation" providedInterfaces="//@typeRepositoryModel/@interfaces.7" requiredInterfaces="//@typeRepositoryModel/@interfaces.8">
+      <operations id="18" active="true">
+        <signature name="newOrderForm" returnType="N/A"/>
+      </operations>
+      <operations id="19" active="true">
+        <signature name="newOrder" returnType="N/A"/>
+      </operations>
+    </componentTypes>
+    <componentTypes id="8" active="true" name="OrderService__T" packageName="com.ibatis.jpetstore.service" providedInterfaces="//@typeRepositoryModel/@interfaces.8">
+      <operations id="20" active="true">
+        <signature name="insertOrder" returnType="N/A">
+          <paramTypes>com.ibatis.jpetstore.domain.Order</paramTypes>
+        </signature>
+      </operations>
+    </componentTypes>
+    <executionContainerTypes active="true" name="avanhoorn-thinkpad__T" packageName="">
+      <resources id="1" name="cpu0" resourceType="//@typeRepositoryModel/@resourceTypes.0"/>
+      <resources id="2" name="cpu1" resourceType="//@typeRepositoryModel/@resourceTypes.0"/>
+      <resources xsi:type="metamodel.executionEnvironment:MemSwapResourceSpecification" id="3" name="memSwap" resourceType="//@typeRepositoryModel/@resourceTypes.1" memCapacityBytes="1971658752" swapCapacityBytes="3999260672"/>
+    </executionContainerTypes>
+    <interfaces active="true" name="IOperationExecutionRegistrationAndLoggingFilter__T" packageName="kieker.monitoring.probe.servlet">
+      <signatures name="doFilter" returnType="N/A">
+        <paramTypes>ServletRequest request</paramTypes>
+        <paramTypes>ServletResponse response</paramTypes>
+        <paramTypes>FilterChain chain</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="1" active="true" name="IDispatcherServlet__T" packageName="com.ibatis.jpetstore.web">
+      <signatures name="process" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+      <signatures name="doGet" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+      <signatures name="doPost" returnType="N/A">
+        <paramTypes>javax.servlet.http.HttpServletRequest</paramTypes>
+        <paramTypes>javax.servlet.http.HttpServletResponse</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="2" active="true" name="ICatalogService__T" packageName="com.ibatis.jpetstore.service">
+      <signatures name="getProductListByCategory" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="getCategory" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="getItemListByProduct" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="getProduct" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="getItem" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+      <signatures name="isItemInStock" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="3" active="true" name="ICatalogBean__T" packageName="com.ibatis.jpetstore.presentation">
+      <signatures name="viewCategory" returnType="N/A"/>
+      <signatures name="viewProduct" returnType="N/A"/>
+      <signatures name="viewItem" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="4" active="true" name="ICartBean__T" packageName="com.ibatis.jpetstore.presentation">
+      <signatures name="addItemToCart" returnType="N/A"/>
+      <signatures name="viewCart" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="5" active="true" name="IAccountService__T" packageName="com.ibatis.jpetstore.service">
+      <signatures name="getAccount" returnType="N/A">
+        <paramTypes>java.lang.String</paramTypes>
+        <paramTypes>java.lang.String</paramTypes>
+      </signatures>
+    </interfaces>
+    <interfaces id="6" active="true" name="IAccountBean__T" packageName="com.ibatis.jpetstore.presentation">
+      <signatures name="signon" returnType="N/A"/>
+      <signatures name="signoff" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="7" active="true" name="IOrderBean__T" packageName="com.ibatis.jpetstore.presentation">
+      <signatures name="newOrderForm" returnType="N/A"/>
+      <signatures name="newOrder" returnType="N/A"/>
+    </interfaces>
+    <interfaces id="8" active="true" name="IOrderService__T" packageName="com.ibatis.jpetstore.service">
+      <signatures name="insertOrder" returnType="N/A">
+        <paramTypes>com.ibatis.jpetstore.domain.Order</paramTypes>
+      </signatures>
+    </interfaces>
+    <connectorTypes active="true" name="CONNECTOR_T_ec6e608f-07a9-4ec7-b2c2-6a54e2e2ddd6" packageName="" interface="//@typeRepositoryModel/@interfaces.0"/>
+    <connectorTypes id="1" active="true" name="CONNECTOR_T_a99a3230-5358-4e9d-9b41-d64955907b50" packageName="" interface="//@typeRepositoryModel/@interfaces.1"/>
+    <connectorTypes id="2" active="true" name="CONNECTOR_T_ea0a6a22-639f-45fc-a274-d4d8eb79ebdc" packageName="" interface="//@typeRepositoryModel/@interfaces.1"/>
+    <connectorTypes id="3" active="true" name="CONNECTOR_T_c57af292-0446-4226-91e1-ee41077c85a3" packageName="" interface="//@typeRepositoryModel/@interfaces.2"/>
+    <connectorTypes id="4" active="true" name="CONNECTOR_T_d78c0e0e-9abb-434d-8e81-e3e9861b2fd3" packageName="" interface="//@typeRepositoryModel/@interfaces.3"/>
+    <connectorTypes id="5" active="true" name="CONNECTOR_T_0b41abe2-6f2c-4aae-bb3e-23bcf2c94973" packageName="" interface="//@typeRepositoryModel/@interfaces.2"/>
+    <connectorTypes id="6" active="true" name="CONNECTOR_T_1cfd1c98-4d0b-4165-9657-a4cd4230d6df" packageName="" interface="//@typeRepositoryModel/@interfaces.4"/>
+    <connectorTypes id="7" active="true" name="CONNECTOR_T_0fdacbdf-52aa-46cb-8c2d-09c4b8b1877b" packageName="" interface="//@typeRepositoryModel/@interfaces.5"/>
+    <connectorTypes id="8" active="true" name="CONNECTOR_T_f8b119df-c569-4d1d-9c3b-9a74c67d29f2" packageName="" interface="//@typeRepositoryModel/@interfaces.2"/>
+    <connectorTypes id="9" active="true" name="CONNECTOR_T_429b2e68-be72-4c5e-8f3c-ca66ab3295e3" packageName="" interface="//@typeRepositoryModel/@interfaces.6"/>
+    <connectorTypes id="10" active="true" name="CONNECTOR_T_8a7ccff9-df62-46fc-8023-b45b1a6ff891" packageName="" interface="//@typeRepositoryModel/@interfaces.7"/>
+    <connectorTypes id="11" active="true" name="CONNECTOR_T_4e9286d9-7142-471b-a0dc-412f2b156e45" packageName="" interface="//@typeRepositoryModel/@interfaces.8"/>
+    <resourceTypes xsi:type="metamodel.typeRepository.resourceTypes:CPUType" name="CPU_RESOURCE_TYPE" packageName="DEFAULT"/>
+    <resourceTypes xsi:type="metamodel.typeRepository.resourceTypes:MemSwapType" id="1" name="MEMSWAP_RESOURCE_TYPE" packageName="DEFAULT"/>
+  </typeRepositoryModel>
+  <componentAssemblyModel systemProvidedInterfaces="//@typeRepositoryModel/@interfaces.0">
+    <systemProvidedInterfaceDelegationConnectors active="true" name="ASM_SYSPROVCONN_NN_ec360998-4897-4fbd-b27b-1e917b6d82d9" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.0" providingComponent="//@componentAssemblyModel/@assemblyComponents.0"/>
+    <assemblyComponents active="true" name="OperationExecutionRegistrationAndLoggingFilter" packageName="kieker.monitoring.probe.servlet" componentType="//@typeRepositoryModel/@componentTypes.0" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.1"/>
+    <assemblyComponents id="1" active="true" name="DispatcherServlet" packageName="com.ibatis.jpetstore.web" componentType="//@typeRepositoryModel/@componentTypes.1" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.3 //@componentAssemblyModel/@assemblyComponentConnectors.5 //@componentAssemblyModel/@assemblyComponentConnectors.8 //@componentAssemblyModel/@assemblyComponentConnectors.9" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.0 //@componentAssemblyModel/@assemblyComponentConnectors.1"/>
+    <assemblyComponents id="2" active="true" name="CatalogService" packageName="com.ibatis.jpetstore.service" componentType="//@typeRepositoryModel/@componentTypes.2" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.2 //@componentAssemblyModel/@assemblyComponentConnectors.4 //@componentAssemblyModel/@assemblyComponentConnectors.7"/>
+    <assemblyComponents id="3" active="true" name="CatalogBean" packageName="com.ibatis.jpetstore.presentation" componentType="//@typeRepositoryModel/@componentTypes.3" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.2" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.3"/>
+    <assemblyComponents id="4" active="true" name="CartBean" packageName="com.ibatis.jpetstore.presentation" componentType="//@typeRepositoryModel/@componentTypes.4" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.4" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.5"/>
+    <assemblyComponents id="5" active="true" name="AccountService" packageName="com.ibatis.jpetstore.service" componentType="//@typeRepositoryModel/@componentTypes.5" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.6"/>
+    <assemblyComponents id="6" active="true" name="AccountBean" packageName="com.ibatis.jpetstore.presentation" componentType="//@typeRepositoryModel/@componentTypes.6" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.6 //@componentAssemblyModel/@assemblyComponentConnectors.7" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.8"/>
+    <assemblyComponents id="7" active="true" name="OrderBean" packageName="com.ibatis.jpetstore.presentation" componentType="//@typeRepositoryModel/@componentTypes.7" providingConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.10" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.9"/>
+    <assemblyComponents id="8" active="true" name="OrderService" packageName="com.ibatis.jpetstore.service" componentType="//@typeRepositoryModel/@componentTypes.8" requiringConnectors="//@componentAssemblyModel/@assemblyComponentConnectors.10"/>
+    <assemblyComponentConnectors active="true" name="ASM_CONN_NN_ec6e0c47-b319-4f3b-871e-898c36d0703d" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.1" providingComponent="//@componentAssemblyModel/@assemblyComponents.1" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="1" active="true" name="ASM_CONN_NN_b27f6d59-9b64-4b0c-af9d-7cff06988624" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.2" providingComponent="//@componentAssemblyModel/@assemblyComponents.1" requiringComponent="//@componentAssemblyModel/@assemblyComponents.0"/>
+    <assemblyComponentConnectors id="2" active="true" name="ASM_CONN_NN_e9e5fa42-12e2-4f22-8389-77e765b5dd8f" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.3" providingComponent="//@componentAssemblyModel/@assemblyComponents.2" requiringComponent="//@componentAssemblyModel/@assemblyComponents.3"/>
+    <assemblyComponentConnectors id="3" active="true" name="ASM_CONN_NN_9bf54c15-96c4-43f2-b80d-b01955f9695c" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.4" providingComponent="//@componentAssemblyModel/@assemblyComponents.3" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="4" active="true" name="ASM_CONN_NN_8b4d55a2-3f01-4668-b46d-ef4715f8a091" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.5" providingComponent="//@componentAssemblyModel/@assemblyComponents.2" requiringComponent="//@componentAssemblyModel/@assemblyComponents.4"/>
+    <assemblyComponentConnectors id="5" active="true" name="ASM_CONN_NN_4867cb21-8efe-4bb7-bcc2-f447a1996e9c" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.6" providingComponent="//@componentAssemblyModel/@assemblyComponents.4" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="6" active="true" name="ASM_CONN_NN_52f6d203-c473-4475-8de9-33bb9e968610" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.7" providingComponent="//@componentAssemblyModel/@assemblyComponents.5" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="7" active="true" name="ASM_CONN_NN_8c4cd5c9-aaa9-485e-b94a-8a92d2f9a153" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.8" providingComponent="//@componentAssemblyModel/@assemblyComponents.2" requiringComponent="//@componentAssemblyModel/@assemblyComponents.6"/>
+    <assemblyComponentConnectors id="8" active="true" name="ASM_CONN_NN_de966905-1d82-4123-b51d-908720e78f74" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.9" providingComponent="//@componentAssemblyModel/@assemblyComponents.6" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="9" active="true" name="ASM_CONN_NN_7069acd4-ed5f-4186-b021-969a890f5b6a" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.10" providingComponent="//@componentAssemblyModel/@assemblyComponents.7" requiringComponent="//@componentAssemblyModel/@assemblyComponents.1"/>
+    <assemblyComponentConnectors id="10" active="true" name="ASM_CONN_NN_c65b49ab-488a-4756-8753-5f7281ce5a57" packageName="" connectorType="//@typeRepositoryModel/@connectorTypes.11" providingComponent="//@componentAssemblyModel/@assemblyComponents.8" requiringComponent="//@componentAssemblyModel/@assemblyComponents.7"/>
+  </componentAssemblyModel>
+  <componentDeploymentModel>
+    <deploymentComponents active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.0" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="1" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.1" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="2" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.2" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="3" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.3" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="4" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.4" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="5" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.5" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="6" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.6" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="7" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.7" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+    <deploymentComponents id="8" active="true" assemblyComponent="//@componentAssemblyModel/@assemblyComponents.8" executionContainer="//@executionEnvironmentModel/@executionContainers.0"/>
+  </componentDeploymentModel>
+  <executionEnvironmentModel>
+    <executionContainers active="true" name="avanhoorn-thinkpad" packageName="" executionContainerType="//@typeRepositoryModel/@executionContainerTypes.0">
+      <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.0"/>
+      <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.1"/>
+      <resources resourceSpecification="//@typeRepositoryModel/@executionContainerTypes.0/@resources.2"/>
+    </executionContainers>
+  </executionEnvironmentModel>
+</metamodel.core:SystemModel>

@@ -1,0 +1,2823 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.usage:UsageModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel.usage="http:///metamodel/usage.ecore">
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.0"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.2"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.2/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.4"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.4/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.3"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.3/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.5"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.5/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.1"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.1/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>58639</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.0"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <values>3</values>
+      <frequencies>5019</frequencies>
+      <frequencies>682</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1217</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1217</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1217</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>169</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>102</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>93</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>690</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>169</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>102</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>93</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>690</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.15"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.15/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1195</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.15"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.15/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>367</frequencies>
+      <frequencies>220</frequencies>
+      <frequencies>210</frequencies>
+      <frequencies>205</frequencies>
+      <frequencies>193</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>3</values>
+      <values>6</values>
+      <values>9</values>
+      <values>12</values>
+      <values>15</values>
+      <frequencies>367</frequencies>
+      <frequencies>220</frequencies>
+      <frequencies>210</frequencies>
+      <frequencies>205</frequencies>
+      <frequencies>193</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>3</values>
+      <values>6</values>
+      <values>9</values>
+      <values>12</values>
+      <values>15</values>
+      <frequencies>367</frequencies>
+      <frequencies>220</frequencies>
+      <frequencies>210</frequencies>
+      <frequencies>205</frequencies>
+      <frequencies>193</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>367</frequencies>
+      <frequencies>220</frequencies>
+      <frequencies>210</frequencies>
+      <frequencies>205</frequencies>
+      <frequencies>193</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.14"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.14/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1217</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.14"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.14/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1217</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.1"/>
+    <frequencyDistribution>
+      <values>3</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.0"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <values>7</values>
+      <values>8</values>
+      <values>9</values>
+      <values>10</values>
+      <values>11</values>
+      <values>12</values>
+      <values>13</values>
+      <values>14</values>
+      <values>15</values>
+      <values>16</values>
+      <values>17</values>
+      <values>18</values>
+      <values>19</values>
+      <values>20</values>
+      <values>21</values>
+      <values>22</values>
+      <values>23</values>
+      <values>24</values>
+      <values>25</values>
+      <values>26</values>
+      <values>27</values>
+      <values>28</values>
+      <values>29</values>
+      <values>31</values>
+      <values>35</values>
+      <frequencies>105</frequencies>
+      <frequencies>46</frequencies>
+      <frequencies>90</frequencies>
+      <frequencies>66</frequencies>
+      <frequencies>98</frequencies>
+      <frequencies>80</frequencies>
+      <frequencies>122</frequencies>
+      <frequencies>75</frequencies>
+      <frequencies>101</frequencies>
+      <frequencies>83</frequencies>
+      <frequencies>68</frequencies>
+      <frequencies>55</frequencies>
+      <frequencies>39</frequencies>
+      <frequencies>45</frequencies>
+      <frequencies>26</frequencies>
+      <frequencies>17</frequencies>
+      <frequencies>21</frequencies>
+      <frequencies>10</frequencies>
+      <frequencies>17</frequencies>
+      <frequencies>6</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.0"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <values>7</values>
+      <values>8</values>
+      <frequencies>647</frequencies>
+      <frequencies>167</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>102</frequencies>
+      <frequencies>92</frequencies>
+      <frequencies>93</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.0"/>
+    <frequencyDistribution>
+      <values>3</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.2"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.2"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>682</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>682</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.17"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.17/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>143</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>43</frequencies>
+      <frequencies>29</frequencies>
+      <frequencies>31</frequencies>
+      <frequencies>21</frequencies>
+      <frequencies>19</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.3"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.9"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.4"/>
+    <frequencyDistribution>
+      <values>11</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>250</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.18"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.18/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <values>7</values>
+      <values>8</values>
+      <values>9</values>
+      <values>10</values>
+      <values>11</values>
+      <values>12</values>
+      <values>13</values>
+      <values>14</values>
+      <values>15</values>
+      <values>16</values>
+      <values>17</values>
+      <values>18</values>
+      <values>19</values>
+      <values>20</values>
+      <values>21</values>
+      <values>22</values>
+      <values>23</values>
+      <values>24</values>
+      <values>25</values>
+      <values>26</values>
+      <values>27</values>
+      <values>28</values>
+      <values>29</values>
+      <values>30</values>
+      <values>31</values>
+      <values>32</values>
+      <values>33</values>
+      <values>34</values>
+      <values>35</values>
+      <values>36</values>
+      <values>37</values>
+      <values>38</values>
+      <values>39</values>
+      <values>40</values>
+      <values>41</values>
+      <values>42</values>
+      <values>43</values>
+      <values>44</values>
+      <values>45</values>
+      <values>46</values>
+      <values>47</values>
+      <values>48</values>
+      <values>49</values>
+      <values>50</values>
+      <values>51</values>
+      <values>52</values>
+      <values>53</values>
+      <values>54</values>
+      <values>55</values>
+      <values>56</values>
+      <values>57</values>
+      <values>58</values>
+      <values>59</values>
+      <values>60</values>
+      <values>61</values>
+      <values>62</values>
+      <values>63</values>
+      <values>64</values>
+      <values>66</values>
+      <values>67</values>
+      <values>68</values>
+      <values>69</values>
+      <values>70</values>
+      <values>72</values>
+      <values>73</values>
+      <values>76</values>
+      <values>79</values>
+      <values>82</values>
+      <values>85</values>
+      <values>87</values>
+      <values>88</values>
+      <values>91</values>
+      <values>94</values>
+      <values>97</values>
+      <values>100</values>
+      <values>103</values>
+      <values>106</values>
+      <values>109</values>
+      <values>112</values>
+      <values>115</values>
+      <values>118</values>
+      <values>129</values>
+      <frequencies>1382</frequencies>
+      <frequencies>5015</frequencies>
+      <frequencies>2282</frequencies>
+      <frequencies>5785</frequencies>
+      <frequencies>1863</frequencies>
+      <frequencies>23</frequencies>
+      <frequencies>2147</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>1084</frequencies>
+      <frequencies>649</frequencies>
+      <frequencies>653</frequencies>
+      <frequencies>33</frequencies>
+      <frequencies>526</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>44</frequencies>
+      <frequencies>454</frequencies>
+      <frequencies>14</frequencies>
+      <frequencies>29</frequencies>
+      <frequencies>397</frequencies>
+      <frequencies>34554</frequencies>
+      <frequencies>31</frequencies>
+      <frequencies>318</frequencies>
+      <frequencies>20</frequencies>
+      <frequencies>28</frequencies>
+      <frequencies>275</frequencies>
+      <frequencies>14</frequencies>
+      <frequencies>26</frequencies>
+      <frequencies>207</frequencies>
+      <frequencies>13</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>144</frequencies>
+      <frequencies>9</frequencies>
+      <frequencies>23</frequencies>
+      <frequencies>96</frequencies>
+      <frequencies>13</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>56</frequencies>
+      <frequencies>6</frequencies>
+      <frequencies>13</frequencies>
+      <frequencies>41</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>14</frequencies>
+      <frequencies>30</frequencies>
+      <frequencies>6</frequencies>
+      <frequencies>12</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>21</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>14</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>11</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.18"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.18/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <frequencies>7103</frequencies>
+      <frequencies>221</frequencies>
+      <frequencies>76</frequencies>
+      <frequencies>9</frequencies>
+      <frequencies>39</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5199</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5199</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5199</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>250</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>250</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.6"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>250</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.7"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>250</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.18"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.18/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <values>7</values>
+      <values>8</values>
+      <values>9</values>
+      <values>10</values>
+      <values>11</values>
+      <values>12</values>
+      <values>13</values>
+      <values>14</values>
+      <values>15</values>
+      <values>16</values>
+      <values>17</values>
+      <values>18</values>
+      <values>19</values>
+      <values>20</values>
+      <values>21</values>
+      <values>22</values>
+      <values>23</values>
+      <values>24</values>
+      <values>25</values>
+      <values>26</values>
+      <values>27</values>
+      <values>28</values>
+      <values>29</values>
+      <values>30</values>
+      <values>31</values>
+      <values>32</values>
+      <values>33</values>
+      <values>34</values>
+      <values>35</values>
+      <values>36</values>
+      <frequencies>8790</frequencies>
+      <frequencies>2415</frequencies>
+      <frequencies>1948</frequencies>
+      <frequencies>1448</frequencies>
+      <frequencies>966</frequencies>
+      <frequencies>450</frequencies>
+      <frequencies>350</frequencies>
+      <frequencies>302</frequencies>
+      <frequencies>234</frequencies>
+      <frequencies>34696</frequencies>
+      <frequencies>110</frequencies>
+      <frequencies>78</frequencies>
+      <frequencies>52</frequencies>
+      <frequencies>41</frequencies>
+      <frequencies>29</frequencies>
+      <frequencies>19</frequencies>
+      <frequencies>14</frequencies>
+      <frequencies>12</frequencies>
+      <frequencies>11</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>7</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>3</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>2</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>247</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>39549</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>39549</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>39549</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.8"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>39549</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.19"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.19/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.21"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.21/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+    <frequencyDistribution>
+      <values>5</values>
+      <values>6</values>
+      <values>7</values>
+      <values>8</values>
+      <values>9</values>
+      <values>10</values>
+      <values>11</values>
+      <values>12</values>
+      <values>13</values>
+      <values>14</values>
+      <values>15</values>
+      <frequencies>317</frequencies>
+      <frequencies>297</frequencies>
+      <frequencies>287</frequencies>
+      <frequencies>304</frequencies>
+      <frequencies>294</frequencies>
+      <frequencies>304</frequencies>
+      <frequencies>313</frequencies>
+      <frequencies>317</frequencies>
+      <frequencies>293</frequencies>
+      <frequencies>277</frequencies>
+      <frequencies>329</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.22"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.22/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3332</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.19"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.19/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3332</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.20"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.20/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3332</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>2959</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.24"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.24/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>24667</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.24"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.24/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>7400</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.6"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>4949</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.19"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.19/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.1"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>6642</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.22"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.22/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>6642</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>6642</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.19"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.19/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3317</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.21"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.21/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3317</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.22"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.22/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3317</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3317</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3317</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.11"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <frequencies>1917</frequencies>
+      <frequencies>1644</frequencies>
+      <frequencies>1247</frequencies>
+      <frequencies>858</frequencies>
+      <frequencies>447</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.9"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5015</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.9"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5015</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.9"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5015</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.9"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5015</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.9"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>5015</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>514</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>514</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>505</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>514</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>505</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.10"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>514</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.11"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>6053</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.11"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>6053</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.11"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>6053</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.11"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>2582</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.21"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.21/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <frequencies>371</frequencies>
+      <frequencies>60</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.26"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.26/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>255</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.25"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.25/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.25"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.25/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.6"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.12"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.12"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.11"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.12"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.12"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>3088</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <frequencies>370</frequencies>
+      <frequencies>60</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.28"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.28/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>5</values>
+      <values>6</values>
+      <frequencies>370</frequencies>
+      <frequencies>60</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.29"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.29/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>6</values>
+      <frequencies>403</frequencies>
+      <frequencies>52</frequencies>
+      <frequencies>20</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>423</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>6</values>
+      <frequencies>342</frequencies>
+      <frequencies>52</frequencies>
+      <frequencies>20</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>6</values>
+      <frequencies>342</frequencies>
+      <frequencies>52</frequencies>
+      <frequencies>20</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.28"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.28/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>4</values>
+      <values>6</values>
+      <frequencies>342</frequencies>
+      <frequencies>52</frequencies>
+      <frequencies>20</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+    <frequencyDistribution>
+      <values>10</values>
+      <values>20</values>
+      <values>30</values>
+      <values>40</values>
+      <values>50</values>
+      <values>60</values>
+      <frequencies>370</frequencies>
+      <frequencies>60</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+    <frequencyDistribution>
+      <values>10</values>
+      <values>20</values>
+      <values>30</values>
+      <values>40</values>
+      <values>50</values>
+      <values>60</values>
+      <frequencies>370</frequencies>
+      <frequencies>60</frequencies>
+      <frequencies>24</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>1</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>423</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>464</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.30/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>464</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.13"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>789</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.13"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>789</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.13"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>789</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.13"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>789</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.14"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>789</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.15"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.14"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.15"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.15"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.15"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.15"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>309</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.16"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>480</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.14"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.16"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>480</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.16"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>480</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.16"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>480</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.16"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>480</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>22</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.17"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>22</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.17"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>9</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>700</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>700</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>687</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>700</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.12"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.12/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>687</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.18"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>700</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.26"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.26/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>210</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.6"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.26"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.26/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.33/@operations.0"/>
+    <frequencyDistribution>
+      <values>2</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.6"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.33/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>374</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.23"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.33/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>373</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.13"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>372</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.10"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.10/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.34/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>372</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.17"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>13</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.14"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.14/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.7"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.19"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.4"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.19"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.11"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.19"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.19"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.19"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>383</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>28</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>28</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.6"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>28</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.28"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.28/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.7"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>28</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.7"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>41</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>484</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>229</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>229</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.29"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.29/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>451</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.4"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <values>3</values>
+      <values>5</values>
+      <frequencies>451</frequencies>
+      <frequencies>8</frequencies>
+      <frequencies>4</frequencies>
+      <frequencies>1</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.31"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.31/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>25</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.31"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.31/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>25</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.5"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>255</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.32"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.5"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>255</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.28"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.28/@signatures.2"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.28/@operations.3"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.8"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.9"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.28"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.28/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.36"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.36/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.29"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.29/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <frequencies>504</frequencies>
+      <frequencies>19</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.27"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.27/@signatures.10"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <values>2</values>
+      <frequencies>504</frequencies>
+      <frequencies>19</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.35"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.35/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>287</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.37"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.37/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>287</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.21"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.21/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.20/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.21"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.21/@signatures.3"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.20/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.20"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.20/@signatures.1"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.38/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>542</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.35"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.35/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>236</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.37"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.37/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.2"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>236</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.16"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.16/@signatures.8"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.20"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>28</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.20"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>28</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.6"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.6/@signatures.20"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>28</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <operationCallFrequencies frequency="2">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.0/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="58639">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="251">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.0/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.2/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="58639">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.4/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.5/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.3/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="58639">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.7/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.8/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.8/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1217">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1217">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1195">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.15/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3778">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.13/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6128">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.13/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="11531">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.11/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3222">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="143">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.17/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1217">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.13/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="682">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1217">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1217">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1864">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.13/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="50805">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.11/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="690">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3222">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.15/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="5701">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="23">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.13/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.9/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="251">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="250">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.7"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="8010">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.18/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="250">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="5199">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.6"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="62329">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="855467">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.18/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="58991">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="39549">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.8"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="392519">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.18/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3332">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.19/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="33363">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.21/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.19/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3332">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="2959">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3332">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.20/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3332">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="24667">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.24/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="7400">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.24/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6642">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="13284">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.19/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="9959">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6642">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3317">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3317">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.22/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3859">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.21/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3317">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3317">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.19/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="5015">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.9"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1672">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="514">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.10"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6053">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.11"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="606">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.21/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="465">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.26/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3088">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.6"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3088">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.12"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6176">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.25/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3088">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="7802">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="464">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="464">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.30/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="484">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="605">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.29/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="6594">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="605">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.28/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="423">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="464">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="605">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.28/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1147">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.29/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="789">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.13"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="309">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.15"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="789">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.14"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="309">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.12/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="480">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.16"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="22">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.17"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.31/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="700">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.18"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="374">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.33/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="374">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.23/@operations.6"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="373">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.26/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="372">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.34/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="372">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.10/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="383">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.7"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="383">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.14/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="383">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.19"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="61">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.6"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="41">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.7"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="484">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="484">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.29/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="484">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="229">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="484">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="464">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.4"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="255">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.32/@operations.5"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="25">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.31/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="25">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.31/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.8"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.10"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.28/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="523">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.36/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="523">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.35/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.28/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.27/@operations.9"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="287">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.20/@operations.1"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.21/@operations.3"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="542">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.38/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="236">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.37/@operations.2"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="28">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.6/@operations.20"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="28">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.16/@operations.8"/>
+  </operationCallFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.1/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.0"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="58639">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.1/@signatures.2"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.0"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="4">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.5/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.1"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.7/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.2"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.8/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.3"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.8/@signatures.1"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.3"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.4"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.1"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.4"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.3"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.4"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.4"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.4"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.9/@signatures.5"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.4"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="2959">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.1"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.5"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="5896">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.3"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.5"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="2944">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.23/@signatures.5"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.5"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="464">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.30/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.6"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="605">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.29/@signatures.1"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.7"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.31/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.8"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="374">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.33/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.9"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="372">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.34/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.10"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="744">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.11/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.11"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="477">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.13/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.12"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="464">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.32/@signatures.4"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.13"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="287">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.37/@signatures.1"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.14"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="542">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.38/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.15"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="236">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.37/@signatures.2"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.14"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+</metamodel.usage:UsageModel>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<metamodel.usage:UsageModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel.usage="http:///metamodel/usage.ecore">
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1635</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.0"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.0/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.2/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1635</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <callingRelationships>
+    <calledInterface href="output.slastic#//@typeRepositoryModel/@interfaces.1"/>
+    <calledSignature href="output.slastic#//@typeRepositoryModel/@interfaces.1/@signatures.0"/>
+    <callingOperation href="output.slastic#//@typeRepositoryModel/@componentTypes.2/@operations.0"/>
+    <frequencyDistribution>
+      <values>1</values>
+      <frequencies>1635</frequencies>
+    </frequencyDistribution>
+  </callingRelationships>
+  <operationCallFrequencies frequency="1635">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.1/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="3270">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.0/@operations.0"/>
+  </operationCallFrequencies>
+  <operationCallFrequencies frequency="1635">
+    <operation href="output.slastic#//@typeRepositoryModel/@componentTypes.2/@operations.0"/>
+  </operationCallFrequencies>
+  <systemProvidedInterfaceDelegationConnectorFrequencies frequency="1635">
+    <signature href="output.slastic#//@typeRepositoryModel/@interfaces.2/@signatures.0"/>
+    <connector href="output.slastic#//@componentAssemblyModel/@systemProvidedInterfaceDelegationConnectors.0"/>
+  </systemProvidedInterfaceDelegationConnectorFrequencies>
+</metamodel.usage:UsageModel>
