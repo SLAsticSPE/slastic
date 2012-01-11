@@ -15,9 +15,9 @@ import org.trustsoft.slastic.reconfiguration.ShellExecutor;
  * @author Andre van Hoorn
  * 
  */
-public class LoadBalancerConnector {
+public class EucalyptusLoadBalancerConnector {
 	private static final Log log = LogFactory
-			.getLog(LoadBalancerConnector.class);
+			.getLog(EucalyptusLoadBalancerConnector.class);
 
 	private final String servletURL;
 	private final boolean spawnThreadForRequests;
@@ -33,7 +33,7 @@ public class LoadBalancerConnector {
 	 * Must not be used for construction.
 	 */
 	@SuppressWarnings("unused")
-	private LoadBalancerConnector() {
+	private EucalyptusLoadBalancerConnector() {
 		this(null, false, null);
 	}
 
@@ -43,7 +43,7 @@ public class LoadBalancerConnector {
 	 * @param wgetLogFile
 	 *            file to
 	 */
-	public LoadBalancerConnector(final String servletURL,
+	public EucalyptusLoadBalancerConnector(final String servletURL,
 			final boolean spawnThreadForRequests, final String wgetLogFile) {
 		this.servletURL = servletURL;
 		this.spawnThreadForRequests = spawnThreadForRequests;
@@ -114,7 +114,7 @@ public class LoadBalancerConnector {
 	 */
 	private boolean sendRequest(final String queryString) {
 		final String url = this.servletURL + "?" + queryString;
-		LoadBalancerConnector.log.info("wget '" + url + "'");
+		EucalyptusLoadBalancerConnector.log.info("wget '" + url + "'");
 
 		if (this.isDummyMode()) {
 			return true;
@@ -136,9 +136,9 @@ public class LoadBalancerConnector {
 	 */
 	public final void setDummyMode(final boolean dummyMode) {
 		if (dummyMode) {
-			LoadBalancerConnector.log.info("Switched to dummy mode");
+			EucalyptusLoadBalancerConnector.log.info("Switched to dummy mode");
 		} else {
-			LoadBalancerConnector.log.info("Disabled dummy mode");
+			EucalyptusLoadBalancerConnector.log.info("Disabled dummy mode");
 		}
 		this.dummyMode = dummyMode;
 	}

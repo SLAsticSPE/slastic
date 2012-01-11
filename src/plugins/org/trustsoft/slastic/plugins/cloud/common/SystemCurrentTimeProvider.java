@@ -1,4 +1,5 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.common;
+
 
 /**
  * 

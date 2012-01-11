@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.LoadBalancerConnector;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.EucalyptusLoadBalancerConnector;
 import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServlet;
 
 /**
@@ -25,8 +25,8 @@ public class ManualLoadBalancerConnectorTest extends TestCase {
 				"http://localhost:8080/"
 						+ LoadBalancerServlet.class.getPackage().getName();
 
-		final LoadBalancerConnector lbConnector =
-				new LoadBalancerConnector(servletURL, /*
+		final EucalyptusLoadBalancerConnector lbConnector =
+				new EucalyptusLoadBalancerConnector(servletURL, /*
 													 * do not spawn thread
 													 */false, "wget.log");
 

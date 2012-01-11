@@ -1,33 +1,34 @@
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.amazon.service;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.amazon.model.*;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.configuration.AmazonApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.configuration.IAmazonApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.ec2ToolsIntegration.AmazonCommand;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.ec2ToolsIntegration.AmazonCommandFactory;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.loadBalancer.AmazonLoadBalancerConnector;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.logging.AmazonServiceEventNotifier;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.logging.IAmazonServiceEventListener;
 import org.trustsoft.slastic.plugins.cloud.common.ExternalCommandExecuter;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.*;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.EucalyptusApplicationCloudingServiceConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.*;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.EucalyptusLoadBalancerConnector;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.EucalyptusServiceEventNotifier;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.IEucalyptusServiceEventListener;
 import org.trustsoft.slastic.plugins.cloud.model.*;
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
 import org.trustsoft.slastic.plugins.cloud.service.IApplicationCloudingService;
 
 /**
- * This is the place to call the Eucalyptus tools.
+ * This is the place to call the Amazon tools.
  * 
  * @author Andre van Hoorn, Florian Fittkau
  * 
  */
-public class EucalyptusApplicationCloudingService implements IApplicationCloudingService {
+public class AmazonApplicationCloudingService implements IApplicationCloudingService {
 
-	private static final Log log = LogFactory.getLog(EucalyptusApplicationCloudingService.class);
+	private static final Log log = LogFactory.getLog(AmazonApplicationCloudingService.class);
 
-	// TODO: Introduce methods for safe casts of ICloud* to Eucalyptus* (nodes,
+	// TODO: Introduce methods for safe casts of ICloud* to Amazon* (nodes,
 	// node types, applications, ...)
 	// Currently the recurring verbose patterns make the code hardly readable.
 
@@ -41,23 +42,23 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	// This should be defined based as 'remote-post-start-script' and
 	// 'local-remote-post-start-script' or alike
 
-	private final IEucalyptusApplicationCloudingServiceConfiguration configuration;
+	private final IAmazonApplicationCloudingServiceConfiguration configuration;
 
 	// TODO: Move the following collections to an abstract class?
-	private final Collection<EucalyptusCloudNodeType> nodeTypes = new Vector<EucalyptusCloudNodeType>();
-	private final Collection<EucalyptusCloudNode> allocatedNodes = new Vector<EucalyptusCloudNode>();
-	private final Collection<EucalyptusCloudedApplication> applications = new Vector<EucalyptusCloudedApplication>();
-	private final Collection<EucalyptusApplicationInstance> applicationInstances =
-			new Vector<EucalyptusApplicationInstance>();
+	private final Collection<AmazonCloudNodeType> nodeTypes = new Vector<AmazonCloudNodeType>();
+	private final Collection<AmazonCloudNode> allocatedNodes = new Vector<AmazonCloudNode>();
+	private final Collection<AmazonCloudedApplication> applications = new Vector<AmazonCloudedApplication>();
+	private final Collection<AmazonApplicationInstance> applicationInstances =
+			new Vector<AmazonApplicationInstance>();
 
-	private final EucalyptusLoadBalancerConnector lbConnector;
+	private final AmazonLoadBalancerConnector lbConnector;
 
-	private final EucalyptusServiceEventNotifier eventNotifier = new EucalyptusServiceEventNotifier();
+	private final AmazonServiceEventNotifier eventNotifier = new AmazonServiceEventNotifier();
 
 	private int nextHostname = 0;
 
-	private int nextDummyEucaInstanceId = 19077777;
-	private int nextDummyEucaIPCount = 1;
+	private int nextDummyEC2InstanceId = 19077777;
+	private int nextDummyEC2IPCount = 1;
 
 	/**
 	 * Must only be called by the factory methods.
@@ -65,14 +66,14 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * @param config
 	 * @throws ApplicationCloudingServiceException
 	 */
-	private EucalyptusApplicationCloudingService(final IEucalyptusApplicationCloudingServiceConfiguration config)
+	private AmazonApplicationCloudingService(final IAmazonApplicationCloudingServiceConfiguration config)
 			throws ApplicationCloudingServiceException {
 		this.configuration = config;
 
 		/* Initialize the connector to the LoadBalancerServlet */
 		this.lbConnector =
-				new EucalyptusLoadBalancerConnector(this.configuration.getLoadBalancerServletURL(), false,
-						EucalyptusApplicationCloudingService.WGET_LOG);
+				new AmazonLoadBalancerConnector(this.configuration.getLoadBalancerServletURL(), false,
+						AmazonApplicationCloudingService.WGET_LOG);
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
 		this.initNodeTypes(); // throws an exception on error
@@ -86,8 +87,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * @throws ApplicationCloudingServiceException
 	 */
 	private void initNodeTypes() throws ApplicationCloudingServiceException {
-		for (final Entry<String, String> image : this.configuration.getEMIs().entrySet()) {
-			this.nodeTypes.add(new EucalyptusCloudNodeType(image.getKey(), image.getValue()));
+		for (final Entry<String, String> image : this.configuration.getAMIs().entrySet()) {
+			this.nodeTypes.add(new AmazonCloudNodeType(image.getKey(), image.getValue()));
 		}
 	}
 
@@ -106,7 +107,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				throw new ApplicationCloudingServiceException("Failed to lookup node type '" + nodeTypeName + "'");
 			}
 
-			this.allocatedNodes.add(new EucalyptusCloudNode(nodeName, nodeType, instanceId, ip, nodeName));
+			this.allocatedNodes.add(new AmazonCloudNode(nodeName, nodeType, instanceId, ip, nodeName));
 		}
 	}
 
@@ -116,8 +117,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 */
 	private void initApplications() throws ApplicationCloudingServiceException {
 		for (final String appName : this.configuration.getInitialApplications()) {
-			this.applications.add(new EucalyptusCloudedApplication(appName,
-					new EucalyptusCloudedApplicationConfiguration()));
+			this.applications.add(new AmazonCloudedApplication(appName,
+					new AmazonCloudedApplicationConfiguration()));
 		}
 	}
 
@@ -130,26 +131,26 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			final String appName = appInstDesc[0];
 			final String nodeInstanceName = appInstDesc[1];
 
-			final EucalyptusCloudedApplication app =
-					(EucalyptusCloudedApplication) this.lookupCloudedApplication(appName);
+			final AmazonCloudedApplication app =
+					(AmazonCloudedApplication) this.lookupCloudedApplication(appName);
 			if (app == null) {
 				throw new ApplicationCloudingServiceException("Failed to lookup application with name '" + appName
 						+ "'");
 			}
 
-			final EucalyptusCloudNode node = (EucalyptusCloudNode) this.lookupNode(nodeInstanceName);
+			final AmazonCloudNode node = (AmazonCloudNode) this.lookupNode(nodeInstanceName);
 			if (node == null) {
 				throw new ApplicationCloudingServiceException("Failed to lookup node with name '" + nodeInstanceName
 						+ "'");
 			}
 
-			this.applicationInstances.add(new EucalyptusApplicationInstance(this.genApplicationInstanceId(app), app,
-					new EucalyptusApplicationInstanceConfiguration(), node));
+			this.applicationInstances.add(new AmazonApplicationInstance(this.genApplicationInstanceId(app), app,
+					new AmazonApplicationInstanceConfiguration(), node));
 		}
 	}
 
 	/**
-	 * Factory methods returning an {@link EucalyptusApplicationCloudingService}
+	 * Factory methods returning an {@link AmazonApplicationCloudingService}
 	 * configured according to the contents of the given configuration file.
 	 * 
 	 * @param configurationFileName
@@ -157,32 +158,32 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * @return
 	 */
 	// TODO: We might re-throw a possible Exception thrown by
-	// #loadEucalyptusConfiguration.
-	public static EucalyptusApplicationCloudingService createService(final String configurationFile) {
-		final IEucalyptusApplicationCloudingServiceConfiguration config =
-				EucalyptusApplicationCloudingServiceConfiguration.createConfiguration(configurationFile);
-		return EucalyptusApplicationCloudingService.createService(config);
+	// #loadAmazonConfiguration.
+	public static AmazonApplicationCloudingService createService(final String configurationFile) {
+		final IAmazonApplicationCloudingServiceConfiguration config =
+				AmazonApplicationCloudingServiceConfiguration.createConfiguration(configurationFile);
+		return AmazonApplicationCloudingService.createService(config);
 	}
 
 	/**
-	 * Factory method returning an {@link EucalyptusApplicationCloudingService}
+	 * Factory method returning an {@link AmazonApplicationCloudingService}
 	 * based on the given
-	 * {@link EucalyptusApplicationCloudingServiceConfiguration}.
+	 * {@link AmazonApplicationCloudingServiceConfiguration}.
 	 * 
 	 * @param config
-	 * @return the {@link EucalyptusApplicationCloudingServiceConfiguration};
+	 * @return the {@link AmazonApplicationCloudingServiceConfiguration};
 	 *         null if an error occurred
 	 */
 	// TODO: We might re-throw a possible Exception thrown by
-	// #loadEucalyptusConfiguration.
-	public static EucalyptusApplicationCloudingService createService(
-			final IEucalyptusApplicationCloudingServiceConfiguration config) {
-		EucalyptusApplicationCloudingService svc = null;
+	// #loadAmazonConfiguration.
+	public static AmazonApplicationCloudingService createService(
+			final IAmazonApplicationCloudingServiceConfiguration config) {
+		AmazonApplicationCloudingService svc = null;
 
 		try {
-			svc = new EucalyptusApplicationCloudingService(config);
+			svc = new AmazonApplicationCloudingService(config);
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusApplicationCloudingService.log.error("Failed to create EucalyptusApplicationCloudingService: "
+			AmazonApplicationCloudingService.log.error("Failed to create AmazonApplicationCloudingService: "
 					+ e.getMessage(), e);
 		}
 
@@ -190,7 +191,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	}
 
 	@Override
-	public Collection<EucalyptusCloudNodeType> getNodeTypes() {
+	public Collection<AmazonCloudNodeType> getNodeTypes() {
 		this.printDebugMsg("getNodeTypes(..)");
 
 		return this.nodeTypes;
@@ -205,48 +206,48 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type);
 
 		/*
-		 * Assert that node is Eucalyptus-specific.
+		 * Assert that node is Amazon-specific.
 		 */
-		if (!(type instanceof EucalyptusCloudNodeType)) {
+		if (!(type instanceof AmazonCloudNodeType)) {
 			final String errorsMsg =
-					"type must be of class " + EucalyptusCloudNodeType.class + " but found " + type.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+					"type must be of class " + AmazonCloudNodeType.class + " but found " + type.getClass();
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudNodeType euType = (EucalyptusCloudNodeType) type;
+		final AmazonCloudNodeType euType = (AmazonCloudNodeType) type;
 
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand allocateNodeCommand =
-				EucalyptusCommandFactory.getAllocateNodeCommand(euType.getEmiImageName(),
-						this.configuration.getEucalyptusKeyName(), this.configuration.getEucalyptusGroup());
+		final AmazonCommand allocateNodeCommand =
+				AmazonCommandFactory.getAllocateNodeCommand(euType.getAmiImageName(),
+						this.configuration.getAmazonKeyName(), this.configuration.getAmazonGroup());
 
-		String result = executer.executeCommandWithEnv(allocateNodeCommand, this.configuration.getEucatoolsPath());
+		String result = executer.executeCommandWithEnv(allocateNodeCommand, this.configuration.getEC2toolsPath());
 
 		final String instanceID;
 		String ipAddress;
 
 		/* 1. Start instance and determine IP address */
 		if (this.configuration.isDummyModeEnabled()) {
-			instanceID = Integer.toString(this.nextDummyEucaInstanceId++);
-			ipAddress = "110.110.110." + this.nextDummyEucaIPCount++;
+			instanceID = Integer.toString(this.nextDummyEC2InstanceId++);
+			ipAddress = "110.110.110." + this.nextDummyEC2IPCount++;
 		} else {
 			instanceID = this.getInstanceIDFromAllocateNodeResult(result);
 
-			final EucalyptusCommand descibeInstanceCommand =
-					EucalyptusCommandFactory.getDescribeNodeCommand(instanceID);
+			final AmazonCommand descibeInstanceCommand =
+					AmazonCommandFactory.getDescribeNodeCommand(instanceID);
 
 			ipAddress = "0.0.0.0";
 			int secondCounter = 0;
 
 			while ((ipAddress.equals("")) || ipAddress.equals("0.0.0.0")) {
-				result = executer.executeCommandWithEnv(descibeInstanceCommand, this.configuration.getEucatoolsPath());
+				result = executer.executeCommandWithEnv(descibeInstanceCommand, this.configuration.getEC2toolsPath());
 				ipAddress = this.getIPAddressFromDescribeNodeResult(result);
 
 				try {
 					Thread.sleep(this.configuration.getNodeAllocationPollPeriodSeconds() * 1000);
 					secondCounter += this.configuration.getNodeAllocationPollPeriodSeconds();
 				} catch (final InterruptedException e) {
-					EucalyptusApplicationCloudingService.log.error(
+					AmazonApplicationCloudingService.log.error(
 							"Waiting for node startup failed: " + e.getMessage(), e);
 				}
 
@@ -258,19 +259,19 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			}
 		}
 		
-		final EucalyptusCommand setHostname =
-				EucalyptusCommandFactory.getStartRemoteCommandCommand(this.configuration.getSSHPrivateKeyFile(),
+		final AmazonCommand setHostname =
+				AmazonCommandFactory.getStartRemoteCommandCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress,
 						"/etc/init.d/hostname.sh");
 		executer.executeCommandWithEnv(setHostname,
-				this.configuration.getEucatoolsPath());
+				this.configuration.getEC2toolsPath());
 
 		/* 2. Determine hostname */
 
-		final EucalyptusCommand fetchHostnameCommand =
-				EucalyptusCommandFactory.getFetchHostnameCommand(this.configuration.getSSHPrivateKeyFile(),
+		final AmazonCommand fetchHostnameCommand =
+				AmazonCommandFactory.getFetchHostnameCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress);
-		String hostResult = executer.executeCommandWithEnv(fetchHostnameCommand, this.configuration.getEucatoolsPath());
+		String hostResult = executer.executeCommandWithEnv(fetchHostnameCommand, this.configuration.getEC2toolsPath());
 
 		if (this.configuration.isDummyModeEnabled()) {
 			hostResult = "dummy-hostname-" + this.nextHostname++;
@@ -280,14 +281,14 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 3. Start tomcat */
 
-		final EucalyptusCommand startTomcatCommand =
-				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+		final AmazonCommand startTomcatCommand =
+				AmazonCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress,
 						"/etc/init.d/tomcat.sh");
 		executer.executeCommandWithEnv(startTomcatCommand,
-				this.configuration.getEucatoolsPath());
+				this.configuration.getEC2toolsPath());
 
-		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
+		final AmazonCloudNode node = new AmazonCloudNode(name, type, instanceID, ipAddress, hostname);
 
 		this.printDebugMsg("allocateNode --- " + "name: " + name + "; type: " + type + " has finished: " + node);
 
@@ -352,26 +353,26 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.allocatedNodes.remove(node);
 
 		/*
-		 * Assert that node is Eucalyptus-specific.
+		 * Assert that node is Amazon-specific.
 		 */
-		if (!(node instanceof EucalyptusCloudNode)) {
+		if (!(node instanceof AmazonCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class + " but found " + node.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+					"node must be of class " + AmazonCloudNode.class + " but found " + node.getClass();
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
+		final AmazonCloudNode euNode = (AmazonCloudNode) node;
 
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand deallocateNodeCommand =
-				EucalyptusCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
+		final AmazonCommand deallocateNodeCommand =
+				AmazonCommandFactory.getDeallocateNodeCommand(euNode.getInstanceID());
 
 		if (!this.configuration.isDummyModeEnabled()) {
 			// spawn execution of shutdown command with given delay
-			executer.executeCommandWithEnvAndDelayAsync(deallocateNodeCommand, this.configuration.getEucatoolsPath(),
+			executer.executeCommandWithEnvAndDelayAsync(deallocateNodeCommand, this.configuration.getEC2toolsPath(),
 					this.configuration.getNodeShutDownDelaySeconds() * 1000);
 		} else {
-			EucalyptusApplicationCloudingService.log.warn("Not executing " + deallocateNodeCommand);
+			AmazonApplicationCloudingService.log.warn("Not executing " + deallocateNodeCommand);
 		}
 
 		this.eventNotifier.notifyDeallocateNodeSuccess(euNode);
@@ -379,7 +380,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 	/**
 	 * The given configuration must be of class
-	 * {@link EucalyptusCloudedApplicationConfiguration}.
+	 * {@link AmazonCloudedApplicationConfiguration}.
 	 */
 	@Override
 	public ICloudedApplication createAndRegisterCloudedApplication(final String name,
@@ -389,31 +390,31 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				+ configuration);
 
 		/*
-		 * Assert that configuration is Eucalyptus-specific.
+		 * Assert that configuration is Amazon-specific.
 		 */
-		if (!(configuration instanceof EucalyptusCloudedApplicationConfiguration)) {
+		if (!(configuration instanceof AmazonCloudedApplicationConfiguration)) {
 			final String errorsMsg =
-					"configuration must be of class " + EucalyptusCloudedApplicationConfiguration.class + " but found "
+					"configuration must be of class " + AmazonCloudedApplicationConfiguration.class + " but found "
 							+ configuration.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudedApplicationConfiguration euConfiguration =
-				(EucalyptusCloudedApplicationConfiguration) configuration;
+		final AmazonCloudedApplicationConfiguration euConfiguration =
+				(AmazonCloudedApplicationConfiguration) configuration;
 
-		final EucalyptusCloudedApplication app = new EucalyptusCloudedApplication(name, euConfiguration);
+		final AmazonCloudedApplication app = new AmazonCloudedApplication(name, euConfiguration);
 
 		/* Register application in load balancer */
 		if (!this.lbConnector.createContext(app.getName())) {
 			final String errorMsg = "Failed to register application '" + app.getName() + "' in load balancer";
-			EucalyptusApplicationCloudingService.log.error(errorMsg);
+			AmazonApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
 		/* Store application in internal table */
 		this.applications.add(app);
 
-		// Notice that no calls to the Eucalyptus tools required.
+		// Notice that no calls to the Amazon tools required.
 
 		this.eventNotifier.notifyCreateAndRegisterCloudedApplicationSuccess(name, euConfiguration, app);
 
@@ -431,16 +432,16 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		if (!this.lbConnector.removeContext(application.getName())) {
 			final String errorMsg =
 					"Failed to deregister application '" + application.getName() + "' from load balancer";
-			EucalyptusApplicationCloudingService.log.error(errorMsg);
+			AmazonApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
 		/* Remove application from internal table */
 		this.applications.remove(application);
 
-		// Notice that no calls to the Eucalyptus tools required.
+		// Notice that no calls to the Amazon tools required.
 
-		this.eventNotifier.notifyRemoveCloudedApplicationSuccess((EucalyptusCloudedApplication) application);
+		this.eventNotifier.notifyRemoveCloudedApplicationSuccess((AmazonCloudedApplication) application);
 	}
 
 	@Override
@@ -452,43 +453,43 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				+ configuration);
 
 		/*
-		 * Assert that application is Eucalyptus-specific.
+		 * Assert that application is Amazon-specific.
 		 */
-		if (!(application instanceof EucalyptusCloudedApplication)) {
+		if (!(application instanceof AmazonCloudedApplication)) {
 			final String errorsMsg =
-					"application must be of class " + EucalyptusCloudedApplication.class + " but found "
+					"application must be of class " + AmazonCloudedApplication.class + " but found "
 							+ configuration.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudedApplication euApplication = (EucalyptusCloudedApplication) application;
+		final AmazonCloudedApplication euApplication = (AmazonCloudedApplication) application;
 
 		/*
-		 * Assert that configuration is Eucalyptus-specific.
+		 * Assert that configuration is Amazon-specific.
 		 */
-		if (!(configuration instanceof EucalyptusApplicationInstanceConfiguration)) {
+		if (!(configuration instanceof AmazonApplicationInstanceConfiguration)) {
 			final String errorsMsg =
-					"configuration must be of class " + EucalyptusApplicationInstanceConfiguration.class
+					"configuration must be of class " + AmazonApplicationInstanceConfiguration.class
 							+ " but found " + configuration.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusApplicationInstanceConfiguration euConfiguration =
-				(EucalyptusApplicationInstanceConfiguration) configuration;
+		final AmazonApplicationInstanceConfiguration euConfiguration =
+				(AmazonApplicationInstanceConfiguration) configuration;
 
 		/*
-		 * Assert that node is Eucalyptus-specific.
+		 * Assert that node is Amazon-specific.
 		 */
-		if (!(node instanceof EucalyptusCloudNode)) {
+		if (!(node instanceof AmazonCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class + " but found " + configuration.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+					"node must be of class " + AmazonCloudNode.class + " but found " + configuration.getClass();
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
+		final AmazonCloudNode euNode = (AmazonCloudNode) node;
 
-		final EucalyptusApplicationInstance inst =
-				new EucalyptusApplicationInstance(this.genApplicationInstanceId(euApplication), euApplication,
+		final AmazonApplicationInstance inst =
+				new AmazonApplicationInstance(this.genApplicationInstanceId(euApplication), euApplication,
 						euConfiguration, euNode);
 
 		this.applicationInstances.add(inst);
@@ -497,18 +498,18 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		if (!this.configuration.getDefaultApplicationDeploymentArtifact().isEmpty()) {
 			final ExternalCommandExecuter executer =
 					new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-			final EucalyptusCommand applicationDeployCommand =
-					EucalyptusCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
+			final AmazonCommand applicationDeployCommand =
+					AmazonCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
 							this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
 							this.configuration.getDefaultApplicationDeploymentArtifact(), euNode.getIpAddress());
-			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
+			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEC2toolsPath());
 		}
 
 		// try {
-		// Thread.sleep(EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY
+		// Thread.sleep(AmazonApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY
 		// * 1000);
 		// } catch (final InterruptedException e) {
-		// EucalyptusApplicationCloudingService.log.error(e.getMessage(), e);
+		// AmazonApplicationCloudingService.log.error(e.getMessage(), e);
 		// }
 
 		/* 2. Wait for application to become available */
@@ -519,7 +520,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				this.configuration.getApplicationInstanceDeployPollPeriodSeconds(),
 				this.configuration.getApplicationInstanceDeployMaxWaitTimeSeconds())) {
 			final String errorMsg = "Deployed intance " + inst + " not available after deployment";
-			EucalyptusApplicationCloudingService.log.error(errorMsg);
+			AmazonApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
@@ -529,7 +530,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			final String errorMsg =
 					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName()
 							+ "' in load balancer";
-			EucalyptusApplicationCloudingService.log.error(errorMsg);
+			AmazonApplicationCloudingService.log.error(errorMsg);
 			// clean up broken state (to be correct, we should only role back
 			// the deployment):
 			this.undeployApplicationInstance(inst);
@@ -559,21 +560,21 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			final int tryPeriodSeconds, final int maxWaitTimeSeconds) {
 		final String url = ipAddress + ":" + port + "/" + path;
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand fetchInstanceWebSite = EucalyptusCommandFactory.getFetchWebSiteCommand(url);
+		final AmazonCommand fetchInstanceWebSite = AmazonCommandFactory.getFetchWebSiteCommand(url);
 		String wgetResult = "";
 
 		int totalWaitTimeSeconds = 0;
 
 		while (true) {
 			if (wgetResult.contains("200 OK")) {
-				EucalyptusApplicationCloudingService.log.info("url '" + "'" + url + " available after "
+				AmazonApplicationCloudingService.log.info("url '" + "'" + url + " available after "
 						+ totalWaitTimeSeconds + " seconds");
 				return true;
 			}
 
 			if (totalWaitTimeSeconds > maxWaitTimeSeconds) {
 				final String errorMsg = maxWaitTimeSeconds + " seconds try period elapsed to access url '" + url + "#";
-				EucalyptusApplicationCloudingService.log.error(errorMsg);
+				AmazonApplicationCloudingService.log.error(errorMsg);
 				return false;
 			}
 			totalWaitTimeSeconds += tryPeriodSeconds;
@@ -582,11 +583,11 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				Thread.sleep(tryPeriodSeconds * 1000);
 			} catch (final InterruptedException e) {
 				final String errorMsg = "Interrupted: " + e.getMessage();
-				EucalyptusApplicationCloudingService.log.error(errorMsg);
+				AmazonApplicationCloudingService.log.error(errorMsg);
 				return false;
 			}
 
-			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEucatoolsPath());
+			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEC2toolsPath());
 			if (this.configuration.isDummyModeEnabled()
 					&& (((totalWaitTimeSeconds + tryPeriodSeconds) > maxWaitTimeSeconds) // (max.
 																							// possible
@@ -602,13 +603,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	}
 
 	/**
-	 * Returns an ID for an {@link EucalyptusApplicationInstance} to be
-	 * associated with the given {@link EucalyptusCloudedApplication}.
+	 * Returns an ID for an {@link AmazonApplicationInstance} to be
+	 * associated with the given {@link AmazonCloudedApplication}.
 	 * 
 	 * @param application
 	 * @return
 	 */
-	private String genApplicationInstanceId(final EucalyptusCloudedApplication application) {
+	private String genApplicationInstanceId(final AmazonCloudedApplication application) {
 		return application.getName() + "--" + application.acquireInstanceId();
 	}
 
@@ -621,16 +622,16 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final ICloudNode node = instance.getNode();
 
 		/*
-		 * Assert that node is Eucalyptus-specific.
+		 * Assert that node is Amazon-specific.
 		 */
-		if (!(node instanceof EucalyptusCloudNode)) {
+		if (!(node instanceof AmazonCloudNode)) {
 			final String errorsMsg =
-					"node must be of class " + EucalyptusCloudNode.class + " but found "
+					"node must be of class " + AmazonCloudNode.class + " but found "
 							+ this.configuration.getClass();
-			EucalyptusApplicationCloudingService.log.error(errorsMsg);
+			AmazonApplicationCloudingService.log.error(errorsMsg);
 			throw new ApplicationCloudingServiceException(errorsMsg);
 		}
-		final EucalyptusCloudNode euNode = (EucalyptusCloudNode) node;
+		final AmazonCloudNode euNode = (AmazonCloudNode) node;
 
 		this.applicationInstances.remove(instance);
 
@@ -640,30 +641,30 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			final String errorMsg =
 					"Failed to remove host '" + euNode.getIpAddress() + "' for application '"
 							+ instance.getApplication().getName() + "' from load balancer";
-			EucalyptusApplicationCloudingService.log.error(errorMsg);
+			AmazonApplicationCloudingService.log.error(errorMsg);
 			// Continuing in order to avoid a broken state
 			// throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
 		/* 2. Undeploy */
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
-		final EucalyptusCommand applicationUndeployCommand =
-				EucalyptusCommandFactory.getApplicationUndeployCommand("jpetstore.war", euNode.getIpAddress());
-		executer.executeCommandWithEnv(applicationUndeployCommand, this.configuration.getEucatoolsPath());
+		final AmazonCommand applicationUndeployCommand =
+				AmazonCommandFactory.getApplicationUndeployCommand("jpetstore.war", euNode.getIpAddress());
+		executer.executeCommandWithEnv(applicationUndeployCommand, this.configuration.getEC2toolsPath());
 
-		this.eventNotifier.notifyUndeployApplicationInstanceSuccess((EucalyptusApplicationInstance) instance);
+		this.eventNotifier.notifyUndeployApplicationInstanceSuccess((AmazonApplicationInstance) instance);
 	}
 
 	/**
 	 * Logs the given message if
-	 * {@link IEucalyptusApplicationCloudingServiceConfiguration#isDebugEnabled()}
+	 * {@link IAmazonApplicationCloudingServiceConfiguration#isDebugEnabled()}
 	 * for this service.
 	 * 
 	 * @param msg
 	 */
 	private final void printDebugMsg(final String msg) {
 		if ((this.configuration != null) && this.configuration.isDebugEnabled()) {
-			EucalyptusApplicationCloudingService.log.info(msg);
+			AmazonApplicationCloudingService.log.info(msg);
 		}
 	}
 
@@ -728,7 +729,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * 
 	 * @param l
 	 */
-	public void addEventListener(final IEucalyptusServiceEventListener l) {
+	public void addEventListener(final IAmazonServiceEventListener l) {
 		this.eventNotifier.addEventListener(l);
 	}
 
@@ -737,7 +738,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	 * @param l
 	 * @return
 	 */
-	public boolean removeEventListener(final IEucalyptusServiceEventListener l) {
+	public boolean removeEventListener(final IAmazonServiceEventListener l) {
 		return this.eventNotifier.removeEventListener(l);
 	}
 }

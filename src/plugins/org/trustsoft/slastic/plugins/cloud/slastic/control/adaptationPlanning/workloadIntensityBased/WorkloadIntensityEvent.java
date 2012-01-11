@@ -1,4 +1,4 @@
-package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
+package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning.workloadIntensityBased;
 
 public class WorkloadIntensityEvent {
 	private final long timestampMillis;

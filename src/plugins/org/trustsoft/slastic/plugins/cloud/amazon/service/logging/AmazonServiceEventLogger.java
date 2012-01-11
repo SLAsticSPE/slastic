@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
+package org.trustsoft.slastic.plugins.cloud.amazon.service.logging;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,23 +11,23 @@ import org.trustsoft.slastic.plugins.cloud.common.ICurrentTimeProvider;
  * @author Andre van Hoorn
  * 
  */
-public class EucalyptusServiceEventLogger extends
-		AbstractEucalyptusServiceEventLogger {
+public class AmazonServiceEventLogger extends
+		AbstractAmazonServiceEventLogger {
 
 	private static final Log log = LogFactory
-			.getLog(EucalyptusServiceEventLogger.class);
+			.getLog(AmazonServiceEventLogger.class);
 
-	public EucalyptusServiceEventLogger() {
+	public AmazonServiceEventLogger() {
 		super();
 	}
 
-	public EucalyptusServiceEventLogger(
+	public AmazonServiceEventLogger(
 			final ICurrentTimeProvider currentTimeProvider) {
 		super(currentTimeProvider);
 	}
 
 	@Override
 	protected void logEvent(final String eventMsg) {
-		EucalyptusServiceEventLogger.log.info(eventMsg);
+		AmazonServiceEventLogger.log.info(eventMsg);
 	}
 }

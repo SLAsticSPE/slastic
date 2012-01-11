@@ -6,11 +6,11 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.amazon.model.*;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.AmazonApplicationCloudingService;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.configuration.IAmazonApplicationCloudingServiceConfiguration;
+import org.trustsoft.slastic.plugins.cloud.amazon.service.logging.AbstractAmazonServiceEventLogger;
 import org.trustsoft.slastic.plugins.cloud.common.ICurrentTimeProvider;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.*;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.AbstractEucalyptusServiceEventLogger;
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -29,26 +29,26 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * @author Andre van Hoorn
  * 
  */
-public class EucalyptusReconfigurationManager extends AbstractReconfigurationManagerComponent {
-	private static final Log log = LogFactory.getLog(EucalyptusReconfigurationManager.class);
+public class AmazonReconfigurationManager extends AbstractReconfigurationManagerComponent {
+	private static final Log log = LogFactory.getLog(AmazonReconfigurationManager.class);
 
 	private static final String PROPERTY_CONFIGURATIONFN_NAME = "configFile";
 
 	private static final String PROPERTY_DEFAULT_NODE_TYPE_NAME = "defaultNodeType";
 
-	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
+	private static final String Amazon_EVENT_LOG = "amazon-events.log";
 
 	// TODO: pull out as configuration property
 	private static final boolean FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING = true;
 
-	private volatile PrintWriter eucalyptusEventWriter = null;
-	private volatile EucalyptusCloudNodeType euDefaultNodeType;
+	private volatile PrintWriter amazonEventWriter = null;
+	private volatile AmazonCloudNodeType ec2DefaultNodeType;
 
 	/**
 	 * The actual reconfigurations are performed by this
-	 * {@link EucalyptusApplicationCloudingService}.
+	 * {@link AmazonApplicationCloudingService}.
 	 */
-	private volatile EucalyptusApplicationCloudingService eucalyptusApplicationCloudingService;
+	private volatile AmazonApplicationCloudingService amazonApplicationCloudingService;
 
 	@Override
 	public void doReconfiguration(final SLAsticReconfigurationPlan arg0) throws ReconfigurationException {
@@ -57,56 +57,56 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	}
 
 	/**
-	 * Initializes the {@link AbstractEucalyptusApplicationCloudingService}
-	 * based on an {@link IEucalyptusApplicationCloudingServiceConfiguration}
+	 * Initializes the {@link AbstractAmazonApplicationCloudingService}
+	 * based on an {@link IAmazonApplicationCloudingServiceConfiguration}
 	 * provided by a {@link Properties} file.
 	 */
 	@Override
 	public boolean init() {
-		EucalyptusApplicationCloudingService eucalyptusApplicationCloudingService;
+		AmazonApplicationCloudingService amazonApplicationCloudingService;
 		try {
-			{ /* Initialize the Eucalyptus service */
-				/* Determine the path of the Eucalyptus configuration file. */
+			{ /* Initialize the Amazon service */
+				/* Determine the path of the Amazon configuration file. */
 				final String configurationFile =
-						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME);
+						super.getInitProperty(AmazonReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME);
 				if ((configurationFile == null) || (configurationFile.length() == 0)) {
 					final String errorMsg =
 							"Invalid or missing value for property '"
-									+ EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME + "'";
-					EucalyptusReconfigurationManager.log.error(errorMsg);
+									+ AmazonReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME + "'";
+					AmazonReconfigurationManager.log.error(errorMsg);
 					return false;
 				}
 
-				/* Create an instance of the Eucalyptus service */
-				eucalyptusApplicationCloudingService =
-						EucalyptusApplicationCloudingService.createService(configurationFile);
+				/* Create an instance of the Amazon service */
+				amazonApplicationCloudingService =
+						AmazonApplicationCloudingService.createService(configurationFile);
 			}
 
 			{/* Lookup the default node type */
 				final String defaultNodeTypeName =
-						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME);
+						super.getInitProperty(AmazonReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME);
 				if (defaultNodeTypeName == null) {
-					EucalyptusReconfigurationManager.log.error("Invalid or missing value for property '"
-							+ EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME + "'");
+					AmazonReconfigurationManager.log.error("Invalid or missing value for property '"
+							+ AmazonReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME + "'");
 					return false;
 				}
 
-				this.euDefaultNodeType =
-						(EucalyptusCloudNodeType) eucalyptusApplicationCloudingService
+				this.ec2DefaultNodeType =
+						(AmazonCloudNodeType) amazonApplicationCloudingService
 								.lookupCloudNodeType(defaultNodeTypeName);
-				if (this.euDefaultNodeType == null) {
-					EucalyptusReconfigurationManager.log.error("Failed to lookup default node type '"
+				if (this.ec2DefaultNodeType == null) {
+					AmazonReconfigurationManager.log.error("Failed to lookup default node type '"
 							+ defaultNodeTypeName + "'");
 					return false;
 				}
 			}
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Error initializing :" + exc.getMessage(), exc);
-			eucalyptusApplicationCloudingService = null;
+			AmazonReconfigurationManager.log.error("Error initializing :" + exc.getMessage(), exc);
+			amazonApplicationCloudingService = null;
 		}
 
-		this.eucalyptusApplicationCloudingService = eucalyptusApplicationCloudingService;
-		return this.eucalyptusApplicationCloudingService != null;
+		this.amazonApplicationCloudingService = amazonApplicationCloudingService;
+		return this.amazonApplicationCloudingService != null;
 	}
 
 	private volatile ModelManager modelManager;
@@ -116,23 +116,23 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		try {
 			this.modelManager = (ModelManager) this.getControlComponent().getModelManager();
 
-			/* Create print writer for eucalyptus events */
+			/* Create print writer for Amazon events */
 			final File euEventsFile =
 					this.getComponentContext().createFileInContextDir(
-							EucalyptusReconfigurationManager.EUCALYPTUS_EVENT_LOG);
-			this.eucalyptusEventWriter = new PrintWriter(euEventsFile);
-			if (this.eucalyptusEventWriter == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to create event logger");
+							AmazonReconfigurationManager.Amazon_EVENT_LOG);
+			this.amazonEventWriter = new PrintWriter(euEventsFile);
+			if (this.amazonEventWriter == null) {
+				AmazonReconfigurationManager.log.error("Failed to create event logger");
 				return false;
 			}
 
 			/* Register logger */
 			// final ICurrentTimeProvider currentTimeProvider =
 			// new SLAsticCurrentTimeProvider();
-			final EucalyptusEventLogger euEventLogger = new EucalyptusEventLogger(this.eucalyptusEventWriter);
-			this.eucalyptusApplicationCloudingService.addEventListener(euEventLogger);
+			final AmazonEventLogger euEventLogger = new AmazonEventLogger(this.amazonEventWriter);
+			this.amazonApplicationCloudingService.addEventListener(euEventLogger);
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Failed to create application: " + exc.getMessage());
+			AmazonReconfigurationManager.log.error("Failed to create application: " + exc.getMessage());
 			return false;
 		}
 
@@ -144,16 +144,16 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		try {
 			// TODO: remove app?
 			// if ((this.euApplication != null)
-			// && (this.eucalyptusApplicationCloudingService != null)) {
-			// this.eucalyptusApplicationCloudingService
+			// && (this.AmazonApplicationCloudingService != null)) {
+			// this.AmazonApplicationCloudingService
 			// .removeCloudedApplication(this.euApplication);
 			// }
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Failed to remove application: " + exc.getMessage());
+			AmazonReconfigurationManager.log.error("Failed to remove application: " + exc.getMessage());
 			return;
 		} finally {
-			if (this.eucalyptusEventWriter != null) {
-				this.eucalyptusEventWriter.close();
+			if (this.amazonEventWriter != null) {
+				this.amazonEventWriter.close();
 			}
 		}
 	}
@@ -164,29 +164,29 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	 * @param fallBackIfNoArch2ImplNameMapping
 	 * @return
 	 */
-	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(final AssemblyComponent assemblyComponent,
+	private AmazonCloudedApplication ec2ApplicationForAssemblyComponet(final AssemblyComponent assemblyComponent,
 			final boolean fallBackIfNoArch2ImplNameMapping) {
 		final String fqAssemblyComponentName =
 				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
-		String eucaApplicationName =
+		String ec2ApplicationName =
 				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
 						EntityType.ASSEMBLY_COMPONENT, fqAssemblyComponentName);
-		if ((eucaApplicationName == null) && fallBackIfNoArch2ImplNameMapping) {
-			/* Fall-back: Use assembly component name as euca applicaion name */
-			eucaApplicationName = fqAssemblyComponentName;
+		if ((ec2ApplicationName == null) && fallBackIfNoArch2ImplNameMapping) {
+			/* Fall-back: Use assembly component name as ec2 applicaion name */
+			ec2ApplicationName = fqAssemblyComponentName;
 		}
 
-		final EucalyptusCloudedApplication eucalyptusCloudedApplication =
-				(EucalyptusCloudedApplication) this.eucalyptusApplicationCloudingService
-						.lookupCloudedApplication(eucaApplicationName);
+		final AmazonCloudedApplication AmazonCloudedApplication =
+				(AmazonCloudedApplication) this.amazonApplicationCloudingService
+						.lookupCloudedApplication(ec2ApplicationName);
 
-		if (eucalyptusCloudedApplication == null) {
-			EucalyptusReconfigurationManager.log.warn(String.format(
-					"Failed to lookup euca app for name %s (fall-back mode: %s)", eucaApplicationName,
+		if (AmazonCloudedApplication == null) {
+			AmazonReconfigurationManager.log.warn(String.format(
+					"Failed to lookup ec2 app for name %s (fall-back mode: %s)", ec2ApplicationName,
 					fallBackIfNoArch2ImplNameMapping));
 		}
 
-		return eucalyptusCloudedApplication;
+		return AmazonCloudedApplication;
 	}
 
 	/**
@@ -194,15 +194,15 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	 * @param executionContainer
 	 * @return
 	 */
-	private EucalyptusCloudNode eucaNodeForExecutionContainer(final ExecutionContainer executionContainer) {
+	private AmazonCloudNode ec2NodeForExecutionContainer(final ExecutionContainer executionContainer) {
 		final String fqContainerName =
 				NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
-		final String eucaNodeName =
+		final String ec2NodeName =
 				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
 						EntityType.EXECUTION_CONTAINER, fqContainerName);
 
-		final EucalyptusCloudNode cloudNode =
-				(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.lookupNode(eucaNodeName);
+		final AmazonCloudNode cloudNode =
+				(AmazonCloudNode) this.amazonApplicationCloudingService.lookupNode(ec2NodeName);
 
 		return cloudNode;
 	}
@@ -213,36 +213,36 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			final EucalyptusApplicationInstanceConfiguration config = new EucalyptusApplicationInstanceConfiguration();
+			final AmazonApplicationInstanceConfiguration config = new AmazonApplicationInstanceConfiguration();
 
-			final EucalyptusCloudNode dstNode = this.eucaNodeForExecutionContainer(toExecutionContainer);
+			final AmazonCloudNode dstNode = this.ec2NodeForExecutionContainer(toExecutionContainer);
 			if (dstNode == null) {
 				throw new ApplicationCloudingServiceException("dstNode is null for execution container: "
 						+ toExecutionContainer);
 			}
 
-			final EucalyptusCloudedApplication eucaApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent,
-							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
-			if (eucaApplication == null) {
+			final AmazonCloudedApplication ec2Application =
+					this.ec2ApplicationForAssemblyComponet(assemblyComponent,
+							AmazonReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
+			if (ec2Application == null) {
 				final String errorMsg =
-						String.format("eucaApplication is null for assembly component: %s\n"
-								+ "Most likely, no initial mapping was defined in the eucalyptus configuration",
+						String.format("ec2Application is null for assembly component: %s\n"
+								+ "Most likely, no initial mapping was defined in the Amazon configuration",
 								assemblyComponent);
 				throw new ApplicationCloudingServiceException(errorMsg);
 			}
 
-			final EucalyptusApplicationInstance appInstance =
-					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService
-							.deployApplicationInstance(eucaApplication, config, dstNode);
+			final AmazonApplicationInstance appInstance =
+					(AmazonApplicationInstance) this.amazonApplicationCloudingService
+							.deployApplicationInstance(ec2Application, config, dstNode);
 			if (appInstance != null) {
 				success = true;
 			} else {
-				EucalyptusReconfigurationManager.log.error("appInstance is null");
+				AmazonReconfigurationManager.log.error("appInstance is null");
 				success = false;
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			AmazonReconfigurationManager.log.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -258,13 +258,13 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 				this.concreteReplicateComponent(deploymentComponent.getAssemblyComponent(), destination,
 						resDeploymentComponent);
 		if (!successReplication) {
-			EucalyptusReconfigurationManager.log.error("concreteReplicateComponent(..) failed");
+			AmazonReconfigurationManager.log.error("concreteReplicateComponent(..) failed");
 		} else {
 			successDereplication = this.concreteDereplicateComponent(deploymentComponent);
 		}
 
 		if (!successDereplication) {
-			EucalyptusReconfigurationManager.log.error("concreteDereplicateComponent(..) failed");
+			AmazonReconfigurationManager.log.error("concreteDereplicateComponent(..) failed");
 		}
 
 		return successReplication && successDereplication;
@@ -275,43 +275,43 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			EucalyptusReconfigurationManager.log.info("concreteDereplicateComponent");
+			AmazonReconfigurationManager.log.info("concreteDereplicateComponent");
 
 			final AssemblyComponent assemblyComponent = deploymentComponent.getAssemblyComponent();
 			final ExecutionContainer executionContainer = deploymentComponent.getExecutionContainer();
 
-			final EucalyptusCloudedApplication euCloudedApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent,
-							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
+			final AmazonCloudedApplication euCloudedApplication =
+					this.ec2ApplicationForAssemblyComponet(assemblyComponent,
+							AmazonReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (euCloudedApplication == null) {
-				EucalyptusReconfigurationManager.log
-						.error("Failed to lookup eucalyptus application for assembly component: " + assemblyComponent);
+				AmazonReconfigurationManager.log
+						.error("Failed to lookup Amazon application for assembly component: " + assemblyComponent);
 				return false;
 			}
 
-			final EucalyptusCloudNode euCloudNode = this.eucaNodeForExecutionContainer(executionContainer);
+			final AmazonCloudNode euCloudNode = this.ec2NodeForExecutionContainer(executionContainer);
 			if (euCloudNode == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to lookup eucalyptus node for execution container"
+				AmazonReconfigurationManager.log.error("Failed to lookup Amazon node for execution container"
 						+ executionContainer);
 				return false;
 			}
 
-			final EucalyptusApplicationInstance appInstance =
-					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService
+			final AmazonApplicationInstance appInstance =
+					(AmazonApplicationInstance) this.amazonApplicationCloudingService
 							.lookupApplicationInstance(euCloudedApplication, euCloudNode);
 
 			if (appInstance == null) {
 				final String errorMsg = "appInstance for " + deploymentComponent + " is null";
-				EucalyptusReconfigurationManager.log.error(errorMsg);
+				AmazonReconfigurationManager.log.error(errorMsg);
 				return false;
 			}
 
 			// TODO: add boolean return value for exit status?
-			this.eucalyptusApplicationCloudingService.undeployApplicationInstance(appInstance);
+			this.amazonApplicationCloudingService.undeployApplicationInstance(appInstance);
 
 			success = true;
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			AmazonReconfigurationManager.log.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -330,14 +330,14 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			// and if no mapping exists, fall back to default
 			// node type
 
-			final EucalyptusCloudNodeType euNodeType = this.euDefaultNodeType;
+			final AmazonCloudNodeType euNodeType = this.ec2DefaultNodeType;
 
-			final EucalyptusCloudNode euNode =
-					(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.allocateNode(
+			final AmazonCloudNode euNode =
+					(AmazonCloudNode) this.amazonApplicationCloudingService.allocateNode(
 							fqExecutionContainerName, euNodeType);
 
 			if (euNode == null) {
-				EucalyptusReconfigurationManager.log.error("allocateNode(..) failed");
+				AmazonReconfigurationManager.log.error("allocateNode(..) failed");
 				success = false;
 			} else {
 				success = true;
@@ -351,7 +351,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 						EntityType.EXECUTION_CONTAINER, fqExecutionContainerName, euNode.getName());
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			AmazonReconfigurationManager.log.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -362,31 +362,31 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			EucalyptusReconfigurationManager.log.info("concreteDeallocateExecutionContainer");
+			AmazonReconfigurationManager.log.info("concreteDeallocateExecutionContainer");
 
-			final EucalyptusCloudNode euNode = this.eucaNodeForExecutionContainer(executionContainer);
+			final AmazonCloudNode euNode = this.ec2NodeForExecutionContainer(executionContainer);
 
 			if (euNode == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to lookup node");
+				AmazonReconfigurationManager.log.error("Failed to lookup node");
 				success = false;
 			} else {
 				// TODO: return value?
-				this.eucalyptusApplicationCloudingService.deallocateNode(euNode);
+				this.amazonApplicationCloudingService.deallocateNode(euNode);
 
 				success = true;
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			AmazonReconfigurationManager.log.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
 	}
 
-	private class EucalyptusEventLogger extends AbstractEucalyptusServiceEventLogger {
+	private class AmazonEventLogger extends AbstractAmazonServiceEventLogger {
 
 		private final PrintWriter pw;
 
-		public EucalyptusEventLogger(final PrintWriter pw) {
+		public AmazonEventLogger(final PrintWriter pw) {
 			super(new SLAsticCurrentTimeProvider());
 			this.pw = pw;
 		}
@@ -402,7 +402,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 		@Override
 		public long getCurrentTimeMillis() {
-			return EucalyptusReconfigurationManager.this.getControlComponent().getCurrentTimeMillis();
+			return AmazonReconfigurationManager.this.getControlComponent().getCurrentTimeMillis();
 		}
 	}
 
@@ -436,14 +436,14 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 	@Override
 	protected boolean deleteDeploymentComponentFromModel(final DeploymentComponent deploymentComponent) {
-		EucalyptusReconfigurationManager.log.info("deleteDeploymentComponentFromModel(...)");
+		AmazonReconfigurationManager.log.info("deleteDeploymentComponentFromModel(...)");
 		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager()
 				.deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override
 	protected boolean deleteExecutionContainerFromModel(final ExecutionContainer executionContainer) {
-		EucalyptusReconfigurationManager.log.info("deleteExecutionContainerFromModel");
+		AmazonReconfigurationManager.log.info("deleteExecutionContainerFromModel");
 		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager()
 				.deallocateExecutionContainer(executionContainer);
 	}

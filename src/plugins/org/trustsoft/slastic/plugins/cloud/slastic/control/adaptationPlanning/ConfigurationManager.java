@@ -1,9 +1,6 @@
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,6 +86,35 @@ public class ConfigurationManager {
 		} else {
 			/* make javac happy. This case cannot happen. */
 			success = false;
+		}
+
+		return success;
+	}
+	
+	public final synchronized boolean reconfigureWithRelativeNumNodes(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType, final int relativeNumNodes) {
+		final int currentNumNodes =
+				this.modelManager.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(assemblyComponent,
+						/* do not include inactive ones */false).size();
+
+		if (relativeNumNodes == 0) {
+			return true;
+		}
+		
+		final int requestedNumNodes = currentNumNodes + relativeNumNodes;
+
+		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes
+				+ " instances of assembly component " + assemblyComponent);
+
+		boolean success = false;
+
+		if (requestedNumNodes > currentNumNodes) {
+			success =
+					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
+							- currentNumNodes);
+		} else if (requestedNumNodes < currentNumNodes) {
+			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		}
 
 		return success;
@@ -184,7 +210,7 @@ public class ConfigurationManager {
 
 		final Integer maxNumNodesForType = this.maxNumContainers.get(fqExecContainerTypeName);
 		if (maxNumNodesForType != null) { // otherwise there's no max. number
-			if (curNumContainersForType + increaseBy > maxNumNodesForType) {
+			if ((curNumContainersForType + increaseBy) > maxNumNodesForType) {
 				ConfigurationManager.log.warn(String.format(
 						"Rejecting increase capacity request due to max. number of containers for type rule.\n"
 								+ "Current: %s; requested additional #: %s; max: %s", curNumContainersForType,
