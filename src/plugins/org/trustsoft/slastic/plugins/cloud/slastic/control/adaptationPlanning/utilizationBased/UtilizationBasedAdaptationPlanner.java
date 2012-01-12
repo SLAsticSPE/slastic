@@ -232,7 +232,7 @@ public class UtilizationBasedAdaptationPlanner extends AbstractAdaptationPlanner
 		}
 		while (tokenizer.hasMoreElements()) {
 			final String rule = tokenizer.nextToken();
-			final double utilizationBorder;
+			double utilizationBorder;
 			final int durationInSec;
 			final Relation relation;
 			final int relativeNumNodes;
@@ -248,6 +248,7 @@ public class UtilizationBasedAdaptationPlanner extends AbstractAdaptationPlanner
 				}
 				relativeNumNodes = Integer.parseInt(borderTok.nextToken());
 				utilizationBorder = Double.valueOf(borderTok.nextToken());
+				utilizationBorder /= 100.0;
 				relation = Relation.valueOf(borderTok.nextToken());
 				durationInSec = Integer.parseInt(borderTok.nextToken());
 				r = new CPUUtilizationRule(utilizationBorder, durationInSec, relation, relativeNumNodes);
