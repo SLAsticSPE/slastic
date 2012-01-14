@@ -17,15 +17,14 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 public class OverallCPUUtilizationRuleEngine {
 	private static final Log log = LogFactory.getLog(OverallCPUUtilizationRuleEngine.class);
 	
-	private final static int DefaultStartOfVmInSec = 60;
+	private final static int DefaultStartOfVmInSec = 120;
 
 	private final ModelManager modelManager;
 	private final ConfigurationManager configurationManager;
 
 	private final ScheduledThreadPoolExecutor reconfigurationWorkerExecutor;
 
-	private final List<AtomicReference<OverallCPUUtilizationEvent>> pendingOverallCPUUtilizationEvents =
-			new ArrayList<AtomicReference<OverallCPUUtilizationEvent>>();
+	private final AtomicReference<OverallCPUUtilizationEvent> pendingOverallCPUUtilizationEvent;
 
 	private final OverallCPUUtilizationRuleSet ruleSet;
 
@@ -39,10 +38,16 @@ public class OverallCPUUtilizationRuleEngine {
 		this.reconfigurationWorkerExecutor = this.createReconfigurationWorkerExecutor();
 		this.ruleSet = ruleSet;
 		this.configurationManager = configurationManager;
+		
+		this.pendingOverallCPUUtilizationEvent = new AtomicReference<OverallCPUUtilizationEvent>(null);
 	}
 
 	public synchronized void update(final Long currentTimestampMillis,
 			final Double cpuUtil) {
+		
+		if (cpuUtil == null) {
+			return;
+		}
 
 		OverallCPUUtilizationRuleEngine.log.info("Incoming CPU Utilization: "
 				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000))
@@ -72,7 +77,11 @@ public class OverallCPUUtilizationRuleEngine {
 	private void spawnAWorkerJob(final Long currentTimestampMillis, final Double cpuUtil,
 			final ExecutionContainerType executionContainerType, final AssemblyComponent assemblyComponent) {
 		final AtomicReference<OverallCPUUtilizationEvent> pendingEventRef =
-				this.pendingOverallCPUUtilizationEvents.get(0);
+				this.pendingOverallCPUUtilizationEvent;
+		
+		if (pendingEventRef == null) {
+			OverallCPUUtilizationRuleEngine.log.info("pendingEventRef is null!");
+		}
 
 		final OverallCPUUtilizationEvent oldEvent =
 				pendingEventRef.getAndSet(new OverallCPUUtilizationEvent(currentTimestampMillis, cpuUtil));
@@ -124,33 +133,38 @@ public class OverallCPUUtilizationRuleEngine {
 				}
 			}
 
-			Long provisioningStartedInSec = this.provisioningStartedInSecMap.get(rule);
+			final Long provisioningStartedInSec = this.provisioningStartedInSecMap.get(rule);
 			if (provisioningStartedInSec == null) {
-				provisioningStartedInSec = 0L;
-				this.provisioningStartedInSecMap.put(rule, provisioningStartedInSec);
+				this.setProvisionStarted(rule, 0L);
 			}
 
 			if (this.evalConitionRelation(rule.getUtilizationBorder(), rule.getRelation(),
 					curOverallCPUUtilizationEvent.getOverallCPUUtilization())) {
 				final long timestampInSec = (curOverallCPUUtilizationEvent.getTimestampMillis() / 1000);
 
-				if (provisioningStartedInSec == 0) {
-					provisioningStartedInSec = timestampInSec;
+				if (provisioningStartedInSec == 0L) {
+					this.setProvisionStarted(rule, timestampInSec);
+					System.out.println("Started at " + timestampInSec);
 				} else {
 					if ((timestampInSec - provisioningStartedInSec) > rule.getDurationInSec()) {
+						System.out.println("Rule matched!");
 						result.add(rule);
-						provisioningStartedInSec = 0L;
+						this.setProvisionStarted(rule, 0L);
 						this.waitForVMStartInSecMap.put(rule, OverallCPUUtilizationRuleEngine.DefaultStartOfVmInSec);
 						break;
 					}
 				}
 			} else {
-				provisioningStartedInSec = 0L;
+				this.setProvisionStarted(rule, 0L);
 			}
 
 		}
 
 		return result;
+	}
+
+	private void setProvisionStarted(final CPUUtilizationRule rule, final long value) {
+		this.provisioningStartedInSecMap.put(rule, value);
 	}
 
 	private boolean evalConitionRelation(final double utilBorder,

@@ -118,7 +118,7 @@ public class UtilizationBasedAdaptationPlanner extends AbstractAdaptationPlanner
 		return "select "
 				+ "current_timestamp as currentTimestampMillis, (sum(combined) / count(*)) as avgUtil"
 				+ " from " + CPUUtilization.class.getName() + ".win:time(" + winSizeSeconds
-				+ " seconds)" + " output all every " + outputPeriodSeconds + " seconds";
+				+ " sec)" + " output last every " + outputPeriodSeconds + " seconds";
 	}
 
 	private boolean initRuleEngine(final ModelManager modelManager) {

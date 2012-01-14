@@ -17,11 +17,11 @@ public class EucalyptusCommandFactory {
 
 	// needs SSH StrictHostKeyChecking disabled
 	private final static String applicationDeployCommand =
-			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "webapps/";
 	private final static String applicationUndeployCommand = "ls"; // TODO fixme
 
 	private final static String cpKiekerConfigCommand =
-		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "lib/META-INF/";
 	
 	private final static String fetchWebSiteCommand =
 		"wget && URL";

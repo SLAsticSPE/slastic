@@ -17,11 +17,11 @@ public class AmazonCommandFactory {
 
 	// needs SSH StrictHostKeyChecking disabled
 	private final static String applicationDeployCommand =
-			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "webapps/";
 	private final static String applicationUndeployCommand = "ls"; // TODO fixme
 
 	private final static String cpKiekerConfigCommand =
-		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "lib/META-INF/";
 	
 	private final static String fetchWebSiteCommand =
 		"wget && URL";
@@ -68,14 +68,14 @@ public class AmazonCommandFactory {
 	
 	public static AmazonCommand getCopyKiekerConfigCommand(
 			final String sshPrivKey, final String sshUserName,
-			final String tomcatHome, final String warFile,
+			final String tomcatHome, final String kiekerFile,
 			final String instanceIP) {
 		String command = AmazonCommandFactory.cpKiekerConfigCommand;
 
 		command = command.replace("SSH_PRIV_KEY", sshPrivKey);
 		command = command.replace("SSH_USER_NAME", sshUserName);
 		command = command.replace("TOMCAT_HOME", tomcatHome);
-		command = command.replace("SOURCEFILE", warFile);
+		command = command.replace("SOURCEFILE", kiekerFile);
 		command = command.replace("DESTIP", instanceIP);
 
 		return new AmazonCommand(command);

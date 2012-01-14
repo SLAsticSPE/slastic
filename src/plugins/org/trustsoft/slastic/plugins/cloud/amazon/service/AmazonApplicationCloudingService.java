@@ -236,10 +236,10 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 			final AmazonCommand descibeInstanceCommand =
 					AmazonCommandFactory.getDescribeNodeCommand(instanceID);
 
-			ipAddress = "0.0.0.0";
+			ipAddress = "";
 			int secondCounter = 0;
 
-			while ((ipAddress.equals("")) || ipAddress.equals("0.0.0.0")) {
+			while ((ipAddress.equals("")) || result.contains("pending")) {
 				result = executer.executeCommandWithEnv(descibeInstanceCommand, this.configuration.getEC2toolsPath());
 				ipAddress = this.getIPAddressFromDescribeNodeResult(result);
 
@@ -257,6 +257,13 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 									+ " seconds timeout for allocateNode reached.");
 				}
 			}
+		}
+		
+		// wait 20 sec for self tests of image finishing
+		try {
+			Thread.sleep(20 * 1000);
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
 		}
 		
 		final AmazonCommand setHostname =
@@ -278,8 +285,14 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 		}
 
 		final String hostname = this.getHostnameFromResult(hostResult);
+		
+		final AmazonCommand copyKiekerConfigCommand =
+				AmazonCommandFactory.getCopyKiekerConfigCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), this.configuration.getTomcatHome(), "kieker", ipAddress);
+		executer.executeCommandWithEnv(copyKiekerConfigCommand,
+				this.configuration.getEC2toolsPath());
 
-		/* 3. Start tomcat */
+		/* 4. Start tomcat */
 
 		final AmazonCommand startTomcatCommand =
 				AmazonCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),

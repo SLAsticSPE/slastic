@@ -9,7 +9,8 @@ import org.trustsoft.slastic.plugins.cloud.common.ExternalCommandExecuter;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.*;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.EucalyptusApplicationCloudingServiceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.*;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommand;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommandFactory;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.EucalyptusLoadBalancerConnector;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.EucalyptusServiceEventNotifier;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.IEucalyptusServiceEventListener;
@@ -525,7 +526,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 3. Add instance to load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.addHost(application.getName(), euNode.getIpAddress())) {
+				&& !this.lbConnector.addHost("JPetStore", euNode.getIpAddress())) { // TODO application.getName() as first param
 			final String errorMsg =
 					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName()
 							+ "' in load balancer";
@@ -558,6 +559,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	private boolean waitUntilInstanceAvailable(final String ipAddress, final int port, final String path,
 			final int tryPeriodSeconds, final int maxWaitTimeSeconds) {
 		final String url = ipAddress + ":" + port + "/" + path;
+		System.out.println("Querying " + url);
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand fetchInstanceWebSite = EucalyptusCommandFactory.getFetchWebSiteCommand(url);
 		String wgetResult = "";
