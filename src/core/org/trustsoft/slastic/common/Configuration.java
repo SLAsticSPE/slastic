@@ -1,18 +1,12 @@
 package org.trustsoft.slastic.common;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.AbstractControlComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractAnalysisComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluatorComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictorComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecasterComponent;
+import org.trustsoft.slastic.control.components.analysis.*;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
 import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
@@ -173,8 +167,8 @@ public class Configuration {
 		return true;
 	}
 
-	public boolean createAndSetComponentContexts() {
-		this.rootContext = ComponentContext.createRootContext("");
+	public boolean createAndSetComponentContexts(final String fulldirname) {
+		this.rootContext = ComponentContext.createRootContext("", fulldirname);
 		if (this.rootContext == null) {
 			return false;
 		}

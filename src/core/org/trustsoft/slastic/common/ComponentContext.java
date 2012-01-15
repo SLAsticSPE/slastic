@@ -47,10 +47,9 @@ class ComponentContext implements IComponentContext {
 	 * 
 	 * @return
 	 */
-	public static IComponentContext createRootContext(final String name) {
-		final String tmpdir = System.getProperty("java.io.tmpdir");
+	public static IComponentContext createRootContext(final String name, final String fulldirname) {
 		final String dirname =
-				ComponentContext.createRootContextDirname(tmpdir, name);
+				ComponentContext.createRootContextDirname(fulldirname, name);
 		return ComponentContext.createContext(name, dirname);
 
 	}

@@ -9,16 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.util.PropertiesFileUtils;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 import org.trustsoft.slastic.control.BasicControlComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractAnalysisComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluatorComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractPerformancePredictorComponent;
-import org.trustsoft.slastic.control.components.analysis.AbstractWorkloadForecasterComponent;
-import org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyAdaptationPlannerComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyPerformanceEvaluatorComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent;
-import org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent;
+import org.trustsoft.slastic.control.components.analysis.*;
 import org.trustsoft.slastic.control.components.modelManager.AbstractModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelManager.DummyModelManagerComponent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
@@ -48,6 +39,7 @@ public class FrameworkInstance {
 	}
 
 	public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
+	public static final String DIRECTORYTOWRITE_PROPNAME = "directoryToWrite";
 
 	/**
 	 * Avoid construction via default constructor
@@ -302,7 +294,8 @@ public class FrameworkInstance {
 						"Failed to wire the components. See log for details");
 			}
 
-			if (!this.configuration.createAndSetComponentContexts()) {
+			if (!this.configuration.createAndSetComponentContexts(prop.getProperty(
+					FrameworkInstance.DIRECTORYTOWRITE_PROPNAME, "/tmp"))) {
 				throw new IllegalArgumentException(
 						"Failed to set component contexts. See log for details");
 			}
