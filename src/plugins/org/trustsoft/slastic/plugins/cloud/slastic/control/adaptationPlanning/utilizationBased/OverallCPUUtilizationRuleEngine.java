@@ -16,8 +16,8 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 public class OverallCPUUtilizationRuleEngine {
 	private static final Log log = LogFactory.getLog(OverallCPUUtilizationRuleEngine.class);
-	
-	private final static int DefaultStartOfVmInSec = 120;
+
+	private final static int DefaultStartOfVmInSec = 90;
 
 	private final ModelManager modelManager;
 	private final ConfigurationManager configurationManager;
@@ -38,20 +38,20 @@ public class OverallCPUUtilizationRuleEngine {
 		this.reconfigurationWorkerExecutor = this.createReconfigurationWorkerExecutor();
 		this.ruleSet = ruleSet;
 		this.configurationManager = configurationManager;
-		
+
 		this.pendingOverallCPUUtilizationEvent = new AtomicReference<OverallCPUUtilizationEvent>(null);
 	}
 
 	public synchronized void update(final Long currentTimestampMillis,
 			final Double cpuUtil) {
-		
+
 		if (cpuUtil == null) {
 			return;
 		}
 
 		OverallCPUUtilizationRuleEngine.log.info("Incoming CPU Utilization: "
 				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000))
-				+ ": " + cpuUtil);
+				+ " (" + currentTimestampMillis + ") " + ": " + cpuUtil);
 
 		final String fqExecutionContainerTypeName = this.ruleSet.getFQExecutionContainerTypeName();
 		final ExecutionContainerType executionContainerType =
@@ -78,7 +78,7 @@ public class OverallCPUUtilizationRuleEngine {
 			final ExecutionContainerType executionContainerType, final AssemblyComponent assemblyComponent) {
 		final AtomicReference<OverallCPUUtilizationEvent> pendingEventRef =
 				this.pendingOverallCPUUtilizationEvent;
-		
+
 		if (pendingEventRef == null) {
 			OverallCPUUtilizationRuleEngine.log.info("pendingEventRef is null!");
 		}
@@ -144,10 +144,8 @@ public class OverallCPUUtilizationRuleEngine {
 
 				if (provisioningStartedInSec == 0L) {
 					this.setProvisionStarted(rule, timestampInSec);
-					System.out.println("Started at " + timestampInSec);
 				} else {
 					if ((timestampInSec - provisioningStartedInSec) > rule.getDurationInSec()) {
-						System.out.println("Rule matched!");
 						result.add(rule);
 						this.setProvisionStarted(rule, 0L);
 						this.waitForVMStartInSecMap.put(rule, OverallCPUUtilizationRuleEngine.DefaultStartOfVmInSec);

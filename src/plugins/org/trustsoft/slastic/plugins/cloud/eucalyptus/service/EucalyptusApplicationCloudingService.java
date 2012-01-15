@@ -405,7 +405,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final EucalyptusCloudedApplication app = new EucalyptusCloudedApplication(name, euConfiguration);
 
 		/* Register application in load balancer */
-		if (!this.lbConnector.createContext(app.getName())) {
+		if (!this.lbConnector.createContext("JPetStore")) {
 			final String errorMsg = "Failed to register application '" + app.getName() + "' in load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
@@ -429,7 +429,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* Remove application from load balancer */
 		// TODO: check if load balancer enabled?
-		if (!this.lbConnector.removeContext(application.getName())) {
+		if (!this.lbConnector.removeContext("JPetStore")) { // TODO Application name...
 			final String errorMsg =
 					"Failed to deregister application '" + application.getName() + "' from load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
@@ -638,7 +638,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* 1. Remove from load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.removeHost(instance.getApplication().getName(), euNode.getIpAddress())) {
+				&& !this.lbConnector.removeHost("JPetStore", euNode.getIpAddress())) {
 			final String errorMsg =
 					"Failed to remove host '" + euNode.getIpAddress() + "' for application '"
 							+ instance.getApplication().getName() + "' from load balancer";

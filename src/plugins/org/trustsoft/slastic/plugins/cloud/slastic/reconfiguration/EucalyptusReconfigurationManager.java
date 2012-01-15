@@ -197,9 +197,12 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	private EucalyptusCloudNode eucaNodeForExecutionContainer(final ExecutionContainer executionContainer) {
 		final String fqContainerName =
 				NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
+		System.out.println("FQ Container name: " + fqContainerName);
 		final String eucaNodeName =
 				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
 						EntityType.EXECUTION_CONTAINER, fqContainerName);
+		
+		System.out.println("Euca node name: " + eucaNodeName);
 
 		final EucalyptusCloudNode cloudNode =
 				(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.lookupNode(eucaNodeName);

@@ -75,14 +75,16 @@ public class ConfigurationManager {
 		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes
 				+ " instances of assembly component " + assemblyComponent);
 
-		final boolean success;
+		boolean success = true;
 
 		if (requestedNumNodes > currentNumNodes) {
 			success =
 					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
 							- currentNumNodes);
 		} else if (requestedNumNodes < currentNumNodes) {
-			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
+			if ((currentNumNodes - requestedNumNodes) > 1) {
+				success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
+			}
 		} else {
 			/* make javac happy. This case cannot happen. */
 			success = false;

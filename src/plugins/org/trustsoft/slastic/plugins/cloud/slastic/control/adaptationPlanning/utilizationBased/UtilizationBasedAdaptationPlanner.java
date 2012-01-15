@@ -116,9 +116,9 @@ public class UtilizationBasedAdaptationPlanner extends AbstractAdaptationPlanner
 	protected String createEPStatement(
 			final int winSizeSeconds, final int outputPeriodSeconds) {
 		return "select "
-				+ "current_timestamp as currentTimestampMillis, (sum(combined) / count(*)) as avgUtil"
-				+ " from " + CPUUtilization.class.getName() + ".win:time(" + winSizeSeconds
-				+ " sec)" + " output last every " + outputPeriodSeconds + " seconds";
+				+ "current_timestamp as currentTimestampMillis, average as avgUtil"
+				+ " from " + CPUUtilization.class.getName() + ".win:ext_timed(current_timestamp, 10 second).stat:uni(combined)" 
+				+ " output last every 1 seconds";
 	}
 
 	private boolean initRuleEngine(final ModelManager modelManager) {

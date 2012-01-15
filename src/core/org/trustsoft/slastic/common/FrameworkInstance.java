@@ -163,7 +163,7 @@ public class FrameworkInstance {
 			}
 			if (!storedProp) {
 				FrameworkInstance.log.warn("Unknown property name '"
-						+ curPropName + "");
+						+ curPropName + "'");
 			}
 		}
 	}
