@@ -194,6 +194,17 @@
 				<include name="org/trustsoft/slastic/plugins/**/*.java" />
 			</fileset>
 		</copy>
+		<copy todir="${build.slastic.plugins.dir}/">
+			<fileset dir="${src.transformation.dir}">
+				<include name="*.asm" />
+				<include name="*.atl" />
+			</fileset>
+		</copy>
+		<copy todir="${build.slastic.plugins.dir}/">
+			<fileset dir="${src.model.dir}">
+				<include name="*.ecore" />
+			</fileset>
+		</copy>
 	</target>
 
 	<target name="compile-slastic.simulation" depends="init,compile-slastic.core">

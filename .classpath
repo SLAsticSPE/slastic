@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src-gen"/>
+	<classpathentry kind="src" path="transformation"/>
+	<classpathentry kind="src" path="model"/>
 	<classpathentry kind="src" path="src/core"/>
 	<classpathentry kind="src" path="src/simulation"/>
 	<classpathentry kind="src" path="tests"/>
@@ -72,5 +74,11 @@
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/esper-4.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/kieker-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.common_3.2.0.v20110608-0926.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.core_3.2.0.v20110608-0926.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.core.emf_3.2.0.v20110608-0926.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.drivers.emf4atl_3.2.0.v20110608-0926.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
