@@ -3,14 +3,7 @@ package org.trustsoft.slastic.plugins.cloud.slastic.control.performanceEvaluatio
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceMeasureLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentAvgRTsLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentInvocationCountLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentInvocationCountLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerCPUUtilizationLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerMemSwapUsageLogger;
-import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerResourceUtilizationLogger;
+import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.*;
 
 import com.espertech.esper.client.EPServiceProvider;
 
@@ -91,6 +84,14 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.outputIntervalSec), this.winTimeSec,
 						this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentAvgRTsLogger);
+		
+		/* 4.1. AssemblyComponentMedianRTsLogger */
+		final AssemblyComponentMedianRTsLogger assemblyComponentMedianRTsLogger =
+				new AssemblyComponentMedianRTsLogger(this.createLoggerContext(
+						AssemblyComponentMedianRTsLogger.class, this.winTimeSec,
+						this.outputIntervalSec), this.winTimeSec,
+						this.outputIntervalSec);
+		this.addAndRegisterLoggerAsSubscriber(assemblyComponentMedianRTsLogger);
 
 		/**
 		 * TODO: Re-activate loggers as soon as problem with the number of 
