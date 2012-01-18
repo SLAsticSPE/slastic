@@ -7,7 +7,7 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegrat
  */
 public class EucalyptusCommandFactory {
 	private final static String allocateNodeCommand =
-		/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && ";
+		/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && -t && m1.small && ";
 	private final static String startRemoteCommandCommand =
 			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND'";
 	private final static String deallocateNodeCommand =

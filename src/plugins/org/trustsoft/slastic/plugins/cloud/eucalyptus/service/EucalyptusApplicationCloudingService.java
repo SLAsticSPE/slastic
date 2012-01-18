@@ -258,7 +258,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 				}
 			}
 		}
-		
+
 		final EucalyptusCommand setHostname =
 				EucalyptusCommandFactory.getStartRemoteCommandCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress,
@@ -278,15 +278,6 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 
 		final String hostname = this.getHostnameFromResult(hostResult);
-
-		/* 3. Start tomcat */
-
-		final EucalyptusCommand startTomcatCommand =
-				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), ipAddress,
-						"/etc/init.d/tomcat.sh");
-		executer.executeCommandWithEnv(startTomcatCommand,
-				this.configuration.getEucatoolsPath());
 
 		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
@@ -429,7 +420,8 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		/* Remove application from load balancer */
 		// TODO: check if load balancer enabled?
-		if (!this.lbConnector.removeContext("JPetStore")) { // TODO Application name...
+		if (!this.lbConnector.removeContext("JPetStore")) { // TODO Application
+															// name...
 			final String errorMsg =
 					"Failed to deregister application '" + application.getName() + "' from load balancer";
 			EucalyptusApplicationCloudingService.log.error(errorMsg);
@@ -494,16 +486,32 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		this.applicationInstances.add(inst);
 
+		final ExternalCommandExecuter executer =
+				new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
+
 		/* 1. Deploy (if required) */
 		if (!this.configuration.getDefaultApplicationDeploymentArtifact().isEmpty()) {
-			final ExternalCommandExecuter executer =
-					new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 			final EucalyptusCommand applicationDeployCommand =
 					EucalyptusCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
 							this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
 							this.configuration.getDefaultApplicationDeploymentArtifact(), euNode.getIpAddress());
 			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
 		}
+
+		try {
+			Thread.sleep(15 * 1000);
+		} catch (final InterruptedException e) {
+			EucalyptusApplicationCloudingService.log.error(e.getMessage(), e);
+		}
+
+		/* 2. Start tomcat */
+
+		final EucalyptusCommand startTomcatCommand =
+				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), euNode.getIpAddress(),
+						"/etc/init.d/tomcat.sh");
+		executer.executeCommandWithEnv(startTomcatCommand,
+				this.configuration.getEucatoolsPath());
 
 		// try {
 		// Thread.sleep(EucalyptusApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY
@@ -512,7 +520,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		// EucalyptusApplicationCloudingService.log.error(e.getMessage(), e);
 		// }
 
-		/* 2. Wait for application to become available */
+		/* 3. Wait for application to become available */
 
 		if (!this.waitUntilInstanceAvailable(euNode.getIpAddress(),
 				this.configuration.getDefaultApplicationInstanceQueryPort(),
@@ -524,9 +532,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
-		/* 3. Add instance to load balancer */
+		/* 4. Add instance to load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.addHost("JPetStore", euNode.getIpAddress())) { // TODO application.getName() as first param
+				&& !this.lbConnector.addHost("JPetStore", euNode.getIpAddress())) { // TODO
+																					// application.getName()
+																					// as
+																					// first
+																					// param
 			final String errorMsg =
 					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName()
 							+ "' in load balancer";

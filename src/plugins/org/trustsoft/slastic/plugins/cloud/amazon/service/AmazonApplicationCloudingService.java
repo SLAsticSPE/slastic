@@ -167,12 +167,11 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 
 	/**
 	 * Factory method returning an {@link AmazonApplicationCloudingService}
-	 * based on the given
-	 * {@link AmazonApplicationCloudingServiceConfiguration}.
+	 * based on the given {@link AmazonApplicationCloudingServiceConfiguration}.
 	 * 
 	 * @param config
-	 * @return the {@link AmazonApplicationCloudingServiceConfiguration};
-	 *         null if an error occurred
+	 * @return the {@link AmazonApplicationCloudingServiceConfiguration}; null
+	 *         if an error occurred
 	 */
 	// TODO: We might re-throw a possible Exception thrown by
 	// #loadAmazonConfiguration.
@@ -258,14 +257,14 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 				}
 			}
 		}
-		
+
 		// wait 20 sec for self tests of image finishing
 		try {
 			Thread.sleep(20 * 1000);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		final AmazonCommand setHostname =
 				AmazonCommandFactory.getStartRemoteCommandCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), ipAddress,
@@ -285,21 +284,6 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 		}
 
 		final String hostname = this.getHostnameFromResult(hostResult);
-		
-		final AmazonCommand copyKiekerConfigCommand =
-				AmazonCommandFactory.getCopyKiekerConfigCommand(this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), this.configuration.getTomcatHome(), "kieker", ipAddress);
-		executer.executeCommandWithEnv(copyKiekerConfigCommand,
-				this.configuration.getEC2toolsPath());
-
-		/* 4. Start tomcat */
-
-		final AmazonCommand startTomcatCommand =
-				AmazonCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
-						this.configuration.getSSHUserName(), ipAddress,
-						"/etc/init.d/tomcat.sh");
-		executer.executeCommandWithEnv(startTomcatCommand,
-				this.configuration.getEC2toolsPath());
 
 		final AmazonCloudNode node = new AmazonCloudNode(name, type, instanceID, ipAddress, hostname);
 
@@ -418,7 +402,7 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 		final AmazonCloudedApplication app = new AmazonCloudedApplication(name, euConfiguration);
 
 		/* Register application in load balancer */
-		if (!this.lbConnector.createContext(app.getName())) {
+		if (!this.lbConnector.createContext("JPetStore")) {
 			final String errorMsg = "Failed to register application '" + app.getName() + "' in load balancer";
 			AmazonApplicationCloudingService.log.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
@@ -442,7 +426,7 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 
 		/* Remove application from load balancer */
 		// TODO: check if load balancer enabled?
-		if (!this.lbConnector.removeContext(application.getName())) {
+		if (!this.lbConnector.removeContext("JPetStore")) {
 			final String errorMsg =
 					"Failed to deregister application '" + application.getName() + "' from load balancer";
 			AmazonApplicationCloudingService.log.error(errorMsg);
@@ -507,16 +491,39 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 
 		this.applicationInstances.add(inst);
 
+		final ExternalCommandExecuter executer =
+				new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
+
 		/* 1. Deploy (if required) */
 		if (!this.configuration.getDefaultApplicationDeploymentArtifact().isEmpty()) {
-			final ExternalCommandExecuter executer =
-					new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 			final AmazonCommand applicationDeployCommand =
 					AmazonCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
 							this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
 							this.configuration.getDefaultApplicationDeploymentArtifact(), euNode.getIpAddress());
 			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEC2toolsPath());
 		}
+
+		final AmazonCommand copyKiekerConfigCommand =
+				AmazonCommandFactory.getCopyKiekerConfigCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
+						"kieker.monitoring.properties-jms", euNode.getIpAddress());
+		executer.executeCommandWithEnv(copyKiekerConfigCommand,
+				this.configuration.getEC2toolsPath());
+
+		try {
+			Thread.sleep(10 * 1000);
+		} catch (final InterruptedException e) {
+			AmazonApplicationCloudingService.log.error(e.getMessage(), e);
+		}
+
+		/* 4. Start tomcat */
+
+		final AmazonCommand startTomcatCommand =
+				AmazonCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), euNode.getIpAddress(),
+						"/etc/init.d/tomcat.sh");
+		executer.executeCommandWithEnv(startTomcatCommand,
+				this.configuration.getEC2toolsPath());
 
 		// try {
 		// Thread.sleep(AmazonApplicationCloudingService.WAIT_SECONDS_AFTER_DEPLOY
@@ -539,7 +546,7 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 
 		/* 3. Add instance to load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.addHost(application.getName(), euNode.getIpAddress())) {
+				&& !this.lbConnector.addHost("JPetStore", euNode.getIpAddress())) {
 			final String errorMsg =
 					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName()
 							+ "' in load balancer";
@@ -616,8 +623,8 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 	}
 
 	/**
-	 * Returns an ID for an {@link AmazonApplicationInstance} to be
-	 * associated with the given {@link AmazonCloudedApplication}.
+	 * Returns an ID for an {@link AmazonApplicationInstance} to be associated
+	 * with the given {@link AmazonCloudedApplication}.
 	 * 
 	 * @param application
 	 * @return
@@ -650,7 +657,7 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 
 		/* 1. Remove from load balancer */
 		if (this.configuration.isLoadBalancerEnabled()
-				&& !this.lbConnector.removeHost(instance.getApplication().getName(), euNode.getIpAddress())) {
+				&& !this.lbConnector.removeHost("JPetStore", euNode.getIpAddress())) {
 			final String errorMsg =
 					"Failed to remove host '" + euNode.getIpAddress() + "' for application '"
 							+ instance.getApplication().getName() + "' from load balancer";

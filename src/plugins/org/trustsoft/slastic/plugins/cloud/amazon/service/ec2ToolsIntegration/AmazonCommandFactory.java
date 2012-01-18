@@ -3,29 +3,31 @@ package org.trustsoft.slastic.plugins.cloud.amazon.service.ec2ToolsIntegration;
 /**
  * 
  * @author Florian Fittkau
- *
+ * 
  */
 public class AmazonCommandFactory {
 	private final static String allocateNodeCommand =
-		/* proxychains */"ec2-run-instances && --key && KEY-NAME && --group && GROUP-NAME && ";
+			/* proxychains */"ec2-run-instances && --key && KEY-NAME && --group && GROUP-NAME && -t && m1.small && ";
 	private final static String startRemoteCommandCommand =
 			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND'";
 	private final static String deallocateNodeCommand =
-		/* proxychains */"ec2-terminate-instances && ";
+			/* proxychains */"ec2-terminate-instances && ";
 	private final static String describeNodeCommand =
-		/* proxychains */"ec2-describe-instances && ";
+			/* proxychains */"ec2-describe-instances && ";
 
 	// needs SSH StrictHostKeyChecking disabled
 	private final static String applicationDeployCommand =
-			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "webapps/";
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME"
+					+ "webapps/";
 	private final static String applicationUndeployCommand = "ls"; // TODO fixme
 
 	private final static String cpKiekerConfigCommand =
-		"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "lib/META-INF/";
-	
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME"
+					+ "lib/META-INF/";
+
 	private final static String fetchWebSiteCommand =
-		"wget && URL";
-	
+			"wget && URL";
+
 	private AmazonCommandFactory() {
 	}
 
@@ -65,7 +67,7 @@ public class AmazonCommandFactory {
 
 		return new AmazonCommand(command);
 	}
-	
+
 	public static AmazonCommand getCopyKiekerConfigCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String tomcatHome, final String kiekerFile,
@@ -82,30 +84,30 @@ public class AmazonCommandFactory {
 	}
 
 	public static AmazonCommand getFetchWebSiteCommand(
-			final String url) {	
+			final String url) {
 		String command = AmazonCommandFactory.fetchWebSiteCommand;
-		
+
 		command = command.replace("URL", url);
-			
+
 		return new AmazonCommand(command);
 	}
-	
+
 	public static AmazonCommand getStartTomcatCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP, final String tomcatStartScript) {
 		return AmazonCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName,
 				instanceIP, tomcatStartScript);
 	}
-	
+
 	// TODO: turn /bin/hostname into property
-	
+
 	public static AmazonCommand getFetchHostnameCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP) {
 		return AmazonCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName,
 				instanceIP, "/bin/hostname");
 	}
-	
+
 	public static AmazonCommand getStartRemoteCommandCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP, final String remoteCommand) {

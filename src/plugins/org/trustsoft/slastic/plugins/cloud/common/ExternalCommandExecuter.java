@@ -108,6 +108,9 @@ public class ExternalCommandExecuter implements IResultObserver {
 				}
 			}
 		};
+		
+		final Thread thread = new Thread(r);
+		thread.start();
 	}
 
 	@Override
