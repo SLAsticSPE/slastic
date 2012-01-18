@@ -82,9 +82,7 @@ public class ConfigurationManager {
 					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
 							- currentNumNodes);
 		} else if (requestedNumNodes < currentNumNodes) {
-			if ((currentNumNodes - requestedNumNodes) > 1) {
 				success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
-			}
 		} else {
 			/* make javac happy. This case cannot happen. */
 			success = false;
@@ -95,10 +93,9 @@ public class ConfigurationManager {
 	
 	public final synchronized boolean reconfigureWithRelativeNumNodes(final AssemblyComponent assemblyComponent,
 			final ExecutionContainerType executionContainerType, final int relativeNumNodes) {
-		final int currentNumNodes =
-				this.modelManager.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(assemblyComponent,
-						/* do not include inactive ones */false).size();
+		final List<DeploymentComponent> nodes = this.filterAppsrvNodes(assemblyComponent);
+		
+		final int currentNumNodes = nodes.size();
 
 		if (relativeNumNodes == 0) {
 			return true;
@@ -128,15 +125,12 @@ public class ConfigurationManager {
 	 */
 	private Collection<DeploymentComponent> selectActiveDeploymentComponentsForDereplication(
 			final AssemblyComponent assemblyComponent, final int numComponents) {
-		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
-				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
-						assemblyComponent,
-						/* do not include inactive ones */false);
+		final List<DeploymentComponent> nodes = this.filterAppsrvNodes(assemblyComponent);
 
-		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
+		ConfigurationManager.log.info("Found " + nodes.size()
 				+ " ACTIVE deployment components");
 
-		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
+		final Iterator<DeploymentComponent> it = nodes.iterator();
 		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
 
 		while (it.hasNext() && !(result.size() == numComponents)) {
@@ -151,11 +145,29 @@ public class ConfigurationManager {
 
 		if (result.size() < numComponents) {
 			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
-					+ activeDeplsForAssemblyComponent.size() + " active (non-excluded) ones exist");
+					+ nodes.size() + " active (non-excluded) ones exist");
 			return null;
 		}
 
 		return result;
+	}
+
+	private List<DeploymentComponent> filterAppsrvNodes(final AssemblyComponent assemblyComponent) {
+		final Collection<DeploymentComponent> nodesUnfiltered =
+				this.modelManager.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(assemblyComponent,
+						/* do not include inactive ones */false);
+		
+		final List<DeploymentComponent> nodes = new ArrayList<DeploymentComponent>();
+		
+		final Iterator<DeploymentComponent> iterator = nodesUnfiltered.iterator();
+		while (iterator.hasNext()) {
+			final DeploymentComponent deploymentComponent = iterator.next();
+			if (deploymentComponent.getExecutionContainer().getName().startsWith("appsrv")) {
+				nodes.add(deploymentComponent);
+			}
+		}
+		return nodes;
 	}
 
 	private boolean shrinkCapacity(final AssemblyComponent assemblyComponent, final int shrinkBy) {
@@ -202,10 +214,22 @@ public class ConfigurationManager {
 		// execution.
 
 		boolean success = true;
-
-		final int curNumContainersForType =
+		
+		final Collection<ExecutionContainer> nodesUnfiltered =
 				this.modelManager.getExecutionEnvironmentModelManager()
-						.executionContainersForType(executionContainerType, false).size();
+				.executionContainersForType(executionContainerType, false);
+		
+		final List<ExecutionContainer> nodes = new ArrayList<ExecutionContainer>();
+		
+		final Iterator<ExecutionContainer> iterator = nodesUnfiltered.iterator();
+		while (iterator.hasNext()) {
+			final ExecutionContainer executionContainer = iterator.next();
+			if (executionContainer.getName().startsWith("appsrv")) {
+				nodes.add(executionContainer);
+			}
+		}
+		
+		final int curNumContainersForType = nodes.size();
 
 		final String fqExecContainerTypeName =
 				NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
