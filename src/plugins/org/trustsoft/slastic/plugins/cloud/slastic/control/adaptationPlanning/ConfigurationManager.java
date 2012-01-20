@@ -4,9 +4,9 @@ import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration.EucalyptusReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
@@ -15,7 +15,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
  * Executes reconfiguration requests received via its {@link #reconfigure(int)}
- * manager employing the {@link EucalyptusReconfigurationManager}.
+ * manager employing the {@link AbstractReconfigurationManagerComponent}.
  * 
  * @author Andre van Hoorn
  * 
@@ -27,7 +27,7 @@ public class ConfigurationManager {
 	private volatile int nextExecutionContainerIndex = 1;
 
 	private final ModelManager modelManager;
-	private final EucalyptusReconfigurationManager reconfigurationManager;
+	private final AbstractReconfigurationManagerComponent reconfigurationManager;
 
 	/**
 	 * The execution containers with these fully-qualified names and all
@@ -48,7 +48,7 @@ public class ConfigurationManager {
 	 * @param reconfigurationManager
 	 */
 	public ConfigurationManager(final ModelManager modelManager,
-			final EucalyptusReconfigurationManager reconfigurationManager,
+			final AbstractReconfigurationManagerComponent reconfigurationManager,
 			final Collection<String> containerExcludeList, final Map<String, Integer> maxNumContainers) {
 		this.modelManager = modelManager;
 		this.reconfigurationManager = reconfigurationManager;

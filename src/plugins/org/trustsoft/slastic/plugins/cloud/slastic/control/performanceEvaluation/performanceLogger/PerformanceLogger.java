@@ -69,13 +69,13 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 //		this.addAndRegisterLoggerAsSubscriber(deploymentComponentOperationExecutionCountLogger);
 		
 		/* 3. DeploymentComponentInvocationCountLogger */
-		final DeploymentComponentInvocationCountLogger deploymentComponentInvocationCountLogger =
-				new DeploymentComponentInvocationCountLogger(
-						this.createLoggerContext(
-								DeploymentComponentInvocationCountLogger.class,
-								this.winTimeSec, this.outputIntervalSec),
-						this.winTimeSec, this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(deploymentComponentInvocationCountLogger);
+//		final DeploymentComponentInvocationCountLogger deploymentComponentInvocationCountLogger =
+//				new DeploymentComponentInvocationCountLogger(
+//						this.createLoggerContext(
+//								DeploymentComponentInvocationCountLogger.class,
+//								this.winTimeSec, this.outputIntervalSec),
+//						this.winTimeSec, this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(deploymentComponentInvocationCountLogger);
 
 		/* 4. AssemblyComponentAvgRTsLogger */
 		final AssemblyComponentAvgRTsLogger assemblyComponentAvgRTsLogger =
@@ -84,6 +84,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.outputIntervalSec), this.winTimeSec,
 						this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentAvgRTsLogger);
+		
 		
 		/* 4.1. AssemblyComponentMedianRTsLogger */
 		final AssemblyComponentMedianRTsLogger assemblyComponentMedianRTsLogger =
@@ -115,14 +116,14 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(assemblyComponentInvocationCountLogger);
 		
-		/* 7. ExecutionContainerResourceUtilizationLogger */
-		final ExecutionContainerResourceUtilizationLogger executionContainerResourceUtilizationLogger =
-				new ExecutionContainerResourceUtilizationLogger(
-						this.createLoggerContext(
-								ExecutionContainerResourceUtilizationLogger.class,
-								this.winTimeSec, this.outputIntervalSec),
-						this.winTimeSec, this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(executionContainerResourceUtilizationLogger);
+//		/* 7. ExecutionContainerResourceUtilizationLogger */
+//		final ExecutionContainerResourceUtilizationLogger executionContainerResourceUtilizationLogger =
+//				new ExecutionContainerResourceUtilizationLogger(
+//						this.createLoggerContext(
+//								ExecutionContainerResourceUtilizationLogger.class,
+//								this.winTimeSec, this.outputIntervalSec),
+//						this.winTimeSec, this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(executionContainerResourceUtilizationLogger);
 
 		/* 8. ExecutionContainerCPUUtilizationLogger */
 		final ExecutionContainerCPUUtilizationLogger executionContainerCPUUtilizationLogger =
@@ -133,13 +134,13 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 						this.winTimeSec, this.outputIntervalSec);
 		this.addAndRegisterLoggerAsSubscriber(executionContainerCPUUtilizationLogger);
 
-		/* 9. ExecutionContainerMemSwapUsageLogger */
-		final ExecutionContainerMemSwapUsageLogger executionContainerMemSwapUsageLogger =
-				new ExecutionContainerMemSwapUsageLogger(
-						this.createLoggerContext(
-								ExecutionContainerMemSwapUsageLogger.class,
-								this.winTimeSec, this.outputIntervalSec),
-						this.winTimeSec, this.outputIntervalSec);
-		this.addAndRegisterLoggerAsSubscriber(executionContainerMemSwapUsageLogger);
+//		/* 9. ExecutionContainerMemSwapUsageLogger */
+//		final ExecutionContainerMemSwapUsageLogger executionContainerMemSwapUsageLogger =
+//				new ExecutionContainerMemSwapUsageLogger(
+//						this.createLoggerContext(
+//								ExecutionContainerMemSwapUsageLogger.class,
+//								this.winTimeSec, this.outputIntervalSec),
+//						this.winTimeSec, this.outputIntervalSec);
+//		this.addAndRegisterLoggerAsSubscriber(executionContainerMemSwapUsageLogger);
 	}
 }
