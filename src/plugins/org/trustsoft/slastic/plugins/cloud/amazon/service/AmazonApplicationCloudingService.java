@@ -258,9 +258,9 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 			}
 		}
 
-		// wait 20 sec for self tests of image finishing
+		// wait 70 sec for self tests of image finishing
 		try {
-			Thread.sleep(20 * 1000);
+			Thread.sleep(70 * 1000);
 		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -271,6 +271,12 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 						"/etc/init.d/hostname.sh");
 		executer.executeCommandWithEnv(setHostname,
 				this.configuration.getEC2toolsPath());
+		
+		try {
+			Thread.sleep(5 * 1000);
+		} catch (final InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		/* 2. Determine hostname */
 
@@ -506,7 +512,7 @@ public class AmazonApplicationCloudingService implements IApplicationCloudingSer
 		final AmazonCommand copyKiekerConfigCommand =
 				AmazonCommandFactory.getCopyKiekerConfigCommand(this.configuration.getSSHPrivateKeyFile(),
 						this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
-						"kieker.monitoring.properties-jms", euNode.getIpAddress());
+						"/home/ec2-user/SLAstic/kieker.monitoring.properties-jms", euNode.getIpAddress());
 		executer.executeCommandWithEnv(copyKiekerConfigCommand,
 				this.configuration.getEC2toolsPath());
 

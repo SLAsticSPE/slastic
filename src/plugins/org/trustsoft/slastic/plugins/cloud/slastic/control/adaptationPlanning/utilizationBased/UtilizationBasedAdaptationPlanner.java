@@ -116,7 +116,7 @@ public class UtilizationBasedAdaptationPlanner extends AbstractAdaptationPlanner
 			final int winSizeSeconds, final int outputPeriodSeconds) {
 		return "select "
 				+ "current_timestamp as currentTimestampMillis, average as avgUtil"
-				+ " from " + CPUUtilization.class.getName() + ".win:ext_timed(current_timestamp, 10 second).stat:uni(combined)" 
+				+ " from " + CPUUtilization.class.getName() + "((1 - idle) <= 10.0 and (1 - idle) >= 0.0).win:ext_timed(current_timestamp, 10 second).stat:uni(1 - idle)" 
 				+ " output last every 1 seconds";
 	}
 
