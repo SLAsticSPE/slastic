@@ -133,6 +133,7 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	}
 
 	@Override
+	@Deprecated
 	public boolean addListener(final ISimpleEventServiceClient l) {
 		return this.listeners.add(l);
 	}
@@ -160,11 +161,13 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	}
 
 	@Override
+	@Deprecated
 	public boolean removeListener(final ISimpleEventServiceClient l) {
 		return this.listeners.remove(l);
 	}
 
 	@Override
+	@Deprecated
 	public void sendEvent(final IEvent ev) {
 		for (final ISimpleEventServiceClient l : this.listeners) {
 			l.handleEvent(ev);

@@ -278,7 +278,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	 * @param fqComponentName
 	 * @return
 	 */
-	public AssemblyComponent createAssemblyComponent(final String fqComponentName) {
+	protected AssemblyComponent createAssemblyComponent(final String fqComponentName) {
 
 		ComponentType componentType =
 				this.getTypeModelManager().lookupComponentType(

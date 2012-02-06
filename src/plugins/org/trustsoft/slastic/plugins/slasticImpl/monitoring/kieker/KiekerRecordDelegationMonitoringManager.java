@@ -24,6 +24,7 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurem
  * 
  * @author Andre van Hoorn
  */
+@Deprecated
 public class KiekerRecordDelegationMonitoringManager extends
 		AbstractKiekerMonitoringManager {
 

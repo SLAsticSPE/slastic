@@ -1,11 +1,10 @@
 package org.trustsoft.slastic.plugins.starter.reconfigurationPipe;
 
-import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import java.util.HashSet;
-import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
+
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 
 /**
  *
@@ -19,8 +18,9 @@ public class ReconfigurationPipe {
     private boolean closed;
 
     /** No construction employing default constructor */
-    private ReconfigurationPipe() {
-        name = null;
+    @SuppressWarnings("unused")
+	private ReconfigurationPipe() {
+        this.name = null;
     }
 
     public ReconfigurationPipe(final String name) {
@@ -29,12 +29,12 @@ public class ReconfigurationPipe {
 
     public void setPlanReceiver(final IReconfigurationPipePlanReceiver planReceiver) {
         this.planReceiver = planReceiver;
-        log.info("PipeReader initialized");
+        ReconfigurationPipe.log.info("PipeReader initialized");
     }
 
-    public void reconfigure(SLAsticReconfigurationPlan plan, ReconfEventListener listener) throws ReconfigurationPipeException {
+    public void reconfigure(final SLAsticReconfigurationPlan plan, final ReconfEventListener listener) throws ReconfigurationPipeException {
         if (this.closed) {
-            log.error("trying to write to closed pipe");
+            ReconfigurationPipe.log.error("trying to write to closed pipe");
             throw new ReconfigurationPipeException("trying to write to closed pipe");
         }
         this.planReceiver.reconfigure(plan, listener);
