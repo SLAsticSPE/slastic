@@ -82,7 +82,7 @@ public class ModelIOUtils {
 	 * @param outputFns
 	 * @throws IOException
 	 */
-	protected static void saveModels(final EObject[] models, final String[] outputFns) throws IOException {
+	public static void saveModels(final EObject[] models, final String[] outputFns) throws IOException {
 		if (models.length != outputFns.length) {
 			ModelIOUtils.log.error("Number of models and output file name must be equal. " +
 					"Found: " + models.length + " <> " + outputFns.length);

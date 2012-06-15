@@ -15,9 +15,11 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.URIHandlerImpl;
 import org.eclipse.m2m.atl.core.ATLCoreException;
 import org.eclipse.m2m.atl.core.IExtractor;
 import org.eclipse.m2m.atl.core.IModel;
@@ -200,24 +202,68 @@ public class SlasticToPcmTranformation {
 		this.extractPcmModel(new File(outputContext.getDirectoryLocation()), outputFilePrefix);
 	}
 
+	/**
+	 * Removes a given base dir from a URI. E.g., for a base dir <pre>tmp/</pre>, the 
+	 * URI <pre>tmp/output.repository#c0</pre> is converted to <pre>output.repository</pre>.
+	 * 
+	 * @author Andre van Hoorn
+	 *
+	 */
+	private static class MyURIHandler extends URIHandlerImpl {
+		private final String baseDir;
+		
+		public MyURIHandler(final String baseDir) {
+			this.baseDir = baseDir;
+		}
+		
+		@Override
+		public URI deresolve(final URI arg0) {
+			final String oldURIString = arg0.toString();
+			final String newURIString = oldURIString.replaceAll(this.baseDir+"/", "");
+			//System.err.println("deresolve: " + oldURIString + "=>" + newURIString);
+			return URI.createURI(newURIString);
+		}
+
+		@Override
+		public URI resolve(final URI arg0) {
+			//System.err.println("resolve: " + arg0);
+			return super.resolve(arg0);
+		}
+
+		@Override
+		public void setBaseURI(final URI arg0) {
+			//System.err.println("setBaseURI: " + arg0);
+			super.setBaseURI(arg0);
+		}
+	}
+	
 	public void extractPcmModel(final File directory, final String outputFilePrefix) {
 		final IExtractor extractor = new EMFExtractor();
 
 		final Map<String, Object> extractOptions = new HashMap<String, Object>();
 		extractOptions.put(XMLResource.OPTION_ENCODING, "UTF-8");
-
-		this.extractPcmModel(extractor, this.pcmResourceTypeModel, new File(directory, outputFilePrefix
-				+ ".resourcetype").getPath(), extractOptions);
+	
+		{
+			final XMLResource.URIHandler myURIHandler = new MyURIHandler(directory.getPath());			
+			extractOptions.put(XMLResource.OPTION_URI_HANDLER, myURIHandler);
+			
+		}
+		
+		
+		this.extractPcmModel(extractor, this.pcmResourceTypeModel, 
+				URI.createFileURI(new File(directory, outputFilePrefix+ ".resourcetype").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmRepositoryModel,
-				new File(directory, outputFilePrefix + ".repository").getPath(), extractOptions);
-		this.extractPcmModel(extractor, this.pcmResourceEnvironmentModel, new File(directory, outputFilePrefix
-				+ ".resourceenvironment").getPath(), extractOptions);
+				URI.createFileURI(new File(directory, outputFilePrefix + ".repository").getPath()).toFileString(), extractOptions);
+		this.extractPcmModel(extractor, this.pcmResourceEnvironmentModel, 
+				URI.createFileURI(new File(directory, outputFilePrefix+ ".resourceenvironment").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmAllocationModel,
-				new File(directory, outputFilePrefix + ".allocation").getPath(), extractOptions);
+				URI.createFileURI(new File(directory, outputFilePrefix + ".allocation").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmSystemModel,
-				new File(directory, outputFilePrefix + ".system").getPath(), extractOptions);
+				URI.createFileURI(new File(directory, outputFilePrefix + ".system").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmUsageModel,
-				new File(directory, outputFilePrefix + ".usagemodel").getPath(), extractOptions);
+				URI.createFileURI(new File(directory, outputFilePrefix + ".usagemodel").getPath()).toFileString(), extractOptions);
+		
+		//PCMModelReader.readPCMModel(pcmRespositoryModel_fn, pcmSystemModel_fn, pcmResourceEnvironmentModel_fn, pcmAllocationModel_fn);
 	}
 
 	private void extractPcmModel(final IExtractor extractor, final IModel model, final String outputPath,
