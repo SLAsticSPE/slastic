@@ -249,21 +249,18 @@ public class SlasticToPcmTranformation {
 			
 		}
 		
-		
 		this.extractPcmModel(extractor, this.pcmResourceTypeModel, 
 				URI.createFileURI(new File(directory, outputFilePrefix+ ".resourcetype").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmRepositoryModel,
 				URI.createFileURI(new File(directory, outputFilePrefix + ".repository").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmResourceEnvironmentModel, 
 				URI.createFileURI(new File(directory, outputFilePrefix+ ".resourceenvironment").getPath()).toFileString(), extractOptions);
-		this.extractPcmModel(extractor, this.pcmAllocationModel,
-				URI.createFileURI(new File(directory, outputFilePrefix + ".allocation").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmSystemModel,
 				URI.createFileURI(new File(directory, outputFilePrefix + ".system").getPath()).toFileString(), extractOptions);
+		this.extractPcmModel(extractor, this.pcmAllocationModel,
+				URI.createFileURI(new File(directory, outputFilePrefix + ".allocation").getPath()).toFileString(), extractOptions);
 		this.extractPcmModel(extractor, this.pcmUsageModel,
 				URI.createFileURI(new File(directory, outputFilePrefix + ".usagemodel").getPath()).toFileString(), extractOptions);
-		
-		//PCMModelReader.readPCMModel(pcmRespositoryModel_fn, pcmSystemModel_fn, pcmResourceEnvironmentModel_fn, pcmAllocationModel_fn);
 	}
 
 	private void extractPcmModel(final IExtractor extractor, final IModel model, final String outputPath,
