@@ -5,9 +5,9 @@ module slastic2pcm;
 create 
 	RESOURCETYPE: Pcm,
 	REPOSITORY: Pcm,
+	SYSTEM: Pcm,
 	RESOURCEENVIRONMENT: Pcm, 
 	ALLOCATION: Pcm,
-	SYSTEM: Pcm,
 	USAGEMODEL: Pcm
 from 
 	SLASTIC_SYSTEM: Slastic, 
