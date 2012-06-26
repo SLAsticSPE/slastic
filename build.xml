@@ -195,7 +195,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${build.slastic.plugins.dir}/">
-			<fileset dir="${src.transformation.dir}">
+			<fileset dir="${src.transformation.dir}/slastic2pcm/">
 				<include name="*.asm" />
 				<include name="*.atl" />
 			</fileset>

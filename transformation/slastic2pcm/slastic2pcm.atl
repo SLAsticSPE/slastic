@@ -1,8 +1,8 @@
--- @path Slastic=/Slastic2Pcm/model/slastic.ecore
--- @path Pcm=/Slastic2Pcm/model/pcm.ecore
+-- @path Slastic=/SLAstic-Framework/model/slastic.ecore
+-- @path Pcm=/SLAstic-Framework/model/pcm.ecore
 
 module slastic2pcm;
-create 
+create
 	RESOURCETYPE: Pcm,
 	REPOSITORY: Pcm,
 	SYSTEM: Pcm,
