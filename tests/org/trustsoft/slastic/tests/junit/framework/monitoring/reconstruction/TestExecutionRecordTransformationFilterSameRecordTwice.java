@@ -3,7 +3,9 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
+import kieker.common.util.Signature;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -21,18 +23,24 @@ import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends
 		AbstractReconstructionTest {
 
-	final OperationExecutionRecord kiekerRecord =
-			new OperationExecutionRecord();
-	{
-		this.kiekerRecord.setClassName("package.subpackage.classname");
-		this.kiekerRecord.setEoi(77);
-		this.kiekerRecord.setEss(98);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setOperationName("com.ibatis.jpetstore.service.AccountService.getAccount(java.lang.String, java.lang.String)");
-		this.kiekerRecord.setSessionId("ZUKGHGF435JJ");
-		this.kiekerRecord.setTin(65656868l);
-		this.kiekerRecord.setTout(9878787887l);
-		this.kiekerRecord.setTraceId(88878787877887l);
+	private final String packageName = "com.ibatis.jpetstore.service";
+	private final String classNameNoPackage = "AccountService";
+	private final Signature signature =
+			new Signature("getAccount", new String[]{}, "returnType", new String[] { "java.lang.String", "java.lang.String" });
+	
+	final OperationExecutionRecord kiekerRecord;
+	{		
+		final String fqClassname = this.packageName + "." + this.classNameNoPackage;
+		final String operationSignatureStr = ClassOperationSignaturePair.createOperationSignatureString(fqClassname, this.signature);
+		final String sessionId = "ZUKGHGF435JJ";
+		final long traceId = 88878787877887l;		
+		final long tin = 65656868l;
+		final long tout = 9878787887l;
+		final String hostname = "theHostname";
+		final int eoi = 77;
+		final int ess = 98;
+	
+		this.kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
 	}
 
 	public void testEntitiesReUsed() {

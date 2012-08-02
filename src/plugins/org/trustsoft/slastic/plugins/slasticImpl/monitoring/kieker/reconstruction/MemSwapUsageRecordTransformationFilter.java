@@ -1,10 +1,8 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.MemSwapUsageRecord;
+import kieker.common.record.system.MemSwapUsageRecord;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
@@ -22,8 +20,8 @@ public class MemSwapUsageRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, IMemSwapUsageRecordTransformation {
 
-	private static final Log log = LogFactory
-			.getLog(MemSwapUsageRecordTransformationFilter.class);
+	// private static final Log log =
+	// LogFactory.getLog(MemSwapUsageRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -44,7 +42,7 @@ public class MemSwapUsageRecordTransformationFilter extends
 
 		final ExecutionContainer executionContainer =
 				this.lookupOrCreateExecutionContainerByName(memSwapUsageRecord
-						.getHostName());
+						.getHostname());
 
 		final Resource resource =
 				this.lookupOrCreateMemSwapResource(

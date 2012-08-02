@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,15 +46,17 @@ public class StackFrame {
 
 	public final OperationExecutionRecord createRecord(final double timeExit,
 			final int depth) {
-		final OperationExecutionRecord rec = new OperationExecutionRecord(
-				ModelManager.getInstance().getAssemblyCont()
-						.getASMInstanceAndComponentNameById(this.asmContextTo),
-				this.calledServiceName, Long.parseLong(this.traceId),
-				(long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter),
-				(long) (Constants.SIM_TIME_TO_MON_TIME * timeExit));
-		rec.setEss(depth);
-		rec.setEoi(this.eoi);
-		rec.setHostName(this.serverId);
+		
+		final String componentName = ModelManager.getInstance().getAssemblyCont().getASMInstanceAndComponentNameById(this.asmContextTo); 
+		final String operationSignature = componentName + "." + this.calledServiceName;
+		final long tin = (long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter); 
+		final long tout = (long) (Constants.SIM_TIME_TO_MON_TIME * timeExit); 
+		final long traceId = Long.parseLong(this.traceId);
+		final String hostname = this.serverId;
+		final int eoi = this.eoi;
+		final int ess = depth;
+				
+		final OperationExecutionRecord rec = new OperationExecutionRecord(operationSignature, OperationExecutionRecord.NO_SESSION_ID, traceId, tin, tout, hostname, eoi, ess);
 		return rec;
 	}
 

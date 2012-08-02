@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.CPUUtilizationRecord;
+import kieker.common.record.system.CPUUtilizationRecord;
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 
 /**

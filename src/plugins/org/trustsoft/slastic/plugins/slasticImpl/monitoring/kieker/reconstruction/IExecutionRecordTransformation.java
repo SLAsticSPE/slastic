@@ -5,8 +5,8 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
+import kieker.common.record.controlflow.OperationExecutionRecord;
 import de.cau.se.slastic.metamodel.monitoring.OperationExecution;
-import kieker.common.record.OperationExecutionRecord;
 
 /**
  *

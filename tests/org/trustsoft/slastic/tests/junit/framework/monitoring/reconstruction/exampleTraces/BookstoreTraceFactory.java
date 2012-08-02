@@ -3,7 +3,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.ex
 import java.util.ArrayList;
 import java.util.Collection;
 
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 
@@ -134,18 +134,15 @@ public class BookstoreTraceFactory {
 		 * Record used to create a corresponding
 		 * DeploymentComponentOperationExecution.
 		 */
-		final OperationExecutionRecord kiekerRecord =
-				new OperationExecutionRecord();
+		final OperationExecutionRecord kiekerRecord;
 		{
-			kiekerRecord.setClassName(fqAssemblyComponentName);
-			kiekerRecord.setEoi(eoi);
-			kiekerRecord.setEss(ess);
-			kiekerRecord.setHostName("theHostname");
-			kiekerRecord.setOperationName(opSignature);
-			kiekerRecord.setSessionId("ZUKGHGF435JJ");
-			kiekerRecord.setTin(65656868l);
-			kiekerRecord.setTout(9878787887l);
-			kiekerRecord.setTraceId(traceId);
+			final String operationSignatureStr = fqAssemblyComponentName + "." + opSignature;
+			final String sessionId = "ZUKGHGF435JJ";
+			final long tin = 65656868l;
+			final long tout = 9878787887l;
+			final String hostname = "theHostname";
+		
+			kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
 		}
 
 		final DeploymentComponentOperationExecution slasticRecord =

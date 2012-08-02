@@ -3,7 +3,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.CPUUtilizationRecord;
+import kieker.common.record.system.CPUUtilizationRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
@@ -20,44 +20,48 @@ import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 public class TestCPUUtilizationTransformationFilterSameResourceTypeOnTwoContainers
 		extends AbstractReconstructionTest {
 
-	private final CPUUtilizationRecord kiekerRecord1 =
-			new CPUUtilizationRecord();
+	private final CPUUtilizationRecord kiekerRecord1;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		double util = 0.11;
-		this.kiekerRecord1.setTimestamp(456346l);
-		this.kiekerRecord1.setHostName("theHostname1");
-		this.kiekerRecord1.setCpuID("2");
-		this.kiekerRecord1.setIdle(util++);
-		this.kiekerRecord1.setIrq(util++);
-		this.kiekerRecord1.setNice(util++);
-		this.kiekerRecord1.setSystem(util++);
-		this.kiekerRecord1.setTotalUtilization(util++);
-		this.kiekerRecord1.setUser(util++);
-		this.kiekerRecord1.setWait(util++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname1";
+		final String cpuID = "2";
+
+		final double user = util++;
+		final double system = util++;
+		final double wait = util++;
+		final double nice = util++;		
+		final double irq = util++;
+		final double totalUtilization = util++;
+		final double idle = util++;
+
+		this.kiekerRecord1 = new CPUUtilizationRecord(timestamp, hostname, cpuID, user, system, wait, nice, irq, totalUtilization, idle);
 	}
 
-	private final CPUUtilizationRecord kiekerRecord2 =
-			new CPUUtilizationRecord();
+	private final CPUUtilizationRecord kiekerRecord2;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		double util = 0.11;
-		this.kiekerRecord2.setTimestamp(456346l);
-		this.kiekerRecord2.setHostName("theHostname2");
-		this.kiekerRecord2.setCpuID("2");
-		this.kiekerRecord2.setIdle(util++);
-		this.kiekerRecord2.setIrq(util++);
-		this.kiekerRecord2.setNice(util++);
-		this.kiekerRecord2.setSystem(util++);
-		this.kiekerRecord2.setTotalUtilization(util++);
-		this.kiekerRecord2.setUser(util++);
-		this.kiekerRecord2.setWait(util++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname2";
+		final String cpuID = "2";
+
+		final double user = util++;
+		final double system = util++;
+		final double wait = util++;
+		final double nice = util++;		
+		final double irq = util++;
+		final double totalUtilization = util++;
+		final double idle = util++;
+
+		this.kiekerRecord2 = new CPUUtilizationRecord(timestamp, hostname, cpuID, user, system, wait, nice, irq, totalUtilization, idle);
 	}
 
 	public void testEntitiesReUsed() {

@@ -1,7 +1,8 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -80,7 +81,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		/* Will become the return value. */
 		final OperationExecution newExecution;
 
-		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(execution.getHostName());
+		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(execution.getHostname());
 
 		/*
 		 * The values of the variables componentOrConnectorName and
@@ -90,10 +91,13 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		final String operationName; // will be used, as soon as the meta-model
 									// supports operations
 		{
-			final String[] fqnSplit = NameUtils.splitFullyQualifiedName(execution.getClassName());
+			final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(execution.getOperationSignature());
+			
+			final String[] fqnSplit = NameUtils.splitFullyQualifiedName(cosp.getFqClassname());
 			final String[] abstractedName =
-					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1], execution.getOperationName(),
+					NameUtils.abstractFQName(fqnSplit[0], fqnSplit[1], cosp.getSignature().getName(),
 							this.componentDiscoveryHierarchyLevel);
+			
 			componentOrConnectorName = NameUtils.createFQName(abstractedName[0], abstractedName[1]);
 			operationName = abstractedName[2];
 		}

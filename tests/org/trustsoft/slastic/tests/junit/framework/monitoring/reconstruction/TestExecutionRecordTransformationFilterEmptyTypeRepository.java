@@ -1,8 +1,9 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import kieker.common.record.OperationExecutionRecord;
-import kieker.tools.traceAnalysis.systemModel.Signature;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
+import kieker.common.util.Signature;
 
 import org.apache.commons.lang.StringUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -32,24 +33,22 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 	private final String packageName = "package.subpackage";
 	private final String classNameNoPackage = "Classname";
 	private final Signature signature =
-			new Signature("theOpName", "returnType", new String[] { "ArgType0",
+			new Signature("theOpName", new String[]{}, "returnType", new String[] { "ArgType0",
 					"ArgType1", "ArgType2" });
 
-	private final OperationExecutionRecord kiekerRecord =
-			new OperationExecutionRecord();
+	private final OperationExecutionRecord kiekerRecord;
 	{
-		this.kiekerRecord.setClassName(this.packageName + "." + this.classNameNoPackage);
-		this.kiekerRecord.setEoi(77);
-		this.kiekerRecord.setEss(98);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setOperationName(
-				String.format("%s %s(%s)", this.signature.getReturnType(),
-						this.signature.getName(), StringUtils.join(
-								this.signature.getParamTypeList(), ",")));
-		this.kiekerRecord.setSessionId("ZUKGHGF435JJ");
-		this.kiekerRecord.setTin(65656868l);
-		this.kiekerRecord.setTout(9878787887l);
-		this.kiekerRecord.setTraceId(88878787877887l);
+		final String fqClassname = this.packageName + "." + this.classNameNoPackage;
+		final String operationSignatureStr = ClassOperationSignaturePair.createOperationSignatureString(fqClassname, this.signature);
+		final String sessionId = "ZUKGHGF435JJ";
+		final long traceId = 88878787877887l;		
+		final long tin = 65656868l;
+		final long tout = 9878787887l;
+		final String hostname = "theHostname";
+		final int eoi = 77;
+		final int ess = 98;
+	
+		this.kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
 	}
 
 	public void testTransformRecordEmptyModelComponentDiscoveryClassName() {
@@ -178,7 +177,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 
 			/* 3. Lookup container type and compare with record content */
 			final String containerTypeLookupFQName =
-					this.kiekerRecord.getHostName()
+					this.kiekerRecord.getHostname()
 							+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX;
 			lookedUpContainerType =
 					mgr.getTypeRepositoryManager()
@@ -238,8 +237,8 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends
 		this
 				.checkExecutionContainerAndType(
 						mgr,
-						this.kiekerRecord.getHostName(),
-						this.kiekerRecord.getHostName()
+						this.kiekerRecord.getHostname(),
+						this.kiekerRecord.getHostname()
 								+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 						slasticComponentExecRec.getDeploymentComponent()
 								.getExecutionContainer());

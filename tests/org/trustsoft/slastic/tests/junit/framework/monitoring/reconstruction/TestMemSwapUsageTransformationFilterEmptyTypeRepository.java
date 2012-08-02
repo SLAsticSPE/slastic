@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import kieker.common.record.MemSwapUsageRecord;
+import kieker.common.record.system.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -25,21 +25,23 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 		AbstractReconstructionTest {
 
-	private final MemSwapUsageRecord kiekerRecord = new MemSwapUsageRecord();
+	private final MemSwapUsageRecord kiekerRecord;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		long usage = 7676l;
-		this.kiekerRecord.setTimestamp(456346l);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setMemFree(usage++);
-		this.kiekerRecord.setMemTotal(usage++);
-		this.kiekerRecord.setMemUsed(usage++);
-		this.kiekerRecord.setSwapFree(usage++);
-		this.kiekerRecord.setSwapTotal(usage++);
-		this.kiekerRecord.setSwapUsed(usage++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname";
+		final long memTotal = usage++;
+		final long memUsed = usage++;
+		final long memFree = usage++;
+		final long swapTotal = usage++;
+		final long swapUsed = usage++;
+		final long swapFree = usage++;
+		
+		this.kiekerRecord = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
 	public void testTransformRecordEmptyModel() {
@@ -91,8 +93,8 @@ public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 		/* Check execution container */
 		this.checkExecutionContainerAndType(
 				mgr,
-				this.kiekerRecord.getHostName(),
-				this.kiekerRecord.getHostName()
+				this.kiekerRecord.getHostname(),
+				this.kiekerRecord.getHostname()
 						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 

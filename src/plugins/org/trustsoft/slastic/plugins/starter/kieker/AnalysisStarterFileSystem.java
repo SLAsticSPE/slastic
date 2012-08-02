@@ -6,12 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.TimeZone;
 
-import kieker.monitoring.core.controller.IMonitoringController;
-import kieker.tools.logReplayer.FilesystemLogReplayer;
-
 import org.apache.commons.cli.Option;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import kieker.tools.logReplayer.FilesystemLogReplayer;
 
 /**
  * Should be moved to SLAstic framework.
@@ -20,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 
-	private static final Log log = LogFactory
+	private static final Log LOG = LogFactory
 			.getLog(AnalysisStarterFileSystem.class);
 
 	private volatile long ignoreRecordsBeforeTimestamp =
@@ -36,10 +35,10 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 
 	private final static Option[] ADDITIONAL_CMDL_OPTS =
 	{ CmdlOptions.CMDL_OPT_FS_INPUT_DIRS,
-			CmdlOptions.CMDL_OPT_FS_REALTIME_MODE,
-			CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS,
-			CmdlOptions.CMDL_OPT_IGNORERECORDSBEFOREDATE,
-			CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE };
+		CmdlOptions.CMDL_OPT_FS_REALTIME_MODE,
+		CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS,
+		CmdlOptions.CMDL_OPT_IGNORERECORDSBEFOREDATE,
+		CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE };
 
 	public AnalysisStarterFileSystem(final String[] args) {
 		super(args, AnalysisStarterFileSystem.ADDITIONAL_CMDL_OPTS);
@@ -59,90 +58,56 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 	 * replayer finished.
 	 */
 	@Override
-	protected boolean startReader(
-			final IMonitoringController monitoringController) {
+	protected boolean startReader(final String controllerConfigurationFN) {
 		final FilesystemLogReplayer fsReplayer = new FilesystemLogReplayer(
-				monitoringController,
-						this.inputDirsArr,
-						this.realtimeMode,
-						this.numRealtimeWorkerThreads,
-						this.ignoreRecordsBeforeTimestamp,
-						this.ignoreRecordsAfterTimestamp);
-		AnalysisStarterFileSystem.log.info("LOG DIRS: " + Arrays.toString(this.inputDirsArr));
+				controllerConfigurationFN,
+				this.inputDirsArr,
+				this.realtimeMode,
+				this.realtimeMode, // keep logging timestamp iff realtimeMode == true
+				this.numRealtimeWorkerThreads,
+				this.ignoreRecordsBeforeTimestamp,
+				this.ignoreRecordsAfterTimestamp);
+		AnalysisStarterFileSystem.LOG.info("LOG DIRS: " + Arrays.toString(this.inputDirsArr));
 		return fsReplayer.replay();
 	}
 
 	@Override
 	protected boolean init() {
 		/* init ignoreRecordsBefore/After */
-		final DateFormat m_ISO8601UTC =
-				new SimpleDateFormat(
-						CmdlOptions.DATE_FORMAT_PATTERN);
+		final DateFormat m_ISO8601UTC = new SimpleDateFormat(CmdlOptions.DATE_FORMAT_PATTERN);
 		m_ISO8601UTC.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 		try {
-			final String ignoreRecordsBeforeTimestampString =
-					super.getStringOptionValue(CmdlOptions.CMDL_OPT_IGNORERECORDSBEFOREDATE
-							.getLongOpt());
-			final String ignoreRecordsAfterTimestampString =
-					super.getStringOptionValue(CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE
-							.getLongOpt());
+			final String ignoreRecordsBeforeTimestampString = super.getStringOptionValue(CmdlOptions.CMDL_OPT_IGNORERECORDSBEFOREDATE.getLongOpt());
+			final String ignoreRecordsAfterTimestampString = super.getStringOptionValue(CmdlOptions.CMDL_OPT_IGNORERECORDSAFTERDATE.getLongOpt());
 			if (ignoreRecordsBeforeTimestampString != null) {
-				final Date ignoreBeforeDate =
-						m_ISO8601UTC.parse(ignoreRecordsBeforeTimestampString);
-				this.ignoreRecordsBeforeTimestamp =
-						ignoreBeforeDate.getTime() * (1000 * 1000);
-				AnalysisStarterFileSystem.log
-						.info("Ignoring records before "
-								+ m_ISO8601UTC.format(ignoreBeforeDate)
-								+ " ("
-								+ this.ignoreRecordsBeforeTimestamp
-								+ ")");
+				final Date ignoreBeforeDate = m_ISO8601UTC.parse(ignoreRecordsBeforeTimestampString);
+				this.ignoreRecordsBeforeTimestamp = ignoreBeforeDate.getTime() * (1000 * 1000); // TODO: use TimeUnit.convert
+				LOG.info("Ignoring records before " + m_ISO8601UTC.format(ignoreBeforeDate) + " (" + this.ignoreRecordsBeforeTimestamp + ")");
 			}
 			if (ignoreRecordsAfterTimestampString != null) {
-				final Date ignoreAfterDate =
-						m_ISO8601UTC.parse(ignoreRecordsAfterTimestampString);
-				this.ignoreRecordsAfterTimestamp =
-						ignoreAfterDate.getTime() * (1000 * 1000);
-				AnalysisStarterFileSystem.log
-						.info("Ignoring records after "
-								+ m_ISO8601UTC.format(ignoreAfterDate)
-								+ " ("
-								+ this.ignoreRecordsAfterTimestamp
-								+ ")");
+				final Date ignoreAfterDate = m_ISO8601UTC.parse(ignoreRecordsAfterTimestampString);
+				this.ignoreRecordsAfterTimestamp = ignoreAfterDate.getTime() * (1000 * 1000); // TODO: use TimeUnit.convert
+				LOG.info("Ignoring records after " + m_ISO8601UTC.format(ignoreAfterDate) + " (" + this.ignoreRecordsAfterTimestamp + ")");
 			}
 		} catch (final java.text.ParseException ex) {
-			System.err
-					.println("Error parsing date/time string. Please use the following pattern: "
-							+ CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
-			AnalysisStarterFileSystem.log
-					.error("Error parsing date/time string. Please use the following pattern: "
-							+ CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP,
-							ex);
+			System.err.println("Error parsing date/time string. Please use the following pattern: " + CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
+			LOG.error("Error parsing date/time string. Please use the following pattern: " + CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP, ex);
 			return false;
 		}
 
 		try {
 			/* init inputDirsArr */
-			this.inputDirsArr =
-					super.stringOptionValuesNotNullNotEmpty(CmdlOptions.CMDL_OPT_FS_INPUT_DIRS
-							.getLongOpt());
+			this.inputDirsArr = super.stringOptionValuesNotNullNotEmpty(CmdlOptions.CMDL_OPT_FS_INPUT_DIRS.getLongOpt());
 
 			/* init realtimeMode */
-			this.realtimeMode =
-					super.getBooleanOptionValue(CmdlOptions.CMDL_OPT_FS_REALTIME_MODE
-							.getLongOpt());
+			this.realtimeMode = super.getBooleanOptionValue(CmdlOptions.CMDL_OPT_FS_REALTIME_MODE.getLongOpt());
 
 			/* init numRealtimeWorkerThreads */
-			this.numRealtimeWorkerThreads =
-					super.getIntOptionValue(
-							CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS
-									.getLongOpt(),
-							CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS_DEFAULT_VALUE);
+			this.numRealtimeWorkerThreads = super.getIntOptionValue(CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS.getLongOpt(),
+					CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS_DEFAULT_VALUE);
 		} catch (final Exception exc) {
-			AnalysisStarterFileSystem.log.error(
-					"Failed to initialize variables: "
-							+ exc.getMessage(), exc);
+			LOG.error("Failed to initialize variables: " + exc.getMessage(), exc);
 			return false;
 		}
 

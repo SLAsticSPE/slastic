@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import kieker.common.record.ResourceUtilizationRecord;
+import kieker.common.record.system.ResourceUtilizationRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -72,8 +72,8 @@ public class TestResourceUtilizationRecordTransformationFilterEmptyTypeRepositor
 		/* Check execution container */
 		this.checkExecutionContainerAndType(
 				mgr,
-				this.kiekerRecord.getHostName(),
-				this.kiekerRecord.getHostName()
+				this.kiekerRecord.getHostname(),
+				this.kiekerRecord.getHostname()
 						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 

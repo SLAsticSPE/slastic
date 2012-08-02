@@ -1,10 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.CPUUtilizationRecord;
 import kieker.common.record.IMonitoringRecord;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
@@ -22,8 +19,8 @@ public class CPUUtilizationRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, ICPUUtilizationRecordTransformation {
 
-	private static final Log log = LogFactory
-			.getLog(CPUUtilizationRecordTransformationFilter.class);
+//	private static final Log LOG = LogFactory
+//			.getLog(CPUUtilizationRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -36,7 +33,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 
 	@Override
 	public CPUUtilization transformCPUUtilizationRecord(
-			final CPUUtilizationRecord cpuUtilizationRecord) {
+			final kieker.common.record.system.CPUUtilizationRecord cpuUtilizationRecord) {
 
 		/* Will become the return value. */
 		final CPUUtilization newUtilization =
@@ -44,7 +41,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 
 		final ExecutionContainer executionContainer =
 				this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord
-						.getHostName());
+						.getHostname());
 
 		final Resource resource =
 				this.lookupOrCreateCPUResource(
@@ -70,12 +67,12 @@ public class CPUUtilizationRecordTransformationFilter extends
 
 	@Override
 	public IEvent transform(final IMonitoringRecord record) {
-		if (!(record instanceof CPUUtilizationRecord)) {
+		if (!(record instanceof kieker.common.record.system.CPUUtilizationRecord)) {
 			return null;
 		}
 
-		final CPUUtilizationRecord utilizationRecord =
-				(CPUUtilizationRecord) record;
+		final kieker.common.record.system.CPUUtilizationRecord utilizationRecord =
+				(kieker.common.record.system.CPUUtilizationRecord) record;
 
 		return this.transformCPUUtilizationRecord(utilizationRecord);
 	}

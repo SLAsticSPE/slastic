@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.ResourceUtilizationRecord;
+import kieker.common.record.system.ResourceUtilizationRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -45,7 +45,7 @@ public class ResourceUtilizationRecordTransformationFilter extends
 
 		final ExecutionContainer executionContainer =
 				this.lookupOrCreateExecutionContainerByName(resourceUtilizationRecord
-						.getHostName());
+						.getHostname());
 
 		final Resource resource =
 				this.lookupOrCreateGenericResource(

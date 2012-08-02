@@ -3,7 +3,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.CPUUtilizationRecord;
+import kieker.common.record.system.CPUUtilizationRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
@@ -20,24 +20,26 @@ import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 public class TestCPUUtilizationTransformationFilterSameRecordTwice extends
 		AbstractReconstructionTest {
 
-	private final CPUUtilizationRecord kiekerRecord =
-			new CPUUtilizationRecord();
+	private final CPUUtilizationRecord kiekerRecord;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		double util = 0.11;
-		this.kiekerRecord.setTimestamp(456346l);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setCpuID("2");
-		this.kiekerRecord.setIdle(util++);
-		this.kiekerRecord.setIrq(util++);
-		this.kiekerRecord.setNice(util++);
-		this.kiekerRecord.setSystem(util++);
-		this.kiekerRecord.setTotalUtilization(util++);
-		this.kiekerRecord.setUser(util++);
-		this.kiekerRecord.setWait(util++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname";
+		final String cpuID = "2";
+
+		final double user = util++;
+		final double system = util++;
+		final double wait = util++;
+		final double nice = util++;		
+		final double irq = util++;
+		final double totalUtilization = util++;
+		final double idle = util++;
+
+		this.kiekerRecord = new CPUUtilizationRecord(timestamp, hostname, cpuID, user, system, wait, nice, irq, totalUtilization, idle);
 	}
 
 	public void testEntitiesReUsed() {

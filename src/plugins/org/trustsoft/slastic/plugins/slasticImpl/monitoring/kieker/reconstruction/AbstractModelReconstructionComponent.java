@@ -1,6 +1,7 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import java.util.StringTokenizer;
+import kieker.common.util.ClassOperationSignaturePair;
+import kieker.common.util.Signature;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -302,56 +303,58 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
+	 * TODO: Remove method if lookupOrCreateOperationByName is working fine
+	 * 
 	 * Copied from Kieker.TraceAnalysis
 	 * 
 	 * @param operationSignatureStr
 	 * @return
 	 */
-	private kieker.tools.traceAnalysis.systemModel.Signature createSignature(final String operationSignatureStr) {
-
-		final String returnTypeAndOperationName;
-
-		String[] paramTypeList;
-		final int openParenIdx = operationSignatureStr.indexOf('(');
-		if (openParenIdx == -1) { // no parameter list
-			paramTypeList = new String[] {};
-			returnTypeAndOperationName = operationSignatureStr;
-		} else {
-			returnTypeAndOperationName = operationSignatureStr.substring(0, openParenIdx);
-			final StringTokenizer strTokenizer =
-					new StringTokenizer(operationSignatureStr.substring(openParenIdx + 1,
-							operationSignatureStr.length() - 1), ",");
-			paramTypeList = new String[strTokenizer.countTokens()];
-			for (int i = 0; strTokenizer.hasMoreTokens(); i++) {
-				paramTypeList[i] = strTokenizer.nextToken().trim();
-			}
-		}
-
-		final String[] returnTypeAndOperationNameSplit = returnTypeAndOperationName.split("\\s+");
-
-		String returnType = "N/A";
-		final String name;
-
-		switch (returnTypeAndOperationNameSplit.length) {
-		case 1:
-			// no return type
-			name = returnTypeAndOperationName;
-			break;
-		case 2:
-			// return type + operation name
-			returnType = returnTypeAndOperationNameSplit[0];
-			name = returnTypeAndOperationNameSplit[1];
-			break;
-		default:
-			AbstractModelReconstructionComponent.log
-					.error("Failed to split returnTypeAndOperationName by whitespace: '" + returnTypeAndOperationName
-							+ "'");
-			return null;
-
-		}
-
-		return new kieker.tools.traceAnalysis.systemModel.Signature(name, returnType, paramTypeList);
-	}
+//	private Signature createSignature(final String operationSignatureStr) {
+//
+//		final String returnTypeAndOperationName;
+//
+//		String[] paramTypeList;
+//		final int openParenIdx = operationSignatureStr.indexOf('(');
+//		if (openParenIdx == -1) { // no parameter list
+//			paramTypeList = new String[] {};
+//			returnTypeAndOperationName = operationSignatureStr;
+//		} else {
+//			returnTypeAndOperationName = operationSignatureStr.substring(0, openParenIdx);
+//			final StringTokenizer strTokenizer =
+//					new StringTokenizer(operationSignatureStr.substring(openParenIdx + 1,
+//							operationSignatureStr.length() - 1), ",");
+//			paramTypeList = new String[strTokenizer.countTokens()];
+//			for (int i = 0; strTokenizer.hasMoreTokens(); i++) {
+//				paramTypeList[i] = strTokenizer.nextToken().trim();
+//			}
+//		}
+//
+//		final String[] returnTypeAndOperationNameSplit = returnTypeAndOperationName.split("\\s+");
+//
+//		String returnType = "N/A";
+//		final String name;
+//
+//		switch (returnTypeAndOperationNameSplit.length) {
+//		case 1:
+//			// no return type
+//			name = returnTypeAndOperationName;
+//			break;
+//		case 2:
+//			// return type + operation name
+//			returnType = returnTypeAndOperationNameSplit[0];
+//			name = returnTypeAndOperationNameSplit[1];
+//			break;
+//		default:
+//			AbstractModelReconstructionComponent.log
+//					.error("Failed to split returnTypeAndOperationName by whitespace: '" + returnTypeAndOperationName
+//							+ "'");
+//			return null;
+//
+//		}
+//
+//		return new Signature(name, returnType, paramTypeList);
+//	}
 
 	/**
 	 * 
@@ -361,8 +364,10 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	 */
 	protected Operation lookupOrCreateOperationByName(final ComponentType componentType,
 			final String operationSignatureStr) {
-		final kieker.tools.traceAnalysis.systemModel.Signature kiekerSignature =
-				this.createSignature(operationSignatureStr);
+		// TODO: we replaced the call to the (uncommented) private method createSignature by a call to splitOperationSignatureStr.
+		//       Remove this comment if this is working fine.
+		final Signature kiekerSignature =
+				ClassOperationSignaturePair.splitOperationSignatureStr(operationSignatureStr).getSignature();
 
 		Operation res =
 				this.getTypeModelManager().lookupOperation(componentType, kiekerSignature.getName(),

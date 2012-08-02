@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeSet;
 
-import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.common.record.DummyMonitoringRecord;
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.record.misc.EmptyRecord;
+import kieker.common.util.ClassOperationSignaturePair;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,7 +50,7 @@ public class SimulationController {
 			});
 	private final ExternalCallQueue queue = new ExternalCallQueue();
 	private final Log log = LogFactory.getLog(this.getClass());
-	public final static IMonitoringRecord TERMINATION_RECORD = new DummyMonitoringRecord();
+	public final static IMonitoringRecord TERMINATION_RECORD = new EmptyRecord();
 	private final IMonitoringRecordConsumerPlugin recordConsumerPluginPort = new IMonitoringRecordConsumerPlugin() {
 
 		@Override
@@ -80,8 +80,9 @@ public class SimulationController {
 					// this.log.info("Received record " + ker.componentName);
 					// we buffer entry calls until the last call will return
 					// BEFORE the next one starts
-					final EntryCall ec = new EntryCall(ker.getClassName(),
-							ker.getOperationName(), ker.getTraceId(), ker.getTin(), ker.getTout());
+					final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(ker.getOperationSignature());
+					final EntryCall ec = new EntryCall(cosp.getFqClassname(),
+							cosp.getSignature().getName(), ker.getTraceId(), ker.getTin(), ker.getTout());
 					SimulationController.this.queue.add(ec);
 					// while (this.buffer.size() > Constants.PRE_BUFFER
 					// && this.buffer.first().getTout() < ker.tin) {

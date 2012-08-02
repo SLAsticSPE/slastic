@@ -1,7 +1,7 @@
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import kieker.common.record.CPUUtilizationRecord;
+import kieker.common.record.system.CPUUtilizationRecord;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,24 +31,26 @@ public class TestCPUUtilizationTransformationFilterEmptyTypeRepository extends
 			LogFactory
 					.getLog(TestCPUUtilizationTransformationFilterEmptyTypeRepository.class);
 
-	private final CPUUtilizationRecord kiekerRecord =
-			new CPUUtilizationRecord();
+	private final kieker.common.record.system.CPUUtilizationRecord kiekerRecord;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		double util = 0.11;
-		this.kiekerRecord.setTimestamp(456346l);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setCpuID("2");
-		this.kiekerRecord.setIdle(util++);
-		this.kiekerRecord.setIrq(util++);
-		this.kiekerRecord.setNice(util++);
-		this.kiekerRecord.setSystem(util++);
-		this.kiekerRecord.setTotalUtilization(util++);
-		this.kiekerRecord.setUser(util++);
-		this.kiekerRecord.setWait(util++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname";
+		final String cpuID = "2";
+
+		final double user = util++;
+		final double system = util++;
+		final double wait = util++;
+		final double nice = util++;		
+		final double irq = util++;
+		final double totalUtilization = util++;
+		final double idle = util++;
+
+		this.kiekerRecord = new CPUUtilizationRecord(timestamp, hostname, cpuID, user, system, wait, nice, irq, totalUtilization, idle);
 	}
 
 	public void testTransformRecordEmptyModel() {
@@ -103,8 +105,8 @@ public class TestCPUUtilizationTransformationFilterEmptyTypeRepository extends
 		/* Check execution container */
 		this.checkExecutionContainerAndType(
 				mgr,
-				this.kiekerRecord.getHostName(),
-				this.kiekerRecord.getHostName()
+				this.kiekerRecord.getHostname(),
+				this.kiekerRecord.getHostname()
 						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 

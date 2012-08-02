@@ -3,7 +3,7 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.MemSwapUsageRecord;
+import kieker.common.record.system.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -20,38 +20,42 @@ import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
 		extends AbstractReconstructionTest {
 
-	private final MemSwapUsageRecord kiekerRecord1 = new MemSwapUsageRecord();
+	private final MemSwapUsageRecord kiekerRecord1;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		long usage = 7676l;
-		this.kiekerRecord1.setTimestamp(456346l);
-		this.kiekerRecord1.setHostName("theHostname1");
-		this.kiekerRecord1.setMemFree(usage++);
-		this.kiekerRecord1.setMemTotal(usage++);
-		this.kiekerRecord1.setMemUsed(usage++);
-		this.kiekerRecord1.setSwapFree(usage++);
-		this.kiekerRecord1.setSwapTotal(usage++);
-		this.kiekerRecord1.setSwapUsed(usage++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname1";
+		final long memTotal = usage++;
+		final long memUsed = usage++;
+		final long memFree = usage++;
+		final long swapTotal = usage++;
+		final long swapUsed = usage++;
+		final long swapFree = usage++;
+		
+		this.kiekerRecord1 = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
-	private final MemSwapUsageRecord kiekerRecord2 = new MemSwapUsageRecord();
+	private final MemSwapUsageRecord kiekerRecord2;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		long usage = 7676l;
-		this.kiekerRecord2.setTimestamp(456346l);
-		this.kiekerRecord2.setHostName("theHostname2");
-		this.kiekerRecord2.setMemFree(usage++);
-		this.kiekerRecord2.setMemTotal(usage++);
-		this.kiekerRecord2.setMemUsed(usage++);
-		this.kiekerRecord2.setSwapFree(usage++);
-		this.kiekerRecord2.setSwapTotal(usage++);
-		this.kiekerRecord2.setSwapUsed(usage++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname2";
+		final long memTotal = usage++;
+		final long memUsed = usage++;
+		final long memFree = usage++;
+		final long swapTotal = usage++;
+		final long swapUsed = usage++;
+		final long swapFree = usage++;
+		
+		this.kiekerRecord2 = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
 	public void testEntitiesReUsed() {

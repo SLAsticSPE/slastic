@@ -1,6 +1,6 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.MemSwapUsageRecord;
+import kieker.common.record.system.MemSwapUsageRecord;
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 
 /**

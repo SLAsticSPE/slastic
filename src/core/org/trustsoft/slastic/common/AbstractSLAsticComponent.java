@@ -14,8 +14,7 @@ import org.trustsoft.slastic.common.util.PropertiesFileUtils;
  */
 public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 
-	private static final Log log = LogFactory
-			.getLog(AbstractSLAsticComponent.class);
+	private static final Log log = LogFactory.getLog(AbstractSLAsticComponent.class);
 	private volatile Properties properties;
 
 	private volatile IComponentContext componentContext;

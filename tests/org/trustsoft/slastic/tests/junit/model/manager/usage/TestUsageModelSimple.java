@@ -7,9 +7,9 @@ import java.util.TreeMap;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import kieker.common.record.OperationExecutionRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
 
-import org.apache.commons.lang.StringUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
@@ -251,22 +251,23 @@ public class TestUsageModelSimple extends TestCase {
 		 * <li>AssemblyComponent <i>package.ComponentA</i></li>
 		 * </ul>
 		 */
-		final OperationExecutionRecord kiekerRecord =
-				new OperationExecutionRecord();
-		{
-			kiekerRecord.setClassName(fqAssemblyComponentName);
-			kiekerRecord.setEoi(77);
-			kiekerRecord.setEss(98);
-			kiekerRecord.setHostName("theHostname");
-			kiekerRecord.setOperationName(
-					new StringBuilder(opName).append("(").append(StringUtils.join(paramTypes, ',')).append(')')
-							.toString());
-			kiekerRecord.setSessionId("ZUKGHGF435JJ");
-			kiekerRecord.setTin(65656868l);
-			kiekerRecord.setTout(9878787887l);
-			kiekerRecord.setTraceId(88878787877887l);
-		}
+		final kieker.common.util.Signature signature = new kieker.common.util.Signature(opName, new String[]{}, returnType, paramTypes);
 
+		final OperationExecutionRecord kiekerRecord;
+		{
+			final String fqClassname = fqAssemblyComponentName;
+			final String operationSignatureStr = ClassOperationSignaturePair.createOperationSignatureString(fqClassname, signature);
+			final String sessionId = "ZUKGHGF435JJ";
+			final long traceId = 88878787877887l;		
+			final long tin = 65656868l;
+			final long tout = 9878787887l;
+			final String hostname = "theHostname";
+			final int eoi = 77;
+			final int ess = 98;
+		
+			kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
+		}
+		
 		final DeploymentComponentOperationExecution slasticRecord =
 				(DeploymentComponentOperationExecution) this.execRecFilter
 						.transformExecutionRecord(kiekerRecord);

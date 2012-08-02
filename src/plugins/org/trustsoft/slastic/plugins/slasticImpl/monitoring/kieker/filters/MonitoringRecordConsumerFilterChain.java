@@ -1,13 +1,14 @@
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
+import kieker.analysis.plugin.annotation.InputPort;
+import kieker.analysis.plugin.filter.AbstractFilterPlugin;
+import kieker.common.configuration.Configuration;
 import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.IMonitoringRecordReceiver;
+import kieker.monitoring.core.IMonitoringRecordReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,13 +17,12 @@ import org.trustsoft.slastic.control.AbstractControlComponent;
 import de.cau.se.slastic.metamodel.core.IEvent;
 
 /**
- * TODO: Move to SLastic Framework
  * 
  * @author Andre van Hoorn
  * 
  */
-public class MonitoringRecordConsumerFilterChain implements
-		IMonitoringRecordConsumerPlugin {
+public class MonitoringRecordConsumerFilterChain extends
+		AbstractFilterPlugin  {
 
 	private static final Log log = LogFactory
 			.getLog(MonitoringRecordConsumerFilterChain.class);
@@ -42,6 +42,10 @@ public class MonitoringRecordConsumerFilterChain implements
 
 	// TODO: add additional filter types, e.g., asynchronous
 
+	public MonitoringRecordConsumerFilterChain(final Configuration configuration) {
+		super(configuration);
+	}
+	
 	/**
 	 * 
 	 * @param filter
@@ -70,13 +74,9 @@ public class MonitoringRecordConsumerFilterChain implements
 	private final AtomicInteger incomingRecordCount = new AtomicInteger(0);
 	private final AtomicInteger outgoingRecordCount = new AtomicInteger(0);
 
-	@Override
-	public boolean execute() {
-		// nothing to do
-		return true;
-	}
-
-	@Override
+	public static final String INPUT_PORT_NAME_RECORDS = "records";
+	
+	@InputPort(name = MonitoringRecordConsumerFilterChain.INPUT_PORT_NAME_RECORDS, eventTypes = IMonitoringRecord.class)
 	public boolean newMonitoringRecord(final IMonitoringRecord record) {
 		final boolean success = true;
 
@@ -103,12 +103,13 @@ public class MonitoringRecordConsumerFilterChain implements
 		return success;
 	}
 
-	public final static Collection<Class<? extends IMonitoringRecord>> RECORD_TYPE_SUBSCR_LIST =
-			null; // any type; filters take care that they process only the
-					// right types
+	@Override
+	public Configuration getCurrentConfiguration() {
+		return new Configuration();
+	}
 
 	@Override
-	public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
-		return MonitoringRecordConsumerFilterChain.RECORD_TYPE_SUBSCR_LIST;
+	protected Configuration getDefaultConfiguration() {
+		return new Configuration();
 	}
 };

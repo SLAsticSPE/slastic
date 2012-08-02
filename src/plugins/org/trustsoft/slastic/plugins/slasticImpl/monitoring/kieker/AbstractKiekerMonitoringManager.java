@@ -2,8 +2,8 @@ package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import kieker.analysis.AnalysisController;
 import kieker.analysis.AnalysisControllerThread;
-import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.analysis.reader.namedRecordPipe.PipeReader;
+import kieker.analysis.plugin.reader.namedRecordPipe.PipeReader;
+import kieker.common.configuration.Configuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,7 +51,9 @@ public abstract class AbstractKiekerMonitoringManager extends
 			return false;
 		}
 
-		this.kiekerNamedRecordPipeReader = new PipeReader(kiekerRecordPipeName);
+		final Configuration readerConfiguration = new Configuration();
+		readerConfiguration.setProperty(PipeReader.CONFIG_PROPERTY_NAME_PIPENAME, kiekerRecordPipeName);
+		this.kiekerNamedRecordPipeReader = new PipeReader(readerConfiguration);
 		return this.kiekerNamedRecordPipeReader != null;
 	}
 
@@ -60,7 +62,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 	private boolean spawnKiekerAnalysis() {
 		/** Is initialized in {@link #execute()} */
 		final AnalysisController analysisInstance = new AnalysisController();
-		analysisInstance.setReader(this.kiekerNamedRecordPipeReader);
+		analysisInstance.registerReader(this.kiekerNamedRecordPipeReader);
 
 		analysisInstance
 				.registerPlugin(new TimeTriggerAndRecordDelegationPlugin(
