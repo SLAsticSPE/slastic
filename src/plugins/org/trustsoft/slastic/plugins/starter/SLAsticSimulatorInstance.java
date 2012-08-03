@@ -26,8 +26,10 @@ import kieker.common.record.IMonitoringRecord;
  */
 public class SLAsticSimulatorInstance {
 
-	private static final Log log = LogFactory.getLog(SLAsticSimulatorInstance.class);
+	private static final Log LOG = LogFactory.getLog(SLAsticSimulatorInstance.class);
+
 	private Properties props;
+
 	private static final String PROP_NAME_PREFIX = "slastic.simulation";
 	private static final String PROP_NAME_FSREADER_INPUTDIRS = PROP_NAME_PREFIX + ".fsreader.inputdirs";
 	private static final String PROP_NAME_FSREADER_RTMODE = PROP_NAME_PREFIX + ".fsreader.rtmode";
@@ -38,13 +40,14 @@ public class SLAsticSimulatorInstance {
 	private static final String PROP_NAME_PCM_RESOURCEENV_FN = PROP_NAME_PREFIX + ".pcmresourceenv_fn";
 	private static final String PROP_NAME_PCM_ALLOCATION_FN = PROP_NAME_PREFIX + ".pcmallocation_fn";
 	private static final String PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN = PROP_NAME_PREFIX + ".slasticreconfigurationmodel_fn";
+
 	private String fsReaderInputDir;
 	private boolean fsReaderRTMode = false;
 	private int fsReaderRTNumThreads = -1;
 	private String reconfPipeName;
 	private PCMModelSet pcmModel;
 	private ReconfigurationModel slasticReconfigurationModel;
-	private AnalysisController tpanInstance;
+	private AnalysisController analysisInstance;
 	private SimulationController simCtrl;
 	private SLAsticSimPlanReceiver reconfPlanReceiver;
 
@@ -61,23 +64,18 @@ public class SLAsticSimulatorInstance {
 		try {
 			this.fsReaderInputDir = this.props.getProperty(PROP_NAME_FSREADER_INPUTDIRS);
 			this.fsReaderRTMode = this.props.getProperty(PROP_NAME_FSREADER_RTMODE, "").trim().toLowerCase().equals("true");
-			this.fsReaderRTNumThreads = Integer.parseInt(this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_FSREADER_RTNUMTHREADS));
+			this.fsReaderRTNumThreads = Integer.parseInt(this.props.getProperty(PROP_NAME_FSREADER_RTNUMTHREADS));
 
-			this.reconfPipeName = this.props.getProperty(SLAsticSimulatorInstance.PROP_NAME_RECONF_PIPENAME);
+			this.reconfPipeName = this.props.getProperty(PROP_NAME_RECONF_PIPENAME);
 
-			if ((this.fsReaderInputDir == null)
-					|| (this.fsReaderInputDir.length() == 0)) {
-				throw new IllegalArgumentException("Missing or empty property "
-						+ SLAsticSimulatorInstance.PROP_NAME_FSREADER_INPUTDIRS);
+			if ((this.fsReaderInputDir == null) || (this.fsReaderInputDir.length() == 0)) {
+				throw new IllegalArgumentException("Missing or empty property " + PROP_NAME_FSREADER_INPUTDIRS);
 			}
 			if (this.fsReaderRTMode && (this.fsReaderRTNumThreads <= 0)) {
-				throw new IllegalArgumentException(
-						"Missing, empty or invalid property "
-								+ SLAsticSimulatorInstance.PROP_NAME_FSREADER_RTNUMTHREADS);
+				throw new IllegalArgumentException("Missing, empty or invalid property " + PROP_NAME_FSREADER_RTNUMTHREADS);
 			}
 
-			if ((this.reconfPipeName == null)
-					|| (this.reconfPipeName.length() == 0)) {
+			if ((this.reconfPipeName == null) || (this.reconfPipeName.length() == 0)) {
 				throw new IllegalArgumentException("Missing or empty property " + PROP_NAME_RECONF_PIPENAME);
 			}
 
@@ -89,23 +87,21 @@ public class SLAsticSimulatorInstance {
 
 			this.pcmModel = PCMModelReader.readPCMModel(pcmRespositoryModel_fn, pcmSystemModel_fn, pcmResourceEnvironmentModel_fn, pcmAllocationModel_fn);
 
-			this.slasticReconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(
-					slasticReconfigurationModel_fn);
+			this.slasticReconfigurationModel = ModelIOUtils.readOLDReconfigurationModel(slasticReconfigurationModel_fn);
 			if (this.slasticReconfigurationModel == null) {
-				log.error("Failed to read SLAstic reconfiguration model from file '" + slasticReconfigurationModel_fn + "'");
+				LOG.error("Failed to read SLAstic reconfiguration model from file '" + slasticReconfigurationModel_fn + "'");
 				throw new IllegalArgumentException(
-						"Failed to read SLAstic reconfiguration model from file '"
-								+ slasticReconfigurationModel_fn + "'");
+						"Failed to read SLAstic reconfiguration model from file '" + slasticReconfigurationModel_fn + "'");
 			}
 		} catch (final Exception exc) {
-			SLAsticSimulatorInstance.log.error("Init error", exc);
+			LOG.error("Init error", exc);
 			throw new IllegalArgumentException("Init error", exc);
 		}
 	}
 
 	public void run() {
 		/* Construct simulation instance */
-		SLAsticSimulatorInstance.log.info("Instantiating Simulator with "
+		LOG.info("Instantiating Simulator with "
 				+ "Repository: " + this.pcmModel.getPCMRepository()
 				+ ", System: " + this.pcmModel.getPCMSystem()
 				+ ", Resource Environment: " + this.pcmModel.getPCMResourceEnvironment()
@@ -119,38 +115,33 @@ public class SLAsticSimulatorInstance {
 				this.slasticReconfigurationModel);
 
 		/* Construct and start reconfiguration plan receiver */
-		this.reconfPlanReceiver = new SLAsticSimPlanReceiver(
-				this.reconfPipeName, new IReconfPlanReceiver() {
+		this.reconfPlanReceiver = new SLAsticSimPlanReceiver(this.reconfPipeName, new IReconfPlanReceiver() {
 
-					@Override
-					public void reconfigure(
-							final SLAsticReconfigurationPlan plan) {
-						SLAsticSimulatorInstance.log.debug("Received plan "
-								+ plan);
-						SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
-					}
+			@Override
+			public void reconfigure(final SLAsticReconfigurationPlan plan) {
+				LOG.debug("Received plan " + plan);
+				SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().reconfigure(plan);
+			}
 
-					@Override
-					public void addReconfigurationEventListener(
-							final ReconfEventListener listener) {
-						SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
-					}
+			@Override
+			public void addReconfigurationEventListener(final ReconfEventListener listener) {
+				SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
+			}
 
-					@Override
-					public void removeReconfigurationEventListener(
-							final ReconfEventListener listener) {
-						SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
-					}
-				});
+			@Override
+			public void removeReconfigurationEventListener(final ReconfEventListener listener) {
+				SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
+			}
+		});
 		this.reconfPlanReceiver.execute();
 
 		/* Construct and start Tpan instance with FS reader */
 		final FSReader r = new FSReader(new String[] { this.fsReaderInputDir });
-		this.tpanInstance = new AnalysisController();
-		this.tpanInstance.setReader(r);
-		this.tpanInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
+		this.analysisInstance = new AnalysisController();
+		this.analysisInstance.setReader(r);
+		this.analysisInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 
-			final IMonitoringRecordConsumerPlugin delegate = SLAsticSimulatorInstance.this.simCtrl.getRecordConsumerPluginPort();
+			final IMonitoringRecordConsumerPlugin delegate = this.simCtrl.getRecordConsumerPluginPort();
 
 			@Override
 			public boolean newMonitoringRecord(final IMonitoringRecord record) {
@@ -174,14 +165,14 @@ public class SLAsticSimulatorInstance {
 			}
 		});
 		try {
-			SLAsticSimulatorInstance.log.info("Starting to read workload ...");
-			this.tpanInstance.run();
-			SLAsticSimulatorInstance.log.info("Finished reading workload ...");
+			LOG.info("Starting to read workload ...");
+			this.analysisInstance.run();
+			LOG.info("Finished reading workload ...");
 		} catch (final Exception ex) {
-			SLAsticSimulatorInstance.log.error("Exception occurred:", ex);
+			LOG.error("Exception occurred:", ex);
 		}
-		SLAsticSimulatorInstance.log.info("Simulation starting ...");
+		LOG.info("Simulation starting ...");
 		this.simCtrl.start();
-		SLAsticSimulatorInstance.log.info("Simulation ended ...");
+		LOG.info("Simulation ended ...");
 	}
 }
