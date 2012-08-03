@@ -15,8 +15,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 class ComponentContext implements IComponentContext {
-	private static final Log log = LogFactory
-			.getLog(ComponentContext.class);
+	private static final Log LOG = LogFactory.getLog(ComponentContext.class);
 
 	private final String name;
 	private final File directory;
@@ -32,8 +31,7 @@ class ComponentContext implements IComponentContext {
 	 * 
 	 * @param name
 	 * @param directory
-	 *            existing(!) directory associated to this
-	 *            {@link ComponentContext}.
+	 *            existing(!) directory associated to this {@link ComponentContext}.
 	 */
 	private ComponentContext(final String name, final File directory) {
 		this.name = name;
@@ -49,31 +47,26 @@ class ComponentContext implements IComponentContext {
 	 */
 	public static IComponentContext createRootContext(final String name) {
 		final String tmpdir = System.getProperty("java.io.tmpdir");
-		final String dirname =
-				ComponentContext.createRootContextDirname(tmpdir, name);
+		final String dirname = ComponentContext.createRootContextDirname(tmpdir, name);
 		return ComponentContext.createContext(name, dirname);
 
 	}
 
 	/**
 	 * Returns a newly created {@link IComponentContext} with the given name; a
-	 * directory with the given name will created an associated with the
-	 * {@link IComponentContext}.
+	 * directory with the given name will created an associated with the {@link IComponentContext}.
 	 * 
 	 * @param name
 	 * @param dirname
 	 * @return
 	 */
-	private static IComponentContext createContext(final String name,
-			final String dirname) {
-		return new ComponentContext(name,
-				ComponentContext.createDirectory(dirname));
+	private static IComponentContext createContext(final String name, final String dirname) {
+		return new ComponentContext(name, ComponentContext.createDirectory(dirname));
 	}
 
 	@Override
 	public IComponentContext createSubcontext(final String name) {
-		return ComponentContext.createContext(this.name + name,
-				this.getDirectoryLocation() + "/" + name + "/");
+		return ComponentContext.createContext(this.name + name, this.getDirectoryLocation() + "/" + name + "/");
 	}
 
 	@Override
@@ -88,7 +81,7 @@ class ComponentContext implements IComponentContext {
 		try {
 			f.createNewFile();
 		} catch (final IOException e) {
-			ComponentContext.log.error("Failed to create file '"
+			LOG.error("Failed to create file '"
 					+ fqFilename + "':");
 		}
 		return f;
@@ -103,14 +96,11 @@ class ComponentContext implements IComponentContext {
 	 */
 	private static String createRootContextDirname(final String baseDirectory,
 			final String namePostfix) {
-		final DateFormat m_ISO8601UTC =
-				new SimpleDateFormat("yyyyMMdd'-'HHmmssSS");
+		final DateFormat m_ISO8601UTC = new SimpleDateFormat("yyyyMMdd'-'HHmmssSS");
 		m_ISO8601UTC.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 		final String dateStr = m_ISO8601UTC.format(new java.util.Date());
-		final String dirname =
-				baseDirectory + "/slastic-" + dateStr + "-UTC" + namePostfix
-						+ "/";
+		final String dirname = baseDirectory + "/slastic-" + dateStr + "-UTC" + namePostfix + "/";
 		return dirname;
 	}
 
@@ -123,8 +113,7 @@ class ComponentContext implements IComponentContext {
 	private static final File createDirectory(final String dirname) {
 		final File f = new File(dirname);
 		if (!f.mkdir()) {
-			ComponentContext.log.error("Failed to create directory '"
-					+ dirname + "'");
+			LOG.error("Failed to create directory '" + dirname + "'");
 			return null;
 		}
 		return f;

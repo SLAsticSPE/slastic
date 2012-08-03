@@ -9,77 +9,50 @@ import org.apache.commons.cli.Option;
  * 
  */
 public class CmdlOptions {
-	public final static Option CMDL_OPT_START_FRAMEWORK = CmdlOptions
-			.createOptionWithArgAndShortOpt("start-framework", "f",
-					"SLAstic.Framework configuration file",
-					true /* isRequired */, "file");
+	public final static Option CMDL_OPT_START_FRAMEWORK = CmdlOptions.createOptionWithArgAndShortOpt("start-framework", "f",
+			"SLAstic.Framework configuration file", true /* isRequired */, "file");
 	public final static Option CMDL_OPT_KIEKER_PIPENAME =
-			CmdlOptions
-					.createOptionWithArgAndShortOpt(
-							"kieker-pipeName",
-							"p",
-							"Name of named pipe used to receive records from Kieker reader",
-							true /* isRequired */, "name");
+			CmdlOptions.createOptionWithArgAndShortOpt("kieker-pipeName", "p", "Name of named pipe used to receive records from Kieker reader",
+					true /* isRequired */, "name");
 
 	public final static Option CMDL_OPT_JMS_PROVIDER_URL =
-			CmdlOptions.createOptionWithArgAndShortOpt(
-					"jmsProviderUrl", "u",
-					"example: \"tcp://127.0.0.1:3035/\"",
-					true /* isRequired */, "url");
+			CmdlOptions.createOptionWithArgAndShortOpt("jmsProviderUrl", "u", "example: \"tcp://127.0.0.1:3035/\"", true /* isRequired */, "url");
 
 	public final static Option CMDL_OPT_JMS_DESTINATION =
-			CmdlOptions.createOptionWithArgAndShortOpt(
-					"jmsDestination", "d", "example: \"queue1\"",
-					true /* isRequired */, "queue");
+			CmdlOptions.createOptionWithArgAndShortOpt("jmsDestination", "d", "example: \"queue1\"", true /* isRequired */, "queue");
 
 	public final static Option CMDL_OPT_JMS_INITIAL_CONTEXT_FACTORY =
-		CmdlOptions.createOptionWithArgAndShortOpt(
-				"jmsFactoryLookupName", "c", "example: \"org.exolab.jms.jndi.InitialContextFactory\" (OpenJMS)",
-				true /* isRequired */, "initial-context-factory");
-	
+			CmdlOptions.createOptionWithArgAndShortOpt("jmsFactoryLookupName", "c", "example: \"org.exolab.jms.jndi.InitialContextFactory\" (OpenJMS)",
+					true /* isRequired */, "initial-context-factory");
+
 	public final static Option CMDL_OPT_FS_INPUT_DIRS =
 			CmdlOptions
 					.createOptionWithArgsAndShortOpt(
-							"kieker-dirs",
-							"d",
-							"List of Kieker input directories (separated by semicolon)",
-							true /* isRequired */, "dir0 ... dirN");
+							"kieker-dirs", "d", "List of Kieker input directories (separated by semicolon)", true /* isRequired */, "dir0 ... dirN");
 
 	public final static Option CMDL_OPT_FS_REALTIME_MODE =
-			CmdlOptions.createOptionWithArgAndShortOpt("realtime-mode",
-					"r",
-					"Replay log data in realtime?", true /* isRequired */,
-					"true|false");
+			CmdlOptions.createOptionWithArgAndShortOpt("realtime-mode", "r", "Replay log data in realtime?", true /* isRequired */, "true|false");
 
 	public final static int CMDL_OPT_FS_NUM_REALTIME_WORKERS_DEFAULT_VALUE = 1;
 	public final static Option CMDL_OPT_FS_NUM_REALTIME_WORKERS =
 			CmdlOptions
 					.createOptionWithArgAndShortOpt(
-							"realtime-worker-threads",
-							"n",
-							"Number of worker threads used in realtime mode (defaults to "
-									+ CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS_DEFAULT_VALUE
-									+ ").",
-							false /* !isRequired */,
-							"num");
+							"realtime-worker-threads", "n", "Number of worker threads used in realtime mode (defaults to "
+									+ CmdlOptions.CMDL_OPT_FS_NUM_REALTIME_WORKERS_DEFAULT_VALUE + ").",
+							false /* !isRequired */, "num");
 
 	public final static Option CMDL_OPT_IGNORERECORDSBEFOREDATE =
 			CmdlOptions
 					.createOptionWithArgAndShortOpt(
-							"ignore-records-before-date",
-							null /* No short name */,
+							"ignore-records-before-date", null /* No short name */,
 							"Records logged before this date (UTC timezone) are ignored (disabled by default).",
-							false /* !isRequired */,
-							CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
+							false /* !isRequired */, CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
 
 	public final static Option CMDL_OPT_IGNORERECORDSAFTERDATE =
 			CmdlOptions
 					.createOptionWithArgAndShortOpt(
-							"ignore-records-after-date",
-							null /* No short name */,
-							"Records logged after this date (UTC timezone) are ignored (disabled by default).",
-							false /* !isRequired */,
-							CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
+							"ignore-records-after-date", null /* No short name */, "Records logged after this date (UTC timezone) are ignored (disabled by default).",
+							false /* !isRequired */, CmdlOptions.DATE_FORMAT_PATTERN_CMD_USAGE_HELP);
 
 	public static final String DATE_FORMAT_PATTERN = "yyyyMMdd'-'HHmmss";
 	public static final String DATE_FORMAT_PATTERN_CMD_USAGE_HELP =

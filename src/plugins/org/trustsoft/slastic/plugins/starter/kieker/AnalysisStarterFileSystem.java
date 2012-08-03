@@ -58,16 +58,16 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 	 * replayer finished.
 	 */
 	@Override
-	protected boolean startReader(final String controllerConfigurationFN) {
+	protected boolean startReplay(final String controllerConfigurationFN) {
 		final FilesystemLogReplayer fsReplayer = new FilesystemLogReplayer(
 				controllerConfigurationFN,
-				this.inputDirsArr,
 				this.realtimeMode,
-				this.realtimeMode, // keep logging timestamp iff realtimeMode == true
-				this.numRealtimeWorkerThreads,
+				this.realtimeMode,
+				this.numRealtimeWorkerThreads, // keep logging timestamp iff realtimeMode == true
 				this.ignoreRecordsBeforeTimestamp,
-				this.ignoreRecordsAfterTimestamp);
-		AnalysisStarterFileSystem.LOG.info("LOG DIRS: " + Arrays.toString(this.inputDirsArr));
+				this.ignoreRecordsAfterTimestamp,
+				this.inputDirsArr);
+		LOG.info("LOG DIRS: " + Arrays.toString(this.inputDirsArr));
 		return fsReplayer.replay();
 	}
 

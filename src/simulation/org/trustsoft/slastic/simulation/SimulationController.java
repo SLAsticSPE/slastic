@@ -1,13 +1,7 @@
 package org.trustsoft.slastic.simulation;
 
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.TreeSet;
-
-import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.record.misc.EmptyRecord;
-import kieker.common.util.ClassOperationSignaturePair;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,6 +25,15 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
 
+import kieker.analysis.plugin.annotation.InputPort;
+import kieker.analysis.plugin.annotation.Plugin;
+import kieker.analysis.plugin.filter.AbstractFilterPlugin;
+import kieker.common.configuration.Configuration;
+import kieker.common.record.IMonitoringRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.record.misc.EmptyRecord;
+import kieker.common.util.ClassOperationSignaturePair;
+
 @SuppressWarnings("unused")
 public class SimulationController {
 
@@ -51,28 +54,27 @@ public class SimulationController {
 	private final ExternalCallQueue queue = new ExternalCallQueue();
 	private final Log log = LogFactory.getLog(this.getClass());
 	public final static IMonitoringRecord TERMINATION_RECORD = new EmptyRecord();
-	private final IMonitoringRecordConsumerPlugin recordConsumerPluginPort = new IMonitoringRecordConsumerPlugin() {
 
-		@Override
-		public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
-			return null; // consume all records
+	@Plugin
+	public class RecordConsumerFilter extends AbstractFilterPlugin {
+		public static final String INPUT_PORT_NAME_RECORDS = "records";
+
+		public RecordConsumerFilter(final Configuration configuration) {
+			super(configuration);
 		}
 
+		// TODO: Is this method called at all? It seems that this is a duplicate of SimulationController.start()
 		public void start() {
-			SimulationController.this.exp
-					.stop(SimulationController.this.stopCond = new StopCondition(
-							SimulationController.this.model,
-							SimulationController.this.model.getName(),
-							Constants.DEBUG));
-			CallHandler.getInstance().setStopCond(
-					SimulationController.this.stopCond);
+			SimulationController.this.exp.stop(SimulationController.this.stopCond = new StopCondition(SimulationController.this.model,
+					SimulationController.this.model.getName(), Constants.DEBUG));
+			CallHandler.getInstance().setStopCond(SimulationController.this.stopCond);
 			ModelManager.markStart();
 			SimulationController.this.exp.start();
 		}
 
-		@Override
+		@InputPort(name = INPUT_PORT_NAME_RECORDS, eventTypes = { IMonitoringRecord.class })
 		public boolean newMonitoringRecord(final IMonitoringRecord record) {
-			// TODO: handle TERMINATION_RECORD
+			// TODO: handle TERMINATION_RECORD (isn't this the case below?)
 
 			if (record instanceof OperationExecutionRecord) {
 				final OperationExecutionRecord ker = (OperationExecutionRecord) record;
@@ -108,21 +110,34 @@ public class SimulationController {
 		}
 
 		@Override
-		public boolean execute() {
+		public boolean init() {
 			if (!SimulationController.this.init) {
 				SimulationController.this.init();
 			}
 			return true;
-		}
+		};
 
 		@Override
 		public void terminate(final boolean error) {
-			// TODO: we might send the termination record from here
+			// TODO: we might want to send the termination record from here
 		}
-	};
+
+		@Override
+		public Configuration getCurrentConfiguration() {
+			return new Configuration();
+		}
+
+		@Override
+		protected Configuration getDefaultConfiguration() {
+			return new Configuration();
+		}
+	}
+
+	// TODO: we should clean this up ...
+	private final AbstractFilterPlugin recordConsumerPluginPort = new RecordConsumerFilter(new Configuration());
 	private Injector createInjector;
 
-	public IMonitoringRecordConsumerPlugin getRecordConsumerPluginPort() {
+	public AbstractFilterPlugin getRecordConsumerPluginPort() {
 		return this.recordConsumerPluginPort;
 	}
 
@@ -146,8 +161,7 @@ public class SimulationController {
 
 	public void start() {
 		java.lang.System.out.println(java.lang.System.currentTimeMillis());
-		this.exp.stop(this.stopCond = new StopCondition(this.model, this.model
-				.getName(), Constants.DEBUG));
+		this.exp.stop(this.stopCond = new StopCondition(this.model, this.model.getName(), Constants.DEBUG));
 		CallHandler.getInstance().setStopCond(this.stopCond);
 		ModelManager.markStart();
 		this.exp.start();
@@ -163,8 +177,7 @@ public class SimulationController {
 
 		@Override
 		public void reconfigure(final SLAsticReconfigurationPlan plan) {
-			SimulationController.this.log.info("Received reconfiguration plan"
-					+ plan);
+			SimulationController.this.log.info("Received reconfiguration plan " + plan);
 			ModelManager.getInstance().reconfigure(plan);
 
 		}
@@ -180,7 +193,7 @@ public class SimulationController {
 	public IReconfPlanReceiver getReconfigurationPlanReceiverPort() {
 		return this.reconfigurationPlanReceiverPort;
 	}
-	
+
 	public final SimulationController getInstance() {
 		return this.instance;
 	}
