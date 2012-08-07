@@ -1,15 +1,15 @@
 package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla;
 
-import kieker.monitoring.core.controller.IMonitoringController;
-import kieker.monitoring.core.controller.MonitoringController;
-import kieker.monitoring.core.registry.ControlFlowRegistry;
-import kieker.monitoring.probe.IMonitoringProbe;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
+
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
+import kieker.monitoring.core.registry.ControlFlowRegistry;
+import kieker.monitoring.probe.IMonitoringProbe;
 
 /**
  * @author Andre van Hoorn
@@ -17,12 +17,9 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringReco
 @Aspect
 public class SLAMonitoringProbe implements IMonitoringProbe {
 
-	protected static final IMonitoringController ctrlInst = MonitoringController
-			.getInstance();
-	protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry
-			.getInstance();
-	private static final String vmName = SLAMonitoringProbe.ctrlInst
-			.getHostName();
+	protected static final IMonitoringController ctrlInst = MonitoringController.getInstance();
+	protected static final ControlFlowRegistry cfRegistry = ControlFlowRegistry.INSTANCE;
+	private static final String vmName = SLAMonitoringProbe.ctrlInst.getHostname();
 
 	protected SLOMonitoringRecord initMonitoringRecord(
 			final ProceedingJoinPoint thisJoinPoint) {
@@ -68,7 +65,7 @@ public class SLAMonitoringProbe implements IMonitoringProbe {
 	protected void proceedAndMeasure(final ProceedingJoinPoint thisJoinPoint,
 			final SLOMonitoringRecord record) throws Throwable {
 		record.timestamp = SLAMonitoringProbe.ctrlInst.getTimeSource().getTime(); // startint
-																			// stopwatch
+		// stopwatch
 		try {
 			record.retVal = thisJoinPoint.proceed();
 		} catch (final Exception e) {

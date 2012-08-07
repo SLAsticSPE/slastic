@@ -1,6 +1,5 @@
 package org.trustsoft.slastic.plugins.starter;
 
-import java.util.Collection;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
@@ -17,8 +16,9 @@ import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
 
 import kieker.analysis.AnalysisController;
+import kieker.analysis.plugin.filter.AbstractFilterPlugin;
 import kieker.analysis.plugin.reader.filesystem.FSReader;
-import kieker.common.record.IMonitoringRecord;
+import kieker.common.configuration.Configuration;
 
 /**
  * 
@@ -41,15 +41,19 @@ public class SLAsticSimulatorInstance {
 	private static final String PROP_NAME_PCM_ALLOCATION_FN = PROP_NAME_PREFIX + ".pcmallocation_fn";
 	private static final String PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN = PROP_NAME_PREFIX + ".slasticreconfigurationmodel_fn";
 
+	private PCMModelSet pcmModel;
+
+	private ReconfigurationModel slasticReconfigurationModel;
+
+	private AnalysisController analysisInstance;
 	private String fsReaderInputDir;
 	private boolean fsReaderRTMode = false;
 	private int fsReaderRTNumThreads = -1;
-	private String reconfPipeName;
-	private PCMModelSet pcmModel;
-	private ReconfigurationModel slasticReconfigurationModel;
-	private AnalysisController analysisInstance;
+
 	private SimulationController simCtrl;
+
 	private SLAsticSimPlanReceiver reconfPlanReceiver;
+	private String reconfPipeName;
 
 	/** No construction via default constructor. */
 	@SuppressWarnings("unused")
@@ -135,36 +139,18 @@ public class SLAsticSimulatorInstance {
 		});
 		this.reconfPlanReceiver.execute();
 
-		/* Construct and start Tpan instance with FS reader */
-		final FSReader r = new FSReader(new String[] { this.fsReaderInputDir });
 		this.analysisInstance = new AnalysisController();
-		this.analysisInstance.setReader(r);
-		this.analysisInstance.registerPlugin(new IMonitoringRecordConsumerPlugin() {
 
-			final IMonitoringRecordConsumerPlugin delegate = this.simCtrl.getRecordConsumerPluginPort();
+		/* Construct and start Tpan instance with FS reader */
+		final Configuration fsReaderConfig = new Configuration();
+		fsReaderConfig.setProperty(FSReader.CONFIG_PROPERTY_NAME_INPUTDIRS, this.fsReaderInputDir); // TODO: just a single one here ...
+		final FSReader fsReader = new FSReader(fsReaderConfig);
+		this.analysisInstance.registerReader(fsReader);
+		final AbstractFilterPlugin recordReceiverFilter = this.simCtrl.getMoitoringRecordConsumerFilter();
+		this.analysisInstance.registerFilter(recordReceiverFilter);
 
-			@Override
-			public boolean newMonitoringRecord(final IMonitoringRecord record) {
-				return this.delegate.newMonitoringRecord(record);
-			}
-
-			@Override
-			public boolean execute() {
-				return this.delegate.execute();
-			}
-
-			@Override
-			public void terminate(final boolean error) {
-				this.delegate.newMonitoringRecord(SimulationController.TERMINATION_RECORD);
-				this.delegate.terminate(error);
-			}
-
-			@Override
-			public Collection<Class<? extends IMonitoringRecord>> getRecordTypeSubscriptionList() {
-				return null;
-			}
-		});
 		try {
+			this.analysisInstance.connect(fsReader, FSReader.OUTPUT_PORT_NAME_RECORDS, recordReceiverFilter, SimulationController.INPUT_PORT_NAME_RECORDS);
 			LOG.info("Starting to read workload ...");
 			this.analysisInstance.run();
 			LOG.info("Finished reading workload ...");

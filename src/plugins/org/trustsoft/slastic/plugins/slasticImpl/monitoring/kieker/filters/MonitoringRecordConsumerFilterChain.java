@@ -4,54 +4,47 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import kieker.analysis.plugin.annotation.InputPort;
-import kieker.analysis.plugin.filter.AbstractFilterPlugin;
-import kieker.common.configuration.Configuration;
-import kieker.common.record.IMonitoringRecord;
-import kieker.monitoring.core.IMonitoringRecordReceiver;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 
 import de.cau.se.slastic.metamodel.core.IEvent;
 
+import kieker.analysis.plugin.annotation.InputPort;
+import kieker.analysis.plugin.filter.AbstractFilterPlugin;
+import kieker.common.configuration.Configuration;
+import kieker.common.record.IMonitoringRecord;
+import kieker.monitoring.core.IMonitoringRecordReceiver;
+
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class MonitoringRecordConsumerFilterChain extends
-		AbstractFilterPlugin  {
+public class MonitoringRecordConsumerFilterChain extends AbstractFilterPlugin {
 
-	private static final Log log = LogFactory
-			.getLog(MonitoringRecordConsumerFilterChain.class);
+	private static final Log LOG = LogFactory.getLog(MonitoringRecordConsumerFilterChain.class);
 
 	private volatile AbstractControlComponent controlComponent;
 
-	public void setControlComponent(
-			final AbstractControlComponent controlComponent) {
+	public void setControlComponent(final AbstractControlComponent controlComponent) {
 		this.controlComponent = controlComponent;
 	}
 
-	private final List<ISynchronousTransformationFilter> synchronousFilters =
-			new ArrayList<ISynchronousTransformationFilter>();
-
-	private final List<IMonitoringRecordReceiver> synchronousReceivers =
-			new ArrayList<IMonitoringRecordReceiver>();
+	private final List<ISynchronousTransformationFilter> synchronousFilters = new ArrayList<ISynchronousTransformationFilter>();
+	private final List<IMonitoringRecordReceiver> synchronousReceivers = new ArrayList<IMonitoringRecordReceiver>();
 
 	// TODO: add additional filter types, e.g., asynchronous
 
 	public MonitoringRecordConsumerFilterChain(final Configuration configuration) {
 		super(configuration);
 	}
-	
+
 	/**
 	 * 
 	 * @param filter
 	 */
-	public void addSynchronousFilter(
-			final ISynchronousTransformationFilter filter) {
+	public void addSynchronousFilter(final ISynchronousTransformationFilter filter) {
 		this.synchronousFilters.add(filter);
 	}
 
@@ -59,14 +52,13 @@ public class MonitoringRecordConsumerFilterChain extends
 	 * 
 	 * @param monitoringRecordReceiver
 	 */
-	public void addSynchronousReceiver(
-			final IMonitoringRecordReceiver monitoringRecordReceiver) {
+	public void addSynchronousReceiver(final IMonitoringRecordReceiver monitoringRecordReceiver) {
 		this.synchronousReceivers.add(monitoringRecordReceiver);
 	}
 
 	@Override
 	public void terminate(final boolean error) {
-		MonitoringRecordConsumerFilterChain.log.info("Summary: "
+		LOG.info("Summary: "
 				+ this.incomingRecordCount.get() + " records received; "
 				+ this.outgoingRecordCount.get() + " records delivered");
 	}
@@ -75,8 +67,8 @@ public class MonitoringRecordConsumerFilterChain extends
 	private final AtomicInteger outgoingRecordCount = new AtomicInteger(0);
 
 	public static final String INPUT_PORT_NAME_RECORDS = "records";
-	
-	@InputPort(name = MonitoringRecordConsumerFilterChain.INPUT_PORT_NAME_RECORDS, eventTypes = IMonitoringRecord.class)
+
+	@InputPort(name = INPUT_PORT_NAME_RECORDS, eventTypes = IMonitoringRecord.class)
 	public boolean newMonitoringRecord(final IMonitoringRecord record) {
 		final boolean success = true;
 
@@ -88,8 +80,7 @@ public class MonitoringRecordConsumerFilterChain extends
 			/* Send transformation result to event processing service */
 			final IEvent event = filter.transform(record);
 			if (event != null) {
-				MonitoringRecordConsumerFilterChain.this.controlComponent
-						.getEPServiceProvider().getEPRuntime().sendEvent(event);
+				MonitoringRecordConsumerFilterChain.this.controlComponent.getEPServiceProvider().getEPRuntime().sendEvent(event);
 			}
 		}
 

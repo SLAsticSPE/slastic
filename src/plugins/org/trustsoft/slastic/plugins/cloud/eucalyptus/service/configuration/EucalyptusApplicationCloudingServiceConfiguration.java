@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 
-import kieker.analysis.util.PropertyMap;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.util.PropertiesFileUtils;
@@ -64,12 +62,10 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	/**
 	 * Must only be called by the factory methods.
 	 */
-	private EucalyptusApplicationCloudingServiceConfiguration() {
-	}
+	private EucalyptusApplicationCloudingServiceConfiguration() {}
 
 	/**
-	 * Factory methods that returns an
-	 * {@link IEucalyptusApplicationCloudingServiceConfiguration} created based
+	 * Factory methods that returns an {@link IEucalyptusApplicationCloudingServiceConfiguration} created based
 	 * on the given {@link Properties}.
 	 * 
 	 * @param props
@@ -96,8 +92,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	}
 
 	/**
-	 * Factory method that returns an
-	 * {@link IEucalyptusApplicationCloudingServiceConfiguration} created based
+	 * Factory method that returns an {@link IEucalyptusApplicationCloudingServiceConfiguration} created based
 	 * on the contents of the given configuration file.
 	 * 
 	 * @param configurationFile
@@ -124,8 +119,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements
 	}
 
 	/**
-	 * Initializes the given
-	 * {@link EucalyptusApplicationCloudingServiceConfiguration} based on the
+	 * Initializes the given {@link EucalyptusApplicationCloudingServiceConfiguration} based on the
 	 * given {@link Properties}.
 	 * 
 	 * @param configuration

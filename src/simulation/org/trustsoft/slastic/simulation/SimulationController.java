@@ -36,6 +36,7 @@ import kieker.common.util.ClassOperationSignaturePair;
 
 @SuppressWarnings("unused")
 public class SimulationController {
+	private static final Log LOG = LogFactory.getLog(SimulationController.class);
 
 	private final DynamicSimulationModel model;
 	private final Experiment exp;
@@ -52,14 +53,15 @@ public class SimulationController {
 				}
 			});
 	private final ExternalCallQueue queue = new ExternalCallQueue();
-	private final Log log = LogFactory.getLog(this.getClass());
+
 	public final static IMonitoringRecord TERMINATION_RECORD = new EmptyRecord();
 
-	@Plugin
-	public class RecordConsumerFilter extends AbstractFilterPlugin {
-		public static final String INPUT_PORT_NAME_RECORDS = "records";
+	public static final String INPUT_PORT_NAME_RECORDS = "records";
 
-		public RecordConsumerFilter(final Configuration configuration) {
+	@Plugin
+	public class MonitoringRecordConsumerFilter extends AbstractFilterPlugin {
+
+		public MonitoringRecordConsumerFilter(final Configuration configuration) {
 			super(configuration);
 		}
 
@@ -72,39 +74,30 @@ public class SimulationController {
 			SimulationController.this.exp.start();
 		}
 
-		@InputPort(name = INPUT_PORT_NAME_RECORDS, eventTypes = { IMonitoringRecord.class })
-		public boolean newMonitoringRecord(final IMonitoringRecord record) {
+		@InputPort(name = INPUT_PORT_NAME_RECORDS, eventTypes = { OperationExecutionRecord.class })
+		public boolean newMonitoringRecord(final OperationExecutionRecord record) {
 			// TODO: handle TERMINATION_RECORD (isn't this the case below?)
-
-			if (record instanceof OperationExecutionRecord) {
-				final OperationExecutionRecord ker = (OperationExecutionRecord) record;
-				if (ker.getEoi() == 0) {
-					// this.log.info("Received record " + ker.componentName);
-					// we buffer entry calls until the last call will return
-					// BEFORE the next one starts
-					final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(ker.getOperationSignature());
-					final EntryCall ec = new EntryCall(cosp.getFqClassname(),
-							cosp.getSignature().getName(), ker.getTraceId(), ker.getTin(), ker.getTout());
-					SimulationController.this.queue.add(ec);
-					// while (this.buffer.size() > Constants.PRE_BUFFER
-					// && this.buffer.first().getTout() < ker.tin) {
-					// try {
-					// // we need to schedule next calls on return
-					// synchronized (this.buffer) {
-					// this.log.info("Queue full, waiting");
-					// this.buffer.wait();
-					// }
-					// } catch (final InterruptedException e) {
-					// e.printStackTrace();
-					// }
-					// }
-					// this.buffer.add(ec);
-				}
-			} else if (record == SimulationController.TERMINATION_RECORD) {
-				SimulationController.this.log
-						.info("Last record read, marking termination");
-				SimulationController.this.queue.finish();
-				CallHandler.getInstance().setTerminating(true);
+			final OperationExecutionRecord ker = record;
+			if (ker.getEoi() == 0) {
+				// this.log.info("Received record " + ker.componentName);
+				// we buffer entry calls until the last call will return
+				// BEFORE the next one starts
+				final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(ker.getOperationSignature());
+				final EntryCall ec = new EntryCall(cosp.getFqClassname(), cosp.getSignature().getName(), ker.getTraceId(), ker.getTin(), ker.getTout());
+				SimulationController.this.queue.add(ec);
+				// while (this.buffer.size() > Constants.PRE_BUFFER
+				// && this.buffer.first().getTout() < ker.tin) {
+				// try {
+				// // we need to schedule next calls on return
+				// synchronized (this.buffer) {
+				// this.log.info("Queue full, waiting");
+				// this.buffer.wait();
+				// }
+				// } catch (final InterruptedException e) {
+				// e.printStackTrace();
+				// }
+				// }
+				// this.buffer.add(ec);
 			}
 			return true;
 		}
@@ -119,7 +112,9 @@ public class SimulationController {
 
 		@Override
 		public void terminate(final boolean error) {
-			// TODO: we might want to send the termination record from here
+			SimulationController.LOG.info("Last record read, marking termination");
+			SimulationController.this.queue.finish();
+			CallHandler.getInstance().setTerminating(true);
 		}
 
 		@Override
@@ -134,20 +129,17 @@ public class SimulationController {
 	}
 
 	// TODO: we should clean this up ...
-	private final AbstractFilterPlugin recordConsumerPluginPort = new RecordConsumerFilter(new Configuration());
+	private final AbstractFilterPlugin monitoingRecordConsumerFilter = new MonitoringRecordConsumerFilter(new Configuration());
 	private Injector createInjector;
 
-	public AbstractFilterPlugin getRecordConsumerPluginPort() {
-		return this.recordConsumerPluginPort;
+	public AbstractFilterPlugin getMoitoringRecordConsumerFilter() {
+		return this.monitoingRecordConsumerFilter;
 	}
 
-	public SimulationController(final String name, final Repository repos,
-			final System struct, final ResourceEnvironment resourceEnv,
-			final Allocation initAllocation,
-			final ReconfigurationModel reconfModel) {
+	public SimulationController(final String name, final Repository repos, final System struct, final ResourceEnvironment resourceEnv,
+			final Allocation initAllocation, final ReconfigurationModel reconfModel) {
 		this.exp = new Experiment(name);
-		this.model = new DynamicSimulationModel(name, repos, struct,
-				resourceEnv, initAllocation, reconfModel, this.queue, this.exp);
+		this.model = new DynamicSimulationModel(name, repos, struct, resourceEnv, initAllocation, reconfModel, this.queue, this.exp);
 	}
 
 	public synchronized void init() {
@@ -177,7 +169,7 @@ public class SimulationController {
 
 		@Override
 		public void reconfigure(final SLAsticReconfigurationPlan plan) {
-			SimulationController.this.log.info("Received reconfiguration plan " + plan);
+			SimulationController.LOG.info("Received reconfiguration plan " + plan);
 			ModelManager.getInstance().reconfigure(plan);
 
 		}
