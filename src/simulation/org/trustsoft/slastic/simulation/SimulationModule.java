@@ -15,23 +15,15 @@ public class SimulationModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		this.bind(ISystemStats.class)
-				.annotatedWith(Names.named("ComponentUsers"))
-				.to(DummyStats.class);
+		this.bind(ISystemStats.class).annotatedWith(Names.named("ComponentUsers")).to(DummyStats.class);
 
-		this.bind(ISystemStats.class).annotatedWith(Names.named("Execution"))
-				.to(SystemStats.class);
+		this.bind(ISystemStats.class).annotatedWith(Names.named("Execution")).to(SystemStats.class);
 
-		this.bind(ISystemStats.class)
-				.annotatedWith(Names.named("SystemUsersOnCall"))
-				.to(SystemStats.class);
+		this.bind(ISystemStats.class).annotatedWith(Names.named("SystemUsersOnCall")).to(SystemStats.class);
 
-		this.bind(ISystemStats.class)
-				.annotatedWith(Names.named("SystemUsersOnReturn"))
-				.to(SystemStats.class);
+		this.bind(ISystemStats.class).annotatedWith(Names.named("SystemUsersOnReturn")).to(SystemStats.class);
 
-		this.bind(ISystemStats.class).annotatedWith(Names.named("CPUUsage"))
-				.to(SystemStats.class);
+		this.bind(ISystemStats.class).annotatedWith(Names.named("CPUUsage")).to(SystemStats.class);
 
 		this.requestStaticInjection(ExternalCallEnterNode.class,
 				ExternalCallReturnNode.class, AllocationController.class,

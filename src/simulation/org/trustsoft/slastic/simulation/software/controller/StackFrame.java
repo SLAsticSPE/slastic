@@ -47,7 +47,7 @@ public class StackFrame {
 	public final OperationExecutionRecord createRecord(final double timeExit,
 			final int depth) {
 		
-		final String componentName = ModelManager.getInstance().getAssemblyCont().getASMInstanceAndComponentNameById(this.asmContextTo); 
+		final String componentName = ModelManager.getInstance().getAssemblyController().getASMInstanceAndComponentNameById(this.asmContextTo); 
 		final String operationSignature = componentName + "." + this.calledServiceName;
 		final long tin = (long) (Constants.SIM_TIME_TO_MON_TIME * this.timeEnter); 
 		final long tout = (long) (Constants.SIM_TIME_TO_MON_TIME * timeExit); 

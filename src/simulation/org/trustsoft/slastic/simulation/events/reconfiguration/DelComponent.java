@@ -19,7 +19,7 @@ public class DelComponent extends ReconfigurationEvent {
 		try {
 			return ModelManager
 					.getInstance()
-					.getAllocCont()
+					.getAllocationController()
 					.del(((ComponentDeReplicationOP) super.getReconfOp())
 							.getComponent());
 		} catch (final Exception e) {

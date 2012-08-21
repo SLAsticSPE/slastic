@@ -14,7 +14,7 @@ import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
-import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
+import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
@@ -48,7 +48,15 @@ import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class CallHandler {
+	private static final Log LOG = LogFactory.getLog(CallHandler.class);
+
+	private static volatile CallHandler INSTANCE;
 
 	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
@@ -56,25 +64,28 @@ public class CallHandler {
 
 	private final Hashtable<String, Integer> eoi = new Hashtable<String, Integer>();
 
-	private static CallHandler instance;
-
-	private final Log log = LogFactory.getLog(CallHandler.class);
-
 	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
 
+	// TODO: Why marked unused and not removed?
 	@SuppressWarnings("unused")
 	private final Hashtable<String, ProgressingFlow> flows = new Hashtable<String, ProgressingFlow>();
 
 	private final DynamicSimulationModel model;
 
-	private StopCondition stopCond;
+	private volatile StopCondition stopCond;
 
+	// TODO: Why marked unused and not removed?
 	@SuppressWarnings("unused")
 	private long ltime;
 
-	private boolean firstcall = true;
+	private volatile boolean firstcall = true;
 
-	private Injector injector;
+	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
+		INSTANCE = this;
+		this.model = dynamicSimulationModel;
+	}
+
+	private volatile Injector injector;
 
 	/**
 	 * @return the injector
@@ -91,13 +102,8 @@ public class CallHandler {
 		this.injector = injector;
 	}
 
-	public CallHandler(final DynamicSimulationModel dynamicSimulationModel) {
-		CallHandler.instance = this;
-		this.model = dynamicSimulationModel;
-	}
-
 	public final static CallHandler getInstance() {
-		return CallHandler.instance;
+		return INSTANCE;
 	}
 
 	/**
@@ -118,15 +124,12 @@ public class CallHandler {
 	 * @throws BranchException
 	 * @throws SumGreaterXException
 	 */
-	public final void call(String service, final String userId,
-			final String componentName, final long time)
+	public final void call(String service, final String userId, final String componentName, final long time)
 			throws NoSuchSeffException, BranchException, SumGreaterXException {
 		if (this.firstcall) {
 			this.firstcall = false;
-			final SimTime starttime = new SimTime(time
-					/ (double) Constants.SIM_TIME_TO_MON_TIME);
-			for (final Server s : ModelManager.getInstance().getHwCont()
-					.getServers()) {
+			final SimTime starttime = new SimTime(time / (double) Constants.SIM_TIME_TO_MON_TIME);
+			for (final Server s : ModelManager.getInstance().getHardwareController().getServers()) {
 				if (s.isAllocated()) {
 					for (final CPU cpu : s.getCpus()) {
 						cpu.resumeMonitoringAt(starttime);
@@ -134,31 +137,25 @@ public class CallHandler {
 				}
 			}
 		}
-		if (this.activeTraces.size() > 0 && Constants.SINGLE_TRACE) {
+		if ((this.activeTraces.size() > 0) && Constants.SINGLE_TRACE) {
 			return;
 		}
 		service = service.replaceAll("\\(.*\\)", "");
 
-		final ResourceDemandingBehaviour rdseff = ComponentController
-				.getInstance().getSeffById(service);
+		final ResourceDemandingBehaviour rdseff = ComponentTypeController.getInstance().getSeffById(service);
 		if (rdseff != null) {
 			// generate control flow
-			final String asmContext = ModelManager.getInstance()
-					.getAssemblyCont().getASMContextBySystemService(service);
+			final String asmContext = ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service);
 			final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
-			final Signature signature = ModelManager.getInstance()
-					.getAssemblyCont()
-					.getSignatureByExternalServiceName(service);
-			this.log.info("Creating call with service "
+			final Signature signature = ModelManager.getInstance().getAssemblyController().getSignatureByExternalServiceName(service);
+			CallHandler.LOG.info("Creating call with service "
 					+ service
 					+ " -> "
 					+ signature
 					+ " "
-					+ ModelManager.getInstance().getAssemblyCont()
-							.getASMContextBySystemService(service)
+					+ ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service)
 					+ " for trace " + userId);
-			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(
-					signature, null, userId);
+			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(signature, null, userId);
 			this.injector.injectMembers(entryCallNode);
 			nodes.add(entryCallNode);
 			nodes.addAll(this.generateControlFlow(rdseff, userId, asmContext));
@@ -167,17 +164,11 @@ public class CallHandler {
 			this.activeTraces.put(userId, nodes);
 			// push initial stack frame
 			final Stack<StackFrame> stack = new Stack<StackFrame>();
-			final StackFrame frame = new StackFrame(userId, service,
-					asmContext, null, time);
+			final StackFrame frame = new StackFrame(userId, service, asmContext, null, time);
 			stack.push(frame);
 			this.stacks.put(userId, stack);
 			// schedule
-			nodes.get(0)
-					.schedule(
-							SimTime.diff(new SimTime(time
-									/ (double) Constants.SIM_TIME_TO_MON_TIME),
-									ModelManager.getInstance().getModel()
-											.currentTime()));
+			nodes.get(0).schedule(SimTime.diff(new SimTime(time / (double) Constants.SIM_TIME_TO_MON_TIME), ModelManager.getInstance().getModel().currentTime()));
 			this.ltime = System.nanoTime();
 			return;
 		} else {
@@ -234,12 +225,12 @@ public class CallHandler {
 				// TODO save time!
 				final String calledContext = ModelManager
 						.getInstance()
-						.getAssemblyCont()
+						.getAssemblyController()
 						.asmContextForServiceCall(
 								asmContextCurrent,
 								eca.getCalledService_ExternalService()
 										.getServiceName());
-				this.log.info("Generating external call node for: "
+				CallHandler.LOG.info("Generating external call node for: "
 						+ eca.getCalledService_ExternalService()
 								.getServiceName() + " from asm context "
 						+ asmContextCurrent + " to asm context "
@@ -254,7 +245,7 @@ public class CallHandler {
 				// .getAssemblyCont()
 				// .getComponentByASMId(ece.getASMCont());
 				ret.addAll(this.generateControlFlow(ModelManager.getInstance()
-						.getCompCont().getSeffById(ece.getCalledService()),
+						.getComponentTypeController().getSeffById(ece.getCalledService()),
 						userId, ece.getASMContTo()));
 				// mark return
 				final ExternalCallReturnNode ecr = new ExternalCallReturnNode(
@@ -278,14 +269,14 @@ public class CallHandler {
 							.getSpecification_ParametericResourceDemand()
 							.getSpecification();
 					currentIA.add(requiredResource, demand);
-					this.log.info("Added demand: " + requiredResource + " "
+					CallHandler.LOG.info("Added demand: " + requiredResource + " "
 							+ demand);
 				}
 				ret.add(currentIA);
 			} else if (next instanceof AbstractLoopAction) {
 				if (next instanceof LoopAction) {
 					final LoopAction la = (LoopAction) next;
-					this.log.info("Loop's iteration count is "
+					CallHandler.LOG.info("Loop's iteration count is "
 							+ la.getIterationCount_LoopAction()
 									.getSpecification());
 					final int max = // (Integer) EvaluationProxy.evaluate(
@@ -363,7 +354,7 @@ public class CallHandler {
 		}
 		for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
 				.get(ba)) {
-			if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
+			if ((randomResult >= i.getLower()) && (randomResult < i.getUpper())) {
 				return i.getAbt();
 			}
 		}
@@ -403,7 +394,7 @@ public class CallHandler {
 		if (nodes.size() > 1) {
 			nodes.remove(0);
 			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
-			this.log.info("Attempting to schedule " + node.getClass());
+			CallHandler.LOG.info("Attempting to schedule " + node.getClass());
 			node.schedule(SimTime.NOW);
 		} else {
 			nodes.clear();
@@ -412,7 +403,7 @@ public class CallHandler {
 			this.eoi.remove(traceId);
 			this.model.callReturns(traceId);
 		}
-		this.log.info(nodes.size());
+		CallHandler.LOG.info(nodes.size());
 
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
@@ -425,8 +416,7 @@ public class CallHandler {
 
 	}
 
-	public final void setTerminating(final boolean b) {
-	}
+	public final void setTerminating(final boolean b) {}
 
 	public ControlFlowNode getNextInTrace(final String traceId) {
 		final List<ControlFlowNode> list = this.activeTraces.get(traceId);

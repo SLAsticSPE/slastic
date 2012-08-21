@@ -11,7 +11,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
 import org.trustsoft.slastic.simulation.model.reconfiguration.ReconfigurationController;
-import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
+import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
@@ -71,7 +71,7 @@ public final class AllocationController {
 		final List<AllocationContext> contexts = allocation
 				.getAllocationContexts_Allocation();
 		final Collection<Server> servers = ModelManager.getInstance()
-				.getHwCont().getServers();
+				.getHardwareController().getServers();
 		for (final Server server : servers) {
 			this.serverToAllocationContextsMapping.put(server.getId(),
 					new HashSet<String>());
@@ -79,7 +79,7 @@ public final class AllocationController {
 					new Hashtable<String, Boolean>());
 		}
 		final Collection<AssemblyContext> asmContexts = ModelManager
-				.getInstance().getAssemblyCont().getAllASMContexts();
+				.getInstance().getAssemblyController().getAllASMContexts();
 		for (final AssemblyContext assemblyContext : asmContexts) {
 			this.assemblyContextToServerMapping.put(assemblyContext.getId(),
 					new HashSet<String>());
@@ -95,7 +95,7 @@ public final class AllocationController {
 					.getResourceContainer_AllocationContext().getId();
 			this.assemblyContextToServerMapping.get(asmId).add(serverId);
 			this.serverToAllocationContextsMapping.get(serverId).add(asmId);
-			ModelManager.getInstance().getHwCont().bpallocate(serverId);
+			ModelManager.getInstance().getHardwareController().bpallocate(serverId);
 			this.initPResource(serverId, asmId);
 		}
 
@@ -284,11 +284,11 @@ public final class AllocationController {
 		}
 
 		final ProvidesComponentType component = ModelManager.getInstance()
-				.getAssemblyCont().getASMContextById(asmContext)
+				.getAssemblyController().getASMContextById(asmContext)
 				.getEncapsulatedComponent_ChildComponentContext();
 		if (component instanceof BasicComponent) {
 			final BasicComponent bc = (BasicComponent) component;
-			final Hashtable<String, PassiveResource> passiveRes = ComponentController
+			final Hashtable<String, PassiveResource> passiveRes = ComponentTypeController
 					.getInstance().getPassiveResByComponent(bc);
 			for (final String pResName : passiveRes.keySet()) {
 				final int capacity = Integer.parseInt(passiveRes.get(pResName)

@@ -12,7 +12,7 @@ import org.trustsoft.slastic.simulation.events.reconfiguration.DelComponent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.DelocationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.ReconfigurationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.ReplicationEvent;
-import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
+import org.trustsoft.slastic.simulation.listeners.IReconfigurationEventListener;
 import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.software.system.ReconfigurableComponent;
 
@@ -48,7 +48,7 @@ public final class ReconfigurationController {
 
 	private SLAsticReconfigurationPlan plan;
 
-	private final List<ReconfEventListener> listeners = new LinkedList<ReconfEventListener>();
+	private final List<IReconfigurationEventListener> listeners = new LinkedList<IReconfigurationEventListener>();
 
 	private final Model model;
 
@@ -157,7 +157,7 @@ public final class ReconfigurationController {
 				.getOperations()) {
 			if (operation instanceof NodeAllocationOP) {
 				final NodeAllocationOP nodeAlloc = (NodeAllocationOP) operation;
-				ModelManager.getInstance().getHwCont()
+				ModelManager.getInstance().getHardwareController()
 						.isAllocated(nodeAlloc.getNode().getId());
 			}
 		}
@@ -216,7 +216,7 @@ public final class ReconfigurationController {
 			}
 			this.scheduleNextOp();
 		} else {
-			for (final ReconfEventListener listener : this.listeners) {
+			for (final IReconfigurationEventListener listener : this.listeners) {
 				listener.notifyPlanFailed(plan);
 			}
 			this.log.warn("Rejected plan: "
@@ -260,7 +260,7 @@ public final class ReconfigurationController {
 			// System.out.println("Blocking component " + reconfOp);
 			ModelManager
 					.getInstance()
-					.getAllocCont()
+					.getAllocationController()
 					.blockInstance(
 							((ComponentDeReplicationOP) reconfOp).getClone()
 									.getAssemblyContext_AllocationContext()
@@ -293,23 +293,23 @@ public final class ReconfigurationController {
 			// System.out
 			// .println("----------------------------------------------------------");
 		} else {
-			for (final ReconfEventListener listener : this.listeners) {
+			for (final IReconfigurationEventListener listener : this.listeners) {
 				listener.notifyPlanDone(this.plan);
 			}
 			this.plan = null;
 		}
 	}
 
-	public void addReconfEventListener(final ReconfEventListener listener) {
+	public void addReconfEventListener(final IReconfigurationEventListener listener) {
 		this.listeners.add(listener);
 	}
 
-	public void removeReconfEventListener(final ReconfEventListener listener) {
+	public void removeReconfEventListener(final IReconfigurationEventListener listener) {
 		this.listeners.remove(listener);
 	}
 
 	public void operationFailed(final SLAsticReconfigurationOpType reconfOp) {
-		for (final ReconfEventListener listener : this.listeners) {
+		for (final IReconfigurationEventListener listener : this.listeners) {
 			listener.notifyOpFailed(this.plan, reconfOp);
 			listener.notifyPlanFailed(this.plan);
 		}

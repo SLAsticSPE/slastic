@@ -18,7 +18,7 @@ public final class DelocationEvent extends ReconfigurationEvent {
 	public boolean eventRoutine2() {
 		return ModelManager
 				.getInstance()
-				.getHwCont()
+				.getHardwareController()
 				.delocate(
 						((NodeDeAllocationOP) this.getReconfOp()).getNode()
 								.getId());

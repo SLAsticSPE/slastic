@@ -29,7 +29,7 @@ public class AcquireNode extends ControlFlowNode {
 		final StackFrame f = CallHandler.getInstance().getStackTop(
 				this.getTraceId());
 		final String asm = f.getAsmContextTo(), server = f.getServerId();
-		ModelManager.getInstance().getAllocCont()
+		ModelManager.getInstance().getAllocationController()
 				.acquirePassive(server, asm, this.resName, next);
 	}
 

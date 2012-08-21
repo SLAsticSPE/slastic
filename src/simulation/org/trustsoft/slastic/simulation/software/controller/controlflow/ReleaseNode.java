@@ -20,7 +20,7 @@ public class ReleaseNode extends ControlFlowNode {
 				this.getTraceId());
 		ModelManager
 				.getInstance()
-				.getAllocCont()
+				.getAllocationController()
 				.releasePassive(f.getServerId(), f.getAsmContextTo(),
 						this.resName);
 		CallHandler.getInstance().actionReturn(this.getTraceId());

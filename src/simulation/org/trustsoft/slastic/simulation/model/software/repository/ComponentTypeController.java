@@ -19,9 +19,14 @@ import de.uka.ipd.sdq.pcm.seff.ResourceDemandingSEFF;
 import de.uka.ipd.sdq.pcm.seff.ServiceEffectSpecification;
 import desmoj.core.simulator.Model;
 
-public final class ComponentController {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public final class ComponentTypeController {
 
-	private static ComponentController instance;
+	private static volatile ComponentTypeController instance;
 	// = new
 	// ComponentController();
 	private final Hashtable<String, ProvidesComponentType> components = new Hashtable<String, ProvidesComponentType>();
@@ -31,13 +36,11 @@ public final class ComponentController {
 	private List<DataType> types;
 	private final Log log;
 
-	public ComponentController(final Repository repository,
+	public ComponentTypeController(final Repository repository,
 			final ReconfigurationModel reconfModel, final Model model) {
 		this.log = ModelManager.getInstance().getLogger();
-		for (final ProvidesComponentType component : repository
-				.getComponents__Repository()) {
-			this.log.info("Adding Component " + component
-					+ " to simulation model");
+		for (final ProvidesComponentType component : repository.getComponents__Repository()) {
+			this.log.info("Adding Component " + component + " to simulation model");
 			this.put(component, reconfModel);
 			if (component instanceof BasicComponent) {
 				final BasicComponent bc = (BasicComponent) component;
@@ -45,15 +48,14 @@ public final class ComponentController {
 						new Hashtable<String, PassiveResource>());
 				for (final PassiveResource res : bc
 						.getPassiveResource_BasicComponent()) {
-					this.passiveResByComponent.get(bc).put(res.getEntityName(),
-							res);
+					this.passiveResByComponent.get(bc).put(res.getEntityName(), res);
 				}
 			}
 		}
 		for (final DataType dataType : repository.getDatatypes_Repository()) {
 			this.put(dataType);
 		}
-		ComponentController.instance = this;
+		ComponentTypeController.instance = this;
 	}
 
 	/**
@@ -68,25 +70,15 @@ public final class ComponentController {
 		this.components.put(pct.getEntityName(), pct);
 		if (pct instanceof BasicComponent) {
 			final BasicComponent bc = (BasicComponent) pct;
-			for (final ServiceEffectSpecification seff : bc
-					.getServiceEffectSpecifications__BasicComponent()) {
+			for (final ServiceEffectSpecification seff : bc.getServiceEffectSpecifications__BasicComponent()) {
 				if (seff instanceof ResourceDemandingSEFF) {
 					final ResourceDemandingSEFF rdseff = (ResourceDemandingSEFF) seff;
-					this.log.info("Adding RDSEFF "
-							+ rdseff
-							+ " for service "
-							+ rdseff.getDescribedService__SEFF()
-									.getServiceName());
+					this.log.info("Adding RDSEFF " + rdseff + " for service " + rdseff.getDescribedService__SEFF().getServiceName());
 					if (this.seffsByComponent.get(bc) == null) {
-						this.seffsByComponent
-								.put(bc,
-										new Hashtable<Signature, ResourceDemandingSEFF>());
+						this.seffsByComponent.put(bc, new Hashtable<Signature, ResourceDemandingSEFF>());
 					}
-					this.seffsByComponent.get(bc).put(
-							rdseff.getDescribedService__SEFF(), rdseff);
-					this.seffsByServiceName.put(rdseff
-							.getDescribedService__SEFF().getServiceName(),
-							rdseff);
+					this.seffsByComponent.get(bc).put(rdseff.getDescribedService__SEFF(), rdseff);
+					this.seffsByServiceName.put(rdseff.getDescribedService__SEFF().getServiceName(), rdseff);
 				}
 			}
 
@@ -97,8 +89,8 @@ public final class ComponentController {
 		this.types.add(datatype);
 	}
 
-	public static ComponentController getInstance() {
-		return ComponentController.instance;
+	public static ComponentTypeController getInstance() {
+		return ComponentTypeController.instance;
 	}
 
 	public ResourceDemandingBehaviour getSeffById(final String serviceName) {
@@ -113,21 +105,12 @@ public final class ComponentController {
 		return this.components.get(id).getEntityName();
 	}
 
-	/**
-	 * @return the passiveResByComponent
-	 */
-	public final Hashtable<String, PassiveResource> getPassiveResByComponent(
-			final BasicComponent bc) {
+	public final Hashtable<String, PassiveResource> getPassiveResByComponent(final BasicComponent bc) {
 		return this.passiveResByComponent.get(bc);
 	}
 
-	/**
-	 * @return the passiveResByComponent
-	 */
-	public final PassiveResource getPassiveResName(final BasicComponent bc,
-			final String name) {
-		final Hashtable<String, PassiveResource> comp = this.passiveResByComponent
-				.get(bc);
+	public final PassiveResource getPassiveResByName(final BasicComponent bc, final String name) {
+		final Hashtable<String, PassiveResource> comp = this.passiveResByComponent.get(bc);
 		if (comp != null) {
 			return comp.get(name);
 		}

@@ -11,6 +11,11 @@ import java.util.concurrent.locks.LockSupport;
 import org.trustsoft.slastic.simulation.config.Constants;
 import org.trustsoft.slastic.simulation.software.controller.EntryCall;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class ExternalCallQueue implements Iterable<EntryCall> {
 
 	private final Queue<Thread> waiters = new ConcurrentLinkedQueue<Thread>();
@@ -20,7 +25,7 @@ public class ExternalCallQueue implements Iterable<EntryCall> {
 	private final TreeSet<EntryCall> queue = new TreeSet<EntryCall>(
 			new Comparator<EntryCall>() {
 
-				public int compare(EntryCall t, EntryCall t1) {
+				public int compare(final EntryCall t, final EntryCall t1) {
 					return t.getTin() < t1.getTin() ? -1 : 1;
 				}
 
@@ -28,8 +33,8 @@ public class ExternalCallQueue implements Iterable<EntryCall> {
 
 	public void add(final EntryCall ec) {
 		synchronized (this.queue) {
-			if (this.queue.size() > Constants.PRE_BUFFER
-					&& this.queue.first().getTout() > ec.getTin()) {
+			if ((this.queue.size() > Constants.PRE_BUFFER)
+					&& (this.queue.first().getTout() > ec.getTin())) {
 				this.lock();
 			}
 			this.queue.add(ec);
@@ -75,7 +80,7 @@ public class ExternalCallQueue implements Iterable<EntryCall> {
 		this.waiters.add(current);
 
 		// Block while not first in queue or cannot acquire lock
-		while (this.waiters.peek() != current
+		while ((this.waiters.peek() != current)
 				|| !this.locked.compareAndSet(false, true)) {
 			LockSupport.park(this);
 			if (Thread.interrupted()) {

@@ -27,20 +27,20 @@ public final class ReplicationEvent extends ReconfigurationEvent {
 				.getReconfOp();
 		final AssemblyContext ac = repOp.getComponent();
 		final ResourceContainer rc = repOp.getDestination();
-		if (ModelManager.getInstance().getHwCont().isAllocated(rc.getId())
-				&& !ModelManager.getInstance().getAllocCont()
+		if (ModelManager.getInstance().getHardwareController().isAllocated(rc.getId())
+				&& !ModelManager.getInstance().getAllocationController()
 						.hasAllocation(rc.getId(), ac.getId())) {
-			ModelManager.getInstance().getAllocCont()
+			ModelManager.getInstance().getAllocationController()
 					.add(rc.getId(), ac.getId());
 			return true;
 			// TODO Auto-generated catch block
 		} else {
 			ReplicationEvent.log
 					.warn("Replication failed, target machine allocated: "
-							+ ModelManager.getInstance().getHwCont()
+							+ ModelManager.getInstance().getHardwareController()
 									.isAllocated(rc.getId())
 							+ ", component already instantiated: "
-							+ ModelManager.getInstance().getAllocCont()
+							+ ModelManager.getInstance().getAllocationController()
 									.hasAllocation(rc.getId(), ac.getId()));
 			return false;
 		}

@@ -19,15 +19,23 @@ import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
 import desmoj.core.simulator.Model;
 
-@SuppressWarnings("unused")
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class DynamicSimulationModel extends Model {
+	private static final Log LOG = LogFactory.getLog(DynamicSimulationModel.class);
 
-	private final ModelManager manager;
+	@SuppressWarnings("unused")
+	private final ModelManager manager; // used to create (and hold) the singleton instance
+
 	private final CallHandler callHandler;
 	private final ExternalCallQueue buffer;
-	private final Log log = LogFactory.getLog(this.getClass());
-	private boolean terminating;
-	private boolean written;
+
+	// TODO: It seems that these variables aren't used at all
+	// private volatile boolean terminating;
+	// private volatile boolean written;
 
 	public DynamicSimulationModel(final String name, final Repository repos,
 			final System struct, final ResourceEnvironment resourceEnv,
@@ -37,16 +45,14 @@ public class DynamicSimulationModel extends Model {
 			final Experiment experiment) {
 		super(null, name, Constants.DEBUG, Constants.DEBUG);
 		this.connectToExperiment(experiment);
-		this.manager = new ModelManager(repos, struct, resourceEnv,
-				initAllocation, reconfModel, this, this.log);
+		this.manager = new ModelManager(repos, struct, resourceEnv, initAllocation, reconfModel, this, LOG);
 		this.buffer = simulatedThreadQueue;
 		this.callHandler = new CallHandler(this);
 	}
 
 	@Override
 	public String description() {
-		return "This is SLAstic.SIM, the dynamic software architecture simulator.\nWe currently simulate "
-				+ super.getName();
+		return "This is SLAstic.SIM, the dynamic software architecture simulator.\nWe currently simulate " + super.getName();
 	}
 
 	@Override
@@ -54,10 +60,8 @@ public class DynamicSimulationModel extends Model {
 		synchronized (this.buffer) {
 			for (final EntryCall call : this.buffer) {
 				try {
-					this.log.info("Calling " + call.getComponentName() + "."
-							+ call.getOpname());
-					this.callHandler.call(call.getOpname(), call.getTraceId()
-							+ "", call.getComponentName(), call.getTin());
+					LOG.info("Calling " + call.getComponentName() + "." + call.getOpname());
+					this.callHandler.call(call.getOpname(), call.getTraceId() + "", call.getComponentName(), call.getTin());
 				} catch (final NoSuchSeffException e) {
 					e.printStackTrace();
 				} catch (final BranchException e) {
@@ -85,17 +89,15 @@ public class DynamicSimulationModel extends Model {
 	 */
 	public void callReturns(final String traceId) {
 		final EntryCall call;
-		this.log.info("Attempting to fetch next call");
+		LOG.info("Attempting to fetch next call");
 		call = this.buffer.removeFirstBlocking();
 		if (call == null) {
-			this.log.info("No call in queue");
+			LOG.info("No call in queue");
 			return;
 		}
-		this.log.warn("Calling " + call.getComponentName() + "."
-				+ call.getOpname());
+		LOG.warn("Calling " + call.getComponentName() + "." + call.getOpname());
 		try {
-			this.callHandler.call(call.getOpname(), call.getTraceId() + "",
-					call.getComponentName(), call.getTin());
+			this.callHandler.call(call.getOpname(), call.getTraceId() + "", call.getComponentName(), call.getTin());
 		} catch (final NoSuchSeffException e) {
 			e.printStackTrace();
 		} catch (final BranchException e) {
@@ -106,8 +108,8 @@ public class DynamicSimulationModel extends Model {
 
 	}
 
-	public void setTerminating(final boolean b) {
-		this.terminating = b;
-	}
-
+	// TODO: Not used at all
+	// public void setTerminating(final boolean b) {
+	// this.terminating = b;
+	// }
 }

@@ -1,8 +1,5 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
-import kieker.monitoring.core.controller.IMonitoringController;
-import kieker.monitoring.core.controller.MonitoringController;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.model.ModelManager;
@@ -12,6 +9,9 @@ import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+
+import kieker.monitoring.core.controller.IMonitoringController;
+import kieker.monitoring.core.controller.MonitoringController;
 
 @SuppressWarnings("unused")
 public class ExternalCallReturnNode extends ControlFlowNode {
@@ -27,8 +27,7 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	private final ExternalCallEnterNode ece;
 	// private SimTime exitTime;
 	private static Log log = LogFactory.getLog(ExternalCallReturnNode.class);
-	private final static IMonitoringController tpmonCtrl = MonitoringController
-			.getInstance();
+	private final static IMonitoringController tpmonCtrl = MonitoringController.getInstance();
 
 	public ExternalCallReturnNode(final ExternalCallEnterNode ece) {
 		super("Return from " + ece.getName(), ece.getTraceId());
@@ -39,17 +38,14 @@ public class ExternalCallReturnNode extends ControlFlowNode {
 	public final void eventRoutine() {
 		// this.exitTime = this.getModel().currentTime();
 		// spawn record!
-		final StackFrame f = CallHandler.getInstance().popContext(
-				this.ece.getTraceId());
+		final StackFrame f = CallHandler.getInstance().popContext(this.ece.getTraceId());
 		if (this.ece.getASMContFrom() == null) {
 			ExternalCallReturnNode.stats.subSystemUser();
 		}
-		ExternalCallReturnNode.exeStats.logExecution(f, CallHandler
-				.getInstance().getStackDepth(this.ece.getTraceId()));
+		ExternalCallReturnNode.exeStats.logExecution(f, CallHandler.getInstance().getStackDepth(this.ece.getTraceId()));
 
 		// tell simulator to schedule next action in this trace
-		ModelManager.getInstance().getAllocCont()
-				.remUser(this.ece.getASMContTo(), this.ece.getServerId());
+		ModelManager.getInstance().getAllocationController().remUser(this.ece.getASMContTo(), this.ece.getServerId());
 		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
 	}
 }

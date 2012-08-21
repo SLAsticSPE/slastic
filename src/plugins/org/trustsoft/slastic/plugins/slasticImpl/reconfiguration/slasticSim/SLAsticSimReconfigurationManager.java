@@ -7,7 +7,7 @@ import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.Reconfiguration
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.ReconfigurationPipeException;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 import org.trustsoft.slastic.reconfiguration.ReconfigurationException;
-import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
+import org.trustsoft.slastic.simulation.listeners.IReconfigurationEventListener;
 
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
@@ -22,7 +22,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * @author Andre van Hoorn
  */
 public class SLAsticSimReconfigurationManager extends
-		AbstractReconfigurationManagerComponent implements ReconfEventListener {
+		AbstractReconfigurationManagerComponent implements IReconfigurationEventListener {
 
 	private ReconfigurationPipe reconfigurationPipe;
 	private static final String PROPERTY_PIPE_NAME = "pipeName";

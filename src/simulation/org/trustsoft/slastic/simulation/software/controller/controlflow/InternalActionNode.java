@@ -28,7 +28,7 @@ public class InternalActionNode extends ControlFlowNode {
 	public final void eventRoutine() {
 		final String server = CallHandler.getInstance().getCurrentServer(
 				this.traceId);
-		final Server s = ModelManager.getInstance().getHwCont()
+		final Server s = ModelManager.getInstance().getHardwareController()
 				.getServer(server);
 		// create schedulable processes and schedule to the server
 		final Demand<Integer> cpuDemand = this.demands

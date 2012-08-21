@@ -9,8 +9,8 @@ import org.trustsoft.slastic.plugins.pcm.control.PCMModelSet;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import org.trustsoft.slastic.plugins.starter.reconfigurationPipe.SLAsticSimPlanReceiver;
 import org.trustsoft.slastic.simulation.SimulationController;
-import org.trustsoft.slastic.simulation.listeners.ReconfEventListener;
-import org.trustsoft.slastic.simulation.model.interfaces.IReconfPlanReceiver;
+import org.trustsoft.slastic.simulation.listeners.IReconfigurationEventListener;
+import org.trustsoft.slastic.simulation.model.interfaces.IReconfigurationPlanReceiver;
 
 import reconfMM.ReconfigurationModel;
 import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
@@ -28,7 +28,7 @@ public class SLAsticSimulatorInstance {
 
 	private static final Log LOG = LogFactory.getLog(SLAsticSimulatorInstance.class);
 
-	private Properties props;
+	private final Properties props;
 
 	private static final String PROP_NAME_PREFIX = "slastic.simulation";
 	private static final String PROP_NAME_FSREADER_INPUTDIRS = PROP_NAME_PREFIX + ".fsreader.inputdirs";
@@ -41,23 +41,25 @@ public class SLAsticSimulatorInstance {
 	private static final String PROP_NAME_PCM_ALLOCATION_FN = PROP_NAME_PREFIX + ".pcmallocation_fn";
 	private static final String PROP_NAME_SLASTIC_RECONFIGURATIONMODEL_FN = PROP_NAME_PREFIX + ".slasticreconfigurationmodel_fn";
 
-	private PCMModelSet pcmModel;
+	private volatile PCMModelSet pcmModel;
 
-	private ReconfigurationModel slasticReconfigurationModel;
+	private volatile ReconfigurationModel slasticReconfigurationModel;
 
-	private AnalysisController analysisInstance;
-	private String fsReaderInputDir;
-	private boolean fsReaderRTMode = false;
-	private int fsReaderRTNumThreads = -1;
+	private volatile AnalysisController analysisInstance;
+	private volatile String fsReaderInputDir;
+	private volatile boolean fsReaderRTMode = false;
+	private volatile int fsReaderRTNumThreads = -1;
 
-	private SimulationController simCtrl;
+	private volatile SimulationController simCtrl;
 
-	private SLAsticSimPlanReceiver reconfPlanReceiver;
-	private String reconfPipeName;
+	private volatile SLAsticSimPlanReceiver reconfPlanReceiver;
+	private volatile String reconfPipeName;
 
 	/** No construction via default constructor. */
 	@SuppressWarnings("unused")
-	private SLAsticSimulatorInstance() {}
+	private SLAsticSimulatorInstance() {
+		this.props = null;
+	}
 
 	public SLAsticSimulatorInstance(final Properties props) {
 		this.props = props;
@@ -119,7 +121,7 @@ public class SLAsticSimulatorInstance {
 				this.slasticReconfigurationModel);
 
 		/* Construct and start reconfiguration plan receiver */
-		this.reconfPlanReceiver = new SLAsticSimPlanReceiver(this.reconfPipeName, new IReconfPlanReceiver() {
+		this.reconfPlanReceiver = new SLAsticSimPlanReceiver(this.reconfPipeName, new IReconfigurationPlanReceiver() {
 
 			@Override
 			public void reconfigure(final SLAsticReconfigurationPlan plan) {
@@ -128,12 +130,12 @@ public class SLAsticSimulatorInstance {
 			}
 
 			@Override
-			public void addReconfigurationEventListener(final ReconfEventListener listener) {
+			public void addReconfigurationEventListener(final IReconfigurationEventListener listener) {
 				SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().addReconfigurationEventListener(listener);
 			}
 
 			@Override
-			public void removeReconfigurationEventListener(final ReconfEventListener listener) {
+			public void removeReconfigurationEventListener(final IReconfigurationEventListener listener) {
 				SLAsticSimulatorInstance.this.simCtrl.getReconfigurationPlanReceiverPort().removeReconfigurationEventListener(listener);
 			}
 		});
@@ -146,7 +148,7 @@ public class SLAsticSimulatorInstance {
 		fsReaderConfig.setProperty(FSReader.CONFIG_PROPERTY_NAME_INPUTDIRS, this.fsReaderInputDir); // TODO: just a single one here ...
 		final FSReader fsReader = new FSReader(fsReaderConfig);
 		this.analysisInstance.registerReader(fsReader);
-		final AbstractFilterPlugin recordReceiverFilter = this.simCtrl.getMoitoringRecordConsumerFilter();
+		final AbstractFilterPlugin recordReceiverFilter = this.simCtrl.getMonitoringRecordConsumerFilter();
 		this.analysisInstance.registerFilter(recordReceiverFilter);
 
 		try {

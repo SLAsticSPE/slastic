@@ -37,6 +37,11 @@ import de.uka.ipd.sdq.pcm.seff.SetVariableAction;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class ProgressingFlow {
 
 	public static final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
@@ -107,7 +112,7 @@ public class ProgressingFlow {
 			// TODO save time!
 			final String calledContext = ModelManager
 					.getInstance()
-					.getAssemblyCont()
+					.getAssemblyController()
 					.asmContextForServiceCall(
 							currentFrame.getAsmContextCurrent(),
 							eca.getCalledService_ExternalService()
@@ -125,10 +130,10 @@ public class ProgressingFlow {
 			this.nodes.add(ece);
 
 			final CFFrame frame = new CallFrame(
-					ModelManager.getInstance().getCompCont()
+					ModelManager.getInstance().getComponentTypeController()
 							.getSeffById(ece.getCalledService()),
 					this.getStartAction(ModelManager.getInstance()
-							.getCompCont().getSeffById(ece.getCalledService())),
+							.getComponentTypeController().getSeffById(ece.getCalledService())),
 					ece.getASMContTo(), ece);
 
 			this.stack.push(frame);
@@ -243,7 +248,7 @@ public class ProgressingFlow {
 		{
 			for (final Interval<ProbabilisticBranchTransition> i : ProgressingFlow.probabilisticBranchIntervalCache
 					.get(ba)) {
-				if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
+				if ((randomResult >= i.getLower()) && (randomResult < i.getUpper())) {
 					return i.getAbt();
 				}
 			}

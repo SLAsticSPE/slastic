@@ -16,7 +16,7 @@ public class AllocationEvent extends ReconfigurationEvent {
 
 	@Override
 	public boolean eventRoutine2() {
-		return ModelManager.getInstance().getHwCont().allocate(
+		return ModelManager.getInstance().getHardwareController().allocate(
 				((NodeAllocationOP) this.getReconfOp()).getNode().getId());
 	}
 

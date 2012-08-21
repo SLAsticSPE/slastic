@@ -39,12 +39,12 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		if (asmContextCurrent != null) {
 			this.asmContextTo = ModelManager
 					.getInstance()
-					.getAssemblyCont()
+					.getAssemblyController()
 					.getServiceASMContextConnectedWithContext(
 							calledService_ExternalService.getServiceName(),
 							asmContextCurrent);
 		} else {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
+			this.asmContextTo = ModelManager.getInstance().getAssemblyController()
 					.getASMContextBySystemService(this.calledServiceName);
 		}
 	}
@@ -56,12 +56,12 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		if (asmContextCurrent != null) {
 			this.asmContextTo = ModelManager
 					.getInstance()
-					.getAssemblyCont()
+					.getAssemblyController()
 					.getServiceASMContextConnectedWithContext(
 							calledService_ExternalService.getServiceName(),
 							asmContextCurrent);
 		} else {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyCont()
+			this.asmContextTo = ModelManager.getInstance().getAssemblyController()
 					.getASMContextBySystemService(this.calledServiceName);
 		}
 	}
@@ -71,9 +71,9 @@ public class ExternalCallEnterNode extends ControlFlowNode {
 		if (this.asmContextFrom == null) {
 			ExternalCallEnterNode.stats.addSystemUser();
 		}
-		this.serverId = ModelManager.getInstance().getAllocCont()
+		this.serverId = ModelManager.getInstance().getAllocationController()
 				.getServer(this.asmContextTo);
-		ModelManager.getInstance().getAllocCont()
+		ModelManager.getInstance().getAllocationController()
 				.addUser(this.asmContextTo, this.serverId);
 		// TODO Start monitoring here!
 		this.enterTime = this.getModel().currentTime();

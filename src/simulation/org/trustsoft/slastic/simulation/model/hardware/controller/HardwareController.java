@@ -130,7 +130,7 @@ public class HardwareController extends Reportable {
 		final Server server = this.serversById.get(id);
 		// this.log.warn("Delocating server " + server.getName());
 		if (this.allocatedServers > 1
-				&& !ModelManager.getInstance().getAllocCont().serverIsUsed(id)) {
+				&& !ModelManager.getInstance().getAllocationController().serverIsUsed(id)) {
 			server.setAllocated(false);
 			for (final CPU cpu : server.getCpus()) {
 				cpu.pauseMonitoring();
@@ -141,7 +141,7 @@ public class HardwareController extends Reportable {
 		this.log.warn("Delocation failed, Servers left: "
 				+ this.allocatedServers
 				+ ", Usage status: "
-				+ (ModelManager.getInstance().getAllocCont().serverIsUsed(id) ? "used"
+				+ (ModelManager.getInstance().getAllocationController().serverIsUsed(id) ? "used"
 						: "unused") + ", Allocation status: "
 				+ server.isAllocated());
 		return false;
