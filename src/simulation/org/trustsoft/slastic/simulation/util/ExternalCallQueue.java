@@ -33,8 +33,7 @@ public class ExternalCallQueue implements Iterable<EntryCall> {
 
 	public void add(final EntryCall ec) {
 		synchronized (this.queue) {
-			if ((this.queue.size() > Constants.PRE_BUFFER)
-					&& (this.queue.first().getTout() > ec.getTin())) {
+			if ((this.queue.size() > Constants.PRE_BUFFER) && (this.queue.first().getTout() > ec.getTin())) {
 				this.lock();
 			}
 			this.queue.add(ec);

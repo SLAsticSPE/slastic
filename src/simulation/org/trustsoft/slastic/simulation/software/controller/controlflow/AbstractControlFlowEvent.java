@@ -5,11 +5,11 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import desmoj.core.simulator.ExternalEvent;
 
-public abstract class ControlFlowNode extends ExternalEvent {
+public abstract class AbstractControlFlowEvent extends ExternalEvent {
 
 	private final String traceId;
 
-	public ControlFlowNode(final String name, final String traceId) {
+	public AbstractControlFlowEvent(final String name, final String traceId) {
 		super(ModelManager.getInstance().getModel(), name, Constants.DEBUG);
 		this.traceId = traceId;
 	}

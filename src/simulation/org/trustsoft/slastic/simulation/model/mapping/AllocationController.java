@@ -12,7 +12,7 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
 import org.trustsoft.slastic.simulation.model.reconfiguration.ReconfigurationController;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
 import com.google.inject.Inject;
@@ -340,7 +340,7 @@ public final class AllocationController {
 
 	public final int acquirePassive(final String server,
 			final String asmContext, final String resname,
-			final ControlFlowNode next) {
+			final AbstractControlFlowEvent next) {
 		return this.serverToAsmToPassiveResource.get(server).get(asmContext)
 				.get(resname).acquire(next);
 	}

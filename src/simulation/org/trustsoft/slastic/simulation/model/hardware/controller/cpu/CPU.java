@@ -5,12 +5,16 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Process
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 
 	private final int capacity;
 
-	public CPU(final Model owner, final String myName, final boolean debugMode,
-			final CPUScheduler scheduler, final int capacity) {
+	public CPU(final Model owner, final String myName, final boolean debugMode, final CPUScheduler scheduler, final int capacity) {
 		super(owner, myName, debugMode, scheduler, capacity);
 		scheduler.setOwner(this);
 		this.capacity = capacity;
@@ -22,8 +26,7 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 	}
 
 	@Override
-	public void init() {
-	}
+	public void init() {}
 
 	@Override
 	public int getCapacity() {
@@ -31,10 +34,10 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 	}
 
 	public void resumeMonitoringAt(final SimTime t) {
-		super.getScheduler().resumeBuisinessMonitoringAt(t);
+		super.getScheduler().resumeBusinessMonitoringAt(t);
 	}
 
 	public void pauseMonitoring() {
-		this.getScheduler().pauseBuisinessMonitoring();
+		this.getScheduler().pauseBusinessMonitoring();
 	}
 }

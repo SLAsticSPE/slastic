@@ -25,10 +25,10 @@ import desmoj.core.simulator.Model;
 public final class ModelManager implements IReconfigurationPlanReceiver {
 	private static volatile ModelManager INSTANCE;
 
-	private final Log log;
-
 	// TODO: why static?
 	private static volatile long time;
+
+	private final Log log;
 
 	/**
 	 * The simulation model
@@ -89,7 +89,7 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 		this.reconfigurationController.schedulePlan(plan);
 	}
 
-	public ReconfigurationController getReconfigurationController() {
+	public final ReconfigurationController getReconfigurationController() {
 		return this.reconfigurationController;
 	}
 
@@ -142,12 +142,5 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * @return the reconfCont
-	 */
-	public final ReconfigurationController getReconfCont() {
-		return this.reconfigurationController;
 	}
 }

@@ -6,7 +6,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
-public class AcquireNode extends ControlFlowNode {
+public class AcquireNode extends AbstractControlFlowEvent {
 
 	static private Log log = LogFactory.getLog(AcquireNode.class);
 	private final String resName;
@@ -20,7 +20,7 @@ public class AcquireNode extends ControlFlowNode {
 
 	@Override
 	public void eventRoutine() {
-		final ControlFlowNode next = CallHandler.getInstance().getNextInTrace(
+		final AbstractControlFlowEvent next = CallHandler.getInstance().getNextInTrace(
 				this.getTraceId());
 		if (next == null) {
 			AcquireNode.log

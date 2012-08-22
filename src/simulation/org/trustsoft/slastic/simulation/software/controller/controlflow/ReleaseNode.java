@@ -4,7 +4,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 import org.trustsoft.slastic.simulation.software.controller.StackFrame;
 
-public class ReleaseNode extends ControlFlowNode {
+public class ReleaseNode extends AbstractControlFlowEvent {
 
 	private final String resName;
 

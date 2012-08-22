@@ -13,7 +13,7 @@ import org.trustsoft.slastic.simulation.software.controller.CallHandler;
 
 import desmoj.core.simulator.SimTime;
 
-public class InternalActionNode extends ControlFlowNode {
+public class InternalActionNode extends AbstractControlFlowEvent {
 
 	private final Hashtable<String, Demand<Integer>> demands = new Hashtable<String, Demand<Integer>>();
 	private final String traceId;

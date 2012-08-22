@@ -13,7 +13,7 @@ import com.google.inject.name.Named;
 import de.uka.ipd.sdq.pcm.repository.Signature;
 import desmoj.core.simulator.SimTime;
 
-public class ExternalCallEnterNode extends ControlFlowNode {
+public class ExternalCallEnterNode extends AbstractControlFlowEvent {
 
 	@Inject
 	@Named("SystemUsersOnCall")

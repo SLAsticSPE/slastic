@@ -32,7 +32,13 @@ public final class ComponentTypeController {
 	private final Hashtable<String, ProvidesComponentType> components = new Hashtable<String, ProvidesComponentType>();
 	private final Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>> seffsByComponent = new Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>>();
 	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
+
+	// TODO: This mainly concerns access to this map:
+	// Should we use more sophisticated service IDs than just the opname? I expect we might
+	// run into trouble having multiple services/operations with the same name.
+	// For example, we might want to include the component (type) name in the id
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
+
 	private List<DataType> types;
 	private final Log log;
 
@@ -65,8 +71,7 @@ public final class ComponentTypeController {
 	 * @param pct
 	 * @param reconfModel
 	 */
-	private void put(final ProvidesComponentType pct,
-			final ReconfigurationModel reconfModel) {
+	private void put(final ProvidesComponentType pct, final ReconfigurationModel reconfModel) {
 		this.components.put(pct.getEntityName(), pct);
 		if (pct instanceof BasicComponent) {
 			final BasicComponent bc = (BasicComponent) pct;
@@ -93,6 +98,10 @@ public final class ComponentTypeController {
 		return ComponentTypeController.instance;
 	}
 
+	// TODO: This mainly concerns callers of this method:
+	// Should we use more sophisticated service IDs than just the opname? I expect we might
+	// run into trouble having multiple services/operations with the same name.
+	// For example, we might want to include the component (type) name in the id
 	public ResourceDemandingBehaviour getSeffById(final String serviceName) {
 		return this.seffsByServiceName.get(serviceName);
 	}

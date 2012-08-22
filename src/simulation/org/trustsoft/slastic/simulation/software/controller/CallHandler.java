@@ -15,7 +15,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
@@ -64,7 +64,7 @@ public class CallHandler {
 
 	private final Hashtable<String, Integer> eoi = new Hashtable<String, Integer>();
 
-	private final Hashtable<String, List<ControlFlowNode>> activeTraces = new Hashtable<String, List<ControlFlowNode>>();
+	private final Hashtable<String, List<AbstractControlFlowEvent>> activeTraces = new Hashtable<String, List<AbstractControlFlowEvent>>();
 
 	// TODO: Why marked unused and not removed?
 	@SuppressWarnings("unused")
@@ -146,9 +146,9 @@ public class CallHandler {
 		if (rdseff != null) {
 			// generate control flow
 			final String asmContext = ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service);
-			final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
+			final List<AbstractControlFlowEvent> nodes = new LinkedList<AbstractControlFlowEvent>();
 			final Signature signature = ModelManager.getInstance().getAssemblyController().getSignatureByExternalServiceName(service);
-			CallHandler.LOG.info("Creating call with service "
+			LOG.info("Creating call with service "
 					+ service
 					+ " -> "
 					+ signature
@@ -191,12 +191,10 @@ public class CallHandler {
 	 * @throws SumGreaterXException
 	 *             if some probabilistic branch stuff fails
 	 */
-	private synchronized List<ControlFlowNode> generateControlFlow(
-			final ResourceDemandingBehaviour rdseff, final String userId,
-			final String asmContext) throws BranchException,
-			SumGreaterXException {
+	private synchronized List<AbstractControlFlowEvent> generateControlFlow(final ResourceDemandingBehaviour rdseff, final String userId, final String asmContext)
+			throws BranchException, SumGreaterXException {
 		final List<AbstractAction> actions = rdseff.getSteps_Behaviour();
-		final List<ControlFlowNode> ret = new LinkedList<ControlFlowNode>();
+		final List<AbstractControlFlowEvent> ret = new LinkedList<AbstractControlFlowEvent>();
 		AbstractAction next = null;
 		final String asmContextCurrent = asmContext;
 		// find the start and get the "entry point"
@@ -213,94 +211,66 @@ public class CallHandler {
 		while (!((next = next.getSuccessor_AbstractAction()) instanceof StopAction)) {
 			if (next instanceof BranchAction) {
 				final BranchAction ba = (BranchAction) next;
-				final AbstractBranchTransition abt = this
-						.handleProbilisticBranch(ba);
-				ret.addAll(this.generateControlFlow(
-						abt.getBranchBehaviour_BranchTransition(), userId,
-						asmContextCurrent));
+				final AbstractBranchTransition abt = this.handleProbilisticBranch(ba);
+				ret.addAll(this.generateControlFlow(abt.getBranchBehaviour_BranchTransition(), userId, asmContextCurrent));
 
 			} else if (next instanceof ExternalCallAction) {
 				final ExternalCallAction eca = (ExternalCallAction) next;
 				// mark entry point
 				// TODO save time!
-				final String calledContext = ModelManager
-						.getInstance()
-						.getAssemblyController()
-						.asmContextForServiceCall(
-								asmContextCurrent,
-								eca.getCalledService_ExternalService()
-										.getServiceName());
-				CallHandler.LOG.info("Generating external call node for: "
+				final String calledContext = ModelManager.getInstance().getAssemblyController()
+						.asmContextForServiceCall(asmContextCurrent, eca.getCalledService_ExternalService().getServiceName());
+				LOG.info("Generating external call node for: "
 						+ eca.getCalledService_ExternalService()
 								.getServiceName() + " from asm context "
 						+ asmContextCurrent + " to asm context "
 						+ calledContext);
-				final ExternalCallEnterNode ece = new ExternalCallEnterNode(
-						eca.getCalledService_ExternalService(),
-						asmContextCurrent, userId);
+				final ExternalCallEnterNode ece = new ExternalCallEnterNode(eca.getCalledService_ExternalService(), asmContextCurrent, userId);
 				this.injector.injectMembers(ece);
 				ret.add(ece);
 				// generate control flow for the called service recursively
-				// final String componentByASMId = ModelManager.getInstance()
-				// .getAssemblyCont()
-				// .getComponentByASMId(ece.getASMCont());
-				ret.addAll(this.generateControlFlow(ModelManager.getInstance()
-						.getComponentTypeController().getSeffById(ece.getCalledService()),
+				// final String componentByASMId = ModelManager.getInstance().getAssemblyCont().getComponentByASMId(ece.getASMCont());
+
+				ret.addAll(this.generateControlFlow(ModelManager.getInstance().getComponentTypeController().getSeffById(ece.getCalledService()),
 						userId, ece.getASMContTo()));
 				// mark return
-				final ExternalCallReturnNode ecr = new ExternalCallReturnNode(
-						ece);
+				final ExternalCallReturnNode ecr = new ExternalCallReturnNode(ece);
 				this.injector.injectMembers(ecr);
 				ret.add(ecr);
 
-				// final List<VariableUsage> inputParameter = eca
-				// .getInputParameterUsages_ExternalCallAction();
+				// final List<VariableUsage> inputParameter = eca.getInputParameterUsages_ExternalCallAction();
 			} else if (next instanceof InternalAction) {
 				final InternalAction ia = (InternalAction) next;
-				final List<ParametricResourceDemand> resourceDemands = ia
-						.getResourceDemand_Action();
-				final InternalActionNode currentIA = new InternalActionNode(
-						ia.getId(), userId);
+				final List<ParametricResourceDemand> resourceDemands = ia.getResourceDemand_Action();
+				final InternalActionNode currentIA = new InternalActionNode(ia.getId(), userId);
 				for (final ParametricResourceDemand resDemand : resourceDemands) {
-					final String requiredResource = ((InternalEObject) resDemand
-							.getRequiredResource_ParametricResourceDemand())
-							.eProxyURI().toString();
-					final String demand = resDemand
-							.getSpecification_ParametericResourceDemand()
-							.getSpecification();
+					final String requiredResource = ((InternalEObject) resDemand.getRequiredResource_ParametricResourceDemand()).eProxyURI().toString();
+					final String demand = resDemand.getSpecification_ParametericResourceDemand().getSpecification();
 					currentIA.add(requiredResource, demand);
-					CallHandler.LOG.info("Added demand: " + requiredResource + " "
-							+ demand);
+					LOG.info("Added demand: " + requiredResource + " " + demand);
 				}
 				ret.add(currentIA);
 			} else if (next instanceof AbstractLoopAction) {
 				if (next instanceof LoopAction) {
 					final LoopAction la = (LoopAction) next;
-					CallHandler.LOG.info("Loop's iteration count is "
-							+ la.getIterationCount_LoopAction()
-									.getSpecification());
+					LOG.info("Loop's iteration count is " + la.getIterationCount_LoopAction().getSpecification());
 					final int max = // (Integer) EvaluationProxy.evaluate(
-					Integer.parseInt(la.getIterationCount_LoopAction()
-							.getSpecification().replaceAll("\\s", ""));
+					Integer.parseInt(la.getIterationCount_LoopAction().getSpecification().replaceAll("\\s", ""));
 					for (int i = 0; i < max; i++) {
-						final List<ControlFlowNode> body = this
-								.generateControlFlow(
-										la.getBodyBehaviour_Loop(), userId,
-										asmContextCurrent);
+						final List<AbstractControlFlowEvent> body = this
+								.generateControlFlow(la.getBodyBehaviour_Loop(), userId, asmContextCurrent);
 						ret.addAll(body);
 					}
 					// , Integer.class, null);
-					// TODO: eval loop body, add to list
+					// TODO: eval loop body, add to list // TODO: isn't this done above?
 					// FIXME Evaluation framework for stochastic expressions
 				} else if (next instanceof CollectionIteratorAction) {
 					final CollectionIteratorAction cia = (CollectionIteratorAction) next;
-					final Parameter para = cia
-							.getParameter_CollectionIteratorAction();
+					final Parameter para = cia.getParameter_CollectionIteratorAction();
 					para.getModifier__Parameter();
 					// extract collection type and thus random variable, cache
 					// it so the specification (report page 54) is met
 				}
-
 			} else if (next instanceof SetVariableAction) {
 				@SuppressWarnings("unused")
 				final SetVariableAction sva = (SetVariableAction) next;
@@ -311,14 +281,15 @@ public class CallHandler {
 			} else if (next instanceof ReleaseAction) {
 				final ReleaseAction ra = (ReleaseAction) next;
 				ra.getPassiveResource_ReleaseAction();
+			} else {
+				LOG.error("type of next action not supported" + next);
 			}
 		}
 		return ret;
 	}
 
-	private AbstractBranchTransition handleProbilisticBranch(
-			final BranchAction ba) throws NoBranchProbabilitiesException,
-			SumGreaterXException {
+	private AbstractBranchTransition handleProbilisticBranch(final BranchAction ba)
+			throws NoBranchProbabilitiesException, SumGreaterXException {
 		// the random used to branch probabilistic branches
 		final double randomResult = Math.random();
 		// branch not in cache? cache it
@@ -333,8 +304,7 @@ public class CallHandler {
 					final GuardedBranchTransition gbt = (GuardedBranchTransition) abt;
 					gbt.getBranchCondition_GuardedBranchTransition();
 				} else if (abt instanceof ProbabilisticBranchTransition) {
-					final double prob = ((ProbabilisticBranchTransition) abt)
-							.getBranchProbability();
+					final double prob = ((ProbabilisticBranchTransition) abt).getBranchProbability();
 					final Interval<ProbabilisticBranchTransition> i = new Interval<ProbabilisticBranchTransition>();
 					i.setAbt((ProbabilisticBranchTransition) abt);
 					i.setLower(probSum);
@@ -352,8 +322,7 @@ public class CallHandler {
 				throw new NoBranchProbabilitiesException(ba.getEntityName());
 			}
 		}
-		for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache
-				.get(ba)) {
+		for (final Interval<ProbabilisticBranchTransition> i : this.probabilisticBranchIntervalCache.get(ba)) {
 			if ((randomResult >= i.getLower()) && (randomResult < i.getUpper())) {
 				return i.getAbt();
 			}
@@ -365,8 +334,7 @@ public class CallHandler {
 		return this.stacks.get(traceId).peek().getServerId();
 	}
 
-	public final void pushContext(final String traceId,
-			final StackFrame stackFrame) {
+	public final void pushContext(final String traceId, final StackFrame stackFrame) {
 		final Stack<StackFrame> curStack = this.stacks.get(traceId);
 		Integer eoi = this.eoi.get(traceId);
 		if (eoi == null) {
@@ -387,14 +355,14 @@ public class CallHandler {
 	}
 
 	public final void actionReturn(final String traceId) {
-		final List<ControlFlowNode> nodes = this.activeTraces.get(traceId);
+		final List<AbstractControlFlowEvent> nodes = this.activeTraces.get(traceId);
 		if (nodes == null) {
 			return;
 		}
 		if (nodes.size() > 1) {
 			nodes.remove(0);
-			final ControlFlowNode node = this.activeTraces.get(traceId).get(0);
-			CallHandler.LOG.info("Attempting to schedule " + node.getClass());
+			final AbstractControlFlowEvent node = this.activeTraces.get(traceId).get(0);
+			LOG.info("Attempting to schedule " + node.getClass());
 			node.schedule(SimTime.NOW);
 		} else {
 			nodes.clear();
@@ -403,7 +371,7 @@ public class CallHandler {
 			this.eoi.remove(traceId);
 			this.model.callReturns(traceId);
 		}
-		CallHandler.LOG.info(nodes.size());
+		LOG.info(nodes.size());
 
 		if (this.activeTraces.isEmpty()) {
 			this.stopCond.setStopped(true);
@@ -418,8 +386,8 @@ public class CallHandler {
 
 	public final void setTerminating(final boolean b) {}
 
-	public ControlFlowNode getNextInTrace(final String traceId) {
-		final List<ControlFlowNode> list = this.activeTraces.get(traceId);
+	public AbstractControlFlowEvent getNextInTrace(final String traceId) {
+		final List<AbstractControlFlowEvent> list = this.activeTraces.get(traceId);
 		if (list.size() > 1) {
 			return list.get(1);
 		}

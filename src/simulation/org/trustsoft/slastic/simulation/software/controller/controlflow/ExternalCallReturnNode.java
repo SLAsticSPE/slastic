@@ -14,7 +14,7 @@ import kieker.monitoring.core.controller.IMonitoringController;
 import kieker.monitoring.core.controller.MonitoringController;
 
 @SuppressWarnings("unused")
-public class ExternalCallReturnNode extends ControlFlowNode {
+public class ExternalCallReturnNode extends AbstractControlFlowEvent {
 
 	@Inject
 	@Named("SystemUsersOnReturn")

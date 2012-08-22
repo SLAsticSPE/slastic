@@ -20,9 +20,9 @@ public abstract class ReconfigurationEvent extends ExternalEvent {
 	final public void eventRoutine(){
 		if(this.eventRoutine2()) {
 			// TODO if dereplication wait for component empty event
-			ModelManager.getInstance().getReconfCont().operationFinished(this.reconfOp);
+			ModelManager.getInstance().getReconfigurationController().operationFinished(this.reconfOp);
 		} else {
-			ModelManager.getInstance().getReconfCont().operationFailed(this.reconfOp);
+			ModelManager.getInstance().getReconfigurationController().operationFailed(this.reconfOp);
 		}
 	}
 

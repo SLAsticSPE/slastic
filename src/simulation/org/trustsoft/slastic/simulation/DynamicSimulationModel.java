@@ -61,6 +61,9 @@ public class DynamicSimulationModel extends Model {
 			for (final EntryCall call : this.buffer) {
 				try {
 					LOG.info("Calling " + call.getComponentName() + "." + call.getOpname());
+					// TODO: Should we use more sophisticated service IDs than just the opname? I expect we might
+					// run into trouble having multiple services/operations with the same name.
+					// For example, we might want to include the component (type) name in the id
 					this.callHandler.call(call.getOpname(), call.getTraceId() + "", call.getComponentName(), call.getTin());
 				} catch (final NoSuchSeffException e) {
 					e.printStackTrace();

@@ -12,7 +12,7 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.CFFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.CallFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.LoopFrame;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
@@ -50,7 +50,7 @@ public class ProgressingFlow {
 
 	private final Stack<CFFrame> stack = new Stack<CFFrame>();
 
-	private final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
+	private final List<AbstractControlFlowEvent> nodes = new LinkedList<AbstractControlFlowEvent>();
 
 	private final String userId;
 
@@ -267,7 +267,7 @@ public class ProgressingFlow {
 	/**
 	 * @return the nodes
 	 */
-	public final List<ControlFlowNode> getNodes() {
+	public final List<AbstractControlFlowEvent> getNodes() {
 		return this.nodes;
 	}
 
