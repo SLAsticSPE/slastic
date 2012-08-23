@@ -3,6 +3,11 @@ package org.trustsoft.slastic.simulation.software.controller.cfframes;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class CFFrame {
 	private final ResourceDemandingBehaviour seff;
 

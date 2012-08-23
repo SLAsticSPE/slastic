@@ -12,27 +12,28 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.hd.HardDrive;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class Server extends Entity {
 
 	private final Set<CPU> cpus;
 	private final Set<HardDrive> hdds;
 	private boolean allocated = false;
 	private final String id;
-	private final Log log;
+	private static final Log LOG = LogFactory.getLog(Server.class);
 
-	public Server(final Model owner, final String name,
-			final boolean showInTrace) {
+	public Server(final Model owner, final String name, final boolean showInTrace) {
 		super(owner, name, showInTrace);
 		this.hdds = new HashSet<HardDrive>();
 		this.cpus = new HashSet<CPU>();
 		this.id = name;
-                // avh: removed 'name' from logger name, because otherwise,
-                //      this logger cannot be configured based on the packagename
-		this.log = LogFactory.getLog(Server.class);
 	}
 
 	public void addCPU(final CPU cpu) {
-		this.log.info("Added CPU " + cpu);
+		LOG.info("Added CPU " + cpu);
 		this.cpus.add(cpu);
 	}
 
@@ -62,7 +63,7 @@ public class Server extends Entity {
 
 	public void addCPUTask(final CPUSchedulableProcess process) {
 		// Maybe do smp balancing later here
-		this.log.info("Added CPU Task");
+		LOG.info("Added CPU Task");
 		this.cpus.iterator().next().schedule(process);
 	}
 

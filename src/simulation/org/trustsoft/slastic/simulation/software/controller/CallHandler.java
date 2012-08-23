@@ -16,9 +16,9 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.CPU;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionEvent;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.BranchException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoBranchProbabilitiesException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoSuchSeffException;
@@ -137,6 +137,7 @@ public class CallHandler {
 				}
 			}
 		}
+		// Note that Eclipse adds an unused-note if SINGLE_TRACE==FALSE. Simply ignore this!
 		if ((this.activeTraces.size() > 0) && Constants.SINGLE_TRACE) {
 			return;
 		}
@@ -155,11 +156,11 @@ public class CallHandler {
 					+ " "
 					+ ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service)
 					+ " for trace " + userId);
-			final ExternalCallEnterNode entryCallNode = new ExternalCallEnterNode(signature, null, userId);
+			final ExternalCallEnterEvent entryCallNode = new ExternalCallEnterEvent(signature, null, userId);
 			this.injector.injectMembers(entryCallNode);
 			nodes.add(entryCallNode);
 			nodes.addAll(this.generateControlFlow(rdseff, userId, asmContext));
-			nodes.add(new ExternalCallReturnNode(entryCallNode));
+			nodes.add(new ExternalCallReturnEvent(entryCallNode));
 			// add control flow to active traces
 			this.activeTraces.put(userId, nodes);
 			// push initial stack frame
@@ -225,7 +226,7 @@ public class CallHandler {
 								.getServiceName() + " from asm context "
 						+ asmContextCurrent + " to asm context "
 						+ calledContext);
-				final ExternalCallEnterNode ece = new ExternalCallEnterNode(eca.getCalledService_ExternalService(), asmContextCurrent, userId);
+				final ExternalCallEnterEvent ece = new ExternalCallEnterEvent(eca.getCalledService_ExternalService(), asmContextCurrent, userId);
 				this.injector.injectMembers(ece);
 				ret.add(ece);
 				// generate control flow for the called service recursively
@@ -234,7 +235,7 @@ public class CallHandler {
 				ret.addAll(this.generateControlFlow(ModelManager.getInstance().getComponentTypeController().getSeffById(ece.getCalledService()),
 						userId, ece.getASMContTo()));
 				// mark return
-				final ExternalCallReturnNode ecr = new ExternalCallReturnNode(ece);
+				final ExternalCallReturnEvent ecr = new ExternalCallReturnEvent(ece);
 				this.injector.injectMembers(ecr);
 				ret.add(ecr);
 
@@ -242,7 +243,7 @@ public class CallHandler {
 			} else if (next instanceof InternalAction) {
 				final InternalAction ia = (InternalAction) next;
 				final List<ParametricResourceDemand> resourceDemands = ia.getResourceDemand_Action();
-				final InternalActionNode currentIA = new InternalActionNode(ia.getId(), userId);
+				final InternalActionEvent currentIA = new InternalActionEvent(ia.getId(), userId);
 				for (final ParametricResourceDemand resDemand : resourceDemands) {
 					final String requiredResource = ((InternalEObject) resDemand.getRequiredResource_ParametricResourceDemand()).eProxyURI().toString();
 					final String demand = resDemand.getSpecification_ParametericResourceDemand().getSpecification();

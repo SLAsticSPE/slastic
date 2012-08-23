@@ -6,22 +6,19 @@ import ReconfigurationPlanModel.NodeDeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import desmoj.core.simulator.Model;
 
-public final class DelocationEvent extends ReconfigurationEvent {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public final class DelocationEvent extends AbstractReconfigurationEvent {
 
-	public DelocationEvent(final Model owner, final String name,
-			final boolean showInTrace,
-			final SLAsticReconfigurationOpType reconfOp) {
+	public DelocationEvent(final Model owner, final String name, final boolean showInTrace, final SLAsticReconfigurationOpType reconfOp) {
 		super(owner, name, showInTrace, reconfOp);
 	}
 
 	@Override
-	public boolean eventRoutine2() {
-		return ModelManager
-				.getInstance()
-				.getHardwareController()
-				.delocate(
-						((NodeDeAllocationOP) this.getReconfOp()).getNode()
-								.getId());
+	public boolean concreteEventRoutine() {
+		return ModelManager.getInstance().getHardwareController().delocate(((NodeDeAllocationOP) this.getReconfOp()).getNode().getId());
 	}
-
 }

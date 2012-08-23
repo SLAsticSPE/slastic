@@ -9,6 +9,11 @@ import com.google.inject.name.Named;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 // TODO do only for allocated server cpus
 public class UtilizationProbeEventGenerator {
 
@@ -21,7 +26,7 @@ public class UtilizationProbeEventGenerator {
 	private final String name;
 	private final boolean debug;
 	private final CPURRScheduler scheduler;
-	private boolean pause;
+	private volatile boolean pause;
 
 	public UtilizationProbeEventGenerator(final Model model, final String name,
 			final boolean debug, final CPURRScheduler cpurrScheduler) {
@@ -32,8 +37,7 @@ public class UtilizationProbeEventGenerator {
 	}
 
 	public final void tick() {
-		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
-				this.name, this.debug, this);
+		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model, this.name, this.debug, this);
 		if (!this.pause) {
 			tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		}

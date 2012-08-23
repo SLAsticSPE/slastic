@@ -2,12 +2,15 @@ package org.trustsoft.slastic.simulation.software.statistics;
 
 import kieker.common.record.AbstractMonitoringRecord;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+// TODO: Change to immutable
 public class ActiveUsersRecord extends AbstractMonitoringRecord {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9181771892272376259L;
+
 	private long time;
 	private int users;
 

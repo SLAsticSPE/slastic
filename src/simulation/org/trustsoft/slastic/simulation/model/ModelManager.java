@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.listeners.IReconfigurationEventListener;
 import org.trustsoft.slastic.simulation.model.hardware.controller.HardwareController;
 import org.trustsoft.slastic.simulation.model.interfaces.IReconfigurationPlanReceiver;
@@ -25,10 +26,10 @@ import desmoj.core.simulator.Model;
 public final class ModelManager implements IReconfigurationPlanReceiver {
 	private static volatile ModelManager INSTANCE;
 
+	private static final Log LOG = LogFactory.getLog(ModelManager.class);
+
 	// TODO: why static?
 	private static volatile long time;
-
-	private final Log log;
 
 	/**
 	 * The simulation model
@@ -42,15 +43,12 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 	private final ReconfigurationController reconfigurationController;
 	private final ResourceEnvironment resourceEnvironment;
 
-	// TODO: why do we pass the Log?
 	public ModelManager(final Repository repository, final System system,
 			final ResourceEnvironment resources, final Allocation allocation,
-			final ReconfigurationModel reconfModel, final Model model,
-			final Log log) {
-		ModelManager.INSTANCE = this;
+			final ReconfigurationModel reconfModel, final Model model) {
+		INSTANCE = this;
 		this.model = model;
-		this.log = log;
-		log.info("Model is " + model);
+		LOG.info("Model is " + model);
 		this.componentTypeController = new ComponentTypeController(repository, reconfModel, model);
 		this.assemblyController = new AssemblyController(system, model);
 		this.hardwareController = new HardwareController(resources, model);
@@ -81,7 +79,7 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 	}
 
 	public static final ModelManager getInstance() {
-		return ModelManager.INSTANCE;
+		return INSTANCE;
 	}
 
 	@Override
@@ -119,14 +117,9 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
-	// TODO: why pass the logger to external objects?
-	public Log getLogger() {
-		return this.log;
-	}
-
 	// TODO: why static?
 	public static void markStart() {
-		ModelManager.time = java.lang.System.currentTimeMillis();
+		time = java.lang.System.currentTimeMillis();
 	}
 
 	// TODO: why static?
@@ -135,7 +128,7 @@ public final class ModelManager implements IReconfigurationPlanReceiver {
 		try {
 			final File f = File.createTempFile("sim", ".len");
 			pw = new PrintWriter(new FileWriter(f));
-			pw.println(java.lang.System.currentTimeMillis() - ModelManager.time);
+			pw.println(java.lang.System.currentTimeMillis() - time);
 			pw.flush();
 			pw.close();
 		} catch (final IOException e) {

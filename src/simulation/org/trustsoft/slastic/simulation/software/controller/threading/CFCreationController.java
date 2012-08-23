@@ -6,21 +6,25 @@ import java.util.concurrent.TimeUnit;
 
 import org.trustsoft.slastic.simulation.software.controller.ProgressingFlow;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class CFCreationController {
+	private static final CFCreationController INSTANCE = new CFCreationController();
 
 	private final PriorityBlockingQueue<Runnable> queue = new PriorityBlockingQueue<Runnable>();
 
-	private final ThreadPoolExecutor executor = new ThreadPoolExecutor(Runtime
-			.getRuntime().availableProcessors() - 1, Runtime.getRuntime()
-			.availableProcessors() * 2, 1000, TimeUnit.MILLISECONDS, this.queue);
+	private final ThreadPoolExecutor executor =
+			new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors() - 1,
+					Runtime.getRuntime().availableProcessors() * 2, 1000,
+					TimeUnit.MILLISECONDS, this.queue);
 
-	private static final CFCreationController instance = new CFCreationController();
-
-	private CFCreationController() {
-	}
+	private CFCreationController() {}
 
 	public static final CFCreationController getInstance() {
-		return CFCreationController.instance;
+		return CFCreationController.INSTANCE;
 	}
 
 	public final void add(final ProgressingFlow pf) {

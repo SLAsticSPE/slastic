@@ -14,7 +14,7 @@ public class CPU extends ProcessingResource<CPUSchedulableProcess> {
 
 	private final int capacity;
 
-	public CPU(final Model owner, final String myName, final boolean debugMode, final CPUScheduler scheduler, final int capacity) {
+	public CPU(final Model owner, final String myName, final boolean debugMode, final AbstractCPUScheduler scheduler, final int capacity) {
 		super(owner, myName, debugMode, scheduler, capacity);
 		scheduler.setOwner(this);
 		this.capacity = capacity;

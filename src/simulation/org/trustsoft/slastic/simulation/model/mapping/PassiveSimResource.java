@@ -7,11 +7,16 @@ import org.trustsoft.slastic.simulation.software.controller.controlflow.Abstract
 
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class PassiveSimResource {
 
 	private final String name;
 	private final int maxCapacity;
-	private int capacity;
+	private volatile int capacity;
 	private final List<AbstractControlFlowEvent> queue = new LinkedList<AbstractControlFlowEvent>();
 
 	public PassiveSimResource(final String name, final int maxCapacity) {
@@ -20,8 +25,7 @@ public class PassiveSimResource {
 	}
 
 	public int acquire(final AbstractControlFlowEvent node) {
-		return this.capacity > 0 ? --this.capacity + this.sched(node) : this
-				.enqueue(node);
+		return this.capacity > 0 ? --this.capacity + this.sched(node) : this.enqueue(node);
 	}
 
 	public int release() {
@@ -37,7 +41,7 @@ public class PassiveSimResource {
 
 	private int enqueue(final AbstractControlFlowEvent node) {
 		this.queue.add(node);
-		return -this.queue.size();
+		return -this.queue.size(); // TODO: why '-'?
 	}
 
 	public final String getName() {

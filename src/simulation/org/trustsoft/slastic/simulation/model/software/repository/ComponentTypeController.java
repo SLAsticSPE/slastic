@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
-import org.trustsoft.slastic.simulation.model.ModelManager;
+import org.apache.commons.logging.LogFactory;
 
 import reconfMM.ReconfigurationModel;
 import de.uka.ipd.sdq.pcm.repository.BasicComponent;
@@ -26,9 +26,10 @@ import desmoj.core.simulator.Model;
  */
 public final class ComponentTypeController {
 
-	private static volatile ComponentTypeController instance;
-	// = new
-	// ComponentController();
+	private static final Log LOG = LogFactory.getLog(ComponentTypeController.class);
+
+	private static volatile ComponentTypeController INSTANCE;
+
 	private final Hashtable<String, ProvidesComponentType> components = new Hashtable<String, ProvidesComponentType>();
 	private final Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>> seffsByComponent = new Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>>();
 	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
@@ -40,20 +41,15 @@ public final class ComponentTypeController {
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
 
 	private List<DataType> types;
-	private final Log log;
 
-	public ComponentTypeController(final Repository repository,
-			final ReconfigurationModel reconfModel, final Model model) {
-		this.log = ModelManager.getInstance().getLogger();
+	public ComponentTypeController(final Repository repository, final ReconfigurationModel reconfModel, final Model model) {
 		for (final ProvidesComponentType component : repository.getComponents__Repository()) {
-			this.log.info("Adding Component " + component + " to simulation model");
+			LOG.info("Adding Component " + component + " to simulation model");
 			this.put(component, reconfModel);
 			if (component instanceof BasicComponent) {
 				final BasicComponent bc = (BasicComponent) component;
-				this.passiveResByComponent.put(bc,
-						new Hashtable<String, PassiveResource>());
-				for (final PassiveResource res : bc
-						.getPassiveResource_BasicComponent()) {
+				this.passiveResByComponent.put(bc, new Hashtable<String, PassiveResource>());
+				for (final PassiveResource res : bc.getPassiveResource_BasicComponent()) {
 					this.passiveResByComponent.get(bc).put(res.getEntityName(), res);
 				}
 			}
@@ -61,7 +57,7 @@ public final class ComponentTypeController {
 		for (final DataType dataType : repository.getDatatypes_Repository()) {
 			this.put(dataType);
 		}
-		ComponentTypeController.instance = this;
+		ComponentTypeController.INSTANCE = this;
 	}
 
 	/**
@@ -78,7 +74,7 @@ public final class ComponentTypeController {
 			for (final ServiceEffectSpecification seff : bc.getServiceEffectSpecifications__BasicComponent()) {
 				if (seff instanceof ResourceDemandingSEFF) {
 					final ResourceDemandingSEFF rdseff = (ResourceDemandingSEFF) seff;
-					this.log.info("Adding RDSEFF " + rdseff + " for service " + rdseff.getDescribedService__SEFF().getServiceName());
+					LOG.info("Adding RDSEFF " + rdseff + " for service " + rdseff.getDescribedService__SEFF().getServiceName());
 					if (this.seffsByComponent.get(bc) == null) {
 						this.seffsByComponent.put(bc, new Hashtable<Signature, ResourceDemandingSEFF>());
 					}
@@ -95,7 +91,7 @@ public final class ComponentTypeController {
 	}
 
 	public static ComponentTypeController getInstance() {
-		return ComponentTypeController.instance;
+		return ComponentTypeController.INSTANCE;
 	}
 
 	// TODO: This mainly concerns callers of this method:

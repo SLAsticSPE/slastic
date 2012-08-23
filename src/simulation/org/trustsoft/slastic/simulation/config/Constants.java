@@ -3,7 +3,7 @@ package org.trustsoft.slastic.simulation.config;
 /**
  * Hold the constants needed for simulation
  * 
- * @author skomp
+ * @author Robert von Massow
  * 
  */
 public class Constants {

@@ -31,6 +31,11 @@ import kieker.common.record.controlflow.OperationExecutionRecord;
 import kieker.common.record.misc.EmptyRecord;
 import kieker.common.util.ClassOperationSignaturePair;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class SimulationController {
 	private static final Log LOG = LogFactory.getLog(SimulationController.class);
 

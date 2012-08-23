@@ -6,18 +6,20 @@ import ReconfigurationPlanModel.NodeAllocationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import desmoj.core.simulator.Model;
 
-public class AllocationEvent extends ReconfigurationEvent {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public class AllocationEvent extends AbstractReconfigurationEvent {
 
-	public AllocationEvent(final Model owner, final String name,
-			final boolean showInTrace,
-			final SLAsticReconfigurationOpType reconfOp) {
+	public AllocationEvent(final Model owner, final String name, final boolean showInTrace, final SLAsticReconfigurationOpType reconfOp) {
 		super(owner, name, showInTrace, reconfOp);
 	}
 
 	@Override
-	public boolean eventRoutine2() {
-		return ModelManager.getInstance().getHardwareController().allocate(
-				((NodeAllocationOP) this.getReconfOp()).getNode().getId());
+	public boolean concreteEventRoutine() {
+		return ModelManager.getInstance().getHardwareController().allocate(((NodeAllocationOP) this.getReconfOp()).getNode().getId());
 	}
 
 }

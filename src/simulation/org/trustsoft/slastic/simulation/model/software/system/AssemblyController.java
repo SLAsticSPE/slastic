@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyConnector;
 import de.uka.ipd.sdq.pcm.core.composition.AssemblyContext;
@@ -17,7 +16,13 @@ import de.uka.ipd.sdq.pcm.repository.Signature;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Model;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class AssemblyController {
+	private static final Log LOG = LogFactory.getLog(AssemblyController.class);
 
 	private final Hashtable<String, AssemblyContext> idToASMContext = new Hashtable<String, AssemblyContext>();
 
@@ -33,8 +38,6 @@ public class AssemblyController {
 	private final Hashtable<String, String> systemProvidedServices = new Hashtable<String, String>();
 	private final Hashtable<String, Signature> systemProvidedServicesToSignature = new Hashtable<String, Signature>();
 
-	private final Log log = LogFactory.getLog(this.getClass());
-
 	public AssemblyController(final System system, final Model model) {
 		this.genAssembly(system);
 	}
@@ -44,8 +47,7 @@ public class AssemblyController {
 				.getChildComponentContexts_ComposedStructure();
 		for (final AssemblyContext structure : structures) {
 			this.idToASMContext.put(structure.getId().toString(), structure);
-			this.asmIdToComponent.put(structure.getId().toString(),
-					structure.getEncapsulatedComponent_ChildComponentContext());
+			this.asmIdToComponent.put(structure.getId().toString(), structure.getEncapsulatedComponent_ChildComponentContext());
 		}
 		for (final AssemblyConnector connector : system.getCompositeAssemblyConnectors_ComposedStructure()) {
 			final AssemblyContext targetContext = connector.getProvidingChildComponentContext_CompositeAssemblyConnector();
@@ -54,21 +56,21 @@ public class AssemblyController {
 			if (srcIdMapping == null) {
 				srcIdMapping = new Hashtable<String, String>();
 				this.requiringProvidingConnector.put(srcContext.getId(), srcIdMapping);
-				this.log.info("Creating Lookup Table for Required Services of " + srcContext.getId());
+				LOG.info("Creating Lookup Table for Required Services of " + srcContext.getId());
 			}
 			for (final ProvidedRole role : targetContext.getEncapsulatedComponent_ChildComponentContext().getProvidedRoles_InterfaceProvidingEntity()) {
 				for (final Signature i : role.getProvidedInterface__ProvidedRole().getSignatures__Interface()) {
 					srcIdMapping.put(i.getServiceName(), targetContext.getId());
-					this.log.info("Service " + i.getServiceName() + " required by " + srcContext.getId() + " maps to " + targetContext.getId());
+					LOG.info("Service " + i.getServiceName() + " required by " + srcContext.getId() + " maps to " + targetContext.getId());
 				}
 			}
 		}
 		for (final ProvidedDelegationConnector systemServiceConnector : system
 				.getProvidedDelegationConnectors_ComposedStructure()) {
-			this.log.info(systemServiceConnector);
+			LOG.info(systemServiceConnector);
 			final ProvidedRole role = systemServiceConnector.getInnerProvidedRole_ProvidedDelegationConnector();
-			this.log.info(role);
-			this.log.info(role.getProvidedInterface__ProvidedRole());
+			LOG.info(role);
+			LOG.info(role.getProvidedInterface__ProvidedRole());
 			for (final Signature signature : role.getProvidedInterface__ProvidedRole().getSignatures__Interface()) {
 				this.systemProvidedServices.put(signature.getServiceName(), systemServiceConnector.getChildComponentContext_ProvidedDelegationConnector().getId());
 				this.systemProvidedServicesToSignature.put(signature.getServiceName(), signature);
@@ -79,7 +81,7 @@ public class AssemblyController {
 
 	public final String getComponentByASMId(final String asmId) {
 		final ProvidesComponentType asmC = this.asmIdToComponent.get(asmId);
-		this.log.info("Looked up Component " + asmC + " for asm context " + asmId);
+		LOG.info("Looked up Component " + asmC + " for asm context " + asmId);
 		if (asmC != null) {
 			return asmC.getId();
 		} else {
@@ -119,7 +121,7 @@ public class AssemblyController {
 
 	public Signature getSignatureByExternalServiceName(final String serviceName) {
 		for (final String s : this.systemProvidedServicesToSignature.keySet()) {
-			ModelManager.getInstance().getLogger().info(s + " maps to " + this.systemProvidedServicesToSignature.get(s));
+			LOG.info(s + " maps to " + this.systemProvidedServicesToSignature.get(s));
 		}
 		return this.systemProvidedServicesToSignature.get(serviceName);
 	}

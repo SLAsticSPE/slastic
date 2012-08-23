@@ -13,9 +13,9 @@ import org.trustsoft.slastic.simulation.software.controller.cfframes.CFFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.CallFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.LoopFrame;
 import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionEvent;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoBranchProbabilitiesException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreaterXException;
 import org.trustsoft.slastic.simulation.software.controller.threading.CFCreationStatus;
@@ -42,11 +42,11 @@ import de.uka.ipd.sdq.pcm.seff.StopAction;
  * @author Robert von Massow
  * 
  */
+// TODO: It seems that this class is not used at all ...
 public class ProgressingFlow {
+	private static final Log LOG = LogFactory.getLog(ProgressingFlow.class);
 
 	public static final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
-
-	private static final Log log = LogFactory.getLog(ProgressingFlow.class);
 
 	private final Stack<CFFrame> stack = new Stack<CFFrame>();
 
@@ -54,9 +54,9 @@ public class ProgressingFlow {
 
 	private final String userId;
 
-	private Exception exceptionStatus;
+	private volatile Exception exceptionStatus;
 
-	private CFCreationStatus status = CFCreationStatus.PAUSED;
+	private volatile CFCreationStatus status = CFCreationStatus.PAUSED;
 
 	public ProgressingFlow(final ResourceDemandingSEFF seff,
 			final String initialAsmContext, final String userId) {
@@ -117,13 +117,13 @@ public class ProgressingFlow {
 							currentFrame.getAsmContextCurrent(),
 							eca.getCalledService_ExternalService()
 									.getServiceName());
-			ProgressingFlow.log.info("Generating external call node for: "
+			ProgressingFlow.LOG.info("Generating external call node for: "
 					+ eca.getCalledService_ExternalService().getServiceName()
 					+ " from asm context "
 					+ currentFrame.getAsmContextCurrent() + " to asm context "
 					+ calledContext);
 
-			final ExternalCallEnterNode ece = new ExternalCallEnterNode(
+			final ExternalCallEnterEvent ece = new ExternalCallEnterEvent(
 					eca.getCalledService_ExternalService(),
 					currentFrame.getAsmContextCurrent(), this.userId);
 
@@ -143,7 +143,7 @@ public class ProgressingFlow {
 			final CFFrame frame = this.stack.pop();
 			if (frame instanceof CallFrame) {
 				final CallFrame cframe = (CallFrame) frame;
-				this.nodes.add(new ExternalCallReturnNode(cframe.getEce()));
+				this.nodes.add(new ExternalCallReturnEvent(cframe.getEce()));
 			} else if (frame instanceof LoopFrame) {
 				final LoopFrame lframe = (LoopFrame) frame;
 				if (lframe.inc() == lframe.getIterations()) {
@@ -157,7 +157,7 @@ public class ProgressingFlow {
 			final InternalAction ia = (InternalAction) action;
 			final List<ParametricResourceDemand> resourceDemands = ia
 					.getResourceDemand_Action();
-			final InternalActionNode currentIA = new InternalActionNode(
+			final InternalActionEvent currentIA = new InternalActionEvent(
 					ia.getId(), this.userId);
 			for (final ParametricResourceDemand resDemand : resourceDemands) {
 				final String requiredResource = ((InternalEObject) resDemand
@@ -167,7 +167,7 @@ public class ProgressingFlow {
 						.getSpecification_ParametericResourceDemand()
 						.getSpecification();
 				currentIA.add(requiredResource, demand);
-				ProgressingFlow.log.info("Added demand: " + requiredResource
+				ProgressingFlow.LOG.info("Added demand: " + requiredResource
 						+ " " + demand);
 			}
 			this.nodes.add(currentIA);
@@ -175,7 +175,7 @@ public class ProgressingFlow {
 		} else if (action instanceof AbstractLoopAction) {
 			if (action instanceof LoopAction) {
 				final LoopAction la = (LoopAction) action;
-				ProgressingFlow.log.info("Loop's iteration count is "
+				ProgressingFlow.LOG.info("Loop's iteration count is "
 						+ la.getIterationCount_LoopAction().getSpecification());
 				final int max = Integer.parseInt(la
 						.getIterationCount_LoopAction().getSpecification()

@@ -7,19 +7,24 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.SimTime;
 
-public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess>
-		extends Entity {
-	private PRType owner;
-	private long tickRate;
-	private SimTime tickSimTime;
-	private boolean timeUnitSet, tickRateSet;
-	private TimeUnit unit;
-	private TickEventGenerator tickEventGenerator;
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ * @param <PRType>
+ * @param <SPType>
+ */
+public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess> extends Entity {
+	private volatile PRType owner;
+	private volatile long tickRate;
+	private volatile SimTime tickSimTime;
+	private volatile boolean timeUnitSet, tickRateSet;
+	private volatile TimeUnit unit;
+	private volatile TickEventGenerator tickEventGenerator;
 
 	protected final Queue<SPType> queue;
 
-	public AbstractScheduler(final Model model, final String name,
-			final Queue<SPType> queue) {
+	public AbstractScheduler(final Model model, final String name, final Queue<SPType> queue) {
 		super(model, name, Constants.DEBUG);
 		this.queue = queue;
 	}
@@ -27,8 +32,7 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 	public void setOwner(final PRType owner) {
 		if (this.owner == null) {
 			this.owner = owner;
-			this.tickEventGenerator = new TickEventGenerator(this.getModel(),
-					this.getName(), Constants.DEBUG, this.owner);
+			this.tickEventGenerator = new TickEventGenerator(this.getModel(), this.getName(), Constants.DEBUG, this.owner);
 		}
 	}
 

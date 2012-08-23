@@ -1,5 +1,10 @@
 package org.trustsoft.slastic.simulation.software.controller;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public final class EntryCall {
 
 	private final long tin;
@@ -7,10 +12,9 @@ public final class EntryCall {
 	private final String opname;
 	private final String componentName;
 	private final long tout;
-	private boolean scheduled = false;
+	private volatile boolean scheduled = false;
 
-	public EntryCall(final String componentName, final String opname,
-			final long traceId, final long tin, final long tout) {
+	public EntryCall(final String componentName, final String opname, final long traceId, final long tin, final long tout) {
 		this.componentName = componentName;
 		this.opname = opname;
 		this.traceId = traceId;

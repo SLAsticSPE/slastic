@@ -45,7 +45,7 @@ public class DynamicSimulationModel extends Model {
 			final Experiment experiment) {
 		super(null, name, Constants.DEBUG, Constants.DEBUG);
 		this.connectToExperiment(experiment);
-		this.manager = new ModelManager(repos, struct, resourceEnv, initAllocation, reconfModel, this, LOG);
+		this.manager = new ModelManager(repos, struct, resourceEnv, initAllocation, reconfModel, this);
 		this.buffer = simulatedThreadQueue;
 		this.callHandler = new CallHandler(this);
 	}

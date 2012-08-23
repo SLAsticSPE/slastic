@@ -3,11 +3,16 @@ package org.trustsoft.slastic.simulation.model.mapping.loadbalancer;
 import java.util.Collection;
 import java.util.Random;
 
-import org.trustsoft.slastic.simulation.model.mapping.LoadBalancer;
+import org.trustsoft.slastic.simulation.model.mapping.ILoadBalancer;
 
-public final class RandomBalancer implements LoadBalancer {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public final class RandomBalancer implements ILoadBalancer {
 
-	// use Random as desmoj shit is based on it, too
+	// use Random as desmoj is based on it, too
 	private final Random r;
 
 	public RandomBalancer() {
@@ -19,9 +24,7 @@ public final class RandomBalancer implements LoadBalancer {
 	}
 
 	@Override
-	public final String getServerMapping(final String asmId,
-			final Collection<String> possibilities) {
-		return (String) possibilities.toArray()[this.r.nextInt(possibilities
-				.size())];
+	public final String getServerMapping(final String asmId, final Collection<String> possibilities) {
+		return (String) possibilities.toArray()[this.r.nextInt(possibilities.size())];
 	}
 }

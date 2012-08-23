@@ -1,13 +1,19 @@
 package org.trustsoft.slastic.simulation;
+
 import desmoj.core.simulator.Condition;
 import desmoj.core.simulator.Entity;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public final class StopCondition extends Condition {
 
 	private boolean stopped;
 
 	public boolean isStopped() {
-		return stopped;
+		return this.stopped;
 	}
 
 	public boolean setStopped(final boolean stopped) {
@@ -21,11 +27,11 @@ public final class StopCondition extends Condition {
 
 	@Override
 	public boolean check() {
-		return stopped;
+		return this.stopped;
 	}
 
 	@Override
 	public boolean check(final Entity arg0) {
-		return stopped;
+		return this.stopped;
 	}
 }

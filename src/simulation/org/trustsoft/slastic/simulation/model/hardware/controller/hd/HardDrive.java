@@ -6,6 +6,11 @@ import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Process
 import desmoj.core.advancedModellingFeatures.Res;
 import desmoj.core.simulator.Model;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class HardDrive extends ProcessingResource<IOOperation> {
 
 	@SuppressWarnings("unused")
@@ -21,14 +26,12 @@ public class HardDrive extends ProcessingResource<IOOperation> {
 
 	@Override
 	public double getBusiness() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
-
+		// TODO: refine?
 	}
 
 }

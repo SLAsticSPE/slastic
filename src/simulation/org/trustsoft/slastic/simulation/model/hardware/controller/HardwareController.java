@@ -23,17 +23,22 @@ import de.uka.ipd.sdq.pcm.resourcetype.ProcessingResourceType;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Reportable;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class HardwareController extends Reportable {
 
 	// FIXME desmoj api!!!
 
+	private static final Log LOG = LogFactory.getLog(HardwareController.class);
+
 	private final Model model;
 	private final Hashtable<String, Server> serversById = new Hashtable<String, Server>();
 	private int allocatedServers = 0;
-	private final Log log = LogFactory.getLog(this.getClass());
 
-	public HardwareController(final ResourceEnvironment resources,
-			final Model model) {
+	public HardwareController(final ResourceEnvironment resources, final Model model) {
 		super(model, "Resource Controller", Constants.DEBUG, Constants.DEBUG);
 		this.model = model;
 		this.generateEnvironment(resources, model);
@@ -41,52 +46,33 @@ public class HardwareController extends Reportable {
 
 	private void generateEnvironment(final ResourceEnvironment re, final Model m) {
 
-		for (final ResourceContainer rc : re
-				.getResourceContainer_ResourceEnvironment()) {
+		for (final ResourceContainer rc : re.getResourceContainer_ResourceEnvironment()) {
 			final Server server = this.createServer(rc.getId(), m);
-			final List<ProcessingResourceSpecification> prslist = rc
-					.getActiveResourceSpecifications_ResourceContainer();
+			final List<ProcessingResourceSpecification> prslist = rc.getActiveResourceSpecifications_ResourceContainer();
 			for (final ProcessingResourceSpecification prs : prslist) {
-				this.log.info("Adding Processing Resource "
-						+ ((InternalEObject) prs
-								.getActiveResourceType_ActiveResourceSpecification())
-								.eProxyURI() + " for " + rc.getId());
-				final ProcessingResourceType prt = prs
-						.getActiveResourceType_ActiveResourceSpecification();
-				if (((InternalEObject) prs
-						.getActiveResourceType_ActiveResourceSpecification())
-						.eProxyURI()
-						.toString()
+				LOG.info("Adding Processing Resource "
+						+ ((InternalEObject) prs.getActiveResourceType_ActiveResourceSpecification()).eProxyURI() + " for " + rc.getId());
+				final ProcessingResourceType prt = prs.getActiveResourceType_ActiveResourceSpecification();
+				if (((InternalEObject) prs.getActiveResourceType_ActiveResourceSpecification()).eProxyURI().toString()
 						.equals("pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ")) {
 					this.genCPU(m, rc, server, prs);
-
 				} else if (prt.getEntityName().equals("HDD")) {
 					this.genHDD(m, rc, server, prs);
 				}
-
 			}
 			this.serversById.put(rc.getId().toString(), server);
 		}
 	}
 
-	private void genHDD(final Model m, final ResourceContainer rc,
-			final Server server, final ProcessingResourceSpecification prs) {
-		final int prate = (Integer) EvaluationProxy.evaluate(prs
-				.getProcessingRate_ProcessingResourceSpecification()
-				.getSpecification(), Integer.class, null);
-		final HardDrive hd = new HardDrive(m, rc.getEntityName() + "HDD",
-				Constants.DEBUG, new HDScheduler(m, rc.getEntityName()
-						+ "HDDScheduler"), prate);
+	private void genHDD(final Model m, final ResourceContainer rc, final Server server, final ProcessingResourceSpecification prs) {
+		final int prate = (Integer) EvaluationProxy.evaluate(prs.getProcessingRate_ProcessingResourceSpecification().getSpecification(), Integer.class, null);
+		final HardDrive hd = new HardDrive(m, rc.getEntityName() + "HDD", Constants.DEBUG, new HDScheduler(m, rc.getEntityName() + "HDDScheduler"), prate);
 		server.addHDD(hd);
 	}
 
-	private void genCPU(final Model m, final ResourceContainer rc,
-			final Server server, final ProcessingResourceSpecification prs) {
-		final int prate = Integer.parseInt(prs
-				.getProcessingRate_ProcessingResourceSpecification()
-				.getSpecification().replaceAll("\\s*", ""));
-		final CPU cpu = new CPU(m, rc.getEntityName() + "CPU", Constants.DEBUG,
-				new CPURRScheduler(m, rc.getEntityName() + "CPU"), prate);
+	private void genCPU(final Model m, final ResourceContainer rc, final Server server, final ProcessingResourceSpecification prs) {
+		final int prate = Integer.parseInt(prs.getProcessingRate_ProcessingResourceSpecification().getSpecification().replaceAll("\\s*", ""));
+		final CPU cpu = new CPU(m, rc.getEntityName() + "CPU", Constants.DEBUG, new CPURRScheduler(m, rc.getEntityName() + "CPU"), prate);
 		cpu.getScheduler().setTickRate(Constants.PS_SLICE);
 		server.addCPU(cpu);
 	}
@@ -110,9 +96,7 @@ public class HardwareController extends Reportable {
 			this.allocatedServers++;
 			return true;
 		}
-		this.log.warn("Failed to allocate server" + id
-				+ " , allocation status: "
-				+ (server.isAllocated() ? "allocated" : "unallocated"));
+		LOG.warn("Failed to allocate server" + id + " , allocation status: " + (server.isAllocated() ? "allocated" : "unallocated"));
 		return false;
 	}
 
@@ -129,8 +113,7 @@ public class HardwareController extends Reportable {
 	public boolean delocate(final String id) {
 		final Server server = this.serversById.get(id);
 		// this.log.warn("Delocating server " + server.getName());
-		if (this.allocatedServers > 1
-				&& !ModelManager.getInstance().getAllocationController().serverIsUsed(id)) {
+		if ((this.allocatedServers > 1) && !ModelManager.getInstance().getAllocationController().serverIsUsed(id)) {
 			server.setAllocated(false);
 			for (final CPU cpu : server.getCpus()) {
 				cpu.pauseMonitoring();
@@ -138,11 +121,8 @@ public class HardwareController extends Reportable {
 			this.allocatedServers--;
 			return true;
 		}
-		this.log.warn("Delocation failed, Servers left: "
-				+ this.allocatedServers
-				+ ", Usage status: "
-				+ (ModelManager.getInstance().getAllocationController().serverIsUsed(id) ? "used"
-						: "unused") + ", Allocation status: "
+		LOG.warn("Delocation failed, Servers left: " + this.allocatedServers + ", Usage status: "
+				+ (ModelManager.getInstance().getAllocationController().serverIsUsed(id) ? "used" : "unused") + ", Allocation status: "
 				+ server.isAllocated());
 		return false;
 	}

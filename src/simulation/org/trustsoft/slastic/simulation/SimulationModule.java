@@ -2,8 +2,8 @@ package org.trustsoft.slastic.simulation;
 
 import org.trustsoft.slastic.simulation.model.hardware.controller.cpu.UtilizationProbeEventGenerator;
 import org.trustsoft.slastic.simulation.model.mapping.AllocationController;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnEvent;
 import org.trustsoft.slastic.simulation.software.statistics.DummyStats;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
@@ -11,6 +11,11 @@ import org.trustsoft.slastic.simulation.software.statistics.SystemStats;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class SimulationModule extends AbstractModule {
 
 	@Override
@@ -25,8 +30,8 @@ public class SimulationModule extends AbstractModule {
 
 		this.bind(ISystemStats.class).annotatedWith(Names.named("CPUUsage")).to(SystemStats.class);
 
-		this.requestStaticInjection(ExternalCallEnterNode.class,
-				ExternalCallReturnNode.class, AllocationController.class,
+		this.requestStaticInjection(ExternalCallEnterEvent.class,
+				ExternalCallReturnEvent.class, AllocationController.class,
 				UtilizationProbeEventGenerator.class);
 
 		this.bind(ISystemStats.class).to(SystemStats.class);

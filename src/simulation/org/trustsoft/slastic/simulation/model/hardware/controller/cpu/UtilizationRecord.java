@@ -2,15 +2,20 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
 import kieker.common.record.AbstractMonitoringRecord;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+// TODO: Change to immutable type or use Kieker record directly?
 @SuppressWarnings({ "serial", "unchecked" })
 public class UtilizationRecord extends AbstractMonitoringRecord {
 
-	private long time;
-	private double utilization;
+	private volatile long time;
+	private volatile double utilization;
 	@SuppressWarnings("rawtypes")
-	private static final Class types[] = { Long.class, Double.class,
-			String.class };
-	private String server;
+	private static final Class types[] = { Long.class, Double.class, String.class };
+	private volatile String server;
 
 	@SuppressWarnings("rawtypes")
 	@Override

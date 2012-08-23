@@ -2,6 +2,11 @@ package org.trustsoft.slastic.simulation.software.controller.threading;
 
 import org.trustsoft.slastic.simulation.software.controller.ProgressingFlow;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class CFGenerationTask implements Runnable, Comparable<CFGenerationTask> {
 
 	private final ProgressingFlow pf;
@@ -14,8 +19,7 @@ public class CFGenerationTask implements Runnable, Comparable<CFGenerationTask> 
 
 	@Override
 	public void run() {
-		for (int i = 0; i < this.evaluations
-				&& this.pf.getStatus() == CFCreationStatus.PAUSED; i++) {
+		for (int i = 0; (i < this.evaluations) && (this.pf.getStatus() == CFCreationStatus.PAUSED); i++) {
 			this.pf.next();
 		}
 		CFCreationController.getInstance().doSomethingWithMe(this.pf);

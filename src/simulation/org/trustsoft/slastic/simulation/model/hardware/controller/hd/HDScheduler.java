@@ -7,23 +7,25 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 
 	public HDScheduler(final Model model, final String name) {
-		super(model, name, new Queue<IOOperation>(model, name + "Queue",
-				Constants.DEBUG, Constants.DEBUG));
+		super(model, name, new Queue<IOOperation>(model, name + "Queue", Constants.DEBUG, Constants.DEBUG));
 	}
 
 	@Override
 	public void schedule(final IOOperation process) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 	@Override
 	public SimTime tick() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 	@Override
@@ -33,19 +35,17 @@ public class HDScheduler extends AbstractScheduler<HardDrive, IOOperation> {
 
 	@Override
 	public double getBusiness() {
-		// TODO Auto-generated method stub
-		return 0;
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 	@Override
 	public void resumeBusinessMonitoringAt(final SimTime t) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 	@Override
 	public void pauseBusinessMonitoring() {
-
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 }

@@ -6,22 +6,21 @@ import ReconfigurationPlanModel.ComponentDeReplicationOP;
 import ReconfigurationPlanModel.SLAsticReconfigurationOpType;
 import desmoj.core.simulator.Model;
 
-public class DelComponent extends ReconfigurationEvent {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public class DelComponent extends AbstractReconfigurationEvent {
 
-	public DelComponent(final Model owner, final String name,
-			final boolean showInTrace,
-			final SLAsticReconfigurationOpType reconfOp) {
+	public DelComponent(final Model owner, final String name, final boolean showInTrace, final SLAsticReconfigurationOpType reconfOp) {
 		super(owner, name, showInTrace, reconfOp);
 	}
 
 	@Override
-	public boolean eventRoutine2() {
+	public boolean concreteEventRoutine() {
 		try {
-			return ModelManager
-					.getInstance()
-					.getAllocationController()
-					.del(((ComponentDeReplicationOP) super.getReconfOp())
-							.getComponent());
+			return ModelManager.getInstance().getAllocationController().del(((ComponentDeReplicationOP) super.getReconfOp()).getComponent());
 		} catch (final Exception e) {
 			return false;
 		}

@@ -3,6 +3,11 @@ package org.trustsoft.slastic.simulation.software.controller.cfframes;
 import de.uka.ipd.sdq.pcm.seff.AbstractAction;
 import de.uka.ipd.sdq.pcm.seff.ResourceDemandingBehaviour;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public class LoopFrame extends CFFrame {
 
 	private final int max;
@@ -12,7 +17,6 @@ public class LoopFrame extends CFFrame {
 			final AbstractAction headAction, final String asmContext,
 			final int iterations) {
 		super(seff, headAction, asmContext);
-		// TODO Auto-generated constructor stub
 		this.max = iterations;
 	}
 

@@ -1,9 +1,15 @@
 package org.trustsoft.slastic.simulation.software.controller.controlflow;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ * @param <T>
+ */
 public class Demand<T extends Number> {
 
 	private final String demand;
-	private boolean done;
+	private volatile boolean done;
 	@SuppressWarnings("unused")
 	private final Class<T> clazzToCast;
 

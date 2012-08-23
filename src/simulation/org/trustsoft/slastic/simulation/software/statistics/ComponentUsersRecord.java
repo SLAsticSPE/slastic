@@ -2,11 +2,13 @@ package org.trustsoft.slastic.simulation.software.statistics;
 
 import kieker.common.record.AbstractMonitoringRecord;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+// TODO: Change to immutable
 public class ComponentUsersRecord extends AbstractMonitoringRecord {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9016470099398855647L;
 	private String component;
 	private String host;
@@ -33,14 +35,14 @@ public class ComponentUsersRecord extends AbstractMonitoringRecord {
 	@Override
 	public Object[] toArray() {
 		return new Object[] { this.component, this.host, this.users,
-				this.monTime };
+			this.monTime };
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Class[] getValueTypes() {
 		return new Class[] { String.class, String.class, Integer.class,
-				Long.class };
+			Long.class };
 	}
 
 }

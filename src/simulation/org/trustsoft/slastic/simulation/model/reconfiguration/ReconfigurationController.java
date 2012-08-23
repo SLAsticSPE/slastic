@@ -7,10 +7,10 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.simulation.config.Constants;
+import org.trustsoft.slastic.simulation.events.reconfiguration.AbstractReconfigurationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.AllocationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.DelComponent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.DelocationEvent;
-import org.trustsoft.slastic.simulation.events.reconfiguration.ReconfigurationEvent;
 import org.trustsoft.slastic.simulation.events.reconfiguration.ReplicationEvent;
 import org.trustsoft.slastic.simulation.listeners.IReconfigurationEventListener;
 import org.trustsoft.slastic.simulation.model.ModelManager;
@@ -31,16 +31,17 @@ import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public final class ReconfigurationController {
+	private static final Log log = LogFactory.getLog(ReconfigurationController.class);
 
-	/**
-	 *
-	 */
-	private static ReconfigurationController instance;
+	private static ReconfigurationController INSTANCE;
 
-	private final Log log = LogFactory.getLog(this.getClass());
-
-	private final List<ReconfigurationEvent> reconfEvents = new LinkedList<ReconfigurationEvent>();
+	private final List<AbstractReconfigurationEvent> reconfEvents = new LinkedList<AbstractReconfigurationEvent>();
 
 	private final Hashtable<String, ReconfigurableComponent> components = new Hashtable<String, ReconfigurableComponent>();
 
@@ -57,15 +58,13 @@ public final class ReconfigurationController {
 	public ReconfigurationController(final ReconfigurationModel reconfModel,
 			final Model model) {
 		this.model = model;
-		if (ReconfigurationController.instance == null) {
-			for (final ReconfigurationSpecification reconfSpec : reconfModel
-					.getComponents()) {
-				final ReconfigurableComponent comp = new ReconfigurableComponent(
-						reconfSpec.getComponent(),
-						reconfSpec.getMaxInstances(), reconfSpec.isMigratable());
+		if (ReconfigurationController.INSTANCE == null) {
+			for (final ReconfigurationSpecification reconfSpec : reconfModel.getComponents()) {
+				final ReconfigurableComponent comp =
+						new ReconfigurableComponent(reconfSpec.getComponent(), reconfSpec.getMaxInstances(), reconfSpec.isMigratable());
 				this.components.put(comp.getComponent().getId(), comp);
 			}
-			ReconfigurationController.instance = this;
+			ReconfigurationController.INSTANCE = this;
 		}
 	}
 
@@ -75,8 +74,7 @@ public final class ReconfigurationController {
 	 * @param component
 	 * @return the reconfiguration specification of the given component
 	 */
-	public ReconfigurableComponent getReconfSpecByComponent(
-			final ProvidesComponentType component) {
+	public ReconfigurableComponent getReconfSpecByComponent(final ProvidesComponentType component) {
 		return this.components.get(component.getId());
 	}
 
@@ -97,10 +95,8 @@ public final class ReconfigurationController {
 	 * @param asmContext
 	 * @return the reconfiguration specification of the given component
 	 */
-	public ReconfigurableComponent getReconfSpecByASMContext(
-			final AssemblyContext asmContext) {
-		return this.components.get(asmContext
-				.getEncapsulatedComponent_ChildComponentContext().getId());
+	public ReconfigurableComponent getReconfSpecByASMContext(final AssemblyContext asmContext) {
+		return this.components.get(asmContext.getEncapsulatedComponent_ChildComponentContext().getId());
 	}
 
 	/**
@@ -114,9 +110,7 @@ public final class ReconfigurationController {
 	public boolean addComponentInstance(final String componentId) {
 		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
-		if (comp != null
-				&& comp.getMaxInstances() > (instances = this.currentInstances
-						.get(componentId))) {
+		if ((comp != null) && (comp.getMaxInstances() > (instances = this.currentInstances.get(componentId)))) {
 			this.currentInstances.put(componentId, ++instances);
 			return true;
 		}
@@ -134,8 +128,7 @@ public final class ReconfigurationController {
 	public boolean delComponentInstance(final String componentId) {
 		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
-		if (comp != null
-				&& (instances = this.currentInstances.get(componentId)) > 1) {
+		if ((comp != null) && ((instances = this.currentInstances.get(componentId)) > 1)) {
 			this.currentInstances.put(componentId, --instances);
 			return true;
 		}
@@ -148,17 +141,15 @@ public final class ReconfigurationController {
 	 * @return the instance of the reconfiguration controller
 	 */
 	public static ReconfigurationController getInstrance() {
-		return ReconfigurationController.instance;
+		return ReconfigurationController.INSTANCE;
 	}
 
 	@Deprecated
 	public boolean checkValidity(final SLAsticReconfigurationPlan plan) {
-		for (final SLAsticReconfigurationOpType operation : plan
-				.getOperations()) {
+		for (final SLAsticReconfigurationOpType operation : plan.getOperations()) {
 			if (operation instanceof NodeAllocationOP) {
 				final NodeAllocationOP nodeAlloc = (NodeAllocationOP) operation;
-				ModelManager.getInstance().getHardwareController()
-						.isAllocated(nodeAlloc.getNode().getId());
+				ModelManager.getInstance().getHardwareController().isAllocated(nodeAlloc.getNode().getId());
 			}
 		}
 		return false;
@@ -171,8 +162,8 @@ public final class ReconfigurationController {
 	 *            the plan to execute
 	 */
 	public void schedulePlan(final SLAsticReconfigurationPlan plan) {
-		if (this.reconfEvents.isEmpty() && this.plan == null
-				&& plan.getOperations().size() > 0) {
+		if (this.reconfEvents.isEmpty() && (this.plan == null)
+				&& (plan.getOperations().size() > 0)) {
 			this.plan = plan;
 			for (final SLAsticReconfigurationOpType op : this.plan
 					.getOperations()) {
@@ -219,37 +210,37 @@ public final class ReconfigurationController {
 			for (final IReconfigurationEventListener listener : this.listeners) {
 				listener.notifyPlanFailed(plan);
 			}
-			this.log.warn("Rejected plan: "
+			ReconfigurationController.log.warn("Rejected plan: "
 					+ (this.plan != null ? "plan already running"
 							: plan.getOperations().size() == 0 ? "no operations provided"
 									: "unknown"));
 			if (this.plan != null) {
-				this.log.warn("Running plan with ops: "
+				ReconfigurationController.log.warn("Running plan with ops: "
 						+ this.plan.getOperations().size());
 				for (final SLAsticReconfigurationOpType op : this.plan
 						.getOperations()) {
-					this.log.warn(op);
+					ReconfigurationController.log.warn(op);
 				}
 			}
 		}
 	}
 
-	private ReconfigurationEvent createEvent(final NodeDeAllocationOP repOp) {
+	private AbstractReconfigurationEvent createEvent(final NodeDeAllocationOP repOp) {
 		return new DelocationEvent(this.model, repOp.toString(),
 				Constants.DEBUG, repOp);
 	}
 
-	private ReconfigurationEvent createEvent(final NodeAllocationOP repOp) {
+	private AbstractReconfigurationEvent createEvent(final NodeAllocationOP repOp) {
 		return new AllocationEvent(this.model, repOp.toString(),
 				Constants.DEBUG, repOp);
 	}
 
-	private ReconfigurationEvent createEvent(final ComponentReplicationOP op) {
+	private AbstractReconfigurationEvent createEvent(final ComponentReplicationOP op) {
 		return new ReplicationEvent(this.model, op.toString(), Constants.DEBUG,
 				op);
 	}
 
-	private ReconfigurationEvent createEvent(final ComponentDeReplicationOP op) {
+	private AbstractReconfigurationEvent createEvent(final ComponentDeReplicationOP op) {
 		return new DelComponent(this.model, op.toString(), Constants.DEBUG, op);
 	}
 
@@ -284,7 +275,7 @@ public final class ReconfigurationController {
 
 	private void scheduleNextOp() {
 		if (!this.reconfEvents.isEmpty()) {
-			final ReconfigurationEvent event = this.reconfEvents.remove(0);
+			final AbstractReconfigurationEvent event = this.reconfEvents.remove(0);
 			event.schedule(SimTime.NOW);
 			// System.out
 			// .println("----------------------------------------------------------");
@@ -321,8 +312,7 @@ public final class ReconfigurationController {
 		return this.currentInstances.get(componentId);
 	}
 
-	public void markUnusedAndBlocked(final String server,
-			final String asmContext) {
+	public void markUnusedAndBlocked(final String server, final String asmContext) {
 		this.scheduleNextOp();
 	}
 

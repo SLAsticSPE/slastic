@@ -5,6 +5,11 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 
 import desmoj.core.simulator.ExternalEvent;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public abstract class AbstractControlFlowEvent extends ExternalEvent {
 
 	private final String traceId;
@@ -23,5 +28,4 @@ public abstract class AbstractControlFlowEvent extends ExternalEvent {
 
 	@Override
 	public abstract void eventRoutine();
-
 }

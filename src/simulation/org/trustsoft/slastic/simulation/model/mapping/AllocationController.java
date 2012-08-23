@@ -27,10 +27,11 @@ import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import desmoj.core.simulator.Model;
 
 /**
- * @author skomp
+ * @author Robert von Massow
  * 
  */
 public final class AllocationController {
+	private static final Log LOG = LogFactory.getLog(AllocationController.class);
 
 	@SuppressWarnings("unused")
 	private final Model model;
@@ -40,13 +41,12 @@ public final class AllocationController {
 	private final Hashtable<String, Hashtable<String, Integer>> serverToAsmToUserCount = new Hashtable<String, Hashtable<String, Integer>>();
 
 	private final Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>> serverToAsmToPassiveResource = new Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>>();
-	private final Log log = LogFactory.getLog(AllocationController.class);
 
 	@Inject
 	@Named("ComponentUsers")
 	private static ISystemStats stats;
 
-	private final LoadBalancer loadBalancer;
+	private final ILoadBalancer loadBalancer;
 
 	public AllocationController(final Allocation allocation, final Model model) {
 		this.genAllocationModel(allocation);
@@ -55,7 +55,7 @@ public final class AllocationController {
 	}
 
 	public AllocationController(final Allocation allocation,
-			final LoadBalancer lb, final Model model) {
+			final ILoadBalancer lb, final Model model) {
 		this.genAllocationModel(allocation);
 		this.loadBalancer = lb;
 		this.model = model;
@@ -85,7 +85,7 @@ public final class AllocationController {
 					new HashSet<String>());
 		}
 		for (final AllocationContext allocContext : contexts) {
-			this.log.info("Adding initial Allocation: "
+			AllocationController.LOG.info("Adding initial Allocation: "
 					+ allocContext.getAssemblyContext_AllocationContext()
 					+ " to "
 					+ allocContext.getResourceContainer_AllocationContext());
@@ -123,7 +123,7 @@ public final class AllocationController {
 	}
 
 	public final String getServer(final String asmContext) {
-		this.log.info("Getting Ressource Container for ASM Context: "
+		AllocationController.LOG.info("Getting Ressource Container for ASM Context: "
 				+ asmContext);
 		return this.loadBalancer.getServerMapping(asmContext,
 				this.assemblyContextToServerMapping.get(asmContext));
@@ -223,7 +223,7 @@ public final class AllocationController {
 			final String server) {
 		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
-		this.log.info("blocking " + asmContext + " on server " + server);
+		AllocationController.LOG.info("blocking " + asmContext + " on server " + server);
 		if (blockState == null) {
 			blockState = new Hashtable<String, Boolean>();
 			this.serverToAsmToBlockState.put(server, blockState);
@@ -320,7 +320,7 @@ public final class AllocationController {
 			servers.remove(server);
 			this.blockInstance(asmContext, server);
 
-			this.log.info("Deleted "
+			AllocationController.LOG.info("Deleted "
 					+ component.getAssemblyContext_AllocationContext().getId()
 					+ " from container "
 					+ component.getResourceContainer_AllocationContext()
@@ -330,7 +330,7 @@ public final class AllocationController {
 			}
 			return true;
 		} else {
-			this.log.warn("Not allowing less than one allocation (tried to remove "
+			AllocationController.LOG.warn("Not allowing less than one allocation (tried to remove "
 					+ component.getAssemblyContext_AllocationContext()
 					+ " from "
 					+ component.getResourceContainer_AllocationContext() + ")");

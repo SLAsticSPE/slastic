@@ -3,12 +3,17 @@ package org.trustsoft.slastic.simulation.model.hardware.controller.engine;
 import desmoj.core.simulator.Entity;
 import desmoj.core.simulator.Model;
 
-public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
-		extends Entity {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ * @param <T>
+ */
+public abstract class ProcessingResource<T extends AbstractSchedulableProcess> extends Entity {
 
 	private final AbstractScheduler<? extends ProcessingResource<T>, T> scheduler;
 	private final int capacity;
-	private boolean allocated = false;
+	private volatile boolean allocated = false;
 
 	public ProcessingResource(
 			final Model owner,
@@ -50,7 +55,8 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess>
 	}
 
 	/**
-	 * @param allocated the allocated to set
+	 * @param allocated
+	 *            the allocated to set
 	 */
 	public final void setAllocated(final boolean allocated) {
 		this.allocated = allocated;
