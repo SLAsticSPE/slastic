@@ -29,14 +29,14 @@ import kieker.tools.logReplayer.JMSLogReplayer;
  */
 public class AnalysisStarterJMS extends AbstractAnalysisStarter {
 
-	private static final Log log = LogFactory.getLog(AnalysisStarterJMS.class);
+	private static final Log LOG = LogFactory.getLog(AnalysisStarterJMS.class);
 
 	private volatile String jmsProviderUrl;
 	private volatile String jmsDestination;
 	private volatile String jmsFactoryLookupName;
 
-	private final static Option[] ADDITIONAL_CMDL_OPTS =
-	{ CmdlOptions.CMDL_OPT_JMS_PROVIDER_URL,
+	private final static Option[] ADDITIONAL_CMDL_OPTS = {
+		CmdlOptions.CMDL_OPT_JMS_PROVIDER_URL,
 		CmdlOptions.CMDL_OPT_JMS_DESTINATION,
 		CmdlOptions.CMDL_OPT_JMS_INITIAL_CONTEXT_FACTORY };
 
@@ -59,7 +59,7 @@ public class AnalysisStarterJMS extends AbstractAnalysisStarter {
 			this.jmsDestination = super.getStringOptionValueNotEmpty(CmdlOptions.CMDL_OPT_JMS_DESTINATION.getLongOpt());
 			this.jmsFactoryLookupName = super.getStringOptionValueNotEmpty(CmdlOptions.CMDL_OPT_JMS_INITIAL_CONTEXT_FACTORY.getLongOpt());
 		} catch (final Exception exc) {
-			AnalysisStarterJMS.log.error("Failed to initialize variables"
+			AnalysisStarterJMS.LOG.error("Failed to initialize variables"
 					+ exc.getMessage(), exc);
 			return false;
 		}

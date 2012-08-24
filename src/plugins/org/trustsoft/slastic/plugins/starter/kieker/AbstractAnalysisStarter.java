@@ -45,6 +45,7 @@ import kieker.monitoring.writer.namedRecordPipe.PipeWriter;
 public abstract class AbstractAnalysisStarter {
 
 	private static final Log LOG = LogFactory.getLog(AbstractAnalysisStarter.class);
+
 	protected volatile CommandLine cmdl = null;
 	private final CommandLineParser cmdlParser = new BasicParser();
 	private final HelpFormatter cmdHelpFormatter = new HelpFormatter();
@@ -69,8 +70,7 @@ public abstract class AbstractAnalysisStarter {
 	 * 
 	 * @param args
 	 */
-	public AbstractAnalysisStarter(final String[] args,
-			final Option[] additionalCmdlOptions) {
+	public AbstractAnalysisStarter(final String[] args, final Option[] additionalCmdlOptions) {
 		this.args = args;
 		this.addCmdlOpt(CMDL_OPTIONS);
 		this.addCmdlOpt(additionalCmdlOptions);
@@ -249,8 +249,7 @@ public abstract class AbstractAnalysisStarter {
 	 * 
 	 */
 	private void printUsage() {
-		this.cmdHelpFormatter.printHelp(FrameworkInstance.class.getName(),
-				this.cmdlOpts);
+		this.cmdHelpFormatter.printHelp(FrameworkInstance.class.getName(), this.cmdlOpts);
 	}
 
 	/**
@@ -258,8 +257,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param optName
 	 * @return
 	 */
-	public String getStringOptionValue(
-			final String optName) {
+	public String getStringOptionValue(final String optName) {
 		return this.cmdl.getOptionValue(optName);
 	}
 
@@ -270,9 +268,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public String getStringOptionValueNotEmpty(
-			final String optName) throws NullPointerException,
-			IllegalArgumentException {
+	public String getStringOptionValueNotEmpty(final String optName) throws NullPointerException, IllegalArgumentException {
 		return CmdlOptions.stringOptionValueNotEmpty(this.cmdl, optName);
 	}
 
@@ -281,8 +277,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param optName
 	 * @return
 	 */
-	public String[] getStringOptionValues(
-			final String optName) {
+	public String[] getStringOptionValues(final String optName) {
 		return this.cmdl.getOptionValues(optName);
 	}
 
@@ -293,11 +288,8 @@ public abstract class AbstractAnalysisStarter {
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public String[] stringOptionValuesNotNullNotEmpty(
-			final String optName) throws NullPointerException,
-			IllegalArgumentException {
-		return CmdlOptions
-				.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
+	public String[] stringOptionValuesNotNullNotEmpty(final String optName) throws NullPointerException, IllegalArgumentException {
+		return CmdlOptions.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
 	}
 
 	/**
@@ -306,8 +298,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @return
 	 * @throws NullPointerException
 	 */
-	public boolean getBooleanOptionValue(
-			final String optName) throws NullPointerException {
+	public boolean getBooleanOptionValue(final String optName) throws NullPointerException {
 		return CmdlOptions.booleanOptionValue(this.cmdl, optName);
 	}
 
@@ -317,8 +308,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param defaultValue
 	 * @return
 	 */
-	public boolean getBooleanOptionValue(final String optName,
-			final boolean defaultValue) {
+	public boolean getBooleanOptionValue(final String optName, final boolean defaultValue) {
 		return CmdlOptions.booleanOptionValue(this.cmdl, optName, defaultValue);
 	}
 
@@ -329,8 +319,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @return
 	 * @throws NumberFormatException
 	 */
-	public int getIntOptionValue(final String optName, final int defaultValue)
-			throws NumberFormatException {
+	public int getIntOptionValue(final String optName, final int defaultValue) throws NumberFormatException {
 		return CmdlOptions.intOptionValue(this.cmdl, optName, defaultValue);
 	}
 

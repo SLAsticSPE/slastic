@@ -17,16 +17,18 @@
 package org.trustsoft.slastic.plugins.util;
 
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public class REngineFacadeEvalException extends Exception {
 
-    public REngineFacadeEvalException(String msg) {
-        super(msg);
-    }
+	private static final long serialVersionUID = 546546L;
 
-    public REngineFacadeEvalException(String msg, Throwable t) {
-        super(msg, t);
-    }
+	public REngineFacadeEvalException(final String msg) {
+		super(msg);
+	}
+
+	public REngineFacadeEvalException(final String msg, final Throwable t) {
+		super(msg, t);
+	}
 }

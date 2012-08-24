@@ -35,13 +35,10 @@ import kieker.tools.logReplayer.FilesystemLogReplayer;
  */
 public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 
-	private static final Log LOG = LogFactory
-			.getLog(AnalysisStarterFileSystem.class);
+	private static final Log LOG = LogFactory.getLog(AnalysisStarterFileSystem.class);
 
-	private volatile long ignoreRecordsBeforeTimestamp =
-			FilesystemLogReplayer.MIN_TIMESTAMP;
-	private volatile long ignoreRecordsAfterTimestamp =
-			FilesystemLogReplayer.MAX_TIMESTAMP;
+	private volatile long ignoreRecordsBeforeTimestamp = FilesystemLogReplayer.MIN_TIMESTAMP;
+	private volatile long ignoreRecordsAfterTimestamp = FilesystemLogReplayer.MAX_TIMESTAMP;
 
 	private volatile String[] inputDirsArr;
 
