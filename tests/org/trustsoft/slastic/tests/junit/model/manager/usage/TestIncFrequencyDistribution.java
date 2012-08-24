@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model.manager.usage;
 
 import java.util.Arrays;
@@ -12,9 +28,7 @@ import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 
 /**
- * Tests the method
- * {@link UsageModelManager#incOperationCallFreq(de.cau.se.slastic.metamodel.typeRepository.Operation, long)}
- * .
+ * Tests the method {@link UsageModelManager#incOperationCallFreq(de.cau.se.slastic.metamodel.typeRepository.Operation, long)} .
  * 
  * @author Andre van Hoorn
  * 
@@ -36,15 +50,13 @@ public class TestIncFrequencyDistribution extends TestCase {
 
 		final Long[] expectedValues = values; // unchanged
 		final Long[] observedValues = fd.getValues().toArray(new Long[] {});
-		Assert.assertTrue(
-				"Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. "
-						+ Arrays.toString(observedValues),
+		Assert.assertTrue("Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. " + Arrays.toString(observedValues),
 				Arrays.equals(expectedValues, observedValues));
 
 		final Long[] expectedFrequencies = { 43l, 22l, frequencySeven + 1, 33l };
 		final Long[] observedFrequencies = fd.getFrequencies().toArray(new Long[] {});
-		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. "
-						+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
+		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. " + Arrays.toString(observedFrequencies),
+				Arrays.equals(expectedFrequencies, observedFrequencies));
 	}
 
 	/**
@@ -62,15 +74,13 @@ public class TestIncFrequencyDistribution extends TestCase {
 
 		final Long[] expectedValues = { 2l, newValueThree, 5l, 7l, 9l };
 		final Long[] observedValues = fd.getValues().toArray(new Long[] {});
-		Assert.assertTrue(
-				"Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. "
-						+ Arrays.toString(observedValues),
+		Assert.assertTrue("Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. " + Arrays.toString(observedValues),
 				Arrays.equals(expectedValues, observedValues));
 
 		final Long[] expectedFrequencies = { 43l, newFrequencyForThree, 22l, 7l, 33l };
 		final Long[] observedFrequencies = fd.getFrequencies().toArray(new Long[] {});
 		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. "
-						+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
+				+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
 	}
 
 	/**

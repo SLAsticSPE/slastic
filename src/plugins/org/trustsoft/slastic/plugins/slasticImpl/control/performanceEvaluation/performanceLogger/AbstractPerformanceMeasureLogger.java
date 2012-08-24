@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
 import java.io.File;
@@ -12,9 +28,14 @@ import org.trustsoft.slastic.common.IComponentContext;
 
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ * @param <T>
+ */
 public abstract class AbstractPerformanceMeasureLogger<T> {
-	private static final Log log = LogFactory
-			.getLog(AbstractPerformanceMeasureLogger.class);
+	private static final Log LOG = LogFactory.getLog(AbstractPerformanceMeasureLogger.class);
 
 	private final IComponentContext context;
 
@@ -36,8 +57,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		}
 
 		if (pw == null) {
-			AbstractPerformanceMeasureLogger.log
-					.warn("Failed to acquire writer for " + entity);
+			AbstractPerformanceMeasureLogger.LOG.warn("Failed to acquire writer for " + entity);
 			/* what shall we do with the gummischuh? */
 			return;
 		}
@@ -71,8 +91,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 
 	/**
 	 * Allows to add meta-info about the data, e.g., sample intervals. This data
-	 * will be written as a comment line following the header as returned by
-	 * {@link #createHeader()}.
+	 * will be written as a comment line following the header as returned by {@link #createHeader()}.
 	 * 
 	 * @return
 	 */
@@ -90,10 +109,8 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	}
 
 	/**
-	 * Creates a new {@link PrintWriter} for the given
-	 * {@link DeploymentComponent} and stores the corresponding {@link File} and
-	 * {@link PrintWriter} to the tables {@link #deplCompAvgRTsFiles} and
-	 * {@link #deplCompAvgRTsPrintWriters}.
+	 * Creates a new {@link PrintWriter} for the given {@link DeploymentComponent} and stores the corresponding {@link File} and {@link PrintWriter} to the tables
+	 * {@link #deplCompAvgRTsFiles} and {@link #deplCompAvgRTsPrintWriters}.
 	 * 
 	 * @param deplComp
 	 * @return the writer, null on error
@@ -107,11 +124,9 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		try {
 			pw = new PrintWriter(file);
 		} catch (final FileNotFoundException e) {
-			AbstractPerformanceMeasureLogger.log.error(
-					"Failed to create FileWriter for " + file.getAbsolutePath()
-							+ "':" + e.getMessage(), e);
+			AbstractPerformanceMeasureLogger.LOG.error("Failed to create FileWriter for " + file.getAbsolutePath() + "':" + e.getMessage(), e);
 			// we have seen the number of open writers to be the problem. Thus for debugging:
-			AbstractPerformanceMeasureLogger.log.error("Number of open writers:" + this.entityPrintWriters.size());
+			AbstractPerformanceMeasureLogger.LOG.error("Number of open writers:" + this.entityPrintWriters.size());
 		}
 
 		if (pw != null) {

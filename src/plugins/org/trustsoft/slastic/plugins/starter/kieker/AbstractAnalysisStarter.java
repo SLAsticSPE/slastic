@@ -1,9 +1,24 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.starter.kieker;
 
-import kieker.monitoring.core.configuration.Configuration;
-import kieker.monitoring.core.controller.IMonitoringController;
-import kieker.monitoring.core.controller.MonitoringController;
-import kieker.monitoring.writer.namedRecordPipe.PipeWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
@@ -15,7 +30,13 @@ import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.FrameworkInstance;
+import org.trustsoft.slastic.common.IComponentContext;
 import org.trustsoft.slastic.common.util.PropertiesFileUtils;
+import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.AbstractKiekerMonitoringManager;
+
+import kieker.common.configuration.Configuration;
+import kieker.monitoring.core.configuration.ConfigurationFactory;
+import kieker.monitoring.writer.namedRecordPipe.PipeWriter;
 
 /**
  * 
@@ -23,8 +44,8 @@ import org.trustsoft.slastic.common.util.PropertiesFileUtils;
  */
 public abstract class AbstractAnalysisStarter {
 
-	private static final Log log = LogFactory
-			.getLog(AbstractAnalysisStarter.class);
+	private static final Log LOG = LogFactory.getLog(AbstractAnalysisStarter.class);
+
 	protected volatile CommandLine cmdl = null;
 	private final CommandLineParser cmdlParser = new BasicParser();
 	private final HelpFormatter cmdHelpFormatter = new HelpFormatter();
@@ -41,9 +62,7 @@ public abstract class AbstractAnalysisStarter {
 	/** Command line arguments */
 	private final String[] args;
 
-	private final static Option[] CMDL_OPTIONS =
-	{ CmdlOptions.CMDL_OPT_START_FRAMEWORK,
-			CmdlOptions.CMDL_OPT_KIEKER_PIPENAME };
+	private final static Option[] CMDL_OPTIONS = { CmdlOptions.CMDL_OPT_START_FRAMEWORK, CmdlOptions.CMDL_OPT_KIEKER_PIPENAME };
 
 	/**
 	 * Creates a new {@link AbstractAnalysisStarter} based on the given argument
@@ -51,10 +70,9 @@ public abstract class AbstractAnalysisStarter {
 	 * 
 	 * @param args
 	 */
-	public AbstractAnalysisStarter(final String[] args,
-			final Option[] additionalCmdlOptions) {
+	public AbstractAnalysisStarter(final String[] args, final Option[] additionalCmdlOptions) {
 		this.args = args;
-		this.addCmdlOpt(AbstractAnalysisStarter.CMDL_OPTIONS);
+		this.addCmdlOpt(CMDL_OPTIONS);
 		this.addCmdlOpt(additionalCmdlOptions);
 	}
 
@@ -73,7 +91,7 @@ public abstract class AbstractAnalysisStarter {
 
 	/**
 	 * Parses the command-line argument and start the SLAstic framework instance
-	 * as well as the Kieker monitoring log reader. This method is syncronous
+	 * as well as the Kieker monitoring log reader. This method is synchronous
 	 * and returns after the analysis has terminated.
 	 * 
 	 * @return
@@ -83,7 +101,7 @@ public abstract class AbstractAnalysisStarter {
 		 * Parse command-line arguments and initialize variable #cmdl.
 		 */
 		if (!this.parseArgs()) {
-			AbstractAnalysisStarter.log.error("Failed to parse arguments");
+			LOG.error("Failed to parse arguments");
 			return false;
 		}
 
@@ -91,7 +109,7 @@ public abstract class AbstractAnalysisStarter {
 		 * Force implementing classes to initialize
 		 */
 		if (!this.init()) {
-			AbstractAnalysisStarter.log.error("init failed");
+			LOG.error("init failed");
 			return false;
 		}
 
@@ -101,59 +119,62 @@ public abstract class AbstractAnalysisStarter {
 		 * reader, the framework instance executes concurrently and the
 		 * following method returns immediately.
 		 */
-		final FrameworkInstance frameworkInst =
-				this.initAndStartSLAsticFramework();
+		final FrameworkInstance frameworkInst = this.initAndStartSLAsticFramework();
 		if (frameworkInst == null) {
-			AbstractAnalysisStarter.log
-					.error("Error while initializing/starting the SLAstic framework");
+			LOG.error("Error while initializing/starting the SLAstic framework");
 			System.exit(1);
 		}
 
-	
 		/**
-		 * Starts the Kieker JMS reader. The records are passed to the SLAstic
+		 * Starts the Kieker reader. The records are passed to the SLAstic
 		 * monitoring manager via a named pipe. The following method is blocking
 		 * in that it returns after the reader has terminated.
 		 */
-		final boolean logReplayRes = this.startReader();
-		AbstractAnalysisStarter.log.debug("initAndStartJMS terminated with"
-				+ logReplayRes);
+		final boolean logReplayRes = this.createControllerConfigurationAndStartReplay(frameworkInst.getConfiguration().getRootContext());
+		LOG.debug("startReader terminated with" + logReplayRes);
 
 		/**
 		 * Send a termination event to the SLAstic framework.
 		 */
 		frameworkInst.terminate(logReplayRes);
-		AbstractAnalysisStarter.log
-				.debug("SLAstic framework instance terminated");
+		LOG.debug("SLAstic framework instance terminated");
 
 		return logReplayRes;
 	}
 
-	private boolean startReader() {
-		final Configuration configuration =
-				Configuration.createDefaultConfiguration();
+	/**
+	 * The pipe name which will also need to be used by {@link AbstractKiekerMonitoringManager}
+	 */
+	public static final String MONITORING_PIPE_NAME = "monitoringPipe0";
 
-		/* Configuring name pipe writer */
-		configuration.setProperty(Configuration.WRITER_CLASSNAME,
-				PipeWriter.class.getName());
-		configuration.setProperty(PipeWriter.CONFIG_PIPENAME,
-				"monitoringPipe0");
-		// TODO: Is this correct?? Enable "replay mode", i.e., the logging
-		// timestamps in the records are kept as-is
-		configuration.setProperty(Configuration.AUTO_SET_LOGGINGTSTAMP,
-				Boolean.toString(false));
+	private boolean createControllerConfigurationAndStartReplay(final IComponentContext rootContext) {
+		final Configuration configuration = ConfigurationFactory.createDefaultConfiguration();
+
+		/* Configuring named pipe writer */
+		configuration.setProperty(ConfigurationFactory.WRITER_CLASSNAME, PipeWriter.class.getName());
+
+		/**
+		 * The pipe name MONITORING_PIPE_NAME also needs to be used in the Kieker MonitoringManager
+		 */
+		configuration.setProperty(PipeWriter.CONFIG_PIPENAME, MONITORING_PIPE_NAME);
+		configuration.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.toString(false));
 		// Set controller name
-		configuration
-				.setProperty(Configuration.CONTROLLER_NAME, "ReplayToPipe");
+		configuration.setProperty(ConfigurationFactory.CONTROLLER_NAME, "ReplayToPipe");
 
-		final IMonitoringController ctrl =
-				MonitoringController.createInstance(configuration);
-
-		return this.startReader(ctrl);
+		// TODO: Write file to directory of current FrameworkInstance ...
+		final File controllerConfigurationFile = rootContext.createFileInContextDir("replayer-monitoring.properties");
+		final String controllerConfigurationFN = controllerConfigurationFile.getPath();
+		try {
+			final OutputStream os = new FileOutputStream(controllerConfigurationFN);
+			configuration.store(os, "Generated by " + AbstractAnalysisStarter.class.getName());
+		} catch (final Exception e) {
+			LOG.error("Failed to create monitoring configuration file " + controllerConfigurationFN, e);
+			return false;
+		}
+		return this.startReplay(controllerConfigurationFN);
 	}
 
-	protected abstract boolean startReader(
-			IMonitoringController monitoringController);
+	protected abstract boolean startReplay(String controllerConfigurationFN);
 
 	/**
 	 * Creates and starts a {@link FrameworkInstance} and returns immediately.
@@ -164,15 +185,12 @@ public abstract class AbstractAnalysisStarter {
 		final FrameworkInstance frameworkInst =
 				this.initSLAsticInstanceFromArgs();
 		if (frameworkInst == null) {
-			AbstractAnalysisStarter.log
-					.error("Failed to init SLAstic framework instance");
+			LOG.error("Failed to init SLAstic framework instance");
 			return null;
 		}
-		AbstractAnalysisStarter.log
-				.debug("Starting SLAstic framework instance ...");
+		LOG.debug("Starting SLAstic framework instance ...");
 		if (!frameworkInst.run()) {
-			AbstractAnalysisStarter.log
-					.fatal("SLAstic framework instance returned with error");
+			LOG.fatal("SLAstic framework instance returned with error");
 			return null;
 		}
 		return frameworkInst;
@@ -190,28 +208,17 @@ public abstract class AbstractAnalysisStarter {
 						.getLongOpt());
 
 		if (configurationFile == null) {
-			AbstractAnalysisStarter.log
-					.fatal("Missing value for command line option '"
-							+ CmdlOptions.CMDL_OPT_START_FRAMEWORK.getLongOpt()
-							+ "'");
-			throw new IllegalArgumentException(
-					"Missing value for command line option '"
-							+ CmdlOptions.CMDL_OPT_START_FRAMEWORK.getLongOpt()
-							+ "'");
+			LOG.fatal("Missing value for command line option '" + CmdlOptions.CMDL_OPT_START_FRAMEWORK.getLongOpt() + "'");
+			throw new IllegalArgumentException("Missing value for command line option '" + CmdlOptions.CMDL_OPT_START_FRAMEWORK.getLongOpt() + "'");
 		}
 
 		FrameworkInstance inst = null;
 
 		try {
-			inst =
-					new FrameworkInstance(
-							PropertiesFileUtils
-									.loadPropertiesFile(configurationFile));
+			inst = new FrameworkInstance(PropertiesFileUtils.loadPropertiesFile(configurationFile));
 		} catch (final Exception exc) {
-			AbstractAnalysisStarter.log.error("Error creating SLAsticInstance",
-					exc);
-			throw new IllegalArgumentException(
-					"Error creating SLAsticInstance", exc);
+			LOG.error("Error creating SLAsticInstance", exc);
+			throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
 		}
 
 		return inst;
@@ -242,8 +249,7 @@ public abstract class AbstractAnalysisStarter {
 	 * 
 	 */
 	private void printUsage() {
-		this.cmdHelpFormatter.printHelp(FrameworkInstance.class.getName(),
-				this.cmdlOpts);
+		this.cmdHelpFormatter.printHelp(FrameworkInstance.class.getName(), this.cmdlOpts);
 	}
 
 	/**
@@ -251,8 +257,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param optName
 	 * @return
 	 */
-	public String getStringOptionValue(
-			final String optName) {
+	public String getStringOptionValue(final String optName) {
 		return this.cmdl.getOptionValue(optName);
 	}
 
@@ -263,9 +268,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public String getStringOptionValueNotEmpty(
-			final String optName) throws NullPointerException,
-			IllegalArgumentException {
+	public String getStringOptionValueNotEmpty(final String optName) throws NullPointerException, IllegalArgumentException {
 		return CmdlOptions.stringOptionValueNotEmpty(this.cmdl, optName);
 	}
 
@@ -274,8 +277,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param optName
 	 * @return
 	 */
-	public String[] getStringOptionValues(
-			final String optName) {
+	public String[] getStringOptionValues(final String optName) {
 		return this.cmdl.getOptionValues(optName);
 	}
 
@@ -286,11 +288,8 @@ public abstract class AbstractAnalysisStarter {
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public String[] stringOptionValuesNotNullNotEmpty(
-			final String optName) throws NullPointerException,
-			IllegalArgumentException {
-		return CmdlOptions
-				.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
+	public String[] stringOptionValuesNotNullNotEmpty(final String optName) throws NullPointerException, IllegalArgumentException {
+		return CmdlOptions.stringOptionValuesNotNullNotEmpty(this.cmdl, optName);
 	}
 
 	/**
@@ -299,8 +298,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @return
 	 * @throws NullPointerException
 	 */
-	public boolean getBooleanOptionValue(
-			final String optName) throws NullPointerException {
+	public boolean getBooleanOptionValue(final String optName) throws NullPointerException {
 		return CmdlOptions.booleanOptionValue(this.cmdl, optName);
 	}
 
@@ -310,8 +308,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @param defaultValue
 	 * @return
 	 */
-	public boolean getBooleanOptionValue(final String optName,
-			final boolean defaultValue) {
+	public boolean getBooleanOptionValue(final String optName, final boolean defaultValue) {
 		return CmdlOptions.booleanOptionValue(this.cmdl, optName, defaultValue);
 	}
 
@@ -322,8 +319,7 @@ public abstract class AbstractAnalysisStarter {
 	 * @return
 	 * @throws NumberFormatException
 	 */
-	public int getIntOptionValue(final String optName, final int defaultValue)
-			throws NumberFormatException {
+	public int getIntOptionValue(final String optName, final int defaultValue) throws NumberFormatException {
 		return CmdlOptions.intOptionValue(this.cmdl, optName, defaultValue);
 	}
 

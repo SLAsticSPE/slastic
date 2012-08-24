@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
@@ -31,10 +47,8 @@ public class ModelEntityCreationUtils {
 			final ModelManager modelManager,
 			final String fqComponentTypeName,
 			final String fqAssemblyComponentName) {
-		final ComponentType componentType =
-				modelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqComponentTypeName);
-		return modelManager.getComponentAssemblyModelManager().createAndRegisterAssemblyComponent(
-				fqAssemblyComponentName, componentType);
+		final ComponentType componentType = modelManager.getTypeRepositoryManager().createAndRegisterComponentType(fqComponentTypeName);
+		return modelManager.getComponentAssemblyModelManager().createAndRegisterAssemblyComponent(fqAssemblyComponentName, componentType);
 	}
 
 	/**
@@ -50,8 +64,7 @@ public class ModelEntityCreationUtils {
 			final ModelManager modelManager,
 			final String fqConnectorTypeName,
 			final Interface iface) {
-		final ConnectorType connectorType =
-				modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
+		final ConnectorType connectorType = modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
 		return modelManager.getComponentAssemblyModelManager().createAndRegisterAssemblyConnector(connectorType);
 	}
 
@@ -69,10 +82,8 @@ public class ModelEntityCreationUtils {
 			final ModelManager modelManager,
 			final String fqConnectorTypeName,
 			final Interface iface) {
-		final ConnectorType connectorType =
-				modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
-		return modelManager.getComponentAssemblyModelManager().createAndRegisterProvidedInterfaceDelegationConnector(
-				connectorType);
+		final ConnectorType connectorType = modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(fqConnectorTypeName, iface);
+		return modelManager.getComponentAssemblyModelManager().createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
 	}
 
 	/**
@@ -93,14 +104,10 @@ public class ModelEntityCreationUtils {
 			final String fqAssemblyComponentName,
 			final String fqExecutionContainerTypeName,
 			final String fqExecutionContainerName) {
-		final AssemblyComponent assemblyComponent =
-				ModelEntityCreationUtils.createAssemblyComponent(modelManager, fqComponentTypeName,
-						fqAssemblyComponentName);
+		final AssemblyComponent assemblyComponent = ModelEntityCreationUtils.createAssemblyComponent(modelManager, fqComponentTypeName, fqAssemblyComponentName);
 		final ExecutionContainer executionContainer =
-				ModelEntityCreationUtils.createExecutionContainer(modelManager, fqExecutionContainerTypeName,
-						fqExecutionContainerName);
-		return modelManager.getComponentDeploymentModelManager().createAndRegisterDeploymentComponent(
-				assemblyComponent, executionContainer);
+				ModelEntityCreationUtils.createExecutionContainer(modelManager, fqExecutionContainerTypeName, fqExecutionContainerName);
+		return modelManager.getComponentDeploymentModelManager().createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
 	}
 
 	/**
@@ -118,8 +125,7 @@ public class ModelEntityCreationUtils {
 			final String fqExecutionContainerTypeName,
 			final String fqExecutionContainerName) {
 		final ExecutionContainerType executionContainerType =
-				modelManager.getTypeRepositoryManager().createAndRegisterExecutionContainerType(
-						fqExecutionContainerTypeName);
+				modelManager.getTypeRepositoryManager().createAndRegisterExecutionContainerType(fqExecutionContainerTypeName);
 		return modelManager.getExecutionEnvironmentModelManager().createAndRegisterExecutionContainer(
 				fqExecutionContainerName, executionContainerType,
 				/* mark allocated */true);

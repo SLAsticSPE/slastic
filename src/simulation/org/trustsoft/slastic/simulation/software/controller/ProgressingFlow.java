@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.software.controller;
 
 import java.util.Hashtable;
@@ -12,10 +28,10 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.CFFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.CallFrame;
 import org.trustsoft.slastic.simulation.software.controller.cfframes.LoopFrame;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnNode;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionNode;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallEnterEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.ExternalCallReturnEvent;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.InternalActionEvent;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.NoBranchProbabilitiesException;
 import org.trustsoft.slastic.simulation.software.controller.exceptions.SumGreaterXException;
 import org.trustsoft.slastic.simulation.software.controller.threading.CFCreationStatus;
@@ -37,21 +53,26 @@ import de.uka.ipd.sdq.pcm.seff.SetVariableAction;
 import de.uka.ipd.sdq.pcm.seff.StartAction;
 import de.uka.ipd.sdq.pcm.seff.StopAction;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+// TODO: It seems that this class is not used at all ...
 public class ProgressingFlow {
+	private static final Log LOG = LogFactory.getLog(ProgressingFlow.class);
 
 	public static final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
-	private static final Log log = LogFactory.getLog(ProgressingFlow.class);
-
 	private final Stack<CFFrame> stack = new Stack<CFFrame>();
 
-	private final List<ControlFlowNode> nodes = new LinkedList<ControlFlowNode>();
+	private final List<AbstractControlFlowEvent> nodes = new LinkedList<AbstractControlFlowEvent>();
 
 	private final String userId;
 
-	private Exception exceptionStatus;
+	private volatile Exception exceptionStatus;
 
-	private CFCreationStatus status = CFCreationStatus.PAUSED;
+	private volatile CFCreationStatus status = CFCreationStatus.PAUSED;
 
 	public ProgressingFlow(final ResourceDemandingSEFF seff,
 			final String initialAsmContext, final String userId) {
@@ -107,28 +128,28 @@ public class ProgressingFlow {
 			// TODO save time!
 			final String calledContext = ModelManager
 					.getInstance()
-					.getAssemblyCont()
+					.getAssemblyController()
 					.asmContextForServiceCall(
 							currentFrame.getAsmContextCurrent(),
 							eca.getCalledService_ExternalService()
 									.getServiceName());
-			ProgressingFlow.log.info("Generating external call node for: "
+			ProgressingFlow.LOG.info("Generating external call node for: "
 					+ eca.getCalledService_ExternalService().getServiceName()
 					+ " from asm context "
 					+ currentFrame.getAsmContextCurrent() + " to asm context "
 					+ calledContext);
 
-			final ExternalCallEnterNode ece = new ExternalCallEnterNode(
+			final ExternalCallEnterEvent ece = new ExternalCallEnterEvent(
 					eca.getCalledService_ExternalService(),
 					currentFrame.getAsmContextCurrent(), this.userId);
 
 			this.nodes.add(ece);
 
 			final CFFrame frame = new CallFrame(
-					ModelManager.getInstance().getCompCont()
+					ModelManager.getInstance().getComponentTypeController()
 							.getSeffById(ece.getCalledService()),
 					this.getStartAction(ModelManager.getInstance()
-							.getCompCont().getSeffById(ece.getCalledService())),
+							.getComponentTypeController().getSeffById(ece.getCalledService())),
 					ece.getASMContTo(), ece);
 
 			this.stack.push(frame);
@@ -138,7 +159,7 @@ public class ProgressingFlow {
 			final CFFrame frame = this.stack.pop();
 			if (frame instanceof CallFrame) {
 				final CallFrame cframe = (CallFrame) frame;
-				this.nodes.add(new ExternalCallReturnNode(cframe.getEce()));
+				this.nodes.add(new ExternalCallReturnEvent(cframe.getEce()));
 			} else if (frame instanceof LoopFrame) {
 				final LoopFrame lframe = (LoopFrame) frame;
 				if (lframe.inc() == lframe.getIterations()) {
@@ -152,7 +173,7 @@ public class ProgressingFlow {
 			final InternalAction ia = (InternalAction) action;
 			final List<ParametricResourceDemand> resourceDemands = ia
 					.getResourceDemand_Action();
-			final InternalActionNode currentIA = new InternalActionNode(
+			final InternalActionEvent currentIA = new InternalActionEvent(
 					ia.getId(), this.userId);
 			for (final ParametricResourceDemand resDemand : resourceDemands) {
 				final String requiredResource = ((InternalEObject) resDemand
@@ -162,7 +183,7 @@ public class ProgressingFlow {
 						.getSpecification_ParametericResourceDemand()
 						.getSpecification();
 				currentIA.add(requiredResource, demand);
-				ProgressingFlow.log.info("Added demand: " + requiredResource
+				ProgressingFlow.LOG.info("Added demand: " + requiredResource
 						+ " " + demand);
 			}
 			this.nodes.add(currentIA);
@@ -170,7 +191,7 @@ public class ProgressingFlow {
 		} else if (action instanceof AbstractLoopAction) {
 			if (action instanceof LoopAction) {
 				final LoopAction la = (LoopAction) action;
-				ProgressingFlow.log.info("Loop's iteration count is "
+				ProgressingFlow.LOG.info("Loop's iteration count is "
 						+ la.getIterationCount_LoopAction().getSpecification());
 				final int max = Integer.parseInt(la
 						.getIterationCount_LoopAction().getSpecification()
@@ -243,7 +264,7 @@ public class ProgressingFlow {
 		{
 			for (final Interval<ProbabilisticBranchTransition> i : ProgressingFlow.probabilisticBranchIntervalCache
 					.get(ba)) {
-				if (randomResult >= i.getLower() && randomResult < i.getUpper()) {
+				if ((randomResult >= i.getLower()) && (randomResult < i.getUpper())) {
 					return i.getAbt();
 				}
 			}
@@ -262,7 +283,7 @@ public class ProgressingFlow {
 	/**
 	 * @return the nodes
 	 */
-	public final List<ControlFlowNode> getNodes() {
+	public final List<AbstractControlFlowEvent> getNodes() {
 		return this.nodes;
 	}
 

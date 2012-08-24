@@ -1,9 +1,24 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.CPUUtilizationRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
@@ -11,45 +26,46 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 
+import kieker.common.record.system.CPUUtilizationRecord;
+
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
  * re-uses existing model entities.
  * 
  * @author Andre van Hoorn
  */
-public class TestCPUUtilizationTransformationFilterSameRecordTwice extends
-		AbstractReconstructionTest {
+public class TestCPUUtilizationTransformationFilterSameRecordTwice extends AbstractReconstructionTest {
 
-	private final CPUUtilizationRecord kiekerRecord =
-			new CPUUtilizationRecord();
+	private final CPUUtilizationRecord kiekerRecord;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		double util = 0.11;
-		this.kiekerRecord.setTimestamp(456346l);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setCpuID("2");
-		this.kiekerRecord.setIdle(util++);
-		this.kiekerRecord.setIrq(util++);
-		this.kiekerRecord.setNice(util++);
-		this.kiekerRecord.setSystem(util++);
-		this.kiekerRecord.setTotalUtilization(util++);
-		this.kiekerRecord.setUser(util++);
-		this.kiekerRecord.setWait(util++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname";
+		final String cpuID = "2";
+
+		final double user = util++;
+		final double system = util++;
+		final double wait = util++;
+		final double nice = util++;
+		final double irq = util++;
+		final double totalUtilization = util++;
+		final double idle = util++;
+
+		this.kiekerRecord = new CPUUtilizationRecord(timestamp, hostname, cpuID, user, system, wait, nice, irq, totalUtilization, idle);
 	}
 
 	public void testEntitiesReUsed() {
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final CPUUtilizationRecordTransformationFilter filter =
-				new CPUUtilizationRecordTransformationFilter(modelManager);
+		final CPUUtilizationRecordTransformationFilter filter = new CPUUtilizationRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
-		final ArrayList<CPUUtilization> slasticRef =
-				new ArrayList<CPUUtilization>();
+		final ArrayList<CPUUtilization> slasticRef = new ArrayList<CPUUtilization>();
 
 		/* Let the filter transform the same record twice */
 		slasticRef.add(filter.transformCPUUtilizationRecord(this.kiekerRecord));
@@ -64,8 +80,7 @@ public class TestCPUUtilizationTransformationFilterSameRecordTwice extends
 	/**
 	 * Performs a number of validity checks on the model and the record.
 	 */
-	private void checkResult(final CPUUtilization slasticRecordA,
-			final CPUUtilization slasticRecordB) {
+	private void checkResult(final CPUUtilization slasticRecordA, final CPUUtilization slasticRecordB) {
 		Assert.assertNotNull("slasticRecordA must not be null", slasticRecordA);
 		Assert.assertNotNull("slasticRecordB must not be null", slasticRecordB);
 
@@ -73,26 +88,16 @@ public class TestCPUUtilizationTransformationFilterSameRecordTwice extends
 			/*
 			 * Compare all record elements:
 			 */
-			Assert.assertEquals("Unexpected timestamp",
-					slasticRecordA.getTimestamp(),
-					slasticRecordB.getTimestamp());
-			Assert.assertSame("Unexpected resource",
-					slasticRecordA.getResource(), slasticRecordB.getResource());
+			Assert.assertEquals("Unexpected timestamp", slasticRecordA.getTimestamp(), slasticRecordB.getTimestamp());
+			Assert.assertSame("Unexpected resource", slasticRecordA.getResource(), slasticRecordB.getResource());
 
-			Assert.assertEquals("Unexpected idle time",
-					slasticRecordA.getIdle(), slasticRecordB.getIdle());
-			Assert.assertEquals("Unexpected irq time", slasticRecordA.getIrq(),
-					slasticRecordB.getIrq());
-			Assert.assertEquals("Unexpected nice time",
-					slasticRecordA.getNice(), slasticRecordB.getNice());
-			Assert.assertEquals("Unexpected system time",
-					slasticRecordA.getSystem(), slasticRecordB.getSystem());
-			Assert.assertEquals("Unexpected combine utilization",
-					slasticRecordA.getCombined(), slasticRecordB.getCombined());
-			Assert.assertEquals("Unexpected user time",
-					slasticRecordA.getUser(), slasticRecordB.getUser());
-			Assert.assertEquals("Unexpected wait time",
-					slasticRecordA.getWait(), slasticRecordB.getWait());
+			Assert.assertEquals("Unexpected idle time", slasticRecordA.getIdle(), slasticRecordB.getIdle());
+			Assert.assertEquals("Unexpected irq time", slasticRecordA.getIrq(), slasticRecordB.getIrq());
+			Assert.assertEquals("Unexpected nice time", slasticRecordA.getNice(), slasticRecordB.getNice());
+			Assert.assertEquals("Unexpected system time", slasticRecordA.getSystem(), slasticRecordB.getSystem());
+			Assert.assertEquals("Unexpected combine utilization", slasticRecordA.getCombined(), slasticRecordB.getCombined());
+			Assert.assertEquals("Unexpected user time", slasticRecordA.getUser(), slasticRecordB.getUser());
+			Assert.assertEquals("Unexpected wait time", slasticRecordA.getWait(), slasticRecordB.getWait());
 		}
 	}
 }

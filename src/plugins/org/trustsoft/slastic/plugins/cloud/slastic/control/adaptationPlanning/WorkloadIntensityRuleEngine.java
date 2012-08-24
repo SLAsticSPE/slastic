@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
 import java.util.HashMap;
@@ -6,8 +22,6 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicReference;
-
-import kieker.tools.util.LoggingTimestampConverter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,17 +32,18 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
+import kieker.tools.util.LoggingTimestampConverter;
+
 /**
  * Triggers the {@link ConfigurationManager} to perform reconfigurations based
  * on the configured rule sets for {@link AssemblyComponent}s, and the incomcing
- * workload intensity data received via its
- * {@link #update(long, AssemblyComponent, Long)} method.
+ * workload intensity data received via its {@link #update(long, AssemblyComponent, Long)} method.
  * 
  * @author Andre van Hoorn
  * 
  */
 public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocationCountReceiver {
-	private static final Log log = LogFactory.getLog(WorkloadIntensityRuleEngine.class);
+	private static final Log LOG = LogFactory.getLog(WorkloadIntensityRuleEngine.class);
 
 	private final ModelManager modelManager;
 
@@ -48,15 +63,13 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 	 * AssemblyComponent (name) x most recent (pending, if such) workload
 	 * intensity value
 	 */
-	private final Map<String, AtomicReference<WorkloadIntensityEvent>> pendingWorkloadIntensityEvents =
-			new HashMap<String, AtomicReference<WorkloadIntensityEvent>>();
+	private final Map<String, AtomicReference<WorkloadIntensityEvent>> pendingWorkloadIntensityEvents = new HashMap<String, AtomicReference<WorkloadIntensityEvent>>();
 
 	/** AssemblyComponent (name) x rule set */
 	private final Map<String, NumDeploymentsForAssemblyComponentRuleSet> ruleSets;
 
 	/** AssemblyComponent (name) x Baseline */
-	private volatile Map<String, Baseline> prevBaselines =
-			new HashMap<String, Baseline>();
+	private volatile Map<String, Baseline> prevBaselines = new HashMap<String, Baseline>();
 
 	// TODO: HashMap ExecutionContainerType x int (max num instances per node)
 
@@ -94,21 +107,18 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 		final NumDeploymentsForAssemblyComponentRuleSet rs = this.ruleSets.get(fqAssemblyComponentName);
 
 		if (rs == null) {
-			WorkloadIntensityRuleEngine.log.error("Received workload event for unregistered assembly component: "
-					+ assemblyComponent);
+			LOG.error("Received workload event for unregistered assembly component: " + assemblyComponent);
 			return;
 		}
 
-		WorkloadIntensityRuleEngine.log.info("Incoming intensity: "
-				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000))
-				+ ": " + count);
-		
+		LOG.info("Incoming intensity: "
+				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000)) + ": " + count);
+
 		final String fqExecutionContainerTypeName = rs.getFQExecutionContainerTypeName();
 		final ExecutionContainerType executionContainerType =
 				this.modelManager.getTypeRepositoryManager().lookupExecutionContainerType(fqExecutionContainerTypeName);
 		if (executionContainerType == null) {
-			WorkloadIntensityRuleEngine.log.error("Failed to lookup execution container type with name '"
-					+ fqExecutionContainerTypeName + "'");
+			LOG.error("Failed to lookup execution container type with name '" + fqExecutionContainerTypeName + "'");
 			return;
 		}
 
@@ -119,12 +129,11 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 		final WorkloadIntensityEvent oldEvent =
 				pendingEventRef.getAndSet(new WorkloadIntensityEvent(currentTimestampMillis, count));
 		if (oldEvent != null) {
-			WorkloadIntensityRuleEngine.log.info("Dropping " + oldEvent);
+			LOG.info("Dropping " + oldEvent);
 		}
 
 		final WorkloadIntensityEventWorker w =
-				new WorkloadIntensityEventWorker(assemblyComponent, executionContainerType, this,
-						this.configurationManager, pendingEventRef);
+				new WorkloadIntensityEventWorker(assemblyComponent, executionContainerType, this, this.configurationManager, pendingEventRef);
 		this.reconfigurationWorkerExecutor.submit(w);
 	}
 
@@ -134,21 +143,17 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 	 */
 	public synchronized Baseline nextBaseline(final AssemblyComponent assemblyComponent,
 			final WorkloadIntensityEvent nextEvent) {
-		final String fqAssemblyComponentName =
-				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
+		final String fqAssemblyComponentName = NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
 
-		final NumDeploymentsForAssemblyComponentRuleSet rs =
-				this.ruleSets.get(fqAssemblyComponentName);
+		final NumDeploymentsForAssemblyComponentRuleSet rs = this.ruleSets.get(fqAssemblyComponentName);
 		if (rs == null) {
-			WorkloadIntensityRuleEngine.log.error("Failed to lookup rule set for assembly component: "
-					+ assemblyComponent);
+			LOG.error("Failed to lookup rule set for assembly component: " + assemblyComponent);
 			return null;
 		}
 
 		final Baseline prevBaseline = this.prevBaselines.get(fqAssemblyComponentName);
 		if (prevBaseline == null) {
-			WorkloadIntensityRuleEngine.log.error("Failed to lookup previous baseline for assembly component: " +
-					assemblyComponent);
+			LOG.error("Failed to lookup previous baseline for assembly component: " + assemblyComponent);
 			return null;
 		}
 
@@ -163,14 +168,11 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 	 * @param baseline
 	 */
 	public synchronized void commitBaseline(final AssemblyComponent assemblyComponent, final Baseline baseline) {
-		final String fqAssemblyComponentName =
-				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
+		final String fqAssemblyComponentName = NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
 
 		final Baseline prevBaseline = this.prevBaselines.get(fqAssemblyComponentName);
 		if (prevBaseline == null) {
-			WorkloadIntensityRuleEngine.log.warn("Committing baseline '" + baseline
-					+ "' for assembly component without previous baseline: "
-					+ assemblyComponent);
+			LOG.warn("Committing baseline '" + baseline + "' for assembly component without previous baseline: " + assemblyComponent);
 		}
 
 		this.prevBaselines.put(fqAssemblyComponentName, baseline);
@@ -192,9 +194,7 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 
 					@Override
 					public void rejectedExecution(final Runnable r, final ThreadPoolExecutor executor) {
-						WorkloadIntensityRuleEngine.log
-								.error("Exception caught by RejectedExecutionHandler for Runnable " + r
-										+ " and ThreadPoolExecutor " + executor);
+						LOG.error("Exception caught by RejectedExecutionHandler for Runnable " + r + " and ThreadPoolExecutor " + executor);
 
 					}
 				});

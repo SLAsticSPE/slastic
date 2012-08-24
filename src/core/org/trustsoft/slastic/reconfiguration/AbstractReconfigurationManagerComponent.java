@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.reconfiguration;
 
 import java.util.ArrayList;
@@ -24,10 +40,9 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  * @author Andre van Hoorn
  */
-public abstract class AbstractReconfigurationManagerComponent extends
-		AbstractSLAsticComponent implements IReconfigurationPlanReceiver {
-	private final Log log = LogFactory
-			.getLog(AbstractReconfigurationManagerComponent.class);
+public abstract class AbstractReconfigurationManagerComponent extends AbstractSLAsticComponent implements IReconfigurationPlanReceiver {
+
+	private static final Log LOG = LogFactory.getLog(AbstractReconfigurationManagerComponent.class);
 
 	public static final String PROP_PREFIX = "slastic.reconfiguration";
 
@@ -37,22 +52,20 @@ public abstract class AbstractReconfigurationManagerComponent extends
 		return this.controlComponent;
 	}
 
-	public final void setControlComponent(
-			final AbstractControlComponent controlComponent) {
+	public final void setControlComponent(final AbstractControlComponent controlComponent) {
 		this.controlComponent = controlComponent;
 	}
 
 	// TODO: check whether it needs to be final
 	// TODO: add concept to implement role-backs in (implementing classes)
 	@Override
-	public void doReconfiguration(final ReconfigurationPlan plan)
-			throws ReconfigurationException {
+	public void doReconfiguration(final ReconfigurationPlan plan) throws ReconfigurationException {
 		if (plan == null) {
 			throw new IllegalArgumentException("plan is null");
 		}
 
 		if (plan.getOperations().size() == 0) {
-			this.log.warn("Empty plan");
+			LOG.warn("Empty plan");
 			return;
 		}
 
@@ -63,25 +76,18 @@ public abstract class AbstractReconfigurationManagerComponent extends
 			// Check of which type the Operation is and executing belonging
 			// method
 			if (op instanceof ComponentReplication) {
-				final AssemblyComponent comp =
-						((ComponentReplication) op).getComponent();
-				final ExecutionContainer destination =
-						((ComponentReplication) op).getDestination();
-				final DeploymentComponent resDeploymentComponent =
-						this.replicateComponent(comp, destination);
+				final AssemblyComponent comp = ((ComponentReplication) op).getComponent();
+				final ExecutionContainer destination = ((ComponentReplication) op).getDestination();
+				final DeploymentComponent resDeploymentComponent = this.replicateComponent(comp, destination);
 				// TODO: evaluate return value
 			} else if (op instanceof ComponentDereplication) {
-				final DeploymentComponent comp =
-						((ComponentDereplication) op).getComponent();
+				final DeploymentComponent comp = ((ComponentDereplication) op).getComponent();
 				final boolean success = this.dereplicateComponent(comp);
 				// TODO: evaluate return value
 			} else if (op instanceof ComponentMigration) {
-				final DeploymentComponent comp =
-						((ComponentMigration) op).getComponent();
-				final ExecutionContainer destination =
-						((ComponentMigration) op).getDestination();
-				final DeploymentComponent resDeploymentComponent =
-						this.migrateComponent(comp, destination);
+				final DeploymentComponent comp = ((ComponentMigration) op).getComponent();
+				final ExecutionContainer destination = ((ComponentMigration) op).getDestination();
+				final DeploymentComponent resDeploymentComponent = this.migrateComponent(comp, destination);
 				// TODO: evaluate return value
 			} else if (op instanceof ContainerAllocation) {
 				final ExecutionContainerType container =
@@ -89,19 +95,15 @@ public abstract class AbstractReconfigurationManagerComponent extends
 				final ExecutionContainer resContainer =
 						// TODO: extend meta-model such that nodeAllocation
 						// operation requires an execution container name
-						this.allocateExecutionContainer("FIXME:NoName",
-								container);
+						this.allocateExecutionContainer("FIXME:NoName", container);
 				// TODO: evaluate return value
 			} else if (op instanceof ContainerDeallocation) {
-				final ExecutionContainer container =
-						((ContainerDeallocation) op).getContainer();
-				final boolean success =
-						this.concreteDeallocateExecutionContainer(container);
+				final ExecutionContainer container = ((ContainerDeallocation) op).getContainer();
+				final boolean success = this.concreteDeallocateExecutionContainer(container);
 				// TODO: evaluate return value
 			} else {
 				// throw new IllegalReconfigurationOperationException();
-				this.log.fatal("Illegal reconfiguration operation "
-						+ op.getClass().getName());
+				LOG.fatal("Illegal reconfiguration operation " + op.getClass().getName());
 			}
 			executedOperations.add(op);
 		}
@@ -150,18 +152,15 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	public DeploymentComponent replicateComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
-		DeploymentComponent resDeploymentComponent =
-				this.createPreliminaryDeploymentComponentInModel(
-						assemblyComponent, toExecutionContainer);
+		DeploymentComponent resDeploymentComponent = this.createPreliminaryDeploymentComponentInModel(assemblyComponent, toExecutionContainer);
 
 		final boolean success =
-				this.concreteReplicateComponent(assemblyComponent,
-						toExecutionContainer, resDeploymentComponent);
+				this.concreteReplicateComponent(assemblyComponent, toExecutionContainer, resDeploymentComponent);
 
 		if (!success) {
 			this.deletePreliminaryDeploymentComponentFromModel(resDeploymentComponent);
 			resDeploymentComponent = null;
-			this.log.error("concreteReplicateComponent failed");
+			LOG.error("concreteReplicateComponent failed");
 		}
 
 		// TODO: log event
@@ -194,12 +193,12 @@ public abstract class AbstractReconfigurationManagerComponent extends
 		final boolean success =
 				this.concreteDereplicateComponent(deploymentComponent);
 
-		this.log.info("Triggering removal of deployment component from model: "
+		LOG.info("Triggering removal of deployment component from model: "
 				+ deploymentComponent);
 		this.deleteDeploymentComponentFromModel(deploymentComponent);
 
 		if (!success) {
-			this.log.error("concreteDereplicateComponent failed");
+			LOG.error("concreteDereplicateComponent failed");
 		}
 		// TODO: log event
 
@@ -225,31 +224,23 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	public DeploymentComponent migrateComponent(
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer destination) {
-		DeploymentComponent resDeploymentComponent =
-				this.createPreliminaryDeploymentComponentInModel(
-						deploymentComponent.getAssemblyComponent(), destination);
+		DeploymentComponent resDeploymentComponent = this.createPreliminaryDeploymentComponentInModel(deploymentComponent.getAssemblyComponent(), destination);
 
-		boolean success =
-				this.concreteMigrateComponent(deploymentComponent, destination,
-						resDeploymentComponent);
+		boolean success = this.concreteMigrateComponent(deploymentComponent, destination, resDeploymentComponent);
 
-		this.log.info("Triggering removal of deployment component from model: "
-				+ deploymentComponent);
+		LOG.info("Triggering removal of deployment component from model: " + deploymentComponent);
 
 		if (!this.deleteDeploymentComponentFromModel(deploymentComponent)) {
-			this.log.error("Failed to deleteDeploymentComponentFromModel: "
-					+ deploymentComponent);
+			LOG.error("Failed to deleteDeploymentComponentFromModel: " + deploymentComponent);
 			success = false;
 		}
 
 		if (!success) {
-			if (!this
-					.deletePreliminaryDeploymentComponentFromModel(resDeploymentComponent)) {
-				this.log.error("Failed to deletePreliminaryDeploymentComponentFromModel: "
-						+ resDeploymentComponent);
+			if (!this.deletePreliminaryDeploymentComponentFromModel(resDeploymentComponent)) {
+				LOG.error("Failed to deletePreliminaryDeploymentComponentFromModel: " + resDeploymentComponent);
 			}
 			resDeploymentComponent = null;
-			this.log.error("concreteMigrateComponent failed");
+			LOG.error("concreteMigrateComponent failed");
 		}
 
 		// TODO: log event
@@ -280,22 +271,16 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	public ExecutionContainer allocateExecutionContainer(
 			final String fullyQualifiedName,
 			final ExecutionContainerType executionContainerType) {
-		ExecutionContainer executionContainer =
-				this.createPreliminaryExecutionContainerInModel(
-						fullyQualifiedName, executionContainerType);
+		ExecutionContainer executionContainer = this.createPreliminaryExecutionContainerInModel(fullyQualifiedName, executionContainerType);
 
-		final boolean success =
-				this.concreteAllocateExecutionContainer(executionContainerType,
-						executionContainer);
+		final boolean success = this.concreteAllocateExecutionContainer(executionContainerType, executionContainer);
 
 		if (!success) {
-			if (!this
-					.deletePreliminaryExecutionContainerFromModel(executionContainer)) {
-				this.log.error("Failed to deletePreliminaryExecutionContainerFromModel: "
-						+ executionContainer);
+			if (!this.deletePreliminaryExecutionContainerFromModel(executionContainer)) {
+				LOG.error("Failed to deletePreliminaryExecutionContainerFromModel: " + executionContainer);
 			}
 			executionContainer = null;
-			this.log.error("concreteAllocateExecutionContainer failed");
+			LOG.error("concreteAllocateExecutionContainer failed");
 		}
 
 		// TODO: log event
@@ -321,20 +306,17 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	 */
 	public boolean deallocateExecutionContainer(
 			final ExecutionContainer executionContainer) {
-		boolean success =
-				this.concreteDeallocateExecutionContainer(executionContainer);
+		boolean success = this.concreteDeallocateExecutionContainer(executionContainer);
 
-		this.log.info("Triggering removal of execution container from model: "
-				+ executionContainer);
+		LOG.info("Triggering removal of execution container from model: " + executionContainer);
 
 		if (!this.deleteExecutionContainerFromModel(executionContainer)) {
-			this.log.error("Failed to deleteExecutionContainerFromModel: "
-					+ executionContainer);
+			LOG.error("Failed to deleteExecutionContainerFromModel: " + executionContainer);
 			success = false;
 		}
 
 		if (!success) {
-			this.log.error("concreteDeallocateExecutionContainer failed");
+			LOG.error("concreteDeallocateExecutionContainer failed");
 		}
 		// TODO: log event
 
@@ -348,7 +330,6 @@ public abstract class AbstractReconfigurationManagerComponent extends
 	 * @return iff the execution container is newly deallocated, false if wasn't
 	 *         allocated
 	 */
-	protected abstract boolean concreteDeallocateExecutionContainer(
-			final ExecutionContainer executionContainer);
+	protected abstract boolean concreteDeallocateExecutionContainer(final ExecutionContainer executionContainer);
 
 }

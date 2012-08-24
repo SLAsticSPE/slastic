@@ -1,67 +1,81 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.control.components.analysis;
 
 import org.trustsoft.slastic.common.AbstractSLAsticComponent;
 import org.trustsoft.slastic.control.AbstractControlComponent;
 import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public abstract class AbstractAnalysisComponent extends AbstractSLAsticComponent {
 
-    private static final Log log = LogFactory.getLog(AbstractControlComponent.class);
-    public static final String PROP_PREFIX = "slastic.control.analysis";
-    private AbstractControlComponent parentControlComponent;
-    private AbstractPerformanceEvaluatorComponent performanceEvaluator;
-    private AbstractWorkloadForecasterComponent workloadForecaster;
-    private AbstractPerformancePredictorComponent performancePredictor;
-    private AbstractAdaptationPlannerComponent adaptationPlanner;
+	// private static final Log LOG = LogFactory.getLog(AbstractControlComponent.class);
 
-    public final AbstractAdaptationPlannerComponent getAdaptationPlanner() {
-        return adaptationPlanner;
-    }
+	public static final String PROP_PREFIX = "slastic.control.analysis";
+	private AbstractControlComponent parentControlComponent;
+	private AbstractPerformanceEvaluatorComponent performanceEvaluator;
+	private AbstractWorkloadForecasterComponent workloadForecaster;
+	private AbstractPerformancePredictorComponent performancePredictor;
+	private AbstractAdaptationPlannerComponent adaptationPlanner;
 
-    public final void setAdaptationPlanner(final AbstractAdaptationPlannerComponent adaptationPlanner) {
-        this.adaptationPlanner = adaptationPlanner;
-    }
+	public final AbstractAdaptationPlannerComponent getAdaptationPlanner() {
+		return this.adaptationPlanner;
+	}
 
-    public final AbstractPerformanceEvaluatorComponent getPerformanceEvaluator() {
-        return performanceEvaluator;
-    }
+	public final void setAdaptationPlanner(final AbstractAdaptationPlannerComponent adaptationPlanner) {
+		this.adaptationPlanner = adaptationPlanner;
+	}
 
-    public final void setPerformanceEvaluator(final AbstractPerformanceEvaluatorComponent performanceEvaluator) {
-        this.performanceEvaluator = performanceEvaluator;
-    }
+	public final AbstractPerformanceEvaluatorComponent getPerformanceEvaluator() {
+		return this.performanceEvaluator;
+	}
 
-    public final AbstractPerformancePredictorComponent getPerformancePredictor() {
-        return performancePredictor;
-    }
+	public final void setPerformanceEvaluator(final AbstractPerformanceEvaluatorComponent performanceEvaluator) {
+		this.performanceEvaluator = performanceEvaluator;
+	}
 
-    public final void setPerformancePredictor(final AbstractPerformancePredictorComponent performancePredictor) {
-        this.performancePredictor = performancePredictor;
-    }
+	public final AbstractPerformancePredictorComponent getPerformancePredictor() {
+		return this.performancePredictor;
+	}
 
-    public final AbstractReconfigurationManagerComponent getReconfigurationManager() {
-        return getParentControlComponent().getReconfigurationManager();
-    }
+	public final void setPerformancePredictor(final AbstractPerformancePredictorComponent performancePredictor) {
+		this.performancePredictor = performancePredictor;
+	}
 
-    public final AbstractControlComponent getParentControlComponent() {
-        return parentControlComponent;
-    }
+	public final AbstractReconfigurationManagerComponent getReconfigurationManager() {
+		return this.getParentControlComponent().getReconfigurationManager();
+	}
 
-    public final void setParentControlComponent(final AbstractControlComponent parentControlComponent) {
-        this.parentControlComponent = parentControlComponent;
-    }
+	public final AbstractControlComponent getParentControlComponent() {
+		return this.parentControlComponent;
+	}
 
-    public final AbstractWorkloadForecasterComponent getWorkloadForecaster() {
-        return workloadForecaster;
-    }
+	public final void setParentControlComponent(final AbstractControlComponent parentControlComponent) {
+		this.parentControlComponent = parentControlComponent;
+	}
 
-    public final void setWorkloadForecaster(final AbstractWorkloadForecasterComponent workloadForecaster) {
-        this.workloadForecaster = workloadForecaster;
-    }
+	public final AbstractWorkloadForecasterComponent getWorkloadForecaster() {
+		return this.workloadForecaster;
+	}
+
+	public final void setWorkloadForecaster(final AbstractWorkloadForecasterComponent workloadForecaster) {
+		this.workloadForecaster = workloadForecaster;
+	}
 }

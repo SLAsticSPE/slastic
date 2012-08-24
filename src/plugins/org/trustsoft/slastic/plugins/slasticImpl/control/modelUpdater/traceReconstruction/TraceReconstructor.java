@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction;
 
 import java.util.ArrayList;
@@ -34,8 +50,7 @@ import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
  * 
  */
 public class TraceReconstructor implements UpdateListener {
-	// private static final Log LOG =
-	// LogFactory.getLog(TraceReconstructor.class);
+	// private static final Log LOG = LogFactory.getLog(class);
 
 	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
 	private static final String VAR_NAME = "a_traceId";
@@ -81,12 +96,12 @@ public class TraceReconstructor implements UpdateListener {
 			/*
 			 * INTERVAL will be replaced in getCEPStatement
 			 */
-			TraceReconstructor.EXPRESSION_TEMPLATE
-					.replaceAll("EXECUTION_EVENT_TYPE", TraceReconstructor.EXECUTION_EVENT_TYPE)
-					.replaceAll("VAR_NAME", TraceReconstructor.VAR_NAME);
+			EXPRESSION_TEMPLATE
+					.replaceAll("EXECUTION_EVENT_TYPE", EXECUTION_EVENT_TYPE)
+					.replaceAll("VAR_NAME", VAR_NAME);
 
 	private String getCEPStatement() {
-		return TraceReconstructor.EXPRESSION
+		return EXPRESSION
 				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
@@ -97,29 +112,23 @@ public class TraceReconstructor implements UpdateListener {
 		for (final EventBean newEvent : newEvents) {
 			// Processing a single trace
 
-			final OperationExecution[] exec1n =
-					(OperationExecution[]) newEvent.get(TraceReconstructor.VAR_NAME);
-			final Collection<OperationExecution> executionsForTrace =
-					new ArrayList<OperationExecution>(exec1n.length);
+			final OperationExecution[] exec1n = (OperationExecution[]) newEvent.get(VAR_NAME);
+			final Collection<OperationExecution> executionsForTrace = new ArrayList<OperationExecution>(exec1n.length);
 
 			for (final OperationExecution exec : exec1n) {
 				executionsForTrace.add(exec);
 			}
 
-			final ExecutionTrace validOrInvalidExecutionTrace =
-					TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.rootExec);
+			final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.ROOT_EXEC);
 			this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
 		}
 	}
 
 	/**
 	 * Reconstructs an {@link ExecutionTrace}, valid or invalid, from the given
-	 * set of {@link OperationExecution}s. The returned trace is of type
-	 * {@link ValidExecutionTrace} if a valid trace could be reconstructed from
-	 * the given executions (in this case, the property
-	 * {@link ValidExecutionTrace#getMessageTrace()} is properly set). If the
-	 * trace reconstruction failed, the method returns a trace of type
-	 * {@link InvalidExecutionTrace}.
+	 * set of {@link OperationExecution}s. The returned trace is of type {@link ValidExecutionTrace} if a valid trace could be reconstructed from
+	 * the given executions (in this case, the property {@link ValidExecutionTrace#getMessageTrace()} is properly set). If the
+	 * trace reconstruction failed, the method returns a trace of type {@link InvalidExecutionTrace}.
 	 * 
 	 * @param executions
 	 * @param rootExecution
@@ -152,14 +161,11 @@ public class TraceReconstructor implements UpdateListener {
 	}
 
 	/**
-	 * Sorts the given set of {@link OperationExecution}s by
-	 * {@link OperationExecution#getEoi()} and checks if all
-	 * {@link OperationExecution}s have an equal
+	 * Sorts the given set of {@link OperationExecution}s by {@link OperationExecution#getEoi()} and checks if all {@link OperationExecution}s have an equal
 	 * {@link OperationExecution#getTraceId()}.
 	 * 
 	 * @param executions
-	 *            each must have the same
-	 *            {@link OperationExecution#getTraceId()}
+	 *            each must have the same {@link OperationExecution#getTraceId()}
 	 * @return true iff all {@link OperationExecution#getTraceId()}s in the set
 	 *         are equal
 	 */
@@ -197,8 +203,7 @@ public class TraceReconstructor implements UpdateListener {
 	 * @param receiver
 	 * @return
 	 */
-	private static SynchronousReplyMessage createSynchronousReplyMessage(final long timestamp,
-			final OperationExecution sender, final OperationExecution receiver) {
+	private static SynchronousReplyMessage createSynchronousReplyMessage(final long timestamp, final OperationExecution sender, final OperationExecution receiver) {
 		final SynchronousReplyMessage m =
 				UsageFactory.eINSTANCE.createSynchronousReplyMessage();
 		m.setTimestamp(timestamp);
@@ -215,8 +220,7 @@ public class TraceReconstructor implements UpdateListener {
 	 * @param receiver
 	 * @return
 	 */
-	private static SynchronousCallMessage createSynchronousCallMessage(final long timestamp,
-			final OperationExecution sender, final OperationExecution receiver) {
+	private static SynchronousCallMessage createSynchronousCallMessage(final long timestamp, final OperationExecution sender, final OperationExecution receiver) {
 		final SynchronousCallMessage m =
 				UsageFactory.eINSTANCE.createSynchronousCallMessage();
 		m.setTimestamp(timestamp);
@@ -226,15 +230,13 @@ public class TraceReconstructor implements UpdateListener {
 	}
 
 	/**
-	 * Creates a new {@link MessageTrace} with the given trace id and
-	 * {@link Message}s.
+	 * Creates a new {@link MessageTrace} with the given trace id and {@link Message}s.
 	 * 
 	 * @param traceId
 	 * @param messages
 	 * @return
 	 */
-	private static final MessageTrace createMessageTrace(final long traceId, final List<Message> messages,
-			final ValidExecutionTrace validExecutionTrace) {
+	private static final MessageTrace createMessageTrace(final long traceId, final List<Message> messages, final ValidExecutionTrace validExecutionTrace) {
 		final MessageTrace mt = UsageFactory.eINSTANCE.createMessageTrace();
 		mt.setTraceId(traceId);
 		mt.getMessages().addAll(messages);
@@ -243,19 +245,17 @@ public class TraceReconstructor implements UpdateListener {
 	}
 
 	/**
-	 * Works just like
-	 * {@link kieker.tools.traceAnalysis.systemModel.ExecutionTrace#toMessageTrace(kieker.tools.traceAnalysis.systemModel.Execution)}
-	 * (code has been copied/ported in large parts).
+	 * Works just like {@link kieker.tools.traceAnalysis.systemModel.ExecutionTrace#toMessageTrace(kieker.tools.traceAnalysis.systemModel.Execution)} (code has been
+	 * copied/ported in large parts).
 	 * 
 	 * @param executions
-	 *            each must have the same
-	 *            {@link OperationExecution#getTraceId()}
+	 *            each must have the same {@link OperationExecution#getTraceId()}
 	 * @throws IllegalStateException
 	 *             if the trace is invalid
 	 * @return
 	 */
-	public static MessageTrace reconstructMessageTrace(final Collection<? extends OperationExecution> executions,
-			final OperationExecution rootExecution) throws IllegalStateException {
+	public static MessageTrace reconstructMessageTrace(final Collection<? extends OperationExecution> executions, final OperationExecution rootExecution)
+			throws IllegalStateException {
 		final List<Message> mSeq =
 				/*
 				 * 2 messages per execution (call and reply)
@@ -286,19 +286,19 @@ public class TraceReconstructor implements UpdateListener {
 				// Make sure that the trace id of all executions are equal
 				if (traceId != curE.getTraceId()) {
 					throw new IllegalStateException("All executions must have an equal trace id; "
-									+ "expecting " + traceId + ", found " + curE.getTraceId()
+							+ "expecting " + traceId + ", found " + curE.getTraceId()
 							+ ")\n Causing execution: " + curE);
 				}
 			}
 
 			if ((itNum++ == 0) && (curE.getEss() != 0)) {
 				throw new IllegalStateException("First execution must have ess "
-								+ "0 (found " + curE.getEss() + ")\n Causing execution: " + curE);
+						+ "0 (found " + curE.getEss() + ")\n Causing execution: " + curE);
 			}
-			if (prevEoi != curE.getEoi() - 1) {
+			if (prevEoi != (curE.getEoi() - 1)) {
 				throw new IllegalStateException("Eois must increment by 1 --"
-								+ "but found sequence <" + prevEoi + "," + curE.getEoi() + ">" + "(Execution: " + curE
-								+ ")");
+						+ "but found sequence <" + prevEoi + "," + curE.getEoi() + ">" + "(Execution: " + curE
+						+ ")");
 			}
 			prevEoi = curE.getEoi();
 
@@ -322,7 +322,7 @@ public class TraceReconstructor implements UpdateListener {
 				final Message m = TraceReconstructor.createSynchronousCallMessage(curE.getTin(), rootExecution, curE);
 				mSeq.add(m);
 				curStack.push(m);
-			} else if (prevE.getEss() + 1 == curE.getEss()) {
+			} else if ((prevE.getEss() + 1) == curE.getEss()) {
 				// usual callMessage with senderComponentName and
 				// receiverComponentName
 				final Message m = TraceReconstructor.createSynchronousCallMessage(curE.getTin(), prevE, curE);

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.usage;
 
 import de.cau.se.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
@@ -14,8 +30,7 @@ import de.cau.se.slastic.metamodel.usage.CallingRelationship;
 public interface IUsageModelManager {
 
 	/**
-	 * Returns the number of times, the given {@link Signature} of the given
-	 * {@link SystemProvidedInterfaceDelegationConnector} is called.
+	 * Returns the number of times, the given {@link Signature} of the given {@link SystemProvidedInterfaceDelegationConnector} is called.
 	 * 
 	 * @param connector
 	 * @param signature
@@ -55,20 +70,17 @@ public interface IUsageModelManager {
 	public void incOperationCallFreq(final Operation operation, final long frequency);
 
 	/**
-	 * Returns the {@link CallingRelationship} for the given {@link Operation}
-	 * calling the given {@link Interface}'s {@link Signature}.
+	 * Returns the {@link CallingRelationship} for the given {@link Operation} calling the given {@link Interface}'s {@link Signature}.
 	 * 
 	 * @param operation
 	 * @param iface
 	 * @param signature
 	 * @return
 	 */
-	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface,
-			final Signature signature);
+	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface, final Signature signature);
 
 	/**
-	 * Adds the information that the given {@link Interface} {@link Signature}
-	 * has been called the given number of times within an execution of the
+	 * Adds the information that the given {@link Interface} {@link Signature} has been called the given number of times within an execution of the
 	 * given {@link Operation}.
 	 * 
 	 * @param operation
@@ -79,6 +91,5 @@ public interface IUsageModelManager {
 	 *            the called {@link Signature}
 	 * @param frequency
 	 */
-	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature,
-			final long frequency);
+	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature, final long frequency);
 }

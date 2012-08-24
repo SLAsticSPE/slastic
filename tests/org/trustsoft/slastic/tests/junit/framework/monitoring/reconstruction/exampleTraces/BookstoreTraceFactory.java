@@ -1,13 +1,29 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.exampleTraces;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import kieker.common.record.OperationExecutionRecord;
-
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
+
+import kieker.common.record.controlflow.OperationExecutionRecord;
 
 /**
  * Utility class that allows to create traces of the Bookstore application.
@@ -26,37 +42,27 @@ public class BookstoreTraceFactory {
 
 	/**
 	 * Returns the collection of {@link DeploymentComponentOperationExecution}s
-	 * for a bookstore trace employing the given
-	 * {@link ExecutionRecordTransformationFilter}.
+	 * for a bookstore trace employing the given {@link ExecutionRecordTransformationFilter}.
 	 * 
 	 * @param execRecFilter
 	 * @param traceId
 	 * @return
 	 */
-	public static Collection<DeploymentComponentOperationExecution> createBookstoreTrace(
-			final ExecutionRecordTransformationFilter execRecFilter,
-			final long traceId) {
+	public static Collection<DeploymentComponentOperationExecution> createBookstoreTrace(final ExecutionRecordTransformationFilter execRecFilter, final long traceId) {
 		final Collection<DeploymentComponentOperationExecution> retCollection =
-				new ArrayList<DeploymentComponentOperationExecution>(BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
+				new ArrayList<DeploymentComponentOperationExecution>(NUM_EXECUTIONS_PER_TRACE);
 
 		/*
 		 * Now, we'll create the executions
 		 */
 		final DeploymentComponentOperationExecution exec00_bookstoreSearchBook =
-				BookstoreTraceFactory.createExecution(execRecFilter,
-						BookstoreTraceFactory.BOOKSTORE_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.BOOKSTORE_OPERATION_SIGNATURE, traceId, 0, 0);
+				BookstoreTraceFactory.createExecution(execRecFilter, BOOKSTORE_ASSEMBLY_COMPONENT_NAME, BOOKSTORE_OPERATION_SIGNATURE, traceId, 0, 0);
 		final DeploymentComponentOperationExecution exec11_catalogGetBook =
-				BookstoreTraceFactory.createExecution(execRecFilter,
-						BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, 1, 1);
+				BookstoreTraceFactory.createExecution(execRecFilter, CATALOG_ASSEMBLY_COMPONENT_NAME, CATALOG_OPERATION_SIGNATURE, traceId, 1, 1);
 		final DeploymentComponentOperationExecution exec21_crmGetOffers =
-				BookstoreTraceFactory.createExecution(execRecFilter, BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.CRM_OPERATION_SIGNATURE, traceId, 2, 1);
+				BookstoreTraceFactory.createExecution(execRecFilter, CRM_ASSEMBLY_COMPONENT_NAME, CRM_OPERATION_SIGNATURE, traceId, 2, 1);
 		final DeploymentComponentOperationExecution exec32_catalogGetBook =
-				BookstoreTraceFactory.createExecution(execRecFilter,
-						BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, 3, 2);
+				BookstoreTraceFactory.createExecution(execRecFilter, CATALOG_ASSEMBLY_COMPONENT_NAME, CATALOG_OPERATION_SIGNATURE, traceId, 3, 2);
 
 		/*
 		 * Add the executions
@@ -71,8 +77,7 @@ public class BookstoreTraceFactory {
 
 	/**
 	 * Returns the collection of {@link DeploymentComponentOperationExecution}s
-	 * for a bookstore trace with a given number of loops in it employing the given
-	 * {@link ExecutionRecordTransformationFilter}.
+	 * for a bookstore trace with a given number of loops in it employing the given {@link ExecutionRecordTransformationFilter}.
 	 * 
 	 * @param execRecFilter
 	 * @param traceId
@@ -88,36 +93,28 @@ public class BookstoreTraceFactory {
 			final int numCalls_BookstoreSearchBook_CrmGetOffers,
 			final int numCalls_CrmGetOffers_CatalogGetBook) {
 		final Collection<DeploymentComponentOperationExecution> retCollection =
-				new ArrayList<DeploymentComponentOperationExecution>(BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
+				new ArrayList<DeploymentComponentOperationExecution>(NUM_EXECUTIONS_PER_TRACE);
 
 		int nextEoi = 0;
 
 		/* Execution of Bookstore.searchBook() */
 		retCollection.add(
-				BookstoreTraceFactory.createExecution(execRecFilter,
-						BookstoreTraceFactory.BOOKSTORE_ASSEMBLY_COMPONENT_NAME,
-						BookstoreTraceFactory.BOOKSTORE_OPERATION_SIGNATURE, traceId, nextEoi++, 0));
+				BookstoreTraceFactory.createExecution(execRecFilter, BOOKSTORE_ASSEMBLY_COMPONENT_NAME, BOOKSTORE_OPERATION_SIGNATURE, traceId, nextEoi++, 0));
 
 		/* Executions of Catalog.getBook(), called by Bookstore.searchBook() */
 		for (int i = 0; i < numCalls_BookstoreSearchBook_CatalogGetBook; i++) {
 			retCollection.add(
-					BookstoreTraceFactory.createExecution(execRecFilter,
-							BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
-							BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
+					BookstoreTraceFactory.createExecution(execRecFilter, CATALOG_ASSEMBLY_COMPONENT_NAME, CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
 		}
 
 		/* Executions of CRM.getOffers(), called by Bookstore.searchBook() */
 		for (int i = 0; i < numCalls_BookstoreSearchBook_CrmGetOffers; i++) {
 			retCollection.add(
-					BookstoreTraceFactory.createExecution(execRecFilter,
-							BookstoreTraceFactory.CRM_ASSEMBLY_COMPONENT_NAME,
-							BookstoreTraceFactory.CRM_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
+					BookstoreTraceFactory.createExecution(execRecFilter, CRM_ASSEMBLY_COMPONENT_NAME, CRM_OPERATION_SIGNATURE, traceId, nextEoi++, 1));
 			/* Executions of Catalog.getBook(), called by CRM.getOffers() */
 			for (int j = 0; j < numCalls_CrmGetOffers_CatalogGetBook; j++) {
 				retCollection.add(
-						BookstoreTraceFactory.createExecution(execRecFilter,
-								BookstoreTraceFactory.CATALOG_ASSEMBLY_COMPONENT_NAME,
-								BookstoreTraceFactory.CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 2));
+						BookstoreTraceFactory.createExecution(execRecFilter, CATALOG_ASSEMBLY_COMPONENT_NAME, CATALOG_OPERATION_SIGNATURE, traceId, nextEoi++, 2));
 			}
 		}
 
@@ -134,23 +131,18 @@ public class BookstoreTraceFactory {
 		 * Record used to create a corresponding
 		 * DeploymentComponentOperationExecution.
 		 */
-		final OperationExecutionRecord kiekerRecord =
-				new OperationExecutionRecord();
+		final OperationExecutionRecord kiekerRecord;
 		{
-			kiekerRecord.setClassName(fqAssemblyComponentName);
-			kiekerRecord.setEoi(eoi);
-			kiekerRecord.setEss(ess);
-			kiekerRecord.setHostName("theHostname");
-			kiekerRecord.setOperationName(opSignature);
-			kiekerRecord.setSessionId("ZUKGHGF435JJ");
-			kiekerRecord.setTin(65656868l);
-			kiekerRecord.setTout(9878787887l);
-			kiekerRecord.setTraceId(traceId);
+			final String operationSignatureStr = fqAssemblyComponentName + "." + opSignature;
+			final String sessionId = "ZUKGHGF435JJ";
+			final long tin = 65656868l;
+			final long tout = 9878787887l;
+			final String hostname = "theHostname";
+
+			kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
 		}
 
-		final DeploymentComponentOperationExecution slasticRecord =
-				(DeploymentComponentOperationExecution) execRecFilter
-						.transformExecutionRecord(kiekerRecord);
+		final DeploymentComponentOperationExecution slasticRecord = (DeploymentComponentOperationExecution) execRecFilter.transformExecutionRecord(kiekerRecord);
 
 		return slasticRecord;
 	}

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEntities;
 
 import junit.framework.Assert;
@@ -15,17 +31,15 @@ import de.cau.se.slastic.metamodel.typeRepository.ConnectorType;
 import de.cau.se.slastic.metamodel.typeRepository.Interface;
 
 /**
- * Tests the functionalities provided by the
- * {@link ComponentAssemblyModelManager} for creating, registering, and looking
+ * Tests the functionalities provided by the {@link ComponentAssemblyModelManager} for creating, registering, and looking
  * up {@link SystemProvidedInterfaceDelegationConnector}s without passing a
- * name, i.e. a unique name is assigned by the
- * {@link ComponentAssemblyModelManager}.
+ * name, i.e. a unique name is assigned by the {@link ComponentAssemblyModelManager}.
  * 
  * @author Andre van Hoorn
  */
 public class TestComponentAssemblyModelManager_SystemProvidedInterfaces_noName extends TestCase {
 
-	// private static final Log log =
+	// private static final Log LOG =
 	// LogFactory.getLog(TestComponentAssemblyModelManager_AssemblyConnectors_noName.class);
 
 	public void testCreateLookupConnectorWithGeneratedName() throws Exception {
@@ -44,7 +58,7 @@ public class TestComponentAssemblyModelManager_SystemProvidedInterfaces_noName e
 		final TypeRepositoryModelManager typeModelMgr = systemModelManager.getTypeRepositoryManager();
 		ConnectorType connectorType = // use existing type instance if it exists
 										// already
-				typeModelMgr.lookupConnectorType(connectorTypeName);
+		typeModelMgr.lookupConnectorType(connectorTypeName);
 		if (connectorType == null) {
 			final Interface iface = typeModelMgr.createAndRegisterInterface("ISomething");
 			connectorType = typeModelMgr.createAndRegisterConnectorType(connectorTypeName, iface);
@@ -55,13 +69,11 @@ public class TestComponentAssemblyModelManager_SystemProvidedInterfaces_noName e
 		 * Now, we'll create a connector without providing a name and
 		 * do some checks on the name
 		 */
-		final SystemProvidedInterfaceDelegationConnector connector =
-				componentAssemblyModelManager.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
-		final String fqConnectorName =
-				NameUtils.createFQName(connector.getPackageName(), connector.getName());
+		final SystemProvidedInterfaceDelegationConnector connector = componentAssemblyModelManager
+				.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
+		final String fqConnectorName = NameUtils.createFQName(connector.getPackageName(), connector.getName());
 		Assert.assertNotNull("Connector name is null!", fqConnectorName);
-		Assert.assertTrue("Expecting connector name to start with "
-				+ SystemProvidedInterfacesManager.SYSPROVCONNECT_NO_NAME_PREFIX,
+		Assert.assertTrue("Expecting connector name to start with " + SystemProvidedInterfacesManager.SYSPROVCONNECT_NO_NAME_PREFIX,
 				fqConnectorName.startsWith(SystemProvidedInterfacesManager.SYSPROVCONNECT_NO_NAME_PREFIX));
 		Assert.assertTrue("Connector name should be longer than prefix",
 				fqConnectorName.length() > SystemProvidedInterfacesManager.SYSPROVCONNECT_NO_NAME_PREFIX.length());

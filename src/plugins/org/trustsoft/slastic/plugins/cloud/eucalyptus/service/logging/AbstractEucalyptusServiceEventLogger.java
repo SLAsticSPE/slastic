@@ -1,9 +1,23 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 /**
  * 
  */
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
-
-import kieker.tools.util.LoggingTimestampConverter;
 
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
@@ -13,14 +27,15 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApp
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
 
+import kieker.tools.util.LoggingTimestampConverter;
+
 /**
  * @author Andre van Hoorn
  * 
  */
-public abstract class AbstractEucalyptusServiceEventLogger implements
-		IEucalyptusServiceEventListener {
+public abstract class AbstractEucalyptusServiceEventLogger implements IEucalyptusServiceEventListener {
 
-	private final String CSV_FIELD_DELIM = ";";
+	private static final String CSV_FIELD_DELIM = ";";
 
 	private final ICurrentTimeProvider currentTimeProvider;
 
@@ -28,29 +43,24 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 		this(ICurrentTimeProvider.SYSTEM_CURRENT_TIME_PROVIDER);
 	}
 
-	public AbstractEucalyptusServiceEventLogger(
-			final ICurrentTimeProvider currentTimeProvider) {
+	public AbstractEucalyptusServiceEventLogger(final ICurrentTimeProvider currentTimeProvider) {
 		this.currentTimeProvider = currentTimeProvider;
 	}
 
 	private final void logEvent(final String[] columns) {
 		final StringBuilder strB = new StringBuilder();
 
-		final long currentTimestampMillis =
-				this.currentTimeProvider.getCurrentTimeMillis();
+		final long currentTimestampMillis = this.currentTimeProvider.getCurrentTimeMillis();
 
 		/* Add time */
-		final String currentTimeUTCString =
-				LoggingTimestampConverter
-						.convertLoggingTimestampToUTCString(currentTimestampMillis
-								* (1000 * 1000));
+		final String currentTimeUTCString = LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000));
 
-		strB.append(currentTimestampMillis).append(this.CSV_FIELD_DELIM);
+		strB.append(currentTimestampMillis).append(CSV_FIELD_DELIM);
 		strB.append(currentTimeUTCString);
 
 		/* Add provided columns */
 		for (final String field : columns) {
-			strB.append(this.CSV_FIELD_DELIM);
+			strB.append(CSV_FIELD_DELIM);
 			strB.append(field);
 		}
 
@@ -61,13 +71,10 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 
 	private static final String ACTION_ALLOCATE_NODE = "allocateNode";
 	private static final String ACTION_DEALLOCATE_NODE = "deallocateNode";
-	private static final String ACTION_CREATEREGISTER_APP =
-			"createAndRegisterCloudedApplication";
+	private static final String ACTION_CREATEREGISTER_APP = "createAndRegisterCloudedApplication";
 	private static final String ACTION_REMOVE_APP = "removeCloudedApplication";
-	private static final String ACTION_DEPLOY_INST =
-			"deployApplicationInstance";
-	private static final String ACTION_UNEPLOY_INST =
-			"undeployApplicationInstance";
+	private static final String ACTION_DEPLOY_INST = "deployApplicationInstance";
+	private static final String ACTION_UNEPLOY_INST = "undeployApplicationInstance";
 	private static final String STATUS_SUCCESS = "SUCCESS";
 
 	// private static final String STATUS_FAILURE = "FAILURE";
@@ -85,10 +92,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 	@Override
 	public final void notifyAllocateNodeSuccess(final String name,
 			final EucalyptusCloudNodeType type, final EucalyptusCloudNode node) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_ALLOCATE_NODE,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"node: " + node });
+		this.logEvent(new String[] { ACTION_ALLOCATE_NODE, STATUS_SUCCESS, "node: " + node });
 	}
 
 	// /*
@@ -118,10 +122,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 	 */
 	@Override
 	public final void notifyDeallocateNodeSuccess(final EucalyptusCloudNode node) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_DEALLOCATE_NODE,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"node: " + node });
+		this.logEvent(new String[] { ACTION_DEALLOCATE_NODE, STATUS_SUCCESS, "node: " + node });
 	}
 
 	// /*
@@ -154,10 +155,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 			final String name,
 			final EucalyptusCloudedApplicationConfiguration configuration,
 			final EucalyptusCloudedApplication application) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_CREATEREGISTER_APP,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"application: " + application });
+		this.logEvent(new String[] { ACTION_CREATEREGISTER_APP, STATUS_SUCCESS, "application: " + application });
 	}
 
 	// /*
@@ -192,10 +190,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 	@Override
 	public final void notifyRemoveCloudedApplicationSuccess(
 			final EucalyptusCloudedApplication application) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_REMOVE_APP,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"application: " + application });
+		this.logEvent(new String[] { ACTION_REMOVE_APP, STATUS_SUCCESS, "application: " + application });
 	}
 
 	// /*
@@ -233,10 +228,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 			final EucalyptusApplicationInstanceConfiguration configuration,
 			final EucalyptusCloudNode node,
 			final EucalyptusApplicationInstance instance) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_DEPLOY_INST,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"instance: " + instance });
+		this.logEvent(new String[] { ACTION_DEPLOY_INST, STATUS_SUCCESS, "instance: " + instance });
 	}
 
 	// /*
@@ -275,10 +267,7 @@ public abstract class AbstractEucalyptusServiceEventLogger implements
 	@Override
 	public final void notifyUndeployApplicationInstanceSuccess(
 			final EucalyptusApplicationInstance instance) {
-		this.logEvent(new String[] {
-				AbstractEucalyptusServiceEventLogger.ACTION_UNEPLOY_INST,
-				AbstractEucalyptusServiceEventLogger.STATUS_SUCCESS,
-				"instance: " + instance });
+		this.logEvent(new String[] { ACTION_UNEPLOY_INST, STATUS_SUCCESS, "instance: " + instance });
 	}
 
 	// /*

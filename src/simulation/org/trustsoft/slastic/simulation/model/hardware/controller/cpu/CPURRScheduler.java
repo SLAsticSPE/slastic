@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
 import org.apache.commons.logging.Log;
@@ -9,17 +25,22 @@ import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.QueueBased;
 import desmoj.core.simulator.SimTime;
 
-public class CPURRScheduler extends CPUScheduler {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public class CPURRScheduler extends AbstractCPUScheduler {
 
-	private static Log log = LogFactory.getLog(CPURRScheduler.class);
+	private static final Log LOG = LogFactory.getLog(CPURRScheduler.class);
 
 	private final Queue<CPUSchedulableProcess> activeProcess;
 
-	private double utilization;
+	private volatile double utilization;
 
-	private long cyclesPerSlice;
+	private volatile long cyclesPerSlice;
 
-	private boolean idle = true;
+	private volatile boolean idle = true;
 
 	private final UtilizationProbeEventGenerator utilizationTicker;
 
@@ -36,12 +57,10 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public synchronized void schedule(final CPUSchedulableProcess process) {
 		this.queue.insert(process);
-		this.cyclesPerSlice = Constants.PS_SLICE * Constants.CPU_SCALE
-				* this.getOwner().getCapacity() / 1000;
-		CPURRScheduler.log.info("Task arrived: " + process);
+		this.cyclesPerSlice = (Constants.PS_SLICE * Constants.CPU_SCALE * this.getOwner().getCapacity()) / 1000;
+		LOG.info("Task arrived: " + process);
 		if (this.idle) {
-			CPURRScheduler.log.info("Resuming scheduler with tick at "
-					+ " with " + this.cyclesPerSlice + " cycles per slice");
+			LOG.info("Resuming scheduler with tick at " + " with " + this.cyclesPerSlice + " cycles per slice");
 			super.getTickEventGenerator().resume();
 		}
 
@@ -50,7 +69,7 @@ public class CPURRScheduler extends CPUScheduler {
 	@Override
 	public synchronized SimTime tick() {
 		SimTime ret = null;
-		CPURRScheduler.log.info("Got " + this.queue.length() + " processes");
+		LOG.info("Got " + this.queue.length() + " processes");
 		/**
 		 * new algo:<br />
 		 * 1. remove active process ap and subtract processing time<br />
@@ -64,11 +83,10 @@ public class CPURRScheduler extends CPUScheduler {
 		 * 5a dont schedule event, mark ap finished<br />
 		 */
 		final CPUSchedulableProcess ap = this.activeProcess.first();
-		CPURRScheduler.log.info("Removing active process " + ap);
+		LOG.info("Removing active process " + ap);
 		if (ap != null) {
 			ap.substractFromRemaining(this.cyclesPerSlice);
-			CPURRScheduler.log.info(ap + " needs " + ap.getCyclesRemaining()
-					+ " cycles to finish");
+			LOG.info(ap + " needs " + ap.getCyclesRemaining() + " cycles to finish");
 			this.activeProcess.remove(ap);
 			if (ap.getCyclesRemaining() > 0) {
 				this.queue.insert(ap);
@@ -76,21 +94,18 @@ public class CPURRScheduler extends CPUScheduler {
 		}
 		final CPUSchedulableProcess np = this.queue.first();
 		if (np != null) {
-			CPURRScheduler.log.info("Activating process " + np + " with "
-					+ np.getCyclesRemaining() + " remaining cycles");
+			LOG.info("Activating process " + np + " with " + np.getCyclesRemaining() + " remaining cycles");
 			this.queue.remove(np);
 			this.activeProcess.insert(np);
 			final long prun = np.getCyclesRemaining();
 			if (prun > this.cyclesPerSlice) {
 				ret = this.getTickSimTime();
 				this.queue.insert(np);
-				CPURRScheduler.log.info("Next slice will be started at " + ret);
+				LOG.info("Next slice will be started at " + ret);
 			} else {
-				ret = new SimTime(
-						prun
-								/ (double) (this.getOwner().getCapacity() * Constants.CPU_SCALE)); // MHz
+				ret = new SimTime(prun / (double) (this.getOwner().getCapacity() * Constants.CPU_SCALE)); // MHz
 				// => divide by 1Mega
-				CPURRScheduler.log.info("Finishing job in " + ret);
+				LOG.info("Finishing job in " + ret);
 			}
 		}
 		if (ret == null) {
@@ -123,15 +138,15 @@ public class CPURRScheduler extends CPUScheduler {
 	}
 
 	@Override
-	public void resumeBuisinessMonitoringAt(final SimTime t) {
-		// CPURRScheduler.log.warn("resuming buisiness logging of "
+	public void resumeBusinessMonitoringAt(final SimTime t) {
+		// log.warn("resuming buisiness logging of "
 		// + this.getName() + " " + t.getTimeValue());
 		this.utilizationTicker.resumeAt(t);
 	}
 
 	@Override
-	public final void pauseBuisinessMonitoring() {
-		// CPURRScheduler.log.warn("pausing buisiness logging of "
+	public final void pauseBusinessMonitoring() {
+		// log.warn("pausing buisiness logging of "
 		// + this.getName() + " "
 		// + this.getModel().currentTime().getTimeValue());
 		this.utilizationTicker.pause();

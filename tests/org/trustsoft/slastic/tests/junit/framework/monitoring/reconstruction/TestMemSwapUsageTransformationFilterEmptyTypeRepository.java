@@ -1,7 +1,22 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
-import kieker.common.record.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -15,42 +30,42 @@ import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
+import kieker.common.record.system.MemSwapUsageRecord;
+
 /**
  * Tests if the {@link MemSwapUsageRecordTransformationFilter} filter correctly
- * transforms a {@link MemSwapUsageRecord} into an {@link MemSwapUsage}
- * including the required initializations of an empty system model.
+ * transforms a {@link MemSwapUsageRecord} into an {@link MemSwapUsage} including the required initializations of an empty system model.
  * 
  * @author Andre van Hoorn
  */
-public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
-		AbstractReconstructionTest {
+public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends AbstractReconstructionTest {
 
-	private final MemSwapUsageRecord kiekerRecord = new MemSwapUsageRecord();
+	private final MemSwapUsageRecord kiekerRecord;
 	{
 		/*
 		 * notice that the values make no sense; it's only important to choose
 		 * different ones
 		 */
 		long usage = 7676l;
-		this.kiekerRecord.setTimestamp(456346l);
-		this.kiekerRecord.setHostName("theHostname");
-		this.kiekerRecord.setMemFree(usage++);
-		this.kiekerRecord.setMemTotal(usage++);
-		this.kiekerRecord.setMemUsed(usage++);
-		this.kiekerRecord.setSwapFree(usage++);
-		this.kiekerRecord.setSwapTotal(usage++);
-		this.kiekerRecord.setSwapUsed(usage++);
+		final long timestamp = 456346l;
+		final String hostname = "theHostname";
+		final long memTotal = usage++;
+		final long memUsed = usage++;
+		final long memFree = usage++;
+		final long swapTotal = usage++;
+		final long swapUsed = usage++;
+		final long swapFree = usage++;
+
+		this.kiekerRecord = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
 	public void testTransformRecordEmptyModel() {
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final MemSwapUsageRecordTransformationFilter filter =
-				new MemSwapUsageRecordTransformationFilter(modelManager);
+		final MemSwapUsageRecordTransformationFilter filter = new MemSwapUsageRecordTransformationFilter(modelManager);
 
-		final MemSwapUsage slasticRecord =
-				filter.transformMemSwapUsageRecord(this.kiekerRecord);
+		final MemSwapUsage slasticRecord = filter.transformMemSwapUsageRecord(this.kiekerRecord);
 
 		this.checkResult(modelManager, slasticRecord);
 	}
@@ -70,20 +85,11 @@ public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 			 * This is the easy part: compare the plain values among the
 			 * records:
 			 */
-			Assert.assertEquals("Unexpected timestamp",
-					this.kiekerRecord.getTimestamp(), slasticRec.getTimestamp());
-			Assert.assertEquals("Unexpected memFree value",
-					this.kiekerRecord.getMemFree(),
-					slasticRec.getMemFreeBytes());
-			Assert.assertEquals("Unexpected memUsed value",
-					this.kiekerRecord.getMemUsed(),
-					slasticRec.getMemUsedBytes());
-			Assert.assertEquals("Unexpected swapFree value",
-					this.kiekerRecord.getSwapFree(),
-					slasticRec.getSwapFreeBytes());
-			Assert.assertEquals("Unexpected swapUsed value",
-					this.kiekerRecord.getSwapUsed(),
-					slasticRec.getSwapUsedBytes());
+			Assert.assertEquals("Unexpected timestamp", this.kiekerRecord.getTimestamp(), slasticRec.getTimestamp());
+			Assert.assertEquals("Unexpected memFree value", this.kiekerRecord.getMemFree(), slasticRec.getMemFreeBytes());
+			Assert.assertEquals("Unexpected memUsed value", this.kiekerRecord.getMemUsed(), slasticRec.getMemUsedBytes());
+			Assert.assertEquals("Unexpected swapFree value", this.kiekerRecord.getSwapFree(), slasticRec.getSwapFreeBytes());
+			Assert.assertEquals("Unexpected swapUsed value", this.kiekerRecord.getSwapUsed(), slasticRec.getSwapUsedBytes());
 		}
 
 		final Resource res = slasticRec.getResource();
@@ -91,43 +97,27 @@ public class TestMemSwapUsageTransformationFilterEmptyTypeRepository extends
 		/* Check execution container */
 		this.checkExecutionContainerAndType(
 				mgr,
-				this.kiekerRecord.getHostName(),
-				this.kiekerRecord.getHostName()
-						+ AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
+				this.kiekerRecord.getHostname(),
+				this.kiekerRecord.getHostname() + AbstractModelReconstructionComponent.DEFAULT_TYPE_POSTFIX,
 				res.getExecutionContainer());
 
 		/* Check resource specification */
 		final ResourceSpecification resSpec = res.getResourceSpecification();
 		Assert.assertNotNull("resourceSpecification is null", resSpec);
-		Assert.assertTrue(
-				"Expected resSpec to be instanceof "
-						+ MemSwapResourceSpecification.class + " but found: "
-						+ resSpec.getClass(),
+		Assert.assertTrue("Expected resSpec to be instanceof " + MemSwapResourceSpecification.class + " but found: " + resSpec.getClass(),
 				resSpec instanceof MemSwapResourceSpecification);
-		Assert.assertEquals("Unexpected resource specification name",
-				AbstractModelReconstructionComponent
-						.createMemSwapResourceSpecName(), resSpec.getName());
+		Assert.assertEquals("Unexpected resource specification name", AbstractModelReconstructionComponent.createMemSwapResourceSpecName(), resSpec.getName());
 
 		/* Check capacity values */
-		final MemSwapResourceSpecification memSwapResSpec =
-				(MemSwapResourceSpecification) resSpec;
-		Assert.assertEquals("Unexpected mem capacity",
-				this.kiekerRecord.getMemTotal(),
-				memSwapResSpec.getMemCapacityBytes());
-		Assert.assertEquals("Unexpected swap capacity",
-				this.kiekerRecord.getSwapTotal(),
-				memSwapResSpec.getSwapCapacityBytes());
+		final MemSwapResourceSpecification memSwapResSpec = (MemSwapResourceSpecification) resSpec;
+		Assert.assertEquals("Unexpected mem capacity", this.kiekerRecord.getMemTotal(), memSwapResSpec.getMemCapacityBytes());
+		Assert.assertEquals("Unexpected swap capacity", this.kiekerRecord.getSwapTotal(), memSwapResSpec.getSwapCapacityBytes());
 
 		/* Check resource type */
 		final ResourceType resType = resSpec.getResourceType();
-		Assert.assertEquals(
-				"Unexpected resource type name",
-				AbstractModelReconstructionComponent.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME,
-				NameUtils.createFQName(resType.getPackageName(),
-						resType.getName())); //
-		Assert.assertTrue("Resource type must be instanceof "
-				+ MemSwapType.class + " ; found: " + resType.getClass(),
-				resType instanceof MemSwapType);
+		Assert.assertEquals("Unexpected resource type name",
+				AbstractModelReconstructionComponent.DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME, NameUtils.createFQName(resType.getPackageName(), resType.getName()));
+		Assert.assertTrue("Resource type must be instanceof " + MemSwapType.class + " ; found: " + resType.getClass(), resType instanceof MemSwapType);
 
 		/* TODO: Check total cpu/swap */
 	}

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.esper;
 
 import java.util.UUID;
@@ -24,9 +40,7 @@ import com.espertech.esper.client.EPServiceProviderManager;
 public class EPServiceProviderFactory {
 
 	/**
-	 * Creates an {@link EPServiceProvider} with a custom {@link Configuration}
-	 * that support EMF types to be sent via {@link EPRuntime#sendEvent(Object)}
-	 * .
+	 * Creates an {@link EPServiceProvider} with a custom {@link Configuration} that support EMF types to be sent via {@link EPRuntime#sendEvent(Object)} .
 	 * 
 	 * @return
 	 */
@@ -42,30 +56,20 @@ public class EPServiceProviderFactory {
 		 * JavaBean-like access to members.
 		 */
 		final ConfigurationEventTypeLegacy legacyDef =
-					new ConfigurationEventTypeLegacy();
-		legacyDef
-					.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
-		legacyDef
-					.setAccessorStyle(ConfigurationEventTypeLegacy.AccessorStyle.EXPLICIT);
-		configuration.addEventType("EObject", EObject.class.getName(),
-					legacyDef);
-		configuration.addEventType("Notifier", Notifier.class.getName(),
-					legacyDef);
-		configuration.addEventType("EObjectImpl", EObjectImpl.class.getName(),
-					legacyDef);
-		configuration.addEventType("BasicEObjectImpl",
-					BasicEObjectImpl.class.getName(), legacyDef);
-		configuration.addEventType("BasicNotifierImpl",
-					BasicNotifierImpl.class.getName(), legacyDef);
-		configuration.addEventType("InternalEObject",
-					InternalEObject.class.getName(), legacyDef);
+				new ConfigurationEventTypeLegacy();
+		legacyDef.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
+		legacyDef.setAccessorStyle(ConfigurationEventTypeLegacy.AccessorStyle.EXPLICIT);
+		configuration.addEventType("EObject", EObject.class.getName(), legacyDef);
+		configuration.addEventType("Notifier", Notifier.class.getName(), legacyDef);
+		configuration.addEventType("EObjectImpl", EObjectImpl.class.getName(), legacyDef);
+		configuration.addEventType("BasicEObjectImpl", BasicEObjectImpl.class.getName(), legacyDef);
+		configuration.addEventType("BasicNotifierImpl", BasicNotifierImpl.class.getName(), legacyDef);
+		configuration.addEventType("InternalEObject", InternalEObject.class.getName(), legacyDef);
 
 		/* Register exception handler (factory class) */
-		configuration.getEngineDefaults().getExceptionHandling()
-					.addClass(CEPEngineExceptionHandlerFactory.class);
+		configuration.getEngineDefaults().getExceptionHandling().addClass(CEPEngineExceptionHandlerFactory.class);
 
-		epService =
-					EPServiceProviderManager.getProvider(UUID.randomUUID().toString(), configuration);
+		epService = EPServiceProviderManager.getProvider(UUID.randomUUID().toString(), configuration);
 		return epService;
 	}
 }

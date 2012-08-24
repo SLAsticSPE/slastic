@@ -1,15 +1,5 @@
-package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
-
-import java.util.Random;
-import kieker.monitoring.annotation.OperationExecutionMonitoringProbe;
-import kieker.monitoring.probe.manual.BranchingProbe;
-
-import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
-
-
-/*
- * ==================LICENCE=========================
- * Copyright 2009 Kieker Project
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,30 +12,39 @@ import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLA
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ==================================================
- *
- *
+ ***************************************************************************/
+
+package org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes;
+
+import java.util.Random;
+
+import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation.SLAsticSLAMonitoringProbe;
+
+import kieker.monitoring.annotation.OperationExecutionMonitoringProbe;
+import kieker.monitoring.probe.manual.BranchingProbe;
+
+/**
  * @author Matthias Rohr, Andre van Hoorn
  * 
- * History:
- * 2009/06/23: Adapted for "different record type test"
- * 2008/01/09: Refactoring for the first release of
- *             Kieker and publication under an open source licence
- * 2007-04-18: Initial version
- *
+ *         History:
+ *         2009/06/23: Adapted for "different record type test"
+ *         2008/01/09: Refactoring for the first release of
+ *         Kieker and publication under an open source licence
+ *         2007-04-18: Initial version
+ * 
  */
 public class Catalog {
-    private static final Random rnd = new Random(200);
+	private static final Random rnd = new Random(200);
 
-    @SLAsticSLAMonitoringProbe(serviceId=77)
-    @OperationExecutionMonitoringProbe()
-    public static void getBook(boolean complexQuery) {
-        if (complexQuery) {
-            BranchingProbe.monitorBranch(1,0);
-            Bookstore.waitabit(1000+rnd.nextInt(1000));
-        } else {
-            BranchingProbe.monitorBranch(1,1);
-            Bookstore.waitabit(2);
-        }
-    }
+	@SLAsticSLAMonitoringProbe(serviceId = 77)
+	@OperationExecutionMonitoringProbe()
+	public static void getBook(final boolean complexQuery) {
+		if (complexQuery) {
+			BranchingProbe.monitorBranch(1, 0);
+			Bookstore.waitabit(1000 + rnd.nextInt(1000));
+		} else {
+			BranchingProbe.monitorBranch(1, 1);
+			Bookstore.waitabit(2);
+		}
+	}
 }

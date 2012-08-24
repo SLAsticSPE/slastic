@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentAssembly;
 
 import java.util.List;
@@ -18,8 +34,8 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
  * 
  * @author Andre van Hoorn
  */
-public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel> implements
-		IAssemblyComponentsManager, IAssemblyConnectorsManager, ISystemProvidedInterfacesManager {
+public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel>
+		implements IAssemblyComponentsManager, IAssemblyConnectorsManager, ISystemProvidedInterfacesManager {
 
 	private final TypeRepositoryModelManager typeRepositoryModelManager;
 	private final AssemblyComponentsManager assemblyComponentsManager;
@@ -39,7 +55,9 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 		this.typeRepositoryModelManager = typeRepositoryManager;
 		this.assemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
 		this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyComponentConnectors(), this.typeRepositoryModelManager);
-		this.systemProvidedInterfacesManager = new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(), componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
+		this.systemProvidedInterfacesManager =
+				new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(),
+						componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
 	}
 
 	@Override
@@ -53,9 +71,7 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponent createAndRegisterAssemblyComponent(
-			final String fullyQualifiedName,
-			final ComponentType componentType) {
+	public AssemblyComponent createAndRegisterAssemblyComponent(final String fullyQualifiedName, final ComponentType componentType) {
 		return this.assemblyComponentsManager.createAndRegisterAssemblyComponent(fullyQualifiedName, componentType);
 	}
 
@@ -70,9 +86,7 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
-			final String fullyQualifiedName,
-			final ConnectorType connectorType) {
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final String fullyQualifiedName, final ConnectorType connectorType) {
 		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName, connectorType);
 	}
 
@@ -88,8 +102,8 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
-			final AssemblyComponent providingComponent, final Signature signature) {
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent, final AssemblyComponent providingComponent,
+			final Signature signature) {
 		return this.assemblyConnectorsManager
 				.lookupAssemblyConnector(requiringComponent, providingComponent, signature);
 	}

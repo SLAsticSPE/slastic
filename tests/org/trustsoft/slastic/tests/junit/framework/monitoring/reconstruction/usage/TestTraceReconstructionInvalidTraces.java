@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction.usage;
 
 import java.util.Collection;
@@ -18,9 +34,7 @@ import de.cau.se.slastic.metamodel.usage.ExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
 
 /**
- * Tests the method
- * {@link TraceReconstructor#reconstructMessageTrace(java.util.List, de.cau.se.slastic.metamodel.monitoring.OperationExecution)}
- * .
+ * Tests the method {@link TraceReconstructor#reconstructMessageTrace(java.util.List, de.cau.se.slastic.metamodel.monitoring.OperationExecution)}.
  * 
  * @author Andre van Hoorn
  * 
@@ -28,9 +42,7 @@ import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
 public class TestTraceReconstructionInvalidTraces extends TestCase {
 	/**
 	 * Makes sure, that a broken trace (manipulated eoi) cannot be correctly
-	 * reconstructed by
-	 * {@link TraceReconstructor#reconstructMessageTrace(Collection, OperationExecution)}
-	 * .
+	 * reconstructed by {@link TraceReconstructor#reconstructMessageTrace(Collection, OperationExecution)} .
 	 * 
 	 * @throws IllegalStateException
 	 */
@@ -38,9 +50,7 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		final int eoiToBreak = 2; // 2: CRM.getOffers
 
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 		final long traceId = 76767676l;
 
 		final Collection<? extends OperationExecution> bookstoreTrace =
@@ -48,39 +58,31 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		this.breakTrace(bookstoreTrace, eoiToBreak);
 
 		try {
-			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
+			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 			Assert.fail("Expected IllegalStateException to be thrown for broken trace");
-		} catch (final IllegalStateException e) { /*
-												 * we expect this exception to
-												 * be thrown!
-												 */
+		} catch (final IllegalStateException e) {
+			// we expect this exception to be thrown!
 		}
 	}
 
 	/**
-	 * Tests the method
-	 * {@link TraceReconstructor#reconstructTraceSave(Collection, OperationExecution)}
-	 * for an invalid trace.
+	 * Tests the method {@link TraceReconstructor#reconstructTraceSave(Collection, OperationExecution)} for an invalid trace.
 	 */
 	public void testReconstructionOfInValidTraceSkipEoiSave() {
 		final int eoiToBreak = 2; // 2: CRM.getOffers
 
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 		final long traceId = 76768676l;
 
-		final Collection<? extends OperationExecution> bookstoreTrace =
-				BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
+		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 		this.breakTrace(bookstoreTrace, eoiToBreak);
 
-		final ExecutionTrace et =
-				TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.rootExec);
+		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 
 		{ /* Check results */
-			Assert.assertTrue("Expected execution trace to be instance of " + InvalidExecutionTrace.class + "; found: "
-					+ et.getClass(), et instanceof InvalidExecutionTrace);
+			Assert.assertTrue("Expected execution trace to be instance of " + InvalidExecutionTrace.class + "; found: " + et.getClass(),
+					et instanceof InvalidExecutionTrace);
 			final InvalidExecutionTrace ivet = (InvalidExecutionTrace) et;
 			// note that in invalid trace has no trace id and no associated
 			// message trace
@@ -119,13 +121,10 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		final int eoiToBreak = 1; // 2: Catalog.getBook (with ess 1)
 
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 		final long traceId = 76767676l;
 
-		final Collection<? extends OperationExecution> bookstoreTrace =
-				BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
+		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 		final java.util.Iterator<? extends OperationExecution> it = bookstoreTrace.iterator();
 		OperationExecution opExecToBrake = it.next();
 		while (opExecToBrake.getEoi() != eoiToBreak) {
@@ -138,12 +137,10 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		opExecToBrake.setEss(2);
 
 		try {
-			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
+			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 			Assert.fail("Expected IllegalStateException to be thrown for broken trace");
-		} catch (final IllegalStateException e) { /*
-												 * we expect this exception to
-												 * be thrown!
-												 */
+		} catch (final IllegalStateException e) {
+			// we expect this exception to be thrown!
 		}
 	}
 }

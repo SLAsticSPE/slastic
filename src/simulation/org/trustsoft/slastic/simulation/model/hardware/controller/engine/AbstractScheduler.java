@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.model.hardware.controller.engine;
 
 import org.trustsoft.slastic.simulation.config.Constants;
@@ -7,19 +23,24 @@ import desmoj.core.simulator.Model;
 import desmoj.core.simulator.Queue;
 import desmoj.core.simulator.SimTime;
 
-public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess>
-		extends Entity {
-	private PRType owner;
-	private long tickRate;
-	private SimTime tickSimTime;
-	private boolean timeUnitSet, tickRateSet;
-	private TimeUnit unit;
-	private TickEventGenerator tickEventGenerator;
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ * @param <PRType>
+ * @param <SPType>
+ */
+public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess> extends Entity {
+	private volatile PRType owner;
+	private volatile long tickRate;
+	private volatile SimTime tickSimTime;
+	private volatile boolean timeUnitSet, tickRateSet;
+	private volatile TimeUnit unit;
+	private volatile TickEventGenerator tickEventGenerator;
 
 	protected final Queue<SPType> queue;
 
-	public AbstractScheduler(final Model model, final String name,
-			final Queue<SPType> queue) {
+	public AbstractScheduler(final Model model, final String name, final Queue<SPType> queue) {
 		super(model, name, Constants.DEBUG);
 		this.queue = queue;
 	}
@@ -27,8 +48,7 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 	public void setOwner(final PRType owner) {
 		if (this.owner == null) {
 			this.owner = owner;
-			this.tickEventGenerator = new TickEventGenerator(this.getModel(),
-					this.getName(), Constants.DEBUG, this.owner);
+			this.tickEventGenerator = new TickEventGenerator(this.getModel(), this.getName(), Constants.DEBUG, this.owner);
 		}
 	}
 
@@ -91,8 +111,8 @@ public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SP
 		return this.queue.length();
 	}
 
-	public abstract void resumeBuisinessMonitoringAt(SimTime t);
+	public abstract void resumeBusinessMonitoringAt(SimTime t);
 
-	public abstract void pauseBuisinessMonitoring();
+	public abstract void pauseBusinessMonitoring();
 
 }

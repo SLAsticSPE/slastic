@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.common;
 
 import java.io.File;
@@ -23,7 +39,8 @@ import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerCompo
  * @author Andre van Hoorn
  */
 public class Configuration {
-	private static final Log log = LogFactory.getLog(FrameworkInstance.class);
+	private static final Log LOG = LogFactory.getLog(FrameworkInstance.class);
+
 	public AbstractMonitoringManagerComponent monitoringManagerComponent;
 	public AbstractControlComponent controlComponent;
 	public AbstractModelManagerComponent modelManagerComponent;
@@ -34,22 +51,26 @@ public class Configuration {
 	public AbstractPerformancePredictorComponent performancePredictorComponent;
 	public AbstractAdaptationPlannerComponent adaptationPlannerComponent;
 	public AbstractReconfigurationManagerComponent reconfigurationManagerComponent;
-	public final Properties monitoringComponentProperties = new Properties();
+
+	public final Properties monitoringManagerComponentProperties = new Properties();
 	public final Properties controlComponentProperties = new Properties();
 	public final Properties modelManagerComponentProperties = new Properties();
 	public final Properties modelUpdaterComponentProperties = new Properties();
 	public final Properties analysisComponentProperties = new Properties();
-	public final Properties performanceEvaluatorComponentProperties =
-			new Properties();
+	public final Properties performanceEvaluatorComponentProperties = new Properties();
 	public final Properties workloadForecasterProperties = new Properties();
-	public final Properties performancePredictorComponentProperties =
-			new Properties();
-	public final Properties adaptationPlannerComponentProperties =
-			new Properties();
-	public final Properties reconfigurationManagerComponentProperties =
-			new Properties();
+	public final Properties performancePredictorComponentProperties = new Properties();
+	public final Properties adaptationPlannerComponentProperties = new Properties();
+	public final Properties reconfigurationManagerComponentProperties = new Properties();
 
-	private volatile IComponentContext rootContext;
+	private final IComponentContext rootContext = ComponentContext.createRootContext("");
+
+	/**
+	 * @return the rootContext
+	 */
+	public IComponentContext getRootContext() {
+		return this.rootContext;
+	}
 
 	/**
 	 * Tests if the value of component is non-null and logs and additionally
@@ -59,10 +80,9 @@ public class Configuration {
 	 * @param identifier
 	 * @return true if and only if component is not null, false otherwise
 	 */
-	private boolean isComponentInitialized(
-			final AbstractSLAsticComponent component, final String componentType) {
+	private boolean isComponentInitialized(final AbstractSLAsticComponent component, final String componentType) {
 		if (component == null) {
-			Configuration.log.error(componentType + " not initialized");
+			LOG.error(componentType + " not initialized");
 			return false;
 		}
 		return true;
@@ -74,35 +94,21 @@ public class Configuration {
 	 * @return true iff ad only if all components have been initialized
 	 */
 	public boolean allComponentsInitialized() {
-		return this.isComponentInitialized(this.monitoringManagerComponent,
-				"MonitoringManagerComponent")
-				&& this.isComponentInitialized(this.controlComponent,
-						"ControlComponent")
-				&& this.isComponentInitialized(this.modelManagerComponent,
-						"ModelManagerComponent")
-				&& this.isComponentInitialized(this.modelUpdaterComponent,
-						"ModelUpdaterComponent")
-				&& this.isComponentInitialized(this.analysisComponent,
-						"AnalysisComponent")
-				&& this.isComponentInitialized(
-						this.performanceEvaluatorComponent,
-						"PerformanceEvaluatorComponent")
-				&& this.isComponentInitialized(
-						this.workloadForecasterComponent,
-						"WorkloadForecasterComponent")
-				&& this.isComponentInitialized(
-						this.performancePredictorComponent,
-						"PerformancePredictorComponent")
-				&& this.isComponentInitialized(this.adaptationPlannerComponent,
-						"AdaptationPlannerComponent")
-				&& this.isComponentInitialized(
-						this.reconfigurationManagerComponent,
-						"ReconfigurationManagerComponent");
+		return this.isComponentInitialized(this.monitoringManagerComponent, "MonitoringManagerComponent")
+				&& this.isComponentInitialized(this.controlComponent, "ControlComponent")
+				&& this.isComponentInitialized(this.modelManagerComponent, "ModelManagerComponent")
+				&& this.isComponentInitialized(this.modelUpdaterComponent, "ModelUpdaterComponent")
+				&& this.isComponentInitialized(this.analysisComponent, "AnalysisComponent")
+				&& this.isComponentInitialized(this.performanceEvaluatorComponent, "PerformanceEvaluatorComponent")
+				&& this.isComponentInitialized(this.workloadForecasterComponent, "WorkloadForecasterComponent")
+				&& this.isComponentInitialized(this.performancePredictorComponent, "PerformancePredictorComponent")
+				&& this.isComponentInitialized(this.adaptationPlannerComponent, "AdaptationPlannerComponent")
+				&& this.isComponentInitialized(this.reconfigurationManagerComponent, "ReconfigurationManagerComponent");
 	}
 
 	public boolean wireComponents() {
 		if (!this.allComponentsInitialized()) {
-			Configuration.log.error("At least one component is null");
+			LOG.error("At least one component is null");
 		}
 
 		this.wireMonitoringManager();
@@ -127,45 +133,40 @@ public class Configuration {
 	 * @param componentType
 	 * @return
 	 */
-	private boolean createAndsetComponentContext(
-			final AbstractSLAsticComponent component, final String componentType) {
-		final String contextName =
-				componentType; // too long: + "-" + component.getClass().getName();
-		final IComponentContext context =
-				this.rootContext.createSubcontext(contextName);
+	private boolean createAndsetComponentContext(final AbstractSLAsticComponent component, final String componentType) {
+		final String contextName = componentType; // too long: + "-" + component.getClass().getName();
+		final IComponentContext context = this.rootContext.createSubcontext(contextName);
 
 		if (context == null) {
-			Configuration.log.error("Failed to create component context "
-					+ contextName);
+			LOG.error("Failed to create component context " + contextName);
 			return false;
 		}
 
-		
-		{ /* Writing file COMPONENT_CLASSINFO_FN which contains the 
-		     class name of the component type implementation  */ 
-		final File classInfoFile =
-				context.createFileInContextDir(this.COMPONENT_CLASSINFO_FN);
-		if (classInfoFile == null) {
-			Configuration.log.error("Failed to create file '"
-					+ this.COMPONENT_CLASSINFO_FN + "' in context " + context);
-			return false;
-		}
-		
-		PrintStream pos = null;
-		try {
-			pos = new PrintStream (classInfoFile);
-			pos.print(componentType);
-			pos.print(":");
-			pos.println(component.getClass().getName());
-		} catch (final IOException e) {
-			Configuration.log.error("Failed to create FileWriter for " + classInfoFile + ":"
-					+ e.getMessage(), e);
-			return false;
-		} finally {
-			if (pos != null) {
-				pos.close();
+		{ /*
+		 * Writing file COMPONENT_CLASSINFO_FN which contains the
+		 * class name of the component type implementation
+		 */
+			final File classInfoFile =
+					context.createFileInContextDir(this.COMPONENT_CLASSINFO_FN);
+			if (classInfoFile == null) {
+				LOG.error("Failed to create file '" + this.COMPONENT_CLASSINFO_FN + "' in context " + context);
+				return false;
 			}
-		}
+
+			PrintStream pos = null;
+			try {
+				pos = new PrintStream(classInfoFile);
+				pos.print(componentType);
+				pos.print(":");
+				pos.println(component.getClass().getName());
+			} catch (final IOException e) {
+				LOG.error("Failed to create FileWriter for " + classInfoFile + ":" + e.getMessage(), e);
+				return false;
+			} finally {
+				if (pos != null) {
+					pos.close();
+				}
+			}
 		}
 
 		component.setComponentContext(context);
@@ -174,39 +175,20 @@ public class Configuration {
 	}
 
 	public boolean createAndSetComponentContexts() {
-		this.rootContext = ComponentContext.createRootContext("");
 		if (this.rootContext == null) {
 			return false;
 		}
 
-		return this.createAndsetComponentContext(
-				this.monitoringManagerComponent,
-				"MonitoringManagerComponent")
-				&& this.createAndsetComponentContext(this.controlComponent,
-						"Control")
-				&& this.createAndsetComponentContext(
-						this.modelManagerComponent,
-						"ModelManager")
-				&& this.createAndsetComponentContext(
-						this.modelUpdaterComponent,
-						"ModelUpdater")
-				&& this.createAndsetComponentContext(this.analysisComponent,
-						"Analysis")
-				&& this.createAndsetComponentContext(
-						this.performanceEvaluatorComponent,
-						"PerformanceEvaluator")
-				&& this.createAndsetComponentContext(
-						this.workloadForecasterComponent,
-						"WorkloadForecaster")
-				&& this.createAndsetComponentContext(
-						this.performancePredictorComponent,
-						"PerformancePredictor")
-				&& this.createAndsetComponentContext(
-						this.adaptationPlannerComponent,
-						"AdaptationPlanner")
-				&& this.createAndsetComponentContext(
-						this.reconfigurationManagerComponent,
-						"ReconfigurationManager");
+		return this.createAndsetComponentContext(this.monitoringManagerComponent, "MonitoringManagerComponent")
+				&& this.createAndsetComponentContext(this.controlComponent, "Control")
+				&& this.createAndsetComponentContext(this.modelManagerComponent, "ModelManager")
+				&& this.createAndsetComponentContext(this.modelUpdaterComponent, "ModelUpdater")
+				&& this.createAndsetComponentContext(this.analysisComponent, "Analysis")
+				&& this.createAndsetComponentContext(this.performanceEvaluatorComponent, "PerformanceEvaluator")
+				&& this.createAndsetComponentContext(this.workloadForecasterComponent, "WorkloadForecaster")
+				&& this.createAndsetComponentContext(this.performancePredictorComponent, "PerformancePredictor")
+				&& this.createAndsetComponentContext(this.adaptationPlannerComponent, "AdaptationPlanner")
+				&& this.createAndsetComponentContext(this.reconfigurationManagerComponent, "ReconfigurationManager");
 	}
 
 	private void wireMonitoringManager() {
@@ -214,8 +196,7 @@ public class Configuration {
 	}
 
 	private void wireControlComponent() {
-		this.controlComponent
-				.setReconfigurationManager(this.reconfigurationManagerComponent);
+		this.controlComponent.setReconfigurationManager(this.reconfigurationManagerComponent);
 		this.controlComponent.setAnalysis(this.analysisComponent);
 		this.controlComponent.setModelManager(this.modelManagerComponent);
 		this.controlComponent.setModelUpdater(this.modelUpdaterComponent);
@@ -223,55 +204,40 @@ public class Configuration {
 		this.controlComponent.addListener(this.modelManagerComponent);
 		this.controlComponent.addListener(this.modelUpdaterComponent);
 		this.controlComponent.addListener(this.performanceEvaluatorComponent);
-		this.performanceEvaluatorComponent
-				.setSimpleSLAsticEventService(this.controlComponent);
+		this.performanceEvaluatorComponent.setSimpleSLAsticEventService(this.controlComponent);
 		this.controlComponent.addListener(this.workloadForecasterComponent);
-		this.workloadForecasterComponent
-				.setSimpleSLAsticEventService(this.controlComponent);
+		this.workloadForecasterComponent.setSimpleSLAsticEventService(this.controlComponent);
 		this.controlComponent.addListener(this.performancePredictorComponent);
-		this.performancePredictorComponent
-				.setSimpleSLAsticEventService(this.controlComponent);
+		this.performancePredictorComponent.setSimpleSLAsticEventService(this.controlComponent);
 		this.controlComponent.addListener(this.adaptationPlannerComponent);
-		this.adaptationPlannerComponent
-				.setSimpleSLAsticEventService(this.controlComponent);
+		this.adaptationPlannerComponent.setSimpleSLAsticEventService(this.controlComponent);
 	}
 
 	private void wireModelManagerComponent() {
-		this.modelManagerComponent
-				.setParentControlComponent(this.controlComponent);
+		this.modelManagerComponent.setParentControlComponent(this.controlComponent);
 	}
 
 	private void wireModelUpdaterComponent() {
-		this.modelUpdaterComponent
-				.setParentControlComponent(this.controlComponent);
+		this.modelUpdaterComponent.setParentControlComponent(this.controlComponent);
 		this.modelUpdaterComponent.setModelManager(this.modelManagerComponent);
 	}
 
 	private void wireAnalysisComponent() {
 		this.analysisComponent.setParentControlComponent(this.controlComponent);
-		this.analysisComponent
-				.setPerformanceEvaluator(this.performanceEvaluatorComponent);
-		this.analysisComponent
-				.setWorkloadForecaster(this.workloadForecasterComponent);
-		this.analysisComponent
-				.setPerformancePredictor(this.performancePredictorComponent);
-		this.analysisComponent
-				.setAdaptationPlanner(this.adaptationPlannerComponent);
+		this.analysisComponent.setPerformanceEvaluator(this.performanceEvaluatorComponent);
+		this.analysisComponent.setWorkloadForecaster(this.workloadForecasterComponent);
+		this.analysisComponent.setPerformancePredictor(this.performancePredictorComponent);
+		this.analysisComponent.setAdaptationPlanner(this.adaptationPlannerComponent);
 	}
 
 	private void wireAnalysisSubcomponents() {
-		this.performanceEvaluatorComponent
-				.setParentAnalysisComponent(this.analysisComponent);
-		this.workloadForecasterComponent
-				.setParentAnalysisComponent(this.analysisComponent);
-		this.performancePredictorComponent
-				.setParentAnalysisComponent(this.analysisComponent);
-		this.adaptationPlannerComponent
-				.setParentAnalysisComponent(this.analysisComponent);
+		this.performanceEvaluatorComponent.setParentAnalysisComponent(this.analysisComponent);
+		this.workloadForecasterComponent.setParentAnalysisComponent(this.analysisComponent);
+		this.performancePredictorComponent.setParentAnalysisComponent(this.analysisComponent);
+		this.adaptationPlannerComponent.setParentAnalysisComponent(this.analysisComponent);
 	}
 
 	private void wireReconfigurationComponent() {
-		this.reconfigurationManagerComponent
-				.setControlComponent(this.controlComponent);
+		this.reconfigurationManagerComponent.setControlComponent(this.controlComponent);
 	}
 }

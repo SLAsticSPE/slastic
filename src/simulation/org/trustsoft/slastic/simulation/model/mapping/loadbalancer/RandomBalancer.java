@@ -1,13 +1,34 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.model.mapping.loadbalancer;
 
 import java.util.Collection;
 import java.util.Random;
 
-import org.trustsoft.slastic.simulation.model.mapping.LoadBalancer;
+import org.trustsoft.slastic.simulation.model.mapping.ILoadBalancer;
 
-public final class RandomBalancer implements LoadBalancer {
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
+public final class RandomBalancer implements ILoadBalancer {
 
-	// use Random as desmoj shit is based on it, too
+	// use Random as desmoj is based on it, too
 	private final Random r;
 
 	public RandomBalancer() {
@@ -19,9 +40,7 @@ public final class RandomBalancer implements LoadBalancer {
 	}
 
 	@Override
-	public final String getServerMapping(final String asmId,
-			final Collection<String> possibilities) {
-		return (String) possibilities.toArray()[this.r.nextInt(possibilities
-				.size())];
+	public final String getServerMapping(final String asmId, final Collection<String> possibilities) {
+		return (String) possibilities.toArray()[this.r.nextInt(possibilities.size())];
 	}
 }

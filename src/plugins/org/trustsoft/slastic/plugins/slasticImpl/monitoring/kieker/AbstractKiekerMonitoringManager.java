@@ -1,9 +1,20 @@
-package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
 
-import kieker.analysis.AnalysisController;
-import kieker.analysis.AnalysisControllerThread;
-import kieker.analysis.plugin.IMonitoringRecordConsumerPlugin;
-import kieker.analysis.reader.namedRecordPipe.PipeReader;
+package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,20 +22,26 @@ import org.trustsoft.slastic.monitoring.AbstractMonitoringManagerComponent;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 
+import kieker.analysis.AnalysisController;
+import kieker.analysis.AnalysisControllerThread;
+import kieker.analysis.exception.AnalysisConfigurationException;
+import kieker.analysis.plugin.filter.AbstractFilterPlugin;
+import kieker.analysis.plugin.reader.AbstractReaderPlugin;
+import kieker.analysis.plugin.reader.namedRecordPipe.PipeReader;
+import kieker.common.configuration.Configuration;
+import kieker.tools.currentTimeEventGenerator.CurrentTimeEventGenerationFilter;
+
 /**
  * 
  * @author Andre van Hoorn
  */
-public abstract class AbstractKiekerMonitoringManager extends
-		AbstractMonitoringManagerComponent {
-	private static final Log log =
-			LogFactory.getLog(AbstractKiekerMonitoringManager.class);
+public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoringManagerComponent {
+	private static final Log LOG = LogFactory.getLog(AbstractKiekerMonitoringManager.class);
 
 	/**
 	 * Send a timer event to the event engine every 100 millis.
 	 */
-	public final static long TIMER_EVENTS_RESOLUTION_NANOS =
-			1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
+	public final static long TIMER_EVENTS_RESOLUTION_NANOS = 1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
 
 	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
 
@@ -32,44 +49,63 @@ public abstract class AbstractKiekerMonitoringManager extends
 
 	/** Is initialized in {@link #init()} */
 	private volatile PipeReader kiekerNamedRecordPipeReader;
-
-	protected abstract IMonitoringRecordConsumerPlugin getMonitoringRecordConsumer();
+	private volatile String kiekerPipeName;
 
 	@Override
 	public boolean init() {
-		final String kiekerRecordPipeName =
-				this
-						.getInitProperty(AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY);
-		if ((kiekerRecordPipeName == null)
-				|| (kiekerRecordPipeName.length() <= 0)) {
-			AbstractKiekerMonitoringManager.log
-					.error("Missing configuration property value for '"
-							+ AbstractMonitoringManagerComponent.PROP_PREFIX
-							+ "."
-							+ AbstractKiekerMonitoringManager.KIEKER_PIPENAME_PROPERTY
-							+ "'");
+		this.kiekerPipeName = this.getInitProperty(KIEKER_PIPENAME_PROPERTY);
+		if ((this.kiekerPipeName == null) || (this.kiekerPipeName.length() <= 0)) {
+			LOG.error("Missing configuration property value for '" + AbstractMonitoringManagerComponent.PROP_PREFIX + "." + KIEKER_PIPENAME_PROPERTY + "'");
 			return false;
 		}
-
-		this.kiekerNamedRecordPipeReader = new PipeReader(kiekerRecordPipeName);
-		return this.kiekerNamedRecordPipeReader != null;
+		return true;
 	}
 
 	private volatile AnalysisControllerThread analysisControllerThread = null;
-	
-	private boolean spawnKiekerAnalysis() {
-		/** Is initialized in {@link #execute()} */
-		final AnalysisController analysisInstance = new AnalysisController();
-		analysisInstance.setReader(this.kiekerNamedRecordPipeReader);
 
-		analysisInstance
-				.registerPlugin(new TimeTriggerAndRecordDelegationPlugin(
-						this.getController(), this
-								.getMonitoringRecordConsumer()));
+	private boolean spawnKiekerAnalysis() throws IllegalStateException, AnalysisConfigurationException {
+		final AnalysisController analysisInstance = new AnalysisController();
+
+		/*
+		 * Register Named Pipe Reader
+		 */
+		final Configuration readerConfiguration = new Configuration();
+		readerConfiguration.setProperty(PipeReader.CONFIG_PROPERTY_NAME_PIPENAME, this.kiekerPipeName);
+		this.kiekerNamedRecordPipeReader = new PipeReader(readerConfiguration);
+		analysisInstance.registerReader(this.kiekerNamedRecordPipeReader);
+
+		/*
+		 * Register CurrentTimeEventGenerationFilter and connect to Reader
+		 */
+		final Configuration currentTimeEventGeneratorConfig = new Configuration();
+		currentTimeEventGeneratorConfig
+				.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION, Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
+		final CurrentTimeEventGenerationFilter currentTimeEventGenerationFilter = new CurrentTimeEventGenerationFilter(currentTimeEventGeneratorConfig);
+		analysisInstance.registerFilter(currentTimeEventGenerationFilter);
+		analysisInstance.connect(this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS,
+				currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.INPUT_PORT_NAME_NEW_RECORD);
+
+		/*
+		 * Register CurrentTimeSetter
+		 */
+		final CurrentTimeSetter currentTimeSetterFilter = new CurrentTimeSetter(new Configuration(), this.getController());
+		analysisInstance.registerFilter(currentTimeSetterFilter);
+		analysisInstance.connect(currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.OUTPUT_PORT_NAME_CURRENT_TIME,
+				currentTimeSetterFilter, CurrentTimeSetter.INPUT_PORT_NAME_TIMER_EVENTS_NANOS);
+
+		/*
+		 * Allow implementing classes to add additional filters, repos etc.
+		 */
+		if (!this.refineAnalysisConfiguration(analysisInstance, this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS)) {
+			LOG.error("refineAnalysisConfiguration returned with error");
+			return false;
+		}
+
+		// TODO: remove as soon as functionality re-implemented:
+		// analysisInstance.registerPlugin(new TimeTriggerAndRecordDelegationPlugin(this.getController(), this.getMonitoringRecordConsumer()));
 
 		/** Spawn analysis instance */
-		AbstractKiekerMonitoringManager.log
-				.debug("Spawning Kieker analysis instance");
+		LOG.debug("Spawning Kieker analysis instance");
 		this.analysisControllerThread = new AnalysisControllerThread(analysisInstance);
 		this.analysisControllerThread.start();
 
@@ -77,8 +113,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 	}
 
 	private boolean initNodeNameMappings() {
-		final String nodeMappingPropVal = this
-				.getInitProperty(AbstractKiekerMonitoringManager.PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS);
+		final String nodeMappingPropVal = this.getInitProperty(PROPERTY_INITIAL_ARCH2IMPL_NODE_MAPPINGS);
 		if ((nodeMappingPropVal == null) || (nodeMappingPropVal.length() <= 0)) {
 			// this is perfectly fine; property is not required
 			return true;
@@ -91,8 +126,7 @@ public abstract class AbstractKiekerMonitoringManager extends
 			final String implName = pairSplit[1];
 
 			final ModelManager modelMgr = (ModelManager) super.getController().getModelManager();
-			modelMgr.getArch2ImplNameMappingManager().registerArch2implNameMapping(EntityType.EXECUTION_CONTAINER,
-					archName, implName);
+			modelMgr.getArch2ImplNameMappingManager().registerArch2implNameMapping(EntityType.EXECUTION_CONTAINER, archName, implName);
 		}
 
 		return true;
@@ -108,48 +142,55 @@ public abstract class AbstractKiekerMonitoringManager extends
 		boolean retVal = false;
 		try {
 			if (!this.initNodeNameMappings()) {
-				AbstractKiekerMonitoringManager.log.error("Failed to register initial node mappings");
+				LOG.error("Failed to register initial node mappings");
 				return false;
 			}
 
 			if (!this.concreteExecute()) {
-				AbstractKiekerMonitoringManager.log
-						.error("concreteExecute returned false. Will terminate.");
+				LOG.error("concreteExecute returned false. Will terminate.");
 			}
 			retVal = this.spawnKiekerAnalysis();
 
 		} catch (final Exception e) {
-			AbstractKiekerMonitoringManager.log.fatal(
-					"AnalysisInstance threw exception: ", e);
+			LOG.fatal("AnalysisInstance threw exception: ", e);
 			return false;
 		}
-		AbstractKiekerMonitoringManager.log
-				.debug("KiekerMonitoringManager now executing");
+		LOG.debug("KiekerMonitoringManager now executing");
 		return retVal;
 	}
 
 	/**
-	 * Terminates the internal Kieker analysis instance spawned in
-	 * {@link #execute()} and calls the method
-	 * {@link #concreteTerminate(boolean)} of the implementing class.
+	 * Terminates the internal Kieker {@link AnalysisController} spawned in {@link #execute()} and calls the method {@link #concreteTerminate(boolean)} of the
+	 * implementing class.
 	 */
 	@Override
 	public final void terminate(final boolean error) {
-		AbstractKiekerMonitoringManager.log
-				.debug("Terminating the internal Kieker analysis instance by closing the named record pipe ");
+		LOG.debug("Terminating the internal Kieker analysis instance by closing the named record pipe ");
 		try {
 			if (this.analysisControllerThread != null) {
 				this.analysisControllerThread.terminate();
 			}
 			this.concreteTerminate(error);
 		} catch (final Exception e) {
-			AbstractKiekerMonitoringManager.log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 		}
 	}
 
 	/**
+	 * Allows implementing classes to refine the current {@link AnalysisController}, e.g., by registering and connecting additional {@link AbstractFilterPlugin}s.
+	 * 
+	 * @param analysisController
+	 * @param reader
+	 * @param readerOutputPortName
+	 * @throws AnalysisConfigurationException
+	 * @throws IllegalStateException
+	 */
+	protected abstract boolean refineAnalysisConfiguration(AnalysisController analysisController, AbstractReaderPlugin reader, final String readerOutputPortName)
+			throws IllegalStateException, AnalysisConfigurationException;
+
+	/**
 	 * Is called from the {@link #terminate(boolean)} method after having
-	 * terminated the internal Kieker analysis instance.
+	 * terminated the internal {@link AnalysisController} instance.
 	 * 
 	 * @param error
 	 */

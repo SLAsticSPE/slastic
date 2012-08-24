@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
 import java.util.ArrayList;
@@ -17,15 +33,14 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
- * Executes reconfiguration requests received via its {@link #reconfigure(int)}
- * manager employing the {@link EucalyptusReconfigurationManager}.
+ * Executes reconfiguration requests received via its {@link #reconfigure(int)} manager employing the {@link EucalyptusReconfigurationManager}.
  * 
  * @author Andre van Hoorn
  * 
  */
 public class ConfigurationManager {
 
-	private static final Log log = LogFactory.getLog(ConfigurationManager.class);
+	private static final Log LOG = LogFactory.getLog(ConfigurationManager.class);
 
 	private volatile int nextExecutionContainerIndex = 1;
 
@@ -68,22 +83,19 @@ public class ConfigurationManager {
 			final ExecutionContainerType executionContainerType, final int requestedNumNodes) {
 		final int currentNumNodes =
 				this.modelManager.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(assemblyComponent,
-						/* do not include inactive ones */false).size();
+						.deploymentComponentsForAssemblyComponent(assemblyComponent,/* do not include inactive ones */false).size();
 
 		if (requestedNumNodes == currentNumNodes) {
 			return true;
 		}
 
-		ConfigurationManager.log.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes
-				+ " instances of assembly component " + assemblyComponent);
+		LOG.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes + " instances of assembly component " + assemblyComponent);
 
 		final boolean success;
 
 		if (requestedNumNodes > currentNumNodes) {
-			success =
-					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
-							- currentNumNodes);
+			success = this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
+					- currentNumNodes);
 		} else if (requestedNumNodes < currentNumNodes) {
 			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
 		} else {
@@ -101,12 +113,10 @@ public class ConfigurationManager {
 	private Collection<DeploymentComponent> selectActiveDeploymentComponentsForDereplication(
 			final AssemblyComponent assemblyComponent, final int numComponents) {
 		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
-				this.modelManager.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(
-						assemblyComponent,
-						/* do not include inactive ones */false);
+				this.modelManager.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(assemblyComponent, /* do not include inactive ones */false);
 
-		ConfigurationManager.log.info("Found " + activeDeplsForAssemblyComponent.size()
-				+ " ACTIVE deployment components");
+		LOG.info("Found " + activeDeplsForAssemblyComponent.size() + " ACTIVE deployment components");
 
 		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
 		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
@@ -122,8 +132,8 @@ public class ConfigurationManager {
 		}
 
 		if (result.size() < numComponents) {
-			ConfigurationManager.log.error("Requested to select " + numComponents + " components but only "
-					+ activeDeplsForAssemblyComponent.size() + " active (non-excluded) ones exist");
+			LOG.error("Requested to select " + numComponents + " components but only " + activeDeplsForAssemblyComponent.size()
+					+ " active (non-excluded) ones exist");
 			return null;
 		}
 
@@ -141,23 +151,22 @@ public class ConfigurationManager {
 
 		final Collection<DeploymentComponent> shrinkList =
 				this.selectActiveDeploymentComponentsForDereplication(assemblyComponent, shrinkBy);
-		ConfigurationManager.log.info("shrinkList: " + shrinkList);
+		LOG.info("shrinkList: " + shrinkList);
 		for (final DeploymentComponent deplComponent : shrinkList) {
-			ConfigurationManager.log.info("Processing " + deplComponent);
+			LOG.info("Processing " + deplComponent);
 			/* Un-deploy und de-allocate */
 			success = this.reconfigurationManager.dereplicateComponent(deplComponent);
 			if (!success) {
-				ConfigurationManager.log.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):"
-						+ "Failed to de-replicate component '" + deplComponent + " -> Aborting reconfiguration");
+				LOG.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):" + "Failed to de-replicate component '" + deplComponent
+						+ " -> Aborting reconfiguration");
 				break;
 			}
 
 			final ExecutionContainer executionContainer = deplComponent.getExecutionContainer();
 			success = this.reconfigurationManager.deallocateExecutionContainer(executionContainer);
 			if (!success) {
-				ConfigurationManager.log.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):"
-						+ "Failed to de-allocate execution container " + executionContainer
-						+ " -> Aborting reconfiguration");
+				LOG.error("shrink capacity (" + (i_thRequest) + "/" + shrinkBy + "):" +
+						"Failed to de-allocate execution container " + executionContainer + " -> Aborting reconfiguration");
 				break;
 			}
 
@@ -175,42 +184,35 @@ public class ConfigurationManager {
 
 		boolean success = true;
 
-		final int curNumContainersForType =
-				this.modelManager.getExecutionEnvironmentModelManager()
-						.executionContainersForType(executionContainerType, false).size();
+		final int curNumContainersForType = this.modelManager.getExecutionEnvironmentModelManager().executionContainersForType(executionContainerType, false).size();
 
-		final String fqExecContainerTypeName =
-				NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
+		final String fqExecContainerTypeName = NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
 
 		final Integer maxNumNodesForType = this.maxNumContainers.get(fqExecContainerTypeName);
 		if (maxNumNodesForType != null) { // otherwise there's no max. number
-			if (curNumContainersForType + increaseBy > maxNumNodesForType) {
-				ConfigurationManager.log.warn(String.format(
+			if ((curNumContainersForType + increaseBy) > maxNumNodesForType) {
+				LOG.warn(String.format(
 						"Rejecting increase capacity request due to max. number of containers for type rule.\n"
-								+ "Current: %s; requested additional #: %s; max: %s", curNumContainersForType,
-						increaseBy, maxNumNodesForType));
+								+ "Current: %s; requested additional #: %s; max: %s", curNumContainersForType, increaseBy, maxNumNodesForType));
 				return false;
 			}
 		}
 
 		for (int i = 0; (i < increaseBy) && success; i++) {
 			final String containerName = this.createExecutionContainerName(executionContainerType);
-			final ExecutionContainer container =
-					this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
+			final ExecutionContainer container = this.reconfigurationManager.allocateExecutionContainer(containerName, executionContainerType);
 			if (container != null) {
-				final DeploymentComponent deploymentComponent =
-						this.reconfigurationManager.replicateComponent(assemblyComponent, container);
+				final DeploymentComponent deploymentComponent = this.reconfigurationManager.replicateComponent(assemblyComponent, container);
 				if (deploymentComponent == null) {
-					ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
-							+ "Failed to replicate component '" + assemblyComponent + "' to container " + container
-							+ " -> Aborting reconfiguration");
+					LOG.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
+							+ "Failed to replicate component '" + assemblyComponent + "' to container " + container + " -> Aborting reconfiguration");
 					success = false;
 					break;
 				}
 			} else {
-				ConfigurationManager.log.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
-						+ "Failed to allocate execution container with name '" + containerName + "' and type '"
-						+ executionContainerType + "' -> Aborting reconfiguration");
+				LOG.error("increase capacity (" + (i + 1) + "/" + increaseBy + "):"
+						+ "Failed to allocate execution container with name '" + containerName + "' and type '" + executionContainerType
+						+ "' -> Aborting reconfiguration");
 				success = false;
 				break;
 			}
@@ -220,8 +222,7 @@ public class ConfigurationManager {
 	}
 
 	private final String createExecutionContainerName(final ExecutionContainerType executionContainerType) {
-		final String fqExecutionContainerTypeName =
-				NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
+		final String fqExecutionContainerTypeName = NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
 		return fqExecutionContainerTypeName + "-" + this.nextExecutionContainerIndex++;
 	}
 }

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import java.util.Collection;
@@ -19,15 +35,13 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 public class ExecutionContainerTypesManager extends
 		AbstractFQNamedEntityManager<ExecutionContainerType> implements
 		IExecutionContainerTypesManager {
-	
-	public ExecutionContainerTypesManager(
-			final List<ExecutionContainerType> componentTypes) {
+
+	public ExecutionContainerTypesManager(final List<ExecutionContainerType> componentTypes) {
 		super(componentTypes);
 	}
 
 	@Override
-	public ExecutionContainerType lookupExecutionContainerType(
-			final String fullyQualifiedName) {
+	public ExecutionContainerType lookupExecutionContainerType(final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
@@ -55,11 +69,8 @@ public class ExecutionContainerTypesManager extends
 			final ExecutionContainerType executionContainerType,
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
-		final Collection<ResourceSpecification> resources =
-				executionContainerType.getResources();
-		final ResourceSpecification resourceSpecification =
-				ExecutionEnvironmentFactory.eINSTANCE
-						.createResourceSpecification();
+		final Collection<ResourceSpecification> resources = executionContainerType.getResources();
+		final ResourceSpecification resourceSpecification = ExecutionEnvironmentFactory.eINSTANCE.createResourceSpecification();
 
 		{ /* Initialize fields and add to container type's list of resources */
 			resourceSpecification.setId(this.nextId++);
@@ -77,11 +88,8 @@ public class ExecutionContainerTypesManager extends
 			final long memCapacityBytes, final long swapCapacityBytes,
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
-		final Collection<ResourceSpecification> resources =
-				executionContainerType.getResources();
-		final MemSwapResourceSpecification resourceSpecification =
-				ExecutionEnvironmentFactory.eINSTANCE
-						.createMemSwapResourceSpecification();
+		final Collection<ResourceSpecification> resources = executionContainerType.getResources();
+		final MemSwapResourceSpecification resourceSpecification = ExecutionEnvironmentFactory.eINSTANCE.createMemSwapResourceSpecification();
 
 		{ /* Initialize fields and add to container type's list of resources */
 			resourceSpecification.setId(this.nextId++);

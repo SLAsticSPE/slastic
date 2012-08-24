@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import de.cau.se.slastic.metamodel.typeRepository.ResourceType;
@@ -41,8 +57,7 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public GenericResourceType createAndRegisterGenericResourceType(
-			final String fullyQualifiedName);
+	public GenericResourceType createAndRegisterGenericResourceType(final String fullyQualifiedName);
 
 	/**
 	 * Creates and registers a {@link MemSwapType} with the given full-qualified
@@ -54,9 +69,8 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public MemSwapType createAndRegisterMemSwapResourceType(
-			String fullyQualifiedName);
-	
+	public MemSwapType createAndRegisterMemSwapResourceType(String fullyQualifiedName);
+
 	/**
 	 * Creates and registers a {@link CPUType} with the given full-qualified
 	 * name fullyQualifiedName.
@@ -67,6 +81,5 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public CPUType createAndRegisterCPUResourceType(
-			String fullyQualifiedName);
+	public CPUType createAndRegisterCPUResourceType(String fullyQualifiedName);
 }

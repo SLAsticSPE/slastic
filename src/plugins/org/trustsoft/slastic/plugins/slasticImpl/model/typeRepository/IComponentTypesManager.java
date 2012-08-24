@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
@@ -41,8 +57,7 @@ public interface IComponentTypesManager {
 	 *             if a component type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public ComponentType createAndRegisterComponentType(
-			final String fullyQualifiedName);
+	public ComponentType createAndRegisterComponentType(final String fullyQualifiedName);
 
 	/**
 	 * Returns the {@link Operation} with given name, return type, and argument
@@ -52,8 +67,7 @@ public interface IComponentTypesManager {
 	 * @param operationName
 	 * @param returnType
 	 * @param argTypes
-	 * @return the looked up {@link Operation}; null if no such
-	 *         {@link Operation}
+	 * @return the looked up {@link Operation}; null if no such {@link Operation}
 	 */
 	public Operation lookupOperation(final ComponentType componentType,
 			final String operationName, final String returnType,
@@ -61,8 +75,7 @@ public interface IComponentTypesManager {
 
 	/**
 	 * Creates and registers a new {@link Operation} with the given name, return
-	 * type, and argument types, that is to be provided by the given
-	 * {@link ComponentType}.
+	 * type, and argument types, that is to be provided by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param operationName
@@ -77,8 +90,7 @@ public interface IComponentTypesManager {
 			final String returnType, final String[] argTypes);
 
 	/**
-	 * Registers the given {@link Interface} in the given {@link ComponentType}
-	 * 's list of provided interfaces.
+	 * Registers the given {@link Interface} in the given {@link ComponentType} 's list of provided interfaces.
 	 * 
 	 * @param componentType
 	 * @param providedInterface
@@ -93,20 +105,18 @@ public interface IComponentTypesManager {
 	 * @param requiredInterface
 	 */
 	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface);
-	
+
 	/**
-	 * Returns the {@link Interface} declaring the given {@link Signature}
-	 * provided by the given {@link ComponentType}.
+	 * Returns the {@link Interface} declaring the given {@link Signature} provided by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param signature
 	 * @return
 	 */
 	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature);
-	
+
 	/**
-	 * Returns the {@link Interface} declaring the given {@link Signature}
-	 * required by the given {@link ComponentType}.
+	 * Returns the {@link Interface} declaring the given {@link Signature} required by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param signature

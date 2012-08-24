@@ -1,10 +1,21 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.CPUUtilizationRecord;
-import kieker.common.record.IMonitoringRecord;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
@@ -14,6 +25,8 @@ import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
 
+import kieker.common.record.IMonitoringRecord;
+
 /**
  * 
  * @author Andre van Hoorn
@@ -22,8 +35,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, ICPUUtilizationRecordTransformation {
 
-	private static final Log log = LogFactory
-			.getLog(CPUUtilizationRecordTransformationFilter.class);
+	// private static final Log LOG = LogFactory.getLog(CPUUtilizationRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -36,21 +48,16 @@ public class CPUUtilizationRecordTransformationFilter extends
 
 	@Override
 	public CPUUtilization transformCPUUtilizationRecord(
-			final CPUUtilizationRecord cpuUtilizationRecord) {
+			final kieker.common.record.system.CPUUtilizationRecord cpuUtilizationRecord) {
 
 		/* Will become the return value. */
-		final CPUUtilization newUtilization =
-				MonitoringFactory.eINSTANCE.createCPUUtilization();
+		final CPUUtilization newUtilization = MonitoringFactory.eINSTANCE.createCPUUtilization();
 
-		final ExecutionContainer executionContainer =
-				this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord
-						.getHostName());
+		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord.getHostname());
 
 		final Resource resource =
 				this.lookupOrCreateCPUResource(
-						AbstractModelReconstructionComponent
-								.createCPUResourceSpecName(cpuUtilizationRecord
-										.getCpuID()),
+						AbstractModelReconstructionComponent.createCPUResourceSpecName(cpuUtilizationRecord.getCpuID()),
 						AbstractModelReconstructionComponent.DEFAULT_CPU_RESOURCE_TYPE_NAME, executionContainer);
 
 		// And finally, the simple part:
@@ -70,12 +77,12 @@ public class CPUUtilizationRecordTransformationFilter extends
 
 	@Override
 	public IEvent transform(final IMonitoringRecord record) {
-		if (!(record instanceof CPUUtilizationRecord)) {
+		if (!(record instanceof kieker.common.record.system.CPUUtilizationRecord)) {
 			return null;
 		}
 
-		final CPUUtilizationRecord utilizationRecord =
-				(CPUUtilizationRecord) record;
+		final kieker.common.record.system.CPUUtilizationRecord utilizationRecord =
+				(kieker.common.record.system.CPUUtilizationRecord) record;
 
 		return this.transformCPUUtilizationRecord(utilizationRecord);
 	}

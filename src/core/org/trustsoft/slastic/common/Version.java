@@ -1,10 +1,5 @@
-package org.trustsoft.slastic.common;
-
-/*
- * org.trustsoft.slastic.control.Version
- * 
- * ==================LICENCE=========================
- * Copyright 2009 SLAstic Project
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +12,14 @@ package org.trustsoft.slastic.common;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ==================================================
+ ***************************************************************************/
+
+package org.trustsoft.slastic.common;
+
+/**
  * 
- * This class provides the method getVersion which returns the version number 
- * set during build (String replacement task within build.xml).
- *
  * @author Andre van Hoorn
+ * 
  */
 public class Version {
 
@@ -30,23 +27,23 @@ public class Version {
 	 * The VERSION string is updated by the Ant build file, which looks for the
 	 * pattern: VERSION = <quote>.*<quote>
 	 */
-	private static final String VERSION = "0.01a-SNAPSHOT-20120802";
+	private static final String VERSION = "0.01a-SNAPSHOT-20120824";
 
-	static final String COPYRIGHT = "Copyright (c) 2009 SLAstic Project";
+	static final String COPYRIGHT = "Copyright (c) 2012 The SLAstic Project";
 
-    /**
-     * Not instantiable.
-     */
-	private Version() 
+	/**
+	 * Not instantiable.
+	 */
+	private Version()
 	{
 		super();
 	}
 
-    /**
-     * Returns the version String.
-     *
-     * @return the version String.
-     */
+	/**
+	 * Returns the version String.
+	 * 
+	 * @return the version String.
+	 */
 	public static final String getVERSION() {
 		return Version.VERSION;
 	}

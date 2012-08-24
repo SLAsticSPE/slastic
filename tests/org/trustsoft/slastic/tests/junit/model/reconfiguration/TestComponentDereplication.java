@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model.reconfiguration;
 
 import junit.framework.Assert;
@@ -23,13 +39,12 @@ public class TestComponentDereplication extends TestCase {
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
 		final DeploymentComponent deploymentComponent =
-				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName",
-						"ExecutionContainerTypeName", "ExecutionContainernName");
+				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName", "ExecutionContainerTypeName",
+						"ExecutionContainernName");
 		mgr.getReconfigurationManager().dereplicateComponent(deploymentComponent);
 		/* Make sure that entity is removed/marked inactive */
 
-		final DeploymentComponent deploymentComponentLookup =
-				mgr.getComponentDeploymentModelManager().lookupDeploymentComponent(deploymentComponent.getId());
+		final DeploymentComponent deploymentComponentLookup = mgr.getComponentDeploymentModelManager().lookupDeploymentComponent(deploymentComponent.getId());
 
 		if (deploymentComponentLookup != null) {
 			Assert.assertSame(deploymentComponent, deploymentComponentLookup);
@@ -41,8 +56,8 @@ public class TestComponentDereplication extends TestCase {
 		 * assemblies
 		 */
 		final DeploymentComponent deploymentComponentLookup2 =
-				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(
-						deploymentComponent.getAssemblyComponent(), deploymentComponent.getExecutionContainer());
+				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
+						deploymentComponent.getExecutionContainer());
 
 		Assert.assertTrue((deploymentComponentLookup2 == null) || !deploymentComponentLookup2.isActive());
 
@@ -52,6 +67,6 @@ public class TestComponentDereplication extends TestCase {
 		 */
 		Assert.assertEquals("List of deployments for assembly must be 0", 0, mgr.getComponentDeploymentModelManager()
 				.deploymentComponentsForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
-				/* do not include inactive ones */false).size());
+						/* do not include inactive ones */false).size());
 	}
 }

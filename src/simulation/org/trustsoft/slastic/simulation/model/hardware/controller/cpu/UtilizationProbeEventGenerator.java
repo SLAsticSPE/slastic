@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
 
 import org.trustsoft.slastic.simulation.model.ModelManager;
@@ -9,6 +25,11 @@ import com.google.inject.name.Named;
 import desmoj.core.simulator.Model;
 import desmoj.core.simulator.SimTime;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 // TODO do only for allocated server cpus
 public class UtilizationProbeEventGenerator {
 
@@ -21,7 +42,7 @@ public class UtilizationProbeEventGenerator {
 	private final String name;
 	private final boolean debug;
 	private final CPURRScheduler scheduler;
-	private boolean pause;
+	private volatile boolean pause;
 
 	public UtilizationProbeEventGenerator(final Model model, final String name,
 			final boolean debug, final CPURRScheduler cpurrScheduler) {
@@ -32,8 +53,7 @@ public class UtilizationProbeEventGenerator {
 	}
 
 	public final void tick() {
-		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
-				this.name, this.debug, this);
+		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model, this.name, this.debug, this);
 		if (!this.pause) {
 			tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		}

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration;
 
 import java.util.Collection;
@@ -6,6 +22,11 @@ import java.util.Map;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServlet;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public interface IEucalyptusApplicationCloudingServiceConfiguration {
 
 	/**
@@ -38,8 +59,7 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public String getLoadBalancerServletURL();
 
 	/**
-	 * Returns the file system location of this Eucalyptus tools (e.g.
-	 * {@code /usr/local/bin/}).
+	 * Returns the file system location of this Eucalyptus tools (e.g. {@code /usr/local/bin/}).
 	 * 
 	 * @return
 	 */
@@ -93,12 +113,12 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	 * @return
 	 */
 	public int getNodeAllocationMaxWaitTimeSeconds();
-	
+
 	/**
 	 * Returns the poll period with which to check if an allocated node is available.
 	 */
 	public int getNodeAllocationPollPeriodSeconds();
-	
+
 	/**
 	 * Returns the maximum time to wait for an application to be available.
 	 * 
@@ -156,24 +176,21 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public String getEucalyptusGroup();
 
 	/**
-	 * Returns the file system locations of the private SSH key used to deploy
-	 * {@link EucalyptusApplicationInstance}s via scp.
+	 * Returns the file system locations of the private SSH key used to deploy {@link EucalyptusApplicationInstance}s via scp.
 	 * 
 	 * @return
 	 */
 	public String getSSHPrivateKeyFile();
 
 	/**
-	 * Returns the user name used to deploy
-	 * {@link EucalyptusApplicationInstance}s via scp.
+	 * Returns the user name used to deploy {@link EucalyptusApplicationInstance}s via scp.
 	 * 
 	 * @return
 	 */
 	public String getSSHUserName();
 
 	/**
-	 * Returns the file system location of the tomcat (e.g.,
-	 * {@code /opt/tomcat/})
+	 * Returns the file system location of the tomcat (e.g., {@code /opt/tomcat/})
 	 * 
 	 * @return
 	 */

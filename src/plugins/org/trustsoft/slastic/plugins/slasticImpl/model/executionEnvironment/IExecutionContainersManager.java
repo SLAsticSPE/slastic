@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment;
 
 import java.util.Collection;
@@ -45,8 +61,8 @@ public interface IExecutionContainersManager {
 	 *             if an execution container with the given fully-qualified name
 	 *             has already been registered
 	 */
-	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType, final boolean markAllocated);
+	public ExecutionContainer createAndRegisterExecutionContainer(
+			final String fullyQualifiedName, final ExecutionContainerType executionContainerType, final boolean markAllocated);
 
 	/**
 	 * Marks execution container executionContainer as allocated.
@@ -81,10 +97,8 @@ public interface IExecutionContainersManager {
 	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer);
 
 	/**
-	 * Returns a {@link Resource} associated to the given
-	 * {@link ExecutionContainer} which corresponds to the
-	 * {@link ResourceSpecification} with the given name of the
-	 * {@link ExecutionContainer}'s {@link ExecutionContainerType}.
+	 * Returns a {@link Resource} associated to the given {@link ExecutionContainer} which corresponds to the {@link ResourceSpecification} with the given name of
+	 * the {@link ExecutionContainer}'s {@link ExecutionContainerType}.
 	 * 
 	 * @param fullyQualifiedResourceSpecificationName
 	 * @return
@@ -93,8 +107,7 @@ public interface IExecutionContainersManager {
 			final String resourceSpecificationName);
 
 	/**
-	 * Returns all {@link ExecutionContainer}s of given
-	 * {@link ExecutionContainerType}.
+	 * Returns all {@link ExecutionContainer}s of given {@link ExecutionContainerType}.
 	 * 
 	 * @param executionContainerType
 	 * @param includeInactive

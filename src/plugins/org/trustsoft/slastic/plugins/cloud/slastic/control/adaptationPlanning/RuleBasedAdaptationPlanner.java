@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 
 import java.util.ArrayList;
@@ -27,7 +43,7 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
  * 
  */
 public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerComponent {
-	private static final Log log = LogFactory.getLog(RuleBasedAdaptationPlanner.class);
+	private static final Log LOG = LogFactory.getLog(RuleBasedAdaptationPlanner.class);
 
 	private static final String PROPERTY_RULESET = "baselineRules";
 	private static final String PROPERTY_WIN_SIZE_SECONDS = "windowSizeSeconds";
@@ -41,8 +57,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	/**
 	 * Fully qualified {@link AssemblyComponent} name x rule set
 	 */
-	private volatile Map<String, NumDeploymentsForAssemblyComponentRuleSet> ruleSets =
-			new HashMap<String, NumDeploymentsForAssemblyComponentRuleSet>();
+	private volatile Map<String, NumDeploymentsForAssemblyComponentRuleSet> ruleSets = new HashMap<String, NumDeploymentsForAssemblyComponentRuleSet>();
 
 	/**
 	 * Fully qualified {@link ExecutionContainer} name x max. allowed # of
@@ -61,48 +76,47 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	public boolean init() {
 		boolean success = this.initExcludeList();
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init container exclude list");
+			LOG.error("Failed to init container exclude list");
 			return false;
 		}
 
 		success = this.initMaxNumContainers();
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init max num container instances");
+			LOG.error("Failed to init max num container instances");
 			return false;
 		}
 
 		success = this.initRuleSets();
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init rule sets");
+			LOG.error("Failed to init rule sets");
 			return false;
 		}
 
 		success = this.initTimeParameters();
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init time parameters");
+			LOG.error("Failed to init time parameters");
 			return false;
 		}
 
-		RuleBasedAdaptationPlanner.log.warn("Property 'maxNumNodes' not evaluated, yet");
+		LOG.warn("Property 'maxNumNodes' not evaluated, yet");
 
-		RuleBasedAdaptationPlanner.log.info(this.ruleSets);
+		LOG.info(this.ruleSets);
 		return success;
 	}
 
 	@Override
 	public boolean execute() {
-		final ModelManager modelManager =
-				(ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
+		final ModelManager modelManager = (ModelManager) this.getParentAnalysisComponent().getParentControlComponent().getModelManager();
 
 		boolean success = this.initRuleEngine(modelManager);
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init rule engine");
+			LOG.error("Failed to init rule engine");
 			return false;
 		}
 
 		success = this.registerCEPQueries();
 		if (!success) {
-			RuleBasedAdaptationPlanner.log.error("Failed to register CEP queries");
+			LOG.error("Failed to register CEP queries");
 			return false;
 		}
 
@@ -136,8 +150,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
 	private boolean initRuleEngine(final ModelManager modelManager) {
 		final ConfigurationManager configurationManager =
-				new ConfigurationManager(modelManager,
-						(EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList,
+				new ConfigurationManager(modelManager, (EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList,
 						this.maxNumContainers);
 		this.ruleEngine = new WorkloadIntensityRuleEngine(modelManager, this.ruleSets, configurationManager);
 		return true;
@@ -165,8 +178,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	}
 
 	/**
-	 * Initialized the fields {@link #winSizeSeconds} and
-	 * {@link #evaluationPeriodSeconds}.
+	 * Initialized the fields {@link #winSizeSeconds} and {@link #evaluationPeriodSeconds}.
 	 * 
 	 * @return
 	 */
@@ -175,20 +187,16 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		final int evaluationPeriodPropVal;
 
 		try {
-			final String windowSizePropValStr =
-					super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_WIN_SIZE_SECONDS,
-							Integer.toString(RuleBasedAdaptationPlanner.DEFAULT_WIN_SIZE_SECONDS));
+			final String windowSizePropValStr = super.getInitProperty(PROPERTY_WIN_SIZE_SECONDS, Integer.toString(DEFAULT_WIN_SIZE_SECONDS));
 			windowSizePropVal = Integer.parseInt(windowSizePropValStr);
 
-			final String evaluationPeriodPropValStr =
-					super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_EVALUATION_PERIOD_SECONDS,
-							Integer.toString(RuleBasedAdaptationPlanner.DEFAULT_EVALUATION_PERIOD_SECONDS));
+			final String evaluationPeriodPropValStr = super.getInitProperty(PROPERTY_EVALUATION_PERIOD_SECONDS, Integer.toString(DEFAULT_EVALUATION_PERIOD_SECONDS));
 			evaluationPeriodPropVal = Integer.parseInt(evaluationPeriodPropValStr);
 
 			this.winSizeSeconds = windowSizePropVal;
 			this.evaluationPeriodSeconds = evaluationPeriodPropVal;
 		} catch (final Exception exc) {
-			RuleBasedAdaptationPlanner.log.error("Failed to init property: " + exc.getMessage(), exc);
+			LOG.error("Failed to init property: " + exc.getMessage(), exc);
 			return false;
 		}
 
@@ -201,8 +209,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	 * @return
 	 */
 	private boolean initExcludeList() {
-		final String containerExludeListPropValStr =
-				super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_CONTAINER_DEALLOCATION_EXCLUDE_LIST, "");
+		final String containerExludeListPropValStr = super.getInitProperty(PROPERTY_CONTAINER_DEALLOCATION_EXCLUDE_LIST, "");
 
 		if (containerExludeListPropValStr.isEmpty()) {
 			return true;
@@ -215,8 +222,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	}
 
 	private boolean initMaxNumContainers() {
-		final String maxNumPropValStr =
-				super.getInitProperty(RuleBasedAdaptationPlanner.PROPERTY_MAX_NUM_INSTANCES, "");
+		final String maxNumPropValStr = super.getInitProperty(PROPERTY_MAX_NUM_INSTANCES, "");
 
 		if (maxNumPropValStr.isEmpty()) {
 			return true;
@@ -226,8 +232,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		for (final String maxNumKeyValuPair : maxNumPropValStrSplit) {
 			final String[] maxNumKeyValuPairSplit = maxNumKeyValuPair.split(":");
 			if (maxNumKeyValuPairSplit.length != 2) {
-				RuleBasedAdaptationPlanner.log.error("Invalid max num containers key/value pair: '" + maxNumKeyValuPair
-						+ "'");
+				LOG.error("Invalid max num containers key/value pair: '" + maxNumKeyValuPair + "'");
 				return false;
 			}
 			final String fqContainerName = maxNumKeyValuPairSplit[0];
@@ -248,15 +253,14 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 		final StringTokenizer tokenizer = new StringTokenizer(ruleSetStr, ";");
 		final int numRules = tokenizer.countTokens();
 		if (numRules <= 0) {
-			RuleBasedAdaptationPlanner.log.error("Invalid number of rules: " + numRules);
+			LOG.error("Invalid number of rules: " + numRules);
 			return null;
 		}
 		while (tokenizer.hasMoreElements()) {
 			final String rule = tokenizer.nextToken();
 			final StringTokenizer conditionActionTokenizer = new StringTokenizer(rule, "-");
 			if (conditionActionTokenizer.countTokens() != 2) {
-				RuleBasedAdaptationPlanner.log
-						.error("Expecting rules of format \"numNodes-lower:center:upper\"; found: " + rule);
+				LOG.error("Expecting rules of format \"numNodes-lower:center:upper\"; found: " + rule);
 				return null;
 			}
 			final int numNodes;
@@ -267,9 +271,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 				final String borderStr = conditionActionTokenizer.nextToken();
 				final StringTokenizer borderTok = new StringTokenizer(borderStr, ":");
 				if (borderTok.countTokens() != 3) {
-					RuleBasedAdaptationPlanner.log
-							.error("Expecting colon-separated list of lower, center, and upper border values. Found: '"
-									+ borderStr + "'");
+					LOG.error("Expecting colon-separated list of lower, center, and upper border values. Found: '" + borderStr + "'");
 					return null;
 				}
 				lower = Long.parseLong(borderTok.nextToken());
@@ -277,8 +279,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 				upper = Long.parseLong(borderTok.nextToken());
 				b = new Baseline(upper, center, lower, numNodes);
 			} catch (final Exception exc) {
-				RuleBasedAdaptationPlanner.log.error("Failed to extract number from rule: " + rule + "("
-						+ exc.getMessage() + ")");
+				LOG.error("Failed to extract number from rule: " + rule + "(" + exc.getMessage() + ")");
 				return null;
 			}
 			ruleSet.add(b);
@@ -288,24 +289,20 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 	}
 
 	private boolean initRuleSets() {
-		final String[] ruleSetPropertyValues = super.getInitProperties(RuleBasedAdaptationPlanner.PROPERTY_RULESET);
+		final String[] ruleSetPropertyValues = super.getInitProperties(PROPERTY_RULESET);
 
 		if (ruleSetPropertyValues != null) {
 			for (final String ruleSetPropertyVal : ruleSetPropertyValues) {
 				final String[] ruleSetPropertyValSplit = ruleSetPropertyVal.split("::");
 				if (ruleSetPropertyValSplit.length != 2) {
-					RuleBasedAdaptationPlanner.log
-							.error("Failed to split rule set property value into two segments by '::': '"
-									+ ruleSetPropertyVal + "'");
+					LOG.error("Failed to split rule set property value into two segments by '::': '" + ruleSetPropertyVal + "'");
 					return false;
 				}
 
 				final String asmCmpContainerTypePair = ruleSetPropertyValSplit[0];
 				final String[] asmCmpContainerTypePairSplit = asmCmpContainerTypePair.split("-");
 				if (asmCmpContainerTypePairSplit.length != 2) {
-					RuleBasedAdaptationPlanner.log
-							.error("Failed to split assembly component/container type specification by '-'': '"
-									+ asmCmpContainerTypePair + "'");
+					LOG.error("Failed to split assembly component/container type specification by '-'': '" + asmCmpContainerTypePair + "'");
 					return false;
 				}
 
@@ -315,22 +312,18 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
 				/* Parse rule set for increasing workload */
 				if ((ruleSetString == null) || ruleSetString.isEmpty()) {
-					final String errorMsg =
-							"Invalid or missing value for property '" + RuleBasedAdaptationPlanner.PROPERTY_RULESET
-									+ "'";
-					RuleBasedAdaptationPlanner.log.error(errorMsg);
+					final String errorMsg = "Invalid or missing value for property '" + PROPERTY_RULESET + "'";
+					LOG.error(errorMsg);
 					return false;
 				}
 
 				final Collection<Baseline> baselines = this.parseRuleSetString(ruleSetString);
 				if (baselines == null) {
-					RuleBasedAdaptationPlanner.log.error("Failed to parse rule set for increasing workload:"
-							+ ruleSetString);
+					LOG.error("Failed to parse rule set for increasing workload:" + ruleSetString);
 					return false;
 				}
 
-				final NumDeploymentsForAssemblyComponentRuleSet rs =
-						new NumDeploymentsForAssemblyComponentRuleSet(fqAssemblyComponentName, containerTypeName);
+				final NumDeploymentsForAssemblyComponentRuleSet rs = new NumDeploymentsForAssemblyComponentRuleSet(fqAssemblyComponentName, containerTypeName);
 
 				/* Add baselines to rule set */
 				for (final Baseline b : baselines) {
@@ -338,15 +331,14 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 				}
 
 				if (!rs.isRuleSetValid()) {
-					RuleBasedAdaptationPlanner.log.error("Rule set invalid");
+					LOG.error("Rule set invalid");
 					return false;
 				}
 
 				this.ruleSets.put(fqAssemblyComponentName, rs);
 			}
 		} else {
-			RuleBasedAdaptationPlanner.log.warn("No rule sets defined (property '"
-					+ RuleBasedAdaptationPlanner.PROPERTY_RULESET + "'");
+			LOG.warn("No rule sets defined (property '" + PROPERTY_RULESET + "'");
 		}
 
 		return true;

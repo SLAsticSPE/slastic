@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.common;
 
 import java.lang.reflect.Method;
@@ -33,10 +49,27 @@ import org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponen
  */
 public class FrameworkInstance {
 
-	private static final Log log = LogFactory.getLog(FrameworkInstance.class);
+	private static final Log LOG = LogFactory.getLog(FrameworkInstance.class);
+
 	private final Configuration configuration = new Configuration();
 
 	private final AtomicBoolean terminated = new AtomicBoolean(false);
+
+	public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
+
+	/**
+	 * Avoid construction via default constructor
+	 */
+	@SuppressWarnings("unused")
+	private FrameworkInstance() {}
+
+	public FrameworkInstance(final String configurationFilename) {
+		this(PropertiesFileUtils.loadPropertiesFile(configurationFilename));
+	}
+
+	public FrameworkInstance(final Properties prop) {
+		this.initConfiguration(prop);
+	}
 
 	/**
 	 * Returns the framework configuration.
@@ -47,151 +80,82 @@ public class FrameworkInstance {
 		return this.configuration;
 	}
 
-	public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
-
 	/**
-	 * Avoid construction via default constructor
+	 * Splits the given {@link Properties} into {@link Properties} for each {@link AbstractSLAsticComponent} and stores them in the {@link #configuration} of this
+	 * instance.
+	 * 
+	 * @param prop
+	 * @throws IllegalArgumentException
 	 */
-	@SuppressWarnings("unused")
-	private FrameworkInstance() {
-	}
-
-	public FrameworkInstance(final String configurationFilename) {
-		this(PropertiesFileUtils.loadPropertiesFile(configurationFilename));
-	}
-
-	public FrameworkInstance(final Properties prop) {
-		this.initConfiguration(prop);
-	}
-
 	private void initComponentProperties(final Properties prop)
 			throws IllegalArgumentException {
 		for (final String curPropName : prop.stringPropertyNames()) {
 			boolean storedProp = false;
-			if (curPropName
-					.startsWith(AbstractPerformanceEvaluatorComponent.PROP_PREFIX
-							+ ".")) {
+			if (curPropName.startsWith(AbstractPerformanceEvaluatorComponent.PROP_PREFIX + ".")) {
 				storedProp = true;
-				this.configuration.performanceEvaluatorComponentProperties
-						.setProperty(
-								curPropName
-										.replaceFirst(
-												AbstractPerformanceEvaluatorComponent.PROP_PREFIX
-														+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.performanceEvaluatorComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractPerformanceEvaluatorComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractWorkloadForecasterComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractWorkloadForecasterComponent.PROP_PREFIX)) {
 				storedProp = true;
 				this.configuration.workloadForecasterProperties.setProperty(
-						curPropName.replaceFirst(
-								AbstractWorkloadForecasterComponent.PROP_PREFIX
-										+ ".", ""), prop
-								.getProperty(curPropName));
+						curPropName.replaceFirst(AbstractWorkloadForecasterComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractPerformancePredictorComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractPerformancePredictorComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.performancePredictorComponentProperties
-						.setProperty(
-								curPropName
-										.replaceFirst(
-												AbstractPerformancePredictorComponent.PROP_PREFIX
-														+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.performancePredictorComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractPerformancePredictorComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractAdaptationPlannerComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractAdaptationPlannerComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.adaptationPlannerComponentProperties
-						.setProperty(curPropName.replaceFirst(
-								AbstractAdaptationPlannerComponent.PROP_PREFIX
-										+ ".", ""), prop
-								.getProperty(curPropName));
+				this.configuration.adaptationPlannerComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractAdaptationPlannerComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
 			if (curPropName.startsWith(AbstractAnalysisComponent.PROP_PREFIX)) {
 				storedProp = true;
 				this.configuration.analysisComponentProperties.setProperty(
-						curPropName
-								.replaceFirst(
-										AbstractAnalysisComponent.PROP_PREFIX
-												+ ".", ""), prop
-								.getProperty(curPropName));
+						curPropName.replaceFirst(AbstractAnalysisComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractModelManagerComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractModelManagerComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.modelManagerComponentProperties
-						.setProperty(
-								curPropName
-										.replaceFirst(
-												AbstractModelManagerComponent.PROP_PREFIX
-														+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.modelManagerComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractModelManagerComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractModelUpdaterComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractModelUpdaterComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.modelUpdaterComponentProperties
-						.setProperty(
-								curPropName
-										.replaceFirst(
-												AbstractModelUpdaterComponent.PROP_PREFIX
-														+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.modelUpdaterComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractModelUpdaterComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
 			if (curPropName.startsWith(AbstractControlComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.controlComponentProperties
-						.setProperty(
-								curPropName.replaceFirst(
-										AbstractControlComponent.PROP_PREFIX
-												+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.controlComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractControlComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractMonitoringManagerComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractMonitoringManagerComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.monitoringComponentProperties.setProperty(
-						curPropName.replaceFirst(
-								AbstractMonitoringManagerComponent.PROP_PREFIX
-										+ ".", ""), prop
-								.getProperty(curPropName));
+				this.configuration.monitoringManagerComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractMonitoringManagerComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
-			if (curPropName
-					.startsWith(AbstractReconfigurationManagerComponent.PROP_PREFIX)) {
+			if (curPropName.startsWith(AbstractReconfigurationManagerComponent.PROP_PREFIX)) {
 				storedProp = true;
-				this.configuration.reconfigurationManagerComponentProperties
-						.setProperty(
-								curPropName
-										.replaceFirst(
-												AbstractReconfigurationManagerComponent.PROP_PREFIX
-														+ ".", ""), prop
-										.getProperty(curPropName));
+				this.configuration.reconfigurationManagerComponentProperties.setProperty(
+						curPropName.replaceFirst(AbstractReconfigurationManagerComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
 			if (!storedProp) {
-				FrameworkInstance.log.warn("Unknown property name '"
-						+ curPropName + "");
+				LOG.warn("Unknown property name '" + curPropName + "");
 			}
 		}
 	}
 
 	/**
+	 * Instantiates a {@link AbstractSLAsticComponent} based on the name of the {@link Properties} value {@link #COMPONENT_CLASSNAME_PROPNAME}.
 	 * 
 	 * @return the instance; null in case an error occurred.
 	 */
-	private AbstractSLAsticComponent loadComponent(
-			final String componentPropertiesPrefix,
-			final Properties componentProperties) {
-		final String classname =
-				componentProperties
-						.getProperty(FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME);
+	private AbstractSLAsticComponent loadComponent(final String componentPropertiesPrefix, final Properties componentProperties) {
+		final String classname = componentProperties.getProperty(COMPONENT_CLASSNAME_PROPNAME);
 		if ((classname == null) || (classname.length() <= 0)) {
-			FrameworkInstance.log
-					.error("Missing configuration property value for '"
-							+ componentPropertiesPrefix + "."
-							+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME
-							+ "'");
+			LOG.error("Missing configuration property value for '" + componentPropertiesPrefix + "." + COMPONENT_CLASSNAME_PROPNAME + "'");
 			return null;
 		}
 
@@ -206,118 +170,76 @@ public class FrameworkInstance {
 			final Method m = cl.getMethod("setProperties", Properties.class);
 			m.invoke(inst, componentProperties);
 
-			// { /* Generate and output formatted representation of properties:
-			// */
-			// final StringBuilder strB = new StringBuilder();
-			// for (final Map.Entry<Object, Object> prop : componentProperties
-			// .entrySet()) {
-			// final String line =
-			// String.format("\n\t %s : %s",
-			// prop.getKey(), prop.getValue());
-			// strB.append(line);
-			// }
-			//
-			// FrameworkInstance.log
-			// .info("Loaded and instantiated component ('"
-			// + classname + "') with properties: " +
-			// strB.toString());
-			// }
-
 		} catch (final Exception ex) {
 			inst = null;
-			FrameworkInstance.log.fatal(
-					"Failed to instantiate component of class '" + classname
-							+ "'", ex);
+			LOG.fatal("Failed to instantiate component of class '" + classname + "'", ex);
 		}
 		return inst;
 	}
 
+	/**
+	 * Loads the {@link AbstractSLAsticComponent}s, wires them and assigns the {@link IComponentContext}s.
+	 * 
+	 * @param prop
+	 * @throws IllegalArgumentException
+	 */
 	private void initConfiguration(final Properties prop)
 			throws IllegalArgumentException {
 		try {
 			this.initComponentProperties(prop);
 
 			/* Load all components */
-			this.configuration.monitoringManagerComponent =
-					(AbstractMonitoringManagerComponent) this.loadComponent(
-							AbstractMonitoringManagerComponent.PROP_PREFIX,
-							this.configuration.monitoringComponentProperties);
+			this.configuration.monitoringManagerComponent = (AbstractMonitoringManagerComponent)
+					this.loadComponent(AbstractMonitoringManagerComponent.PROP_PREFIX, this.configuration.monitoringManagerComponentProperties);
 
-			this.configuration.controlComponent =
-					(AbstractControlComponent) this.loadComponent(
-							AbstractControlComponent.PROP_PREFIX,
-							this.configuration.controlComponentProperties);
+			this.configuration.controlComponent = (AbstractControlComponent)
+					this.loadComponent(AbstractControlComponent.PROP_PREFIX, this.configuration.controlComponentProperties);
 
-			this.configuration.modelManagerComponent =
-					(AbstractModelManagerComponent) this.loadComponent(
-							AbstractModelManagerComponent.PROP_PREFIX,
-							this.configuration.modelManagerComponentProperties);
+			this.configuration.modelManagerComponent = (AbstractModelManagerComponent)
+					this.loadComponent(AbstractModelManagerComponent.PROP_PREFIX, this.configuration.modelManagerComponentProperties);
 
-			this.configuration.modelUpdaterComponent =
-					(AbstractModelUpdaterComponent) this.loadComponent(
-							AbstractModelUpdaterComponent.PROP_PREFIX,
-							this.configuration.modelUpdaterComponentProperties);
+			this.configuration.modelUpdaterComponent = (AbstractModelUpdaterComponent)
+					this.loadComponent(AbstractModelUpdaterComponent.PROP_PREFIX, this.configuration.modelUpdaterComponentProperties);
 
-			this.configuration.analysisComponent =
-					(AbstractAnalysisComponent) this.loadComponent(
-							AbstractAnalysisComponent.PROP_PREFIX,
-							this.configuration.analysisComponentProperties);
+			this.configuration.analysisComponent = (AbstractAnalysisComponent)
+					this.loadComponent(AbstractAnalysisComponent.PROP_PREFIX, this.configuration.analysisComponentProperties);
 
-			this.configuration.performanceEvaluatorComponent =
-					(AbstractPerformanceEvaluatorComponent) this
-							.loadComponent(
-									AbstractPerformanceEvaluatorComponent.PROP_PREFIX,
-									this.configuration.performanceEvaluatorComponentProperties);
+			this.configuration.performanceEvaluatorComponent = (AbstractPerformanceEvaluatorComponent)
+					this.loadComponent(AbstractPerformanceEvaluatorComponent.PROP_PREFIX, this.configuration.performanceEvaluatorComponentProperties);
 
-			this.configuration.workloadForecasterComponent =
-					(AbstractWorkloadForecasterComponent) this.loadComponent(
-							AbstractWorkloadForecasterComponent.PROP_PREFIX,
-							this.configuration.workloadForecasterProperties);
+			this.configuration.workloadForecasterComponent = (AbstractWorkloadForecasterComponent)
+					this.loadComponent(AbstractWorkloadForecasterComponent.PROP_PREFIX, this.configuration.workloadForecasterProperties);
 
-			this.configuration.performancePredictorComponent =
-					(AbstractPerformancePredictorComponent) this
-							.loadComponent(
-									AbstractPerformancePredictorComponent.PROP_PREFIX,
-									this.configuration.performancePredictorComponentProperties);
+			this.configuration.performancePredictorComponent = (AbstractPerformancePredictorComponent)
+					this.loadComponent(AbstractPerformancePredictorComponent.PROP_PREFIX, this.configuration.performancePredictorComponentProperties);
 
-			this.configuration.adaptationPlannerComponent =
-					(AbstractAdaptationPlannerComponent) this
-							.loadComponent(
-									AbstractAdaptationPlannerComponent.PROP_PREFIX,
-									this.configuration.adaptationPlannerComponentProperties);
+			this.configuration.adaptationPlannerComponent = (AbstractAdaptationPlannerComponent)
+					this.loadComponent(AbstractAdaptationPlannerComponent.PROP_PREFIX, this.configuration.adaptationPlannerComponentProperties);
 
-			this.configuration.reconfigurationManagerComponent =
-					(AbstractReconfigurationManagerComponent) this
-							.loadComponent(
-									AbstractReconfigurationManagerComponent.PROP_PREFIX,
-									this.configuration.reconfigurationManagerComponentProperties);
+			this.configuration.reconfigurationManagerComponent = (AbstractReconfigurationManagerComponent)
+					this.loadComponent(AbstractReconfigurationManagerComponent.PROP_PREFIX, this.configuration.reconfigurationManagerComponentProperties);
 
 			if (!this.configuration.allComponentsInitialized()) {
-				throw new IllegalArgumentException(
-						"At least one component could not be initialized");
+				throw new IllegalArgumentException("At least one component could not be initialized");
 			}
 
 			if (!this.configuration.wireComponents()) {
-				throw new IllegalArgumentException(
-						"Failed to wire the components. See log for details");
+				throw new IllegalArgumentException("Failed to wire the components. See log for details");
 			}
 
 			if (!this.configuration.createAndSetComponentContexts()) {
-				throw new IllegalArgumentException(
-						"Failed to set component contexts. See log for details");
+				throw new IllegalArgumentException("Failed to set component contexts. See log for details");
 			}
 
 		} catch (final Exception exc) {
-			FrameworkInstance.log.error("An error occured", exc);
-			throw new IllegalArgumentException("An error occured: "
-					+ exc.getMessage() + " (see log for details)", exc);
+			LOG.error("An error occured", exc);
+			throw new IllegalArgumentException("An error occured: " + exc.getMessage() + " (see log for details)", exc);
 		}
 	}
 
-	private boolean initComponent(final AbstractSLAsticComponent component,
-			final String componentType) {
+	private boolean initComponent(final AbstractSLAsticComponent component, final String componentType) {
 		if ((component == null) || !component.init()) {
-			FrameworkInstance.log.error(componentType + " failed on init");
+			LOG.error(componentType + " failed on init");
 			return false;
 		}
 		return true;
@@ -325,31 +247,16 @@ public class FrameworkInstance {
 
 	private boolean initAllComponents() {
 		return this.initComponent(
-				this.configuration.monitoringManagerComponent,
-				"MonitoringManagerComponent")
-				&& this.initComponent(this.configuration.controlComponent,
-						"ControlComponent")
-				&& this.initComponent(this.configuration.modelManagerComponent,
-						"ModelManagerComponent")
-				&& this.initComponent(this.configuration.modelUpdaterComponent,
-						"ModelUpdaterComponent")
-				&& this.initComponent(this.configuration.analysisComponent,
-						"AnalysisComponent")
-				&& this.initComponent(
-						this.configuration.performanceEvaluatorComponent,
-						"PerformanceEvaluatorComponent")
-				&& this.initComponent(
-						this.configuration.workloadForecasterComponent,
-						"WorkloadForecasterComponent")
-				&& this.initComponent(
-						this.configuration.performancePredictorComponent,
-						"PerformancePredictorComponent")
-				&& this.initComponent(
-						this.configuration.adaptationPlannerComponent,
-						"AdaptationPlannerComponent")
-				&& this.initComponent(
-						this.configuration.reconfigurationManagerComponent,
-						"ReconfigurationManagerComponent");
+				this.configuration.monitoringManagerComponent, "MonitoringManagerComponent")
+				&& this.initComponent(this.configuration.controlComponent, "ControlComponent")
+				&& this.initComponent(this.configuration.modelManagerComponent, "ModelManagerComponent")
+				&& this.initComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent")
+				&& this.initComponent(this.configuration.analysisComponent, "AnalysisComponent")
+				&& this.initComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent")
+				&& this.initComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent")
+				&& this.initComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent")
+				&& this.initComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent")
+				&& this.initComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent");
 	}
 
 	private void terminateComponent(final AbstractSLAsticComponent component,
@@ -363,42 +270,28 @@ public class FrameworkInstance {
 	private void terminateAllComponents(final boolean error) {
 		{
 			// TODO: HACK
-			FrameworkInstance.log
-					.warn("HACK: Implement hack to forward time for some delay, e.g. in trace reconstruction, to elapse ...");
+			LOG.warn("HACK: Implement hack to forward time for some delay, e.g. in trace reconstruction, to elapse ...");
 			final long forwardByMillis = 1000 * 60 * 2; // 2 minutes
 			final long nextTime = this.configuration.controlComponent.getCurrentTimeMillis() + forwardByMillis;
 			this.configuration.controlComponent.setCurrentTimeMillis(nextTime);
 		}
 
-		this.terminateComponent(this.configuration.monitoringManagerComponent,
-				"MonitoringManagerComponent", error);
-		this.terminateComponent(this.configuration.modelUpdaterComponent,
-				"ModelUpdaterComponent", error);
-		this.terminateComponent(this.configuration.modelManagerComponent,
-				"ModelManagerComponent", error);
-		this.terminateComponent(this.configuration.analysisComponent,
-				"AnalysisComponent", error);
-		this.terminateComponent(
-				this.configuration.performanceEvaluatorComponent,
-				"PerformanceEvaluatorComponent", error);
-		this.terminateComponent(this.configuration.workloadForecasterComponent,
-				"WorkloadForecasterComponent", error);
-		this.terminateComponent(
-				this.configuration.performancePredictorComponent,
-				"PerformancePredictorComponent", error);
-		this.terminateComponent(this.configuration.adaptationPlannerComponent,
-				"AdaptationPlannerComponent", error);
-		this.terminateComponent(
-				this.configuration.reconfigurationManagerComponent,
-				"ReconfigurationManagerComponent", error);
-		this.terminateComponent(this.configuration.controlComponent,
-				"ControlComponent", error);
+		this.terminateComponent(this.configuration.monitoringManagerComponent, "MonitoringManagerComponent", error);
+		this.terminateComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent", error);
+		this.terminateComponent(this.configuration.modelManagerComponent, "ModelManagerComponent", error);
+		this.terminateComponent(this.configuration.analysisComponent, "AnalysisComponent", error);
+		this.terminateComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent", error);
+		this.terminateComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent", error);
+		this.terminateComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent", error);
+		this.terminateComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent", error);
+		this.terminateComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent", error);
+		this.terminateComponent(this.configuration.controlComponent, "ControlComponent", error);
 	}
 
 	private boolean executeComponent(final AbstractSLAsticComponent component,
 			final String componentType) {
 		if ((component == null) || !component.execute()) {
-			FrameworkInstance.log.error(componentType + " failed to execute");
+			LOG.error(componentType + " failed to execute");
 			return false;
 		}
 		return true;
@@ -406,33 +299,16 @@ public class FrameworkInstance {
 
 	private boolean executeAllComponents() {
 		return this.executeComponent(
-				this.configuration.monitoringManagerComponent,
-				"MonitoringManagerComponent")
-				&& this.executeComponent(this.configuration.controlComponent,
-						"ControlComponent")
-				&& this.executeComponent(
-						this.configuration.modelManagerComponent,
-						"ModelManagerComponent")
-				&& this.executeComponent(
-						this.configuration.modelUpdaterComponent,
-						"ModelUpdaterComponent")
-				&& this.executeComponent(this.configuration.analysisComponent,
-						"AnalysisComponent")
-				&& this.executeComponent(
-						this.configuration.performanceEvaluatorComponent,
-						"PerformanceEvaluatorComponent")
-				&& this.executeComponent(
-						this.configuration.workloadForecasterComponent,
-						"WorkloadForecasterComponent")
-				&& this.executeComponent(
-						this.configuration.performancePredictorComponent,
-						"PerformancePredictorComponent")
-				&& this.executeComponent(
-						this.configuration.adaptationPlannerComponent,
-						"AdaptationPlannerComponent")
-				&& this.executeComponent(
-						this.configuration.reconfigurationManagerComponent,
-						"ReconfigurationManagerComponent");
+				this.configuration.monitoringManagerComponent, "MonitoringManagerComponent")
+				&& this.executeComponent(this.configuration.controlComponent, "ControlComponent")
+				&& this.executeComponent(this.configuration.modelManagerComponent, "ModelManagerComponent")
+				&& this.executeComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent")
+				&& this.executeComponent(this.configuration.analysisComponent, "AnalysisComponent")
+				&& this.executeComponent(this.configuration.performanceEvaluatorComponent, "PerformanceEvaluatorComponent")
+				&& this.executeComponent(this.configuration.workloadForecasterComponent, "WorkloadForecasterComponent")
+				&& this.executeComponent(this.configuration.performancePredictorComponent, "PerformancePredictorComponent")
+				&& this.executeComponent(this.configuration.adaptationPlannerComponent, "AdaptationPlannerComponent")
+				&& this.executeComponent(this.configuration.reconfigurationManagerComponent, "ReconfigurationManagerComponent");
 	}
 
 	/**
@@ -450,24 +326,20 @@ public class FrameworkInstance {
 
 			@Override
 			public void run() {
-				FrameworkInstance.log
-						.info("ShutdownHook notifies SLAstic framework to terminate");
-				FrameworkInstance.this.terminate(false); // not setting error
-															// flag
+				LOG.info("ShutdownHook notifies SLAstic framework to terminate");
+				FrameworkInstance.this.terminate(false); // not setting error flag
 			}
 		}));
 
 		if (!this.initAllComponents()) {
-			FrameworkInstance.log
-					.error("init of at least one component failed");
+			LOG.error("init of at least one component failed");
 			return false;
 		}
 		if (this.executeAllComponents()) {
 			return true;
 		}
 
-		FrameworkInstance.log
-				.error("execute of at least one component failed. Will terminare all components.");
+		LOG.error("execute of at least one component failed. Will terminare all components.");
 		this.terminateAllComponents(true); // terminate error
 		return false;
 	}
@@ -486,8 +358,7 @@ public class FrameworkInstance {
 	}
 
 	/**
-	 * Creates a SLAstic framework configuration containing only dummy
-	 * commponents.
+	 * Creates a SLAstic framework configuration containing only dummy components.
 	 * 
 	 * @return
 	 */
@@ -495,50 +366,36 @@ public class FrameworkInstance {
 		final Properties configuration = new Properties();
 		/* set classname of monitoring manager component */
 		configuration.setProperty(
-				AbstractMonitoringManagerComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyMonitoringManagerComponent.class.getName());
+				AbstractMonitoringManagerComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyMonitoringManagerComponent.class.getName());
 		/* set classname of control component */
-		configuration.setProperty(AbstractControlComponent.PROP_PREFIX + "."
-				+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				BasicControlComponent.class.getName());
+		configuration.setProperty(
+				AbstractControlComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, BasicControlComponent.class.getName());
 		/* set classname of model management component */
-		configuration.setProperty(AbstractModelManagerComponent.PROP_PREFIX
-				+ "." + FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyModelManagerComponent.class.getName());
+		configuration.setProperty(
+				AbstractModelManagerComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyModelManagerComponent.class.getName());
 		/* set classname of model updating component */
-		configuration.setProperty(AbstractModelUpdaterComponent.PROP_PREFIX
-				+ "." + FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+		configuration.setProperty(
+				AbstractModelUpdaterComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME,
 				DummyModelUpdaterComponent.class.getName());
 		/* set classname of analysis component */
-		configuration.setProperty(AbstractAnalysisComponent.PROP_PREFIX + "."
-				+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
+		configuration.setProperty(
+				AbstractAnalysisComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME,
 				BasicAnalysisComponent.class.getName());
 		/* set classname of performance evaluation component */
 		configuration.setProperty(
-				AbstractPerformanceEvaluatorComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyPerformanceEvaluatorComponent.class.getName());
+				AbstractPerformanceEvaluatorComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyPerformanceEvaluatorComponent.class.getName());
 		/* set classname of workload forecaster component */
 		configuration.setProperty(
-				AbstractWorkloadForecasterComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyWorkloadForecasterComponent.class.getName());
+				AbstractWorkloadForecasterComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyWorkloadForecasterComponent.class.getName());
 		/* set classname of performance predictor component */
 		configuration.setProperty(
-				AbstractPerformancePredictorComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyPerformancePredictorComponent.class.getName());
+				AbstractPerformancePredictorComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyPerformancePredictorComponent.class.getName());
 		/* set classname of adaptation planning component */
 		configuration.setProperty(
-				AbstractAdaptationPlannerComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyAdaptationPlannerComponent.class.getName());
+				AbstractAdaptationPlannerComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyAdaptationPlannerComponent.class.getName());
 		/* set classname of reconfiguration component */
 		configuration.setProperty(
-				AbstractReconfigurationManagerComponent.PROP_PREFIX + "."
-						+ FrameworkInstance.COMPONENT_CLASSNAME_PROPNAME,
-				DummyReconfigurationManagerComponent.class.getName());
+				AbstractReconfigurationManagerComponent.PROP_PREFIX + "." + COMPONENT_CLASSNAME_PROPNAME, DummyReconfigurationManagerComponent.class.getName());
 
 		return configuration;
 	}

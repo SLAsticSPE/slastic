@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model.manager.arch2implMappingManager;
 
 import junit.framework.Assert;
@@ -15,8 +31,7 @@ public class TestArch2ImplMappingManager extends TestCase {
 	private static final int NUM_ENTRIES_PER_TYPE = 12;
 
 	public void testValidMappings() {
-		final Arch2ImplNameMappingManager mgr =
-				new Arch2ImplNameMappingManager();
+		final Arch2ImplNameMappingManager mgr = new Arch2ImplNameMappingManager();
 
 		for (int i = 0; i < TestArch2ImplMappingManager.NUM_ENTRIES_PER_TYPE; i++) {
 			for (final EntityType type : EntityType.values()) {
@@ -26,11 +41,9 @@ public class TestArch2ImplMappingManager extends TestCase {
 
 				mgr.registerArch2implNameMapping(type, archName, implName);
 
-				Assert.assertEquals("Unexected impl name for arch name '" + archName + "'", implName,
-						mgr.lookupImplName4ArchName(type, archName));
+				Assert.assertEquals("Unexected impl name for arch name '" + archName + "'", implName, mgr.lookupImplName4ArchName(type, archName));
 
-				Assert.assertEquals("Unexpected arch name for impl name '" + implName + "'", archName,
-						mgr.lookupArchName4ImplName(type, implName));
+				Assert.assertEquals("Unexpected arch name for impl name '" + implName + "'", archName, mgr.lookupArchName4ImplName(type, implName));
 			}
 		}
 	}
@@ -43,8 +56,7 @@ public class TestArch2ImplMappingManager extends TestCase {
 		final String archName = rndMapping[0];
 		final String implName = rndMapping[1];
 
-		final EntityType type = EntityType.ASSEMBLY_COMPONENT; // just to have
-																// chosen one
+		final EntityType type = EntityType.ASSEMBLY_COMPONENT; // just to have chosen one
 
 		mgr.registerArch2implNameMapping(type, archName, implName);
 
@@ -56,7 +68,7 @@ public class TestArch2ImplMappingManager extends TestCase {
 			/* We expect this exc to be thrown! */
 		}
 	}
-	
+
 	public void testDuplicateArchNameForImplName() {
 		final Arch2ImplNameMappingManager mgr =
 				new Arch2ImplNameMappingManager();

@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment;
 
 import java.util.ArrayList;
@@ -17,11 +33,10 @@ import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
  * 
  * @author Andre van Hoorn
  */
-public class DeploymentComponentsManager extends AbstractEntityManager<DeploymentComponent> implements
-		IDeploymentComponentsManager {
-	private static final ArrayList<DeploymentComponent> EMPTY_COLLECTION = new ArrayList<DeploymentComponent>();
+public class DeploymentComponentsManager extends AbstractEntityManager<DeploymentComponent> implements IDeploymentComponentsManager {
+	private static final Log LOG = LogFactory.getLog(DeploymentComponentsManager.class);
 
-	private static final Log log = LogFactory.getLog(DeploymentComponentsManager.class);
+	// private static final ArrayList<DeploymentComponent> EMPTY_COLLECTION = new ArrayList<DeploymentComponent>();
 
 	/**
 	 * Map assembly component ID x deployments for assembly component
@@ -42,8 +57,7 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
 	}
 
 	@Override
-	public DeploymentComponent createAndRegisterDeploymentComponent(final AssemblyComponent assemblyComponent,
-			final ExecutionContainer executionContainer) {
+	public DeploymentComponent createAndRegisterDeploymentComponent(final AssemblyComponent assemblyComponent, final ExecutionContainer executionContainer) {
 		final DeploymentComponent deploymentComponent = super.createAndRegisterEntity();
 		deploymentComponent.setAssemblyComponent(assemblyComponent);
 		deploymentComponent.setExecutionContainer(executionContainer);
@@ -63,9 +77,8 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
 	 */
 	@Override
 	public boolean deleteDeploymentComponent(final DeploymentComponent deploymentComponent) {
-		if (!super.removeEntity(deploymentComponent)) { // throws
-														// IllegalStateException
-			DeploymentComponentsManager.log.warn("removeEntity(..) returned false for deployment component "
+		if (!super.removeEntity(deploymentComponent)) { // throws IllegalStateException
+			DeploymentComponentsManager.LOG.warn("removeEntity(..) returned false for deployment component "
 					+ deploymentComponent + ". " + "This means that this component wasn't registered. ");
 			return false;
 		}
@@ -83,8 +96,7 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
 	public DeploymentComponent migrateDeploymentComponent(final DeploymentComponent deploymentComponent,
 			final ExecutionContainer toExecutionContainer) {
 		final DeploymentComponent newDeploymentComponent =
-				this.createAndRegisterDeploymentComponent(deploymentComponent.getAssemblyComponent(),
-						toExecutionContainer);
+				this.createAndRegisterDeploymentComponent(deploymentComponent.getAssemblyComponent(), toExecutionContainer);
 		this.deleteDeploymentComponent(deploymentComponent);
 		return newDeploymentComponent;
 	}
@@ -139,9 +151,9 @@ public class DeploymentComponentsManager extends AbstractEntityManager<Deploymen
 			final ExecutionContainer executionContainer) {
 		final Collection<DeploymentComponent> deployments =
 				this.deploymentComponentsForAssemblyComponent(assemblyComponent,
-				/*
-				 * do not include inactive ones
-				 */false);
+						/*
+						 * do not include inactive ones
+						 */false);
 		for (final DeploymentComponent depl : deployments) {
 			if (depl.getExecutionContainer() == executionContainer) {
 				return depl;

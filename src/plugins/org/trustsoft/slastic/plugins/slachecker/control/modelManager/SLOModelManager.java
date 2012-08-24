@@ -1,15 +1,31 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slachecker.control.modelManager;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
-import kieker.common.record.IMonitoringRecord;
-import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.plugins.pcm.control.modelManager.ModelManager;
+import org.trustsoft.slastic.plugins.slachecker.control.ServiceIDDoesNotExistException;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasurementEvent;
 import org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
@@ -17,120 +33,127 @@ import org.trustsoft.slastic.plugins.slasticImpl.ModelIOUtils;
 import reconfMM.Service;
 import slal.Model;
 
+import kieker.common.record.IMonitoringRecord;
+
 /**
- *
+ * 
  * @author Andre van Hoorn, Lena Stoever
  */
 public class SLOModelManager extends ModelManager {
 
-    private static final String PROP_NAME_SLAMODEL_FN = "slamodel_fn";
+	private static final String PROP_NAME_SLAMODEL_FN = "slamodel_fn";
 
-    private static final Log log = LogFactory.getLog(SLOModelManager.class);
-    //map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
-    private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
-    private int capacity = 0;
-    private slal.Model slas = null;
+	private static final Log LOG = LogFactory.getLog(SLOModelManager.class);
 
-    @Override
-    public boolean execute() {
-        boolean success = super.execute();
-        //reading the SLA-reconfigurationModel
-        this.slas = ModelIOUtils.readSLAModel(this.getInitProperty(PROP_NAME_SLAMODEL_FN));
+	// map with the serviceID and the belonging queue of response times. This is necessary for deleting the oldest values when the maximum number is reached.
+	private ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>> responseTimeQueues;
+	private int capacity = 0;
+	private slal.Model slas = null;
 
-        //intialize Model Manager object
-        this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
+	@Override
+	public boolean execute() {
+		final boolean success = super.execute();
+		// reading the SLA-reconfigurationModel
+		this.slas = ModelIOUtils.readSLAModel(this.getInitProperty(PROP_NAME_SLAMODEL_FN));
 
-        this.initQueues();
+		// intialize Model Manager object
+		this.setMaxResponseTime(super.getReconfigurationModel().getMaxResponseTimes());
 
-        return success;
-    }
+		this.initQueues();
 
-    public Model getSlas() {
-        return slas;
-    }
+		return success;
+	}
 
-    /**
-     * runs through the reconfigurationModel and returns the set of responsetimes that belongs
-     * to the given service
-     *
-     * @param serviceID
-     *            identifies the service
-     * @return
-     * @throws ServiceIDDoesNotExistException
-     */
-    @SuppressWarnings("unchecked")
-    public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
-            int serviceID) throws ServiceIDDoesNotExistException {
-        synchronized (this.reconfigurationModel) {
-            for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
-                for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
-                    if (this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
-                        ConcurrentSkipListSet<SLOMonitoringRecord> rtList = (ConcurrentSkipListSet<SLOMonitoringRecord>)this.reconfigurationModel.getComponents().get(i).getServices().get(k).getResponseTimes();
-                        if (rtList == null) { rtList = new ConcurrentSkipListSet<SLOMonitoringRecord>(); }
-                        return rtList;
-                    }
-                }
-            }
-        }
-        throw new ServiceIDDoesNotExistException();
-    }
+	public Model getSlas() {
+		return this.slas;
+	}
 
-    @Override
-    public void newObservation(IObservationEvent ev) {
-        super.newObservation(ev);
+	/**
+	 * runs through the reconfigurationModel and returns the set of responsetimes that belongs
+	 * to the given service
+	 * 
+	 * @param serviceID
+	 *            identifies the service
+	 * @return
+	 * @throws ServiceIDDoesNotExistException
+	 */
+	@SuppressWarnings("unchecked")
+	public ConcurrentSkipListSet<SLOMonitoringRecord> getResponseTimes(
+			final int serviceID) throws ServiceIDDoesNotExistException {
+		synchronized (this.reconfigurationModel) {
+			for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+				for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
+					if (this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID() == serviceID) {
+						ConcurrentSkipListSet<SLOMonitoringRecord> rtList = (ConcurrentSkipListSet<SLOMonitoringRecord>) this.reconfigurationModel.getComponents()
+								.get(i).getServices().get(k).getResponseTimes();
+						if (rtList == null) {
+							rtList = new ConcurrentSkipListSet<SLOMonitoringRecord>();
+						}
+						return rtList;
+					}
+				}
+			}
+		}
+		throw new ServiceIDDoesNotExistException();
+	}
 
-        if (! (ev instanceof KiekerMeasurementEvent)){
-            log.error("Can only handle records of type" + KiekerMeasurementEvent.class.getName());
-            return;
-        }
+	@Override
+	public void newObservation(final IObservationEvent ev) {
+		super.newObservation(ev);
 
-        IMonitoringRecord newRecord = ((KiekerMeasurementEvent)ev).getKiekerRecord();
-        SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
-        int serviceID = newSLORecord.serviceId;
-        synchronized (this.reconfigurationModel) {
-            for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
-                for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
-                    Service service = this.reconfigurationModel.getComponents().get(i).getServices().get(k);
-                    if (service.getServiceID() == serviceID) {
-                        ConcurrentSkipListSet<SLOMonitoringRecord> list = (ConcurrentSkipListSet<SLOMonitoringRecord>) service.getResponseTimes();
-                        BlockingQueue<SLOMonitoringRecord> queue = this.responseTimeQueues.get(serviceID);
-                        synchronized (list) {
-                            if (list.size() < this.capacity) {
-                                list.add(newSLORecord);
-                                queue.add(newSLORecord);
-                            } else {
-                                list.remove(queue.poll());
-                                list.add(newSLORecord);
-                                queue.add(newSLORecord);
-                            }
-                            //log.info("ListSize: "+list.size());
-                        }
-                    }
+		if (!(ev instanceof KiekerMeasurementEvent)) {
+			LOG.error("Can only handle records of type" + KiekerMeasurementEvent.class.getName());
+			return;
+		}
 
-                }
-            }
-        }
-    }
+		final IMonitoringRecord newRecord = ((KiekerMeasurementEvent) ev).getKiekerRecord();
+		final SLOMonitoringRecord newSLORecord = (SLOMonitoringRecord) newRecord;
+		final int serviceID = newSLORecord.serviceId;
+		synchronized (this.reconfigurationModel) {
+			for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+				for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
+					final Service service = this.reconfigurationModel.getComponents().get(i).getServices().get(k);
+					if (service.getServiceID() == serviceID) {
+						final ConcurrentSkipListSet<SLOMonitoringRecord> list = (ConcurrentSkipListSet<SLOMonitoringRecord>) service.getResponseTimes();
+						final BlockingQueue<SLOMonitoringRecord> queue = this.responseTimeQueues.get(serviceID);
+						synchronized (list) {
+							if (list.size() < this.capacity) {
+								list.add(newSLORecord);
+								queue.add(newSLORecord);
+							} else {
+								list.remove(queue.poll());
+								list.add(newSLORecord);
+								queue.add(newSLORecord);
+							}
+							// log.info("ListSize: "+list.size());
+						}
+					}
 
-    /**
-     * Initializing the HashMap with the response time queues
-     */
-    private void initQueues() {
-        this.responseTimeQueues = new ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>>();
-        for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
-            for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
-                // It is important not to use a Set of Longs, because of the
-                // possibility of equal values of response times
-                ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
-                this.responseTimeQueues.put(this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID(), new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
-                this.reconfigurationModel.getComponents().get(i).getServices().get(k).setResponseTimes(list);
-            }
-        }
+				}
+			}
+		}
+	}
 
-    }
+	/**
+	 * Initializing the HashMap with the response time queues
+	 */
+	private void initQueues() {
+		this.responseTimeQueues = new ConcurrentHashMap<Integer, BlockingQueue<SLOMonitoringRecord>>();
+		for (int i = 0; i < this.reconfigurationModel.getComponents().size(); i++) {
+			for (int k = 0; k < this.reconfigurationModel.getComponents().get(i).getServices().size(); k++) {
+				// It is important not to use a Set of Longs, because of the
+				// possibility of equal values of response times
+				final ConcurrentSkipListSet<SLOMonitoringRecord> list = new ConcurrentSkipListSet<SLOMonitoringRecord>();
+				this.responseTimeQueues.put(this.reconfigurationModel.getComponents().get(i).getServices().get(k).getServiceID(),
+						new ArrayBlockingQueue<SLOMonitoringRecord>(this.capacity));
+				this.reconfigurationModel.getComponents().get(i).getServices().get(k).setResponseTimes(list);
+			}
+		}
 
-    public void setMaxResponseTime(int capacity) {
-        this.capacity = capacity;
+	}
 
-    }
+	public void setMaxResponseTime(final int capacity) {
+		this.capacity = capacity;
+
+	}
 }

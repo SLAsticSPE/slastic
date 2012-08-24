@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.util;
 
 import java.util.Arrays;
@@ -10,15 +26,15 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class SignatureUtils {
 	/**
-	 * Currently, IDs make little sense for {@link Signature}s. 
+	 * Currently, IDs make little sense for {@link Signature}s.
 	 * Hence, we assign 0 to all of them.
 	 */
 	private final static long SIGNATURE_ID = 0;
-	
+
 	/**
 	 * Creates a new {@link Signature} with the given name, parameter types and return type.
 	 * 
@@ -27,10 +43,9 @@ public class SignatureUtils {
 	 * @param returnType
 	 * @return
 	 */
-	public static Signature createSignature (final String name, final String[] paramTypes, final String returnType){
+	public static Signature createSignature(final String name, final String[] paramTypes, final String returnType) {
 		// Create and assign the Signature of this Operation
-		final Signature signature =
-				TypeRepositoryFactory.eINSTANCE.createSignature();
+		final Signature signature = TypeRepositoryFactory.eINSTANCE.createSignature();
 		signature.setId(SignatureUtils.SIGNATURE_ID);
 		signature.setName(name);
 		signature.setReturnType(returnType);
@@ -40,26 +55,26 @@ public class SignatureUtils {
 		}
 		return signature;
 	}
-	
+
 	/**
 	 * Returns a String representation of the given {@link Signature}.
 	 * 
-	 * Examples: 
+	 * Examples:
 	 * <ul>
-	 *  <li>methodA():void</li>
-	 *  <li>methodB(Integer,boolean):boolean</li>
+	 * <li>methodA():void</li>
+	 * <li>methodB(Integer,boolean):boolean</li>
 	 * </ul>
 	 * 
 	 * @param signature
 	 * @return
 	 */
-	public static String signatureAsString (final Signature signature) {
+	public static String signatureAsString(final Signature signature) {
 		final StringBuilder strB = new StringBuilder(signature.getName()).append('(');
 		strB.append(StringUtils.join(signature.getParamTypes(), ','));
 		strB.append("):").append(signature.getReturnType());
 		return strB.toString();
 	}
-	
+
 	/**
 	 * Returns whether the given {@link Signature}s are equal.
 	 * 
@@ -67,11 +82,11 @@ public class SignatureUtils {
 	 * @param signature2
 	 * @return
 	 */
-	public static boolean signaturesEqual (final Signature signature1, final Signature signature2) {
+	public static boolean signaturesEqual(final Signature signature1, final Signature signature2) {
 		if (signature1 == signature2) {
 			return true;
 		}
-		
+
 		// compare operation name
 		if (!signature1.getName().equals(signature2.getName())) {
 			return false;
@@ -84,7 +99,7 @@ public class SignatureUtils {
 		if (!Arrays.equals(signature1.getParamTypes().toArray(), signature2.getParamTypes().toArray())) {
 			return false;
 		}
-		
+
 		return true;
 	}
 }

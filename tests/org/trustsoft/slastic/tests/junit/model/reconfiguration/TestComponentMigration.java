@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.model.reconfiguration;
 
 import junit.framework.Assert;
@@ -20,27 +36,22 @@ public class TestComponentMigration extends TestCase {
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
 		final DeploymentComponent deploymentComponent =
-				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName",
-						"ExecutionContainerTypeName", "ExecutionContainernName");
+				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName", "ExecutionContainerTypeName",
+						"ExecutionContainernName");
 		final ExecutionContainer migrationTargetExecutionContainer =
-				ModelEntityCreationUtils.createExecutionContainer(mgr, "ExecutionContainerTargetTypeName",
-						"ExecutionContainerTargetName");
+				ModelEntityCreationUtils.createExecutionContainer(mgr, "ExecutionContainerTargetTypeName", "ExecutionContainerTargetName");
 		final DeploymentComponent newDeploymentComponent =
-				mgr.getReconfigurationManager()
-						.migrateComponent(deploymentComponent, migrationTargetExecutionContainer);
+				mgr.getReconfigurationManager().migrateComponent(deploymentComponent, migrationTargetExecutionContainer);
 
 		/* Inspect result: */
 		Assert.assertSame(newDeploymentComponent.getExecutionContainer(), migrationTargetExecutionContainer);
-		Assert.assertNotSame("Source and resulting deployment components must not be the same", deploymentComponent,
-				newDeploymentComponent);
+		Assert.assertNotSame("Source and resulting deployment components must not be the same", deploymentComponent, newDeploymentComponent);
 		Assert.assertNull(
 				"Old deployment component does still exist!",
-				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(
-						deploymentComponent.getAssemblyComponent(), deploymentComponent.getExecutionContainer()));
-		Assert.assertTrue(
-				"New deployment component not in list of assembly component's deployments",
-				mgr.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
+				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
+						deploymentComponent.getExecutionContainer()));
+		Assert.assertTrue("New deployment component not in list of assembly component's deployments",
+				mgr.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
 						/* do not include inactive ones */false).contains(newDeploymentComponent));
 	}
 }

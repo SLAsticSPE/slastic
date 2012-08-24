@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.tests.junit.framework.esper.quickStart;
 
 import junit.framework.TestCase;
@@ -19,15 +35,12 @@ public class TestEsperQuickStart extends TestCase {
 	public void testCreateSendReceiveEvent() {
 
 		/* Creating a statement */
-		EPServiceProvider epService = EPServiceProviderManager
-				.getDefaultProvider();
-		String expression = "select avg(price) from "
-				+ OrderEvent.class.getName() + ".win:time(30 sec)";
-		EPStatement statement = epService.getEPAdministrator().createEPL(
-				expression);
+		final EPServiceProvider epService = EPServiceProviderManager.getDefaultProvider();
+		final String expression = "select avg(price) from " + OrderEvent.class.getName() + ".win:time(30 sec)";
+		final EPStatement statement = epService.getEPAdministrator().createEPL(expression);
 
 		/* Adding a listener */
-		MyListener listener = new MyListener();
+		final MyListener listener = new MyListener();
 		statement.addListener(listener);
 
 		epService.getEPRuntime().sendEvent(new OrderEvent("shirt1", 80.00));
@@ -38,8 +51,8 @@ public class TestEsperQuickStart extends TestCase {
 }
 
 class MyListener implements UpdateListener {
-	public void update(EventBean[] newEvents, EventBean[] oldEvents) {
-		EventBean event = newEvents[0];
+	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
+		final EventBean event = newEvents[0];
 		System.out.println("avg=" + event.get("avg(price)"));
 	}
 }

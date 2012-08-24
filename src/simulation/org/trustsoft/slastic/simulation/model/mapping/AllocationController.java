@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.simulation.model.mapping;
 
 import java.util.Collection;
@@ -11,8 +27,8 @@ import org.trustsoft.slastic.simulation.model.ModelManager;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.Server;
 import org.trustsoft.slastic.simulation.model.mapping.loadbalancer.RandomBalancer;
 import org.trustsoft.slastic.simulation.model.reconfiguration.ReconfigurationController;
-import org.trustsoft.slastic.simulation.model.software.repository.ComponentController;
-import org.trustsoft.slastic.simulation.software.controller.controlflow.ControlFlowNode;
+import org.trustsoft.slastic.simulation.model.software.repository.ComponentTypeController;
+import org.trustsoft.slastic.simulation.software.controller.controlflow.AbstractControlFlowEvent;
 import org.trustsoft.slastic.simulation.software.statistics.ISystemStats;
 
 import com.google.inject.Inject;
@@ -27,10 +43,11 @@ import de.uka.ipd.sdq.pcm.repository.ProvidesComponentType;
 import desmoj.core.simulator.Model;
 
 /**
- * @author skomp
+ * @author Robert von Massow
  * 
  */
 public final class AllocationController {
+	private static final Log LOG = LogFactory.getLog(AllocationController.class);
 
 	@SuppressWarnings("unused")
 	private final Model model;
@@ -40,13 +57,12 @@ public final class AllocationController {
 	private final Hashtable<String, Hashtable<String, Integer>> serverToAsmToUserCount = new Hashtable<String, Hashtable<String, Integer>>();
 
 	private final Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>> serverToAsmToPassiveResource = new Hashtable<String, Hashtable<String, Hashtable<String, PassiveSimResource>>>();
-	private final Log log = LogFactory.getLog(AllocationController.class);
 
 	@Inject
 	@Named("ComponentUsers")
 	private static ISystemStats stats;
 
-	private final LoadBalancer loadBalancer;
+	private final ILoadBalancer loadBalancer;
 
 	public AllocationController(final Allocation allocation, final Model model) {
 		this.genAllocationModel(allocation);
@@ -55,7 +71,7 @@ public final class AllocationController {
 	}
 
 	public AllocationController(final Allocation allocation,
-			final LoadBalancer lb, final Model model) {
+			final ILoadBalancer lb, final Model model) {
 		this.genAllocationModel(allocation);
 		this.loadBalancer = lb;
 		this.model = model;
@@ -71,7 +87,7 @@ public final class AllocationController {
 		final List<AllocationContext> contexts = allocation
 				.getAllocationContexts_Allocation();
 		final Collection<Server> servers = ModelManager.getInstance()
-				.getHwCont().getServers();
+				.getHardwareController().getServers();
 		for (final Server server : servers) {
 			this.serverToAllocationContextsMapping.put(server.getId(),
 					new HashSet<String>());
@@ -79,13 +95,13 @@ public final class AllocationController {
 					new Hashtable<String, Boolean>());
 		}
 		final Collection<AssemblyContext> asmContexts = ModelManager
-				.getInstance().getAssemblyCont().getAllASMContexts();
+				.getInstance().getAssemblyController().getAllASMContexts();
 		for (final AssemblyContext assemblyContext : asmContexts) {
 			this.assemblyContextToServerMapping.put(assemblyContext.getId(),
 					new HashSet<String>());
 		}
 		for (final AllocationContext allocContext : contexts) {
-			this.log.info("Adding initial Allocation: "
+			AllocationController.LOG.info("Adding initial Allocation: "
 					+ allocContext.getAssemblyContext_AllocationContext()
 					+ " to "
 					+ allocContext.getResourceContainer_AllocationContext());
@@ -95,7 +111,7 @@ public final class AllocationController {
 					.getResourceContainer_AllocationContext().getId();
 			this.assemblyContextToServerMapping.get(asmId).add(serverId);
 			this.serverToAllocationContextsMapping.get(serverId).add(asmId);
-			ModelManager.getInstance().getHwCont().bpallocate(serverId);
+			ModelManager.getInstance().getHardwareController().bpallocate(serverId);
 			this.initPResource(serverId, asmId);
 		}
 
@@ -123,7 +139,7 @@ public final class AllocationController {
 	}
 
 	public final String getServer(final String asmContext) {
-		this.log.info("Getting Ressource Container for ASM Context: "
+		AllocationController.LOG.info("Getting Ressource Container for ASM Context: "
 				+ asmContext);
 		return this.loadBalancer.getServerMapping(asmContext,
 				this.assemblyContextToServerMapping.get(asmContext));
@@ -223,7 +239,7 @@ public final class AllocationController {
 			final String server) {
 		Hashtable<String, Boolean> blockState = this.serverToAsmToBlockState
 				.get(server);
-		this.log.info("blocking " + asmContext + " on server " + server);
+		AllocationController.LOG.info("blocking " + asmContext + " on server " + server);
 		if (blockState == null) {
 			blockState = new Hashtable<String, Boolean>();
 			this.serverToAsmToBlockState.put(server, blockState);
@@ -284,11 +300,11 @@ public final class AllocationController {
 		}
 
 		final ProvidesComponentType component = ModelManager.getInstance()
-				.getAssemblyCont().getASMContextById(asmContext)
+				.getAssemblyController().getASMContextById(asmContext)
 				.getEncapsulatedComponent_ChildComponentContext();
 		if (component instanceof BasicComponent) {
 			final BasicComponent bc = (BasicComponent) component;
-			final Hashtable<String, PassiveResource> passiveRes = ComponentController
+			final Hashtable<String, PassiveResource> passiveRes = ComponentTypeController
 					.getInstance().getPassiveResByComponent(bc);
 			for (final String pResName : passiveRes.keySet()) {
 				final int capacity = Integer.parseInt(passiveRes.get(pResName)
@@ -320,7 +336,7 @@ public final class AllocationController {
 			servers.remove(server);
 			this.blockInstance(asmContext, server);
 
-			this.log.info("Deleted "
+			AllocationController.LOG.info("Deleted "
 					+ component.getAssemblyContext_AllocationContext().getId()
 					+ " from container "
 					+ component.getResourceContainer_AllocationContext()
@@ -330,7 +346,7 @@ public final class AllocationController {
 			}
 			return true;
 		} else {
-			this.log.warn("Not allowing less than one allocation (tried to remove "
+			AllocationController.LOG.warn("Not allowing less than one allocation (tried to remove "
 					+ component.getAssemblyContext_AllocationContext()
 					+ " from "
 					+ component.getResourceContainer_AllocationContext() + ")");
@@ -340,7 +356,7 @@ public final class AllocationController {
 
 	public final int acquirePassive(final String server,
 			final String asmContext, final String resname,
-			final ControlFlowNode next) {
+			final AbstractControlFlowEvent next) {
 		return this.serverToAsmToPassiveResource.get(server).get(asmContext)
 				.get(resname).acquire(next);
 	}

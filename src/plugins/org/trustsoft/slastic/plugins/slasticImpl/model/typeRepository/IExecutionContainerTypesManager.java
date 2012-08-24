@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
@@ -20,8 +36,7 @@ public interface IExecutionContainerTypesManager {
 	 *            lookup
 	 * @return the looked up execution container type
 	 */
-	public ExecutionContainerType lookupExecutionContainerType(
-			final String fullyQualifiedName);
+	public ExecutionContainerType lookupExecutionContainerType(final String fullyQualifiedName);
 
 	/**
 	 * Returns the execution container type with the given id or null if no
@@ -43,8 +58,7 @@ public interface IExecutionContainerTypesManager {
 	 *             if a execution container type with the given fully-qualified
 	 *             name has already been registered
 	 */
-	public ExecutionContainerType createAndRegisterExecutionContainerType(
-			final String fullyQualifiedName);
+	public ExecutionContainerType createAndRegisterExecutionContainerType(final String fullyQualifiedName);
 
 	/**
 	 * Creates a {@link ResourceSpecification} with the given name and adds it

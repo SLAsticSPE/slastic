@@ -1,9 +1,21 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-import kieker.tools.util.LoggingTimestampConverter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
@@ -11,18 +23,17 @@ import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecut
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 import de.cau.se.slastic.metamodel.typeRepository.Operation;
 
+import kieker.tools.util.LoggingTimestampConverter;
+
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class AssemblyComponentOperationExecutionCountLogger extends
-		AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
-		implements
-		IAssemblyComponentOperationExecutionCountReceiver {
+public class AssemblyComponentOperationExecutionCountLogger extends AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
+		implements IAssemblyComponentOperationExecutionCountReceiver {
 
-	private static final Log log = LogFactory
-			.getLog(AssemblyComponentOperationExecutionCountLogger.class);
+	// private static final Log LOG = LogFactory.getLog(AssemblyComponentOperationExecutionCountLogger.class);
 
 	public static final int DEFAULT_WIN_TIME_SECONDS = 5;
 	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5;
@@ -30,12 +41,8 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
-	public AssemblyComponentOperationExecutionCountLogger(
-			final IComponentContext context) {
-		this(
-				context,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_WIN_TIME_SECONDS,
-				AssemblyComponentOperationExecutionCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+	public AssemblyComponentOperationExecutionCountLogger(final IComponentContext context) {
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
@@ -43,9 +50,7 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public AssemblyComponentOperationExecutionCountLogger(
-			final IComponentContext context, final int winTimeSec,
-			final int outputIntervalSec) {
+	public AssemblyComponentOperationExecutionCountLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
 		super(context);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
@@ -64,67 +69,52 @@ public class AssemblyComponentOperationExecutionCountLogger extends
 			final long currentTimestampMillis,
 			final AssemblyComponentOperationPair assemblyComponentOperationPair,
 			final Long count) {
-		final String currentTimeUTCString =
-				LoggingTimestampConverter
-						.convertLoggingTimestampToUTCString(currentTimestampMillis
-								* (1000 * 1000));
+		final String currentTimeUTCString = LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000));
 
-		final AssemblyComponent assemblyComponent =
-				assemblyComponentOperationPair.getAssemblyComponent();
-		final Operation operation =
-				assemblyComponentOperationPair.getOperation();
+		final AssemblyComponent assemblyComponent = assemblyComponentOperationPair.getAssemblyComponent();
+		final Operation operation = assemblyComponentOperationPair.getOperation();
 
 		return new String[] {
-				/* 0: timestamp: */
-				Long.toString(currentTimestampMillis),
-				/* 1: human-readable UTC string: */
-				currentTimeUTCString,
-				/* 2: assembly-component name (ID): */
-				new StringBuilder().append(assemblyComponent.getPackageName())
-						.append(".").append(assemblyComponent.getName())
-						.append("(")
-						.append(Long.toString(assemblyComponent.getId()))
-						.append(")").toString(),
-				/* 3: operation name (ID): */
-				new StringBuilder().append(operation.getSignature().getName())
-						.append("(").append(Long.toString(operation.getId()))
-						.append(")").toString(),
-				/* 4: count */
-				count == null ? "NA" : Long.toString(count) };
+			/* 0: timestamp: */
+			Long.toString(currentTimestampMillis),
+			/* 1: human-readable UTC string: */
+			currentTimeUTCString,
+			/* 2: assembly-component name (ID): */
+			new StringBuilder().append(assemblyComponent.getPackageName())
+					.append(".").append(assemblyComponent.getName())
+					.append("(")
+					.append(Long.toString(assemblyComponent.getId()))
+					.append(")").toString(),
+			/* 3: operation name (ID): */
+			new StringBuilder().append(operation.getSignature().getName())
+					.append("(").append(Long.toString(operation.getId()))
+					.append(")").toString(),
+			/* 4: count */
+			count == null ? "NA" : Long.toString(count) };
 	}
 
 	/**
 	 * Handler for incoming {@link AssemblyComponent}'s average RTs.
 	 */
 	@Override
-	public void update(final long currentTimestampMillis,
-			final AssemblyComponent assemblyComponent,
-			final Operation operation, final Long count) {
+	public void update(final long currentTimestampMillis, final AssemblyComponent assemblyComponent, final Operation operation, final Long count) {
 
-		final AssemblyComponentOperationPair assemblyComponentOperationPair =
-				new AssemblyComponentOperationPair(assemblyComponent, operation);
+		final AssemblyComponentOperationPair assemblyComponentOperationPair = new AssemblyComponentOperationPair(assemblyComponent, operation);
 
-		super.writeRow(assemblyComponentOperationPair, this.createRow(
-				currentTimestampMillis, assemblyComponentOperationPair, count));
+		super.writeRow(assemblyComponentOperationPair, this.createRow(currentTimestampMillis, assemblyComponentOperationPair, count));
 	}
 
 	@Override
 	protected String[] createHeader() {
-		return new String[] { "timestamp", "UTCString", "assemblyComponent",
-				"operation",
-				"count" };
+		return new String[] { "timestamp", "UTCString", "assemblyComponent", "operation", "count" };
 	}
 
 	@Override
-	protected String createFilename(
-			final AssemblyComponentOperationPair assemblyComponentOperationPair) {
-		final AssemblyComponent assemblyComponent =
-				assemblyComponentOperationPair.getAssemblyComponent();
-		final Operation operation =
-				assemblyComponentOperationPair.getOperation();
+	protected String createFilename(final AssemblyComponentOperationPair assemblyComponentOperationPair) {
+		final AssemblyComponent assemblyComponent = assemblyComponentOperationPair.getAssemblyComponent();
+		final Operation operation = assemblyComponentOperationPair.getOperation();
 
-		final ComponentType componentType =
-				assemblyComponent.getComponentType();
+		final ComponentType componentType = assemblyComponent.getComponentType();
 
 		return (new StringBuilder(Long.toString(assemblyComponent.getId())))
 				.append("--").append(assemblyComponent.getPackageName())

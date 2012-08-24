@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.common.util;
 
 import java.io.FileInputStream;
@@ -15,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PropertiesFileUtils {
 
-	private static final Log log = LogFactory.getLog(PropertiesFileUtils.class);
+	private static final Log LOG = LogFactory.getLog(PropertiesFileUtils.class);
 
 	/**
 	 * 
@@ -29,16 +45,16 @@ public class PropertiesFileUtils {
 
 		try {
 			is = new FileInputStream(fn);
-			PropertiesFileUtils.log.debug("Loading properties from file '" + fn + "'");
+			LOG.debug("Loading properties from file '" + fn + "'");
 			prop.load(is);
 		} catch (final Exception ex) {
-			PropertiesFileUtils.log.error("Failed to load properties from file '" + fn + "'", ex);
+			LOG.error("Failed to load properties from file '" + fn + "'", ex);
 			throw new IllegalArgumentException("Failed to load properties from file '" + fn + "'", ex);
 		} finally {
 			try {
 				is.close();
 			} catch (final Exception ex) {
-				PropertiesFileUtils.log.error("Failed to close property input stream", ex);
+				LOG.error("Failed to close property input stream", ex);
 			}
 		}
 		return prop;
@@ -57,16 +73,16 @@ public class PropertiesFileUtils {
 
 		try {
 			os = new FileOutputStream(fn);
-			PropertiesFileUtils.log.info("Storing properties to file '" + fn + "'");
+			LOG.info("Storing properties to file '" + fn + "'");
 			prop.store(os, null); // no comment
 		} catch (final Exception ex) {
-			PropertiesFileUtils.log.error("Failed to store properties to file '" + fn + "'", ex);
+			LOG.error("Failed to store properties to file '" + fn + "'", ex);
 			throw new IllegalArgumentException("Failed to store properties to file '" + fn + "'", ex);
 		} finally {
 			try {
 				os.close();
 			} catch (final Exception ex) {
-				PropertiesFileUtils.log.error("Failed to close property output stream", ex);
+				LOG.error("Failed to close property output stream", ex);
 			}
 		}
 		return prop;

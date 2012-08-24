@@ -1,3 +1,19 @@
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ***************************************************************************/
+
 package org.trustsoft.slastic.plugins.cloud.loadBalancerServlet;
 
 import java.io.IOException;
@@ -14,21 +30,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
 public class LoadBalancerServlet extends HttpServlet {
+	// private static final Log LOG = LogFactory.getLog(LoadBalancerServlet.class);
 
 	private final Random rnd = new Random();
 
 	private static final long serialVersionUID = -3655750912361464631L;
-
-	private static final Log log = LogFactory.getLog(LoadBalancerServlet.class);
 
 	private void dumpError(final PrintWriter out, final String msg) {
 		out.println("<div style=\"color:red\">ERROR: " + msg + "</div>");
@@ -56,9 +68,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected synchronized void processRequest(final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException,
-			IOException {
+	protected synchronized void processRequest(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
 		final PrintWriter out = response.getWriter();
 
@@ -66,45 +76,36 @@ public class LoadBalancerServlet extends HttpServlet {
 		final List<String> infoMessages = new ArrayList<String>();
 		final StringBuilder pageContentBuilder = new StringBuilder();
 
-		String action =
-				request.getParameter(LoadBalancerServlet.PARAM_NAME_ACTION);
+		String action = request.getParameter(PARAM_NAME_ACTION);
 		if (action == null) {
 			action = "";
 		}
 
-		String contextId =
-				request.getParameter(LoadBalancerServlet.PARAM_NAME_CONTEXTID);
+		String contextId = request.getParameter(PARAM_NAME_CONTEXTID);
 		if (contextId != null) {
 			contextId = contextId.trim();
 		}
 
-		String host = request.getParameter(LoadBalancerServlet.PARAM_NAME_HOST);
+		String host = request.getParameter(PARAM_NAME_HOST);
 		if (host != null) {
 			host = host.trim();
 		}
 
 		final boolean showStatusPage = true;
 
-		if ((request.getParameterMap().size() == 0)
-				|| action.equals(LoadBalancerServlet.ACTION_SHOWALL)) {
-		} else if (action.equals(LoadBalancerServlet.ACTION_CREATECONTEXT)) {
-			this.doCreateContext(contextId, errorMessages, infoMessages,
-					pageContentBuilder);
-		} else if (action.equals(LoadBalancerServlet.ACTION_REMOVECONTEXT)) {
-			this.doRemoveContext(contextId, errorMessages, infoMessages,
-					pageContentBuilder);
-		} else if (action.equals(LoadBalancerServlet.ACTION_ADDHOST)) {
-			this.doAddHost2Context(contextId, host, errorMessages,
-					infoMessages, pageContentBuilder);
-		} else if (action.equals(LoadBalancerServlet.ACTION_REMOVEHOST)) {
-			this.doRemoveHostFromContext(contextId, host, errorMessages,
-					infoMessages, pageContentBuilder);
-		} else if (action.equals(LoadBalancerServlet.ACTION_REMOVEALLHOSTS)) {
-			this.doRemoveAllHostsFromContext(contextId, errorMessages,
-					infoMessages, pageContentBuilder);
-		} else if (action.equals(LoadBalancerServlet.ACTION_SELECTRANDOMHOST)) {
-			this.doSelectRandomHostFromContext(contextId, errorMessages,
-					infoMessages, pageContentBuilder);
+		if ((request.getParameterMap().size() == 0) || action.equals(ACTION_SHOWALL)) {
+		} else if (action.equals(ACTION_CREATECONTEXT)) {
+			this.doCreateContext(contextId, errorMessages, infoMessages, pageContentBuilder);
+		} else if (action.equals(ACTION_REMOVECONTEXT)) {
+			this.doRemoveContext(contextId, errorMessages, infoMessages, pageContentBuilder);
+		} else if (action.equals(ACTION_ADDHOST)) {
+			this.doAddHost2Context(contextId, host, errorMessages, infoMessages, pageContentBuilder);
+		} else if (action.equals(ACTION_REMOVEHOST)) {
+			this.doRemoveHostFromContext(contextId, host, errorMessages, infoMessages, pageContentBuilder);
+		} else if (action.equals(ACTION_REMOVEALLHOSTS)) {
+			this.doRemoveAllHostsFromContext(contextId, errorMessages, infoMessages, pageContentBuilder);
+		} else if (action.equals(ACTION_SELECTRANDOMHOST)) {
+			this.doSelectRandomHostFromContext(contextId, errorMessages, infoMessages, pageContentBuilder);
 			// TODO: provide verbose and quiet mode
 			// showStatusPage = false;
 		} else {
@@ -112,10 +113,8 @@ public class LoadBalancerServlet extends HttpServlet {
 		}
 
 		if (showStatusPage) {
-			out.println("[<a href=\"" + request.getRequestURL().toString()
-					+ "\"/>Home]</a>");
-			this.doShowStatusPage(errorMessages, infoMessages,
-					pageContentBuilder);
+			out.println("[<a href=\"" + request.getRequestURL().toString() + "\"/>Home]</a>");
+			this.doShowStatusPage(errorMessages, infoMessages, pageContentBuilder);
 		}
 
 		this.renderPage(out, errorMessages, infoMessages, pageContentBuilder);
@@ -152,14 +151,10 @@ public class LoadBalancerServlet extends HttpServlet {
 	/**
 	 * Context Id x list of hosts
 	 */
-	private final HashMap<String, Vector<String>> contexts =
-			new HashMap<String, Vector<String>>();
+	private final HashMap<String, Vector<String>> contexts = new HashMap<String, Vector<String>>();
 
 	private final static String QUERY_STRING_TEMPLATE__createContext =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_CREATECONTEXT + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID";
+			PARAM_NAME_ACTION + "=" + ACTION_CREATECONTEXT + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID";
 
 	/**
 	 * 
@@ -168,9 +163,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	 */
 	public final static String createQueryString_createContext(
 			final String contextId) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__createContext
-						.replace("CONTEXTID", contextId);
+		final String queryString = QUERY_STRING_TEMPLATE__createContext.replace("CONTEXTID", contextId);
 		return queryString;
 	}
 
@@ -181,17 +174,14 @@ public class LoadBalancerServlet extends HttpServlet {
 	 * @param pageContentBuilder
 	 * @return true on success; false on error
 	 */
-	private boolean doCreateContext(final String contextId,
-			final List<String> errorMessages, final List<String> infoMessages,
-			final StringBuilder pageContentBuilder) {
+	private boolean doCreateContext(final String contextId, final List<String> errorMessages, final List<String> infoMessages, final StringBuilder pageContentBuilder) {
 		if ((contextId == null) || contextId.isEmpty()) {
 			errorMessages.add("Invalid context ID: '" + contextId + "'");
 			return false;
 		}
 
 		if (this.contexts.containsKey(contextId)) {
-			errorMessages.add("Context with ID '" + contextId
-					+ "' is already registered.");
+			errorMessages.add("Context with ID '" + contextId + "' is already registered.");
 			return false;
 		}
 
@@ -202,21 +192,15 @@ public class LoadBalancerServlet extends HttpServlet {
 	}
 
 	private final static String QUERY_STRING_TEMPLATE__removeContext =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_REMOVECONTEXT + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID";
+			PARAM_NAME_ACTION + "=" + ACTION_REMOVECONTEXT + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID";
 
 	/**
 	 * 
 	 * @param contextId
 	 * @return
 	 */
-	public final static String createQueryString_removeContext(
-			final String contextId) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__removeContext
-						.replace("CONTEXTID", contextId);
+	public final static String createQueryString_removeContext(final String contextId) {
+		final String queryString = QUERY_STRING_TEMPLATE__removeContext.replace("CONTEXTID", contextId);
 		return queryString;
 	}
 
@@ -247,11 +231,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	}
 
 	private final static String QUERY_STRING_TEMPLATE__addHost =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_ADDHOST + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID" + "&" + LoadBalancerServlet.PARAM_NAME_HOST
-					+ "=" + "HOST";
+			PARAM_NAME_ACTION + "=" + ACTION_ADDHOST + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID" + "&" + PARAM_NAME_HOST + "=" + "HOST";
 
 	/**
 	 * 
@@ -261,9 +241,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	 */
 	public final static String createQueryString_addHost(
 			final String contextId, final String host) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__addHost.replace(
-						"CONTEXTID", contextId).replace("HOST", host);
+		final String queryString = QUERY_STRING_TEMPLATE__addHost.replace("CONTEXTID", contextId).replace("HOST", host);
 		return queryString;
 	}
 
@@ -297,17 +275,12 @@ public class LoadBalancerServlet extends HttpServlet {
 		}
 
 		hostsForContext.add(host);
-		infoMessages.add("Added host '" + host + "' to context with ID '"
-				+ contextId + "'.");
+		infoMessages.add("Added host '" + host + "' to context with ID '" + contextId + "'.");
 		return true;
 	}
 
 	private final static String QUERY_STRING_TEMPLATE__removeHost =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_REMOVEHOST + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID" + "&" + LoadBalancerServlet.PARAM_NAME_HOST
-					+ "=" + "HOST";
+			PARAM_NAME_ACTION + "=" + ACTION_REMOVEHOST + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID" + "&" + PARAM_NAME_HOST + "=" + "HOST";
 
 	/**
 	 * 
@@ -317,9 +290,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	 */
 	public final static String createQueryString_removeHost(
 			final String contextId, final String host) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__removeHost.replace(
-						"CONTEXTID", contextId).replace("HOST", host);
+		final String queryString = QUERY_STRING_TEMPLATE__removeHost.replace("CONTEXTID", contextId).replace("HOST", host);
 		return queryString;
 	}
 
@@ -353,32 +324,24 @@ public class LoadBalancerServlet extends HttpServlet {
 		}
 
 		if (!hostsForContext.remove(host)) {
-			infoMessages.add("No host '" + host + "' within context with ID '"
-					+ contextId + "'.");
+			infoMessages.add("No host '" + host + "' within context with ID '" + contextId + "'.");
 			return false;
 		}
 
-		infoMessages.add("Removed host '" + host + "' from context with ID '"
-				+ contextId + "'.");
+		infoMessages.add("Removed host '" + host + "' from context with ID '" + contextId + "'.");
 		return true;
 	}
 
 	private final static String QUERY_STRING_TEMPLATE__removeAllHosts =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_REMOVEALLHOSTS + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID";
+			PARAM_NAME_ACTION + "=" + ACTION_REMOVEALLHOSTS + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID";
 
 	/**
 	 * 
 	 * @param contextId
 	 * @return
 	 */
-	public final static String createQueryString_removeAllHosts(
-			final String contextId) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__removeAllHosts
-						.replace("CONTEXTID", contextId);
+	public final static String createQueryString_removeAllHosts(final String contextId) {
+		final String queryString = QUERY_STRING_TEMPLATE__removeAllHosts.replace("CONTEXTID", contextId);
 		return queryString;
 	}
 
@@ -405,18 +368,14 @@ public class LoadBalancerServlet extends HttpServlet {
 		}
 
 		hostsForContext.clear();
-		infoMessages.add("Removed all hosts from context with ID '" + contextId
-				+ "'.");
+		infoMessages.add("Removed all hosts from context with ID '" + contextId + "'.");
 		return true;
 	}
 
 	public static final String HOST_PREFIX = "host";
 
 	private final static String QUERY_STRING_TEMPLATE__selectRandomHost =
-			LoadBalancerServlet.PARAM_NAME_ACTION + "="
-					+ LoadBalancerServlet.ACTION_SELECTRANDOMHOST + "&"
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "="
-					+ "CONTEXTID";
+			PARAM_NAME_ACTION + "=" + ACTION_SELECTRANDOMHOST + "&" + PARAM_NAME_CONTEXTID + "=" + "CONTEXTID";
 
 	/**
 	 * 
@@ -425,9 +384,7 @@ public class LoadBalancerServlet extends HttpServlet {
 	 */
 	public final static String createQueryString_selectRandomHost(
 			final String contextId) {
-		final String queryString =
-				LoadBalancerServlet.QUERY_STRING_TEMPLATE__selectRandomHost
-						.replace("CONTEXTID", contextId);
+		final String queryString = QUERY_STRING_TEMPLATE__selectRandomHost.replace("CONTEXTID", contextId);
 		return queryString;
 	}
 
@@ -456,15 +413,13 @@ public class LoadBalancerServlet extends HttpServlet {
 		final int numHosts = hostsForContext.size();
 
 		if (numHosts == 0) {
-			errorMessages
-					.add("Context with ID '" + contextId + "' has 0 hosts");
+			errorMessages.add("Context with ID '" + contextId + "' has 0 hosts");
 			return false;
 		}
 
 		final int rndIndex = this.rnd.nextInt(numHosts);
 		final String rndHost = hostsForContext.elementAt(rndIndex);
-		pageContentBuilder.append(LoadBalancerServlet.HOST_PREFIX + "="
-				+ rndHost + "\n");
+		pageContentBuilder.append(HOST_PREFIX + "=" + rndHost + "\n");
 
 		return true;
 	}
@@ -482,58 +437,30 @@ public class LoadBalancerServlet extends HttpServlet {
 			final StringBuilder pageContentBuilder) {
 
 		pageContentBuilder.append("<ul>\n");
-		pageContentBuilder
-				.append("<li><FORM ACTION=\"index\" METHOD=\"GET\"> ");
-		pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\""
-				+ LoadBalancerServlet.PARAM_NAME_ACTION + "\" VALUE=\""
-				+ LoadBalancerServlet.ACTION_CREATECONTEXT + "\">");
-		pageContentBuilder
-				.append("<INPUT TYPE=\"TEXT\" SIZE=\"6\" NAME=\""
-						+ LoadBalancerServlet.PARAM_NAME_CONTEXTID
-						+ "\" value=\" \"/>");
-		pageContentBuilder
-				.append(" <INPUT TYPE=\"SUBMIT\" VALUE=\"Create context\"> ");
+		pageContentBuilder.append("<li><FORM ACTION=\"index\" METHOD=\"GET\"> ");
+		pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\"" + PARAM_NAME_ACTION + "\" VALUE=\"" + ACTION_CREATECONTEXT + "\">");
+		pageContentBuilder.append("<INPUT TYPE=\"TEXT\" SIZE=\"6\" NAME=\"" + PARAM_NAME_CONTEXTID + "\" value=\" \"/>");
+		pageContentBuilder.append(" <INPUT TYPE=\"SUBMIT\" VALUE=\"Create context\"> ");
 		pageContentBuilder.append("</FORM></li>");
-		for (final Entry<String, Vector<String>> entry : this.contexts
-				.entrySet()) {
+		for (final Entry<String, Vector<String>> entry : this.contexts.entrySet()) {
 			final String contextId = entry.getKey();
 			final Vector<String> hostsForContext = entry.getValue();
 			pageContentBuilder.append("<li>" + contextId + "\n");
-			pageContentBuilder.append(" [<a href=\"?"
-					+ LoadBalancerServlet
-							.createQueryString_removeContext(contextId)
-					+ "\">Remove context</a>] \n");
-			pageContentBuilder.append(" [<a href=\"?"
-					+ LoadBalancerServlet
-							.createQueryString_selectRandomHost(contextId)
-					+ "\">Random host</a>] \n");
-			pageContentBuilder.append(" [<a href=\"?"
-					+ LoadBalancerServlet
-							.createQueryString_removeAllHosts(contextId)
-					+ "\">Remove all hosts</a>] \n");
+			pageContentBuilder.append(" [<a href=\"?" + LoadBalancerServlet.createQueryString_removeContext(contextId) + "\">Remove context</a>] \n");
+			pageContentBuilder.append(" [<a href=\"?" + LoadBalancerServlet.createQueryString_selectRandomHost(contextId) + "\">Random host</a>] \n");
+			pageContentBuilder.append(" [<a href=\"?" + LoadBalancerServlet.createQueryString_removeAllHosts(contextId) + "\">Remove all hosts</a>] \n");
 			pageContentBuilder.append("<ol>\n");
-			pageContentBuilder
-					.append("<li><FORM ACTION=\"index\" METHOD=\"GET\"> ");
-			pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\""
-					+ LoadBalancerServlet.PARAM_NAME_ACTION + "\" VALUE=\""
-					+ LoadBalancerServlet.ACTION_ADDHOST + "\">");
-			pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\""
-					+ LoadBalancerServlet.PARAM_NAME_CONTEXTID + "\" VALUE=\""
-					+ contextId + "\">");
-			pageContentBuilder
-					.append("<INPUT TYPE=\"TEXT\" SIZE=\"15\" NAME=\""
-							+ LoadBalancerServlet.PARAM_NAME_HOST
-							+ "\" value=\" \"/>");
-			pageContentBuilder
-					.append(" <INPUT TYPE=\"SUBMIT\" VALUE=\"Add host\"> ");
+			pageContentBuilder.append("<li><FORM ACTION=\"index\" METHOD=\"GET\"> ");
+			pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\"" + PARAM_NAME_ACTION + "\" VALUE=\"" + ACTION_ADDHOST + "\">");
+			pageContentBuilder.append("<INPUT TYPE=\"HIDDEN\" NAME=\"" + PARAM_NAME_CONTEXTID + "\" VALUE=\"" + contextId + "\">");
+			pageContentBuilder.append("<INPUT TYPE=\"TEXT\" SIZE=\"15\" NAME=\"" + PARAM_NAME_HOST + "\" value=\" \"/>");
+			pageContentBuilder.append(" <INPUT TYPE=\"SUBMIT\" VALUE=\"Add host\"> ");
 			pageContentBuilder.append("</FORM></li>");
 
 			for (final String host : hostsForContext) {
 				pageContentBuilder.append("<li>");
 				pageContentBuilder.append(host);
-				pageContentBuilder.append(" [<a href=\"?"
-						+ LoadBalancerServlet.createQueryString_removeHost(
-								contextId, host) + "\">Remove host</a>] \n");
+				pageContentBuilder.append(" [<a href=\"?" + LoadBalancerServlet.createQueryString_removeHost(contextId, host) + "\">Remove host</a>] \n");
 				pageContentBuilder.append("</li>");
 			}
 			pageContentBuilder.append("</ol>\n");
@@ -545,16 +472,12 @@ public class LoadBalancerServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		this.processRequest(request, response);
 	}
 
 	@Override
-	protected void doPost(final HttpServletRequest request,
-			final HttpServletResponse response) throws ServletException,
-			IOException {
+	protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		this.processRequest(request, response);
 	}
 

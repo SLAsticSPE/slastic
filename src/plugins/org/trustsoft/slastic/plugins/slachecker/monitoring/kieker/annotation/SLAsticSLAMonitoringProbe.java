@@ -1,15 +1,5 @@
-package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-/**
- * org.trustsoft.slastic.control.annotation.SLAsticSLAMonitoringProbe
- *
- * ==================LICENCE=========================
- * Copyright 2009 Kieker Project
+/***************************************************************************
+ * Copyright 2012 The SLAstic project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +12,23 @@ import java.lang.annotation.Target;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * ==================================================
- *
- * @author Andre van Hoorn
- */
+ ***************************************************************************/
 
+package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface SLAsticSLAMonitoringProbe {
 	// String context();
-    int serviceId();
+	int serviceId();
 }
