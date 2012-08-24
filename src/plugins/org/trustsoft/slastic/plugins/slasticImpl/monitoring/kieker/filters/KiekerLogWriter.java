@@ -29,7 +29,7 @@ import kieker.tools.logReplayer.MonitoringRecordLoggerFilter;
 /**
  * TODO: Replace by {@link MonitoringRecordLoggerFilter}?
  * 
- * @author André van Hoorn
+ * @author Andre van Hoorn
  * 
  */
 public class KiekerLogWriter implements IMonitoringRecordReceiver {
@@ -44,21 +44,21 @@ public class KiekerLogWriter implements IMonitoringRecordReceiver {
 	 * @param storagePath
 	 */
 	public KiekerLogWriter(final String storagePath) {
-		final Configuration configuration = 
-			ConfigurationFactory.createDefaultConfiguration();
-		
+		final Configuration configuration =
+				ConfigurationFactory.createDefaultConfiguration();
+
 		/* Configuring asynchronous file system writer */
 		configuration.setProperty(ConfigurationFactory.WRITER_CLASSNAME, AsyncFsWriter.class.getName());
 		// Custom storage path
 		configuration.setProperty(AbstractAsyncFSWriter.CONFIG_PATH, storagePath);
 		configuration.setProperty(AbstractAsyncFSWriter.CONFIG_TEMP, Boolean.toString(false));
 		// Block on full queue
-		configuration.setProperty(AsyncFsWriter.class.getName()+".QueueFullBehavior", Integer.toString(1));
+		configuration.setProperty(AsyncFsWriter.class.getName() + ".QueueFullBehavior", Integer.toString(1));
 		// Enable "replay mode", i.e., the logging timestamps in the records are kept as-is
 		configuration.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.toString(false));
 		// Set controller name
 		configuration.setProperty(ConfigurationFactory.CONTROLLER_NAME, "KiekerLogWriter");
-		
+
 		this.monitoringController = MonitoringController.createInstance(configuration);
 	}
 

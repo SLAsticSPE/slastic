@@ -21,6 +21,11 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.model;
 
 import org.trustsoft.slastic.plugins.cloud.model.ICloudedApplicationConfiguration;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class EucalyptusCloudedApplicationConfiguration implements
 		ICloudedApplicationConfiguration {
 
@@ -30,6 +35,6 @@ public class EucalyptusCloudedApplicationConfiguration implements
 	public EucalyptusCloudedApplicationConfiguration() {
 
 	}
-	
+
 	// TODO: implement toString()
 }

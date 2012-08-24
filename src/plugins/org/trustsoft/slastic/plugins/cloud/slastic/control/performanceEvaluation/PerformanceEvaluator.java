@@ -16,8 +16,6 @@
 
 package org.trustsoft.slastic.plugins.cloud.slastic.control.performanceEvaluation;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.components.analysis.AbstractPerformanceEvaluatorComponent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.plugins.cloud.slastic.control.performanceEvaluation.performanceLogger.PerformanceLogger;
@@ -25,9 +23,14 @@ import org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.p
 
 import com.espertech.esper.client.EPServiceProvider;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent {
 
-	private static final Log log = LogFactory.getLog(PerformanceEvaluator.class);
+	// private static final Log LOG = LogFactory.getLog(PerformanceEvaluator.class);
 
 	private volatile EPServiceProvider epServiceProvider;
 
@@ -35,8 +38,7 @@ public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent 
 
 	@Override
 	public void handleEvent(final IEvent ev) {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException("Event handler not implemented");
 	}
 
 	@Override

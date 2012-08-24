@@ -26,33 +26,33 @@ import org.trustsoft.slastic.control.components.events.IEvent;
 
 /**
  * A model update manager that simply doesn't do anything.
- *
- * @author Andree van Hoorn
+ * 
+ * @author Andre van Hoorn
  */
 public class DummyModelUpdaterComponent extends AbstractModelUpdaterComponent {
 
-    @Override
-    public void newObservation(IObservationEvent event) {
-        // do nothing
-    }
+	@Override
+	public void newObservation(final IObservationEvent event) {
+		// do nothing
+	}
 
-    @Override
-    public void handleEvent(IEvent ev) {
-        // do nothing
-    }
+	@Override
+	public void handleEvent(final IEvent ev) {
+		// do nothing
+	}
 
-    @Override
-    public boolean init() {
-        return true;
-    }
+	@Override
+	public boolean init() {
+		return true;
+	}
 
-    @Override
-    public boolean execute() {
-        return true;
-    }
+	@Override
+	public boolean execute() {
+		return true;
+	}
 
-    @Override
-    public void terminate(boolean error) {
-        // do nothing
-    }
+	@Override
+	public void terminate(final boolean error) {
+		// do nothing
+	}
 }

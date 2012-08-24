@@ -16,7 +16,15 @@
 
 package org.trustsoft.slastic.plugins.pcm.control.modelManager;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class AllocationContextNotInModelException extends Exception {
+
+	private static final long serialVersionUID = 865554L;
+
 	public AllocationContextNotInModelException() {
 		super("The given component does not belong to the current model.");
 	}

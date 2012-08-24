@@ -16,8 +16,16 @@
 
 package org.trustsoft.slastic.plugins.pcm.control.modelManager;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class ServerNotAllocatedException extends Exception {
-	public ServerNotAllocatedException(){
+
+	private static final long serialVersionUID = 555L;
+
+	public ServerNotAllocatedException() {
 		super("The given Server cannot be used, because it is not allocated. Try using the Allocate-Operation.");
 	}
 }

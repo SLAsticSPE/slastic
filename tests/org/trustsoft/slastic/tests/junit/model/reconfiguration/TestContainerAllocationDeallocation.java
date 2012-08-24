@@ -27,6 +27,11 @@ import de.cau.se.slastic.metamodel.core.SystemModel;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class TestContainerAllocationDeallocation extends TestCase {
 
 	private final String CONTAINER_TYPE_NAME = "CONTAINER_T";
@@ -87,7 +92,7 @@ public class TestContainerAllocationDeallocation extends TestCase {
 
 		/* Deallocate node */
 		Assert.assertTrue(mgr.getExecutionEnvironmentModelManager().deallocateExecutionContainer(executionContainer));
-		
+
 		/* Lookup by type (include/exclude inactive ones) */
 		{
 			final Collection<ExecutionContainer> activeAndInactiveContainersOfType =

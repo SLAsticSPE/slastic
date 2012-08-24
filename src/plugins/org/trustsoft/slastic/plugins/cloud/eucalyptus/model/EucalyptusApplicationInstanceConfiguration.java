@@ -21,6 +21,11 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.model;
 
 import org.trustsoft.slastic.plugins.cloud.model.IApplicationInstanceConfiguration;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class EucalyptusApplicationInstanceConfiguration implements
 		IApplicationInstanceConfiguration {
 

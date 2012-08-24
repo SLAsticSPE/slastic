@@ -25,11 +25,24 @@ import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class ReconfigurationManager implements IReconfigurationManager {
 	/* Managers for the submodels */
+
+	@SuppressWarnings("unused")
+	// currently unused, but should be present for reasons of consistency and future extensions
 	private final TypeRepositoryModelManager typeRepositoryManager;
+
+	@SuppressWarnings("unused")
+	// currently unused, but should be present for reasons of consistency and future extensions
 	private final ComponentAssemblyModelManager componentAssemblyModelManager;
+
 	private final ExecutionEnvironmentModelManager executionEnvironmentModelManager;
+
 	private final ComponentDeploymentModelManager componentDeploymentModelManager;
 
 	/**
@@ -50,46 +63,36 @@ public class ReconfigurationManager implements IReconfigurationManager {
 		this.executionEnvironmentModelManager = executionEnvironmentModelManager;
 		this.componentDeploymentModelManager = componentDeploymentModelManager;
 	}
-	
 
 	@Override
 	public DeploymentComponent replicateComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
-		return this.componentDeploymentModelManager
-				.createAndRegisterDeploymentComponent(assemblyComponent,
-						toExecutionContainer);
+		return this.componentDeploymentModelManager.createAndRegisterDeploymentComponent(assemblyComponent, toExecutionContainer);
 	}
-
 
 	@Override
 	public void dereplicateComponent(
 			final DeploymentComponent deploymentContainer) {
-		this.componentDeploymentModelManager
-				.deleteDeploymentComponent(deploymentContainer);
+		this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentContainer);
 	}
 
 	@Override
 	public DeploymentComponent migrateComponent(
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer toExecutionContainer) {
-		return this.componentDeploymentModelManager.migrateDeploymentComponent(
-				deploymentComponent, toExecutionContainer);
+		return this.componentDeploymentModelManager.migrateDeploymentComponent(deploymentComponent, toExecutionContainer);
 	}
-
 
 	@Override
 	public boolean allocateExecutionContainer(
 			final ExecutionContainer executionContainer) {
-		return this.executionEnvironmentModelManager
-				.allocateExecutionContainer(executionContainer);
+		return this.executionEnvironmentModelManager.allocateExecutionContainer(executionContainer);
 	}
 
-	
 	@Override
 	public boolean deallocateExecutionContainer(
 			final ExecutionContainer executionContainer) {
-		return this.executionEnvironmentModelManager
-				.deallocateExecutionContainer(executionContainer);
+		return this.executionEnvironmentModelManager.deallocateExecutionContainer(executionContainer);
 	}
 }

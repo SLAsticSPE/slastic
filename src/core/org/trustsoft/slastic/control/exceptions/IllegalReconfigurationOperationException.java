@@ -16,7 +16,15 @@
 
 package org.trustsoft.slastic.control.exceptions;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public class IllegalReconfigurationOperationException extends Exception {
+
+	private static final long serialVersionUID = 6545L;
+
 	public IllegalReconfigurationOperationException() {
 		super("The ReconfigurationPlan contains a illegal Operation");
 	}

@@ -39,6 +39,11 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Model;
 
+/**
+ * 
+ * @author Robert von Massow
+ * 
+ */
 public final class ModelManager implements IReconfigurationPlanReceiver {
 	private static volatile ModelManager INSTANCE;
 

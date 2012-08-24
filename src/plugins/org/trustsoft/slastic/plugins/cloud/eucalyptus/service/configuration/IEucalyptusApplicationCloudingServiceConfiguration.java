@@ -22,6 +22,11 @@ import java.util.Map;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.loadBalancerServlet.LoadBalancerServlet;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public interface IEucalyptusApplicationCloudingServiceConfiguration {
 
 	/**
@@ -54,8 +59,7 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public String getLoadBalancerServletURL();
 
 	/**
-	 * Returns the file system location of this Eucalyptus tools (e.g.
-	 * {@code /usr/local/bin/}).
+	 * Returns the file system location of this Eucalyptus tools (e.g. {@code /usr/local/bin/}).
 	 * 
 	 * @return
 	 */
@@ -109,12 +113,12 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	 * @return
 	 */
 	public int getNodeAllocationMaxWaitTimeSeconds();
-	
+
 	/**
 	 * Returns the poll period with which to check if an allocated node is available.
 	 */
 	public int getNodeAllocationPollPeriodSeconds();
-	
+
 	/**
 	 * Returns the maximum time to wait for an application to be available.
 	 * 
@@ -172,24 +176,21 @@ public interface IEucalyptusApplicationCloudingServiceConfiguration {
 	public String getEucalyptusGroup();
 
 	/**
-	 * Returns the file system locations of the private SSH key used to deploy
-	 * {@link EucalyptusApplicationInstance}s via scp.
+	 * Returns the file system locations of the private SSH key used to deploy {@link EucalyptusApplicationInstance}s via scp.
 	 * 
 	 * @return
 	 */
 	public String getSSHPrivateKeyFile();
 
 	/**
-	 * Returns the user name used to deploy
-	 * {@link EucalyptusApplicationInstance}s via scp.
+	 * Returns the user name used to deploy {@link EucalyptusApplicationInstance}s via scp.
 	 * 
 	 * @return
 	 */
 	public String getSSHUserName();
 
 	/**
-	 * Returns the file system location of the tomcat (e.g.,
-	 * {@code /opt/tomcat/})
+	 * Returns the file system location of the tomcat (e.g., {@code /opt/tomcat/})
 	 * 
 	 * @return
 	 */

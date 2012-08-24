@@ -16,14 +16,15 @@
 
 package org.trustsoft.slastic.plugins.starter;
 
-import java.util.Hashtable;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.impl.ExtensibleURIConverterImpl;
 
+/**
+ * 
+ * @author Andre van Hoorn, Robert von Massow
+ * 
+ */
 public class MyURIConverterImpl extends ExtensibleURIConverterImpl {
-
-	private final Hashtable<String, URI> thePolice = new Hashtable<String, URI>();
 
 	public MyURIConverterImpl(final String[] strings) {
 		for (final String string : strings) {

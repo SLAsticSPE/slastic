@@ -18,6 +18,11 @@ package org.trustsoft.slastic.tests.junit.framework.esper.externalTime.outputLim
 
 import java.util.Arrays;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 class StreamRecord {
 	/**
 	 * The time when the row was observed.

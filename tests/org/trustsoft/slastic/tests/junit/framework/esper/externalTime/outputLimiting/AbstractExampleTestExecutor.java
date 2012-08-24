@@ -23,6 +23,11 @@ import junit.framework.Assert;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public abstract class AbstractExampleTestExecutor {
 	/**
 	 * 

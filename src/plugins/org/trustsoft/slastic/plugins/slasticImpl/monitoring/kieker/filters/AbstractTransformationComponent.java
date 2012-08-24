@@ -22,6 +22,11 @@ import org.trustsoft.slastic.plugins.slasticImpl.model.componentDeployment.IDepl
 import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.ExecutionEnvironmentModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
+/**
+ * 
+ * @author Andre van Hoorn
+ * 
+ */
 public abstract class AbstractTransformationComponent {
 
 	/**
@@ -68,12 +73,9 @@ public abstract class AbstractTransformationComponent {
 	public AbstractTransformationComponent(final ModelManager modelManager) {
 		this.modelManager = modelManager;
 		this.typeModelManager = this.modelManager.getTypeRepositoryManager();
-		this.assemblyModelManager = this.modelManager
-				.getComponentAssemblyModelManager();
-		this.executionEnvModelManager = this.modelManager
-				.getExecutionEnvironmentModelManager();
-		this.deploymentModelManager = this.modelManager
-				.getComponentDeploymentModelManager();
+		this.assemblyModelManager = this.modelManager.getComponentAssemblyModelManager();
+		this.executionEnvModelManager = this.modelManager.getExecutionEnvironmentModelManager();
+		this.deploymentModelManager = this.modelManager.getComponentDeploymentModelManager();
 	}
 
 }

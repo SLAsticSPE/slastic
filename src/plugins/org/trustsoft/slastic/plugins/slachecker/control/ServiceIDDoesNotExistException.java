@@ -16,8 +16,16 @@
 
 package org.trustsoft.slastic.plugins.slachecker.control;
 
+/**
+ * 
+ * @author Lena Stoever
+ * 
+ */
 public class ServiceIDDoesNotExistException extends Exception {
-	public ServiceIDDoesNotExistException(){
+
+	private static final long serialVersionUID = 8787546;
+
+	public ServiceIDDoesNotExistException() {
 		super("There couldn't be found a Service that belongs to the given ServiceID");
 	}
 }
