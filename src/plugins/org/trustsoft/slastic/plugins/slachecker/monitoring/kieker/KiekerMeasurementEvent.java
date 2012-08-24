@@ -16,21 +16,25 @@
 
 package org.trustsoft.slastic.plugins.slachecker.monitoring.kieker;
 
-import kieker.common.record.IMonitoringRecord;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 
+import kieker.common.record.IMonitoringRecord;
+
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public class KiekerMeasurementEvent implements IObservationEvent {
-    private final IMonitoringRecord kiekerRecord;
 
-    public final IMonitoringRecord getKiekerRecord() {
-        return kiekerRecord;
-    }
+	private static final long serialVersionUID = 8766L;
 
-    public KiekerMeasurementEvent (final IMonitoringRecord kiekerRecord){
-        this.kiekerRecord = kiekerRecord;
-    }
+	private final IMonitoringRecord kiekerRecord;
+
+	public final IMonitoringRecord getKiekerRecord() {
+		return this.kiekerRecord;
+	}
+
+	public KiekerMeasurementEvent(final IMonitoringRecord kiekerRecord) {
+		this.kiekerRecord = kiekerRecord;
+	}
 }

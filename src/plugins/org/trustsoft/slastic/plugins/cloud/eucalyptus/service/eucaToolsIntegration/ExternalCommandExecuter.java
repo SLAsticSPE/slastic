@@ -31,8 +31,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ExternalCommandExecuter implements IResultObserver {
 
-	private static final Log log = LogFactory
-			.getLog(ExternalCommandExecuter.class);
+	private static final Log LOG = LogFactory.getLog(ExternalCommandExecuter.class);
 
 	private final boolean isDummyMode;
 
@@ -68,22 +67,19 @@ public class ExternalCommandExecuter implements IResultObserver {
 		try {
 			final Runtime rt = Runtime.getRuntime();
 
-			ExternalCommandExecuter.log.info(enviro + "$ "
+			ExternalCommandExecuter.LOG.info(enviro + "$ "
 					+ command.getCommandString().replaceAll(" && ", " "));
 			if (this.isDummyMode) {
 				return "DUMMY MODE OUTPUT";
 			}
 
-			final String[] commandsDummy =
-					command.getCommandString().split(" && ");
+			final String[] commandsDummy = command.getCommandString().split(" && ");
 
 			proc = rt.exec(commandsDummy, null, new File(enviro));
 
-			final InputStreamGobbler errorGobbler =
-					new InputStreamGobbler(proc.getErrorStream(), this);
+			final InputStreamGobbler errorGobbler = new InputStreamGobbler(proc.getErrorStream(), this);
 
-			final InputStreamGobbler inputGobbler =
-					new InputStreamGobbler(proc.getInputStream(), this);
+			final InputStreamGobbler inputGobbler = new InputStreamGobbler(proc.getInputStream(), this);
 
 			errorGobbler.start();
 			inputGobbler.start();
@@ -107,10 +103,9 @@ public class ExternalCommandExecuter implements IResultObserver {
 	 * 
 	 */
 	// TODO: allow the registration of an observer to be notified when the
-	//       asynchronous command has been executed. It should then be 
-	//       possible to fetch the result string from this object
-	public void executeCommandWithEnvAndDelayAsync(final EucalyptusCommand command,
-			final String enviro, final long delayMillis) {
+	// asynchronous command has been executed. It should then be
+	// possible to fetch the result string from this object
+	public void executeCommandWithEnvAndDelayAsync(final EucalyptusCommand command, final String enviro, final long delayMillis) {
 		final Runnable r = new Runnable() {
 
 			@Override
@@ -119,7 +114,7 @@ public class ExternalCommandExecuter implements IResultObserver {
 					Thread.sleep(delayMillis);
 					ExternalCommandExecuter.this.executeCommandWithEnv(command, enviro);
 				} catch (final InterruptedException e) {
-					ExternalCommandExecuter.log.error("Delayed executor thread (command: " + command.getCommandString() + ") was interrupted: "
+					ExternalCommandExecuter.LOG.error("Delayed executor thread (command: " + command.getCommandString() + ") was interrupted: "
 							+ e.getMessage(), e);
 				}
 			}

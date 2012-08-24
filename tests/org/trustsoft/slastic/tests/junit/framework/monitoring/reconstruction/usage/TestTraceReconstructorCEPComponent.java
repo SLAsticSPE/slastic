@@ -44,14 +44,10 @@ import de.cau.se.slastic.metamodel.usage.InvalidExecutionTrace;
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 
 /**
- * Tests the {@link TraceReconstructor} by sending
- * {@link DeploymentComponentOperationExecution} for
- * {@value #NUM_VALID_TRACES_TO_GENERATE} valid and
+ * Tests the {@link TraceReconstructor} by sending {@link DeploymentComponentOperationExecution} for {@value #NUM_VALID_TRACES_TO_GENERATE} valid and
  * {@link #NUM_INVALID_TRACES_TO_GENERATE} invalid Bookstore traces, generated
- * by (
- * {@link BookstoreTraceFactory#createBookstoreTrace(ExecutionRecordTransformationFilter, long)}
- * ), and checks of the expected number of {@link ValidExecutionTrace}s and
- * {@link InvalidExecutionTrace}s is send via the event bus.
+ * by ( {@link BookstoreTraceFactory#createBookstoreTrace(ExecutionRecordTransformationFilter, long)} ), and checks of the expected number of
+ * {@link ValidExecutionTrace}s and {@link InvalidExecutionTrace}s is send via the event bus.
  * 
  * @author Andre van Hoorn
  * 
@@ -64,7 +60,7 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 	private static final int NUM_EXECUTIONS_TO_REMOVE_FROM_INVALID_TRACES = 1;
 
 	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 2000;
-	
+
 	/**
 	 * Time to wait for CEP to complete.
 	 */
@@ -73,24 +69,19 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 	private int nextTraceId = 0;
 
 	// TODO: Register ExceptionHandler
-	private final EPServiceProvider epService =
-			EPServiceProviderFactory.createInstanceWithEMFSupport();
+	private final EPServiceProvider epService = EPServiceProviderFactory.createInstanceWithEMFSupport();
 
 	private final ExecutionCounter executionCounter = new ExecutionCounter();
 
 	/**
-	 * Constructs a TraceReceiver which registers itself as a subscriber to the
-	 * {@link EPServiceProvider}.
+	 * Constructs a TraceReceiver which registers itself as a subscriber to the {@link EPServiceProvider}.
 	 */
 	@SuppressWarnings("unused")
-	private final TraceReconstructor traceReceiver =
-			new TraceReconstructor(this.epService, TestTraceReconstructorCEPComponent.TRACE_DETECTION_TIMEOUT_MILLIS);
+	private final TraceReconstructor traceReceiver = new TraceReconstructor(this.epService, TRACE_DETECTION_TIMEOUT_MILLIS);
 
-	private final ValidExecutionTraceCollector validExecutionTraceCollector =
-			new ValidExecutionTraceCollector();
+	private final ValidExecutionTraceCollector validExecutionTraceCollector = new ValidExecutionTraceCollector();
 
-	private final InvalidExecutionTraceCollector invalidExecutionTraceCollector =
-			new InvalidExecutionTraceCollector();
+	private final InvalidExecutionTraceCollector invalidExecutionTraceCollector = new InvalidExecutionTraceCollector();
 
 	/**
 	 * Executes the test.
@@ -102,23 +93,21 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 		this.registerSubscribers();
 
 		// Send unbroken (broken = false) traces:
-		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_VALID_TRACES_TO_GENERATE, false); 
-		
+		this.sendBookstoreTraces(NUM_VALID_TRACES_TO_GENERATE, false);
+
 		// Send broken (broken = true) traces:
-		this.sendBookstoreTraces(TestTraceReconstructorCEPComponent.NUM_INVALID_TRACES_TO_GENERATE, true);
+		this.sendBookstoreTraces(NUM_INVALID_TRACES_TO_GENERATE, true);
 
 		// We have to wait for this time period, to make sure that all traces
 		// are detected
-		TestTraceReconstructorCEPComponent.LOG.info("Waiting "
-				+ TestTraceReconstructorCEPComponent.SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
-		Thread.sleep(TestTraceReconstructorCEPComponent.SHUTDOWN_TIMEOUT_MILLIS);
+		LOG.info("Waiting " + SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
+		Thread.sleep(SHUTDOWN_TIMEOUT_MILLIS);
 
 		this.checkResults();
 	}
 
 	/**
-	 * Registers the {@link TraceReconstructor} as CEP listener and the
-	 * {@link ExecutionCounter}, {@link ValidExecutionTraceCollector} and
+	 * Registers the {@link TraceReconstructor} as CEP listener and the {@link ExecutionCounter}, {@link ValidExecutionTraceCollector} and
 	 * {@link InvalidExecutionTraceCollector} as CEP subscribers.
 	 */
 	private void registerSubscribers() {
@@ -132,8 +121,7 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 
 		for (final ICEPEventReceiver subscriber : subscribers) {
 			// Register an ExecutionCounter
-			final EPStatement statement = this.epService.getEPAdministrator().createEPL(
-					subscriber.getCEPStatement());
+			final EPStatement statement = this.epService.getEPAdministrator().createEPL(subscriber.getCEPStatement());
 			statement.setSubscriber(subscriber);
 		}
 	}
@@ -142,39 +130,30 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 		// Assert that the ExecutionCounter received the correct number of
 		// events
 		final int expectedNumTraces =
-				(TestTraceReconstructorCEPComponent.NUM_VALID_TRACES_TO_GENERATE * BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE)
-						+ (TestTraceReconstructorCEPComponent.NUM_INVALID_TRACES_TO_GENERATE
-								* (BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE - TestTraceReconstructorCEPComponent.NUM_EXECUTIONS_TO_REMOVE_FROM_INVALID_TRACES));
-		Assert.assertEquals("Unexpected number of executions received",
-				expectedNumTraces, this.executionCounter.getNumEventsReceived());
+				(NUM_VALID_TRACES_TO_GENERATE * BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE)
+						+ (NUM_INVALID_TRACES_TO_GENERATE * (BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE - NUM_EXECUTIONS_TO_REMOVE_FROM_INVALID_TRACES));
+		Assert.assertEquals("Unexpected number of executions received", expectedNumTraces, this.executionCounter.getNumEventsReceived());
 
 		// Assert that the correct number of valid/invalid traces was received
 		Assert.assertEquals("Unexpected number of valid traces",
-				TestTraceReconstructorCEPComponent.NUM_VALID_TRACES_TO_GENERATE, this.validExecutionTraceCollector
-						.getTraces().size());
+				NUM_VALID_TRACES_TO_GENERATE, this.validExecutionTraceCollector.getTraces().size());
 		Assert.assertEquals("Unexpected number of invalid traces",
-				TestTraceReconstructorCEPComponent.NUM_INVALID_TRACES_TO_GENERATE, this.invalidExecutionTraceCollector
-						.getTraces().size());
+				NUM_INVALID_TRACES_TO_GENERATE, this.invalidExecutionTraceCollector.getTraces().size());
 	}
 
 	/**
-	 * Sends the {@link DeploymentComponentOperationExecution}s for
-	 * {@value #NUM_VALID_TRACES_TO_GENERATE} bookstore traces.
+	 * Sends the {@link DeploymentComponentOperationExecution}s for {@value #NUM_VALID_TRACES_TO_GENERATE} bookstore traces.
 	 */
 	private void sendBookstoreTraces(final int numTraces, final boolean breakTraces) {
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 
 		final List<DeploymentComponentOperationExecution> bookstoreExecutions =
 				new ArrayList<DeploymentComponentOperationExecution>(
-						numTraces
-								* BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
+						numTraces * BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE);
 
 		for (int i = 0; i < numTraces; i++) {
-			final Collection<DeploymentComponentOperationExecution> bookstoreTrace =
-					BookstoreTraceFactory.createBookstoreTrace(execRecFilter, this.nextTraceId++);
+			final Collection<DeploymentComponentOperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, this.nextTraceId++);
 			boolean brokeTrace = false;
 			for (final DeploymentComponentOperationExecution exec : bookstoreTrace) {
 				if (breakTraces && !brokeTrace) {
@@ -204,8 +183,7 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 class ExecutionCounter implements ICEPEventReceiver {
 	private final AtomicInteger numEventsReceived = new AtomicInteger(0);
 
-	private static final String expression = "select * from "
-			+ DeploymentComponentOperationExecution.class.getName();
+	private static final String expression = "select * from " + DeploymentComponentOperationExecution.class.getName();
 
 	@Override
 	public String getCEPStatement() {
@@ -228,7 +206,7 @@ abstract class AbstractExecutionTraceCollector<H extends ExecutionTrace> impleme
 	/**
 	 * Logger not static to capture implementing class name.
 	 */
-	private final Log LOG = LogFactory.getLog(this.getClass().getName());
+	private static final Log LOG = LogFactory.getLog(AbstractExecutionTraceCollector.class);
 
 	private final Collection<H> traces = new ArrayList<H>();
 
@@ -240,15 +218,14 @@ abstract class AbstractExecutionTraceCollector<H extends ExecutionTrace> impleme
 	}
 
 	public void update(final H trace) {
-		this.LOG.info("Received trace: " + trace);
+		AbstractExecutionTraceCollector.LOG.info("Received trace: " + trace);
 		this.traces.add(trace);
 	}
 }
 
 class ValidExecutionTraceCollector extends AbstractExecutionTraceCollector<ValidExecutionTrace> {
 
-	private static final String EXPRESSION = "select * from "
-			+ ValidExecutionTrace.class.getName();
+	private static final String EXPRESSION = "select * from " + ValidExecutionTrace.class.getName();
 
 	@Override
 	public String getCEPStatement() {
@@ -258,8 +235,7 @@ class ValidExecutionTraceCollector extends AbstractExecutionTraceCollector<Valid
 
 class InvalidExecutionTraceCollector extends AbstractExecutionTraceCollector<ValidExecutionTrace> {
 
-	private static final String EXPRESSION = "select * from "
-			+ InvalidExecutionTrace.class.getName();
+	private static final String EXPRESSION = "select * from " + InvalidExecutionTrace.class.getName();
 
 	@Override
 	public String getCEPStatement() {

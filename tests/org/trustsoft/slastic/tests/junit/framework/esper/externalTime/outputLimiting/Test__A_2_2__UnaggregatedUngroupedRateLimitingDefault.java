@@ -32,18 +32,17 @@ public class Test__A_2_2__UnaggregatedUngroupedRateLimitingDefault extends
 					+ "from " + MarketData.class.getName()
 					+ ".win:time(5.5 sec) "
 					+ "output every 1 seconds";
-	
+
 	/**
 	 * Executes the scenario.
 	 */
 	public void testReferenceExample() {
 		/* Execute the test */
-		AbstractExampleTestExecutor
-				.executeTest(
-						EPServiceFactory.defaultInstanceExternalClock(200),
-						ExampleDataFactory.A_2_2__inputEvents(),
-						ExampleDataFactory.A_2_2__expectedIStream(),
-						ExampleDataFactory.A_2_2__expectedRStream(),
-						Test__A_2_2__UnaggregatedUngroupedRateLimitingDefault.stmString);
+		AbstractExampleTestExecutor.executeTest(
+				EPServiceFactory.defaultInstanceExternalClock(200),
+				ExampleDataFactory.A_2_2__inputEvents(),
+				ExampleDataFactory.A_2_2__expectedIStream(),
+				ExampleDataFactory.A_2_2__expectedRStream(),
+				Test__A_2_2__UnaggregatedUngroupedRateLimitingDefault.stmString);
 	}
 }

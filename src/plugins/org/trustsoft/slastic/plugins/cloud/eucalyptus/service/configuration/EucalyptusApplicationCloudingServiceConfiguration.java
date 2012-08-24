@@ -94,8 +94,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements IEucal
 	// TODO: We might want to add a dedicated Exception to be thrown
 	public static final IEucalyptusApplicationCloudingServiceConfiguration createConfiguration(final Properties props) {
 		/* Create uninitialized configuration */
-		EucalyptusApplicationCloudingServiceConfiguration configuration =
-				new EucalyptusApplicationCloudingServiceConfiguration();
+		EucalyptusApplicationCloudingServiceConfiguration configuration = new EucalyptusApplicationCloudingServiceConfiguration();
 
 		/* Initialize configuration based on the properties. */
 		final boolean success = EucalyptusApplicationCloudingServiceConfiguration.initVariablesFromProps(configuration, props);
@@ -362,8 +361,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements IEucal
 	 */
 	public final void setDummyModeEnabled(final boolean dummyModeEnabled) {
 		this.dummyModeEnabled = dummyModeEnabled;
-		LOG.debug("Setting dummyModeEnabled: "
-				+ this.dummyModeEnabled);
+		LOG.debug("Setting dummyModeEnabled: " + this.dummyModeEnabled);
 	}
 
 	/**
@@ -396,8 +394,7 @@ public class EucalyptusApplicationCloudingServiceConfiguration implements IEucal
 	 */
 	public final void setLoadBalancerServletURL(final String loadBalancerServletURL) {
 		this.loadBalancerServletURL = loadBalancerServletURL;
-		LOG.debug("Setting loadBalancerServletURL: "
-				+ this.loadBalancerServletURL);
+		LOG.debug("Setting loadBalancerServletURL: " + this.loadBalancerServletURL);
 	}
 
 	@Override

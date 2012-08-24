@@ -18,8 +18,6 @@ package org.trustsoft.slastic.tests.junit.model.manager.createRegisterLookupEnti
 
 import junit.framework.Assert;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.AbstractModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.executionEnvironment.ExecutionEnvironmentModelManager;
@@ -32,15 +30,14 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 /**
  * Tests the functionalities provided by the execution environment manager for
  * creating, registering, and looking up execution containers. All test methods
- * are inherited from the abstract super class $
- * {@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
+ * are inherited from the abstract super class $ {@link AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest}.
  * 
  * @author Andre van Hoorn
  */
 public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends
 		AbstractSubmodelManagerCreateRegisterLookupFQNEntityTest<ExecutionEnvironmentModel, ExecutionContainer> {
 
-	private static final Log log = LogFactory.getLog(TestExecutionEnvironenmentModelManager_ExecutionContainers.class);
+	// private static final Log LOG = LogFactory.getLog(TestExecutionEnvironenmentModelManager_ExecutionContainers.class);
 
 	@Override
 	protected ExecutionEnvironmentModel createModel() {
@@ -48,8 +45,8 @@ public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends
 	}
 
 	@Override
-	protected ExecutionContainer createAndRegisterEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
-			final String fqEntityName, final ModelManager systemModelMgr) {
+	protected ExecutionContainer createAndRegisterEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr, final String fqEntityName,
+			final ModelManager systemModelMgr) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
 			return null;
@@ -62,27 +59,20 @@ public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends
 		// "Type:" create type name from execution container name
 		final String executionContainerName = fqEntityName + "Type";
 
-		ExecutionContainerType executionContainerType = // use existing type
-														// instance if it exists
-														// already
-				systemModelMgr.getTypeRepositoryManager().lookupExecutionContainerType(executionContainerName);
+		ExecutionContainerType executionContainerType = // use existing type instance if it exists already
+		systemModelMgr.getTypeRepositoryManager().lookupExecutionContainerType(executionContainerName);
 		if (executionContainerType == null) {
-			executionContainerType =
-					systemModelMgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(
-							executionContainerName);
+			executionContainerType = systemModelMgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(executionContainerName);
 		}
 		Assert.assertNotNull("Test invalid: executionContainerType == null", executionContainerType);
 
 		final ExecutionContainer executionContainer =
-				((ExecutionEnvironmentModelManager) mgr).createAndRegisterExecutionContainer(fqEntityName,
-						executionContainerType,
-						/* mark allocated */true);
+				((ExecutionEnvironmentModelManager) mgr).createAndRegisterExecutionContainer(fqEntityName, executionContainerType,/* mark allocated */true);
 		return executionContainer;
 	}
 
 	@Override
-	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
-			final String fqEntityName) {
+	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr, final String fqEntityName) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
 			return null;
@@ -91,8 +81,7 @@ public class TestExecutionEnvironenmentModelManager_ExecutionContainers extends
 	}
 
 	@Override
-	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr,
-			final long entityId) {
+	protected ExecutionContainer lookupEntity(final AbstractModelManager<ExecutionEnvironmentModel> mgr, final long entityId) {
 		if (!(mgr instanceof ExecutionEnvironmentModelManager)) {
 			Assert.fail("mgr must be instance of ExecutionEnvironmentModelManager");
 			return null;

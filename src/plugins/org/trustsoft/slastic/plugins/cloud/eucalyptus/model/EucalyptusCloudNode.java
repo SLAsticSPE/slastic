@@ -38,9 +38,7 @@ public class EucalyptusCloudNode extends AbstractCloudNode {
 	 * @param name
 	 * @param type
 	 */
-	public EucalyptusCloudNode(final String name, final ICloudNodeType type,
-			final String instanceID, final String ipAddress,
-			final String hostname) {
+	public EucalyptusCloudNode(final String name, final ICloudNodeType type, final String instanceID, final String ipAddress, final String hostname) {
 		super(name, type);
 		this.instanceID = instanceID;
 		this.ipAddress = ipAddress;

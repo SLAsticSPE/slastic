@@ -19,7 +19,6 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.system.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -27,14 +26,15 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 
+import kieker.common.record.system.MemSwapUsageRecord;
+
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
  * re-uses existing model entities.
  * 
  * @author Andre van Hoorn
  */
-public class TestMemSwapUsageTransformationFilterSameRecordTwice extends
-		AbstractReconstructionTest {
+public class TestMemSwapUsageTransformationFilterSameRecordTwice extends AbstractReconstructionTest {
 
 	private final MemSwapUsageRecord kiekerRecord;
 	{
@@ -51,7 +51,7 @@ public class TestMemSwapUsageTransformationFilterSameRecordTwice extends
 		final long swapTotal = usage++;
 		final long swapUsed = usage++;
 		final long swapFree = usage++;
-		
+
 		this.kiekerRecord = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
@@ -59,12 +59,10 @@ public class TestMemSwapUsageTransformationFilterSameRecordTwice extends
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final MemSwapUsageRecordTransformationFilter filter =
-				new MemSwapUsageRecordTransformationFilter(modelManager);
+		final MemSwapUsageRecordTransformationFilter filter = new MemSwapUsageRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
-		final ArrayList<MemSwapUsage> slasticRef =
-				new ArrayList<MemSwapUsage>();
+		final ArrayList<MemSwapUsage> slasticRef = new ArrayList<MemSwapUsage>();
 
 		/* Let the filter transform the same record twice */
 		slasticRef.add(filter.transformMemSwapUsageRecord(this.kiekerRecord));
@@ -88,24 +86,13 @@ public class TestMemSwapUsageTransformationFilterSameRecordTwice extends
 			/*
 			 * Compare all record elements:
 			 */
-			Assert.assertEquals("Unexpected timestamp",
-					slasticRecordA.getTimestamp(),
-					slasticRecordB.getTimestamp());
-			Assert.assertSame("Unexpected resource",
-					slasticRecordA.getResource(), slasticRecordB.getResource());
-			
-			Assert.assertEquals("Unexpected memFree value",
-					slasticRecordA.getMemFreeBytes(),
-					slasticRecordB.getMemFreeBytes());
-			Assert.assertEquals("Unexpected memUsed value",
-					slasticRecordA.getMemUsedBytes(),
-					slasticRecordB.getMemUsedBytes());
-			Assert.assertEquals("Unexpected swapFree value",
-					slasticRecordA.getSwapFreeBytes(),
-					slasticRecordB.getSwapFreeBytes());
-			Assert.assertEquals("Unexpected swapUsed value",
-					slasticRecordA.getSwapUsedBytes(),
-					slasticRecordB.getSwapUsedBytes());
+			Assert.assertEquals("Unexpected timestamp", slasticRecordA.getTimestamp(), slasticRecordB.getTimestamp());
+			Assert.assertSame("Unexpected resource", slasticRecordA.getResource(), slasticRecordB.getResource());
+
+			Assert.assertEquals("Unexpected memFree value", slasticRecordA.getMemFreeBytes(), slasticRecordB.getMemFreeBytes());
+			Assert.assertEquals("Unexpected memUsed value", slasticRecordA.getMemUsedBytes(), slasticRecordB.getMemUsedBytes());
+			Assert.assertEquals("Unexpected swapFree value", slasticRecordA.getSwapFreeBytes(), slasticRecordB.getSwapFreeBytes());
+			Assert.assertEquals("Unexpected swapUsed value", slasticRecordA.getSwapUsedBytes(), slasticRecordB.getSwapUsedBytes());
 		}
 	}
 }

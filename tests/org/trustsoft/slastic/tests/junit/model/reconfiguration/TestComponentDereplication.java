@@ -39,13 +39,12 @@ public class TestComponentDereplication extends TestCase {
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
 		final DeploymentComponent deploymentComponent =
-				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName",
-						"ExecutionContainerTypeName", "ExecutionContainernName");
+				ModelEntityCreationUtils.createDeploymentComponent(mgr, "ComponentTypeName", "AssemblyComponentName", "ExecutionContainerTypeName",
+						"ExecutionContainernName");
 		mgr.getReconfigurationManager().dereplicateComponent(deploymentComponent);
 		/* Make sure that entity is removed/marked inactive */
 
-		final DeploymentComponent deploymentComponentLookup =
-				mgr.getComponentDeploymentModelManager().lookupDeploymentComponent(deploymentComponent.getId());
+		final DeploymentComponent deploymentComponentLookup = mgr.getComponentDeploymentModelManager().lookupDeploymentComponent(deploymentComponent.getId());
 
 		if (deploymentComponentLookup != null) {
 			Assert.assertSame(deploymentComponent, deploymentComponentLookup);
@@ -57,8 +56,8 @@ public class TestComponentDereplication extends TestCase {
 		 * assemblies
 		 */
 		final DeploymentComponent deploymentComponentLookup2 =
-				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(
-						deploymentComponent.getAssemblyComponent(), deploymentComponent.getExecutionContainer());
+				mgr.getComponentDeploymentModelManager().deploymentComponentForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
+						deploymentComponent.getExecutionContainer());
 
 		Assert.assertTrue((deploymentComponentLookup2 == null) || !deploymentComponentLookup2.isActive());
 
@@ -68,6 +67,6 @@ public class TestComponentDereplication extends TestCase {
 		 */
 		Assert.assertEquals("List of deployments for assembly must be 0", 0, mgr.getComponentDeploymentModelManager()
 				.deploymentComponentsForAssemblyComponent(deploymentComponent.getAssemblyComponent(),
-				/* do not include inactive ones */false).size());
+						/* do not include inactive ones */false).size());
 	}
 }

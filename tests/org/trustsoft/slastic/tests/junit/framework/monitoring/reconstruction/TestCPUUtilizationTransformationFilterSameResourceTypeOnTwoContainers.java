@@ -19,13 +19,14 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.system.CPUUtilizationRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.CPUUtilizationRecordTransformationFilter;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
+
+import kieker.common.record.system.CPUUtilizationRecord;
 
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
@@ -50,7 +51,7 @@ public class TestCPUUtilizationTransformationFilterSameResourceTypeOnTwoContaine
 		final double user = util++;
 		final double system = util++;
 		final double wait = util++;
-		final double nice = util++;		
+		final double nice = util++;
 		final double irq = util++;
 		final double totalUtilization = util++;
 		final double idle = util++;
@@ -72,7 +73,7 @@ public class TestCPUUtilizationTransformationFilterSameResourceTypeOnTwoContaine
 		final double user = util++;
 		final double system = util++;
 		final double wait = util++;
-		final double nice = util++;		
+		final double nice = util++;
 		final double irq = util++;
 		final double totalUtilization = util++;
 		final double idle = util++;
@@ -84,25 +85,20 @@ public class TestCPUUtilizationTransformationFilterSameResourceTypeOnTwoContaine
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final CPUUtilizationRecordTransformationFilter filter =
-				new CPUUtilizationRecordTransformationFilter(modelManager);
+		final CPUUtilizationRecordTransformationFilter filter = new CPUUtilizationRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
-		final ArrayList<CPUUtilization> slasticRef =
-				new ArrayList<CPUUtilization>();
+		final ArrayList<CPUUtilization> slasticRef = new ArrayList<CPUUtilization>();
 
 		/* Let the filter transform the same record twice */
-		slasticRef
-				.add(filter.transformCPUUtilizationRecord(this.kiekerRecord1));
-		slasticRef
-				.add(filter.transformCPUUtilizationRecord(this.kiekerRecord2));
+		slasticRef.add(filter.transformCPUUtilizationRecord(this.kiekerRecord1));
+		slasticRef.add(filter.transformCPUUtilizationRecord(this.kiekerRecord2));
 
 		final CPUUtilization slasticRecordA = slasticRef.get(0);
 		final CPUUtilization slasticRecordB = slasticRef.get(1);
 
 		Assert.assertSame("Expecting same type for both records",
-				slasticRecordA.getResource().getResourceSpecification()
-						.getResourceType(), slasticRecordB.getResource()
-						.getResourceSpecification().getResourceType());
+				slasticRecordA.getResource().getResourceSpecification().getResourceType(),
+				slasticRecordB.getResource().getResourceSpecification().getResourceType());
 	}
 }

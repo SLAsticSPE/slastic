@@ -97,8 +97,7 @@ class ComponentContext implements IComponentContext {
 		try {
 			f.createNewFile();
 		} catch (final IOException e) {
-			LOG.error("Failed to create file '"
-					+ fqFilename + "':");
+			LOG.error("Failed to create file '" + fqFilename + "':");
 		}
 		return f;
 	}

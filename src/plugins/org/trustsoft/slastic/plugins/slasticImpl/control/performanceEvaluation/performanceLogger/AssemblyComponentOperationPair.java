@@ -22,33 +22,38 @@ import de.cau.se.slastic.metamodel.typeRepository.Operation;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class AssemblyComponentOperationPair {
 	private final AssemblyComponent assemblyComponent;
 	private final Operation operation;
+
 	/**
 	 * @param assemblyComponent
 	 * @param operatio
 	 */
-	public AssemblyComponentOperationPair(final AssemblyComponent assemblyComponent,
-			final Operation operation) {
+	public AssemblyComponentOperationPair(final AssemblyComponent assemblyComponent, final Operation operation) {
 		this.assemblyComponent = assemblyComponent;
 		this.operation = operation;
 	}
+
 	/**
 	 * @return the assemblyComponent
 	 */
 	public final AssemblyComponent getAssemblyComponent() {
 		return this.assemblyComponent;
 	}
+
 	/**
 	 * @return the operation
 	 */
 	public final Operation getOperation() {
 		return this.operation;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -56,16 +61,19 @@ public class AssemblyComponentOperationPair {
 		final int prime = 31;
 		int result = 1;
 		result =
-				prime
-						* result
+				(prime
+						* result)
 						+ ((this.assemblyComponent == null) ? 0 : this.assemblyComponent
 								.hashCode());
 		result =
-				prime * result
+				(prime * result)
 						+ ((this.operation == null) ? 0 : this.operation.hashCode());
 		return result;
 	}
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

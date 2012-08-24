@@ -29,9 +29,8 @@ import com.espertech.esper.client.EPServiceProvider;
  * 
  */
 class IRStreamCollector {
-	private final List<StreamRecord> iStream =
-			new ArrayList<StreamRecord>();
-	
+	private final List<StreamRecord> iStream = new ArrayList<StreamRecord>();
+
 	/**
 	 * Returns the recorded insert stream.
 	 * 
@@ -50,8 +49,7 @@ class IRStreamCollector {
 		return this.rStream;
 	}
 
-	private final List<StreamRecord> rStream =
-			new ArrayList<StreamRecord>();
+	private final List<StreamRecord> rStream = new ArrayList<StreamRecord>();
 	private final EPServiceProvider epService;
 
 	public IRStreamCollector(final EPServiceProvider epService) {
@@ -65,8 +63,7 @@ class IRStreamCollector {
 	 * @param row
 	 */
 	public void update(final Object[] row) {
-		this.iStream.add(new StreamRecord(this.epService.getEPRuntime()
-				.getCurrentTime(), row));
+		this.iStream.add(new StreamRecord(this.epService.getEPRuntime().getCurrentTime(), row));
 	}
 
 	/**
@@ -76,7 +73,6 @@ class IRStreamCollector {
 	 * @param row
 	 */
 	public void updateRStream(final Object[] row) {
-		this.rStream.add(new StreamRecord(this.epService.getEPRuntime()
-				.getCurrentTime(), row));
+		this.rStream.add(new StreamRecord(this.epService.getEPRuntime().getCurrentTime(), row));
 	}
 }

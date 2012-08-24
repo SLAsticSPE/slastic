@@ -16,10 +16,6 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-import kieker.tools.util.LoggingTimestampConverter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
@@ -27,30 +23,26 @@ import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 
+import kieker.tools.util.LoggingTimestampConverter;
+
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class DeploymentComponentInvocationCountLogger extends
-		AbstractPerformanceMeasureLogger<DeploymentComponent> implements
-		IDeploymentComponentInvocationCountReceiver {
+public class DeploymentComponentInvocationCountLogger extends AbstractPerformanceMeasureLogger<DeploymentComponent>
+		implements IDeploymentComponentInvocationCountReceiver {
 
-	private static final Log log = LogFactory
-			.getLog(DeploymentComponentInvocationCountLogger.class);
+	// private static final Log LOG = LogFactory.getLog(DeploymentComponentInvocationCountLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
-	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5*60;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5 * 60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5 * 60;
 
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
-	public DeploymentComponentInvocationCountLogger(
-			final IComponentContext context) {
-		this(
-				context,
-				DeploymentComponentInvocationCountLogger.DEFAULT_WIN_TIME_SECONDS,
-				DeploymentComponentInvocationCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+	public DeploymentComponentInvocationCountLogger(final IComponentContext context) {
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
@@ -58,9 +50,7 @@ public class DeploymentComponentInvocationCountLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public DeploymentComponentInvocationCountLogger(
-			final IComponentContext context, final int winTimeSec,
-			final int outputIntervalSec) {
+	public DeploymentComponentInvocationCountLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
 		super(context);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
@@ -75,34 +65,30 @@ public class DeploymentComponentInvocationCountLogger extends
 	 *            observation
 	 * @return
 	 */
-	private final String[] createRow(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Long count) {
-		final String currentTimeUTCString =
-				LoggingTimestampConverter
-						.convertLoggingTimestampToUTCString(currentTimestampMillis
-								* (1000 * 1000));
+	private final String[] createRow(final long currentTimestampMillis, final DeploymentComponent deplComp, final Long count) {
+		final String currentTimeUTCString = LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000));
 
 		return new String[] {
-				/* 0: timestamp: */
-				Long.toString(currentTimestampMillis),
-				/* 1: human-readable UTC string: */
-				currentTimeUTCString,
-				/* 2: deployment-component ID: */
-				Long.toString(deplComp.getId()),
-				/* 3: execution container name + id: */
-				new StringBuilder()
-						.append(deplComp.getExecutionContainer().getName())
-						.append("(")
-						.append(deplComp.getExecutionContainer().getId())
-						.append(")").toString(),
-				/* 4: assembly component name + id */
-				new StringBuilder()
-						.append(deplComp.getAssemblyComponent().getName())
-						.append("(")
-						.append(deplComp.getAssemblyComponent().getId())
-						.append(")").toString(),
-				/* 5: count */
-				count == null ? "NA" : Long.toString(count) };
+			/* 0: timestamp: */
+			Long.toString(currentTimestampMillis),
+			/* 1: human-readable UTC string: */
+			currentTimeUTCString,
+			/* 2: deployment-component ID: */
+			Long.toString(deplComp.getId()),
+			/* 3: execution container name + id: */
+			new StringBuilder()
+					.append(deplComp.getExecutionContainer().getName())
+					.append("(")
+					.append(deplComp.getExecutionContainer().getId())
+					.append(")").toString(),
+			/* 4: assembly component name + id */
+			new StringBuilder()
+					.append(deplComp.getAssemblyComponent().getName())
+					.append("(")
+					.append(deplComp.getAssemblyComponent().getId())
+					.append(")").toString(),
+			/* 5: count */
+			count == null ? "NA" : Long.toString(count) };
 
 	}
 
@@ -110,26 +96,20 @@ public class DeploymentComponentInvocationCountLogger extends
 	 * Handler for incoming deployment components average RTs.
 	 */
 	@Override
-	public void update(final long currentTimestampMillis,
-			final DeploymentComponent deplComp, final Long count) {
+	public void update(final long currentTimestampMillis, final DeploymentComponent deplComp, final Long count) {
 
-		super.writeRow(deplComp,
-				this.createRow(currentTimestampMillis, deplComp, count));
+		super.writeRow(deplComp, this.createRow(currentTimestampMillis, deplComp, count));
 	}
 
 	@Override
 	protected String[] createHeader() {
-		return new String[] { "timestamp", "UTCString", "deplCompID",
-				"executionContainer", "assemblyComponent;count" };
+		return new String[] { "timestamp", "UTCString", "deplCompID", "executionContainer", "assemblyComponent;count" };
 	}
 
 	@Override
-	protected String createFilename(
-			final DeploymentComponent deploymentComponent) {
-		final ExecutionContainer executionContainer =
-				deploymentComponent.getExecutionContainer();
-		final AssemblyComponent assemblyComponent =
-				deploymentComponent.getAssemblyComponent();
+	protected String createFilename(final DeploymentComponent deploymentComponent) {
+		final ExecutionContainer executionContainer = deploymentComponent.getExecutionContainer();
+		final AssemblyComponent assemblyComponent = deploymentComponent.getAssemblyComponent();
 
 		return (new StringBuilder(Long.toString(deploymentComponent.getId())))
 				.append("--").append(executionContainer.getName()).append("-")

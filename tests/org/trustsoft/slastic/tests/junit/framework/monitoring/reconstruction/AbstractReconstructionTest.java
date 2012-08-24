@@ -27,7 +27,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class AbstractReconstructionTest extends TestCase {
 	/**
@@ -42,29 +42,15 @@ public class AbstractReconstructionTest extends TestCase {
 			final ExecutionContainer executionContainer) {
 		final ExecutionContainer lookedUpExecutionContainer;
 		{
-			lookedUpExecutionContainer =
-					mgr.getExecutionEnvironmentModelManager()
-							.lookupExecutionContainer(
-									executionContainerLookupFQName);
-			Assert.assertNotNull("Lookup of execution container "
-					+ executionContainerLookupFQName + " failed",
-					lookedUpExecutionContainer);
-			Assert.assertSame("Unexpected execution container",
-					lookedUpExecutionContainer,
-					executionContainer);
+			lookedUpExecutionContainer = mgr.getExecutionEnvironmentModelManager().lookupExecutionContainer(executionContainerLookupFQName);
+			Assert.assertNotNull("Lookup of execution container " + executionContainerLookupFQName + " failed", lookedUpExecutionContainer);
+			Assert.assertSame("Unexpected execution container", lookedUpExecutionContainer, executionContainer);
 		}
 		final ExecutionContainerType lookedUpContainerType;
 		{
-			lookedUpContainerType =
-					mgr.getTypeRepositoryManager()
-							.lookupExecutionContainerType(
-									containerTypeLookupFQName);
-			Assert.assertNotNull("Lookup of container type "
-					+ containerTypeLookupFQName + " returned null",
-					lookedUpContainerType);
-			Assert.assertSame("Unexpected container type",
-					lookedUpContainerType, executionContainer
-							.getExecutionContainerType());
+			lookedUpContainerType = mgr.getTypeRepositoryManager().lookupExecutionContainerType(containerTypeLookupFQName);
+			Assert.assertNotNull("Lookup of container type " + containerTypeLookupFQName + " returned null", lookedUpContainerType);
+			Assert.assertSame("Unexpected container type", lookedUpContainerType, executionContainer.getExecutionContainerType());
 		}
 	}
 }

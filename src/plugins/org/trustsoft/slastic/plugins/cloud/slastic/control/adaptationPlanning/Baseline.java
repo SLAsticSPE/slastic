@@ -33,9 +33,7 @@ public class Baseline {
 	 * @param lowerBorder
 	 * @param numNodes
 	 */
-	public Baseline(final long upperBorder, final long center,
-			final long lowerBorder,
-			final int numNodes) {
+	public Baseline(final long upperBorder, final long center, final long lowerBorder, final int numNodes) {
 		this.upperBorder = upperBorder;
 		this.center = center;
 		this.lowerBorder = lowerBorder;

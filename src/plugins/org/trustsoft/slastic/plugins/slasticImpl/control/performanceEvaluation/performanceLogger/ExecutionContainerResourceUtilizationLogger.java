@@ -16,16 +16,14 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-import kieker.tools.util.LoggingTimestampConverter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
 
 import de.cau.se.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import de.cau.se.slastic.metamodel.monitoring.ResourceUtilization;
+
+import kieker.tools.util.LoggingTimestampConverter;
 
 /**
  * 
@@ -36,21 +34,17 @@ public class ExecutionContainerResourceUtilizationLogger extends
 		AbstractPerformanceMeasureLogger<Resource> implements
 		IExecutionContainerResourceUtilizationReceiver {
 
-	private static final Log log = LogFactory
-			.getLog(ExecutionContainerResourceUtilizationLogger.class);
+	// private static final Log LOG = LogFactory.getLog(ExecutionContainerResourceUtilizationLogger.class);
 
-	public static final int DEFAULT_WIN_TIME_SECONDS = 5*60;
-	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5*60;
+	public static final int DEFAULT_WIN_TIME_SECONDS = 5 * 60;
+	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5 * 60;
 
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
 	public ExecutionContainerResourceUtilizationLogger(
 			final IComponentContext context) {
-		this(
-				context,
-				ExecutionContainerResourceUtilizationLogger.DEFAULT_WIN_TIME_SECONDS,
-				ExecutionContainerResourceUtilizationLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
@@ -58,9 +52,7 @@ public class ExecutionContainerResourceUtilizationLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public ExecutionContainerResourceUtilizationLogger(
-			final IComponentContext context, final int winTimeSec,
-			final int outputIntervalSec) {
+	public ExecutionContainerResourceUtilizationLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
 		super(context);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
@@ -75,32 +67,28 @@ public class ExecutionContainerResourceUtilizationLogger extends
 	 *            observation
 	 * @return
 	 */
-	private final String[] createRow(final long currentTimestampMillis,
-			final Resource resource, final Double utilization) {
+	private final String[] createRow(final long currentTimestampMillis, final Resource resource, final Double utilization) {
 
-		final String currentTimeUTCString =
-				LoggingTimestampConverter
-						.convertLoggingTimestampToUTCString(currentTimestampMillis
-								* (1000 * 1000));
+		final String currentTimeUTCString = LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000));
 		return new String[] {
-				/* 0: timestamp: */
-				Long.toString(currentTimestampMillis),
-				/* 1: human-readable UTC string: */
-				currentTimeUTCString,
-				/* 2: execution container name + id: */
-				new StringBuilder()
-						.append(resource.getExecutionContainer().getName())
-						.append("(")
-						.append(resource.getExecutionContainer().getId())
-						.append(")").toString(),
-				/* 3: resource (specification) name + id */
-				new StringBuilder()
-						.append(resource.getResourceSpecification().getName())
-						.append("(")
-						.append(resource.getResourceSpecification().getId())
-						.append(")").toString(),
-				/* 4: utilization */
-				utilization == null ? "NA" : Double.toString(utilization) };
+			/* 0: timestamp: */
+			Long.toString(currentTimestampMillis),
+			/* 1: human-readable UTC string: */
+			currentTimeUTCString,
+			/* 2: execution container name + id: */
+			new StringBuilder()
+					.append(resource.getExecutionContainer().getName())
+					.append("(")
+					.append(resource.getExecutionContainer().getId())
+					.append(")").toString(),
+			/* 3: resource (specification) name + id */
+			new StringBuilder()
+					.append(resource.getResourceSpecification().getName())
+					.append("(")
+					.append(resource.getResourceSpecification().getId())
+					.append(")").toString(),
+			/* 4: utilization */
+			utilization == null ? "NA" : Double.toString(utilization) };
 	}
 
 	/**
@@ -116,8 +104,7 @@ public class ExecutionContainerResourceUtilizationLogger extends
 
 	@Override
 	protected String[] createHeader() {
-		return new String[] { "timestamp", "UTCString", "executionContainer",
-				"resource", "utilization" };
+		return new String[] { "timestamp", "UTCString", "executionContainer", "resource", "utilization" };
 	}
 
 	@Override
@@ -143,10 +130,9 @@ public class ExecutionContainerResourceUtilizationLogger extends
 				+ " group by resource" + " output last every "
 				+ this.outputIntervalSec + " seconds";
 	}
-	
+
 	@Override
 	protected String createMetaInfoLine() {
-		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec="
-				+ this.outputIntervalSec;
+		return "winTimeSec=" + this.winTimeSec + "; outputIntervalSec=" + this.outputIntervalSec;
 	}
 }

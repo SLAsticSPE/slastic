@@ -32,10 +32,9 @@ import kieker.common.record.IMonitoringRecord;
  */
 public class ResponseTimePlotter {
 
-	private static final Log log = LogFactory.getLog(ResponseTimePlotter.class);
+	private static final Log LOG = LogFactory.getLog(ResponseTimePlotter.class);
 
-	private final static Collection<Class<? extends IMonitoringRecord>> recordTypeSubscriptionList =
-			new ArrayList<Class<? extends IMonitoringRecord>>();
+	private final static Collection<Class<? extends IMonitoringRecord>> recordTypeSubscriptionList = new ArrayList<Class<? extends IMonitoringRecord>>();
 	static {
 		recordTypeSubscriptionList.add(SLOMonitoringRecord.class);
 	}
@@ -47,12 +46,11 @@ public class ResponseTimePlotter {
 	public boolean newMonitoringRecord(final IMonitoringRecord record) {
 		if (record instanceof SLOMonitoringRecord) {
 			final SLOMonitoringRecord rec = (SLOMonitoringRecord) record;
-			log.info(rec.componentName + "." + rec.operationName + ":"
+			LOG.info(rec.componentName + "." + rec.operationName + ":"
 					+ rec.rtNseconds + "ns = " + (rec.rtNseconds / (1000 * 1000))
 					+ "ms" + " @ timestamp " + rec.timestamp);
 		} else {
-			log.error("Can only consume records of type KiekerExecutionRecord"
-					+ " but passed record is of type " + record.getClass().getName());
+			LOG.error("Can only consume records of type KiekerExecutionRecord" + " but passed record is of type " + record.getClass().getName());
 		}
 		return true;
 	}

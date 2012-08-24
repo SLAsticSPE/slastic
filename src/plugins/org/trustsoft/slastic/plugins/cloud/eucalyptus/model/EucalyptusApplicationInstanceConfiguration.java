@@ -26,8 +26,7 @@ import org.trustsoft.slastic.plugins.cloud.model.IApplicationInstanceConfigurati
  * @author Andre van Hoorn
  * 
  */
-public class EucalyptusApplicationInstanceConfiguration implements
-		IApplicationInstanceConfiguration {
+public class EucalyptusApplicationInstanceConfiguration implements IApplicationInstanceConfiguration {
 
 	public EucalyptusApplicationInstanceConfiguration() {
 

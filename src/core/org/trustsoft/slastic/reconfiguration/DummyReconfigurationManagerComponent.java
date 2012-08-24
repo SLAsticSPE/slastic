@@ -27,8 +27,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  * @author Andre van Hoorn
  */
-public class DummyReconfigurationManagerComponent extends
-		AbstractReconfigurationManagerComponent {
+public class DummyReconfigurationManagerComponent extends AbstractReconfigurationManagerComponent {
 
 	@Override
 	public boolean execute() {
@@ -120,12 +119,12 @@ public class DummyReconfigurationManagerComponent extends
 	@Override
 	protected boolean deleteExecutionContainerFromModel(
 			final ExecutionContainer executionContainer) {
-		throw new UnsupportedOperationException();	
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	protected boolean deleteDeploymentComponentFromModel(
 			final DeploymentComponent deploymentComponent) {
-		throw new UnsupportedOperationException();			
+		throw new UnsupportedOperationException();
 	}
 }

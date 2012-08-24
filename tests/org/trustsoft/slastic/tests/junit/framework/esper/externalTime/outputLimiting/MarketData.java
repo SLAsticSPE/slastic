@@ -23,7 +23,9 @@ package org.trustsoft.slastic.tests.junit.framework.esper.externalTime.outputLim
  * 
  */
 public class MarketData {
+
 	final String symbol;
+
 	public String getSymbol() {
 		return this.symbol;
 	}

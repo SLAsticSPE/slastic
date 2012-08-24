@@ -41,18 +41,15 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceContainer;
  */
 public class PCMModelManager extends AbstractModelManagerComponent {
 
-	private static final Log log = LogFactory.getLog(PCMModelManager.class);
-	private static final String PROP_NAME_PCM_REPOSITORY_FN =
-			"pcmrepository_fn";
+	private static final Log LOG = LogFactory.getLog(PCMModelManager.class);
+
+	private static final String PROP_NAME_PCM_REPOSITORY_FN = "pcmrepository_fn";
 	private static final String PROP_NAME_PCM_SYSTEM_FN = "pcmsystem_fn";
-	private static final String PROP_NAME_PCM_RESOURCEENV_FN =
-			"pcmresourceenv_fn";
-	private static final String PROP_NAME_PCM_ALLOCATION_FN =
-			"pcmallocation_fn";
+	private static final String PROP_NAME_PCM_RESOURCEENV_FN = "pcmresourceenv_fn";
+	private static final String PROP_NAME_PCM_ALLOCATION_FN = "pcmallocation_fn";
 	protected volatile PCMModelSet pcmModel;
 
-	public PCMModelManager() {
-	}
+	public PCMModelManager() {}
 
 	@Override
 	public boolean init() {
@@ -60,25 +57,17 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 			this.loadPCMModel();
 			return true;
 		} catch (final IOException ex) {
-			PCMModelManager.log.error("Failed to load reconfiguration model",
-					ex);
+			LOG.error("Failed to load reconfiguration model", ex);
 			return false;
 		}
 	}
 
 	private void loadPCMModel() throws IOException {
-		final String pcmRespositoryModel_fn =
-				this.getInitProperty(PCMModelManager.PROP_NAME_PCM_REPOSITORY_FN);
-		final String pcmSystemModel_fn =
-				this.getInitProperty(PCMModelManager.PROP_NAME_PCM_SYSTEM_FN);
-		final String pcmResourceEnvironmentModel_fn =
-				this.getInitProperty(PCMModelManager.PROP_NAME_PCM_RESOURCEENV_FN);
-		final String pcmAllocationModel_fn =
-				this.getInitProperty(PCMModelManager.PROP_NAME_PCM_ALLOCATION_FN);
-		this.pcmModel =
-				PCMModelReader.readPCMModel(pcmRespositoryModel_fn,
-						pcmSystemModel_fn, pcmResourceEnvironmentModel_fn,
-						pcmAllocationModel_fn);
+		final String pcmRespositoryModel_fn = this.getInitProperty(PROP_NAME_PCM_REPOSITORY_FN);
+		final String pcmSystemModel_fn = this.getInitProperty(PROP_NAME_PCM_SYSTEM_FN);
+		final String pcmResourceEnvironmentModel_fn = this.getInitProperty(PROP_NAME_PCM_RESOURCEENV_FN);
+		final String pcmAllocationModel_fn = this.getInitProperty(PROP_NAME_PCM_ALLOCATION_FN);
+		this.pcmModel = PCMModelReader.readPCMModel(pcmRespositoryModel_fn, pcmSystemModel_fn, pcmResourceEnvironmentModel_fn, pcmAllocationModel_fn);
 	}
 
 	AllocationFactory pcmAllocationFactory = AllocationFactory.eINSTANCE;
@@ -93,33 +82,28 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 	 */
 	public synchronized AllocationContext componentMigration(
 			final AllocationContext allCtx, final ResourceContainer resCont) {
-		PCMModelManager.log.debug("Model reconfiguration: componentMigration ("
-				+ allCtx + ", " + resCont + ")");
+		LOG.debug("Model reconfiguration: componentMigration (" + allCtx + ", " + resCont + ")");
 
 		/* Create new allocation context */
-		final AllocationContext newAllCtx =
-				this.pcmAllocationFactory.createAllocationContext();
-		newAllCtx.setAssemblyContext_AllocationContext(allCtx
-				.getAssemblyContext_AllocationContext());
+		final AllocationContext newAllCtx = this.pcmAllocationFactory.createAllocationContext();
+		newAllCtx.setAssemblyContext_AllocationContext(allCtx.getAssemblyContext_AllocationContext());
 		newAllCtx.setResourceContainer_AllocationContext(resCont);
 
 		// TODO: start transaction
 		/* 1. Remove old allocation context */
-		if (!this.pcmModel.getPCMAllocation()
-				.getAllocationContexts_Allocation().remove(allCtx)) {
-			PCMModelManager.log.warn("Failed to remove allocation context"
-					+ allCtx);
+		if (!this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().remove(allCtx)) {
+			LOG.warn("Failed to remove allocation context" + allCtx);
 		} else {
-			PCMModelManager.log.debug("Removed allocation context" + allCtx);
+			LOG.debug("Removed allocation context" + allCtx);
 		}
 
 		/* 2. Add new allocation context */
 		if (!this.pcmModel.getPCMAllocation()
 				.getAllocationContexts_Allocation().add(newAllCtx)) {
-			PCMModelManager.log.warn("Failed to add new allocation context"
+			LOG.warn("Failed to add new allocation context"
 					+ newAllCtx);
 		} else {
-			PCMModelManager.log.debug("Removed allocation context" + newAllCtx);
+			LOG.debug("Removed allocation context" + newAllCtx);
 		}
 
 		// TODO: stop transaction
@@ -137,25 +121,20 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 	 */
 	public synchronized AllocationContext componentReplication(
 			final AssemblyContext asmCtx, final ResourceContainer resCont) {
-		PCMModelManager.log
-				.debug("Model reconfiguration: componentReplication (" + asmCtx
-						+ ", " + resCont + ")");
+		LOG.debug("Model reconfiguration: componentReplication (" + asmCtx + ", " + resCont + ")");
 
 		/* Create new allocation context */
-		final AllocationContext newAllCtx =
-				this.pcmAllocationFactory.createAllocationContext();
+		final AllocationContext newAllCtx = this.pcmAllocationFactory.createAllocationContext();
 		newAllCtx.setAssemblyContext_AllocationContext(asmCtx);
 		newAllCtx.setResourceContainer_AllocationContext(resCont);
 
 		// TODO: start transaction
 
 		/* 1. Add new allocation context */
-		if (!this.pcmModel.getPCMAllocation()
-				.getAllocationContexts_Allocation().add(newAllCtx)) {
-			PCMModelManager.log.warn("Failed to add new allocation context"
-					+ newAllCtx);
+		if (!this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().add(newAllCtx)) {
+			LOG.warn("Failed to add new allocation context" + newAllCtx);
 		} else {
-			PCMModelManager.log.debug("Removed allocation context" + newAllCtx);
+			LOG.debug("Removed allocation context" + newAllCtx);
 		}
 
 		// TODO: stop transaction
@@ -173,21 +152,16 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 			final AllocationContext allCtx) {
 		boolean success;
 
-		PCMModelManager.log
-				.debug("Model reconfiguration: componentDeReplication ("
-						+ allCtx + ")");
+		LOG.debug("Model reconfiguration: componentDeReplication (" + allCtx + ")");
 
 		// TODO: start transaction
 
 		/* 1. Remove old allocation context */
-		success =
-				this.pcmModel.getPCMAllocation()
-						.getAllocationContexts_Allocation().remove(allCtx);
+		success = this.pcmModel.getPCMAllocation().getAllocationContexts_Allocation().remove(allCtx);
 		if (!success) {
-			PCMModelManager.log.warn("Failed to remove allocation context"
-					+ allCtx);
+			LOG.warn("Failed to remove allocation context" + allCtx);
 		} else {
-			PCMModelManager.log.debug("Removed allocation context" + allCtx);
+			LOG.debug("Removed allocation context" + allCtx);
 		}
 
 		// TODO: stop transaction
@@ -206,8 +180,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 	}
 
 	@Override
-	public void handleEvent(final IEvent ev) {
-	}
+	public void handleEvent(final IEvent ev) {}
 
 	@Override
 	public void terminate(final boolean error) {
@@ -224,8 +197,7 @@ public class PCMModelManager extends AbstractModelManagerComponent {
 	}
 
 	@Override
-	public void doReconfiguration(final ReconfigurationPlan plan)
-			throws ReconfigurationException {
+	public void doReconfiguration(final ReconfigurationPlan plan) throws ReconfigurationException {
 		throw new UnsupportedOperationException();
 	}
 }

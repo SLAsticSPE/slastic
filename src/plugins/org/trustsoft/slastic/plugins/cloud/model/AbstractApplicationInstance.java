@@ -21,8 +21,7 @@ package org.trustsoft.slastic.plugins.cloud.model;
  * @author Andre van Hoorn
  * 
  */
-public abstract class AbstractApplicationInstance extends AbstractNamedEntity
-		implements IApplicationInstance {
+public abstract class AbstractApplicationInstance extends AbstractNamedEntity implements IApplicationInstance {
 
 	private final ICloudedApplication application;
 	private final IApplicationInstanceConfiguration configuration;
@@ -40,9 +39,7 @@ public abstract class AbstractApplicationInstance extends AbstractNamedEntity
 	}
 
 	public AbstractApplicationInstance(final String name,
-			final ICloudedApplication application,
-			final IApplicationInstanceConfiguration configuration,
-			final ICloudNode node) {
+			final ICloudedApplication application, final IApplicationInstanceConfiguration configuration, final ICloudNode node) {
 		super(name);
 		this.application = application;
 		this.configuration = configuration;

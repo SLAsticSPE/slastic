@@ -48,8 +48,7 @@ import com.espertech.esper.client.time.TimerControlEvent;
  * 
  * @author Andre van Hoorn
  */
-public abstract class AbstractControlComponent extends AbstractSLAsticComponent
-		implements ISimpleEventService {
+public abstract class AbstractControlComponent extends AbstractSLAsticComponent implements ISimpleEventService {
 
 	private static final Log log = LogFactory
 			.getLog(AbstractControlComponent.class);
@@ -59,8 +58,7 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 	private AbstractModelUpdaterComponent modelUpdater;
 	private AbstractAnalysisComponent analysis;
 
-	private final ArrayList<ISimpleEventServiceClient> listeners =
-			new ArrayList<ISimpleEventServiceClient>();
+	private final ArrayList<ISimpleEventServiceClient> listeners = new ArrayList<ISimpleEventServiceClient>();
 
 	private final EPServiceProvider epServiceProvider;
 
@@ -81,22 +79,14 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		 */
 		final ConfigurationEventTypeLegacy legacyDef =
 				new ConfigurationEventTypeLegacy();
-		legacyDef
-				.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
-		legacyDef
-				.setAccessorStyle(ConfigurationEventTypeLegacy.AccessorStyle.EXPLICIT);
-		configuration.addEventType("EObject", EObject.class.getName(),
-				legacyDef);
-		configuration.addEventType("Notifier", Notifier.class.getName(),
-				legacyDef);
-		configuration.addEventType("EObjectImpl", EObjectImpl.class.getName(),
-				legacyDef);
-		configuration.addEventType("BasicEObjectImpl",
-				BasicEObjectImpl.class.getName(), legacyDef);
-		configuration.addEventType("BasicNotifierImpl",
-				BasicNotifierImpl.class.getName(), legacyDef);
-		configuration.addEventType("InternalEObject",
-				InternalEObject.class.getName(), legacyDef);
+		legacyDef.setCodeGeneration(ConfigurationEventTypeLegacy.CodeGeneration.DISABLED);
+		legacyDef.setAccessorStyle(ConfigurationEventTypeLegacy.AccessorStyle.EXPLICIT);
+		configuration.addEventType("EObject", EObject.class.getName(), legacyDef);
+		configuration.addEventType("Notifier", Notifier.class.getName(), legacyDef);
+		configuration.addEventType("EObjectImpl", EObjectImpl.class.getName(), legacyDef);
+		configuration.addEventType("BasicEObjectImpl", BasicEObjectImpl.class.getName(), legacyDef);
+		configuration.addEventType("BasicNotifierImpl", BasicNotifierImpl.class.getName(), legacyDef);
+		configuration.addEventType("InternalEObject", InternalEObject.class.getName(), legacyDef);
 
 		/* Register exception handler (factory class) */
 		configuration.getEngineDefaults().getExceptionHandling()
@@ -106,15 +96,12 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		// configuration.getEngineDefaults().getLogging().setEnableExecutionDebug(true);
 		// configuration.getEngineDefaults().getLogging().setEnableTimerDebug(true);
 
-		this.epServiceProvider =
-				EPServiceProviderManager.getProvider("custom", configuration);
+		this.epServiceProvider = EPServiceProviderManager.getProvider("custom", configuration);
 		/* Enable external timing and set time to 0 */
 		// TODO: enable/disable via parameters
-		this.epServiceProvider.getEPRuntime().sendEvent(
-				new TimerControlEvent(
-						TimerControlEvent.ClockType.CLOCK_EXTERNAL));
-		this.epServiceProvider.getEPRuntime()
-				.sendEvent(new CurrentTimeEvent(0));
+		this.epServiceProvider.getEPRuntime().sendEvent(new TimerControlEvent(
+				TimerControlEvent.ClockType.CLOCK_EXTERNAL));
+		this.epServiceProvider.getEPRuntime().sendEvent(new CurrentTimeEvent(0));
 	}
 
 	/**
@@ -194,20 +181,17 @@ public abstract class AbstractControlComponent extends AbstractSLAsticComponent
 		this.analysis = analysis;
 	}
 
-	public final void setModelManager(
-			final AbstractModelManagerComponent modelManager) {
+	public final void setModelManager(final AbstractModelManagerComponent modelManager) {
 		this.modelManager = modelManager;
 	}
 
-	public final void setModelUpdater(
-			final AbstractModelUpdaterComponent modelUpdater) {
+	public final void setModelUpdater(final AbstractModelUpdaterComponent modelUpdater) {
 		this.modelUpdater = modelUpdater;
 	}
 
-	public final void setReconfigurationManager(
-			final AbstractReconfigurationManagerComponent reconfigurationManager) {
+	public final void setReconfigurationManager(final AbstractReconfigurationManagerComponent reconfigurationManager) {
 		this.reconfigurationManager = reconfigurationManager;
 	}
-	
-	// TODO: implement non-final terminate method which destroys the CEP engine 
+
+	// TODO: implement non-final terminate method which destroys the CEP engine
 }

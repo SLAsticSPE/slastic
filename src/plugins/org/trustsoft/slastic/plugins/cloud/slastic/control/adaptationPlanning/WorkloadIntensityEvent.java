@@ -29,8 +29,7 @@ public class WorkloadIntensityEvent {
 	 * @param timestampMillis
 	 * @param workloadIntensity
 	 */
-	public WorkloadIntensityEvent(final long timestampMillis,
-			final long workloadIntensity) {
+	public WorkloadIntensityEvent(final long timestampMillis, final long workloadIntensity) {
 		this.timestampMillis = timestampMillis;
 		this.workloadIntensity = workloadIntensity;
 	}

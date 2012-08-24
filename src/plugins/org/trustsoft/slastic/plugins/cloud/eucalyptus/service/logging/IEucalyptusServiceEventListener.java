@@ -35,16 +35,15 @@ public interface IEucalyptusServiceEventListener {
 	 * @param type
 	 * @param node
 	 */
-	public void notifyAllocateNodeSuccess(final String name,
-			final EucalyptusCloudNodeType type, final EucalyptusCloudNode node);
+	public void notifyAllocateNodeSuccess(final String name, final EucalyptusCloudNodeType type, final EucalyptusCloudNode node);
 
-//	/**
-//	 * 
-//	 * @param name
-//	 * @param type
-//	 */
-//	public void notifyAllocateNodeFailure(final String name,
-//			final EucalyptusCloudNodeType type);
+	// /**
+	// *
+	// * @param name
+	// * @param type
+	// */
+	// public void notifyAllocateNodeFailure(final String name,
+	// final EucalyptusCloudNodeType type);
 
 	/**
 	 * 
@@ -52,11 +51,11 @@ public interface IEucalyptusServiceEventListener {
 	 */
 	public void notifyDeallocateNodeSuccess(EucalyptusCloudNode node);
 
-//	/**
-//	 * 
-//	 * @param node
-//	 */
-//	public void notifyDeallocateNodeFailure(EucalyptusCloudNode node);
+	// /**
+	// *
+	// * @param node
+	// */
+	// public void notifyDeallocateNodeFailure(EucalyptusCloudNode node);
 
 	/**
 	 * 
@@ -68,27 +67,26 @@ public interface IEucalyptusServiceEventListener {
 			EucalyptusCloudedApplicationConfiguration configuration,
 			EucalyptusCloudedApplication application);
 
-//	/**
-//	 * 
-//	 * @param name
-//	 * @param configuration
-//	 */
-//	public void notifyCreateAndRegisterCloudedApplicationFailure(String name,
-//			EucalyptusCloudedApplicationConfiguration configuration);
+	// /**
+	// *
+	// * @param name
+	// * @param configuration
+	// */
+	// public void notifyCreateAndRegisterCloudedApplicationFailure(String name,
+	// EucalyptusCloudedApplicationConfiguration configuration);
 
 	/**
 	 * 
 	 * @param application
 	 */
-	public void notifyRemoveCloudedApplicationSuccess(
-			EucalyptusCloudedApplication application);
+	public void notifyRemoveCloudedApplicationSuccess(EucalyptusCloudedApplication application);
 
-//	/**
-//	 * 
-//	 * @param application
-//	 */
-//	public void notifyRemoveCloudedApplicationFailure(
-//			EucalyptusCloudedApplication application);
+	// /**
+	// *
+	// * @param application
+	// */
+	// public void notifyRemoveCloudedApplicationFailure(
+	// EucalyptusCloudedApplication application);
 
 	/**
 	 * 
@@ -102,28 +100,27 @@ public interface IEucalyptusServiceEventListener {
 			EucalyptusApplicationInstanceConfiguration configuration,
 			EucalyptusCloudNode node, EucalyptusApplicationInstance instance);
 
-//	/**
-//	 * 
-//	 * @param application
-//	 * @param configuration
-//	 * @param node
-//	 */
-//	public void notifyDeployApplicationInstanceFailure(
-//			EucalyptusCloudedApplication application,
-//			EucalyptusApplicationInstanceConfiguration configuration,
-//			EucalyptusCloudNode node);
+	// /**
+	// *
+	// * @param application
+	// * @param configuration
+	// * @param node
+	// */
+	// public void notifyDeployApplicationInstanceFailure(
+	// EucalyptusCloudedApplication application,
+	// EucalyptusApplicationInstanceConfiguration configuration,
+	// EucalyptusCloudNode node);
 
 	/**
 	 * 
 	 * @param instance
 	 */
-	public void notifyUndeployApplicationInstanceSuccess(
-			EucalyptusApplicationInstance instance);
+	public void notifyUndeployApplicationInstanceSuccess(EucalyptusApplicationInstance instance);
 
-//	/**
-//	 * 
-//	 * @param instance
-//	 */
-//	public void notifyUndeployApplicationInstanceFailure(
-//			EucalyptusApplicationInstance instance);
+	// /**
+	// *
+	// * @param instance
+	// */
+	// public void notifyUndeployApplicationInstanceFailure(
+	// EucalyptusApplicationInstance instance);
 }

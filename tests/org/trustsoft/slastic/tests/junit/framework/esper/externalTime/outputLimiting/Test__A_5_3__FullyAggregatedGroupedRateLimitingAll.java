@@ -32,20 +32,19 @@ public class Test__A_5_3__FullyAggregatedGroupedRateLimitingAll extends
 					+ "from " + MarketData.class.getName()
 					+ ".win:time(5.5 sec) "
 					+ "group by symbol "
-					+ "output all every 1 seconds " 
+					+ "output all every 1 seconds "
 					+ "order by symbol";
-	
+
 	/**
 	 * Executes the scenario.
 	 */
 	public void testReferenceExample() {
 		/* Execute the test */
-		AbstractExampleTestExecutor
-				.executeTest(
-						EPServiceFactory.defaultInstanceExternalClock(200),
-						ExampleDataFactory.A_5_3__inputEvents(),
-						ExampleDataFactory.A_5_3__expectedIStream(),
-						ExampleDataFactory.A_5_3__expectedRStream(),
-						Test__A_5_3__FullyAggregatedGroupedRateLimitingAll.stmString);
+		AbstractExampleTestExecutor.executeTest(
+				EPServiceFactory.defaultInstanceExternalClock(200),
+				ExampleDataFactory.A_5_3__inputEvents(),
+				ExampleDataFactory.A_5_3__expectedIStream(),
+				ExampleDataFactory.A_5_3__expectedRStream(),
+				Test__A_5_3__FullyAggregatedGroupedRateLimitingAll.stmString);
 	}
 }

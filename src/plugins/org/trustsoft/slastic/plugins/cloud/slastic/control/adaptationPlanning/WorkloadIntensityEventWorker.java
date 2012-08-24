@@ -31,7 +31,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  */
 class WorkloadIntensityEventWorker implements Runnable {
-	private static final Log log = LogFactory.getLog(WorkloadIntensityEventWorker.class);
+	private static final Log LOG = LogFactory.getLog(WorkloadIntensityEventWorker.class);
 
 	private final WorkloadIntensityRuleEngine ruleEngine;
 	private final ConfigurationManager configurationManager;
@@ -71,19 +71,15 @@ class WorkloadIntensityEventWorker implements Runnable {
 
 		final Baseline requestedBaseline = this.ruleEngine.nextBaseline(this.assemblyComponent, curWorkloadIntensity);
 		if (requestedBaseline == null) {
-			WorkloadIntensityEventWorker.log.error("failed to request nextBaseline for assembly component '"
-					+ this.assemblyComponent
-					+ "' and workload intensity '" + curWorkloadIntensity + "'");
+			LOG.error("failed to request nextBaseline for assembly component '" + this.assemblyComponent + "' and workload intensity '" + curWorkloadIntensity + "'");
 		}
 
 		final boolean success =
-				this.configurationManager.reconfigure(this.assemblyComponent, this.executionContainerType,
-						requestedBaseline.getNumNodes());
+				this.configurationManager.reconfigure(this.assemblyComponent, this.executionContainerType, requestedBaseline.getNumNodes());
 		if (success) {
 			this.ruleEngine.commitBaseline(this.assemblyComponent, requestedBaseline);
 		} else {
-			WorkloadIntensityEventWorker.log.error(String.format(
-					"Reconfiguration failed for assembly component %s, execution contain type %s, and baseline %s ",
+			LOG.error(String.format("Reconfiguration failed for assembly component %s, execution contain type %s, and baseline %s ",
 					this.assemblyComponent, this.executionContainerType, requestedBaseline));
 		}
 	}

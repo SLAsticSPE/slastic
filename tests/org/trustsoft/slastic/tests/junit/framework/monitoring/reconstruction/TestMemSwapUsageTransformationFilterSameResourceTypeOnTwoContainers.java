@@ -19,7 +19,6 @@ package org.trustsoft.slastic.tests.junit.framework.monitoring.reconstruction;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
-import kieker.common.record.system.MemSwapUsageRecord;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -27,14 +26,15 @@ import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 
+import kieker.common.record.system.MemSwapUsageRecord;
+
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
  * re-uses existing model entities.
  * 
  * @author Andre van Hoorn
  */
-public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
-		extends AbstractReconstructionTest {
+public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers extends AbstractReconstructionTest {
 
 	private final MemSwapUsageRecord kiekerRecord1;
 	{
@@ -51,7 +51,7 @@ public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
 		final long swapTotal = usage++;
 		final long swapUsed = usage++;
 		final long swapFree = usage++;
-		
+
 		this.kiekerRecord1 = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
@@ -70,7 +70,7 @@ public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
 		final long swapTotal = usage++;
 		final long swapUsed = usage++;
 		final long swapFree = usage++;
-		
+
 		this.kiekerRecord2 = new MemSwapUsageRecord(timestamp, hostname, memTotal, memUsed, memFree, swapTotal, swapUsed, swapFree);
 	}
 
@@ -78,12 +78,10 @@ public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
 		/* Create type repository manager for empty type repository */
 		final ModelManager modelManager = new ModelManager();
 
-		final MemSwapUsageRecordTransformationFilter filter =
-				new MemSwapUsageRecordTransformationFilter(modelManager);
+		final MemSwapUsageRecordTransformationFilter filter = new MemSwapUsageRecordTransformationFilter(modelManager);
 
 		/* Used to receive the created operations from the filter */
-		final ArrayList<MemSwapUsage> slasticRef =
-				new ArrayList<MemSwapUsage>();
+		final ArrayList<MemSwapUsage> slasticRef = new ArrayList<MemSwapUsage>();
 
 		/* Let the filter transform the same record twice */
 		slasticRef.add(filter.transformMemSwapUsageRecord(this.kiekerRecord1));
@@ -93,8 +91,6 @@ public class TestMemSwapUsageTransformationFilterSameResourceTypeOnTwoContainers
 		final MemSwapUsage slasticRecordB = slasticRef.get(1);
 
 		Assert.assertSame("Expecting same type for both records",
-				slasticRecordA.getResource().getResourceSpecification()
-						.getResourceType(), slasticRecordB.getResource()
-						.getResourceSpecification().getResourceType());
+				slasticRecordA.getResource().getResourceSpecification().getResourceType(), slasticRecordB.getResource().getResourceSpecification().getResourceType());
 	}
 }

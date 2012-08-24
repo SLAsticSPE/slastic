@@ -21,17 +21,19 @@ import kieker.common.record.AbstractMonitoringRecord;
 /**
  * @author Andre van Hoorn
  */
+// TODO: change to immutable type
 public class SLOMonitoringRecord extends AbstractMonitoringRecord {
 
 	private static final long serialVersionUID = 1113L;
-	private static int numRecordFields = 6;
-	public long timestamp = -1;
-	public int serviceId = -1;
-	public String componentName = null;
-	public String operationName = null;
-	public String host = null;
-	public long rtNseconds = -1;
-	public Object retVal = null;
+	private static int NUM_RECORD_FIELDS = 6;
+
+	public volatile long timestamp = -1;
+	public volatile int serviceId = -1;
+	public volatile String componentName = null;
+	public volatile String operationName = null;
+	public volatile String host = null;
+	public volatile long rtNseconds = -1;
+	public volatile Object retVal = null;
 
 	public Class<?>[] getValueTypes() {
 		return new Class[] {
@@ -46,9 +48,8 @@ public class SLOMonitoringRecord extends AbstractMonitoringRecord {
 
 	public void initFromArray(final Object[] values) throws IllegalArgumentException {
 		try {
-			if (values.length != SLOMonitoringRecord.numRecordFields) {
-				throw new IllegalArgumentException("Expecting vector with "
-						+ SLOMonitoringRecord.numRecordFields + " elements but found:" + values.length);
+			if (values.length != NUM_RECORD_FIELDS) {
+				throw new IllegalArgumentException("Expecting vector with " + NUM_RECORD_FIELDS + " elements but found:" + values.length);
 			}
 			this.timestamp = (Long) values[0];
 			this.serviceId = (Integer) values[1];

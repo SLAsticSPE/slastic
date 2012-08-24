@@ -49,17 +49,14 @@ public class TestAssemblyConnectorCreation extends TestCase {
 
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager systemModelManager = new ModelManager(systemModel);
-		final ComponentAssemblyModelManager componentAssemblyModelManager =
-				systemModelManager.getComponentAssemblyModelManager();
+		final ComponentAssemblyModelManager componentAssemblyModelManager = systemModelManager.getComponentAssemblyModelManager();
 		final TypeRepositoryModelManager typeRepositoryModelManager = systemModelManager.getTypeRepositoryManager();
 
 		/*
 		 * Create common interface used by all the two assembly components and
 		 * the connector
 		 */
-		final Interface iface =
-				this.createAndRegisterInterface(typeRepositoryModelManager,
-						"MyInterface", operationName, returnType, argTypes);
+		final Interface iface = this.createAndRegisterInterface(typeRepositoryModelManager, "MyInterface", operationName, returnType, argTypes);
 
 		/*
 		 * Create providing assembly component, register interface and implement
@@ -80,33 +77,23 @@ public class TestAssemblyConnectorCreation extends TestCase {
 						/* provided interface */null,
 						/* required interface */iface);
 
-		
 		/* Create assembly connector, register interface in type */
-		final AssemblyComponentConnector asmConn =
-				ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", iface);
+		final AssemblyComponentConnector asmConn = ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", iface);
 
 		/* Connect (and assert that this was --- claimed to be --- successful) */
-		Assert.assertTrue("Failed to connect assembly components via connector",
-				componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
-		
+		Assert.assertTrue("Failed to connect assembly components via connector", componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
+
 		/* Assert that it was really successful by navigating the model */
-		Assert.assertSame("Requiring component not registered in connector", requiringAsmComp,
-				asmConn.getRequiringComponent());
-		Assert.assertSame("Providing component not registered in connector", providingAsmComp,
-				asmConn.getProvidingComponent());
-		Assert.assertEquals("Unexpected number of providing connectors for requiring component", 1, requiringAsmComp
-				.getProvidingConnectors().size());
-		Assert.assertTrue("Connector not registered for requiring component", requiringAsmComp.getProvidingConnectors()
-				.contains(asmConn));
-		Assert.assertEquals("Unexpected number of requiring connectors for providing component", 1, providingAsmComp
-				.getRequiringConnectors().size());
-		Assert.assertTrue("Connector not registered for providing component", providingAsmComp.getRequiringConnectors()
-				.contains(asmConn));
+		Assert.assertSame("Requiring component not registered in connector", requiringAsmComp, asmConn.getRequiringComponent());
+		Assert.assertSame("Providing component not registered in connector", providingAsmComp, asmConn.getProvidingComponent());
+		Assert.assertEquals("Unexpected number of providing connectors for requiring component", 1, requiringAsmComp.getProvidingConnectors().size());
+		Assert.assertTrue("Connector not registered for requiring component", requiringAsmComp.getProvidingConnectors().contains(asmConn));
+		Assert.assertEquals("Unexpected number of requiring connectors for providing component", 1, providingAsmComp.getRequiringConnectors().size());
+		Assert.assertTrue("Connector not registered for providing component", providingAsmComp.getRequiringConnectors().contains(asmConn));
 	}
 
 	/**
-	 * Makes sure that invalid connections (in this case an
-	 * {@link AssemblyComponentConnector} with an {@link Interface} different than that
+	 * Makes sure that invalid connections (in this case an {@link AssemblyComponentConnector} with an {@link Interface} different than that
 	 * of {@link AssemblyComponent}s) raise an error.
 	 */
 	public void testUnmatchingConnector() {
@@ -116,20 +103,15 @@ public class TestAssemblyConnectorCreation extends TestCase {
 
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager systemModelManager = new ModelManager(systemModel);
-		final ComponentAssemblyModelManager componentAssemblyModelManager =
-				systemModelManager.getComponentAssemblyModelManager();
+		final ComponentAssemblyModelManager componentAssemblyModelManager = systemModelManager.getComponentAssemblyModelManager();
 		final TypeRepositoryModelManager typeRepositoryModelManager = systemModelManager.getTypeRepositoryManager();
 
 		/*
 		 * Create two different interfaces; one used by the two assembly
 		 * components and another used by the connector
 		 */
-		final Interface componentIface =
-				this.createAndRegisterInterface(typeRepositoryModelManager, "IComponentInterface",
-						operationName, returnType, argTypes);
-		final Interface connectorIface =
-				this.createAndRegisterInterface(typeRepositoryModelManager, "IConnectorInterface",
-						operationName, returnType, argTypes);
+		final Interface componentIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IComponentInterface", operationName, returnType, argTypes);
+		final Interface connectorIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IConnectorInterface", operationName, returnType, argTypes);
 
 		/*
 		 * Create providing assembly component, register interface and implement
@@ -151,12 +133,10 @@ public class TestAssemblyConnectorCreation extends TestCase {
 						/* required interface */componentIface);
 
 		/* Create assembly connector, register interface in type */
-		final AssemblyComponentConnector asmConn =
-				ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", connectorIface);
+		final AssemblyComponentConnector asmConn = ModelEntityCreationUtils.createAssemblyConnector(systemModelManager, "AsmConnectT", connectorIface);
 
 		/* Connect (and assert that this was --- claimed to be --- successful) */
-		Assert.assertFalse("Exepected connection request to fail",
-				componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
+		Assert.assertFalse("Exepected connection request to fail", componentAssemblyModelManager.connect(asmConn, requiringAsmComp, providingAsmComp));
 	}
 
 	/**
@@ -173,8 +153,7 @@ public class TestAssemblyConnectorCreation extends TestCase {
 	private Interface createAndRegisterInterface(final TypeRepositoryModelManager mgr, final String ifaceName,
 			final String operationName, final String returnType, final String[] argTypes) {
 		final Interface iface = mgr.createAndRegisterInterface(ifaceName);
-		mgr.createAndRegisterSignature(iface, operationName, returnType,
-				Arrays.copyOf(argTypes, argTypes.length));
+		mgr.createAndRegisterSignature(iface, operationName, returnType, Arrays.copyOf(argTypes, argTypes.length));
 		return iface;
 	}
 
@@ -197,15 +176,12 @@ public class TestAssemblyConnectorCreation extends TestCase {
 			final Interface requiredInterface) {
 		final TypeRepositoryModelManager tMgr = modelManager.getTypeRepositoryManager();
 
-		final AssemblyComponent asmComp =
-				ModelEntityCreationUtils.createAssemblyComponent(modelManager, fqComponentTypeName,
-						fqAssemblyComponentName);
+		final AssemblyComponent asmComp = ModelEntityCreationUtils.createAssemblyComponent(modelManager, fqComponentTypeName, fqAssemblyComponentName);
 
 		// Register provided interface (if such)
 		if (providedInterface != null) {
 			for (final Signature s : providedInterface.getSignatures()) {
-				tMgr.createAndRegisterOperation(asmComp.getComponentType(),
-						s.getName(), s.getReturnType(), s.getParamTypes().toArray(new String[] {}));
+				tMgr.createAndRegisterOperation(asmComp.getComponentType(), s.getName(), s.getReturnType(), s.getParamTypes().toArray(new String[] {}));
 			}
 			tMgr.registerProvidedInterface(asmComp.getComponentType(), providedInterface);
 		}

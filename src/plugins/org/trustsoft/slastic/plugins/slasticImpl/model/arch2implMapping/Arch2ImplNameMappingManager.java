@@ -29,10 +29,8 @@ public class Arch2ImplNameMappingManager {
 		EXECUTION_CONTAINER, ASSEMBLY_COMPONENT
 	}
 
-	private final Map<EntityType, Map<String, String>> arch2implNameMappings =
-			new ConcurrentHashMap<EntityType, Map<String, String>>();
-	private final Map<EntityType, Map<String, String>> impl2archNameMappings =
-			new ConcurrentHashMap<EntityType, Map<String, String>>();
+	private final Map<EntityType, Map<String, String>> arch2implNameMappings = new ConcurrentHashMap<EntityType, Map<String, String>>();
+	private final Map<EntityType, Map<String, String>> impl2archNameMappings = new ConcurrentHashMap<EntityType, Map<String, String>>();
 
 	public Arch2ImplNameMappingManager() {
 		for (final EntityType type : EntityType.values()) {
@@ -73,8 +71,7 @@ public class Arch2ImplNameMappingManager {
 			throw new IllegalArgumentException("Mapping for architectural name '" + fqArchName + "' exists already");
 		}
 		if (impl2archNameMappingForType.containsKey(fqImplName)) {
-			throw new IllegalArgumentException("Mapping for implementation-level name '" + fqImplName
-					+ "' exists already");
+			throw new IllegalArgumentException("Mapping for implementation-level name '" + fqImplName + "' exists already");
 		}
 
 		arch2implNameMappingForType.put(fqArchName, fqImplName);

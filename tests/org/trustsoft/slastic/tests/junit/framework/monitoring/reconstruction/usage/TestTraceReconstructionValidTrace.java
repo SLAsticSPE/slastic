@@ -39,9 +39,7 @@ import de.cau.se.slastic.metamodel.usage.SynchronousReplyMessage;
 import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 
 /**
- * Tests the method
- * {@link TraceReconstructor#reconstructMessageTrace(java.util.List, de.cau.se.slastic.metamodel.monitoring.OperationExecution)}
- * .
+ * Tests the method {@link TraceReconstructor#reconstructMessageTrace(java.util.List, de.cau.se.slastic.metamodel.monitoring.OperationExecution)} .
  * 
  * @author Andre van Hoorn
  * 
@@ -49,62 +47,48 @@ import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 public class TestTraceReconstructionValidTrace extends TestCase {
 
 	/**
-	 * Tests the method
-	 * {@link TraceReconstructor#reconstructMessageTrace(Collection, OperationExecution)}
-	 * for a valid trace.
+	 * Tests the method {@link TraceReconstructor#reconstructMessageTrace(Collection, OperationExecution)} for a valid trace.
 	 * 
 	 * @throws IllegalStateException
 	 */
 	public void testReconstructionOfValidTrace() throws IllegalStateException {
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 		final long traceId = 76767676l;
 
-		final Collection<? extends OperationExecution> bookstoreTrace =
-				BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
+		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 
 		final MessageTrace mt = TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
 		this.checkResultValidTrace(mt, traceId);
 	}
 
 	/**
-	 * Tests the method
-	 * {@link TraceReconstructor#reconstructTraceSave(Collection, OperationExecution)}
-	 * for a valid trace.
+	 * Tests the method {@link TraceReconstructor#reconstructTraceSave(Collection, OperationExecution)} for a valid trace.
 	 */
 	public void testReconstructionOfValidTraceSave() {
 		final ModelManager systemModelManager = new ModelManager();
-		final ExecutionRecordTransformationFilter execRecFilter =
-				new ExecutionRecordTransformationFilter(systemModelManager,
-						NameUtils.ABSTRACTION_MODE_CLASS);
+		final ExecutionRecordTransformationFilter execRecFilter = new ExecutionRecordTransformationFilter(systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 		final long traceId = 76768676l;
 
-		final Collection<? extends OperationExecution> bookstoreTrace =
-				BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
+		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 
-		final ExecutionTrace et =
-			TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.rootExec);
-		
+		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.rootExec);
+
 		{ /* Check results */
-			Assert.assertTrue("Expected execution trace to be instance of " + ValidExecutionTrace.class + "; found: "
-					+ et.getClass(), et instanceof ValidExecutionTrace);
+			Assert.assertTrue("Expected execution trace to be instance of " + ValidExecutionTrace.class + "; found: " + et.getClass(),
+					et instanceof ValidExecutionTrace);
 			final ValidExecutionTrace vet = (ValidExecutionTrace) et;
 			Assert.assertEquals("Execution trace has unexpected trace id", traceId, vet.getTraceId());
 			Assert.assertNotNull("Associated message trace is null", vet.getMessageTrace());
-			Assert.assertEquals("Unexpected number of executions",
-					BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE, vet.getOperationExecutions().size());
-			Assert.assertSame("Unexpected execution trace nagivatible via associated message trace", vet, vet
-					.getMessageTrace().getExecutionTrace());
+			Assert.assertEquals("Unexpected number of executions", BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE, vet.getOperationExecutions().size());
+			Assert.assertSame("Unexpected execution trace nagivatible via associated message trace", vet, vet.getMessageTrace().getExecutionTrace());
 		}
 	}
 
 	private void checkResultValidTrace(final MessageTrace mt, final long expectedTraceId) {
 		final Collection<Message> messages = mt.getMessages();
 		final Message[] messagesArr = messages.toArray(new Message[messages.size()]);
-		Assert.assertEquals("Unexpected number of messages", BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE * 2,
-				messagesArr.length);
+		Assert.assertEquals("Unexpected number of messages", BookstoreTraceFactory.NUM_EXECUTIONS_PER_TRACE * 2, messagesArr.length);
 
 		/* Compare trace id */
 		Assert.assertEquals("Unexpected trace id", expectedTraceId, mt.getTraceId());
@@ -118,7 +102,7 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 
 		Assert.assertSame("Unexpected message trace nagivatible via associated execution trace", mt, vet
 				.getMessageTrace());
-		
+
 		/* 0. Call: $ [-1,-1] -> Bookstore.searchBook() [0,0] */
 		this.checkMessage(messagesArr[0], CallOrReply.SYNCCALL,
 				null, -1, -1, // root execution
@@ -172,12 +156,10 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 		/* Check the message type */
 		switch (callOrReply) {
 		case SYNCCALL:
-			Assert.assertTrue("Expected m to be of type " + SynchronousCallMessage.class + " found " + m.getClass(),
-					m instanceof SynchronousCallMessage);
+			Assert.assertTrue("Expected m to be of type " + SynchronousCallMessage.class + " found " + m.getClass(), m instanceof SynchronousCallMessage);
 			break;
 		case SYNCREPLY:
-			Assert.assertTrue("Expected m to be of type " + SynchronousReplyMessage.class + " found " + m.getClass(),
-					m instanceof SynchronousReplyMessage);
+			Assert.assertTrue("Expected m to be of type " + SynchronousReplyMessage.class + " found " + m.getClass(), m instanceof SynchronousReplyMessage);
 			break;
 		default:
 			Assert.fail("Invalid message type: " + m.getClass());
@@ -197,11 +179,9 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 		}
 
 		if ((expectedSenderName == null) && (expectedSenderEoi == -1) && (expectedSenderEss == -1)) {
-			Assert.assertSame("Expected sender execution to be the root execution", UsageModelManager.rootExec,
-					senderCompOpExec);
+			Assert.assertSame("Expected sender execution to be the root execution", UsageModelManager.rootExec, senderCompOpExec);
 		} else {
-			Assert.assertEquals("Unexpected component name of sender execution", senderCompOpExec
-					.getDeploymentComponent()
+			Assert.assertEquals("Unexpected component name of sender execution", senderCompOpExec.getDeploymentComponent()
 					.getAssemblyComponent().getName(), expectedSenderName);
 			// We could check much more but this should be OK so far
 			Assert.assertEquals("Unexpected eoi of sender execution", expectedSenderEoi, senderCompOpExec.getEoi());
@@ -214,23 +194,20 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 		DeploymentComponentOperationExecution receiverCompOpExec = null;
 		{
 			final OperationExecution receiverExecution = m.getReceiver();
-			Assert.assertTrue("Expecting receiver receiver to be of type "
-					+ DeploymentComponentOperationExecution.class + " found: " + receiverExecution.getClass(),
+			Assert.assertTrue(
+					"Expecting receiver receiver to be of type " + DeploymentComponentOperationExecution.class + " found: " + receiverExecution.getClass(),
 					receiverExecution instanceof DeploymentComponentOperationExecution);
 			receiverCompOpExec = (DeploymentComponentOperationExecution) receiverExecution;
 		}
 
 		if ((expectedReceiverName == null) && (expectedReceiverEoi == -1) && (expectedReceiverEss == -1)) {
-			Assert.assertSame("Expected receiver execution to be the root execution", UsageModelManager.rootExec,
-					receiverCompOpExec);
+			Assert.assertSame("Expected receiver execution to be the root execution", UsageModelManager.rootExec, receiverCompOpExec);
 		} else {
 			Assert.assertEquals("Unexpected component name of receiver execution",
 					receiverCompOpExec.getDeploymentComponent().getAssemblyComponent().getName(), expectedReceiverName);
 			// We could check much more but this should be OK so far
-			Assert.assertEquals("Unexpected eoi of receiver execution",
-					expectedReceiverEoi, receiverCompOpExec.getEoi());
-			Assert.assertEquals("Unexpected ess of eeceiver execution",
-					expectedReceiverEss, receiverCompOpExec.getEss());
+			Assert.assertEquals("Unexpected eoi of receiver execution", expectedReceiverEoi, receiverCompOpExec.getEoi());
+			Assert.assertEquals("Unexpected ess of eeceiver execution", expectedReceiverEss, receiverCompOpExec.getEss());
 		}
 	}
 }

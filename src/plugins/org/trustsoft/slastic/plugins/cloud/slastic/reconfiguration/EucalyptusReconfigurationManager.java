@@ -50,7 +50,7 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  */
 public class EucalyptusReconfigurationManager extends AbstractReconfigurationManagerComponent {
-	private static final Log log = LogFactory.getLog(EucalyptusReconfigurationManager.class);
+	private static final Log LOG = LogFactory.getLog(EucalyptusReconfigurationManager.class);
 
 	private static final String PROPERTY_CONFIGURATIONFN_NAME = "configFile";
 
@@ -65,21 +65,18 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	private volatile EucalyptusCloudNodeType euDefaultNodeType;
 
 	/**
-	 * The actual reconfigurations are performed by this
-	 * {@link EucalyptusApplicationCloudingService}.
+	 * The actual reconfigurations are performed by this {@link EucalyptusApplicationCloudingService}.
 	 */
 	private volatile EucalyptusApplicationCloudingService eucalyptusApplicationCloudingService;
 
 	@Override
 	public void doReconfiguration(final SLAsticReconfigurationPlan arg0) throws ReconfigurationException {
-		throw new UnsupportedOperationException(
-				"doReconfiguration(final SLAsticReconfigurationPlan arg0) not supported");
+		throw new UnsupportedOperationException("doReconfiguration(final SLAsticReconfigurationPlan arg0) not supported");
 	}
 
 	/**
-	 * Initializes the {@link AbstractEucalyptusApplicationCloudingService}
-	 * based on an {@link IEucalyptusApplicationCloudingServiceConfiguration}
-	 * provided by a {@link Properties} file.
+	 * Initializes the {@link AbstractEucalyptusApplicationCloudingService} based on an {@link IEucalyptusApplicationCloudingServiceConfiguration} provided by a
+	 * {@link Properties} file.
 	 */
 	@Override
 	public boolean init() {
@@ -87,41 +84,32 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		try {
 			{ /* Initialize the Eucalyptus service */
 				/* Determine the path of the Eucalyptus configuration file. */
-				final String configurationFile =
-						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME);
+				final String configurationFile = super.getInitProperty(PROPERTY_CONFIGURATIONFN_NAME);
 				if ((configurationFile == null) || (configurationFile.length() == 0)) {
-					final String errorMsg =
-							"Invalid or missing value for property '"
-									+ EucalyptusReconfigurationManager.PROPERTY_CONFIGURATIONFN_NAME + "'";
-					EucalyptusReconfigurationManager.log.error(errorMsg);
+					final String errorMsg = "Invalid or missing value for property '" + PROPERTY_CONFIGURATIONFN_NAME + "'";
+					LOG.error(errorMsg);
 					return false;
 				}
 
 				/* Create an instance of the Eucalyptus service */
-				eucalyptusApplicationCloudingService =
-						EucalyptusApplicationCloudingService.createService(configurationFile);
+				eucalyptusApplicationCloudingService = EucalyptusApplicationCloudingService.createService(configurationFile);
 			}
 
 			{/* Lookup the default node type */
-				final String defaultNodeTypeName =
-						super.getInitProperty(EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME);
+				final String defaultNodeTypeName = super.getInitProperty(PROPERTY_DEFAULT_NODE_TYPE_NAME);
 				if (defaultNodeTypeName == null) {
-					EucalyptusReconfigurationManager.log.error("Invalid or missing value for property '"
-							+ EucalyptusReconfigurationManager.PROPERTY_DEFAULT_NODE_TYPE_NAME + "'");
+					LOG.error("Invalid or missing value for property '" + PROPERTY_DEFAULT_NODE_TYPE_NAME + "'");
 					return false;
 				}
 
-				this.euDefaultNodeType =
-						(EucalyptusCloudNodeType) eucalyptusApplicationCloudingService
-								.lookupCloudNodeType(defaultNodeTypeName);
+				this.euDefaultNodeType = (EucalyptusCloudNodeType) eucalyptusApplicationCloudingService.lookupCloudNodeType(defaultNodeTypeName);
 				if (this.euDefaultNodeType == null) {
-					EucalyptusReconfigurationManager.log.error("Failed to lookup default node type '"
-							+ defaultNodeTypeName + "'");
+					LOG.error("Failed to lookup default node type '" + defaultNodeTypeName + "'");
 					return false;
 				}
 			}
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Error initializing :" + exc.getMessage(), exc);
+			LOG.error("Error initializing :" + exc.getMessage(), exc);
 			eucalyptusApplicationCloudingService = null;
 		}
 
@@ -137,12 +125,10 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			this.modelManager = (ModelManager) this.getControlComponent().getModelManager();
 
 			/* Create print writer for eucalyptus events */
-			final File euEventsFile =
-					this.getComponentContext().createFileInContextDir(
-							EucalyptusReconfigurationManager.EUCALYPTUS_EVENT_LOG);
+			final File euEventsFile = this.getComponentContext().createFileInContextDir(EUCALYPTUS_EVENT_LOG);
 			this.eucalyptusEventWriter = new PrintWriter(euEventsFile);
 			if (this.eucalyptusEventWriter == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to create event logger");
+				LOG.error("Failed to create event logger");
 				return false;
 			}
 
@@ -152,7 +138,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			final EucalyptusEventLogger euEventLogger = new EucalyptusEventLogger(this.eucalyptusEventWriter);
 			this.eucalyptusApplicationCloudingService.addEventListener(euEventLogger);
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Failed to create application: " + exc.getMessage());
+			LOG.error("Failed to create application: " + exc.getMessage());
 			return false;
 		}
 
@@ -169,7 +155,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			// .removeCloudedApplication(this.euApplication);
 			// }
 		} catch (final Exception exc) {
-			EucalyptusReconfigurationManager.log.error("Failed to remove application: " + exc.getMessage());
+			LOG.error("Failed to remove application: " + exc.getMessage());
 			return;
 		} finally {
 			if (this.eucalyptusEventWriter != null) {
@@ -186,24 +172,19 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	 */
 	private EucalyptusCloudedApplication eucaApplicationForAssemblyComponet(final AssemblyComponent assemblyComponent,
 			final boolean fallBackIfNoArch2ImplNameMapping) {
-		final String fqAssemblyComponentName =
-				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
+		final String fqAssemblyComponentName = NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
 		String eucaApplicationName =
-				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
-						EntityType.ASSEMBLY_COMPONENT, fqAssemblyComponentName);
+				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(EntityType.ASSEMBLY_COMPONENT, fqAssemblyComponentName);
 		if ((eucaApplicationName == null) && fallBackIfNoArch2ImplNameMapping) {
 			/* Fall-back: Use assembly component name as euca applicaion name */
 			eucaApplicationName = fqAssemblyComponentName;
 		}
 
 		final EucalyptusCloudedApplication eucalyptusCloudedApplication =
-				(EucalyptusCloudedApplication) this.eucalyptusApplicationCloudingService
-						.lookupCloudedApplication(eucaApplicationName);
+				(EucalyptusCloudedApplication) this.eucalyptusApplicationCloudingService.lookupCloudedApplication(eucaApplicationName);
 
 		if (eucalyptusCloudedApplication == null) {
-			EucalyptusReconfigurationManager.log.warn(String.format(
-					"Failed to lookup euca app for name %s (fall-back mode: %s)", eucaApplicationName,
-					fallBackIfNoArch2ImplNameMapping));
+			LOG.warn(String.format("Failed to lookup euca app for name %s (fall-back mode: %s)", eucaApplicationName, fallBackIfNoArch2ImplNameMapping));
 		}
 
 		return eucalyptusCloudedApplication;
@@ -218,11 +199,9 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		final String fqContainerName =
 				NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
 		final String eucaNodeName =
-				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(
-						EntityType.EXECUTION_CONTAINER, fqContainerName);
+				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(EntityType.EXECUTION_CONTAINER, fqContainerName);
 
-		final EucalyptusCloudNode cloudNode =
-				(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.lookupNode(eucaNodeName);
+		final EucalyptusCloudNode cloudNode = (EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.lookupNode(eucaNodeName);
 
 		return cloudNode;
 	}
@@ -237,13 +216,11 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 			final EucalyptusCloudNode dstNode = this.eucaNodeForExecutionContainer(toExecutionContainer);
 			if (dstNode == null) {
-				throw new ApplicationCloudingServiceException("dstNode is null for execution container: "
-						+ toExecutionContainer);
+				throw new ApplicationCloudingServiceException("dstNode is null for execution container: " + toExecutionContainer);
 			}
 
-			final EucalyptusCloudedApplication eucaApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent,
-							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
+			final EucalyptusCloudedApplication eucaApplication = this
+					.eucaApplicationForAssemblyComponet(assemblyComponent, FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (eucaApplication == null) {
 				final String errorMsg =
 						String.format("eucaApplication is null for assembly component: %s\n"
@@ -253,16 +230,15 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			}
 
 			final EucalyptusApplicationInstance appInstance =
-					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService
-							.deployApplicationInstance(eucaApplication, config, dstNode);
+					(EucalyptusApplicationInstance) this.eucalyptusApplicationCloudingService.deployApplicationInstance(eucaApplication, config, dstNode);
 			if (appInstance != null) {
 				success = true;
 			} else {
-				EucalyptusReconfigurationManager.log.error("appInstance is null");
+				LOG.error("appInstance is null");
 				success = false;
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -275,16 +251,15 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean successDereplication = false;
 
 		successReplication =
-				this.concreteReplicateComponent(deploymentComponent.getAssemblyComponent(), destination,
-						resDeploymentComponent);
+				this.concreteReplicateComponent(deploymentComponent.getAssemblyComponent(), destination, resDeploymentComponent);
 		if (!successReplication) {
-			EucalyptusReconfigurationManager.log.error("concreteReplicateComponent(..) failed");
+			LOG.error("concreteReplicateComponent(..) failed");
 		} else {
 			successDereplication = this.concreteDereplicateComponent(deploymentComponent);
 		}
 
 		if (!successDereplication) {
-			EucalyptusReconfigurationManager.log.error("concreteDereplicateComponent(..) failed");
+			LOG.error("concreteDereplicateComponent(..) failed");
 		}
 
 		return successReplication && successDereplication;
@@ -295,24 +270,21 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			EucalyptusReconfigurationManager.log.info("concreteDereplicateComponent");
+			LOG.info("concreteDereplicateComponent");
 
 			final AssemblyComponent assemblyComponent = deploymentComponent.getAssemblyComponent();
 			final ExecutionContainer executionContainer = deploymentComponent.getExecutionContainer();
 
 			final EucalyptusCloudedApplication euCloudedApplication =
-					this.eucaApplicationForAssemblyComponet(assemblyComponent,
-							EucalyptusReconfigurationManager.FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
+					this.eucaApplicationForAssemblyComponet(assemblyComponent, FALLBACK_IF_NO_ARCH2IMPL_APPNAME_MAPPING);
 			if (euCloudedApplication == null) {
-				EucalyptusReconfigurationManager.log
-						.error("Failed to lookup eucalyptus application for assembly component: " + assemblyComponent);
+				LOG.error("Failed to lookup eucalyptus application for assembly component: " + assemblyComponent);
 				return false;
 			}
 
 			final EucalyptusCloudNode euCloudNode = this.eucaNodeForExecutionContainer(executionContainer);
 			if (euCloudNode == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to lookup eucalyptus node for execution container"
-						+ executionContainer);
+				LOG.error("Failed to lookup eucalyptus node for execution container" + executionContainer);
 				return false;
 			}
 
@@ -322,7 +294,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 			if (appInstance == null) {
 				final String errorMsg = "appInstance for " + deploymentComponent + " is null";
-				EucalyptusReconfigurationManager.log.error(errorMsg);
+				LOG.error(errorMsg);
 				return false;
 			}
 
@@ -331,7 +303,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 			success = true;
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -353,11 +325,10 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 			final EucalyptusCloudNodeType euNodeType = this.euDefaultNodeType;
 
 			final EucalyptusCloudNode euNode =
-					(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.allocateNode(
-							fqExecutionContainerName, euNodeType);
+					(EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.allocateNode(fqExecutionContainerName, euNodeType);
 
 			if (euNode == null) {
-				EucalyptusReconfigurationManager.log.error("allocateNode(..) failed");
+				LOG.error("allocateNode(..) failed");
 				success = false;
 			} else {
 				success = true;
@@ -367,11 +338,11 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 				// EntityType.EXECUTION_CONTAINER, fqExecutionContainerName,
 				// fqExecutionContainerName);
 
-				this.modelManager.getArch2ImplNameMappingManager().registerArch2implNameMapping(
-						EntityType.EXECUTION_CONTAINER, fqExecutionContainerName, euNode.getName());
+				this.modelManager.getArch2ImplNameMappingManager()
+						.registerArch2implNameMapping(EntityType.EXECUTION_CONTAINER, fqExecutionContainerName, euNode.getName());
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -382,12 +353,12 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 		boolean success = false;
 
 		try {
-			EucalyptusReconfigurationManager.log.info("concreteDeallocateExecutionContainer");
+			LOG.info("concreteDeallocateExecutionContainer");
 
 			final EucalyptusCloudNode euNode = this.eucaNodeForExecutionContainer(executionContainer);
 
 			if (euNode == null) {
-				EucalyptusReconfigurationManager.log.error("Failed to lookup node");
+				LOG.error("Failed to lookup node");
 				success = false;
 			} else {
 				// TODO: return value?
@@ -396,7 +367,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 				success = true;
 			}
 		} catch (final ApplicationCloudingServiceException e) {
-			EucalyptusReconfigurationManager.log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			success = false;
 		}
 		return success;
@@ -427,44 +398,37 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	}
 
 	@Override
-	protected DeploymentComponent createPreliminaryDeploymentComponentInModel(
-			final AssemblyComponent assemblyComponent, final ExecutionContainer executionContainer) {
+	protected DeploymentComponent createPreliminaryDeploymentComponentInModel(final AssemblyComponent assemblyComponent, final ExecutionContainer executionContainer) {
 		// TODO: set preliminary flag or alike? (could adopt the procedure for execution containers)
 		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager()
 				.createAndRegisterDeploymentComponent(assemblyComponent, executionContainer);
 	}
 
 	@Override
-	protected ExecutionContainer createPreliminaryExecutionContainerInModel(final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType) {
-		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager()
-				.createAndRegisterExecutionContainer(fullyQualifiedName, executionContainerType, 
-						/* do not mark allocated */ false);
+	protected ExecutionContainer createPreliminaryExecutionContainerInModel(final String fullyQualifiedName, final ExecutionContainerType executionContainerType) {
+		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager().
+				createAndRegisterExecutionContainer(fullyQualifiedName, executionContainerType,/* do not mark allocated */false);
 	}
 
 	@Override
 	protected boolean deletePreliminaryDeploymentComponentFromModel(final DeploymentComponent deploymentComponent) {
-		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager()
-				.deleteDeploymentComponent(deploymentComponent);
+		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager().deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override
 	protected boolean deletePreliminaryExecutionContainerFromModel(final ExecutionContainer executionContainer) {
-		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager()
-				.deallocateExecutionContainer(executionContainer);
+		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager().deallocateExecutionContainer(executionContainer);
 	}
 
 	@Override
 	protected boolean deleteDeploymentComponentFromModel(final DeploymentComponent deploymentComponent) {
-		EucalyptusReconfigurationManager.log.info("deleteDeploymentComponentFromModel(...)");
-		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager()
-				.deleteDeploymentComponent(deploymentComponent);
+		LOG.info("deleteDeploymentComponentFromModel(...)");
+		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager().deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override
 	protected boolean deleteExecutionContainerFromModel(final ExecutionContainer executionContainer) {
-		EucalyptusReconfigurationManager.log.info("deleteExecutionContainerFromModel");
-		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager()
-				.deallocateExecutionContainer(executionContainer);
+		LOG.info("deleteExecutionContainerFromModel");
+		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager().deallocateExecutionContainer(executionContainer);
 	}
 }

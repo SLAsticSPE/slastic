@@ -27,23 +27,20 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvid
  * @author Andre van Hoorn
  * 
  */
-public class EucalyptusServiceEventLogger extends
-		AbstractEucalyptusServiceEventLogger {
+public class EucalyptusServiceEventLogger extends AbstractEucalyptusServiceEventLogger {
 
-	private static final Log log = LogFactory
-			.getLog(EucalyptusServiceEventLogger.class);
+	private static final Log LOG = LogFactory.getLog(EucalyptusServiceEventLogger.class);
 
 	public EucalyptusServiceEventLogger() {
 		super();
 	}
 
-	public EucalyptusServiceEventLogger(
-			final ICurrentTimeProvider currentTimeProvider) {
+	public EucalyptusServiceEventLogger(final ICurrentTimeProvider currentTimeProvider) {
 		super(currentTimeProvider);
 	}
 
 	@Override
 	protected void logEvent(final String eventMsg) {
-		EucalyptusServiceEventLogger.log.info(eventMsg);
+		EucalyptusServiceEventLogger.LOG.info(eventMsg);
 	}
 }

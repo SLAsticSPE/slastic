@@ -28,9 +28,7 @@ import de.cau.se.slastic.metamodel.usage.FrequencyDistribution;
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 
 /**
- * Tests the method
- * {@link UsageModelManager#incOperationCallFreq(de.cau.se.slastic.metamodel.typeRepository.Operation, long)}
- * .
+ * Tests the method {@link UsageModelManager#incOperationCallFreq(de.cau.se.slastic.metamodel.typeRepository.Operation, long)} .
  * 
  * @author Andre van Hoorn
  * 
@@ -52,15 +50,13 @@ public class TestIncFrequencyDistribution extends TestCase {
 
 		final Long[] expectedValues = values; // unchanged
 		final Long[] observedValues = fd.getValues().toArray(new Long[] {});
-		Assert.assertTrue(
-				"Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. "
-						+ Arrays.toString(observedValues),
+		Assert.assertTrue("Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. " + Arrays.toString(observedValues),
 				Arrays.equals(expectedValues, observedValues));
 
 		final Long[] expectedFrequencies = { 43l, 22l, frequencySeven + 1, 33l };
 		final Long[] observedFrequencies = fd.getFrequencies().toArray(new Long[] {});
-		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. "
-						+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
+		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. " + Arrays.toString(observedFrequencies),
+				Arrays.equals(expectedFrequencies, observedFrequencies));
 	}
 
 	/**
@@ -78,15 +74,13 @@ public class TestIncFrequencyDistribution extends TestCase {
 
 		final Long[] expectedValues = { 2l, newValueThree, 5l, 7l, 9l };
 		final Long[] observedValues = fd.getValues().toArray(new Long[] {});
-		Assert.assertTrue(
-				"Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. "
-						+ Arrays.toString(observedValues),
+		Assert.assertTrue("Value arrays not equal: " + Arrays.toString(expectedValues) + " vs. " + Arrays.toString(observedValues),
 				Arrays.equals(expectedValues, observedValues));
 
 		final Long[] expectedFrequencies = { 43l, newFrequencyForThree, 22l, 7l, 33l };
 		final Long[] observedFrequencies = fd.getFrequencies().toArray(new Long[] {});
 		Assert.assertTrue("Frequency arrays not equal: " + Arrays.toString(expectedFrequencies) + " vs. "
-						+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
+				+ Arrays.toString(observedFrequencies), Arrays.equals(expectedFrequencies, observedFrequencies));
 	}
 
 	/**

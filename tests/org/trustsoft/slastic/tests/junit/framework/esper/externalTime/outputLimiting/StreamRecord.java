@@ -78,8 +78,7 @@ class StreamRecord {
 
 		final StreamRecord other = (StreamRecord) arg0;
 
-		return (this.timestamp == other.timestamp)
-				&& Arrays.equals(this.row, other.row);
+		return (this.timestamp == other.timestamp) && Arrays.equals(this.row, other.row);
 	}
 
 	@Override

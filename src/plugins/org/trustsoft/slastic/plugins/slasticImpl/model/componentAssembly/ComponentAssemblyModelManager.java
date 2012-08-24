@@ -34,8 +34,8 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
  * 
  * @author Andre van Hoorn
  */
-public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel> implements
-		IAssemblyComponentsManager, IAssemblyConnectorsManager, ISystemProvidedInterfacesManager {
+public class ComponentAssemblyModelManager extends AbstractModelManager<ComponentAssemblyModel>
+		implements IAssemblyComponentsManager, IAssemblyConnectorsManager, ISystemProvidedInterfacesManager {
 
 	private final TypeRepositoryModelManager typeRepositoryModelManager;
 	private final AssemblyComponentsManager assemblyComponentsManager;
@@ -55,7 +55,8 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 		this.typeRepositoryModelManager = typeRepositoryManager;
 		this.assemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
 		this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyComponentConnectors(), this.typeRepositoryModelManager);
-		this.systemProvidedInterfacesManager = new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(), componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
+		this.systemProvidedInterfacesManager = new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(),
+				componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
 	}
 
 	@Override

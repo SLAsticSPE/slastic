@@ -37,40 +37,30 @@ public class TestSetGetCurrentTime extends TestCase {
 	/**
 	 * Sends a {@link TimerControlEvent.ClockType#CLOCK_EXTERNAL} event to a
 	 * running {@link EPRuntime}, sends a {@link CurrentTimeEvent} and
-	 * subsequently compares its value with the return value of
-	 * {@link EPRuntime#getCurrentTime().
+	 * subsequently compares its value with the return value of {@link EPRuntime#getCurrentTime().
 	 */
 	public void testExternalTimeIsCurrenTime1() {
 		final int timestamp = 17454;
 		final Configuration config = new Configuration();
-		final EPServiceProvider epService =
-				EPServiceProviderManager.getDefaultProvider(config);
+		final EPServiceProvider epService = EPServiceProviderManager.getDefaultProvider(config);
 		final EPRuntime epRuntime = epService.getEPRuntime();
-		epRuntime.sendEvent(new TimerControlEvent(
-				TimerControlEvent.ClockType.CLOCK_EXTERNAL));
+		epRuntime.sendEvent(new TimerControlEvent(TimerControlEvent.ClockType.CLOCK_EXTERNAL));
 		epRuntime.sendEvent(new CurrentTimeEvent(timestamp));
-		Assert.assertEquals(
-				"Unexpected current time returned from epRuntime. ",
-				epRuntime.getCurrentTime(), timestamp);
+		Assert.assertEquals("Unexpected current time returned from epRuntime. ", epRuntime.getCurrentTime(), timestamp);
 	}
 
 	/**
-	 * Disables the internal time in a {@link Configuration}, starts a
-	 * {@link EPServiceProvider} with this {@link Configuration}, sends a
-	 * {@link CurrentTimeEvent} and subsequently compares its value with the
+	 * Disables the internal time in a {@link Configuration}, starts a {@link EPServiceProvider} with this {@link Configuration}, sends a {@link CurrentTimeEvent}
+	 * and subsequently compares its value with the
 	 * return value of {@link EPRuntime#getCurrentTime().
 	 */
 	public void testExternalTimeIsCurrenTime2() {
 		final int timestamp = 17;
 		final Configuration config = new Configuration();
-		config.getEngineDefaults().getThreading()
-				.setInternalTimerEnabled(false);
-		final EPServiceProvider epService =
-				EPServiceProviderManager.getDefaultProvider(config);
+		config.getEngineDefaults().getThreading().setInternalTimerEnabled(false);
+		final EPServiceProvider epService = EPServiceProviderManager.getDefaultProvider(config);
 		final EPRuntime epRuntime = epService.getEPRuntime();
 		epRuntime.sendEvent(new CurrentTimeEvent(timestamp));
-		Assert.assertEquals(
-				"Unexpected current time returned from epRuntime. ",
-				epRuntime.getCurrentTime(), timestamp);
+		Assert.assertEquals("Unexpected current time returned from epRuntime. ", epRuntime.getCurrentTime(), timestamp);
 	}
 }

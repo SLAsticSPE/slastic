@@ -35,15 +35,12 @@ public class TestEsperQuickStart extends TestCase {
 	public void testCreateSendReceiveEvent() {
 
 		/* Creating a statement */
-		EPServiceProvider epService = EPServiceProviderManager
-				.getDefaultProvider();
-		String expression = "select avg(price) from "
-				+ OrderEvent.class.getName() + ".win:time(30 sec)";
-		EPStatement statement = epService.getEPAdministrator().createEPL(
-				expression);
+		final EPServiceProvider epService = EPServiceProviderManager.getDefaultProvider();
+		final String expression = "select avg(price) from " + OrderEvent.class.getName() + ".win:time(30 sec)";
+		final EPStatement statement = epService.getEPAdministrator().createEPL(expression);
 
 		/* Adding a listener */
-		MyListener listener = new MyListener();
+		final MyListener listener = new MyListener();
 		statement.addListener(listener);
 
 		epService.getEPRuntime().sendEvent(new OrderEvent("shirt1", 80.00));
@@ -54,8 +51,8 @@ public class TestEsperQuickStart extends TestCase {
 }
 
 class MyListener implements UpdateListener {
-	public void update(EventBean[] newEvents, EventBean[] oldEvents) {
-		EventBean event = newEvents[0];
+	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
+		final EventBean event = newEvents[0];
 		System.out.println("avg=" + event.get("avg(price)"));
 	}
 }

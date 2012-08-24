@@ -22,8 +22,7 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
  * 
  */
 public interface ICurrentTimeProvider {
-	public static ICurrentTimeProvider SYSTEM_CURRENT_TIME_PROVIDER =
-			new SystemCurrentTimeProvider();
+	public static ICurrentTimeProvider SYSTEM_CURRENT_TIME_PROVIDER = new SystemCurrentTimeProvider();
 
 	/**
 	 * Returns the current time in milliseconds since January 1, 1970 (UTC).

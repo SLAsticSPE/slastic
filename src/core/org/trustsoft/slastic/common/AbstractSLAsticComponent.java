@@ -30,7 +30,8 @@ import org.trustsoft.slastic.common.util.PropertiesFileUtils;
  */
 public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 
-	private static final Log log = LogFactory.getLog(AbstractSLAsticComponent.class);
+	private static final Log LOG = LogFactory.getLog(AbstractSLAsticComponent.class);
+
 	private volatile Properties properties;
 
 	private volatile IComponentContext componentContext;
@@ -55,8 +56,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 	 * Returns the value for the initialization property @a propName or the the
 	 * passed default value @a default if no value for this property exists.
 	 */
-	protected final String getInitProperty(final String propName,
-			final String defaultVal) {
+	protected final String getInitProperty(final String propName, final String defaultVal) {
 		final String[] retVals = this.getInitProperties(propName, new String[] { defaultVal });
 
 		return retVals[0];
@@ -95,7 +95,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 		int curIdx = 0;
 
 		if (this.properties == null) {
-			AbstractSLAsticComponent.log.error("properties are null");
+			LOG.error("properties are null");
 			return null;
 		}
 
@@ -108,8 +108,7 @@ public abstract class AbstractSLAsticComponent implements ISLAsticComponent {
 		} else {
 			/* 2. try indexed variant (propName[0..n]=...) */
 			while (true) {
-				val =
-						this.properties.getProperty(PropertiesFileUtils.genMultiValPropKey(propName, curIdx++));
+				val = this.properties.getProperty(PropertiesFileUtils.genMultiValPropKey(propName, curIdx++));
 				if (val == null) {
 					break;
 				}

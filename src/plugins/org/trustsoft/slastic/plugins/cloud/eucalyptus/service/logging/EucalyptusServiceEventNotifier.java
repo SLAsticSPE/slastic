@@ -28,16 +28,14 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApp
 
 /**
  * Receives notifications from {@link IEucalyptusServiceEventListener} and
- * passes these notification to the registered
- * {@link IEucalyptusServiceEventListener}s.
+ * passes these notification to the registered {@link IEucalyptusServiceEventListener}s.
  * 
  * @author Andre van Hoorn
  * 
  */
 public class EucalyptusServiceEventNotifier implements IEucalyptusServiceEventListener {
 
-	private final Collection<IEucalyptusServiceEventListener> eventListeners =
-			new ArrayList<IEucalyptusServiceEventListener>();
+	private final Collection<IEucalyptusServiceEventListener> eventListeners = new ArrayList<IEucalyptusServiceEventListener>();
 
 	/**
 	 * 
@@ -77,8 +75,7 @@ public class EucalyptusServiceEventNotifier implements IEucalyptusServiceEventLi
 			final EucalyptusCloudedApplicationConfiguration configuration,
 			final EucalyptusCloudedApplication application) {
 		for (final IEucalyptusServiceEventListener l : this.eventListeners) {
-			l.notifyCreateAndRegisterCloudedApplicationSuccess(name,
-					configuration, application);
+			l.notifyCreateAndRegisterCloudedApplicationSuccess(name, configuration, application);
 		}
 	}
 
@@ -97,8 +94,7 @@ public class EucalyptusServiceEventNotifier implements IEucalyptusServiceEventLi
 			final EucalyptusCloudNode node,
 			final EucalyptusApplicationInstance instance) {
 		for (final IEucalyptusServiceEventListener l : this.eventListeners) {
-			l.notifyDeployApplicationInstanceSuccess(application,
-					configuration, node, instance);
+			l.notifyDeployApplicationInstanceSuccess(application, configuration, node, instance);
 		}
 	}
 

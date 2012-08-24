@@ -30,8 +30,7 @@ import com.espertech.esper.client.hook.ExceptionHandlerFactoryContext;
  * 
  */
 public class CEPEngineExceptionLoggingHandler implements ExceptionHandler {
-	private static final Log log = LogFactory
-			.getLog(CEPEngineExceptionLoggingHandler.class);
+	private static final Log LOG = LogFactory.getLog(CEPEngineExceptionLoggingHandler.class);
 
 	private final ExceptionHandlerFactoryContext exceptionHandlerFactoryContext;
 
@@ -43,19 +42,14 @@ public class CEPEngineExceptionLoggingHandler implements ExceptionHandler {
 	/**
 	 * @param exceptionHandlerContext
 	 */
-	public CEPEngineExceptionLoggingHandler(
-			final ExceptionHandlerFactoryContext exceptionHandlerFactoryContext) {
+	public CEPEngineExceptionLoggingHandler(final ExceptionHandlerFactoryContext exceptionHandlerFactoryContext) {
 		this.exceptionHandlerFactoryContext = exceptionHandlerFactoryContext;
 	}
 
 	@Override
 	public void handle(final ExceptionHandlerContext context) {
-		CEPEngineExceptionLoggingHandler.log
-				.error("CEP engine reported exception. ExceptionHandlerContext:"
-						+ context);
-		CEPEngineExceptionLoggingHandler.log
-				.error("ExceptionHandlerFactoryContext"
-						+ this.exceptionHandlerFactoryContext);
+		LOG.error("CEP engine reported exception. ExceptionHandlerContext:" + context);
+		LOG.error("ExceptionHandlerFactoryContext" + this.exceptionHandlerFactoryContext);
 
 	}
 

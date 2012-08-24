@@ -45,13 +45,10 @@ public abstract class AbstractExampleTestExecutor {
 			final List<StreamRecord> expectedRStream,
 			final String eplStatementString) {
 		/* Create stream collector */
-		final IRStreamCollector irStreamCollector =
-				new IRStreamCollector(epServiceProvider);
+		final IRStreamCollector irStreamCollector = new IRStreamCollector(epServiceProvider);
 
 		/* Create and register statement; register stream collector */
-		final EPStatement stm =
-				epServiceProvider.getEPAdministrator().createEPL(
-						eplStatementString);
+		final EPStatement stm = epServiceProvider.getEPAdministrator().createEPL(eplStatementString);
 		stm.setSubscriber(irStreamCollector);
 
 		/* Send events from input stream */
@@ -60,10 +57,8 @@ public abstract class AbstractExampleTestExecutor {
 		}
 
 		/* Check result */
-		Assert.assertEquals("Unexpected insert stream", expectedIStream,
-				irStreamCollector.getiStream());
-		Assert.assertEquals("Unexpected remove stream", expectedRStream,
-				irStreamCollector.getrStream());
+		Assert.assertEquals("Unexpected insert stream", expectedIStream, irStreamCollector.getiStream());
+		Assert.assertEquals("Unexpected remove stream", expectedRStream, irStreamCollector.getrStream());
 		return irStreamCollector;
 	}
 }

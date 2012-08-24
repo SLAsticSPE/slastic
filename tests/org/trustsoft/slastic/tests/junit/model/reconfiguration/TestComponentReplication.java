@@ -42,14 +42,11 @@ public class TestComponentReplication extends TestCase {
 	public void testComponentReplication() {
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
-		final AssemblyComponent assemblyComponent =
-				ModelEntityCreationUtils.createAssemblyComponent(mgr, "ComponentTypeName", "AssemblyComponentName");
+		final AssemblyComponent assemblyComponent = ModelEntityCreationUtils.createAssemblyComponent(mgr, "ComponentTypeName", "AssemblyComponentName");
 		final ExecutionContainer replicationTargetExecutionContainer =
-				ModelEntityCreationUtils.createExecutionContainer(mgr, "ExecutionContainerTargetTypeName",
-						"ExecutionContainerTargetName");
+				ModelEntityCreationUtils.createExecutionContainer(mgr, "ExecutionContainerTargetTypeName", "ExecutionContainerTargetName");
 		final DeploymentComponent deploymentComponent =
-				mgr.getReconfigurationManager().replicateComponent(assemblyComponent,
-						replicationTargetExecutionContainer);
+				mgr.getReconfigurationManager().replicateComponent(assemblyComponent, replicationTargetExecutionContainer);
 		Assert.assertSame(deploymentComponent.getAssemblyComponent(), assemblyComponent);
 		Assert.assertSame(deploymentComponent.getExecutionContainer(), replicationTargetExecutionContainer);
 		/*
@@ -58,9 +55,9 @@ public class TestComponentReplication extends TestCase {
 		 */
 		Assert.assertTrue("Deployment component not included in assembly component's list of deployments", mgr
 				.getComponentDeploymentModelManager().deploymentComponentsForAssemblyComponent(assemblyComponent,
-				/*
-				 * do not include inactive ones
-				 */false).contains(deploymentComponent));
+						/*
+						 * do not include inactive ones
+						 */false).contains(deploymentComponent));
 		Assert.assertSame(
 				"Lookup of deployment component based on assembly component and execution container failed",
 				deploymentComponent,

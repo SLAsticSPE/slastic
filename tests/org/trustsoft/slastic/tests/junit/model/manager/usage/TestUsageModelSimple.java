@@ -23,8 +23,6 @@ import java.util.TreeMap;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
 
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
@@ -50,6 +48,9 @@ import de.cau.se.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnec
 import de.cau.se.slastic.metamodel.usage.UsageFactory;
 import de.cau.se.slastic.metamodel.usage.UsageModel;
 
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
+
 /**
  * In this test, we are manually filling a {@link UsageModel} without the use of
  * the {@link UsageModelManager}.
@@ -61,15 +62,13 @@ public class TestUsageModelSimple extends TestCase {
 	/** Create {@link ModelManager} with empty {@link SystemModel} and {@link UsageModel} */
 	private final ModelManager systemModelManager = new ModelManager();
 	private final TypeRepositoryModelManager typeMgr = this.systemModelManager.getTypeRepositoryManager();
-	private final ComponentAssemblyModelManager assemblyMgr = this.systemModelManager
-			.getComponentAssemblyModelManager();
+	private final ComponentAssemblyModelManager assemblyMgr = this.systemModelManager.getComponentAssemblyModelManager();
 
 	/** Since we are modifying the {@link UsageModel} directly, we need to retrieve it. */
 	private final UsageModel usageModel = this.systemModelManager.getUsageModelManager().getModel();
 
 	private final ExecutionRecordTransformationFilter execRecFilter =
-			new ExecutionRecordTransformationFilter(this.systemModelManager,
-					NameUtils.ABSTRACTION_MODE_CLASS);
+			new ExecutionRecordTransformationFilter(this.systemModelManager, NameUtils.ABSTRACTION_MODE_CLASS);
 
 	private volatile AssemblyComponent requiringAsmCompA;
 	private volatile DeploymentComponentOperationExecution opExecAa;
@@ -80,7 +79,7 @@ public class TestUsageModelSimple extends TestCase {
 	private volatile Interface commonInterfaceB;
 
 	private volatile AssemblyComponentConnector asmConnector;
-	
+
 	private volatile SystemProvidedInterfaceDelegationConnector sysProvDelegationConnector;
 
 	/**
@@ -99,9 +98,9 @@ public class TestUsageModelSimple extends TestCase {
 	}
 
 	/**
-	 * Manually fills the {@link UsageModel} without using the
-	 * {@link UsageModelManager}.
-	 * @throws IOException 
+	 * Manually fills the {@link UsageModel} without using the {@link UsageModelManager}.
+	 * 
+	 * @throws IOException
 	 */
 	public void testManuallyFillModel() throws IOException {
 		this.initModelAndVars();
@@ -112,33 +111,28 @@ public class TestUsageModelSimple extends TestCase {
 	}
 
 	/**
-	 * Initializes a {@link SystemModel} by creating (among other entities) the
-	 * {@link AssemblyComponent}s {@link #requiringAsmCompA} and
-	 * {@link #providingAsmCompB} properly connected via the
-	 * {@link AssemblyComponentConnector} {@link #asmConnector} with the common Interface
-	 * {@link #commonInterfaceB}.
+	 * Initializes a {@link SystemModel} by creating (among other entities) the {@link AssemblyComponent}s {@link #requiringAsmCompA} and {@link #providingAsmCompB}
+	 * properly connected via the {@link AssemblyComponentConnector} {@link #asmConnector} with the common Interface {@link #commonInterfaceB}.
 	 */
 	private void initModelAndVars() {
 		// Create asmCompB providing the interface commonInterfaceB
-		this.opExecBb =
-				this.fillSystemModelByOperationExecution("package.ComponentB",
-						/* no required interface: */null,
-						"opB", "void", new String[] { String.class.getName() });
+		this.opExecBb = this.fillSystemModelByOperationExecution("package.ComponentB",
+				/* no required interface: */null,
+				"opB", "void", new String[] { String.class.getName() });
 
 		this.providingAsmCompB = this.opExecBb.getDeploymentComponent().getAssemblyComponent();
 		this.commonInterfaceB = this.providingAsmCompB.getComponentType().getProvidedInterfaces().get(0);
 
 		// Create asmCompA whose type requires asmCompB's type's providing
 		// interface
-		this.opExecAa =
-				this.fillSystemModelByOperationExecution("package.ComponentA", this.commonInterfaceB,
-						"opA", Long.class.getName(), new String[] { Boolean.class.getName() });
+		this.opExecAa = this.fillSystemModelByOperationExecution("package.ComponentA", this.commonInterfaceB,
+				"opA", Long.class.getName(), new String[] { Boolean.class.getName() });
 		this.requiringAsmCompA = this.opExecAa.getDeploymentComponent().getAssemblyComponent();
 		this.providedInterfaceA = this.requiringAsmCompA.getComponentType().getProvidedInterfaces().get(0);
 
 		// Connect the two components
 		this.connect(this.requiringAsmCompA, this.providingAsmCompB, this.commonInterfaceB);
-		
+
 		// Delegate system-provided interface
 		this.assemblyMgr.registerSystemProvidedInterface(this.providedInterfaceA);
 		this.delegate(this.requiringAsmCompA, this.providedInterfaceA);
@@ -171,8 +165,7 @@ public class TestUsageModelSimple extends TestCase {
 
 	/**
 	 * Adds the relationship A.a(..) calls interface signature b(..) (for
-	 * example implemented by B.b(..)) with the frequency distribution
-	 * {@link #frequencyMap} to the {@link #usageModel}.
+	 * example implemented by B.b(..)) with the frequency distribution {@link #frequencyMap} to the {@link #usageModel}.
 	 */
 	private void addCallingRelationship() {
 		final CallingRelationship cr =
@@ -185,8 +178,7 @@ public class TestUsageModelSimple extends TestCase {
 	}
 
 	/**
-	 * Adds frequencies for calls to the {@link Signature} b(..) of the
-	 * {@link AssemblyComponentConnector} {@link #asmConnector}.
+	 * Adds frequencies for calls to the {@link Signature} b(..) of the {@link AssemblyComponentConnector} {@link #asmConnector}.
 	 */
 	private void addAssemblyConnectorCallFrequencies() {
 		int numCallsAa = 0;
@@ -205,35 +197,34 @@ public class TestUsageModelSimple extends TestCase {
 		asmCallFreqAaToBb.setSignature(this.commonInterfaceB.getSignatures().get(0));
 		asmCallFreqAaToBb.setFrequency(numCallsBb);
 		this.usageModel.getAssemblyComponentConnectorCallFrequencies().add(asmCallFreqAaToBb);
-		
+
 		/*
 		 * Frequency for system-provided interface delegation connector
 		 */
-		final SystemProvidedInterfaceDelegationConnectorFrequency sysProvDelegFreqAa = 
-			UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
+		final SystemProvidedInterfaceDelegationConnectorFrequency sysProvDelegFreqAa =
+				UsageFactory.eINSTANCE.createSystemProvidedInterfaceDelegationConnectorFrequency();
 		sysProvDelegFreqAa.setConnector(this.sysProvDelegationConnector);
 		sysProvDelegFreqAa.setSignature(this.providedInterfaceA.getSignatures().get(0));
 		sysProvDelegFreqAa.setFrequency(numCallsAa);
 		this.usageModel.getSystemProvidedInterfaceDelegationConnectorFrequencies().add(sysProvDelegFreqAa);
 	}
-	
+
 	private void saveModels() throws IOException {
-	       /* Create a tmp files the models will be saved to
-         * and mark the files to be deleted on jvm termination */
-        final File tmpSystemModelFile =
-                File.createTempFile(this.getClass().getSimpleName() +"-systemModel-", "");
-        //tmpSystemModelFile.deleteOnExit();
-        
-        final File tmpUsageModelFile =
-            File.createTempFile(this.getClass().getSimpleName() +"-usageModel-", "");
-        //tmpSystemModelFile.deleteOnExit();
-        
-        this.systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
+		/*
+		 * Create a tmp files the models will be saved to
+		 * and mark the files to be deleted on jvm termination
+		 */
+		final File tmpSystemModelFile = File.createTempFile(this.getClass().getSimpleName() + "-systemModel-", "");
+		// tmpSystemModelFile.deleteOnExit();
+
+		final File tmpUsageModelFile = File.createTempFile(this.getClass().getSimpleName() + "-usageModel-", "");
+		// tmpSystemModelFile.deleteOnExit();
+
+		this.systemModelManager.saveModels(tmpSystemModelFile.getAbsolutePath(), tmpUsageModelFile.getAbsolutePath());
 	}
-	
+
 	private final CallingRelationship createCallingRelationship(final Operation op, final Interface iface,
-			final Signature signature,
-			final TreeMap<Long, Long> frequencyDistribution) {
+			final Signature signature, final TreeMap<Long, Long> frequencyDistribution) {
 		final CallingRelationship cr = UsageFactory.eINSTANCE.createCallingRelationship();
 		cr.setCallingOperation(op);
 		cr.setCalledInterface(iface);
@@ -243,11 +234,9 @@ public class TestUsageModelSimple extends TestCase {
 		final FrequencyDistribution fd = UsageFactory.eINSTANCE.createFrequencyDistribution();
 
 		fd.getValues().addAll(frequencyDistribution.keySet());
-		Assert.assertEquals("Unexpected number of values in frequency distribution",
-				frequencyDistribution.keySet().size(), fd.getValues().size());
+		Assert.assertEquals("Unexpected number of values in frequency distribution", frequencyDistribution.keySet().size(), fd.getValues().size());
 		fd.getFrequencies().addAll(frequencyDistribution.values());
-		Assert.assertEquals("Unexpected number of frequencies in frequency distribution",
-				frequencyDistribution.values().size(), fd.getFrequencies().size());
+		Assert.assertEquals("Unexpected number of frequencies in frequency distribution", frequencyDistribution.values().size(), fd.getFrequencies().size());
 		cr.setFrequencyDistribution(fd);
 
 		return cr;
@@ -260,33 +249,30 @@ public class TestUsageModelSimple extends TestCase {
 		 * Record used to setup the following model entities (excerpt of the
 		 * relevant ones):
 		 * <ul>
-		 * <li>Interface <i>package.IComponentA__T</i> with a signature
-		 * <code>opA(java.lang.String)</code></li>
-		 * <li>ComponentType <i>package.ComponentA__T</i> providing interface
-		 * <i>package.TComponentAT</i></li>
+		 * <li>Interface <i>package.IComponentA__T</i> with a signature <code>opA(java.lang.String)</code></li>
+		 * <li>ComponentType <i>package.ComponentA__T</i> providing interface <i>package.TComponentAT</i></li>
 		 * <li>AssemblyComponent <i>package.ComponentA</i></li>
 		 * </ul>
 		 */
-		final kieker.common.util.Signature signature = new kieker.common.util.Signature(opName, new String[]{}, returnType, paramTypes);
+		final kieker.common.util.Signature signature = new kieker.common.util.Signature(opName, new String[] {}, returnType, paramTypes);
 
 		final OperationExecutionRecord kiekerRecord;
 		{
 			final String fqClassname = fqAssemblyComponentName;
 			final String operationSignatureStr = ClassOperationSignaturePair.createOperationSignatureString(fqClassname, signature);
 			final String sessionId = "ZUKGHGF435JJ";
-			final long traceId = 88878787877887l;		
+			final long traceId = 88878787877887l;
 			final long tin = 65656868l;
 			final long tout = 9878787887l;
 			final String hostname = "theHostname";
 			final int eoi = 77;
 			final int ess = 98;
-		
+
 			kiekerRecord = new OperationExecutionRecord(operationSignatureStr, sessionId, traceId, tin, tout, hostname, eoi, ess);
 		}
-		
+
 		final DeploymentComponentOperationExecution slasticRecord =
-				(DeploymentComponentOperationExecution) this.execRecFilter
-						.transformExecutionRecord(kiekerRecord);
+				(DeploymentComponentOperationExecution) this.execRecFilter.transformExecutionRecord(kiekerRecord);
 
 		final AssemblyComponent asmComp = slasticRecord.getDeploymentComponent().getAssemblyComponent();
 
@@ -299,14 +285,12 @@ public class TestUsageModelSimple extends TestCase {
 
 	private void connect(final AssemblyComponent requiringComponent, final AssemblyComponent providingComponent,
 			final Interface iface) {
-		this.asmConnector =
-				ModelEntityCreationUtils.createAssemblyConnector(this.systemModelManager, "ConnectorT", iface);
+		this.asmConnector = ModelEntityCreationUtils.createAssemblyConnector(this.systemModelManager, "ConnectorT", iface);
 		Assert.assertTrue("Failed to connect", this.assemblyMgr.connect(this.asmConnector, requiringComponent, providingComponent));
 	}
-	
+
 	private void delegate(final AssemblyComponent providingComponent, final Interface iface) {
-		this.sysProvDelegationConnector = 
-			ModelEntityCreationUtils.createSystemProvidedDelegationConnector(this.systemModelManager, "SysProvConnectT", iface);
+		this.sysProvDelegationConnector = ModelEntityCreationUtils.createSystemProvidedDelegationConnector(this.systemModelManager, "SysProvConnectT", iface);
 		Assert.assertTrue("Failed to delegate", this.assemblyMgr.delegate(this.sysProvDelegationConnector, iface, providingComponent));
 	}
 }

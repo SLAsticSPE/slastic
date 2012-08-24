@@ -30,10 +30,10 @@ import com.espertech.esper.client.EPStatement;
 /**
  * 
  * @author Andre van Hoorn
- *
+ * 
  */
 public class AbstractPerformanceLogger implements IPerformanceLogger {
-	private static final Log log = LogFactory.getLog(AbstractPerformanceLogger.class);
+	private static final Log LOG = LogFactory.getLog(AbstractPerformanceLogger.class);
 
 	private volatile EPServiceProvider epServiceProvider;
 	private final IComponentContext context;
@@ -45,11 +45,9 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 		return this.context;
 	}
 
-	private final Collection<AbstractPerformanceMeasureLogger<?>> performanceMeasureLoggers =
-			new ArrayList<AbstractPerformanceMeasureLogger<?>>();
+	private final Collection<AbstractPerformanceMeasureLogger<?>> performanceMeasureLoggers = new ArrayList<AbstractPerformanceMeasureLogger<?>>();
 
-	public AbstractPerformanceLogger(final EPServiceProvider epServiceProvider,
-			final IComponentContext context) {
+	public AbstractPerformanceLogger(final EPServiceProvider epServiceProvider, final IComponentContext context) {
 		this.epServiceProvider = epServiceProvider;
 		this.context = context;
 	}
@@ -58,11 +56,9 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 	 * 
 	 * @param loggerClasses
 	 */
-	protected final void startLoggersByClassname(
-			final Collection<Class<? extends AbstractPerformanceMeasureLogger<?>>> loggerClasses) {
+	protected final void startLoggersByClassname(final Collection<Class<? extends AbstractPerformanceMeasureLogger<?>>> loggerClasses) {
 		for (final Class<? extends AbstractPerformanceMeasureLogger<?>> lc : loggerClasses) {
-			final AbstractPerformanceMeasureLogger<?> logger =
-					this.createLoggerFromClass(lc);
+			final AbstractPerformanceMeasureLogger<?> logger = this.createLoggerFromClass(lc);
 			this.addAndRegisterLoggerAsSubscriber(logger);
 		}
 	}
@@ -72,29 +68,21 @@ public class AbstractPerformanceLogger implements IPerformanceLogger {
 	 * @param loggerClass
 	 * @return
 	 */
-	private AbstractPerformanceMeasureLogger<?> createLoggerFromClass(
-			final Class<? extends AbstractPerformanceMeasureLogger<?>> loggerClass) {
+	private AbstractPerformanceMeasureLogger<?> createLoggerFromClass(final Class<? extends AbstractPerformanceMeasureLogger<?>> loggerClass) {
 		AbstractPerformanceMeasureLogger<?> loggerInst = null;
 		try {
-			final Constructor<? extends AbstractPerformanceMeasureLogger<?>> con =
-					loggerClass.getConstructor(IComponentContext.class);
-			loggerInst =
-					con.newInstance(this.context.createSubcontext(loggerClass
-							.getSimpleName()));
+			final Constructor<? extends AbstractPerformanceMeasureLogger<?>> con = loggerClass.getConstructor(IComponentContext.class);
+			loggerInst = con.newInstance(this.context.createSubcontext(loggerClass.getSimpleName()));
 		} catch (final Exception e) {
-			AbstractPerformanceLogger.log.error(
-					"Error instantiating logger:" + e.getMessage(), e);
+			LOG.error("Error instantiating logger:" + e.getMessage(), e);
 		}
 		return loggerInst;
 	}
 
 	@Override
-	public final void addAndRegisterLoggerAsSubscriber(
-			final AbstractPerformanceMeasureLogger<?> logger) {
+	public final void addAndRegisterLoggerAsSubscriber(final AbstractPerformanceMeasureLogger<?> logger) {
 		final String epStatementStr = logger.createEPStatement();
-		final EPStatement epStatement =
-				this.epServiceProvider.getEPAdministrator().createEPL(
-						epStatementStr);
+		final EPStatement epStatement = this.epServiceProvider.getEPAdministrator().createEPL(epStatementStr);
 		epStatement.setSubscriber(logger);
 		this.performanceMeasureLoggers.add(logger);
 	}

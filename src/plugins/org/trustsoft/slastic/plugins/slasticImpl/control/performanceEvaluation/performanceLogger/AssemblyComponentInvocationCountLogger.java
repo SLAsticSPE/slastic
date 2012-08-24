@@ -16,27 +16,22 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-import kieker.tools.util.LoggingTimestampConverter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.IComponentContext;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import de.cau.se.slastic.metamodel.typeRepository.ComponentType;
 
+import kieker.tools.util.LoggingTimestampConverter;
+
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class AssemblyComponentInvocationCountLogger extends
-		AbstractPerformanceMeasureLogger<AssemblyComponent> implements
-		IAssemblyComponentInvocationCountReceiver {
+public class AssemblyComponentInvocationCountLogger extends AbstractPerformanceMeasureLogger<AssemblyComponent> implements IAssemblyComponentInvocationCountReceiver {
 
-	private static final Log log = LogFactory
-			.getLog(AssemblyComponentInvocationCountLogger.class);
+	// private static final Log LOG = LogFactory.getLog(AssemblyComponentInvocationCountLogger.class);
 
 	public static final int DEFAULT_WIN_TIME_SECONDS = 5;
 	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5;
@@ -44,12 +39,8 @@ public class AssemblyComponentInvocationCountLogger extends
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
-	public AssemblyComponentInvocationCountLogger(
-			final IComponentContext context) {
-		this(
-				context,
-				AssemblyComponentInvocationCountLogger.DEFAULT_WIN_TIME_SECONDS,
-				AssemblyComponentInvocationCountLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+	public AssemblyComponentInvocationCountLogger(final IComponentContext context) {
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
 	}
 
 	/**
@@ -57,9 +48,7 @@ public class AssemblyComponentInvocationCountLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public AssemblyComponentInvocationCountLogger(
-			final IComponentContext context, final int winTimeSec,
-			final int outputIntervalSec) {
+	public AssemblyComponentInvocationCountLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
 		super(context);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
@@ -76,24 +65,21 @@ public class AssemblyComponentInvocationCountLogger extends
 	 */
 	private final String[] createRow(final long currentTimestampMillis,
 			final AssemblyComponent assemblyComponent, final Long count) {
-		final String currentTimeUTCString =
-				LoggingTimestampConverter
-						.convertLoggingTimestampToUTCString(currentTimestampMillis
-								* (1000 * 1000));
+		final String currentTimeUTCString = LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000));
 
 		return new String[] {
-				/* 0: timestamp: */
-				Long.toString(currentTimestampMillis),
-				/* 1: human-readable UTC string: */
-				currentTimeUTCString,
-				/* 2: assembly-component name (ID): */
-				new StringBuilder().append(assemblyComponent.getPackageName())
-						.append(".").append(assemblyComponent.getName())
-						.append("(")
-						.append(Long.toString(assemblyComponent.getId()))
-						.append(")").toString(),
-				/* 3: count */
-				count == null ? "NA" : Long.toString(count) };
+			/* 0: timestamp: */
+			Long.toString(currentTimestampMillis),
+			/* 1: human-readable UTC string: */
+			currentTimeUTCString,
+			/* 2: assembly-component name (ID): */
+			new StringBuilder().append(assemblyComponent.getPackageName())
+					.append(".").append(assemblyComponent.getName())
+					.append("(")
+					.append(Long.toString(assemblyComponent.getId()))
+					.append(")").toString(),
+			/* 3: count */
+			count == null ? "NA" : Long.toString(count) };
 	}
 
 	/**
@@ -103,20 +89,17 @@ public class AssemblyComponentInvocationCountLogger extends
 	public void update(final long currentTimestampMillis,
 			final AssemblyComponent assemblyComponent, final Long count) {
 
-		super.writeRow(assemblyComponent, this.createRow(
-				currentTimestampMillis, assemblyComponent, count));
+		super.writeRow(assemblyComponent, this.createRow(currentTimestampMillis, assemblyComponent, count));
 	}
 
 	@Override
 	protected String[] createHeader() {
-		return new String[] { "timestamp", "UTCString", "assemblyComponent",
-				"count" };
+		return new String[] { "timestamp", "UTCString", "assemblyComponent", "count" };
 	}
 
 	@Override
 	protected String createFilename(final AssemblyComponent assemblyComponent) {
-		final ComponentType componentType =
-				assemblyComponent.getComponentType();
+		final ComponentType componentType = assemblyComponent.getComponentType();
 
 		return (new StringBuilder(Long.toString(assemblyComponent.getId())))
 				.append("--").append(assemblyComponent.getPackageName())

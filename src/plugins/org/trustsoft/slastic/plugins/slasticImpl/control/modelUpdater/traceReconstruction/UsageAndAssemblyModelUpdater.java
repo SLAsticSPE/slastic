@@ -59,8 +59,7 @@ import de.cau.se.slastic.metamodel.usage.ValidExecutionTrace;
 public class UsageAndAssemblyModelUpdater {
 	private static final Log LOG = LogFactory.getLog(UsageAndAssemblyModelUpdater.class);
 
-	private static final String CEP_QUERY = "select * from "
-			+ ValidExecutionTrace.class.getName();
+	private static final String CEP_QUERY = "select * from " + ValidExecutionTrace.class.getName();
 
 	private final EPServiceProvider epService;
 
@@ -84,21 +83,19 @@ public class UsageAndAssemblyModelUpdater {
 		this.assemblyModelManager = this.modelManager.getComponentAssemblyModelManager();
 		this.usageModelManager = this.modelManager.getUsageModelManager();
 
-		final EPStatement statement =
-				this.epService.getEPAdministrator().createEPL(UsageAndAssemblyModelUpdater.CEP_QUERY);
+		final EPStatement statement = this.epService.getEPAdministrator().createEPL(CEP_QUERY);
 		statement.setSubscriber(this);
 	}
 
 	/**
-	 * Processes {@link ValidExecutionTrace}s by updating the
-	 * {@link ComponentAssemblyModel} and the {@link UsageModel} via the
+	 * Processes {@link ValidExecutionTrace}s by updating the {@link ComponentAssemblyModel} and the {@link UsageModel} via the
 	 * respective managers.
 	 * 
 	 * @param validExecutionTrace
 	 */
 	public void update(final ValidExecutionTrace validExecutionTrace) {
 		if (!this.processTrace(validExecutionTrace)) {
-			UsageAndAssemblyModelUpdater.LOG.error("Failed to process trace: " + validExecutionTrace);
+			LOG.error("Failed to process trace: " + validExecutionTrace);
 		}
 	}
 
@@ -116,8 +113,7 @@ public class UsageAndAssemblyModelUpdater {
 		 * Used as an intermediate data-structure to keep track of interface
 		 * signatures called by the distinct executions within this trace.
 		 */
-		final Stack<ExecutionCallRelationships> executionCallRelationshipStack =
-				new Stack<ExecutionCallRelationships>();
+		final Stack<ExecutionCallRelationships> executionCallRelationshipStack = new Stack<ExecutionCallRelationships>();
 
 		/**
 		 * Maintains the frequency of calls to distinct operations within this
@@ -129,8 +125,7 @@ public class UsageAndAssemblyModelUpdater {
 		 * For each Execution, this list contains the frequencies of called
 		 * interface signatures.
 		 */
-		final List<ExecutionCallRelationships> executionCallRelationships =
-				new ArrayList<ExecutionCallRelationships>();
+		final List<ExecutionCallRelationships> executionCallRelationships = new ArrayList<ExecutionCallRelationships>();
 
 		/**
 		 * Connector used to delegate this trace's entry call. Will be set on
@@ -147,16 +142,13 @@ public class UsageAndAssemblyModelUpdater {
 		// TODO: assemblyComponentConnectorCallFrequencies
 
 		for (final Message message : mt.getMessages()) {
-			final DeploymentComponentOperationExecution sender =
-					(DeploymentComponentOperationExecution) message.getSender();
-			final DeploymentComponentOperationExecution receiver =
-					(DeploymentComponentOperationExecution) message.getReceiver();
+			final DeploymentComponentOperationExecution sender = (DeploymentComponentOperationExecution) message.getSender();
+			final DeploymentComponentOperationExecution receiver = (DeploymentComponentOperationExecution) message.getReceiver();
 
 			if (message instanceof SynchronousCallMessage) {
 				if (!(message.getSender() instanceof DeploymentComponentOperationExecution)
 						|| !(message.getReceiver() instanceof DeploymentComponentOperationExecution)) {
-					UsageAndAssemblyModelUpdater.LOG.error("Currently only supporting "
-							+ DeploymentComponentOperationExecution.class.getName() + "s");
+					LOG.error("Currently only supporting " + DeploymentComponentOperationExecution.class.getName() + "s");
 					return false;
 				}
 
@@ -183,8 +175,7 @@ public class UsageAndAssemblyModelUpdater {
 				// Validity check during development; can be removed as soon as
 				// implementation stable
 				if (!executionCallRelationshipCallee.getExecution().equals(sender)) {
-					UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
-							+ executionCallRelationshipCallee.getExecution() + " vs. " + sender);
+					LOG.error("Executions do not match: " + executionCallRelationshipCallee.getExecution() + " vs. " + sender);
 					return false;
 				}
 				// Store execution call relationship for returned execution:
@@ -196,8 +187,7 @@ public class UsageAndAssemblyModelUpdater {
 						this.typeRepositoryModelManager.lookupProvidedInterfaceForSignature(
 								providingComponent.getComponentType(), operationSignature);
 				if (iface == null) {
-					UsageAndAssemblyModelUpdater.LOG.error("Callee " + providingComponent
-							+ " does not provide interface with given signature " + operationSignature);
+					LOG.error("Callee " + providingComponent + " does not provide interface with given signature " + operationSignature);
 					return false;
 				}
 
@@ -212,19 +202,13 @@ public class UsageAndAssemblyModelUpdater {
 
 				if (receiver.equals(UsageModelManager.rootExec)) {
 					entryCallInterfaceSignature = returningInterfaceSignature;
-					sysProvDelegConnector =
-							this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent,
-									operationSignature);
-					if (sysProvDelegConnector == null) { // not yet registered
-															// -> register!
+					sysProvDelegConnector = this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent, operationSignature);
+					if (sysProvDelegConnector == null) { // not yet registered -> register!
 						// Register system-provided interface (which may be
 						// registered already)
 						this.assemblyModelManager.registerSystemProvidedInterface(iface);
-						final ConnectorType connectorType =
-								this.modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(iface);
-						sysProvDelegConnector =
-								this.assemblyModelManager
-										.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
+						final ConnectorType connectorType = this.modelManager.getTypeRepositoryManager().createAndRegisterConnectorType(iface);
+						sysProvDelegConnector = this.assemblyModelManager.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
 						this.assemblyModelManager.delegate(sysProvDelegConnector, iface, providingComponent);
 					}
 				} else { // reply message not originating from entry call
@@ -234,23 +218,19 @@ public class UsageAndAssemblyModelUpdater {
 					 * block, because otherwise, we'll get an
 					 * EmptyStackException for the entry call.
 					 */
-					final ExecutionCallRelationships executionCallRelationshipCaller =
-								executionCallRelationshipStack.peek();
+					final ExecutionCallRelationships executionCallRelationshipCaller = executionCallRelationshipStack.peek();
 					// Validity check during development; can be removed as soon
 					// as
 					// implementation stable
 					if (!executionCallRelationshipCaller.getExecution().equals(receiver)) {
-						UsageAndAssemblyModelUpdater.LOG.error("Executions do not match: "
-									+ executionCallRelationshipCaller.getExecution() + " vs. " + receiver);
+						LOG.error("Executions do not match: " + executionCallRelationshipCaller.getExecution() + " vs. " + receiver);
 						return false;
 					}
 
-					final AssemblyComponent requiringComponent =
-							receiver.getDeploymentComponent().getAssemblyComponent();
+					final AssemblyComponent requiringComponent = receiver.getDeploymentComponent().getAssemblyComponent();
 
 					AssemblyComponentConnector connector =
-							this.assemblyModelManager.lookupAssemblyConnector(requiringComponent, providingComponent,
-									operationSignature);
+							this.assemblyModelManager.lookupAssemblyConnector(requiringComponent, providingComponent, operationSignature);
 					if (connector == null) {
 						// requiring and providing component aren't connected,
 						// yet -> connect
@@ -264,12 +244,10 @@ public class UsageAndAssemblyModelUpdater {
 							this.typeRepositoryModelManager.registerRequiredInterface(requiringType, iface);
 						}
 
-						final ConnectorType connectorT =
-								this.typeRepositoryModelManager.createAndRegisterConnectorType(iface);
+						final ConnectorType connectorT = this.typeRepositoryModelManager.createAndRegisterConnectorType(iface);
 						connector = this.assemblyModelManager.createAndRegisterAssemblyConnector(connectorT);
 						if (!this.assemblyModelManager.connect(connector, requiringComponent, providingComponent)) {
-							UsageAndAssemblyModelUpdater.LOG.error("Failed to connect " + requiringComponent + " and "
-									+ providingComponent + " via " + connector);
+							LOG.error("Failed to connect " + requiringComponent + " and " + providingComponent + " via " + connector);
 							return false;
 						}
 					}
@@ -281,7 +259,7 @@ public class UsageAndAssemblyModelUpdater {
 					executionCallRelationshipCaller.incCount(iface, returningInterfaceSignature);
 				}
 			} else {
-				UsageAndAssemblyModelUpdater.LOG.error("Unexpected message type: " + message);
+				LOG.error("Unexpected message type: " + message);
 				return false;
 			}
 		}
@@ -290,13 +268,11 @@ public class UsageAndAssemblyModelUpdater {
 		 * Updating call frequency to signature of system-provided interface
 		 */
 		if ((sysProvDelegConnector == null) || (entryCallInterfaceSignature == null)) {
-			UsageAndAssemblyModelUpdater.LOG
-					.error("called system-provided delegation connector and/or signature not set; "
-							+ "connector: " + sysProvDelegConnector + " ; signature: " + entryCallInterfaceSignature);
+			LOG.error("called system-provided delegation connector and/or signature not set; "
+					+ "connector: " + sysProvDelegConnector + " ; signature: " + entryCallInterfaceSignature);
 			return false;
 		} else {
-			this.usageModelManager.incSystemProvidedInterfaceSignatureCallFreq(sysProvDelegConnector,
-					entryCallInterfaceSignature);
+			this.usageModelManager.incSystemProvidedInterfaceSignatureCallFreq(sysProvDelegConnector, entryCallInterfaceSignature);
 		}
 
 		/*
@@ -313,8 +289,7 @@ public class UsageAndAssemblyModelUpdater {
 		for (final ExecutionCallRelationships execCR : executionCallRelationships) {
 			final OperationExecution opExec = execCR.getExecution();
 			if (!(opExec instanceof DeploymentComponentOperationExecution)) {
-				UsageAndAssemblyModelUpdater.LOG.error("Only supporting executions of type "
-						+ DeploymentComponentOperationExecution.class.getName()
+				LOG.error("Only supporting executions of type " + DeploymentComponentOperationExecution.class.getName()
 						+ " so far; found: " + execCR.getClass().getName());
 				return false;
 			}
@@ -324,8 +299,7 @@ public class UsageAndAssemblyModelUpdater {
 				final Interface iface = ifaceFreq.getIface();
 				for (final Entry<Signature, Long> signatureFreq : ifaceFreq.getFrequencies().entrySet()) {
 					final Signature signature = signatureFreq.getKey();
-					this.usageModelManager.incCallingRelationshipFreq(operation, iface,
-							signature, signatureFreq.getValue());
+					this.usageModelManager.incCallingRelationshipFreq(operation, iface, signature, signatureFreq.getValue());
 				}
 			}
 		}
@@ -344,8 +318,7 @@ public class UsageAndAssemblyModelUpdater {
 class InterfaceSignatureCallFrequencies {
 	private final Interface iface;
 
-	private final Map<Signature, Long> frequencies =
-			new HashMap<Signature, Long>();
+	private final Map<Signature, Long> frequencies = new HashMap<Signature, Long>();
 
 	public InterfaceSignatureCallFrequencies(final Interface iface) {
 		this.iface = iface;
@@ -385,8 +358,7 @@ class InterfaceSignatureCallFrequencies {
  */
 class ExecutionCallRelationships {
 	private final OperationExecution execution;
-	private final Map<Interface, InterfaceSignatureCallFrequencies> interfaceSignatureCallFrequencies =
-			new HashMap<Interface, InterfaceSignatureCallFrequencies>();
+	private final Map<Interface, InterfaceSignatureCallFrequencies> interfaceSignatureCallFrequencies = new HashMap<Interface, InterfaceSignatureCallFrequencies>();
 
 	public ExecutionCallRelationships(final OperationExecution execution) {
 		this.execution = execution;
@@ -399,8 +371,7 @@ class ExecutionCallRelationships {
 	public void incCount(final Interface iface, final Signature signature) {
 		// Lookup signature call frequencies for the required interface
 		InterfaceSignatureCallFrequencies signatureCallFrequencies = this.interfaceSignatureCallFrequencies.get(iface);
-		if (signatureCallFrequencies == null) { // map doesn't exist, yet ->
-												// create
+		if (signatureCallFrequencies == null) { // map doesn't exist, yet -> create
 			signatureCallFrequencies = new InterfaceSignatureCallFrequencies(iface);
 			this.interfaceSignatureCallFrequencies.put(iface, signatureCallFrequencies);
 		}
@@ -415,8 +386,7 @@ class ExecutionCallRelationships {
 	}
 
 	/**
-	 * Returns the call frequencies to other {@link Interface} {@link Signature}
-	 * s.
+	 * Returns the call frequencies to other {@link Interface} {@link Signature} s.
 	 * 
 	 * @return
 	 */

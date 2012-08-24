@@ -41,14 +41,14 @@ import org.jfree.ui.RectangleInsets;
 
 /**
  * Panel that show the development of the responesTimes over the Time and the belonging SLAs
+ * 
  * @author Lena Stoever
- *
+ * 
  */
-public class SLACheckerGUI extends JPanel{
-	/**
-	 * 
-	 */
+public class SLACheckerGUI extends JPanel {
+
 	private static final long serialVersionUID = 572394L;
+
 	public TimeSeries[] responseTimes;
 	TimeSeries q90;
 	long quantile90;
@@ -56,129 +56,129 @@ public class SLACheckerGUI extends JPanel{
 	long quantile99;
 	TimeSeries q95;
 	TimeSeries q99;
-	String name; 
+	String name;
 	private JFrame frame;
-	
+
 	/**
 	 * 
-	 * @param name Name that is shown in the title of the panel. 
-	 * @param maxAge maximum age of the data that should be shown.
-	 * @param Newquantile90 SLA for the 0.9-quantile
-	 * @param Newquantile95 SLA for the 0.95-quantile
-	 * @param Newquantile99 SLA for the 0.99-quantile
+	 * @param name
+	 *            Name that is shown in the title of the panel.
+	 * @param maxAge
+	 *            maximum age of the data that should be shown.
+	 * @param Newquantile90
+	 *            SLA for the 0.9-quantile
+	 * @param Newquantile95
+	 *            SLA for the 0.95-quantile
+	 * @param Newquantile99
+	 *            SLA for the 0.99-quantile
 	 */
-	public SLACheckerGUI(String name,int maxAge, long Newquantile90, long Newquantile95, long Newquantile99){
-		
-		
+	public SLACheckerGUI(final String name, final int maxAge, final long Newquantile90, final long Newquantile95, final long Newquantile99) {
+
 		super(new BorderLayout());
 		this.name = name;
-		quantile90 = Newquantile90;
-		quantile95 = Newquantile95;
-		quantile99 = Newquantile99;
-		responseTimes = new TimeSeries[3];
-		for(int i = 0; i< responseTimes.length; i++){
-			responseTimes[i] = new TimeSeries("responseTime"+i);
+		this.quantile90 = Newquantile90;
+		this.quantile95 = Newquantile95;
+		this.quantile99 = Newquantile99;
+		this.responseTimes = new TimeSeries[3];
+		for (int i = 0; i < this.responseTimes.length; i++) {
+			this.responseTimes[i] = new TimeSeries("responseTime" + i);
 		}
-		
-		 q90 = new TimeSeries("SLA for 0.9 quantile");
-		 q95 = new TimeSeries("SLA for 0.95 quantile");
-		 q99 = new TimeSeries("SLA for 0.99 quantile");
-		
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
-		for(int i = 0; i < responseTimes.length; i++){
-			dataset.addSeries(responseTimes[i]);
+
+		this.q90 = new TimeSeries("SLA for 0.9 quantile");
+		this.q95 = new TimeSeries("SLA for 0.95 quantile");
+		this.q99 = new TimeSeries("SLA for 0.99 quantile");
+
+		final TimeSeriesCollection dataset = new TimeSeriesCollection();
+		for (final TimeSeries responseTime : this.responseTimes) {
+			dataset.addSeries(responseTime);
 		}
-		
-		dataset.addSeries(q90);
-		dataset.addSeries(q95);
-		dataset.addSeries(q99);
-		
-		//create  x-axis
-		DateAxis timeAxis = new DateAxis("Time");
-		
-		//create y-axis
-		NumberAxis responseTimeAxis = new NumberAxis("responseTime");
-		
-		//initializing both axis'
-		timeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12)); 
-		responseTimeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12)); 
-		timeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14)); 
-		responseTimeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14)); 
-		
-		//create and initialize renderer for XY-Plot
-		XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false); 
-		renderer.setSeriesPaint(0, Color.red); 
-		renderer.setSeriesPaint(1, Color.green); 
-		renderer.setBaseStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT, 
-		BasicStroke.JOIN_BEVEL)); 
-		
-		//create and initialize plot
-		XYPlot plot = new XYPlot(dataset, timeAxis, responseTimeAxis, renderer);
-		plot.setBackgroundPaint(Color.lightGray); 
-		plot.setDomainGridlinePaint(Color.white); 
-		plot.setRangeGridlinePaint(Color.white); 
+
+		dataset.addSeries(this.q90);
+		dataset.addSeries(this.q95);
+		dataset.addSeries(this.q99);
+
+		// create x-axis
+		final DateAxis timeAxis = new DateAxis("Time");
+
+		// create y-axis
+		final NumberAxis responseTimeAxis = new NumberAxis("responseTime");
+
+		// initializing both axis'
+		timeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+		responseTimeAxis.setTickLabelFont(new Font("SansSerif", Font.PLAIN, 12));
+		timeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14));
+		responseTimeAxis.setLabelFont(new Font("SansSerif", Font.PLAIN, 14));
+
+		// create and initialize renderer for XY-Plot
+		final XYItemRenderer renderer = new XYLineAndShapeRenderer(true, false);
+		renderer.setSeriesPaint(0, Color.red);
+		renderer.setSeriesPaint(1, Color.green);
+		renderer.setBaseStroke(new BasicStroke(3f, BasicStroke.CAP_BUTT,
+				BasicStroke.JOIN_BEVEL));
+
+		// create and initialize plot
+		final XYPlot plot = new XYPlot(dataset, timeAxis, responseTimeAxis, renderer);
+		plot.setBackgroundPaint(Color.lightGray);
+		plot.setDomainGridlinePaint(Color.white);
+		plot.setRangeGridlinePaint(Color.white);
 		plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
 
-		//configuring x-achis
-		timeAxis.setAutoRange(true); 
-		timeAxis.setLowerMargin(0.0); 
-		timeAxis.setUpperMargin(0.0); 
-		timeAxis.setTickLabelsVisible(true); 
-		
-		//configuring y-achis
+		// configuring x-achis
+		timeAxis.setAutoRange(true);
+		timeAxis.setLowerMargin(0.0);
+		timeAxis.setUpperMargin(0.0);
+		timeAxis.setTickLabelsVisible(true);
+
+		// configuring y-achis
 		responseTimeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-		
-		//creating chart with the created plot
-		JFreeChart chart = new JFreeChart("SLAChecker", 
-				new Font("SansSerif", Font.BOLD, 24), plot, true); 
 
-		
-		chart.setBackgroundPaint(Color.white); 
-		
-		//creating chartPanel
-		ChartPanel chartPanel = new ChartPanel(chart); 
-		chartPanel.setBorder(BorderFactory.createCompoundBorder( 
-		BorderFactory.createEmptyBorder(4, 4, 4, 4), 
-		BorderFactory.createLineBorder(Color.black))); 
-		
+		// creating chart with the created plot
+		final JFreeChart chart = new JFreeChart("SLAChecker", new Font("SansSerif", Font.BOLD, 24), plot, true);
 
-		
-		this.add(chartPanel); 
+		chart.setBackgroundPaint(Color.white);
+
+		// creating chartPanel
+		final ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4), BorderFactory.createLineBorder(Color.black)));
+
+		this.add(chartPanel);
 	}
-	
+
 	/**
 	 * Method that updates the data for the plots
-	 * @param rt Array of responseTimes. One value for each quantile.
+	 * 
+	 * @param rt
+	 *            Array of responseTimes. One value for each quantile.
 	 */
-	public void addResponseTime(long[] rt){
-		for(int i = 0; i< rt.length; i++){
-			responseTimes[i].add(new Millisecond(), rt[i]);
+	public void addResponseTime(final long[] rt) {
+		for (int i = 0; i < rt.length; i++) {
+			this.responseTimes[i].add(new Millisecond(), rt[i]);
 		}
-		
-		this.q90.add(new Millisecond(), quantile90);
-		this.q95.add(new Millisecond(),quantile95);
-		this.q99.add(new Millisecond(), quantile99);
+
+		this.q90.add(new Millisecond(), this.quantile90);
+		this.q95.add(new Millisecond(), this.quantile95);
+		this.q99.add(new Millisecond(), this.quantile99);
 	}
-	
+
 	/**
-	 * Method that is responsible for showing the plots. 
+	 * Method that is responsible for showing the plots.
 	 */
-	public void paint(){
-		frame = new JFrame(this.name); 
-		frame.getContentPane().add(this, BorderLayout.CENTER);
-		frame.setBounds(200, 120, 800, 400);
-		
-		frame.setVisible(true);
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e){
-				setVisible(false);
+	public void paint() {
+		this.frame = new JFrame(this.name);
+		this.frame.getContentPane().add(this, BorderLayout.CENTER);
+		this.frame.setBounds(200, 120, 800, 400);
+
+		this.frame.setVisible(true);
+		this.frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(final WindowEvent e) {
+				SLACheckerGUI.this.setVisible(false);
 			}
 		});
-		
-		
-		
+
 	}
-	public void terminate(){
-		frame.dispose();
+
+	public void terminate() {
+		this.frame.dispose();
 	}
 }

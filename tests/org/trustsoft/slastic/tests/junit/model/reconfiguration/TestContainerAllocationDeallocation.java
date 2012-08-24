@@ -40,8 +40,7 @@ public class TestContainerAllocationDeallocation extends TestCase {
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager mgr = new ModelManager(systemModel);
 
-		final ExecutionContainerType executionContainerType =
-				mgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(this.CONTAINER_TYPE_NAME);
+		final ExecutionContainerType executionContainerType = mgr.getTypeRepositoryManager().createAndRegisterExecutionContainerType(this.CONTAINER_TYPE_NAME);
 
 		final int nextId = 0;
 
@@ -54,13 +53,11 @@ public class TestContainerAllocationDeallocation extends TestCase {
 
 		/* Lookup by name and make sure that marked inactive */
 
-		final ExecutionContainer executionContainerLookup =
-				mgr.getExecutionEnvironmentModelManager().lookupExecutionContainer(fqContainerName);
+		final ExecutionContainer executionContainerLookup = mgr.getExecutionEnvironmentModelManager().lookupExecutionContainer(fqContainerName);
 
 		Assert.assertSame(executionContainer, executionContainerLookup);
 
-		Assert.assertEquals("Expected execution container to be marked inactive", false,
-				executionContainerLookup.isActive());
+		Assert.assertEquals("Expected execution container to be marked inactive", false, executionContainerLookup.isActive());
 
 		/* Lookup by type (include/exclude inactive ones) */
 		{
@@ -74,10 +71,8 @@ public class TestContainerAllocationDeallocation extends TestCase {
 		}
 
 		/* Activate (allocate) and make sure that flag set */
-		Assert.assertTrue(mgr.getExecutionEnvironmentModelManager()
-				.allocateExecutionContainer(executionContainerLookup));
-		Assert.assertEquals("Expected execution container to be marked active", true,
-				executionContainerLookup.isActive());
+		Assert.assertTrue(mgr.getExecutionEnvironmentModelManager().allocateExecutionContainer(executionContainerLookup));
+		Assert.assertEquals("Expected execution container to be marked active", true, executionContainerLookup.isActive());
 
 		/* Lookup by type (include/exclude inactive ones) */
 		{

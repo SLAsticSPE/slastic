@@ -37,15 +37,12 @@ public class EucalyptusCloudedApplication extends AbstractCloudedApplication {
 	 * @param name
 	 * @param configuration
 	 */
-	public EucalyptusCloudedApplication(final String name,
-			final EucalyptusCloudedApplicationConfiguration configuration) {
+	public EucalyptusCloudedApplication(final String name, final EucalyptusCloudedApplicationConfiguration configuration) {
 		super(name, configuration);
 	}
 
 	/**
-	 * Returns a unique ID which can be used to identify
-	 * {@link EucalyptusApplicationInstance} associated with this
-	 * {@link EucalyptusCloudedApplication}.
+	 * Returns a unique ID which can be used to identify {@link EucalyptusApplicationInstance} associated with this {@link EucalyptusCloudedApplication}.
 	 * 
 	 * @return
 	 */

@@ -66,7 +66,7 @@ public class PropertyMap {
 
 	public final String getProperty(final String propName, final String defaultVal) {
 		if (!this.initStringProcessed) {
-			PropertyMap.LOG.error("InitString not yet processed. " + " Call method initVarsFromInitString(..) first.");
+			LOG.error("InitString not yet processed. " + " Call method initVarsFromInitString(..) first.");
 			return null;
 		}
 
@@ -110,7 +110,7 @@ public class PropertyMap {
 				}
 				final String key = keyValTokens.nextToken().trim();
 				final String val = keyValTokens.nextToken().trim();
-				PropertyMap.LOG.debug("Found key/value pair: " + key + "=" + val);
+				LOG.debug("Found key/value pair: " + key + "=" + val);
 				this.map.put(key, val);
 			}
 		} catch (final Exception exc) { // NOCS (IllegalCatchCheck) // NOPMD

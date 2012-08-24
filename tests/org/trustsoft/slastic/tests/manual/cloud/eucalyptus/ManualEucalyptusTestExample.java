@@ -44,8 +44,7 @@ import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceExc
  */
 public class ManualEucalyptusTestExample {
 
-	private static final Log log = LogFactory
-			.getLog(ManualEucalyptusTestExample.class);
+	private static final Log LOG = LogFactory.getLog(ManualEucalyptusTestExample.class);
 
 	/**
 	 * Executes the {@link ManualEucalyptusTestExample}.
@@ -59,7 +58,7 @@ public class ManualEucalyptusTestExample {
 		try {
 			manualEucalyptusTestExample.testDummyService();
 		} catch (final ApplicationCloudingServiceException e) {
-			ManualEucalyptusTestExample.log.error("Test threw an Exception", e);
+			LOG.error("Test threw an Exception", e);
 		}
 
 		/* Set exit code appropriately */
@@ -99,15 +98,11 @@ public class ManualEucalyptusTestExample {
 
 		/* 3: createAndRegisterCloudedApplication */
 
-		final ICloudedApplication app = svc
-				.createAndRegisterCloudedApplication("CloudedApplication",
-						new EucalyptusCloudedApplicationConfiguration());
+		final ICloudedApplication app = svc.createAndRegisterCloudedApplication("CloudedApplication", new EucalyptusCloudedApplicationConfiguration());
 		Assert.assertNotNull("application is null", app);
 
 		/* 4: deployApplicationInstance */
-		final IApplicationInstance appInstance = svc.deployApplicationInstance(
-				app, new EucalyptusApplicationInstanceConfiguration(),
-				allocatedNode);
+		final IApplicationInstance appInstance = svc.deployApplicationInstance(app, new EucalyptusApplicationInstanceConfiguration(), allocatedNode);
 		Assert.assertNotNull("appInstance is null", appInstance);
 
 		/* 5: undeployApplicationInstance */
@@ -130,18 +125,15 @@ public class ManualEucalyptusTestExample {
 	private static EucalyptusApplicationCloudingService createService() {
 		final Properties props = ManualEucalyptusTestExample.genProperties();
 
-		final IEucalyptusApplicationCloudingServiceConfiguration config = EucalyptusApplicationCloudingServiceConfiguration
-				.createConfiguration(props);
+		final IEucalyptusApplicationCloudingServiceConfiguration config = EucalyptusApplicationCloudingServiceConfiguration.createConfiguration(props);
 
-		final EucalyptusApplicationCloudingService svc = EucalyptusApplicationCloudingService
-				.createService(config);
+		final EucalyptusApplicationCloudingService svc = EucalyptusApplicationCloudingService.createService(config);
 
 		return svc;
 	}
 
 	/**
-	 * Generate {@link Properties} constituting the
-	 * {@link EucalyptusCloudedApplicationConfiguration}. In real applications,
+	 * Generate {@link Properties} constituting the {@link EucalyptusCloudedApplicationConfiguration}. In real applications,
 	 * these {@link Properties} are read from a configuration file.
 	 * 
 	 * @return
@@ -149,8 +141,7 @@ public class ManualEucalyptusTestExample {
 	private static Properties genProperties() {
 		final Properties props = new Properties();
 		props.put(ConfigurationProperty.DEBUG_ENABLED.getPropertyName(), "true");
-		props.put(ConfigurationProperty.DUMMY_MODE_ENABLED.getPropertyName(),
-				"false");
+		props.put(ConfigurationProperty.DUMMY_MODE_ENABLED.getPropertyName(), "false");
 		return props;
 	}
 }

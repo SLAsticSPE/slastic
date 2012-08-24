@@ -29,8 +29,7 @@ public class CEPEngineExceptionHandlerFactory implements
 		ExceptionHandlerFactory {
 
 	@Override
-	public ExceptionHandler getHandler(
-			final ExceptionHandlerFactoryContext context) {
+	public ExceptionHandler getHandler(final ExceptionHandlerFactoryContext context) {
 		return new CEPEngineExceptionLoggingHandler(context);
 	}
 

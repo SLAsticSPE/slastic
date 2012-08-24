@@ -30,12 +30,11 @@ import org.apache.commons.logging.LogFactory;
  * 
  */
 public class NumDeploymentsForAssemblyComponentRuleSet {
-	private static final Log log = LogFactory
-			.getLog(NumDeploymentsForAssemblyComponentRuleSet.class);
+	private static final Log LOG = LogFactory.getLog(NumDeploymentsForAssemblyComponentRuleSet.class);
 
 	private final String fqAssemblyComponentName;
 	private final String fqExecutionContainerTypeName;
-	
+
 	/**
 	 * @param assemblyComponentName
 	 * @param executionContainerTypeName
@@ -78,24 +77,18 @@ public class NumDeploymentsForAssemblyComponentRuleSet {
 	 * @param workloadIntensity
 	 * @return
 	 */
-	public Baseline getNextBaseline(
-			final Baseline oldBaseline,
-			final long workloadIntensity) {
+	public Baseline getNextBaseline(final Baseline oldBaseline, final long workloadIntensity) {
 		final Baseline nextBaseline;
 
-		if ((workloadIntensity >= oldBaseline.getLowerBorder()) &&
-				(workloadIntensity <= oldBaseline.getUpperBorder())) {
+		if ((workloadIntensity >= oldBaseline.getLowerBorder()) && (workloadIntensity <= oldBaseline.getUpperBorder())) {
 			/* 1. Within old baseline interval */
 			nextBaseline = oldBaseline;
 		} else {
 			/* 2. Exceeding upper border of old baseline */
-			nextBaseline =
-					this.baselines.floorEntry(workloadIntensity).getValue();
+			nextBaseline = this.baselines.floorEntry(workloadIntensity).getValue();
 		}
 
-		NumDeploymentsForAssemblyComponentRuleSet.log.info("Old baseline " + oldBaseline +
-				" , workload intensity " + workloadIntensity + " -> baseline "
-				+ nextBaseline);
+		LOG.info("Old baseline " + oldBaseline + " , workload intensity " + workloadIntensity + " -> baseline " + nextBaseline);
 		return nextBaseline;
 	}
 
@@ -108,8 +101,7 @@ public class NumDeploymentsForAssemblyComponentRuleSet {
 	 */
 	public void addBaselineRule(final long lowerBorder, final long center,
 			final long upperBorder, final int numNodes) {
-		this.baselines.put(center, new Baseline(upperBorder, center,
-				lowerBorder, numNodes));
+		this.baselines.put(center, new Baseline(upperBorder, center, lowerBorder, numNodes));
 	}
 
 	/**
@@ -120,10 +112,9 @@ public class NumDeploymentsForAssemblyComponentRuleSet {
 		/*
 		 * Check whether the center and numNode values are increasing
 		 */
-		final SortedMap<Long, Baseline> sortedBaselines =
-				this.baselines.tailMap(0l);
+		final SortedMap<Long, Baseline> sortedBaselines = this.baselines.tailMap(0l);
 		if (!this.isKeysAndValuesIncreasing(sortedBaselines)) {
-			NumDeploymentsForAssemblyComponentRuleSet.log.error("set of baselines is invalid");
+			LOG.error("set of baselines is invalid");
 			return false;
 		}
 		return true;
@@ -141,11 +132,8 @@ public class NumDeploymentsForAssemblyComponentRuleSet {
 		for (final Map.Entry<Long, Baseline> e : list.entrySet()) {
 			final Baseline curBaseline = e.getValue();
 			if (prevBaseline != null) {
-				if (!((prevBaseline.getCenter() < curBaseline.getCenter()) && (prevBaseline
-						.getNumNodes() < curBaseline.getNumNodes()))) {
-					NumDeploymentsForAssemblyComponentRuleSet.log.error("Invalid order of baselines: "
-							+ prevBaseline
-							+ " -> " + curBaseline);
+				if (!((prevBaseline.getCenter() < curBaseline.getCenter()) && (prevBaseline.getNumNodes() < curBaseline.getNumNodes()))) {
+					LOG.error("Invalid order of baselines: " + prevBaseline + " -> " + curBaseline);
 				}
 			}
 
