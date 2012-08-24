@@ -59,8 +59,7 @@ public class AnalysisStarterJMS extends AbstractAnalysisStarter {
 			this.jmsDestination = super.getStringOptionValueNotEmpty(CmdlOptions.CMDL_OPT_JMS_DESTINATION.getLongOpt());
 			this.jmsFactoryLookupName = super.getStringOptionValueNotEmpty(CmdlOptions.CMDL_OPT_JMS_INITIAL_CONTEXT_FACTORY.getLongOpt());
 		} catch (final Exception exc) {
-			AnalysisStarterJMS.LOG.error("Failed to initialize variables"
-					+ exc.getMessage(), exc);
+			AnalysisStarterJMS.LOG.error("Failed to initialize variables" + exc.getMessage(), exc);
 			return false;
 		}
 
