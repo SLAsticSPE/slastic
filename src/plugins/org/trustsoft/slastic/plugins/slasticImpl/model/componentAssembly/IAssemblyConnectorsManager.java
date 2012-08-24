@@ -50,8 +50,7 @@ public interface IAssemblyConnectorsManager {
 	public AssemblyComponentConnector lookupAssemblyConnector(final long id);
 
 	/**
-	 * Returns the {@link AssemblyComponentConnector} which connects the two given
-	 * {@link AssemblyComponent}s and whose {@link Interface} declares the given
+	 * Returns the {@link AssemblyComponentConnector} which connects the two given {@link AssemblyComponent}s and whose {@link Interface} declares the given
 	 * {@link Signature}.
 	 * 
 	 * @param requiringComponent
@@ -60,8 +59,8 @@ public interface IAssemblyConnectorsManager {
 	 * @return the requested {@link AssemblyComponentConnector} or null if it doesn't
 	 *         exist.
 	 */
-	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
-			final AssemblyComponent providingComponent, final Signature signature);
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent, final AssemblyComponent providingComponent,
+			final Signature signature);
 
 	/**
 	 * Creates and registers a new assembly connector with the given
@@ -74,9 +73,7 @@ public interface IAssemblyConnectorsManager {
 	 *             if an assembly connector with the given fully-qualified name
 	 *             has already been registered
 	 */
-	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
-			final String fullyQualifiedName,
-			final ConnectorType connectorType);
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final String fullyQualifiedName, final ConnectorType connectorType);
 
 	/**
 	 * Creates and registers a new assembly connector with a random but unique
@@ -85,24 +82,18 @@ public interface IAssemblyConnectorsManager {
 	 * @param connectorType
 	 * @return the new assembly connector
 	 */
-	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
-			final ConnectorType connectorType);
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final ConnectorType connectorType);
 
 	/**
-	 * Connects the given {@link AssemblyComponent}s by the given
-	 * {@link AssemblyComponentConnector}. Note that the {@link Interface} corresponding
-	 * to the {@link AssemblyComponentConnector}'s type
-	 * {@link ConnectorType#getInterface()} must be contained in the requiring
-	 * component's list of required interfaces
-	 * {@link ComponentType#getRequiredInterfaces()} and in the providing
-	 * component's list of provided interfaces
-	 * {@link ComponentType#getProvidedInterfaces()}.
+	 * Connects the given {@link AssemblyComponent}s by the given {@link AssemblyComponentConnector}. Note that the {@link Interface} corresponding
+	 * to the {@link AssemblyComponentConnector}'s type {@link ConnectorType#getInterface()} must be contained in the requiring
+	 * component's list of required interfaces {@link ComponentType#getRequiredInterfaces()} and in the providing
+	 * component's list of provided interfaces {@link ComponentType#getProvidedInterfaces()}.
 	 * 
 	 * @param assemblyConnector
 	 * @param requiringComponent
 	 * @param providingComponent
 	 * @return true if the connection could successfully be established
 	 */
-	public boolean connect(AssemblyComponentConnector assemblyConnector, AssemblyComponent requiringComponent,
-			AssemblyComponent providingComponent);
+	public boolean connect(AssemblyComponentConnector assemblyConnector, AssemblyComponent requiringComponent, AssemblyComponent providingComponent);
 }

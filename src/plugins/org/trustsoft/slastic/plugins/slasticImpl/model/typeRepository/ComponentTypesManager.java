@@ -34,18 +34,16 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
  * 
  * @author Andre van Hoorn
  */
-public class ComponentTypesManager extends
-		AbstractFQNamedEntityManager<ComponentType> implements
-		IComponentTypesManager {
+public class ComponentTypesManager extends AbstractFQNamedEntityManager<ComponentType> implements IComponentTypesManager {
 
-	private static final Log log = LogFactory.getLog(ComponentTypesManager.class);
+	private static final Log LOG = LogFactory.getLog(ComponentTypesManager.class);
 
 	private final InterfacesManager interfacesManager;
-	
+
 	/**
 	 * 
 	 * @param componentTypes
-	 * @param interfaceManager 
+	 * @param interfaceManager
 	 */
 	public ComponentTypesManager(final List<ComponentType> componentTypes, final InterfacesManager interfaceManager) {
 		super(componentTypes);
@@ -78,19 +76,15 @@ public class ComponentTypesManager extends
 	public ComponentType lookupComponentType(final long id) {
 		return this.lookupEntityById(id);
 	}
-	
+
 	@Override
 	public Operation createAndRegisterOperation(
 			final ComponentType componentType, final String operationName,
 			final String returnType, final String[] argTypes) {
-		Operation res =
-				this.lookupOperation(componentType, operationName, returnType,
-						argTypes);
+		Operation res = this.lookupOperation(componentType, operationName, returnType, argTypes);
 
 		if (res != null) {
-			throw new IllegalArgumentException(
-					"Operation with given properties already registered: "
-							+ res);
+			throw new IllegalArgumentException("Operation with given properties already registered: " + res);
 		}
 
 		// Create and register operation
@@ -110,7 +104,7 @@ public class ComponentTypesManager extends
 			final String operationName, final String returnType,
 			final String[] argTypes) {
 		final Signature argSignature = SignatureUtils.createSignature(operationName, argTypes, returnType);
-		
+
 		for (final Operation op : componentType.getOperations()) {
 			if (SignatureUtils.signaturesEqual(argSignature, op.getSignature())) {
 				return op;
@@ -126,8 +120,7 @@ public class ComponentTypesManager extends
 		final EList<Interface> providedInterfaces = componentType.getProvidedInterfaces();
 
 		if (providedInterfaces.contains(providedInterface)) {
-			ComponentTypesManager.log.warn("Interface " + providedInterface
-					+ " already contained in list of interfaces provided by " + componentType);
+			LOG.warn("Interface " + providedInterface + " already contained in list of interfaces provided by " + componentType);
 		} else {
 			providedInterfaces.add(providedInterface);
 		}
@@ -138,19 +131,20 @@ public class ComponentTypesManager extends
 		final EList<Interface> requiredInterfaces = componentType.getRequiredInterfaces();
 
 		if (requiredInterfaces.contains(requiredInterface)) {
-			ComponentTypesManager.log.warn("Interface " + requiredInterface
-					+ " already contained in list of interfaces required by " + componentType);
+			LOG.warn("Interface " + requiredInterface + " already contained in list of interfaces required by " + componentType);
 		} else {
 			requiredInterfaces.add(requiredInterface);
 		}
 	}
-	
+
 	// TODO: need a test for this method
 	@Override
 	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature) {
 		final List<Interface> providedInterfaces = componentType.getProvidedInterfaces();
 		for (final Interface iface : providedInterfaces) {
-			final Signature lookedupSignature = this.interfacesManager.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[]{}));
+			final Signature lookedupSignature =
+					this.interfacesManager
+							.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}));
 			if (lookedupSignature != null) {
 				return iface;
 			}
@@ -164,7 +158,9 @@ public class ComponentTypesManager extends
 	public Interface lookupRequiredInterfaceForSignature(final ComponentType componentType, final Signature signature) {
 		final List<Interface> requiredInterfaces = componentType.getProvidedInterfaces();
 		for (final Interface iface : requiredInterfaces) {
-			final Signature lookedupSignature = this.interfacesManager.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[]{}));
+			final Signature lookedupSignature =
+					this.interfacesManager
+							.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}));
 			if (lookedupSignature != null) {
 				return iface;
 			}

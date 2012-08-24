@@ -37,10 +37,8 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
  * 
  * @author Andre van Hoorn
  */
-public class TypeRepositoryModelManager extends
-		AbstractModelManager<TypeRepositoryModel> implements
-		IComponentTypesManager, IInterfacesManager, IConnectorTypesManager,
-		IExecutionContainerTypesManager, INetworkLinkTypesManager,
+public class TypeRepositoryModelManager extends AbstractModelManager<TypeRepositoryModel>
+		implements IComponentTypesManager, IInterfacesManager, IConnectorTypesManager, IExecutionContainerTypesManager, INetworkLinkTypesManager,
 		IResourceTypesManager {
 
 	private final ComponentTypesManager componentTypeManager;
@@ -63,28 +61,17 @@ public class TypeRepositoryModelManager extends
 	public TypeRepositoryModelManager(
 			final TypeRepositoryModel typeRepositoryModel) {
 		super(typeRepositoryModel);
-		this.interfaceManager =
-			new InterfacesManager(typeRepositoryModel.getInterfaces());
-		this.componentTypeManager =
-				new ComponentTypesManager(typeRepositoryModel
-						.getComponentTypes(), this.interfaceManager);
-		this.connectorTypeManager =
-				new ConnectorTypesManager(typeRepositoryModel
-						.getConnectorTypes());
-		this.executionContainerTypeManager =
-				new ExecutionContainerTypesManager(typeRepositoryModel
-						.getExecutionContainerTypes());
-		this.networkLinkTypeManager =
-				new NetworkLinkTypesManager(typeRepositoryModel
-						.getNetworkLinkTypes());
-		this.resourceTypesManager =
-				new ResourceTypesManager(typeRepositoryModel.getResourceTypes());
+		this.interfaceManager = new InterfacesManager(typeRepositoryModel.getInterfaces());
+		this.componentTypeManager = new ComponentTypesManager(typeRepositoryModel.getComponentTypes(), this.interfaceManager);
+		this.connectorTypeManager = new ConnectorTypesManager(typeRepositoryModel.getConnectorTypes());
+		this.executionContainerTypeManager = new ExecutionContainerTypesManager(typeRepositoryModel.getExecutionContainerTypes());
+		this.networkLinkTypeManager = new NetworkLinkTypesManager(typeRepositoryModel.getNetworkLinkTypes());
+		this.resourceTypesManager = new ResourceTypesManager(typeRepositoryModel.getResourceTypes());
 	}
 
 	@Override
 	public ComponentType lookupComponentType(final String fullyQualifiedName) {
-		return this.componentTypeManager
-				.lookupComponentType(fullyQualifiedName);
+		return this.componentTypeManager.lookupComponentType(fullyQualifiedName);
 	}
 
 	@Override
@@ -95,14 +82,12 @@ public class TypeRepositoryModelManager extends
 	@Override
 	public ComponentType createAndRegisterComponentType(
 			final String fullyQualifiedName) {
-		return this.componentTypeManager
-				.createAndRegisterComponentType(fullyQualifiedName);
+		return this.componentTypeManager.createAndRegisterComponentType(fullyQualifiedName);
 	}
 
 	@Override
 	public ConnectorType lookupConnectorType(final String fullyQualifiedName) {
-		return this.connectorTypeManager
-				.lookupConnectorType(fullyQualifiedName);
+		return this.connectorTypeManager.lookupConnectorType(fullyQualifiedName);
 	}
 
 	@Override
@@ -121,7 +106,7 @@ public class TypeRepositoryModelManager extends
 	public ConnectorType createAndRegisterConnectorType(final Interface iface) {
 		return this.connectorTypeManager.createAndRegisterConnectorType(iface);
 	}
-	
+
 	@Override
 	public Interface lookupInterface(final String fullyQualifiedName) {
 		return this.interfaceManager.lookupInterface(fullyQualifiedName);
@@ -170,10 +155,8 @@ public class TypeRepositoryModelManager extends
 	}
 
 	@Override
-	public NetworkLinkType createAndRegisterNetworkLinkType(
-			final String fullyQualifiedName) {
-		return this.networkLinkTypeManager
-				.createAndRegisterNetworkLinkType(fullyQualifiedName);
+	public NetworkLinkType createAndRegisterNetworkLinkType(final String fullyQualifiedName) {
+		return this.networkLinkTypeManager.createAndRegisterNetworkLinkType(fullyQualifiedName);
 	}
 
 	@Override
@@ -187,24 +170,18 @@ public class TypeRepositoryModelManager extends
 	}
 
 	@Override
-	public GenericResourceType createAndRegisterGenericResourceType(
-			final String fullyQualifiedName) {
-		return this.resourceTypesManager
-				.createAndRegisterGenericResourceType(fullyQualifiedName);
+	public GenericResourceType createAndRegisterGenericResourceType(final String fullyQualifiedName) {
+		return this.resourceTypesManager.createAndRegisterGenericResourceType(fullyQualifiedName);
 	}
 
 	@Override
-	public MemSwapType createAndRegisterMemSwapResourceType(
-			final String fullyQualifiedName) {
-		return this.resourceTypesManager
-				.createAndRegisterMemSwapResourceType(fullyQualifiedName);
+	public MemSwapType createAndRegisterMemSwapResourceType(final String fullyQualifiedName) {
+		return this.resourceTypesManager.createAndRegisterMemSwapResourceType(fullyQualifiedName);
 	}
 
 	@Override
-	public CPUType createAndRegisterCPUResourceType(
-			final String fullyQualifiedName) {
-		return this.resourceTypesManager
-				.createAndRegisterCPUResourceType(fullyQualifiedName);
+	public CPUType createAndRegisterCPUResourceType(final String fullyQualifiedName) {
+		return this.resourceTypesManager.createAndRegisterCPUResourceType(fullyQualifiedName);
 	}
 
 	@Override
@@ -212,9 +189,7 @@ public class TypeRepositoryModelManager extends
 			final ExecutionContainerType executionContainerType,
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
-		return this.executionContainerTypeManager
-				.createAndAddResourceSpecification(executionContainerType,
-						resourceType, resourceSpecificatioName);
+		return this.executionContainerTypeManager.createAndAddResourceSpecification(executionContainerType, resourceType, resourceSpecificatioName);
 	}
 
 	@Override
@@ -224,24 +199,17 @@ public class TypeRepositoryModelManager extends
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
 		return this.executionContainerTypeManager
-				.createAndAddMemSwapResourceSpecification(
-						executionContainerType, memCapacityBytes,
-						swapCapacityBytes, resourceType,
-						resourceSpecificatioName);
+				.createAndAddMemSwapResourceSpecification(executionContainerType, memCapacityBytes, swapCapacityBytes, resourceType, resourceSpecificatioName);
 	}
 
 	@Override
-	public Operation createAndRegisterOperation(final ComponentType componentType,
-			final String operationName, final String returnType, final String[] argTypes) {
-		return this.componentTypeManager.createAndRegisterOperation(
-				componentType, operationName, returnType, argTypes);
+	public Operation createAndRegisterOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes) {
+		return this.componentTypeManager.createAndRegisterOperation(componentType, operationName, returnType, argTypes);
 	}
 
 	@Override
-	public Operation lookupOperation(final ComponentType componentType,
-			final String operationName, final String returnType, final String[] argTypes) {
-		return this.componentTypeManager.lookupOperation(componentType,
-				operationName, returnType, argTypes);
+	public Operation lookupOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes) {
+		return this.componentTypeManager.lookupOperation(componentType, operationName, returnType, argTypes);
 	}
 
 	@Override
@@ -249,11 +217,9 @@ public class TypeRepositoryModelManager extends
 			final String[] argTypes) {
 		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes);
 	}
-	
+
 	@Override
-	public Signature createAndRegisterSignature(final Interface iface, final String signatureName,
-			final String returnType,
-			final String[] argTypes) {
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
 		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes);
 	}
 
@@ -266,7 +232,7 @@ public class TypeRepositoryModelManager extends
 	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface) {
 		this.componentTypeManager.registerRequiredInterface(componentType, requiredInterface);
 	}
-	
+
 	@Override
 	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature) {
 		return this.componentTypeManager.lookupProvidedInterfaceForSignature(componentType, signature);

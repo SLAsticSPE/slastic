@@ -32,8 +32,7 @@ import de.cau.se.slastic.metamodel.typeRepository.NetworkLinkType;
  * 
  * @author Andre van Hoorn
  */
-public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements
-		IExecutionContainersManager, INetworkLinksManager// ,
+public class ExecutionEnvironmentModelManager extends AbstractModelManager<ExecutionEnvironmentModel> implements IExecutionContainersManager, INetworkLinksManager// ,
 // IExecutionContainersAllocationManager
 {
 
@@ -68,8 +67,7 @@ public class ExecutionEnvironmentModelManager extends AbstractModelManager<Execu
 	public ExecutionEnvironmentModelManager(final ExecutionEnvironmentModel executionEnvironmentModel, final TypeRepositoryModelManager typeRepositoryManager) {
 		super(executionEnvironmentModel);
 		this.typeRepositoryModelManager = typeRepositoryManager;
-		this.executionContainersManager =
-				new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
+		this.executionContainersManager = new ExecutionContainersManager(executionEnvironmentModel.getExecutionContainers());
 		this.networkLinksManager = new NetworkLinksManager(executionEnvironmentModel.getNetworkLinks());
 		// TODO: remove?
 		// this.executionContainersAllocationManager =new

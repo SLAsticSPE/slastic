@@ -30,9 +30,7 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesFac
  * 
  * @author Andre van Hoorn
  */
-public class ResourceTypesManager extends
-		AbstractFQNamedEntityManager<ResourceType> implements
-		IResourceTypesManager {
+public class ResourceTypesManager extends AbstractFQNamedEntityManager<ResourceType> implements IResourceTypesManager {
 	public ResourceTypesManager(final List<ResourceType> resourceTypes) {
 		super(resourceTypes);
 	}

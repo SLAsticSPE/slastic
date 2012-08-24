@@ -34,9 +34,8 @@ import de.cau.se.slastic.metamodel.typeRepository.ExecutionContainerType;
  * 
  * @author Andre van Hoorn
  */
-public class ExecutionContainersManager extends AbstractFQNamedEntityManager<ExecutionContainer> implements
-		IExecutionContainersManager {
-	private static final Log log = LogFactory.getLog(ExecutionContainersManager.class);
+public class ExecutionContainersManager extends AbstractFQNamedEntityManager<ExecutionContainer> implements IExecutionContainersManager {
+	private static final Log LOG = LogFactory.getLog(ExecutionContainersManager.class);
 
 	public ExecutionContainersManager(final List<ExecutionContainer> ExecutionContainers) {
 		super(ExecutionContainers);
@@ -53,8 +52,8 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 	}
 
 	@Override
-	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType, final boolean markAllocated) {
+	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName, final ExecutionContainerType executionContainerType,
+			final boolean markAllocated) {
 		final ExecutionContainer executionContainer = this.createAndRegister(fullyQualifiedName);
 		executionContainer.setExecutionContainerType(executionContainerType);
 		executionContainer.setActive(markAllocated);
@@ -77,8 +76,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 		return ExecutionEnvironmentFactory.eINSTANCE.createExecutionContainer();
 	}
 
-	private ResourceSpecification lookupResourceSpecification(final ExecutionContainerType executionContainerType,
-			final String resourceSpecificationName) {
+	private ResourceSpecification lookupResourceSpecification(final ExecutionContainerType executionContainerType, final String resourceSpecificationName) {
 		for (final ResourceSpecification resSpec : executionContainerType.getResources()) {
 			if (resSpec.getName().equals(resourceSpecificationName)) {
 				return resSpec;
@@ -87,8 +85,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 		return null;
 	}
 
-	private Resource lookupCachedContainerResource(final ExecutionContainer executionContainer,
-			final ResourceSpecification resSpecification) {
+	private Resource lookupCachedContainerResource(final ExecutionContainer executionContainer, final ResourceSpecification resSpecification) {
 		for (final Resource res : executionContainer.getResources()) {
 			if (res.getResourceSpecification() == resSpecification) {
 				return res;
@@ -97,8 +94,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 		return null;
 	}
 
-	private Resource createCachedResource(final ExecutionContainer executionContainer,
-			final ResourceSpecification resSpecification) {
+	private Resource createCachedResource(final ExecutionContainer executionContainer, final ResourceSpecification resSpecification) {
 		final Resource resource = ExecutionEnvironmentFactory.eINSTANCE.createResource();
 		resource.setExecutionContainer(executionContainer);
 		resource.setResourceSpecification(resSpecification);
@@ -107,19 +103,16 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 	}
 
 	@Override
-	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer,
-			final String resourceSpecificationName) {
+	public Resource lookupExecutionContainerResource(final ExecutionContainer executionContainer, final String resourceSpecificationName) {
 		if ((resourceSpecificationName == null) || resourceSpecificationName.isEmpty()) {
-			final String errorMsg =
-					"resourceSpecificationName must not be null or empty (found: " + resourceSpecificationName + ")";
-			ExecutionContainersManager.log.error(errorMsg);
+			final String errorMsg = "resourceSpecificationName must not be null or empty (found: " + resourceSpecificationName + ")";
+			LOG.error(errorMsg);
 			throw new IllegalArgumentException(errorMsg);
 		}
 
 		/* 1: Check whether resource exists for type */
 		final ResourceSpecification resSpec =
-				this.lookupResourceSpecification(executionContainer.getExecutionContainerType(),
-						resourceSpecificationName);
+				this.lookupResourceSpecification(executionContainer.getExecutionContainerType(), resourceSpecificationName);
 		if (resSpec == null) {
 			// such resource does not exist
 			return null;
@@ -139,8 +132,7 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 	}
 
 	@Override
-	public Collection<ExecutionContainer> executionContainersForType(
-			final ExecutionContainerType executionContainerType, final boolean includeInactive) {
+	public Collection<ExecutionContainer> executionContainersForType(final ExecutionContainerType executionContainerType, final boolean includeInactive) {
 		final Collection<ExecutionContainer> containersForType = new ArrayList<ExecutionContainer>();
 
 		for (final ExecutionContainer container : super.getEntities()) {

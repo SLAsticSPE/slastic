@@ -65,34 +65,27 @@ public class ReconfigurationManager implements IReconfigurationManager {
 	}
 
 	@Override
-	public DeploymentComponent replicateComponent(
-			final AssemblyComponent assemblyComponent,
-			final ExecutionContainer toExecutionContainer) {
+	public DeploymentComponent replicateComponent(final AssemblyComponent assemblyComponent, final ExecutionContainer toExecutionContainer) {
 		return this.componentDeploymentModelManager.createAndRegisterDeploymentComponent(assemblyComponent, toExecutionContainer);
 	}
 
 	@Override
-	public void dereplicateComponent(
-			final DeploymentComponent deploymentContainer) {
+	public void dereplicateComponent(final DeploymentComponent deploymentContainer) {
 		this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentContainer);
 	}
 
 	@Override
-	public DeploymentComponent migrateComponent(
-			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer toExecutionContainer) {
+	public DeploymentComponent migrateComponent(final DeploymentComponent deploymentComponent, final ExecutionContainer toExecutionContainer) {
 		return this.componentDeploymentModelManager.migrateDeploymentComponent(deploymentComponent, toExecutionContainer);
 	}
 
 	@Override
-	public boolean allocateExecutionContainer(
-			final ExecutionContainer executionContainer) {
+	public boolean allocateExecutionContainer(final ExecutionContainer executionContainer) {
 		return this.executionEnvironmentModelManager.allocateExecutionContainer(executionContainer);
 	}
 
 	@Override
-	public boolean deallocateExecutionContainer(
-			final ExecutionContainer executionContainer) {
+	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer) {
 		return this.executionEnvironmentModelManager.deallocateExecutionContainer(executionContainer);
 	}
 }

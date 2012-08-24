@@ -36,8 +36,7 @@ public interface IExecutionContainerTypesManager {
 	 *            lookup
 	 * @return the looked up execution container type
 	 */
-	public ExecutionContainerType lookupExecutionContainerType(
-			final String fullyQualifiedName);
+	public ExecutionContainerType lookupExecutionContainerType(final String fullyQualifiedName);
 
 	/**
 	 * Returns the execution container type with the given id or null if no
@@ -59,8 +58,7 @@ public interface IExecutionContainerTypesManager {
 	 *             if a execution container type with the given fully-qualified
 	 *             name has already been registered
 	 */
-	public ExecutionContainerType createAndRegisterExecutionContainerType(
-			final String fullyQualifiedName);
+	public ExecutionContainerType createAndRegisterExecutionContainerType(final String fullyQualifiedName);
 
 	/**
 	 * Creates a {@link ResourceSpecification} with the given name and adds it

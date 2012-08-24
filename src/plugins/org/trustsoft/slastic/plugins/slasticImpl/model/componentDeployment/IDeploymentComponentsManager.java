@@ -53,7 +53,7 @@ public interface IDeploymentComponentsManager {
 	public DeploymentComponent createAndRegisterDeploymentComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer executionContainer);
-	
+
 	/**
 	 * Removes the given deployment component from the model.
 	 * 
@@ -63,8 +63,7 @@ public interface IDeploymentComponentsManager {
 	 * @throws NullPointerException
 	 *             if deploymentComponent is null
 	 */
-	public boolean deleteDeploymentComponent(
-			final DeploymentComponent deploymentComponent);
+	public boolean deleteDeploymentComponent(final DeploymentComponent deploymentComponent);
 
 	/**
 	 * Migrates the deployment component deploymentComponent from its current
@@ -73,9 +72,7 @@ public interface IDeploymentComponentsManager {
 	 * @param deploymentComponent
 	 * @param toExecutionContainer
 	 */
-	public DeploymentComponent migrateDeploymentComponent(
-			final DeploymentComponent deploymentComponent,
-			final ExecutionContainer toExecutionContainer);
+	public DeploymentComponent migrateDeploymentComponent(final DeploymentComponent deploymentComponent, final ExecutionContainer toExecutionContainer);
 
 	/**
 	 * Returns the deployment component associated with the given assembly
@@ -86,9 +83,7 @@ public interface IDeploymentComponentsManager {
 	 * @param executionContainer
 	 * @return
 	 */
-	public DeploymentComponent deploymentComponentForAssemblyComponent(
-			final AssemblyComponent assemblyComponent,
-			final ExecutionContainer executionContainer);
+	public DeploymentComponent deploymentComponentForAssemblyComponent(final AssemblyComponent assemblyComponent, final ExecutionContainer executionContainer);
 
 	/**
 	 * Returns a list of all registered deployment components associated with
@@ -98,6 +93,5 @@ public interface IDeploymentComponentsManager {
 	 * @param assemblyComponent
 	 * @return
 	 */
-	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(
-			final AssemblyComponent assemblyComponent, final boolean includeInactive);
+	public Collection<DeploymentComponent> deploymentComponentsForAssemblyComponent(final AssemblyComponent assemblyComponent, final boolean includeInactive);
 }

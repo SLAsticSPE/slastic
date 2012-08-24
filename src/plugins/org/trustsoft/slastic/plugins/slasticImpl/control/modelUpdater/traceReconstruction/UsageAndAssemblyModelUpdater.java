@@ -200,7 +200,7 @@ public class UsageAndAssemblyModelUpdater {
 								iface,
 								signatureName, signatureRetType, signatureArgTypes);
 
-				if (receiver.equals(UsageModelManager.rootExec)) {
+				if (receiver.equals(UsageModelManager.ROOT_EXEC)) {
 					entryCallInterfaceSignature = returningInterfaceSignature;
 					sysProvDelegConnector = this.assemblyModelManager.lookupProvidedInterfaceDelegationConnector(providingComponent, operationSignature);
 					if (sysProvDelegConnector == null) { // not yet registered -> register!

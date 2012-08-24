@@ -51,19 +51,17 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  */
 public class ModelManager extends AbstractModelManagerComponent {
 
-	private static final Log log = LogFactory.getLog(ModelManager.class);
+	private static final Log LOG = LogFactory.getLog(ModelManager.class);
 
 	// fields related to the type repository
-	private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN =
-			"systemModel-inputfn";
+	private static final String PROP_NAME_SYSTEM_MODEL__INPUT_FN = "systemModel-inputfn";
 	/** Will be set in {@link #init()} */
 	private volatile String systemModel_outputFile = "";
 	/** Will be created in {@link #init()} */
 	private volatile SystemModel systemModel;
 
 	// fields related to the type repository
-	private static final String PROP_NAME_USAGE_MODEL__INPUT_FN =
-			"usageModel-inputfn";
+	private static final String PROP_NAME_USAGE_MODEL__INPUT_FN = "usageModel-inputfn";
 	/** Will be set in {@link #init()} */
 	private volatile String usageModel_outputFile = "";
 	/** Will be created in {@link #init()} */
@@ -85,8 +83,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 	 * Manager for maintaining mappings between architectural and
 	 * implementation-level among monitoring and reconfiguration managers
 	 */
-	private final Arch2ImplNameMappingManager arch2ImplNameMappingManager =
-			new Arch2ImplNameMappingManager();
+	private final Arch2ImplNameMappingManager arch2ImplNameMappingManager = new Arch2ImplNameMappingManager();
 
 	/**
 	 * @return the arch2ImplNameMappingManager
@@ -159,40 +156,31 @@ public class ModelManager extends AbstractModelManagerComponent {
 	 */
 	private boolean initManagers() {
 		if (this.systemModel == null) {
-			ModelManager.log.error("this.systemModel is null");
+			LOG.error("this.systemModel is null");
 			throw new IllegalStateException("this.systemModel is null");
 		}
 
 		if (this.usageModel == null) {
-			ModelManager.log.error("this.usageModel is null");
+			LOG.error("this.usageModel is null");
 			throw new IllegalStateException("this.usageModel is null");
 		}
 
 		try {
-			this.typeRepositoryManager = new TypeRepositoryModelManager(
-					this.systemModel.getTypeRepositoryModel());
-			this.componentAssemblyModelManager =
-					new ComponentAssemblyModelManager(
-							this.systemModel.getComponentAssemblyModel(),
-							this.typeRepositoryManager);
-			this.executionEnvironmentModelManager =
-					new ExecutionEnvironmentModelManager(
-							this.systemModel.getExecutionEnvironmentModel(),
-							this.typeRepositoryManager);
+			this.typeRepositoryManager = new TypeRepositoryModelManager(this.systemModel.getTypeRepositoryModel());
+			this.componentAssemblyModelManager = new ComponentAssemblyModelManager(this.systemModel.getComponentAssemblyModel(), this.typeRepositoryManager);
+			this.executionEnvironmentModelManager = new ExecutionEnvironmentModelManager(this.systemModel.getExecutionEnvironmentModel(), this.typeRepositoryManager);
 			this.componentDeploymentModelManager =
 					new ComponentDeploymentModelManager(
 							this.systemModel.getComponentDeploymentModel(),
 							this.typeRepositoryManager,
 							this.componentAssemblyModelManager,
 							this.executionEnvironmentModelManager);
-			this.reconfigurationManager = new ReconfigurationManager(
-					this.typeRepositoryManager,
-					this.componentAssemblyModelManager,
-					this.executionEnvironmentModelManager,
-					this.componentDeploymentModelManager);
+			this.reconfigurationManager =
+					new ReconfigurationManager(this.typeRepositoryManager, this.componentAssemblyModelManager, this.executionEnvironmentModelManager,
+							this.componentDeploymentModelManager);
 			this.usageModelManager = new UsageModelManager(this.usageModel);
 		} catch (final Exception exc) {
-			ModelManager.log.error("Error initializing managers", exc);
+			LOG.error("Error initializing managers", exc);
 			return false;
 		}
 		return true;
@@ -200,14 +188,12 @@ public class ModelManager extends AbstractModelManagerComponent {
 
 	@Override
 	public boolean init() {
-		final String systemModel_inputFile =
-				super.getInitProperty(ModelManager.PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
-		final String usageModel_inputFile =
-				super.getInitProperty(ModelManager.PROP_NAME_USAGE_MODEL__INPUT_FN, "");
+		final String systemModel_inputFile = super.getInitProperty(PROP_NAME_SYSTEM_MODEL__INPUT_FN, "");
+		final String usageModel_inputFile = super.getInitProperty(PROP_NAME_USAGE_MODEL__INPUT_FN, "");
 
 		if (systemModel_inputFile.isEmpty()) {
 			// In this case, we create new system and usage models
-			ModelManager.log.info("No input filename for system model given --- creating new models");
+			LOG.info("No input filename for system model given --- creating new models");
 			this.systemModel = ModelManager.createInitializedSystemModel();
 			this.usageModel = ModelManager.createInitializedUsageModel();
 		} else {
@@ -217,13 +203,11 @@ public class ModelManager extends AbstractModelManagerComponent {
 				try {
 					this.systemModel = ModelManager.loadSystemModel(systemModel_inputFile);
 				} catch (final IOException ex) {
-					ModelManager.log.error("Failed to load system model from "
-								+ systemModel_inputFile, ex);
+					LOG.error("Failed to load system model from " + systemModel_inputFile, ex);
 					return false;
 				}
 
-				ModelManager.log
-						.info("No input filename for usage model given --- creating new model");
+				LOG.info("No input filename for usage model given --- creating new model");
 				this.usageModel = ModelManager.createInitializedUsageModel();
 			} else {
 				// Load both system model and usage from files
@@ -233,33 +217,26 @@ public class ModelManager extends AbstractModelManagerComponent {
 					this.systemModel = (SystemModel) models[0];
 					this.usageModel = (UsageModel) models[1];
 				} catch (final IOException ex) {
-					ModelManager.log.error("Failed to load usage model from "
-								+ usageModel_inputFile, ex);
+					LOG.error("Failed to load usage model from " + usageModel_inputFile, ex);
 					return false;
 				}
 			}
 		}
 
-		this.systemModel_outputFile =
-				this.getComponentContext().createFileInContextDir("output.slastic").getAbsolutePath();
-		this.usageModel_outputFile =
-				this.getComponentContext().createFileInContextDir("output.slasticusage").getAbsolutePath();
+		this.systemModel_outputFile = this.getComponentContext().createFileInContextDir("output.slastic").getAbsolutePath();
+		this.usageModel_outputFile = this.getComponentContext().createFileInContextDir("output.slasticusage").getAbsolutePath();
 
 		return this.initManagers();
 	}
 
-	private static SystemModel loadSystemModel(final String systemModel_inputFile)
-			throws IOException {
-		ModelManager.log.info("Loading system model from file "
+	private static SystemModel loadSystemModel(final String systemModel_inputFile) throws IOException {
+		LOG.info("Loading system model from file "
 				+ systemModel_inputFile);
 		return ModelIOUtils.loadSystemModel(systemModel_inputFile);
 	}
 
-	private static EObject[] loadSystemAndUsageModel(final String systemModel_inputFile,
-			final String usageModel_inputFile)
-			throws IOException {
-		ModelManager.log.info("Loading system model from file " + systemModel_inputFile
-				+ " and usage model from file " + usageModel_inputFile);
+	private static EObject[] loadSystemAndUsageModel(final String systemModel_inputFile, final String usageModel_inputFile) throws IOException {
+		LOG.info("Loading system model from file " + systemModel_inputFile + " and usage model from file " + usageModel_inputFile);
 		return ModelIOUtils.loadSystemAndUsageModel(systemModel_inputFile, usageModel_inputFile);
 	}
 
@@ -275,8 +252,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 	}
 
 	@Override
-	public void handleEvent(final IEvent ev) {
-	}
+	public void handleEvent(final IEvent ev) {}
 
 	@Override
 	public void newObservation(final IObservationEvent ioe) {
@@ -285,7 +261,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 
 	@Override
 	public void terminate(final boolean error) {
-		ModelManager.log.info("Terminating model manager");
+		LOG.info("Terminating model manager");
 		this.saveModels();
 	}
 
@@ -297,8 +273,7 @@ public class ModelManager extends AbstractModelManagerComponent {
 		try {
 			this.saveModels(this.systemModel_outputFile, this.usageModel_outputFile);
 		} catch (final IOException exc) {
-			ModelManager.log.error(
-					"An IOException occured while saving models", exc);
+			LOG.error("An IOException occured while saving models", exc);
 		}
 	}
 
@@ -318,30 +293,22 @@ public class ModelManager extends AbstractModelManagerComponent {
 	 * @return the new system model
 	 */
 	public static SystemModel createInitializedSystemModel() {
-		final SystemModel systemModel = CoreFactory.eINSTANCE
-				.createSystemModel();
-		systemModel.setTypeRepositoryModel(TypeRepositoryFactory.eINSTANCE
-				.createTypeRepositoryModel());
-		systemModel
-				.setComponentAssemblyModel(ComponentAssemblyFactory.eINSTANCE
-						.createComponentAssemblyModel());
-		systemModel
-				.setExecutionEnvironmentModel(ExecutionEnvironmentFactory.eINSTANCE
-						.createExecutionEnvironmentModel());
-		systemModel
-				.setComponentDeploymentModel(ComponentDeploymentFactory.eINSTANCE
-						.createComponentDeploymentModel());
+		final SystemModel systemModel = CoreFactory.eINSTANCE.createSystemModel();
+		systemModel.setTypeRepositoryModel(TypeRepositoryFactory.eINSTANCE.createTypeRepositoryModel());
+		systemModel.setComponentAssemblyModel(ComponentAssemblyFactory.eINSTANCE.createComponentAssemblyModel());
+		systemModel.setExecutionEnvironmentModel(ExecutionEnvironmentFactory.eINSTANCE.createExecutionEnvironmentModel());
+		systemModel.setComponentDeploymentModel(ComponentDeploymentFactory.eINSTANCE.createComponentDeploymentModel());
 		return systemModel;
 	}
-	
-	public SystemModel getSystemModel(){
+
+	public SystemModel getSystemModel() {
 		return this.systemModel;
 	}
-	
-	public UsageModel getUsageModel(){
+
+	public UsageModel getUsageModel() {
 		return this.usageModel;
 	}
-	
+
 	/**
 	 * Creates a new and empty usage model.
 	 * 

@@ -58,7 +58,7 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 
 		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 
-		final MessageTrace mt = TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
+		final MessageTrace mt = TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 		this.checkResultValidTrace(mt, traceId);
 	}
 
@@ -72,7 +72,7 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 
 		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 
-		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.rootExec);
+		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 
 		{ /* Check results */
 			Assert.assertTrue("Expected execution trace to be instance of " + ValidExecutionTrace.class + "; found: " + et.getClass(),
@@ -179,7 +179,7 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 		}
 
 		if ((expectedSenderName == null) && (expectedSenderEoi == -1) && (expectedSenderEss == -1)) {
-			Assert.assertSame("Expected sender execution to be the root execution", UsageModelManager.rootExec, senderCompOpExec);
+			Assert.assertSame("Expected sender execution to be the root execution", UsageModelManager.ROOT_EXEC, senderCompOpExec);
 		} else {
 			Assert.assertEquals("Unexpected component name of sender execution", senderCompOpExec.getDeploymentComponent()
 					.getAssemblyComponent().getName(), expectedSenderName);
@@ -201,7 +201,7 @@ public class TestTraceReconstructionValidTrace extends TestCase {
 		}
 
 		if ((expectedReceiverName == null) && (expectedReceiverEoi == -1) && (expectedReceiverEss == -1)) {
-			Assert.assertSame("Expected receiver execution to be the root execution", UsageModelManager.rootExec, receiverCompOpExec);
+			Assert.assertSame("Expected receiver execution to be the root execution", UsageModelManager.ROOT_EXEC, receiverCompOpExec);
 		} else {
 			Assert.assertEquals("Unexpected component name of receiver execution",
 					receiverCompOpExec.getDeploymentComponent().getAssemblyComponent().getName(), expectedReceiverName);

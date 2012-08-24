@@ -31,7 +31,7 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
  * @author Andre van Hoorn
  */
 public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> implements IInterfacesManager {
-	
+
 	/**
 	 * 
 	 * @param interfaces
@@ -42,8 +42,7 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Interface lookupInterface(
-			final String fullyQualifiedName) {
+	public Interface lookupInterface(final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
@@ -53,8 +52,7 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Interface createAndRegisterInterface(
-			final String fullyQualifiedName) {
+	public Interface createAndRegisterInterface(final String fullyQualifiedName) {
 		return this.createAndRegister(fullyQualifiedName);
 	}
 
@@ -91,16 +89,11 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Signature createAndRegisterSignature(final Interface iface, final String signatureName,
-			final String returnType,
-			final String[] argTypes) {
-		Signature res =
-				this.lookupSignature(iface, signatureName, returnType, argTypes);
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
+		Signature res = this.lookupSignature(iface, signatureName, returnType, argTypes);
 
 		if (res != null) {
-			throw new IllegalArgumentException(
-					"Signature with given properties already registered: "
-							+ res);
+			throw new IllegalArgumentException("Signature with given properties already registered: " + res);
 		}
 
 		// Create and register operation

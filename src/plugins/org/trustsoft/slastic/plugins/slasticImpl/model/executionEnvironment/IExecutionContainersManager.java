@@ -61,8 +61,8 @@ public interface IExecutionContainersManager {
 	 *             if an execution container with the given fully-qualified name
 	 *             has already been registered
 	 */
-	public ExecutionContainer createAndRegisterExecutionContainer(final String fullyQualifiedName,
-			final ExecutionContainerType executionContainerType, final boolean markAllocated);
+	public ExecutionContainer createAndRegisterExecutionContainer(
+			final String fullyQualifiedName, final ExecutionContainerType executionContainerType, final boolean markAllocated);
 
 	/**
 	 * Marks execution container executionContainer as allocated.
@@ -97,10 +97,8 @@ public interface IExecutionContainersManager {
 	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer);
 
 	/**
-	 * Returns a {@link Resource} associated to the given
-	 * {@link ExecutionContainer} which corresponds to the
-	 * {@link ResourceSpecification} with the given name of the
-	 * {@link ExecutionContainer}'s {@link ExecutionContainerType}.
+	 * Returns a {@link Resource} associated to the given {@link ExecutionContainer} which corresponds to the {@link ResourceSpecification} with the given name of
+	 * the {@link ExecutionContainer}'s {@link ExecutionContainerType}.
 	 * 
 	 * @param fullyQualifiedResourceSpecificationName
 	 * @return
@@ -109,8 +107,7 @@ public interface IExecutionContainersManager {
 			final String resourceSpecificationName);
 
 	/**
-	 * Returns all {@link ExecutionContainer}s of given
-	 * {@link ExecutionContainerType}.
+	 * Returns all {@link ExecutionContainer}s of given {@link ExecutionContainerType}.
 	 * 
 	 * @param executionContainerType
 	 * @param includeInactive

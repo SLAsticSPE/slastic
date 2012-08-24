@@ -39,10 +39,9 @@ import de.cau.se.slastic.metamodel.usage.UsageModel;
  * 
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
-	//private static final Log LOG = LogFactory.getLog(UsageModelManager.class);
+	// private static final Log LOG = LogFactory.getLog(UsageModelManager.class);
 
-	public static final DeploymentComponentOperationExecution rootExec =
-			MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
+	public static final DeploymentComponentOperationExecution ROOT_EXEC = MonitoringFactory.eINSTANCE.createDeploymentComponentOperationExecution();
 
 	public UsageModelManager() {
 		this(UsageFactory.eINSTANCE.createUsageModel());
@@ -54,11 +53,8 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public long lookupSystemProvidedInterfaceDelegationConnectorFrequency(
-			final SystemProvidedInterfaceDelegationConnector connector,
-			final Signature signature) {
-		final SystemProvidedInterfaceDelegationConnectorFrequency freq =
-				this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
+	public long lookupSystemProvidedInterfaceDelegationConnectorFrequency(final SystemProvidedInterfaceDelegationConnector connector, final Signature signature) {
+		final SystemProvidedInterfaceDelegationConnectorFrequency freq = this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
 
 		if (freq == null) {
 			return 0;
@@ -70,8 +66,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	private SystemProvidedInterfaceDelegationConnectorFrequency lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(
 			final SystemProvidedInterfaceDelegationConnector connector,
 			final Signature signature) {
-		for (final SystemProvidedInterfaceDelegationConnectorFrequency freqTmp : super.getModel()
-				.getSystemProvidedInterfaceDelegationConnectorFrequencies()) {
+		for (final SystemProvidedInterfaceDelegationConnectorFrequency freqTmp : super.getModel().getSystemProvidedInterfaceDelegationConnectorFrequencies()) {
 			if (freqTmp.getConnector().equals(connector) && freqTmp.getSignature().equals(signature)) {
 				// found the matching structure
 				return freqTmp;
@@ -84,8 +79,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	@Override
 	public void incSystemProvidedInterfaceSignatureCallFreq(final SystemProvidedInterfaceDelegationConnector connector,
 			final Signature signature) {
-		SystemProvidedInterfaceDelegationConnectorFrequency freq =
-				this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
+		SystemProvidedInterfaceDelegationConnectorFrequency freq = this.lookupSystemProvidedInterfaceDelegationConnectorFrequencyObj(connector, signature);
 
 		if (freq == null) {
 			// no observations for connector signature, yet -> create and add
@@ -95,7 +89,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 			freq.setFrequency(0);
 			super.getModel().getSystemProvidedInterfaceDelegationConnectorFrequencies().add(freq);
 		}
-		
+
 		// Now, increment frequency:
 		final long oldFrequency = freq.getFrequency();
 		freq.setFrequency(oldFrequency + 1);
@@ -138,8 +132,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface,
-			final Signature signature) {
+	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface, final Signature signature) {
 		for (final CallingRelationship crTmp : super.getModel().getCallingRelationships()) {
 			if (crTmp.getCallingOperation().equals(operation) && crTmp.getCalledInterface().equals(iface)
 					&& crTmp.getCalledSignature().equals(signature)) {
@@ -151,8 +144,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
-	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature,
-			final long frequency) {
+	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature, final long frequency) {
 		CallingRelationship cr = this.lookupCallingRelationship(operation, iface, signature);
 
 		if (cr == null) {

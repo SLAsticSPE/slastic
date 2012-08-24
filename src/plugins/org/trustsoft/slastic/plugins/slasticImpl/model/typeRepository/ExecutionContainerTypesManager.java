@@ -35,15 +35,13 @@ import de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 public class ExecutionContainerTypesManager extends
 		AbstractFQNamedEntityManager<ExecutionContainerType> implements
 		IExecutionContainerTypesManager {
-	
-	public ExecutionContainerTypesManager(
-			final List<ExecutionContainerType> componentTypes) {
+
+	public ExecutionContainerTypesManager(final List<ExecutionContainerType> componentTypes) {
 		super(componentTypes);
 	}
 
 	@Override
-	public ExecutionContainerType lookupExecutionContainerType(
-			final String fullyQualifiedName) {
+	public ExecutionContainerType lookupExecutionContainerType(final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
@@ -71,11 +69,8 @@ public class ExecutionContainerTypesManager extends
 			final ExecutionContainerType executionContainerType,
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
-		final Collection<ResourceSpecification> resources =
-				executionContainerType.getResources();
-		final ResourceSpecification resourceSpecification =
-				ExecutionEnvironmentFactory.eINSTANCE
-						.createResourceSpecification();
+		final Collection<ResourceSpecification> resources = executionContainerType.getResources();
+		final ResourceSpecification resourceSpecification = ExecutionEnvironmentFactory.eINSTANCE.createResourceSpecification();
 
 		{ /* Initialize fields and add to container type's list of resources */
 			resourceSpecification.setId(this.nextId++);
@@ -93,11 +88,8 @@ public class ExecutionContainerTypesManager extends
 			final long memCapacityBytes, final long swapCapacityBytes,
 			final ResourceType resourceType,
 			final String resourceSpecificatioName) {
-		final Collection<ResourceSpecification> resources =
-				executionContainerType.getResources();
-		final MemSwapResourceSpecification resourceSpecification =
-				ExecutionEnvironmentFactory.eINSTANCE
-						.createMemSwapResourceSpecification();
+		final Collection<ResourceSpecification> resources = executionContainerType.getResources();
+		final MemSwapResourceSpecification resourceSpecification = ExecutionEnvironmentFactory.eINSTANCE.createMemSwapResourceSpecification();
 
 		{ /* Initialize fields and add to container type's list of resources */
 			resourceSpecification.setId(this.nextId++);

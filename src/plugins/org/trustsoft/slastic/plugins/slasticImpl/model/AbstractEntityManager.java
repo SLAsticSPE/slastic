@@ -33,7 +33,7 @@ import de.cau.se.slastic.metamodel.core.Entity;
  */
 // TODO: requires synchronization / thread-safety
 public abstract class AbstractEntityManager<T extends Entity> {
-	private static final Log log = LogFactory.getLog(AbstractEntityManager.class);
+	private static final Log LOG = LogFactory.getLog(AbstractEntityManager.class);
 
 	/**
 	 * On initialization, this value will be incremented according to the
@@ -118,7 +118,7 @@ public abstract class AbstractEntityManager<T extends Entity> {
 		// }
 		//
 		// return this.entities.remove(entity);
-		AbstractEntityManager.log.info("Setting entity's activity to false: " + entity);
+		AbstractEntityManager.LOG.info("Setting entity's activity to false: " + entity);
 		entity.setActive(false);
 		return true;
 	}

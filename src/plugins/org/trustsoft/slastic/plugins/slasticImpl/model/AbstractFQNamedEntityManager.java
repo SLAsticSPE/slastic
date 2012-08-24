@@ -28,14 +28,8 @@ import de.cau.se.slastic.metamodel.core.FQNamedEntity;
  */
 public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 		extends AbstractEntityManager<T> {
-	
-	/**
-	 * 
-	 */
-	private final Map<String, T> entitiesByFullyQualifiedName =
-			new HashMap<String, T>();
 
-
+	private final Map<String, T> entitiesByFullyQualifiedName = new HashMap<String, T>();
 
 	public AbstractFQNamedEntityManager(final List<T> entities) {
 		super(entities);
@@ -72,8 +66,7 @@ public abstract class AbstractFQNamedEntityManager<T extends FQNamedEntity>
 					+ fullyQualifiedName + "exists already");
 		}
 		super.assignIdAndRegister(entity);
-		final String[] fqnSplit =
-				NameUtils.splitFullyQualifiedName(fullyQualifiedName);
+		final String[] fqnSplit = NameUtils.splitFullyQualifiedName(fullyQualifiedName);
 		entity.setPackageName(fqnSplit[0]);
 		entity.setName(fqnSplit[1]);
 		this.addEntitiyToNameMap(entity);

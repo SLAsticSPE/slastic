@@ -16,8 +16,9 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.system.MemSwapUsageRecord;
 import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
+
+import kieker.common.record.system.MemSwapUsageRecord;
 
 /**
  * 
@@ -26,13 +27,10 @@ import de.cau.se.slastic.metamodel.monitoring.MemSwapUsage;
 public interface IMemSwapUsageRecordTransformation {
 
 	/**
-	 * Transforms a Kieker memory/swap utilization record of type $
-	 * {@link MemSwapUsageRecord} into a SLAstic execution record of type $
-	 * {@link MemSwapUsage}.
+	 * Transforms a Kieker memory/swap utilization record of type $ {@link MemSwapUsageRecord} into a SLAstic execution record of type $ {@link MemSwapUsage}.
 	 * 
 	 * @param memSwapUsageRecord
 	 * @return
 	 */
-	public MemSwapUsage transformMemSwapUsageRecord(
-			MemSwapUsageRecord memSwapUsageRecord);
+	public MemSwapUsage transformMemSwapUsageRecord(MemSwapUsageRecord memSwapUsageRecord);
 }

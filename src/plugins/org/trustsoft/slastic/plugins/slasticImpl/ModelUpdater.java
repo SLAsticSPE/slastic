@@ -16,8 +16,6 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.common.event.IObservationEvent;
 import org.trustsoft.slastic.control.components.events.IEvent;
 import org.trustsoft.slastic.control.components.modelUpdater.AbstractModelUpdaterComponent;
@@ -30,7 +28,7 @@ import org.trustsoft.slastic.plugins.slasticImpl.control.modelUpdater.traceRecon
  */
 public class ModelUpdater extends AbstractModelUpdaterComponent {
 
-	private static final Log log = LogFactory.getLog(ModelUpdater.class);
+	// private static final Log LOG = LogFactory.getLog(ModelUpdater.class);
 
 	// TODO: turn into property
 	private static final long TRACE_DETECTION_TIMEOUT_MILLIS = 1000;
@@ -68,16 +66,14 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 		 * Constructs a {@link TraceReconstructor} which registers itself as a
 		 * subscriber to the {@link EPServiceProvider}.
 		 */
-		this.traceReceiver = new TraceReconstructor(this.getParentControlComponent().getEPServiceProvider(),
-					ModelUpdater.TRACE_DETECTION_TIMEOUT_MILLIS);
+		this.traceReceiver = new TraceReconstructor(this.getParentControlComponent().getEPServiceProvider(), TRACE_DETECTION_TIMEOUT_MILLIS);
 
 		/*
 		 * Constructs a {@link UsageAndAssemblyModelUpdater} which registers
 		 * itself as a subscriber to the {@link EPServiceProvider}.
 		 */
 		this.usageAndAssemblyModelUpdater =
-				new UsageAndAssemblyModelUpdater(this.getParentControlComponent().getEPServiceProvider(),
-						(ModelManager) this.getModelManager());
+				new UsageAndAssemblyModelUpdater(this.getParentControlComponent().getEPServiceProvider(), (ModelManager) this.getModelManager());
 
 		return true;
 	}

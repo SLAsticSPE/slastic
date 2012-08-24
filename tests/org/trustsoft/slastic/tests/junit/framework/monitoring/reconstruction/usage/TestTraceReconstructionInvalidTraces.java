@@ -58,7 +58,7 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		this.breakTrace(bookstoreTrace, eoiToBreak);
 
 		try {
-			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
+			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 			Assert.fail("Expected IllegalStateException to be thrown for broken trace");
 		} catch (final IllegalStateException e) {
 			// we expect this exception to be thrown!
@@ -78,7 +78,7 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		final Collection<? extends OperationExecution> bookstoreTrace = BookstoreTraceFactory.createBookstoreTrace(execRecFilter, traceId);
 		this.breakTrace(bookstoreTrace, eoiToBreak);
 
-		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.rootExec);
+		final ExecutionTrace et = TraceReconstructor.reconstructTraceSave(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 
 		{ /* Check results */
 			Assert.assertTrue("Expected execution trace to be instance of " + InvalidExecutionTrace.class + "; found: " + et.getClass(),
@@ -137,7 +137,7 @@ public class TestTraceReconstructionInvalidTraces extends TestCase {
 		opExecToBrake.setEss(2);
 
 		try {
-			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.rootExec);
+			TraceReconstructor.reconstructMessageTrace(bookstoreTrace, UsageModelManager.ROOT_EXEC);
 			Assert.fail("Expected IllegalStateException to be thrown for broken trace");
 		} catch (final IllegalStateException e) {
 			// we expect this exception to be thrown!

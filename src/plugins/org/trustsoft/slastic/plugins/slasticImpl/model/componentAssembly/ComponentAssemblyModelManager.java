@@ -55,8 +55,9 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 		this.typeRepositoryModelManager = typeRepositoryManager;
 		this.assemblyComponentsManager = new AssemblyComponentsManager(componentAssemblyModel.getAssemblyComponents());
 		this.assemblyConnectorsManager = new AssemblyConnectorsManager(componentAssemblyModel.getAssemblyComponentConnectors(), this.typeRepositoryModelManager);
-		this.systemProvidedInterfacesManager = new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(),
-				componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
+		this.systemProvidedInterfacesManager =
+				new SystemProvidedInterfacesManager(componentAssemblyModel.getSystemProvidedInterfaces(),
+						componentAssemblyModel.getSystemProvidedInterfaceDelegationConnectors(), typeRepositoryManager);
 	}
 
 	@Override
@@ -70,9 +71,7 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponent createAndRegisterAssemblyComponent(
-			final String fullyQualifiedName,
-			final ComponentType componentType) {
+	public AssemblyComponent createAndRegisterAssemblyComponent(final String fullyQualifiedName, final ComponentType componentType) {
 		return this.assemblyComponentsManager.createAndRegisterAssemblyComponent(fullyQualifiedName, componentType);
 	}
 
@@ -87,9 +86,7 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponentConnector createAndRegisterAssemblyConnector(
-			final String fullyQualifiedName,
-			final ConnectorType connectorType) {
+	public AssemblyComponentConnector createAndRegisterAssemblyConnector(final String fullyQualifiedName, final ConnectorType connectorType) {
 		return this.assemblyConnectorsManager.createAndRegisterAssemblyConnector(fullyQualifiedName, connectorType);
 	}
 
@@ -105,8 +102,8 @@ public class ComponentAssemblyModelManager extends AbstractModelManager<Componen
 	}
 
 	@Override
-	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent,
-			final AssemblyComponent providingComponent, final Signature signature) {
+	public AssemblyComponentConnector lookupAssemblyConnector(final AssemblyComponent requiringComponent, final AssemblyComponent providingComponent,
+			final Signature signature) {
 		return this.assemblyConnectorsManager
 				.lookupAssemblyConnector(requiringComponent, providingComponent, signature);
 	}

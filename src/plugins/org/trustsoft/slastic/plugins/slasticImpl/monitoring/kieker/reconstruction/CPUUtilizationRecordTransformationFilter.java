@@ -16,8 +16,6 @@
 
 package org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-import kieker.common.record.IMonitoringRecord;
-
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
@@ -27,6 +25,8 @@ import de.cau.se.slastic.metamodel.executionEnvironment.Resource;
 import de.cau.se.slastic.metamodel.monitoring.CPUUtilization;
 import de.cau.se.slastic.metamodel.monitoring.MonitoringFactory;
 
+import kieker.common.record.IMonitoringRecord;
+
 /**
  * 
  * @author Andre van Hoorn
@@ -35,8 +35,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 		AbstractModelReconstructionComponent implements
 		ISynchronousTransformationFilter, ICPUUtilizationRecordTransformation {
 
-//	private static final Log LOG = LogFactory
-//			.getLog(CPUUtilizationRecordTransformationFilter.class);
+	// private static final Log LOG = LogFactory.getLog(CPUUtilizationRecordTransformationFilter.class);
 
 	/**
 	 * 
@@ -52,18 +51,13 @@ public class CPUUtilizationRecordTransformationFilter extends
 			final kieker.common.record.system.CPUUtilizationRecord cpuUtilizationRecord) {
 
 		/* Will become the return value. */
-		final CPUUtilization newUtilization =
-				MonitoringFactory.eINSTANCE.createCPUUtilization();
+		final CPUUtilization newUtilization = MonitoringFactory.eINSTANCE.createCPUUtilization();
 
-		final ExecutionContainer executionContainer =
-				this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord
-						.getHostname());
+		final ExecutionContainer executionContainer = this.lookupOrCreateExecutionContainerByName(cpuUtilizationRecord.getHostname());
 
 		final Resource resource =
 				this.lookupOrCreateCPUResource(
-						AbstractModelReconstructionComponent
-								.createCPUResourceSpecName(cpuUtilizationRecord
-										.getCpuID()),
+						AbstractModelReconstructionComponent.createCPUResourceSpecName(cpuUtilizationRecord.getCpuID()),
 						AbstractModelReconstructionComponent.DEFAULT_CPU_RESOURCE_TYPE_NAME, executionContainer);
 
 		// And finally, the simple part:

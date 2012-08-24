@@ -35,10 +35,9 @@ import de.cau.se.slastic.metamodel.typeRepository.Signature;
  * 
  * @author Andre van Hoorn
  */
-public class SystemProvidedInterfacesManager extends
-		AbstractFQNamedEntityManager<SystemProvidedInterfaceDelegationConnector> implements
-		ISystemProvidedInterfacesManager {
-	private static final Log log = LogFactory.getLog(SystemProvidedInterfacesManager.class);
+public class SystemProvidedInterfacesManager extends AbstractFQNamedEntityManager<SystemProvidedInterfaceDelegationConnector>
+		implements ISystemProvidedInterfacesManager {
+	private static final Log LOG = LogFactory.getLog(SystemProvidedInterfacesManager.class);
 
 	public final static String SYSPROVCONNECT_NO_NAME_PREFIX = "ASM_SYSPROVCONN_NN_";
 
@@ -57,17 +56,14 @@ public class SystemProvidedInterfacesManager extends
 	@Override
 	public SystemProvidedInterfaceDelegationConnector createAndRegisterProvidedInterfaceDelegationConnector(
 			final String fullyQualifiedName, final ConnectorType connectorType) {
-		final SystemProvidedInterfaceDelegationConnector connector =
-				this.createAndRegister(fullyQualifiedName);
+		final SystemProvidedInterfaceDelegationConnector connector = this.createAndRegister(fullyQualifiedName);
 		connector.setConnectorType(connectorType);
 		return connector;
 	}
 
 	@Override
-	public SystemProvidedInterfaceDelegationConnector createAndRegisterProvidedInterfaceDelegationConnector(
-			final ConnectorType connectorType) {
-		final String rndName =
-				NameUtils.createUniqueName(SystemProvidedInterfacesManager.SYSPROVCONNECT_NO_NAME_PREFIX);
+	public SystemProvidedInterfaceDelegationConnector createAndRegisterProvidedInterfaceDelegationConnector(final ConnectorType connectorType) {
+		final String rndName = NameUtils.createUniqueName(SYSPROVCONNECT_NO_NAME_PREFIX);
 
 		return this.createAndRegisterProvidedInterfaceDelegationConnector(rndName, connectorType);
 	}
@@ -78,8 +74,7 @@ public class SystemProvidedInterfacesManager extends
 	}
 
 	@Override
-	public SystemProvidedInterfaceDelegationConnector lookupProvidedInterfaceDelegationConnector(
-			final String fullyQualifiedName) {
+	public SystemProvidedInterfaceDelegationConnector lookupProvidedInterfaceDelegationConnector(final String fullyQualifiedName) {
 		return this.lookup(fullyQualifiedName);
 	}
 
@@ -89,8 +84,8 @@ public class SystemProvidedInterfacesManager extends
 	}
 
 	@Override
-	public SystemProvidedInterfaceDelegationConnector lookupProvidedInterfaceDelegationConnector(
-			final AssemblyComponent providingComponent, final Signature signature) {
+	public SystemProvidedInterfaceDelegationConnector lookupProvidedInterfaceDelegationConnector(final AssemblyComponent providingComponent,
+			final Signature signature) {
 		for (final SystemProvidedInterfaceDelegationConnector connector : this.getEntities()) {
 			if (!connector.getProvidingComponent().equals(providingComponent)) {
 				continue;
@@ -111,17 +106,16 @@ public class SystemProvidedInterfacesManager extends
 	public boolean delegate(final SystemProvidedInterfaceDelegationConnector delegationConnector,
 			final Interface providedInterface, final AssemblyComponent providingComponent) {
 		/* First, we need to check if the interface is in the list of system-provided interfaces */
-		if (! this.systemProvidedInterfaces.contains(providedInterface)) {
-			SystemProvidedInterfacesManager.log.error("Interface " + providedInterface + " not contained in the list of syste-provided " +
-					"interfaces");
+		if (!this.systemProvidedInterfaces.contains(providedInterface)) {
+			LOG.error("Interface " + providedInterface + " not contained in the list of syste-provided " + "interfaces");
 			return false;
 		}
-		
+
 		/* Seconds, we need to make sure that the interfaces match */
 		final Interface connectorInterface = delegationConnector.getConnectorType().getInterface();
 		if (!providingComponent.getComponentType().getProvidedInterfaces().contains(connectorInterface)) {
-			SystemProvidedInterfacesManager.log.error("Providing component's type " + providingComponent
-					+ " does not have connetor's interface " + connectorInterface + " in list of provided interfaces");
+			LOG.error("Providing component's type " + providingComponent + " does not have connetor's interface " + connectorInterface
+					+ " in list of provided interfaces");
 			return false;
 		}
 

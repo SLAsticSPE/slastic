@@ -41,8 +41,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 	/**
 	 * Send a timer event to the event engine every 100 millis.
 	 */
-	public final static long TIMER_EVENTS_RESOLUTION_NANOS =
-			1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
+	public final static long TIMER_EVENTS_RESOLUTION_NANOS = 1000l * 1000l * 100l; // 100 millis: 1000 * 1000 * 100
 
 	private final static String KIEKER_PIPENAME_PROPERTY = "kiekerPipeName";
 
@@ -79,8 +78,8 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		 * Register CurrentTimeEventGenerationFilter and connect to Reader
 		 */
 		final Configuration currentTimeEventGeneratorConfig = new Configuration();
-		currentTimeEventGeneratorConfig.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION,
-				Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
+		currentTimeEventGeneratorConfig
+				.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION, Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
 		final CurrentTimeEventGenerationFilter currentTimeEventGenerationFilter = new CurrentTimeEventGenerationFilter(currentTimeEventGeneratorConfig);
 		analysisInstance.registerFilter(currentTimeEventGenerationFilter);
 		analysisInstance.connect(this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS,

@@ -57,8 +57,7 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public GenericResourceType createAndRegisterGenericResourceType(
-			final String fullyQualifiedName);
+	public GenericResourceType createAndRegisterGenericResourceType(final String fullyQualifiedName);
 
 	/**
 	 * Creates and registers a {@link MemSwapType} with the given full-qualified
@@ -70,9 +69,8 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public MemSwapType createAndRegisterMemSwapResourceType(
-			String fullyQualifiedName);
-	
+	public MemSwapType createAndRegisterMemSwapResourceType(String fullyQualifiedName);
+
 	/**
 	 * Creates and registers a {@link CPUType} with the given full-qualified
 	 * name fullyQualifiedName.
@@ -83,6 +81,5 @@ public interface IResourceTypesManager {
 	 *             if a resource type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public CPUType createAndRegisterCPUResourceType(
-			String fullyQualifiedName);
+	public CPUType createAndRegisterCPUResourceType(String fullyQualifiedName);
 }

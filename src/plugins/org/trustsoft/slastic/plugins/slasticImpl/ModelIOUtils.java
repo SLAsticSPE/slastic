@@ -43,7 +43,7 @@ import de.cau.se.slastic.metamodel.usage.UsagePackage;
  */
 public class ModelIOUtils {
 
-	private static final Log log = LogFactory.getLog(ModelIOUtils.class);
+	private static final Log LOG = LogFactory.getLog(ModelIOUtils.class);
 
 	public static slal.Model readSLAModel(final String model_fn) {
 		throw new UnsupportedOperationException("Not supported any more");
@@ -60,9 +60,7 @@ public class ModelIOUtils {
 	public static ReconfigurationModel readOLDReconfigurationModel(final String model_fn) throws IOException {
 		// return (ReconfigurationModel) readXMIModel(model_fn,
 		// reconfMM.ReconfMMPackage.class.getName());
-		return (ReconfigurationModel) ModelIOUtils.loadModels(
-				new EPackage[] { reconfMM.ReconfMMPackage.eINSTANCE },
-				new String[] { model_fn })[0];
+		return (ReconfigurationModel) ModelIOUtils.loadModels(new EPackage[] { reconfMM.ReconfMMPackage.eINSTANCE }, new String[] { model_fn })[0];
 	}
 
 	public static SLAsticResourceEnvironment readOLDResourceEnvironmentModel(final String model_fn) throws IOException {
@@ -70,29 +68,25 @@ public class ModelIOUtils {
 		// org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.class.getName());
 		return (SLAsticResourceEnvironment) ModelIOUtils
 				.loadModels(
-						new EPackage[] { org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE },
-						new String[] { model_fn })[0];
+						new EPackage[] { org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage.eINSTANCE }, new String[] { model_fn })[0];
 	}
 
 	public static SLAsticQoSAnnotations readOLDQoSAnnotationsModel(final String model_fn) throws IOException {
 		// return (SLAsticQoSAnnotations) readXMIModel(model_fn,
 		// org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.class.getName());
 		return (SLAsticQoSAnnotations) ModelIOUtils.loadModels(
-				new EPackage[] { org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE },
-				new String[] { model_fn })[0];
+				new EPackage[] { org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage.eINSTANCE }, new String[] { model_fn })[0];
 	}
 
 	public static TypeRepositoryModel readTypeRepositoryModel(final String model_fn) throws IOException {
 		// return (TypeRepositoryModel) readXMIModel(model_fn,
 		// de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.class.getName());
 		return (TypeRepositoryModel) ModelIOUtils.loadModels(
-				new EPackage[] { de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE },
-				new String[] { model_fn })[0];
+				new EPackage[] { de.cau.se.slastic.metamodel.typeRepository.TypeRepositoryPackage.eINSTANCE }, new String[] { model_fn })[0];
 	}
 
 	/**
-	 * Saves all models to the corresponding output files using the same
-	 * {@link ResourceSet}.
+	 * Saves all models to the corresponding output files using the same {@link ResourceSet}.
 	 * 
 	 * @param models
 	 * @param outputFns
@@ -100,18 +94,13 @@ public class ModelIOUtils {
 	 */
 	public static void saveModels(final EObject[] models, final String[] outputFns) throws IOException {
 		if (models.length != outputFns.length) {
-			ModelIOUtils.log.error("Number of models and output file name must be equal. " +
-					"Found: " + models.length + " <> " + outputFns.length);
+			LOG.error("Number of models and output file name must be equal. " + "Found: " + models.length + " <> " + outputFns.length);
 			return;
 		}
 
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
-																 * matches any
-																 * extension
-																 */
-						new XMIResourceFactoryImpl());
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */new XMIResourceFactoryImpl());
 
 		for (int i = 0; i < models.length; i++) {
 			final Resource resource = resourceSet.createResource(URI.createFileURI(outputFns[i]));
@@ -123,11 +112,7 @@ public class ModelIOUtils {
 	protected static EObject loadModel(final EPackage ePackage, final String inputFn, final ResourceSet resourceSet)
 			throws IOException {
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
-																 * matches any
-																 * extension
-																 */
-						new XMIResourceFactoryImpl());
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */new XMIResourceFactoryImpl());
 		final Resource resource = resourceSet.createResource(URI.createFileURI(inputFn));
 		resourceSet.getPackageRegistry().put(ePackage.getNsURI(), ePackage);
 		// load resource
@@ -137,8 +122,7 @@ public class ModelIOUtils {
 
 	protected static EObject[] loadModels(final EPackage[] ePackages, final String[] inputFns) throws IOException {
 		if (ePackages.length != inputFns.length) {
-			ModelIOUtils.log.error("Number of epackages and intput file names must be equal. " +
-					"Found: " + ePackages.length + " <> " + inputFns.length);
+			LOG.error("Number of epackages and intput file names must be equal. " + "Found: " + ePackages.length + " <> " + inputFns.length);
 			return null;
 		}
 
@@ -146,11 +130,7 @@ public class ModelIOUtils {
 
 		final ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap()
-				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /*
-																 * matches any
-																 * extension
-																 */
-						new XMIResourceFactoryImpl());
+				.put(Resource.Factory.Registry.DEFAULT_EXTENSION, /* matches any extension */new XMIResourceFactoryImpl());
 
 		for (int i = 0; i < models.length; i++) {
 			final Resource resource = resourceSet.createResource(URI.createFileURI(inputFns[i]));
@@ -167,12 +147,9 @@ public class ModelIOUtils {
 	public static void saveModels(
 			final SystemModel systemModel, final String systemModelOutputFn,
 			final UsageModel usageModel, final String usageModelFn) throws IOException {
-		ModelIOUtils.log.info("Trying to save system model to file " + systemModelOutputFn +
-				" and usage model to file " + usageModelFn);
+		LOG.info("Trying to save system model to file " + systemModelOutputFn + " and usage model to file " + usageModelFn);
 
-		ModelIOUtils.saveModels(
-				new EObject[] { systemModel, usageModel },
-				new String[] { systemModelOutputFn, usageModelFn });
+		ModelIOUtils.saveModels(new EObject[] { systemModel, usageModel }, new String[] { systemModelOutputFn, usageModelFn });
 	}
 
 	/**
@@ -183,9 +160,7 @@ public class ModelIOUtils {
 	 * @throws IOException
 	 */
 	public static SystemModel loadSystemModel(final String inputFn) throws IOException {
-		return (SystemModel) ModelIOUtils.loadModels(
-				new EPackage[] { CorePackage.eINSTANCE },
-				new String[] { inputFn })[0];
+		return (SystemModel) ModelIOUtils.loadModels(new EPackage[] { CorePackage.eINSTANCE }, new String[] { inputFn })[0];
 	}
 
 	/**
@@ -198,10 +173,7 @@ public class ModelIOUtils {
 	 *         being the {@link UsageModel}
 	 * @throws IOException
 	 */
-	public static EObject[] loadSystemAndUsageModel(final String systemInputFn, final String usageModelFn)
-			throws IOException {
-		return ModelIOUtils.loadModels(
-				new EPackage[] { CorePackage.eINSTANCE, UsagePackage.eINSTANCE },
-				new String[] { systemInputFn, usageModelFn });
+	public static EObject[] loadSystemAndUsageModel(final String systemInputFn, final String usageModelFn) throws IOException {
+		return ModelIOUtils.loadModels(new EPackage[] { CorePackage.eINSTANCE, UsagePackage.eINSTANCE }, new String[] { systemInputFn, usageModelFn });
 	}
 }

@@ -57,8 +57,7 @@ public interface IComponentTypesManager {
 	 *             if a component type with the given fully-qualified name has
 	 *             already been registered
 	 */
-	public ComponentType createAndRegisterComponentType(
-			final String fullyQualifiedName);
+	public ComponentType createAndRegisterComponentType(final String fullyQualifiedName);
 
 	/**
 	 * Returns the {@link Operation} with given name, return type, and argument
@@ -68,8 +67,7 @@ public interface IComponentTypesManager {
 	 * @param operationName
 	 * @param returnType
 	 * @param argTypes
-	 * @return the looked up {@link Operation}; null if no such
-	 *         {@link Operation}
+	 * @return the looked up {@link Operation}; null if no such {@link Operation}
 	 */
 	public Operation lookupOperation(final ComponentType componentType,
 			final String operationName, final String returnType,
@@ -77,8 +75,7 @@ public interface IComponentTypesManager {
 
 	/**
 	 * Creates and registers a new {@link Operation} with the given name, return
-	 * type, and argument types, that is to be provided by the given
-	 * {@link ComponentType}.
+	 * type, and argument types, that is to be provided by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param operationName
@@ -93,8 +90,7 @@ public interface IComponentTypesManager {
 			final String returnType, final String[] argTypes);
 
 	/**
-	 * Registers the given {@link Interface} in the given {@link ComponentType}
-	 * 's list of provided interfaces.
+	 * Registers the given {@link Interface} in the given {@link ComponentType} 's list of provided interfaces.
 	 * 
 	 * @param componentType
 	 * @param providedInterface
@@ -109,20 +105,18 @@ public interface IComponentTypesManager {
 	 * @param requiredInterface
 	 */
 	public void registerRequiredInterface(final ComponentType componentType, final Interface requiredInterface);
-	
+
 	/**
-	 * Returns the {@link Interface} declaring the given {@link Signature}
-	 * provided by the given {@link ComponentType}.
+	 * Returns the {@link Interface} declaring the given {@link Signature} provided by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param signature
 	 * @return
 	 */
 	public Interface lookupProvidedInterfaceForSignature(final ComponentType componentType, final Signature signature);
-	
+
 	/**
-	 * Returns the {@link Interface} declaring the given {@link Signature}
-	 * required by the given {@link ComponentType}.
+	 * Returns the {@link Interface} declaring the given {@link Signature} required by the given {@link ComponentType}.
 	 * 
 	 * @param componentType
 	 * @param signature

@@ -119,7 +119,7 @@ public class TraceReconstructor implements UpdateListener {
 				executionsForTrace.add(exec);
 			}
 
-			final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.rootExec);
+			final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.ROOT_EXEC);
 			this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
 		}
 	}
