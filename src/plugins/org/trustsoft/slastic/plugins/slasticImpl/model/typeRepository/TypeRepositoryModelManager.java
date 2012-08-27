@@ -213,8 +213,7 @@ public class TypeRepositoryModelManager extends AbstractModelManager<TypeReposit
 	}
 
 	@Override
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType,
-			final String[] argTypes) {
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
 		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes);
 	}
 

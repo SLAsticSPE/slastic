@@ -81,8 +81,7 @@ public class CPUUtilizationRecordTransformationFilter extends
 			return null;
 		}
 
-		final kieker.common.record.system.CPUUtilizationRecord utilizationRecord =
-				(kieker.common.record.system.CPUUtilizationRecord) record;
+		final kieker.common.record.system.CPUUtilizationRecord utilizationRecord = (kieker.common.record.system.CPUUtilizationRecord) record;
 
 		return this.transformCPUUtilizationRecord(utilizationRecord);
 	}

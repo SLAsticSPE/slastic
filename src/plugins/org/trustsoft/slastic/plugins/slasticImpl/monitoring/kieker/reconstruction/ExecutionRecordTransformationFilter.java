@@ -93,8 +93,9 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		 * operationName depend on the componentDiscoveryHierarchyLevel.
 		 */
 		final String componentOrConnectorName;
-		final String operationName; // will be used, as soon as the meta-model
-									// supports operations
+		final String operationName;
+		final String returnType;
+		final String[] argTypes;
 		{
 			final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(execution.getOperationSignature());
 
@@ -103,6 +104,10 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 
 			componentOrConnectorName = NameUtils.createFQName(abstractedName[0], abstractedName[1]);
 			operationName = abstractedName[2];
+
+			// TODO: Note that we might also need to apply the name abstraction to these types
+			returnType = cosp.getSignature().getReturnType();
+			argTypes = cosp.getSignature().getParamTypeList();
 		}
 
 		{
@@ -129,9 +134,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 				AssemblyComponent assemblyComponent = this.getAssemblyModelManager().lookupAssemblyComponent(componentOrConnectorName);
 				if (assemblyComponent == null) {
 					/* We need to create the assembly component */
-					assemblyComponent = this.createAssemblyComponent(
-
-							componentOrConnectorName);
+					assemblyComponent = this.createAssemblyComponent(componentOrConnectorName);
 				}
 				/* Determine deployment component */
 				DeploymentComponent deploymentComponent =
@@ -141,7 +144,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 				}
 
 				/* Lookup the operation */
-				final Operation op = this.lookupOrCreateOperationByName(assemblyComponent.getComponentType(), operationName);
+				final Operation op = this.lookupOrCreateOperationByName(assemblyComponent.getComponentType(), operationName, returnType, argTypes);
 				newComponentExec.setDeploymentComponent(deploymentComponent);
 				newComponentExec.setOperation(op);
 				newExecution = newComponentExec;

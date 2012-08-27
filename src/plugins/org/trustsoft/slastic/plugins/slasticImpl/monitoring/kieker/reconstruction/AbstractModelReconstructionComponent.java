@@ -39,9 +39,6 @@ import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
 import de.cau.se.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
 
-import kieker.common.util.ClassOperationSignaturePair;
-import kieker.common.util.Signature;
-
 /**
  * 
  * @author Andre van Hoorn
@@ -349,19 +346,13 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	 * @return
 	 */
 	protected Operation lookupOrCreateOperationByName(final ComponentType componentType,
-			final String operationSignatureStr) {
-		// TODO: we replaced the call to the (uncommented) private method createSignature by a call to splitOperationSignatureStr.
-		// Remove this comment if this is working fine.
-		final Signature kiekerSignature =
-				ClassOperationSignaturePair.splitOperationSignatureStr(operationSignatureStr).getSignature();
+			final String signatureName, final String returnType, final String[] argTypes) {
 
 		Operation res =
-				this.getTypeModelManager().lookupOperation(componentType, kiekerSignature.getName(),
-						kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+				this.getTypeModelManager().lookupOperation(componentType, signatureName, returnType, argTypes);
 
 		if (res == null) {
-			res = this.getTypeModelManager().createAndRegisterOperation(componentType, kiekerSignature.getName(),
-					kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+			res = this.getTypeModelManager().createAndRegisterOperation(componentType, signatureName, returnType, argTypes);
 
 			/* Now, we want to add the new operation also to the interface */
 			final EList<Interface> providedInterfaces = res.getComponentType().getProvidedInterfaces();
@@ -372,8 +363,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 				// Add the operation to the last interface in the list (as this
 				// should be the one we've added in #createAssemblyComponent)
 				final Interface iface = providedInterfaces.get(providedInterfaces.size() - 1);
-				this.getTypeModelManager().createAndRegisterSignature(iface, kiekerSignature.getName(),
-						kiekerSignature.getReturnType(), kiekerSignature.getParamTypeList());
+				this.getTypeModelManager().createAndRegisterSignature(iface, signatureName, returnType, argTypes);
 			}
 		}
 

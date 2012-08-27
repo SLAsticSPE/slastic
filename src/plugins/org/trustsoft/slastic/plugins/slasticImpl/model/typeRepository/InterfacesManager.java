@@ -62,8 +62,7 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType,
-			final String[] argTypes) {
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
 		for (final Signature signature : iface.getSignatures()) {
 			// compare operation name
 			if (!signature.getName().equals(signatureName)) {
