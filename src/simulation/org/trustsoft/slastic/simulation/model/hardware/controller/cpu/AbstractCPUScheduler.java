@@ -29,8 +29,7 @@ import desmoj.core.simulator.SimTime;
  */
 public abstract class AbstractCPUScheduler extends AbstractScheduler<CPU, CPUSchedulableProcess> {
 
-	public AbstractCPUScheduler(final Model model, final String name,
-			final Queue<CPUSchedulableProcess> queue) {
+	public AbstractCPUScheduler(final Model model, final String name, final Queue<CPUSchedulableProcess> queue) {
 		super(model, name, queue);
 	}
 

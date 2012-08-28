@@ -44,8 +44,7 @@ public class UtilizationProbeEventGenerator {
 	private final CPURRScheduler scheduler;
 	private volatile boolean pause;
 
-	public UtilizationProbeEventGenerator(final Model model, final String name,
-			final boolean debug, final CPURRScheduler cpurrScheduler) {
+	public UtilizationProbeEventGenerator(final Model model, final String name, final boolean debug, final CPURRScheduler cpurrScheduler) {
 		this.model = model;
 		this.name = name;
 		this.debug = debug;
@@ -53,7 +52,7 @@ public class UtilizationProbeEventGenerator {
 	}
 
 	public final void tick() {
-		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model, this.name, this.debug, this);
+		final UtilizationProbeTickEvent tick = new UtilizationProbeTickEvent(this.model, this.name, this.debug, this);
 		if (!this.pause) {
 			tick.schedule(UtilizationProbeEventGenerator.TICK_TIME);
 		}
@@ -78,11 +77,9 @@ public class UtilizationProbeEventGenerator {
 	}
 
 	public void resumeAt(final SimTime t) {
-		final SimTime t2 = SimTime.diff(t, ModelManager.getInstance()
-				.getModel().currentTime());
+		final SimTime t2 = SimTime.diff(t, ModelManager.getInstance().getModel().currentTime());
 		this.resume();
-		final UtilizationProbeTick tick = new UtilizationProbeTick(this.model,
-				this.name, this.debug, this);
+		final UtilizationProbeTickEvent tick = new UtilizationProbeTickEvent(this.model, this.name, this.debug, this);
 		tick.schedule(t2);
 	}
 

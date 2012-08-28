@@ -14,28 +14,15 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.trustsoft.slastic.simulation.model.hardware.controller.cpu;
-
-import desmoj.core.simulator.ExternalEvent;
-import desmoj.core.simulator.Model;
+package org.trustsoft.slastic.simulation.model.interfaces;
 
 /**
  * 
  * @author Robert von Massow
  * 
  */
-public class UtilizationProbeTick extends ExternalEvent {
+public interface IMigrate {
 
-	private final UtilizationProbeEventGenerator utilizationProbeEventGenerator;
-
-	public UtilizationProbeTick(final Model owner, final String name, final boolean showInTrace, final UtilizationProbeEventGenerator utilizationProbeEventGenerator) {
-		super(owner, name, showInTrace);
-		this.utilizationProbeEventGenerator = utilizationProbeEventGenerator;
-	}
-
-	@Override
-	public void eventRoutine() {
-		this.utilizationProbeEventGenerator.tick();
-	}
+	public void migrate(String assemblyContextId);
 
 }

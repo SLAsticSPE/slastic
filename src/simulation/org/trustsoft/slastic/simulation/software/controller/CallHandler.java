@@ -74,7 +74,8 @@ public class CallHandler {
 
 	private static volatile CallHandler INSTANCE;
 
-	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache = new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
+	private final Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>> probabilisticBranchIntervalCache =
+			new Hashtable<BranchAction, List<Interval<ProbabilisticBranchTransition>>>();
 
 	private final Hashtable<String, Stack<StackFrame>> stacks = new Hashtable<String, Stack<StackFrame>>();
 
@@ -162,7 +163,7 @@ public class CallHandler {
 		final ResourceDemandingBehaviour rdseff = ComponentTypeController.getInstance().getSeffById(service);
 		if (rdseff != null) {
 			// generate control flow
-			final String asmContext = ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service);
+			final String asmContext = ModelManager.getInstance().getAssemblyController().getAssemblyContextBySystemServiceName(service);
 			final List<AbstractControlFlowEvent> nodes = new LinkedList<AbstractControlFlowEvent>();
 			final Signature signature = ModelManager.getInstance().getAssemblyController().getSignatureByExternalServiceName(service);
 			LOG.info("Creating call with service "
@@ -170,7 +171,7 @@ public class CallHandler {
 					+ " -> "
 					+ signature
 					+ " "
-					+ ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(service)
+					+ ModelManager.getInstance().getAssemblyController().getAssemblyContextBySystemServiceName(service)
 					+ " for trace " + userId);
 			final ExternalCallEnterEvent entryCallNode = new ExternalCallEnterEvent(signature, null, userId);
 			this.injector.injectMembers(entryCallNode);
@@ -236,7 +237,7 @@ public class CallHandler {
 				// mark entry point
 				// TODO save time!
 				final String calledContext = ModelManager.getInstance().getAssemblyController()
-						.asmContextForServiceCall(asmContextCurrent, eca.getCalledService_ExternalService().getServiceName());
+						.getAssemblyContextForServiceCall(asmContextCurrent, eca.getCalledService_ExternalService().getServiceName());
 				LOG.info("Generating external call node for: "
 						+ eca.getCalledService_ExternalService()
 								.getServiceName() + " from asm context "
@@ -248,8 +249,8 @@ public class CallHandler {
 				// generate control flow for the called service recursively
 				// final String componentByASMId = ModelManager.getInstance().getAssemblyCont().getComponentByASMId(ece.getASMCont());
 
-				ret.addAll(this.generateControlFlow(ModelManager.getInstance().getComponentTypeController().getSeffById(ece.getCalledService()),
-						userId, ece.getASMContTo()));
+				ret.addAll(this.generateControlFlow(ModelManager.getInstance().getComponentTypeController().getSeffById(ece.getCalledService()), userId,
+						ece.getASMContTo()));
 				// mark return
 				final ExternalCallReturnEvent ecr = new ExternalCallReturnEvent(ece);
 				this.injector.injectMembers(ecr);

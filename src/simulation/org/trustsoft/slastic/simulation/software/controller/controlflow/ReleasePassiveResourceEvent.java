@@ -25,19 +25,19 @@ import org.trustsoft.slastic.simulation.software.controller.StackFrame;
  * @author Robert von Massow
  * 
  */
-public class ReleaseEvent extends AbstractControlFlowEvent {
+public class ReleasePassiveResourceEvent extends AbstractControlFlowEvent {
 
-	private final String resName;
+	private final String resourceName;
 
-	public ReleaseEvent(final String name, final String traceId, final String resName) {
+	public ReleasePassiveResourceEvent(final String name, final String traceId, final String resName) {
 		super(name, traceId);
-		this.resName = resName;
+		this.resourceName = resName;
 	}
 
 	@Override
 	public void eventRoutine() {
 		final StackFrame f = CallHandler.getInstance().getStackTop(this.getTraceId());
-		ModelManager.getInstance().getAllocationController().releasePassive(f.getServerId(), f.getAsmContextTo(), this.resName);
+		ModelManager.getInstance().getAllocationController().releasePassiveResource(f.getServerId(), f.getAsmContextTo(), this.resourceName);
 		CallHandler.getInstance().actionReturn(this.getTraceId());
 	}
 }

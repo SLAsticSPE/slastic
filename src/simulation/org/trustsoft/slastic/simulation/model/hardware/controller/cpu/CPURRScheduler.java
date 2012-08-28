@@ -45,12 +45,9 @@ public class CPURRScheduler extends AbstractCPUScheduler {
 	private final UtilizationProbeEventGenerator utilizationTicker;
 
 	public CPURRScheduler(final Model model, final String name) {
-		super(model, name, new Queue<CPUSchedulableProcess>(model, name
-				+ "JobQueue", Constants.DEBUG, Constants.DEBUG));
-		this.activeProcess = new Queue<CPUSchedulableProcess>(model, name,
-				QueueBased.FIFO, 1, Constants.DEBUG, Constants.DEBUG);
-		this.utilizationTicker = new UtilizationProbeEventGenerator(model,
-				name, Constants.DEBUG, this);
+		super(model, name, new Queue<CPUSchedulableProcess>(model, name + "JobQueue", Constants.DEBUG, Constants.DEBUG));
+		this.activeProcess = new Queue<CPUSchedulableProcess>(model, name, QueueBased.FIFO, 1, Constants.DEBUG, Constants.DEBUG);
+		this.utilizationTicker = new UtilizationProbeEventGenerator(model, name, Constants.DEBUG, this);
 		this.activeProcess.reset();
 	}
 
@@ -97,13 +94,13 @@ public class CPURRScheduler extends AbstractCPUScheduler {
 			LOG.info("Activating process " + np + " with " + np.getCyclesRemaining() + " remaining cycles");
 			this.queue.remove(np);
 			this.activeProcess.insert(np);
-			final long prun = np.getCyclesRemaining();
-			if (prun > this.cyclesPerSlice) {
+			final long cyclesRemaining = np.getCyclesRemaining();
+			if (cyclesRemaining > this.cyclesPerSlice) {
 				ret = this.getTickSimTime();
 				this.queue.insert(np);
 				LOG.info("Next slice will be started at " + ret);
 			} else {
-				ret = new SimTime(prun / (double) (this.getOwner().getCapacity() * Constants.CPU_SCALE)); // MHz
+				ret = new SimTime(cyclesRemaining / (double) (this.getOwner().getCapacity() * Constants.CPU_SCALE)); // MHz
 				// => divide by 1Mega
 				LOG.info("Finishing job in " + ret);
 			}

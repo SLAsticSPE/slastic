@@ -46,15 +46,19 @@ public final class ComponentTypeController {
 
 	private static volatile ComponentTypeController INSTANCE;
 
-	private final Hashtable<String, ProvidesComponentType> components = new Hashtable<String, ProvidesComponentType>();
+	private final Hashtable<String, ProvidesComponentType> componentsByName = new Hashtable<String, ProvidesComponentType>();
+
 	private final Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>> seffsByComponent = new Hashtable<BasicComponent, Hashtable<Signature, ResourceDemandingSEFF>>();
-	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
 
 	// TODO: This mainly concerns access to this map:
 	// Should we use more sophisticated service IDs than just the opname? I expect we might
 	// run into trouble having multiple services/operations with the same name.
 	// For example, we might want to include the component (type) name in the id
+	//
+	// TODO: Note also that we also have the map 'seffsByComponent'
 	private final Hashtable<String, ResourceDemandingSEFF> seffsByServiceName = new Hashtable<String, ResourceDemandingSEFF>();
+
+	private final Hashtable<BasicComponent, Hashtable<String, PassiveResource>> passiveResByComponent = new Hashtable<BasicComponent, Hashtable<String, PassiveResource>>();
 
 	private List<DataType> types;
 
@@ -84,7 +88,7 @@ public final class ComponentTypeController {
 	 * @param reconfModel
 	 */
 	private void put(final ProvidesComponentType pct, final ReconfigurationModel reconfModel) {
-		this.components.put(pct.getEntityName(), pct);
+		this.componentsByName.put(pct.getEntityName(), pct);
 		if (pct instanceof BasicComponent) {
 			final BasicComponent bc = (BasicComponent) pct;
 			for (final ServiceEffectSpecification seff : bc.getServiceEffectSpecifications__BasicComponent()) {
@@ -99,6 +103,9 @@ public final class ComponentTypeController {
 				}
 			}
 
+		} else {
+			// TODO: support other specializations of ProvidesComponentType?
+			LOG.error("Unsupported component (meta-)type" + pct.getClass());
 		}
 	}
 
@@ -114,6 +121,8 @@ public final class ComponentTypeController {
 	// Should we use more sophisticated service IDs than just the opname? I expect we might
 	// run into trouble having multiple services/operations with the same name.
 	// For example, we might want to include the component (type) name in the id
+	//
+	// TODO: Note also that we also have the map 'seffsByComponent'
 	public ResourceDemandingBehaviour getSeffById(final String serviceName) {
 		return this.seffsByServiceName.get(serviceName);
 	}
@@ -123,7 +132,7 @@ public final class ComponentTypeController {
 	}
 
 	public String getComponentNameById(final String id) {
-		return this.components.get(id).getEntityName();
+		return this.componentsByName.get(id).getEntityName();
 	}
 
 	public final Hashtable<String, PassiveResource> getPassiveResByComponent(final BasicComponent bc) {

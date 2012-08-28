@@ -53,26 +53,26 @@ import desmoj.core.simulator.SimTime;
  * 
  */
 public final class ReconfigurationController {
-	private static final Log log = LogFactory.getLog(ReconfigurationController.class);
+	private static final Log LOG = LogFactory.getLog(ReconfigurationController.class);
 
 	private static ReconfigurationController INSTANCE;
 
 	private final List<AbstractReconfigurationEvent> reconfEvents = new LinkedList<AbstractReconfigurationEvent>();
 
+	// TODO: this data structure seems to be used only by unused methods ...
 	private final Hashtable<String, ReconfigurableComponent> components = new Hashtable<String, ReconfigurableComponent>();
 
 	private final Hashtable<String, Integer> currentInstances = new Hashtable<String, Integer>();
 
-	private SLAsticReconfigurationPlan plan;
+	private volatile SLAsticReconfigurationPlan plan;
 
 	private final List<IReconfigurationEventListener> listeners = new LinkedList<IReconfigurationEventListener>();
 
 	private final Model model;
 
-	private final ReconfigurationPlanModelFactory reconfOpFact = ReconfigurationPlanModelFactory.eINSTANCE;
+	private final ReconfigurationPlanModelFactory reconfigurationOperationFactory = ReconfigurationPlanModelFactory.eINSTANCE;
 
-	public ReconfigurationController(final ReconfigurationModel reconfModel,
-			final Model model) {
+	public ReconfigurationController(final ReconfigurationModel reconfModel, final Model model) {
 		this.model = model;
 		if (ReconfigurationController.INSTANCE == null) {
 			for (final ReconfigurationSpecification reconfSpec : reconfModel.getComponents()) {
@@ -90,6 +90,7 @@ public final class ReconfigurationController {
 	 * @param component
 	 * @return the reconfiguration specification of the given component
 	 */
+	// TODO: needed?
 	public ReconfigurableComponent getReconfSpecByComponent(final ProvidesComponentType component) {
 		return this.components.get(component.getId());
 	}
@@ -100,6 +101,7 @@ public final class ReconfigurationController {
 	 * @param componentId
 	 * @return the reconfiguration specification of the given component
 	 */
+	// TODO: needed?
 	public ReconfigurableComponent getReconfSpecById(final String componentId) {
 		return this.components.get(componentId);
 	}
@@ -111,6 +113,7 @@ public final class ReconfigurationController {
 	 * @param asmContext
 	 * @return the reconfiguration specification of the given component
 	 */
+	// TODO: needed?
 	public ReconfigurableComponent getReconfSpecByASMContext(final AssemblyContext asmContext) {
 		return this.components.get(asmContext.getEncapsulatedComponent_ChildComponentContext().getId());
 	}
@@ -123,6 +126,7 @@ public final class ReconfigurationController {
 	 * @param componentId
 	 * @return true if success
 	 */
+	// TODO: needed?
 	public boolean addComponentInstance(final String componentId) {
 		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
@@ -141,6 +145,7 @@ public final class ReconfigurationController {
 	 *            the id of the dereplicated component
 	 * @return true if operation succeeded
 	 */
+	// TODO: needed?
 	public boolean delComponentInstance(final String componentId) {
 		final ReconfigurableComponent comp = this.components.get(componentId);
 		int instances = 0;
@@ -178,11 +183,9 @@ public final class ReconfigurationController {
 	 *            the plan to execute
 	 */
 	public void schedulePlan(final SLAsticReconfigurationPlan plan) {
-		if (this.reconfEvents.isEmpty() && (this.plan == null)
-				&& (plan.getOperations().size() > 0)) {
+		if (this.reconfEvents.isEmpty() && (this.plan == null) && (plan.getOperations().size() > 0)) {
 			this.plan = plan;
-			for (final SLAsticReconfigurationOpType op : this.plan
-					.getOperations()) {
+			for (final SLAsticReconfigurationOpType op : this.plan.getOperations()) {
 				if (op instanceof ComponentReplicationOP) {
 					final ComponentReplicationOP repOp = (ComponentReplicationOP) op;
 					this.reconfEvents.add(this.createEvent(repOp));
@@ -192,12 +195,9 @@ public final class ReconfigurationController {
 				} else if (op instanceof ComponentMigrationOP) {
 					final ComponentMigrationOP repOp = (ComponentMigrationOP) op;
 					// create replication and dereplication operations
-					final ComponentReplicationOP replic = this.reconfOpFact
-							.createComponentReplicationOP();
-					final ComponentDeReplicationOP dereplic = this.reconfOpFact
-							.createComponentDeReplicationOP();
-					replic.setComponent(repOp.getComponent()
-							.getAssemblyContext_AllocationContext());
+					final ComponentReplicationOP replic = this.reconfigurationOperationFactory.createComponentReplicationOP();
+					final ComponentDeReplicationOP dereplic = this.reconfigurationOperationFactory.createComponentDeReplicationOP();
+					replic.setComponent(repOp.getComponent().getAssemblyContext_AllocationContext());
 					replic.setDestination(repOp.getDestination());
 					// System.out
 					// .println("-----------------------------------------------------------");
@@ -226,34 +226,28 @@ public final class ReconfigurationController {
 			for (final IReconfigurationEventListener listener : this.listeners) {
 				listener.notifyPlanFailed(plan);
 			}
-			ReconfigurationController.log.warn("Rejected plan: "
+			ReconfigurationController.LOG.warn("Rejected plan: "
 					+ (this.plan != null ? "plan already running"
-							: plan.getOperations().size() == 0 ? "no operations provided"
-									: "unknown"));
+							: plan.getOperations().size() == 0 ? "no operations provided" : "unknown"));
 			if (this.plan != null) {
-				ReconfigurationController.log.warn("Running plan with ops: "
-						+ this.plan.getOperations().size());
-				for (final SLAsticReconfigurationOpType op : this.plan
-						.getOperations()) {
-					ReconfigurationController.log.warn(op);
+				ReconfigurationController.LOG.warn("Running plan with ops: " + this.plan.getOperations().size());
+				for (final SLAsticReconfigurationOpType op : this.plan.getOperations()) {
+					ReconfigurationController.LOG.warn(op);
 				}
 			}
 		}
 	}
 
 	private AbstractReconfigurationEvent createEvent(final NodeDeAllocationOP repOp) {
-		return new DelocationEvent(this.model, repOp.toString(),
-				Constants.DEBUG, repOp);
+		return new DelocationEvent(this.model, repOp.toString(), Constants.DEBUG, repOp);
 	}
 
 	private AbstractReconfigurationEvent createEvent(final NodeAllocationOP repOp) {
-		return new AllocationEvent(this.model, repOp.toString(),
-				Constants.DEBUG, repOp);
+		return new AllocationEvent(this.model, repOp.toString(), Constants.DEBUG, repOp);
 	}
 
 	private AbstractReconfigurationEvent createEvent(final ComponentReplicationOP op) {
-		return new ReplicationEvent(this.model, op.toString(), Constants.DEBUG,
-				op);
+		return new ReplicationEvent(this.model, op.toString(), Constants.DEBUG, op);
 	}
 
 	private AbstractReconfigurationEvent createEvent(final ComponentDeReplicationOP op) {
@@ -265,9 +259,7 @@ public final class ReconfigurationController {
 			// System.out
 			// .println("-----------------------------------------------------------");
 			// System.out.println("Blocking component " + reconfOp);
-			ModelManager
-					.getInstance()
-					.getAllocationController()
+			ModelManager.getInstance().getAllocationController()
 					.blockInstance(
 							((ComponentDeReplicationOP) reconfOp).getClone()
 									.getAssemblyContext_AllocationContext()

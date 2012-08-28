@@ -37,25 +37,25 @@ import desmoj.core.simulator.SimTime;
 public class InternalActionEvent extends AbstractControlFlowEvent {
 	private static final Log LOG = LogFactory.getLog(InternalActionEvent.class);
 
+	// TODO: why multiple demands?
 	private final Hashtable<String, Demand<Integer>> demands = new Hashtable<String, Demand<Integer>>();
-	private final String traceId;
 
 	public InternalActionEvent(final String name, final String traceId) {
 		super(name, traceId);
-		this.traceId = traceId;
 	}
 
 	@Override
 	public final void eventRoutine() {
-		final String server = CallHandler.getInstance().getCurrentServer(this.traceId);
+		final String server = CallHandler.getInstance().getCurrentServer(this.getTraceId());
 		final Server s = ModelManager.getInstance().getHardwareController().getServer(server);
 		// create schedulable processes and schedule to the server
 		final Demand<Integer> cpuDemand = this.demands.get("pathmap://PCM_MODELS/Palladio.resourcetype#_oro4gG3fEdy4YaaT-RYrLQ");
 		if (cpuDemand != null) {
 			final CPUSchedulableProcess p = new CPUSchedulableProcess(this.getModel(), Constants.DEBUG, cpuDemand.getDemand(), this);
-			// InternalActionNode.log.info("Scheduled CPU process " + p
-			// + " for trace " + this.traceId);
+			// InternalActionNode.log.info("Scheduled CPU process " + p + " for trace " + this.traceId);
 			s.addCPUTask(p);
+		} else {
+			LOG.error("Failed to lookup CPU demand");
 		}
 	}
 
@@ -70,7 +70,7 @@ public class InternalActionEvent extends AbstractControlFlowEvent {
 		}
 		InternalActionEvent.LOG.info("Internal Action done, list has size " + this.demands.size() + " " + p.getName());
 		if (this.demands.isEmpty()) {
-			CallHandler.getInstance().actionReturn(this.traceId);
+			CallHandler.getInstance().actionReturn(this.getTraceId());
 		}
 
 	}

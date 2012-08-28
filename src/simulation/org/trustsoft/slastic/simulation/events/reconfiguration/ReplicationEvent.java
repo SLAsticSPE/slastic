@@ -35,15 +35,12 @@ public final class ReplicationEvent extends AbstractReconfigurationEvent {
 
 	private static final Log LOG = LogFactory.getLog(ReplicationEvent.class);
 
-	public ReplicationEvent(final Model owner, final String name,
-			final boolean showInTrace,
-			final SLAsticReconfigurationOpType reconfOp) {
+	public ReplicationEvent(final Model owner, final String name, final boolean showInTrace, final SLAsticReconfigurationOpType reconfOp) {
 		super(owner, name, showInTrace, reconfOp);
 	}
 
 	@Override
 	public boolean concreteEventRoutine() {
-		// TODO Auto-generated method stub
 		final ComponentReplicationOP repOp = (ComponentReplicationOP) super.getReconfOp();
 		final AssemblyContext ac = repOp.getComponent();
 		final ResourceContainer rc = repOp.getDestination();
@@ -51,11 +48,9 @@ public final class ReplicationEvent extends AbstractReconfigurationEvent {
 				&& !ModelManager.getInstance().getAllocationController().hasAllocation(rc.getId(), ac.getId())) {
 			ModelManager.getInstance().getAllocationController().add(rc.getId(), ac.getId());
 			return true;
-			// TODO Auto-generated catch block
 		} else {
-			ReplicationEvent.LOG
-					.warn("Replication failed, target machine allocated: " + ModelManager.getInstance().getHardwareController().isAllocated(rc.getId())
-							+ ", component already instantiated: " + ModelManager.getInstance().getAllocationController().hasAllocation(rc.getId(), ac.getId()));
+			LOG.warn("Replication failed, target machine allocated: " + ModelManager.getInstance().getHardwareController().isAllocated(rc.getId())
+					+ ", component already instantiated: " + ModelManager.getInstance().getAllocationController().hasAllocation(rc.getId(), ac.getId()));
 			return false;
 		}
 

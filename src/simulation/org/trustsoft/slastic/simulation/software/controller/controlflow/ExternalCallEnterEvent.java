@@ -41,36 +41,31 @@ public class ExternalCallEnterEvent extends AbstractControlFlowEvent {
 	@Named("SystemUsersOnCall")
 	private static ISystemStats stats;
 
-	private volatile String asmContextTo;
 	private final String asmContextFrom;
-	private volatile String serverId;
-	private final String traceId;
-
-	private volatile SimTime enterTime;
+	private volatile String asmContextTo;
 	private final String calledServiceName;
+	private volatile String serverIdTo;
 
 	public ExternalCallEnterEvent(final Signature calledService_ExternalService, final String asmContextCurrent, final String traceId) {
 		super(calledService_ExternalService.getServiceName() + " from " + asmContextCurrent, traceId);
 		this.calledServiceName = calledService_ExternalService.getServiceName();
-		this.traceId = traceId;
 		this.asmContextFrom = asmContextCurrent;
 		if (asmContextCurrent != null) {
 			this.asmContextTo = ModelManager.getInstance().getAssemblyController()
 					.getServiceASMContextConnectedWithContext(calledService_ExternalService.getServiceName(), asmContextCurrent);
 		} else {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(this.calledServiceName);
+			this.asmContextTo = ModelManager.getInstance().getAssemblyController().getAssemblyContextBySystemServiceName(this.calledServiceName);
 		}
 	}
 
 	@SuppressWarnings("unused")
-	private void setAsmContextAndSignature(
-			final Signature calledService_ExternalService,
-			final String asmContextCurrent) {
+	private void setAsmContextAndSignature(final Signature calledService_ExternalService, final String asmContextCurrent) {
 		if (asmContextCurrent != null) {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyController()
-					.getServiceASMContextConnectedWithContext(calledService_ExternalService.getServiceName(), asmContextCurrent);
+			this.asmContextTo =
+					ModelManager.getInstance().getAssemblyController()
+							.getServiceASMContextConnectedWithContext(calledService_ExternalService.getServiceName(), asmContextCurrent);
 		} else {
-			this.asmContextTo = ModelManager.getInstance().getAssemblyController().getASMContextBySystemService(this.calledServiceName);
+			this.asmContextTo = ModelManager.getInstance().getAssemblyController().getAssemblyContextBySystemServiceName(this.calledServiceName);
 		}
 	}
 
@@ -79,32 +74,25 @@ public class ExternalCallEnterEvent extends AbstractControlFlowEvent {
 		if (this.asmContextFrom == null) {
 			stats.addSystemUser();
 		}
-		this.serverId = ModelManager.getInstance().getAllocationController().getServer(this.asmContextTo);
-		ModelManager.getInstance().getAllocationController().addUser(this.asmContextTo, this.serverId);
+		this.serverIdTo = ModelManager.getInstance().getAllocationController().getServerLoadBalanced(this.asmContextTo);
+		ModelManager.getInstance().getAllocationController().addUser(this.asmContextTo, this.serverIdTo);
 		// TODO Start monitoring here!
-		this.enterTime = this.getModel().currentTime();
+		final SimTime enterTime = this.getModel().currentTime();
 		LOG.debug("External Call from "
 				+ this.asmContextFrom + " to Service " + this.calledServiceName
 				+ " on asm context " + this.asmContextTo + "on server "
-				+ this.serverId + " at simtime " + this.currentTime());
-		CallHandler.getInstance().pushContext(
-				this.traceId,
-				new StackFrame(this.traceId, this.calledServiceName,
-						this.asmContextTo, this.serverId, this.enterTime
-								.getTimeValue()));
-		CallHandler.getInstance().actionReturn(this.traceId);
+				+ this.serverIdTo + " at simtime " + this.currentTime());
+		CallHandler.getInstance().pushContext(this.getTraceId(),
+				new StackFrame(this.getTraceId(), this.calledServiceName, this.asmContextTo, this.serverIdTo, enterTime.getTimeValue()));
+		CallHandler.getInstance().actionReturn(this.getTraceId());
 	}
 
 	public final String getASMContTo() {
 		return this.asmContextTo;
 	}
 
-	public final String getServerId() {
-		return this.serverId;
-	}
-
-	public final SimTime getEnterTime() {
-		return this.enterTime;
+	public final String getServerIdTo() {
+		return this.serverIdTo;
 	}
 
 	public final String getCalledService() {

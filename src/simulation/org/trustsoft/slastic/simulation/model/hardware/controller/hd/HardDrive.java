@@ -16,8 +16,8 @@
 
 package org.trustsoft.slastic.simulation.model.hardware.controller.hd;
 
+import org.trustsoft.slastic.simulation.model.hardware.controller.engine.AbstractProcessingResource;
 import org.trustsoft.slastic.simulation.model.hardware.controller.engine.AbstractScheduler;
-import org.trustsoft.slastic.simulation.model.hardware.controller.engine.ProcessingResource;
 
 import desmoj.core.advancedModellingFeatures.Res;
 import desmoj.core.simulator.Model;
@@ -27,7 +27,7 @@ import desmoj.core.simulator.Model;
  * @author Robert von Massow
  * 
  */
-public class HardDrive extends ProcessingResource<IOOperation> {
+public class HardDrive extends AbstractProcessingResource<IOOperation> {
 
 	@SuppressWarnings("unused")
 	private Res res;
@@ -47,7 +47,7 @@ public class HardDrive extends ProcessingResource<IOOperation> {
 
 	@Override
 	public void init() {
-		// TODO: refine?
+		throw new UnsupportedOperationException("Needs to be implemented");
 	}
 
 }

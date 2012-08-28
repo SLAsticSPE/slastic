@@ -40,7 +40,7 @@ public class TickEventGenerator {
 			final Model owner,
 			final String name,
 			final boolean showInTrace,
-			final ProcessingResource<? extends AbstractSchedulableProcess> ressource) {
+			final AbstractProcessingResource<? extends AbstractSchedulableProcess> ressource) {
 		this.owner = owner;
 		this.name = name;
 		this.scheduler = ressource.getScheduler();

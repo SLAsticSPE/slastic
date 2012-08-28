@@ -30,12 +30,14 @@ import desmoj.core.simulator.SimTime;
  * @param <PRType>
  * @param <SPType>
  */
-public abstract class AbstractScheduler<PRType extends ProcessingResource<?>, SPType extends AbstractSchedulableProcess> extends Entity {
+public abstract class AbstractScheduler<PRType extends AbstractProcessingResource<?>, SPType extends AbstractSchedulableProcess> extends Entity {
+
 	private volatile PRType owner;
 	private volatile long tickRate;
 	private volatile SimTime tickSimTime;
 	private volatile boolean timeUnitSet, tickRateSet;
 	private volatile TimeUnit unit;
+
 	private volatile TickEventGenerator tickEventGenerator;
 
 	protected final Queue<SPType> queue;

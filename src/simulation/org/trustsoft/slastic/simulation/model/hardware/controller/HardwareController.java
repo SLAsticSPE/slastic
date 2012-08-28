@@ -52,7 +52,7 @@ public class HardwareController extends Reportable {
 
 	private final Model model;
 	private final Hashtable<String, Server> serversById = new Hashtable<String, Server>();
-	private int allocatedServers = 0;
+	private int numAllocatedServers = 0;
 
 	public HardwareController(final ResourceEnvironment resources, final Model model) {
 		super(model, "Resource Controller", Constants.DEBUG, Constants.DEBUG);
@@ -109,18 +109,19 @@ public class HardwareController extends Reportable {
 			for (final CPU cpu : server.getCpus()) {
 				cpu.resumeMonitoringAt(this.model.currentTime());
 			}
-			this.allocatedServers++;
+			this.numAllocatedServers++;
 			return true;
 		}
 		LOG.warn("Failed to allocate server" + id + " , allocation status: " + (server.isAllocated() ? "allocated" : "unallocated"));
 		return false;
 	}
 
+	// TODO: What's the semantics of this method?
 	public boolean bpallocate(final String id) {
 		final Server server = this.serversById.get(id);
 		if (!server.isAllocated()) {
 			server.setAllocated(true);
-			this.allocatedServers++;
+			this.numAllocatedServers++;
 			return true;
 		}
 		return false;
@@ -129,15 +130,15 @@ public class HardwareController extends Reportable {
 	public boolean delocate(final String id) {
 		final Server server = this.serversById.get(id);
 		// this.log.warn("Delocating server " + server.getName());
-		if ((this.allocatedServers > 1) && !ModelManager.getInstance().getAllocationController().serverIsUsed(id)) {
+		if ((this.numAllocatedServers > 1) && !ModelManager.getInstance().getAllocationController().serverIsUsed(id)) {
 			server.setAllocated(false);
 			for (final CPU cpu : server.getCpus()) {
 				cpu.pauseMonitoring();
 			}
-			this.allocatedServers--;
+			this.numAllocatedServers--;
 			return true;
 		}
-		LOG.warn("Delocation failed, Servers left: " + this.allocatedServers + ", Usage status: "
+		LOG.warn("Delocation failed, Servers left: " + this.numAllocatedServers + ", Usage status: "
 				+ (ModelManager.getInstance().getAllocationController().serverIsUsed(id) ? "used" : "unused") + ", Allocation status: "
 				+ server.isAllocated());
 		return false;

@@ -61,8 +61,7 @@ public class StackFrame {
 		return this.timeEnter;
 	}
 
-	public final OperationExecutionRecord createRecord(final double timeExit,
-			final int depth) {
+	public final OperationExecutionRecord createRecord(final double timeExit, final int depth) {
 
 		final String componentName = ModelManager.getInstance().getAssemblyController().getASMInstanceAndComponentNameById(this.asmContextTo);
 		final String operationSignature = componentName + "." + this.calledServiceName;
@@ -73,8 +72,8 @@ public class StackFrame {
 		final int eoi = this.eoi;
 		final int ess = depth;
 
-		final OperationExecutionRecord rec = new OperationExecutionRecord(operationSignature, OperationExecutionRecord.NO_SESSION_ID,
-				traceId, tin, tout, hostname, eoi, ess);
+		final OperationExecutionRecord rec =
+				new OperationExecutionRecord(operationSignature, OperationExecutionRecord.NO_SESSION_ID, traceId, tin, tout, hostname, eoi, ess);
 		return rec;
 	}
 

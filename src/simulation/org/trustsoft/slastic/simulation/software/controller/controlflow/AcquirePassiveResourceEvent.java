@@ -27,29 +27,26 @@ import org.trustsoft.slastic.simulation.software.controller.StackFrame;
  * @author Robert von Massow
  * 
  */
-public class AcquireEvent extends AbstractControlFlowEvent {
+public class AcquirePassiveResourceEvent extends AbstractControlFlowEvent {
 
-	private static final Log LOG = LogFactory.getLog(AcquireEvent.class);
+	private static final Log LOG = LogFactory.getLog(AcquirePassiveResourceEvent.class);
 
-	private final String resName;
+	private final String resourceName;
 
-	public AcquireEvent(final String name, final String traceId,
-			final String resName) {
+	public AcquirePassiveResourceEvent(final String name, final String traceId, final String resName) {
 		super(name, traceId);
-		this.resName = resName;
-
+		this.resourceName = resName;
 	}
 
 	@Override
 	public void eventRoutine() {
-		final AbstractControlFlowEvent next = CallHandler.getInstance().getNextInTrace(
-				this.getTraceId());
+		final AbstractControlFlowEvent next = CallHandler.getInstance().getNextInTrace(this.getTraceId());
 		if (next == null) {
-			LOG.warn("There is no release action following the acquiration!");
+			LOG.warn("There is no action following the acquiration!");
 		}
 		final StackFrame f = CallHandler.getInstance().getStackTop(this.getTraceId());
 		final String asm = f.getAsmContextTo(), server = f.getServerId();
-		ModelManager.getInstance().getAllocationController().acquirePassive(server, asm, this.resName, next);
+		ModelManager.getInstance().getAllocationController().acquirePassiveResource(server, asm, this.resourceName, next);
 	}
 
 }

@@ -25,6 +25,5 @@ import java.util.Collection;
  */
 public interface ILoadBalancer {
 
-	abstract public String getServerMapping(String asmId,
-			Collection<String> possibilities);
+	abstract public String getServerMapping(String asmId, Collection<String> possibilities);
 }

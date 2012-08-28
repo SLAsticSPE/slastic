@@ -32,12 +32,12 @@ public abstract class AbstractSchedulableProcess extends Entity {
 	private static Log LOG = LogFactory.getLog(AbstractSchedulableProcess.class);
 
 	private volatile long ticksRemaining;
-	private final InternalActionEvent belongs;
+	private final InternalActionEvent internalActionEvent;
 
 	public AbstractSchedulableProcess(final Model owner, final String name, final boolean showInTrace, final long ticks, final InternalActionEvent belongs) {
 		super(owner, name, showInTrace);
 		this.ticksRemaining = ticks;
-		this.belongs = belongs;
+		this.internalActionEvent = belongs;
 	}
 
 	public long getCyclesRemaining() {
@@ -55,7 +55,7 @@ public abstract class AbstractSchedulableProcess extends Entity {
 	}
 
 	public final InternalActionEvent getBelongs() {
-		return this.belongs;
+		return this.internalActionEvent;
 	}
 
 }

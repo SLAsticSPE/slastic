@@ -129,7 +129,7 @@ public class ProgressingFlow {
 			final String calledContext = ModelManager
 					.getInstance()
 					.getAssemblyController()
-					.asmContextForServiceCall(
+					.getAssemblyContextForServiceCall(
 							currentFrame.getAsmContextCurrent(),
 							eca.getCalledService_ExternalService()
 									.getServiceName());

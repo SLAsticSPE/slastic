@@ -25,17 +25,17 @@ import desmoj.core.simulator.Model;
  * 
  * @param <T>
  */
-public abstract class ProcessingResource<T extends AbstractSchedulableProcess> extends Entity {
+public abstract class AbstractProcessingResource<T extends AbstractSchedulableProcess> extends Entity {
 
-	private final AbstractScheduler<? extends ProcessingResource<T>, T> scheduler;
+	private final AbstractScheduler<? extends AbstractProcessingResource<T>, T> scheduler;
 	private final int capacity;
 	private volatile boolean allocated = false;
 
-	public ProcessingResource(
+	public AbstractProcessingResource(
 			final Model owner,
 			final String name,
 			final boolean showInTrace,
-			final AbstractScheduler<? extends ProcessingResource<T>, T> scheduler,
+			final AbstractScheduler<? extends AbstractProcessingResource<T>, T> scheduler,
 			final int capacity) {
 		super(owner, name, showInTrace);
 		this.scheduler = scheduler;
@@ -55,7 +55,7 @@ public abstract class ProcessingResource<T extends AbstractSchedulableProcess> e
 
 	public abstract void init();
 
-	public AbstractScheduler<? extends ProcessingResource<T>, T> getScheduler() {
+	public AbstractScheduler<? extends AbstractProcessingResource<T>, T> getScheduler() {
 		return this.scheduler;
 	}
 

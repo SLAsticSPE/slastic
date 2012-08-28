@@ -46,7 +46,7 @@ public class ExternalCallReturnEvent extends AbstractControlFlowEvent {
 	@Named("Execution")
 	private static ISystemStats exeStats;
 
-	private static final IMonitoringController tpmonCtrl = MonitoringController.getInstance();
+	private static final IMonitoringController CTRL_INSTANCE = MonitoringController.getInstance();
 
 	private final ExternalCallEnterEvent ece;
 
@@ -68,7 +68,7 @@ public class ExternalCallReturnEvent extends AbstractControlFlowEvent {
 		exeStats.logExecution(f, CallHandler.getInstance().getStackDepth(this.ece.getTraceId()));
 
 		// tell simulator to schedule next action in this trace
-		ModelManager.getInstance().getAllocationController().remUser(this.ece.getASMContTo(), this.ece.getServerId());
+		ModelManager.getInstance().getAllocationController().remUser(this.ece.getASMContTo(), this.ece.getServerIdTo());
 		CallHandler.getInstance().actionReturn(this.ece.getTraceId());
 	}
 }

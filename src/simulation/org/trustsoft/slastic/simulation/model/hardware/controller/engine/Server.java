@@ -34,12 +34,12 @@ import desmoj.core.simulator.Model;
  * 
  */
 public class Server extends Entity {
+	private static final Log LOG = LogFactory.getLog(Server.class);
 
 	private final Set<CPU> cpus;
 	private final Set<HardDrive> hdds;
 	private boolean allocated = false;
 	private final String id;
-	private static final Log LOG = LogFactory.getLog(Server.class);
 
 	public Server(final Model owner, final String name, final boolean showInTrace) {
 		super(owner, name, showInTrace);
