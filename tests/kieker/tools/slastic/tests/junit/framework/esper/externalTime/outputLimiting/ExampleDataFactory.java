@@ -40,8 +40,7 @@ public class ExampleDataFactory {
 		final List<Object> inputStream = new ArrayList<Object>();
 
 		// inputStream.add(new CurrentTimeEvent(200));
-		inputStream
-				.add(new MarketData(ExampleDataFactory.SYMBOL_IBM, 100, 25.0));
+		inputStream.add(new MarketData(ExampleDataFactory.SYMBOL_IBM, 100, 25.0));
 		inputStream.add(new CurrentTimeEvent(800));
 		inputStream.add(new MarketData(ExampleDataFactory.SYMBOL_MSFT, 5000, 9.0));
 		inputStream.add(new CurrentTimeEvent(1000));
@@ -156,8 +155,9 @@ public class ExampleDataFactory {
 		expectedIStream.add(new StreamRecord(6200, new Object[] { ExampleDataFactory.SYMBOL_IBM, 72.0 }));
 		expectedIStream.add(new StreamRecord(6200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 7.0 }));
 		expectedIStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_MSFT, null }));
-		expectedIStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 6.0 }));
+		// note that for some reason, the following two events are switched compared to the (Esper 4.0.0) manual:
 		expectedIStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_IBM, 48.0 }));
+		expectedIStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 6.0 }));
 		return expectedIStream;
 	}
 
@@ -184,8 +184,9 @@ public class ExampleDataFactory {
 		expectedRStream.add(new StreamRecord(6200, new Object[] { ExampleDataFactory.SYMBOL_IBM, 97.0 }));
 		expectedRStream.add(new StreamRecord(6200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 6.0 }));
 		expectedRStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_MSFT, 9.0 }));
-		expectedRStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 7.0 }));
+		// note that for some reason, the following two events are switched compared to the (Esper 4.0.0) manual:
 		expectedRStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_IBM, 72.0 }));
+		expectedRStream.add(new StreamRecord(7200, new Object[] { ExampleDataFactory.SYMBOL_YAH, 7.0 }));
 		return expectedRStream;
 	}
 
