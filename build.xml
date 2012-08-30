@@ -27,7 +27,7 @@
 
 	<target name="update-version" unless="version.noupdate" depends="init-version">
 		<echo>Updating version string</echo>
-		<replaceregexp file="src/core/org/trustsoft/slastic/common/Version.java" match="VERSION = &quot;.*?&quot;" replace="VERSION = &quot;${slastic.version}-${DSTAMP}&quot;" />
+		<replaceregexp file="src/core/kieker/tools/slastic/common/Version.java" match="VERSION = &quot;.*?&quot;" replace="VERSION = &quot;${slastic.version}-${DSTAMP}&quot;" />
 		<replaceregexp match="&lt;version&gt;.*?&lt;/version&gt;" replace="&lt;version&gt;${slastic.version}-${DSTAMP}&lt;/version&gt;">
 			<fileset dir=".">
 				<include name="pom_ant_slastic*.xml" />
@@ -176,7 +176,7 @@
 		<!-- We want to include the sources in this jar -->
 		<copy todir="${build.slastic.core.dir}/">
 			<fileset dir="${src.slastic.core.dir}">
-				<include name="org/trustsoft/slastic/core/**/*.java" />
+				<include name="kieker/tools/slastic/core/**/*.java" />
 			</fileset>
 		</copy>
 	</target>
@@ -191,7 +191,7 @@
 		<!-- We want to include the sources in this jar -->
 		<copy todir="${build.slastic.plugins.dir}/">
 			<fileset dir="${src.slastic.plugins.dir}">
-				<include name="org/trustsoft/slastic/plugins/**/*.java" />
+				<include name="kieker/tools/slastic/plugins/**/*.java" />
 			</fileset>
 		</copy>
 		<copy todir="${build.slastic.plugins.dir}/">
@@ -218,7 +218,7 @@
 		<!-- We want to include the sources in this jar -->
 		<copy todir="${build.slastic.simulation.dir}/">
 			<fileset dir="${src.slastic.simulation.dir}">
-				<include name="org/trustsoft/slastic/simulation/**/*.java" />
+				<include name="kieker/tools/slastic/simulation/**/*.java" />
 			</fileset>
 		</copy>
 	</target>
@@ -370,7 +370,7 @@
 	</target>
 
 	<target name="run-SLAsticStarter-simulation" depends="build-slastic.main">
-		<java dir="." fork="true" classname="org.trustsoft.slastic.plugins.starter.SLAsticStarter" classpathref="slastic-run-classpath" maxmemory="1024m">
+		<java dir="." fork="true" classname="kieker.tools.slastic.plugins.starter.SLAsticStarter" classpathref="slastic-run-classpath" maxmemory="1024m">
 			<jvmarg value="-Dlog4j.configuration=META-INF/slastic.log4j.properties" />
 			<!-- included in the slastic.core jar -->
 			<jvmarg value="-Dkieker.monitoring.configuration=${slastic.simulation-kieker.monitoring.properties}" />
@@ -380,7 +380,7 @@
 	</target>
 
 	<target name="run-SLAsticStarter" depends="build-slastic.main">
-		<java dir="." fork="true" classname="org.trustsoft.slastic.plugins.starter.SLAsticStarter" classpathref="slastic-run-classpath" maxmemory="1024m">
+		<java dir="." fork="true" classname="kieker.tools.slastic.plugins.starter.SLAsticStarter" classpathref="slastic-run-classpath" maxmemory="1024m">
 			<jvmarg value="-Dlog4j.configuration=META-INF/slastic.log4j.properties" />
 			<!-- included in the slastic.core jar -->
 			<jvmarg value="-Dkieker.monitoring.configuration=${slastic.simulation-kieker.monitoring.properties}" />
@@ -390,7 +390,7 @@
 
 	<target name="run-rTest" depends="build-slastic.main">
 		<copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties" />
-		<java dir="." fork="true" classname="org.trustsoft.slastic.plugins.util.REngineFacade" classpathref="slastic-run-classpath" maxmemory="1024m">
+		<java dir="." fork="true" classname="kieker.tools.slastic.plugins.util.REngineFacade" classpathref="slastic-run-classpath" maxmemory="1024m">
 			<jvmarg value="-Djava.library.path=lib/" />
 			<jvmarg value="-Dlog4j.configuration=META-INF/slastic.log4j.properties" />
 			<!-- included in the slastic.core jar -->
@@ -452,7 +452,7 @@
 	<target name="run-tests-loadTimeWeaving-bookstoreDifferentRecordTypes" depends="compile-tests">
 		<copy file="${tests.log4j.properties}" tofile="${build.dir}/tests.log4j.properties" />
 		<copy file="${aop.xml.ltwtests}" tofile="${build.tests.dir}/META-INF/aop.xml" />
-		<java dir="." fork="true" classname="org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore" classpathref="slastic.tests-run-classpath">
+		<java dir="." fork="true" classname="kieker.tools.slastic.tests.bookstoreDifferentRecordTypes.Bookstore" classpathref="slastic.tests-run-classpath">
 			<jvmarg value="-Dkieker.monitoring.configuration=${tests.kieker.monitoring.properties}" />
 			<jvmarg value="-Dkieker.monitoring.storeInJavaIoTmpdir=${tests.storeInJavaIoTmpdir}" />
 			<jvmarg value="-Dkieker.monitoring.customStoragePath=${tests.logdata.storagepath}" />
