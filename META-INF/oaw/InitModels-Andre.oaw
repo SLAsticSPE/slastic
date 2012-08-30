@@ -1,7 +1,7 @@
 <workflow>
 	<property name='METAINF.oaw.dir' value='../branches/20091022-Andre/META-INF/oaw'/>
 	<property name='slalModelLocation' value='../../SLALproject/src/model.sla'/>
-	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>
+	<property name='slalMetaModelLocation' value='kieker/tools/slastic/control/sla/MetaModel.oaw'/>
 	
 	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>
 	<property name='reconfigurationMetaModelLocation' value='${METAINF.oaw.dir}/ReconfigurationMM.oaw'/>

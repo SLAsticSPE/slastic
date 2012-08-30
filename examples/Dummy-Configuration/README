@@ -39,7 +39,7 @@ configuration file needs to be adjusted accordingly.
      //	    location to the JVM using the above-mentioned JVM argument.
      // 
      // If no log4j configuration could be found, log4j reports the following:
-     //	   log4j:WARN No appenders could be found for logger (org.trustsoft.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+     //	   log4j:WARN No appenders could be found for logger (kieker.tools.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
      // In this case, either make sure, that you passed the correct path 
      // to the configuration file or remove log4j from the classpath
 
@@ -56,5 +56,5 @@ and terminate.
      
 2.2 Calling java directly [Remember to change slastic-<version>.jar into the real file name!]:
 
-   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/log4j-1.2.16.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar org.trustsoft.slastic.plugins.starter.SLAsticStarter -f slastic.framework.properties
+   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/log4j-1.2.16.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar kieker.tools.slastic.plugins.starter.SLAsticStarter -f slastic.framework.properties
 

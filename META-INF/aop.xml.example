@@ -41,7 +41,7 @@
 
 
 	<!-- instrument the slastic.tests -->
-	<include within="org.trustsoft.slastic.tests..*"/>
+	<include within="kieker.tools.slastic.tests..*"/>
 
         <!-- don't weave all packages of kieker and some packages of sun -->
         <exclude within="kieker.tpmon..*"/>
@@ -53,7 +53,7 @@
      <!-- Put the remaining in a comment -->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonExecutionProbeAnnotation"/>-->
      <aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonExecutionProbeAnnotationRemote"/>
-     <aspect name="org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla.SLAMonitoringProbe"/>
+     <aspect name="kieker.tools.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla.SLAMonitoringProbe"/>
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonExecutionProbeAnnotationRemoteServlet"/>-->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonExecutionProbeFull"/>-->
      <!--<aspect name="kieker.tpmon.probe.aspectJ.executions.KiekerTpmonExecutionProbeFullServlet"/>-->

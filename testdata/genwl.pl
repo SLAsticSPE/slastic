@@ -12,7 +12,7 @@ for ($_ = 0; $_ < $i; $_+=1){
 	#endif
 	for $b ( 1 .. $n){
 		$a = int ((($b/$n) + $_) ∗ 1000000000)∗60;
-		print "\$2;$a;0;org.trustsoft.slastic.tests.bookstoreDifferentRecordTypes.Bookstore.searchBook();NULL;$a$b;$a;$a;pc−vanhoorn;0;0\n"
+		print "\$2;$a;0;kieker.tools.slastic.tests.bookstoreDifferentRecordTypes.Bookstore.searchBook();NULL;$a$b;$a;$a;pc−vanhoorn;0;0\n"
 	}
 }
 #if 0 workload function

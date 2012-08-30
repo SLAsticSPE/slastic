@@ -5,9 +5,9 @@
     modelPluginID="SLAstic-Framework" modelName="Slastic" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false">
   <foreignModel>slastic.ecore</foreignModel>
-  <genPackages prefix="Metamodel" basePackage="de.cau.se.slastic" disposableProviderFactory="true"
+  <genPackages prefix="Metamodel" basePackage="kieker.tools.slastic" disposableProviderFactory="true"
       ecorePackage="slastic.ecore#/">
-    <nestedGenPackages prefix="TypeRepository" basePackage="de.cau.se.slastic.metamodel"
+    <nestedGenPackages prefix="TypeRepository" basePackage="kieker.tools.slastic.metamodel"
         disposableProviderFactory="true" ecorePackage="slastic.ecore#//typeRepository">
       <genClasses ecoreClass="slastic.ecore#//typeRepository/ComponentType">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -29,7 +29,7 @@
         <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference slastic.ecore#//typeRepository/NetworkLinkType/repository"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Core" basePackage="de.cau.se.slastic.metamodel" disposableProviderFactory="true"
+    <nestedGenPackages prefix="Core" basePackage="kieker.tools.slastic.metamodel" disposableProviderFactory="true"
         ecorePackage="slastic.ecore#//core">
       <genClasses image="false" ecoreClass="slastic.ecore#//core/KiekerAnalysisEvent"/>
       <genClasses ecoreClass="slastic.ecore#//core/Entity">
@@ -50,7 +50,7 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//core/FQNamedEntity/packageName"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="ComponentAssembly" basePackage="de.cau.se.slastic.metamodel"
+    <nestedGenPackages prefix="ComponentAssembly" basePackage="kieker.tools.slastic.metamodel"
         disposableProviderFactory="true" ecorePackage="slastic.ecore#//componentAssembly">
       <genClasses ecoreClass="slastic.ecore#//componentAssembly/AssemblyComponent">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -65,7 +65,7 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//componentAssembly/ComponentAssemblyModel/assemblyConnectors"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="ComponentDeployment" basePackage="de.cau.se.slastic.metamodel"
+    <nestedGenPackages prefix="ComponentDeployment" basePackage="kieker.tools.slastic.metamodel"
         disposableProviderFactory="true" ecorePackage="slastic.ecore#//componentDeployment">
       <genClasses ecoreClass="slastic.ecore#//componentDeployment/DeploymentComponent">
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
@@ -77,7 +77,7 @@
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//componentDeployment/ComponentDeploymentModel/deploymentComponents"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="ExecutionEnvironment" basePackage="de.cau.se.slastic.metamodel"
+    <nestedGenPackages prefix="ExecutionEnvironment" basePackage="kieker.tools.slastic.metamodel"
         disposableProviderFactory="true" ecorePackage="slastic.ecore#//executionEnvironment">
       <genClasses ecoreClass="slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel">
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionEnvironmentModel/executionContainers"/>
@@ -98,7 +98,7 @@
             ecoreFeature="ecore:EReference slastic.ecore#//executionEnvironment/ExecutionContainer/executionContainerType"/>
       </genClasses>
     </nestedGenPackages>
-    <nestedGenPackages prefix="Monitoring" basePackage="de.cau.se.slastic.metamodel"
+    <nestedGenPackages prefix="Monitoring" basePackage="kieker.tools.slastic.metamodel"
         disposableProviderFactory="true" ecorePackage="slastic.ecore#//monitoring">
       <genClasses image="false" ecoreClass="slastic.ecore#//monitoring/OperationExecution">
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute slastic.ecore#//monitoring/OperationExecution/traceId"/>

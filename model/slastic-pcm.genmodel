@@ -5,7 +5,7 @@
     modelPluginID="SLAstic-Framework" modelName="Slastic-pcm" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false" usedGenPackages="../../de.uka.ipd.sdq.identifier/model/identifier.genmodel#//identifier ../../de.uka.ipd.sdq.pcm/model/pcm.genmodel#//pcm ../../de.uka.ipd.sdq.probfunction/model/ProbabilityFunction.genmodel#//probfunction ../../de.uka.ipd.sdq.stoex/model/stoex.genmodel#//stoex ../../de.uka.ipd.sdq.units/model/Units.genmodel#//units">
   <foreignModel>slastic-pcm.ecore</foreignModel>
-  <genPackages prefix="Slasticpcm" basePackage="de.cau.se.slastic.metamodel" disposableProviderFactory="true"
+  <genPackages prefix="Slasticpcm" basePackage="kieker.tools.slastic.metamodel" disposableProviderFactory="true"
       ecorePackage="slastic-pcm.ecore#/">
     <nestedGenPackages prefix="Reconfiguration" resource="XML" disposableProviderFactory="true"
         ecorePackage="slastic-pcm.ecore#//reconfiguration">

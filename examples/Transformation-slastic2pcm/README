@@ -19,21 +19,21 @@ ls: Zugriff auf dist/*.jar nicht möglich: Datei oder Verzeichnis nicht gefunden
 
 Reading log4j configuration from file bin/log4j.properties ... 
 
-26.06.2012 12:37:07 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
+26.06.2012 12:37:07 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
 INFO: slasticSystemModel: org.eclipse.m2m.atl.core.emf.EMFModel@3c9c31
-26.06.2012 12:37:07 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
+26.06.2012 12:37:07 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
 INFO: slasticUsageModel: org.eclipse.m2m.atl.core.emf.EMFModel@d75415
-26.06.2012 12:37:07 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
+26.06.2012 12:37:07 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation transform
 INFO: Launching transformation of slastic system model instance [org.eclipse.m2m.atl.core.emf.EMFModel@3c9c31] and slastic usage model instance [org.eclipse.m2m.atl.core.emf.EMFModel@d75415] to pcm.
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@b4be3d] to file [tmp/bookstore.resourcetype].
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@35bb0f] to file [tmp/bookstore.repository].
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@1f0b7d3] to file [tmp/bookstore.resourceenvironment].
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@827968] to file [tmp/bookstore.system].
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@a53de4] to file [tmp/bookstore.allocation].
-26.06.2012 12:37:08 org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
+26.06.2012 12:37:08 kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation extractPcmModel
 INFO: Trying to extract model [org.eclipse.m2m.atl.core.emf.EMFModel@18bd7f1] to file [tmp/bookstore.usagemodel].

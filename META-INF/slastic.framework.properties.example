@@ -1,18 +1,18 @@
 #
 # This is a working example configuration with components that don't do anything.
 #
-slastic.monitoring.classname=org.trustsoft.slastic.monitoring.DummyMonitoringManagerComponent
+slastic.monitoring.classname=kieker.tools.slastic.monitoring.DummyMonitoringManagerComponent
 
-slastic.control.classname=org.trustsoft.slastic.control.BasicControlComponent
-slastic.control.modelmanagement.classname=org.trustsoft.slastic.control.components.modelManager.DummyModelManagerComponent
-slastic.control.modelupdating.classname=org.trustsoft.slastic.control.components.modelUpdater.DummyModelUpdaterComponent
-slastic.control.analysis.classname=org.trustsoft.slastic.control.components.analysis.BasicAnalysisComponent
-slastic.control.analysis.performanceevaluation.classname=org.trustsoft.slastic.control.components.analysis.DummyPerformanceEvaluatorComponent
-slastic.control.analysis.workloadforecaster.classname=org.trustsoft.slastic.control.components.analysis.DummyWorkloadForecasterComponent
-slastic.control.analysis.performancepredictor.classname=org.trustsoft.slastic.control.components.analysis.DummyPerformancePredictorComponent
-slastic.control.analysis.adaptationplanning.classname=org.trustsoft.slastic.control.components.analysis.DummyAdaptationPlannerComponent
+slastic.control.classname=kieker.tools.slastic.control.BasicControlComponent
+slastic.control.modelmanagement.classname=kieker.tools.slastic.control.components.modelManager.DummyModelManagerComponent
+slastic.control.modelupdating.classname=kieker.tools.slastic.control.components.modelUpdater.DummyModelUpdaterComponent
+slastic.control.analysis.classname=kieker.tools.slastic.control.components.analysis.BasicAnalysisComponent
+slastic.control.analysis.performanceevaluation.classname=kieker.tools.slastic.control.components.analysis.DummyPerformanceEvaluatorComponent
+slastic.control.analysis.workloadforecaster.classname=kieker.tools.slastic.control.components.analysis.DummyWorkloadForecasterComponent
+slastic.control.analysis.performancepredictor.classname=kieker.tools.slastic.control.components.analysis.DummyPerformancePredictorComponent
+slastic.control.analysis.adaptationplanning.classname=kieker.tools.slastic.control.components.analysis.DummyAdaptationPlannerComponent
 
-slastic.reconfiguration.classname=org.trustsoft.slastic.reconfiguration.DummyReconfigurationManagerComponent
+slastic.reconfiguration.classname=kieker.tools.slastic.reconfiguration.DummyReconfigurationManagerComponent
 
 
 ##### Kieker Monitoring Manager configuration alternatives ##################
@@ -20,7 +20,7 @@ slastic.reconfiguration.classname=org.trustsoft.slastic.reconfiguration.DummyRec
 ##
 ## Kieker Monitoring Manager:
 ##
-#slastic.monitoring.classname=org.trustsoft.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
+#slastic.monitoring.classname=kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.KiekerMonitoringManager
 # Kieker filesystem reader (normal mode): 
 #slastic.monitoring.tpmon.reader.classname=kieker.common.logReader.filesystemReader.FSReader
 #slastic.monitoring.tpmon.reader.initstring=inputDirs=testdata/tpmon-20100331-142642242-UTC | numWorkers=5
@@ -34,5 +34,5 @@ slastic.reconfiguration.classname=org.trustsoft.slastic.reconfiguration.DummyRec
 #slastic.monitoring.tpmon.reader.initstring=jmsProviderUrl=tcp://localhost:3035/ | jmsDestination=queue1 
 #
 ## Kieker with SLAstic Pipe reader
-#slastic.monitoring.tpmon.reader.classname=org.trustsoft.slastic.plugins.starter.kiekerNamedMonitoringPipe.PipeReader
+#slastic.monitoring.tpmon.reader.classname=kieker.tools.slastic.plugins.starter.kiekerNamedMonitoringPipe.PipeReader
 #slastic.monitoring.tpmon.reader.initstring=pipeName=simulation0

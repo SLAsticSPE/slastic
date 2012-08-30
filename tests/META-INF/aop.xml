@@ -3,15 +3,15 @@
 <aspectj>
     <weaver options=""> <!-- options="-verbose" -->	
 	<!-- instrument the kieker.tests -->
-        <include within="org.trustsoft.slastic.tests..*"/>
+        <include within="kieker.tools.slastic.tests..*"/>
 
         <!-- probe needs to be included -->
-        <include within="org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla..*"/>
+        <include within="kieker.tools.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla..*"/>
     </weaver>
 
     <aspects>
      <aspect name="kieker.monitoring.probe.aspectJ.executions.OperationExecutionAspectAnnotation"/>
-     <aspect name="org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla.SLAMonitoringProbe"/>
+     <aspect name="kieker.tools.slastic.plugins.slachecker.monitoring.kieker.probe.aspectJ.sla.SLAMonitoringProbe"/>
      <!--<aspect name="kieker.monitoring.probe.aspectJ.executions.OperationExecutionAspectAnnotationServlet"/>-->
      <!--<aspect name="kieker.monitoring.probe.aspectJ.executions.OperationExecutionAspectFull"/>-->
      <!--<aspect name="kieker.monitoring.probe.aspectJ.executions.OperationExecutionAspectFullServlet"/>-->

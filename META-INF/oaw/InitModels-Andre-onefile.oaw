@@ -1,18 +1,18 @@
 <workflow>
 <!--	<property name='slalModelLocation' value='../../SLALproject/src/model.sla'/>-->
 <!--	<property name='slalMetaModelPackage' value='slal.SlalPackage'/>-->
-<!--	<property name='slalMetaModelLocation' value='org/trustsoft/slastic/control/sla/MetaModel.oaw'/>-->
+<!--	<property name='slalMetaModelLocation' value='kieker/tools/slastic/control/sla/MetaModel.oaw'/>-->
 	
 <!--	<property name='reconfigurationModelLocation' value='../../BookstoreReconfModel/My.reconfmm'/>-->
 <!--	<property name='reconfigurationMetaModelPackage' value='reconfMM.ReconfMMPackage'/>-->
 <!--	<property name='reconfigurationOutputslot' value='reconfigurationModel'/>-->
 
 <!--	<property name='resourceEnvironmentModelLocation' value='../../BookstoreReconfModel/My2.slasticresourceenvironment'/>-->
-<!--	<property name='resourceEnvironmentMetaModelPackage' value='org.trustsoft.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage'/>-->
+<!--	<property name='resourceEnvironmentMetaModelPackage' value='kieker.tools.slastic.slasticresourceenvironment.SlasticresourceenvironmentPackage'/>-->
 <!--	<property name='resourceEnvironmentOutputslot' value='resourceEnvironmentModel'/>-->
 
 <!--	<property name='qosAnnotationsModelLocation' value='../../BookstoreReconfModel/My.slasticqosannotations'/>-->
-<!--	<property name='qosAnnotationsMetaModelPackage' value='org.trustsoft.slastic.slasticqosannotations.SlasticqosannotationsPackage'/>-->
+<!--	<property name='qosAnnotationsMetaModelPackage' value='kieker.tools.slastic.slasticqosannotations.SlasticqosannotationsPackage'/>-->
 <!--	<property name='qosAnnotationsOutputslot' value='qosAnnotationsModel'/>-->
 
 <!--<property name="qosAnnotationsModelOutputslot"/>-->

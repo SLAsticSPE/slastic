@@ -56,7 +56,7 @@ configuration file needs to be adjusted accordingly.
      //	    location to the JVM using the above-mentioned JVM argument.
      // 
      // If no log4j configuration could be found, log4j reports the following:
-     //	   log4j:WARN No appenders could be found for logger (org.trustsoft.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+     //	   log4j:WARN No appenders could be found for logger (kieker.tools.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
      // In this case, either make sure, that you passed the correct path 
      // to the configuration file or remove log4j from the classpath
 
@@ -91,7 +91,7 @@ and terminate.
      
 2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
+   $ java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar kieker.tools.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
 
 2.3 Replay in real-time:
 
@@ -127,7 +127,7 @@ org.apache.activemq.jndi.ActiveMQInitialContextFactory
 
 3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
+    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/servlet.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar kieker.tools.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
 
 3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
 
@@ -147,12 +147,12 @@ Reconfiguration Manager's results directory. Each line lists some
 details about the executed operations and its result status:
 
     == SNIP
-0;Thu, 1 Jan 1970 00:00:00 +0000 (UTC);createAndRegisterCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
+0;Thu, 1 Jan 1970 00:00:00 +0000 (UTC);createAndRegisterCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
 1294584029939;Sun, 9 Jan 2011 14:40:29 +0000 (UTC);allocateNode;SUCCESS;node: [name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]
-1294584061739;Sun, 9 Jan 2011 14:41:01 +0000 (UTC);deployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
-1294584276239;Sun, 9 Jan 2011 14:44:36 +0000 (UTC);undeployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
+1294584061739;Sun, 9 Jan 2011 14:41:01 +0000 (UTC);deployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
+1294584276239;Sun, 9 Jan 2011 14:44:36 +0000 (UTC);undeployApplicationInstance;SUCCESS;instance: [name: JPetStore--0; application: [name: JPetStore; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration@1f195fc; node[name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]]
 1294584282639;Sun, 9 Jan 2011 14:44:42 +0000 (UTC);deallocateNode;SUCCESS;node: [name: appsrv-1; type: [name: tomcat; emi: emi-28820CF4]; instanceID: 19077777; ipAddress: 110.110.110.1; hostname: dummy-hostname-0]
-1294584380739;Sun, 9 Jan 2011 14:46:20 +0000 (UTC);removeCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
+1294584380739;Sun, 9 Jan 2011 14:46:20 +0000 (UTC);removeCloudedApplication;SUCCESS;application: [name: JPetStore; configuration: kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration@c8769b]
     == SNAP
 
 

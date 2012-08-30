@@ -50,7 +50,7 @@ configuration file needs to be adjusted accordingly.
      //	    location to the JVM using the above-mentioned JVM argument.
      // 
      // If no log4j configuration could be found, log4j reports the following:
-     //	   log4j:WARN No appenders could be found for logger (org.trustsoft.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+     //	   log4j:WARN No appenders could be found for logger (kieker.tools.slastic.common.util.PropertiesFileUtils).                                           //    log4j:WARN Please initialize the log4j system properly.                                                                                              //    log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
      // In this case, either make sure, that you passed the correct path 
      // to the configuration file or remove log4j from the classpath
 
@@ -85,9 +85,9 @@ and terminate.
      
 2.2 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-1.3.dev.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-0.01a-SNAPSHOT.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
+   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-1.3.dev.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-0.01a-SNAPSHOT.jar kieker.tools.slastic.plugins.starter.kieker.AnalysisStarterFileSystem --start-framework slastic.framework.properties --kieker-dirs kieker-monitoring-logs/kieker-20110109-142520753-UTC-SINGLETON-varyingCurve --kieker-pipeName monitoringPipe0 --realtime-mode false
 
-java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib:lib/slastic-0.01a-SNAPSHOT.jar:lib/commons-cli-1.2.jar:lib/kieker-1.3.dev.jar org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTransformation
+java -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib:lib/slastic-0.01a-SNAPSHOT.jar:lib/commons-cli-1.2.jar:lib/kieker-1.3.dev.jar kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTransformation
 
 
 2.3 Replay in real-time:
@@ -124,7 +124,7 @@ org.apache.activemq.jndi.ActiveMQInitialContextFactory
 
 3.3 Calling java directly [Remember to change {kieker|slastic}-<version>.jar into the real file names!]:
 
-    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar org.trustsoft.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
+    $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/antlr-runtime-3.2.jar:lib/cglib-nodep-2.2.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/kieker-<version>.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar:lib/jms-1.1.jar:lib/openjms-0.7.7-beta-1.jar kieker.tools.slastic.plugins.starter.kieker.AnalysisStarterJMS --start-framework slastic.framework.properties --jmsDestination queue1 --jmsProviderUrl tcp://127.0.0.1:3035 --jmsFactoryLookupName org.exolab.jms.jndi.InitialContextFactory --kieker-pipeName monitoringPipe0
 
 3.4 Generate Kieker monitoring data using Kieker's appendix-JMS example:
 
@@ -201,4 +201,4 @@ This can be easily processed with spread-sheet or statistics tools.
 The directory r-scripts/performance-logger/ contains an r-script called LoggerPlotScripts.r
 which can be used to visualize the generated time series files.
 
-java -classpath dist/slastic-0.01a-SNAPSHOT.jar:lib/org.eclipse.m2m.atl.common_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core.emf_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.drivers.emf4atl_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar org.trustsoft.slastic.plugins.ngu.transformation.SlasticToPcmTranformation -i examples/Kieker-PerformancePredictor-Configuration/resources/petstore.slastic -o petstore
+java -classpath dist/slastic-0.01a-SNAPSHOT.jar:lib/org.eclipse.m2m.atl.common_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.core.emf_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.drivers.emf4atl_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar:lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar:lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar kieker.tools.slastic.plugins.ngu.transformation.SlasticToPcmTranformation -i examples/Kieker-PerformancePredictor-Configuration/resources/petstore.slastic -o petstore

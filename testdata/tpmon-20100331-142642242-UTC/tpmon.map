@@ -1,3 +1,3 @@
 $1=kieker.common.record.BranchingRecord
 $2=kieker.common.record.OperationExecutionRecord
-$3=org.trustsoft.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord
+$3=kieker.tools.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla.SLOMonitoringRecord
