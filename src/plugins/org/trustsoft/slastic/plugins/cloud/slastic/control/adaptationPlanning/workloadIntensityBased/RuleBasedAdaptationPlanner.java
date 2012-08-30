@@ -14,7 +14,7 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
+package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning.workloadIntensityBased;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.trustsoft.slastic.control.components.analysis.AbstractAdaptationPlannerComponent;
 import org.trustsoft.slastic.control.components.events.IEvent;
-import org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration.EucalyptusReconfigurationManager;
+import org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning.ConfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
 
@@ -150,7 +150,7 @@ public class RuleBasedAdaptationPlanner extends AbstractAdaptationPlannerCompone
 
 	private boolean initRuleEngine(final ModelManager modelManager) {
 		final ConfigurationManager configurationManager =
-				new ConfigurationManager(modelManager, (EucalyptusReconfigurationManager) this.getReconfigurationManager(), this.containerExcludeList,
+				new ConfigurationManager(modelManager, this.getReconfigurationManager(), this.containerExcludeList,
 						this.maxNumContainers);
 		this.ruleEngine = new WorkloadIntensityRuleEngine(modelManager, this.ruleSets, configurationManager);
 		return true;

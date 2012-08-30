@@ -14,7 +14,7 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
+package org.trustsoft.slastic.plugins.cloud.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ExternalCommandExecuter implements IResultObserver {
 
-	private static final Log LOG = LogFactory.getLog(ExternalCommandExecuter.class);
+	private static final Log log = LogFactory.getLog(ExternalCommandExecuter.class);
 
 	private final boolean isDummyMode;
 
@@ -59,27 +59,29 @@ public class ExternalCommandExecuter implements IResultObserver {
 	 * @param commands
 	 * @param enviro
 	 */
-	public String executeCommandWithEnv(final EucalyptusCommand command,
-			final String enviro) {
+	public String executeCommandWithEnv(final AbstractCommand command, final String enviro) {
 		Process proc = null;
 		this.result = "";
 
 		try {
 			final Runtime rt = Runtime.getRuntime();
 
-			ExternalCommandExecuter.LOG.info(enviro + "$ "
+			ExternalCommandExecuter.log.info(enviro + "$ "
 					+ command.getCommandString().replaceAll(" && ", " "));
 			if (this.isDummyMode) {
 				return "DUMMY MODE OUTPUT";
 			}
 
-			final String[] commandsDummy = command.getCommandString().split(" && ");
+			final String[] commandsDummy =
+					command.getCommandString().split(" && ");
 
 			proc = rt.exec(commandsDummy, null, new File(enviro));
 
-			final InputStreamGobbler errorGobbler = new InputStreamGobbler(proc.getErrorStream(), this);
+			final InputStreamGobbler errorGobbler =
+					new InputStreamGobbler(proc.getErrorStream(), this);
 
-			final InputStreamGobbler inputGobbler = new InputStreamGobbler(proc.getInputStream(), this);
+			final InputStreamGobbler inputGobbler =
+					new InputStreamGobbler(proc.getInputStream(), this);
 
 			errorGobbler.start();
 			inputGobbler.start();
@@ -105,7 +107,8 @@ public class ExternalCommandExecuter implements IResultObserver {
 	// TODO: allow the registration of an observer to be notified when the
 	// asynchronous command has been executed. It should then be
 	// possible to fetch the result string from this object
-	public void executeCommandWithEnvAndDelayAsync(final EucalyptusCommand command, final String enviro, final long delayMillis) {
+	public void executeCommandWithEnvAndDelayAsync(final AbstractCommand command,
+			final String enviro, final long delayMillis) {
 		final Runnable r = new Runnable() {
 
 			@Override
@@ -114,11 +117,14 @@ public class ExternalCommandExecuter implements IResultObserver {
 					Thread.sleep(delayMillis);
 					ExternalCommandExecuter.this.executeCommandWithEnv(command, enviro);
 				} catch (final InterruptedException e) {
-					ExternalCommandExecuter.LOG.error("Delayed executor thread (command: " + command.getCommandString() + ") was interrupted: "
+					ExternalCommandExecuter.log.error("Delayed executor thread (command: " + command.getCommandString() + ") was interrupted: "
 							+ e.getMessage(), e);
 				}
 			}
 		};
+
+		final Thread thread = new Thread(r);
+		thread.start();
 	}
 
 	@Override

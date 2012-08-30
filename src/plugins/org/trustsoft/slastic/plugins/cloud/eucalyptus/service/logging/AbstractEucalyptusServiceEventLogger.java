@@ -19,13 +19,13 @@
  */
 package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
 
+import org.trustsoft.slastic.plugins.cloud.common.ICurrentTimeProvider;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplicationConfiguration;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
 
 import kieker.tools.util.LoggingTimestampConverter;
 

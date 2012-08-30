@@ -19,13 +19,14 @@ package org.trustsoft.slastic.plugins.cloud.slastic.control.adaptationPlanning;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.cloud.slastic.reconfiguration.EucalyptusReconfigurationManager;
 import org.trustsoft.slastic.plugins.slasticImpl.ModelManager;
 import org.trustsoft.slastic.plugins.slasticImpl.model.NameUtils;
+import org.trustsoft.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 
 import de.cau.se.slastic.metamodel.componentAssembly.AssemblyComponent;
 import de.cau.se.slastic.metamodel.componentDeployment.DeploymentComponent;
@@ -45,7 +46,7 @@ public class ConfigurationManager {
 	private volatile int nextExecutionContainerIndex = 1;
 
 	private final ModelManager modelManager;
-	private final EucalyptusReconfigurationManager reconfigurationManager;
+	private final AbstractReconfigurationManagerComponent reconfigurationManager;
 
 	/**
 	 * The execution containers with these fully-qualified names and all
@@ -66,7 +67,7 @@ public class ConfigurationManager {
 	 * @param reconfigurationManager
 	 */
 	public ConfigurationManager(final ModelManager modelManager,
-			final EucalyptusReconfigurationManager reconfigurationManager,
+			final AbstractReconfigurationManagerComponent reconfigurationManager,
 			final Collection<String> containerExcludeList, final Map<String, Integer> maxNumContainers) {
 		this.modelManager = modelManager;
 		this.reconfigurationManager = reconfigurationManager;
@@ -91,7 +92,7 @@ public class ConfigurationManager {
 
 		LOG.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes + " instances of assembly component " + assemblyComponent);
 
-		final boolean success;
+		boolean success = true;
 
 		if (requestedNumNodes > currentNumNodes) {
 			success = this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
@@ -106,19 +107,45 @@ public class ConfigurationManager {
 		return success;
 	}
 
+	public final synchronized boolean reconfigureWithRelativeNumNodes(final AssemblyComponent assemblyComponent,
+			final ExecutionContainerType executionContainerType, final int relativeNumNodes) {
+		final List<DeploymentComponent> nodes = this.filterAppsrvNodes(assemblyComponent);
+
+		final int currentNumNodes = nodes.size();
+
+		if (relativeNumNodes == 0) {
+			return true;
+		}
+
+		final int requestedNumNodes = currentNumNodes + relativeNumNodes;
+
+		LOG.info("Changing configuration from " + currentNumNodes + " to " + requestedNumNodes
+				+ " instances of assembly component " + assemblyComponent);
+
+		boolean success = false;
+
+		if (requestedNumNodes > currentNumNodes) {
+			success =
+					this.increaseCapacity(assemblyComponent, executionContainerType, requestedNumNodes
+							- currentNumNodes);
+		} else if (requestedNumNodes < currentNumNodes) {
+			success = this.shrinkCapacity(assemblyComponent, currentNumNodes - requestedNumNodes);
+		}
+
+		return success;
+	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	private Collection<DeploymentComponent> selectActiveDeploymentComponentsForDereplication(
 			final AssemblyComponent assemblyComponent, final int numComponents) {
-		final Collection<DeploymentComponent> activeDeplsForAssemblyComponent =
-				this.modelManager.getComponentDeploymentModelManager()
-						.deploymentComponentsForAssemblyComponent(assemblyComponent, /* do not include inactive ones */false);
+		final List<DeploymentComponent> nodes = this.filterAppsrvNodes(assemblyComponent);
 
-		LOG.info("Found " + activeDeplsForAssemblyComponent.size() + " ACTIVE deployment components");
+		LOG.info("Found " + nodes.size() + " ACTIVE deployment components");
 
-		final Iterator<DeploymentComponent> it = activeDeplsForAssemblyComponent.iterator();
+		final Iterator<DeploymentComponent> it = nodes.iterator();
 		final Collection<DeploymentComponent> result = new ArrayList<DeploymentComponent>();
 
 		while (it.hasNext() && !(result.size() == numComponents)) {
@@ -132,12 +159,31 @@ public class ConfigurationManager {
 		}
 
 		if (result.size() < numComponents) {
-			LOG.error("Requested to select " + numComponents + " components but only " + activeDeplsForAssemblyComponent.size()
-					+ " active (non-excluded) ones exist");
+			LOG.error("Requested to select " + numComponents + " components but only "
+					+ nodes.size() + " active (non-excluded) ones exist");
 			return null;
 		}
 
 		return result;
+	}
+
+	// TODO: why hard-coded "appsrv"?
+	private List<DeploymentComponent> filterAppsrvNodes(final AssemblyComponent assemblyComponent) {
+		final Collection<DeploymentComponent> nodesUnfiltered =
+				this.modelManager.getComponentDeploymentModelManager()
+						.deploymentComponentsForAssemblyComponent(assemblyComponent,
+								/* do not include inactive ones */false);
+
+		final List<DeploymentComponent> nodes = new ArrayList<DeploymentComponent>();
+
+		final Iterator<DeploymentComponent> iterator = nodesUnfiltered.iterator();
+		while (iterator.hasNext()) {
+			final DeploymentComponent deploymentComponent = iterator.next();
+			if (deploymentComponent.getExecutionContainer().getName().startsWith("appsrv")) {
+				nodes.add(deploymentComponent);
+			}
+		}
+		return nodes;
 	}
 
 	private boolean shrinkCapacity(final AssemblyComponent assemblyComponent, final int shrinkBy) {
@@ -175,6 +221,7 @@ public class ConfigurationManager {
 		return success;
 	}
 
+	// TODO: why hard-coded "appsrv"?
 	private boolean increaseCapacity(final AssemblyComponent assemblyComponent,
 			final ExecutionContainerType executionContainerType, final int increaseBy) {
 		// TODO: conceptually, this would involve the creation of a
@@ -183,8 +230,21 @@ public class ConfigurationManager {
 		// execution.
 
 		boolean success = true;
+		final Collection<ExecutionContainer> nodesUnfiltered =
+				this.modelManager.getExecutionEnvironmentModelManager()
+						.executionContainersForType(executionContainerType, false);
 
-		final int curNumContainersForType = this.modelManager.getExecutionEnvironmentModelManager().executionContainersForType(executionContainerType, false).size();
+		final List<ExecutionContainer> nodes = new ArrayList<ExecutionContainer>();
+
+		final Iterator<ExecutionContainer> iterator = nodesUnfiltered.iterator();
+		while (iterator.hasNext()) {
+			final ExecutionContainer executionContainer = iterator.next();
+			if (executionContainer.getName().startsWith("appsrv")) {
+				nodes.add(executionContainer);
+			}
+		}
+
+		final int curNumContainersForType = nodes.size();
 
 		final String fqExecContainerTypeName = NameUtils.createFQName(executionContainerType.getPackageName(), executionContainerType.getName());
 

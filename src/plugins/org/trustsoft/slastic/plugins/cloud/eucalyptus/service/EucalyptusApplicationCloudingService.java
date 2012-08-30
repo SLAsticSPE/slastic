@@ -22,6 +22,7 @@ import java.util.Vector;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.common.ExternalCommandExecuter;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
@@ -32,8 +33,7 @@ import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.Euca
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommand;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.EucalyptusCommandFactory;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration.ExternalCommandExecuter;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.LoadBalancerConnector;
+import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.loadBalancer.EucalyptusLoadBalancerConnector;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.EucalyptusServiceEventNotifier;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.IEucalyptusServiceEventListener;
 import org.trustsoft.slastic.plugins.cloud.model.IApplicationInstance;
@@ -77,7 +77,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 	private final Collection<EucalyptusCloudedApplication> applications = new Vector<EucalyptusCloudedApplication>();
 	private final Collection<EucalyptusApplicationInstance> applicationInstances = new Vector<EucalyptusApplicationInstance>();
 
-	private final LoadBalancerConnector lbConnector;
+	private final EucalyptusLoadBalancerConnector lbConnector;
 
 	private final EucalyptusServiceEventNotifier eventNotifier = new EucalyptusServiceEventNotifier();
 
@@ -97,7 +97,9 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.configuration = config;
 
 		/* Initialize the connector to the LoadBalancerServlet */
-		this.lbConnector = new LoadBalancerConnector(this.configuration.getLoadBalancerServletURL(), false, WGET_LOG);
+		this.lbConnector =
+				new EucalyptusLoadBalancerConnector(this.configuration.getLoadBalancerServletURL(), false,
+						EucalyptusApplicationCloudingService.WGET_LOG);
 		this.lbConnector.setDummyMode(this.configuration.isDummyModeEnabled());
 
 		this.initNodeTypes(); // throws an exception on error
@@ -270,6 +272,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			}
 		}
 
+		final EucalyptusCommand setHostname =
+				EucalyptusCommandFactory.getStartRemoteCommandCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), ipAddress,
+						"/etc/init.d/hostname.sh");
+		executer.executeCommandWithEnv(setHostname,
+				this.configuration.getEucatoolsPath());
+
 		/* 2. Determine hostname */
 
 		final EucalyptusCommand fetchHostnameCommand =
@@ -281,33 +290,6 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 
 		final String hostname = this.getHostnameFromResult(hostResult);
-
-		/* 3. Copy Kieker Configuration */
-
-		// TODO: should be removed as this used to be a work-around
-		// final EucalyptusCommand cpKiekerConfigCommand =
-		// EucalyptusCommandFactory
-		// .getCopyKiekerConfigCommand(
-		// this.configuration.getSSHPrivateKeyFile(),
-		// this.configuration.getSSHUserName(),
-		// // TODO: turn into properties!
-		// this.configuration.getTomcatHome() + "/../lib/META-INF/",
-		// "/home/avh/svn_work/kiel-lehre-ws1011-spe-ffi/software/JavaEEServletContainerExample/Tomcat6.0.18WithJpetStore-withInstrumentedJPetStore/lib/META-INF/kieker.monitoring.properties-jms",
-		// ipAddress);
-		// executer.executeCommandWithEnv(cpKiekerConfigCommand,
-		// this.configuration.getEucatoolsPath());
-
-		/* 4. Start tomcat */
-
-		// TODO: turn tomcat start script into property
-
-		// TODO: should be removed as this used to be a work-around
-		// final EucalyptusCommand startTomcatCommand =
-		// EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
-		// this.configuration.getSSHUserName(), ipAddress,
-		// "/etc/init.d/tomcat");
-		// executer.executeCommandWithEnv(startTomcatCommand,
-		// this.configuration.getEucatoolsPath());
 
 		final EucalyptusCloudNode node = new EucalyptusCloudNode(name, type, instanceID, ipAddress, hostname);
 
@@ -419,7 +401,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		final EucalyptusCloudedApplication app = new EucalyptusCloudedApplication(name, euConfiguration);
 
 		/* Register application in load balancer */
-		if (!this.lbConnector.createContext(app.getName())) {
+		if (!this.lbConnector.createContext("JPetStore")) {
 			final String errorMsg = "Failed to register application '" + app.getName() + "' in load balancer";
 			LOG.error(errorMsg);
 			throw new ApplicationCloudingServiceException(errorMsg);
@@ -500,15 +482,32 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 		this.applicationInstances.add(inst);
 
+		final ExternalCommandExecuter executer =
+				new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
+
 		/* 1. Deploy (if required) */
 		if (!this.configuration.getDefaultApplicationDeploymentArtifact().isEmpty()) {
-			final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 			final EucalyptusCommand applicationDeployCommand =
 					EucalyptusCommandFactory.getApplicationDeployCommand(this.configuration.getSSHPrivateKeyFile(),
 							this.configuration.getSSHUserName(), this.configuration.getTomcatHome(),
 							this.configuration.getDefaultApplicationDeploymentArtifact(), euNode.getIpAddress());
 			executer.executeCommandWithEnv(applicationDeployCommand, this.configuration.getEucatoolsPath());
 		}
+
+		try {
+			Thread.sleep(15 * 1000);
+		} catch (final InterruptedException e) {
+			LOG.error(e.getMessage(), e);
+		}
+
+		/* 2. Start tomcat */
+
+		final EucalyptusCommand startTomcatCommand =
+				EucalyptusCommandFactory.getStartTomcatCommand(this.configuration.getSSHPrivateKeyFile(),
+						this.configuration.getSSHUserName(), euNode.getIpAddress(),
+						"/etc/init.d/tomcat.sh");
+		executer.executeCommandWithEnv(startTomcatCommand,
+				this.configuration.getEucatoolsPath());
 
 		// try {
 		// Thread.sleep(WAIT_SECONDS_AFTER_DEPLOY
@@ -517,7 +516,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		// log.error(e.getMessage(), e);
 		// }
 
-		/* 2. Wait for application to become available */
+		/* 3. Wait for application to become available */
 
 		if (!this.waitUntilInstanceAvailable(euNode.getIpAddress(),
 				this.configuration.getDefaultApplicationInstanceQueryPort(),
@@ -529,7 +528,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			throw new ApplicationCloudingServiceException(errorMsg);
 		}
 
-		/* 3. Add instance to load balancer */
+		/* 4. Add instance to load balancer */
 		if (this.configuration.isLoadBalancerEnabled() && !this.lbConnector.addHost(application.getName(), euNode.getIpAddress())) {
 			final String errorMsg =
 					"Failed to add host '" + euNode.getIpAddress() + "' for application '" + application.getName() + "' in load balancer";
@@ -561,6 +560,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 
 	private boolean waitUntilInstanceAvailable(final String ipAddress, final int port, final String path, final int tryPeriodSeconds, final int maxWaitTimeSeconds) {
 		final String url = ipAddress + ":" + port + "/" + path;
+		System.out.println("Querying " + url);
 		final ExternalCommandExecuter executer = new ExternalCommandExecuter(this.configuration.isDummyModeEnabled());
 		final EucalyptusCommand fetchInstanceWebSite = EucalyptusCommandFactory.getFetchWebSiteCommand(url);
 		String wgetResult = "";
@@ -589,7 +589,13 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 			}
 
 			wgetResult = executer.executeCommandWithEnv(fetchInstanceWebSite, this.configuration.getEucatoolsPath());
-			if (this.configuration.isDummyModeEnabled() && (((totalWaitTimeSeconds + tryPeriodSeconds) > maxWaitTimeSeconds) // (max possible number of tries)
+			if (this.configuration.isDummyModeEnabled()
+					&& (((totalWaitTimeSeconds + tryPeriodSeconds) > maxWaitTimeSeconds) // (max.
+																							// possible
+																							// number
+																							// of
+																							// tries)
+																							// )
 					|| (maxWaitTimeSeconds > 5))) {
 				wgetResult = this.WGET_SUCCESS_EXAMPLE;
 
@@ -628,7 +634,9 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		this.applicationInstances.remove(instance);
 
 		/* 1. Remove from load balancer */
-		if (this.configuration.isLoadBalancerEnabled() && !this.lbConnector.removeHost(instance.getApplication().getName(), euNode.getIpAddress())) {
+
+		if (this.configuration.isLoadBalancerEnabled()
+				&& !this.lbConnector.removeHost(instance.getApplication().getName(), euNode.getIpAddress())) {
 			final String errorMsg =
 					"Failed to remove host '" + euNode.getIpAddress() + "' for application '" + instance.getApplication().getName() + "' from load balancer";
 			LOG.error(errorMsg);

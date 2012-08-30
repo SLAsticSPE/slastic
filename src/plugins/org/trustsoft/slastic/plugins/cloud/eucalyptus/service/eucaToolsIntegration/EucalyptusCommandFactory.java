@@ -22,38 +22,48 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegrat
  * 
  */
 public class EucalyptusCommandFactory {
-	private final static String allocateNodeCommand = /* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && ";
+	private final static String allocateNodeCommand =
+			/* proxychains */"euca-run-instances && --key && KEY-NAME && --group && GROUP-NAME && -t && m1.small && ";
 	private final static String startRemoteCommandCommand =
 			"ssh && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SSH_USER_NAME@DESTIP && 'REMOTE-COMMAND'";
-	private final static String deallocateNodeCommand = /* proxychains */"euca-terminate-instances && ";
-	private final static String describeNodeCommand = /* proxychains */"euca-describe-instances && ";
+	private final static String deallocateNodeCommand =
+			/* proxychains */"euca-terminate-instances && ";
+	private final static String describeNodeCommand =
+			/* proxychains */"euca-describe-instances && ";
 
 	// needs SSH StrictHostKeyChecking disabled
-	private final static String applicationDeployCommand = "scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+	private final static String applicationDeployCommand =
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "webapps/";
 	private final static String applicationUndeployCommand = "ls"; // TODO fixme
 
-	private final static String cpKiekerConfigCommand = "scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME";
+	private final static String cpKiekerConfigCommand =
+			"scp && -i && SSH_PRIV_KEY && -o && StrictHostKeyChecking=no && SOURCEFILE && SSH_USER_NAME@DESTIP:TOMCAT_HOME" + "lib/META-INF/";
 
-	private final static String fetchWebSiteCommand = "wget && URL";
+	private final static String fetchWebSiteCommand =
+			"wget && URL";
 
 	private EucalyptusCommandFactory() {}
 
 	public static EucalyptusCommand getAllocateNodeCommand(
 			final String emiNumber, final String keyName, final String group) {
-		String command = EucalyptusCommandFactory.allocateNodeCommand + emiNumber;
+		String command =
+				EucalyptusCommandFactory.allocateNodeCommand + emiNumber;
 		command = command.replaceAll("KEY-NAME", keyName);
 		command = command.replaceAll("GROUP-NAME", group);
 		return new EucalyptusCommand(command);
 
 	}
 
-	public static EucalyptusCommand getDescribeNodeCommand(final String instanceID) {
-		return new EucalyptusCommand(EucalyptusCommandFactory.describeNodeCommand + instanceID);
+	public static EucalyptusCommand getDescribeNodeCommand(
+			final String instanceID) {
+		return new EucalyptusCommand(
+				EucalyptusCommandFactory.describeNodeCommand + instanceID);
 	}
 
 	public static EucalyptusCommand getDeallocateNodeCommand(
 			final String instanceID) {
-		return new EucalyptusCommand(EucalyptusCommandFactory.deallocateNodeCommand + instanceID);
+		return new EucalyptusCommand(
+				EucalyptusCommandFactory.deallocateNodeCommand + instanceID);
 	}
 
 	public static EucalyptusCommand getApplicationDeployCommand(
@@ -86,7 +96,8 @@ public class EucalyptusCommandFactory {
 		return new EucalyptusCommand(command);
 	}
 
-	public static EucalyptusCommand getFetchWebSiteCommand(final String url) {
+	public static EucalyptusCommand getFetchWebSiteCommand(
+			final String url) {
 		String command = EucalyptusCommandFactory.fetchWebSiteCommand;
 
 		command = command.replace("URL", url);
@@ -97,7 +108,8 @@ public class EucalyptusCommandFactory {
 	public static EucalyptusCommand getStartTomcatCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP, final String tomcatStartScript) {
-		return EucalyptusCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName, instanceIP, tomcatStartScript);
+		return EucalyptusCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName,
+				instanceIP, tomcatStartScript);
 	}
 
 	// TODO: turn /bin/hostname into property
@@ -105,7 +117,8 @@ public class EucalyptusCommandFactory {
 	public static EucalyptusCommand getFetchHostnameCommand(
 			final String sshPrivKey, final String sshUserName,
 			final String instanceIP) {
-		return EucalyptusCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName, instanceIP, "/bin/hostname");
+		return EucalyptusCommandFactory.getStartRemoteCommandCommand(sshPrivKey, sshUserName,
+				instanceIP, "/bin/hostname");
 	}
 
 	public static EucalyptusCommand getStartRemoteCommandCommand(
@@ -121,7 +134,8 @@ public class EucalyptusCommandFactory {
 		return new EucalyptusCommand(command);
 	}
 
-	public static EucalyptusCommand getApplicationUndeployCommand(final String warFile, final String instanceIP) {
+	public static EucalyptusCommand getApplicationUndeployCommand(
+			final String warFile, final String instanceIP) {
 		String command = EucalyptusCommandFactory.applicationUndeployCommand;
 
 		command = command.replace("SOURCEFILE", warFile);

@@ -14,18 +14,22 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service;
+package org.trustsoft.slastic.plugins.cloud.common;
+
+import java.util.List;
 
 /**
+ * Observer used for the different handlers. When the results of the external
+ * program are ready, the resultsReady procedure is called
  * 
- * @author Andre van Hoorn
- *
+ * @author Florian Fittkau
+ * 
  */
-public class SystemCurrentTimeProvider implements ICurrentTimeProvider {
-
-	@Override
-	public long getCurrentTimeMillis() {
-		return System.currentTimeMillis();
-	}
-
+public interface IResultObserver {
+	/**
+	 * called when the results are complete and available for further use
+	 * 
+	 * @param results
+	 */
+	void resultsReady(List<String> results);
 }

@@ -21,7 +21,7 @@ package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
+import org.trustsoft.slastic.plugins.cloud.common.ICurrentTimeProvider;
 
 /**
  * @author Andre van Hoorn

@@ -48,7 +48,7 @@ public class PerformanceEvaluator extends AbstractPerformanceEvaluatorComponent 
 
 	// TODO: to be configured via properties
 	private final int winTimeSec = 60;
-	private final int outputIntervalSec = 15;
+	private final int outputIntervalSec = 60;
 
 	@Override
 	public boolean execute() {

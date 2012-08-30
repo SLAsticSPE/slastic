@@ -22,13 +22,13 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.trustsoft.slastic.plugins.cloud.common.ICurrentTimeProvider;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNode;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudNodeType;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.model.EucalyptusCloudedApplication;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.EucalyptusApplicationCloudingService;
-import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.ICurrentTimeProvider;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.configuration.IEucalyptusApplicationCloudingServiceConfiguration;
 import org.trustsoft.slastic.plugins.cloud.eucalyptus.service.logging.AbstractEucalyptusServiceEventLogger;
 import org.trustsoft.slastic.plugins.cloud.service.ApplicationCloudingServiceException;
@@ -54,7 +54,7 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 	private static final String PROPERTY_CONFIGURATIONFN_NAME = "configFile";
 
-	private static final String PROPERTY_DEFAULT_NODE_TYPE_NAME = "defaultEucaNodeType";
+	private static final String PROPERTY_DEFAULT_NODE_TYPE_NAME = "defaultNodeType";
 
 	private static final String EUCALYPTUS_EVENT_LOG = "eucalyptus-events.log";
 
@@ -195,11 +195,15 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 	 * @param executionContainer
 	 * @return
 	 */
+	// TODO: why System.out.println's?
 	private EucalyptusCloudNode eucaNodeForExecutionContainer(final ExecutionContainer executionContainer) {
 		final String fqContainerName =
 				NameUtils.createFQName(executionContainer.getPackageName(), executionContainer.getName());
+		System.out.println("FQ Container name: " + fqContainerName);
 		final String eucaNodeName =
 				this.modelManager.getArch2ImplNameMappingManager().lookupImplName4ArchName(EntityType.EXECUTION_CONTAINER, fqContainerName);
+
+		System.out.println("Euca node name: " + eucaNodeName);
 
 		final EucalyptusCloudNode cloudNode = (EucalyptusCloudNode) this.eucalyptusApplicationCloudingService.lookupNode(eucaNodeName);
 

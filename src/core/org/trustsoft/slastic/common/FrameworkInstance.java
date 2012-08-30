@@ -56,6 +56,7 @@ public class FrameworkInstance {
 	private final AtomicBoolean terminated = new AtomicBoolean(false);
 
 	public static final String COMPONENT_CLASSNAME_PROPNAME = "classname";
+	public static final String DIRECTORYTOWRITE_PROPNAME = "directoryToWrite";
 
 	/**
 	 * Avoid construction via default constructor
@@ -142,7 +143,7 @@ public class FrameworkInstance {
 						curPropName.replaceFirst(AbstractReconfigurationManagerComponent.PROP_PREFIX + ".", ""), prop.getProperty(curPropName));
 			}
 			if (!storedProp) {
-				LOG.warn("Unknown property name '" + curPropName + "");
+				LOG.warn("Unknown property name '" + curPropName + "'");
 			}
 		}
 	}
@@ -227,8 +228,10 @@ public class FrameworkInstance {
 				throw new IllegalArgumentException("Failed to wire the components. See log for details");
 			}
 
-			if (!this.configuration.createAndSetComponentContexts()) {
-				throw new IllegalArgumentException("Failed to set component contexts. See log for details");
+			if (!this.configuration.createAndSetComponentContexts(prop.getProperty(
+					FrameworkInstance.DIRECTORYTOWRITE_PROPNAME, "/tmp"))) {
+				throw new IllegalArgumentException(
+						"Failed to set component contexts. See log for details");
 			}
 
 		} catch (final Exception exc) {

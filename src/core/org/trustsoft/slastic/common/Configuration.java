@@ -63,7 +63,7 @@ public class Configuration {
 	public final Properties adaptationPlannerComponentProperties = new Properties();
 	public final Properties reconfigurationManagerComponentProperties = new Properties();
 
-	private final IComponentContext rootContext = ComponentContext.createRootContext("");
+	private volatile IComponentContext rootContext; // will be set in #createAndSetComponentContexts
 
 	/**
 	 * @return the rootContext
@@ -174,7 +174,9 @@ public class Configuration {
 		return true;
 	}
 
-	public boolean createAndSetComponentContexts() {
+	public boolean createAndSetComponentContexts(final String fulldirname) {
+		this.rootContext = ComponentContext.createRootContext("", fulldirname);
+
 		if (this.rootContext == null) {
 			return false;
 		}

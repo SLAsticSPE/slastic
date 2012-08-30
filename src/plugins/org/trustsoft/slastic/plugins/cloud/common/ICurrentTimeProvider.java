@@ -14,22 +14,18 @@
  * limitations under the License.
  ***************************************************************************/
 
-package org.trustsoft.slastic.plugins.cloud.eucalyptus.service.eucaToolsIntegration;
-
-import java.util.List;
+package org.trustsoft.slastic.plugins.cloud.common;
 
 /**
- * Observer used for the different handlers. When the results of the external
- * program are ready, the resultsReady procedure is called
  * 
- * @author Florian Fittkau
+ * @author Andre van Hoorn
  * 
  */
-public interface IResultObserver {
+public interface ICurrentTimeProvider {
+	public static ICurrentTimeProvider SYSTEM_CURRENT_TIME_PROVIDER = new SystemCurrentTimeProvider();
+
 	/**
-	 * called when the results are complete and available for further use
-	 * 
-	 * @param results
+	 * Returns the current time in milliseconds since January 1, 1970 (UTC).
 	 */
-	void resultsReady(List<String> results);
+	public long getCurrentTimeMillis();
 }

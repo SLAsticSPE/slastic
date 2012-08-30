@@ -1,1 +1,5 @@
+/META-INF/slastic.framework.properties
+/META-INF/slastic.simulation.properties
+/dist
+/build
 *~
