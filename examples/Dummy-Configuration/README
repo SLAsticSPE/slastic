@@ -55,6 +55,6 @@ and terminate.
    $ bin/slastic.sh -f slastic.framework.properties
      
 2.2 Calling java directly [Remember to change slastic-<version>.jar into the real file name!]:
-
-   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp lib/commons-cli-1.2.jar:lib/commons-logging-1.1.1.jar:lib/esper-4.0.0.jar:lib/log4j-1.2.16.jar:lib/org.eclipse.emf.common_2.5.0.v200906151043.jar:lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar:lib/ReconfigurationPlanMM_1.0.0.jar:lib/slastic-<version>.jar kieker.tools.slastic.plugins.starter.SLAsticStarter -f slastic.framework.properties
+   $ CLASSPATH=$(ls lib/*.jar | tr "\n" ":")
+   $ java -Dlog4j.configuration=META-INF/slastic.log4j.properties -cp ${CLASSPATH} kieker.tools.slastic.plugins.starter.SLAsticStarter -f slastic.framework.properties
 

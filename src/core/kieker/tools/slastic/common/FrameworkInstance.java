@@ -89,8 +89,7 @@ public class FrameworkInstance {
 	 * @param prop
 	 * @throws IllegalArgumentException
 	 */
-	private void initComponentProperties(final Properties prop)
-			throws IllegalArgumentException {
+	private void initComponentProperties(final Properties prop) throws IllegalArgumentException {
 		for (final String curPropName : prop.stringPropertyNames()) {
 			boolean storedProp = false;
 			if (curPropName.startsWith(AbstractPerformanceEvaluatorComponent.PROP_PREFIX + ".")) {
@@ -185,8 +184,7 @@ public class FrameworkInstance {
 	 * @param prop
 	 * @throws IllegalArgumentException
 	 */
-	private void initConfiguration(final Properties prop)
-			throws IllegalArgumentException {
+	private void initConfiguration(final Properties prop) throws IllegalArgumentException {
 		try {
 			this.initComponentProperties(prop);
 
@@ -229,8 +227,8 @@ public class FrameworkInstance {
 				throw new IllegalArgumentException("Failed to wire the components. See log for details");
 			}
 
-			if (!this.configuration.createAndSetComponentContexts(prop.getProperty(
-					FrameworkInstance.DIRECTORYTOWRITE_PROPNAME, "/tmp"))) {
+			if (!this.configuration
+					.createAndSetComponentContexts(prop.getProperty(FrameworkInstance.DIRECTORYTOWRITE_PROPNAME, System.getProperty("java.io.tmpdir")))) {
 				throw new IllegalArgumentException(
 						"Failed to set component contexts. See log for details");
 			}
