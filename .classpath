@@ -51,9 +51,6 @@
 	<classpathentry kind="lib" path="lib/slastic.metamodel.editor_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/slastic.metamodel.tests_1.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/spice-jndikit-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.emf.common_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore_2.5.0.v200906151043.jar"/>
-	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi_2.5.0.v200906151043.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ocl_1.1.101.v200808291106.jar"/>
 	<classpathentry kind="lib" path="lib/aspectjtools-1.6.9.jar"/>
 	<classpathentry kind="lib" path="lib/aspectjweaver-1.6.9.jar"/>
@@ -79,5 +76,8 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/kieker-1.6-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.common-2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore-2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi-2.7.0.v20120127-1122.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
