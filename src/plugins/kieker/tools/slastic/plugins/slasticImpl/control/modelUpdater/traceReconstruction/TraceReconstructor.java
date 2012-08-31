@@ -25,14 +25,10 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.exolab.jms.net.connector.IllegalStateException;
-
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 import com.espertech.esper.client.EventBean;
 import com.espertech.esper.client.UpdateListener;
-
-import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
@@ -44,6 +40,7 @@ import kieker.tools.slastic.metamodel.usage.SynchronousCallMessage;
 import kieker.tools.slastic.metamodel.usage.SynchronousReplyMessage;
 import kieker.tools.slastic.metamodel.usage.UsageFactory;
 import kieker.tools.slastic.metamodel.usage.ValidExecutionTrace;
+import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 
 /**
  * 

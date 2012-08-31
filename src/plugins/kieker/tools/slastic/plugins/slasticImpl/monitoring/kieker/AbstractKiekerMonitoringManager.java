@@ -90,7 +90,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		 */
 		final CurrentTimeSetter currentTimeSetterFilter = new CurrentTimeSetter(new Configuration(), this.getController());
 		analysisInstance.registerFilter(currentTimeSetterFilter);
-		analysisInstance.connect(currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.OUTPUT_PORT_NAME_CURRENT_TIME,
+		analysisInstance.connect(currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.OUTPUT_PORT_NAME_CURRENT_TIME_VALUE,
 				currentTimeSetterFilter, CurrentTimeSetter.INPUT_PORT_NAME_TIMER_EVENTS_NANOS);
 
 		/*

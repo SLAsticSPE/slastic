@@ -21,18 +21,15 @@ import java.util.Collection;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.exolab.jms.net.connector.IllegalStateException;
-
+import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
+import kieker.tools.slastic.metamodel.usage.ExecutionTrace;
+import kieker.tools.slastic.metamodel.usage.InvalidExecutionTrace;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction.TraceReconstructor;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
 import kieker.tools.slastic.tests.junit.framework.monitoring.reconstruction.exampleTraces.BookstoreTraceFactory;
-
-import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
-import kieker.tools.slastic.metamodel.usage.ExecutionTrace;
-import kieker.tools.slastic.metamodel.usage.InvalidExecutionTrace;
 
 /**
  * Tests the method {@link TraceReconstructor#reconstructMessageTrace(java.util.List, kieker.tools.slastic.metamodel.monitoring.OperationExecution)}.
