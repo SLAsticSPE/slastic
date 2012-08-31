@@ -19,9 +19,9 @@ configuration file needs to be adjusted accordingly.
 
      commons-cli-1.2.jar
      commons-logging-1.1.1.jar
-     esper-4.3.0.jar
-     org.eclipse.emf.common_2.5.0.v200906151043.jar
-     org.eclipse.emf.ecore_2.5.0.v200906151043.jar
+     esper-<version>.jar
+     org.eclipse.emf.common_<version>.jar
+     org.eclipse.emf.ecore_<version>.jar
      ReconfigurationPlanMM_1.0.0.jar
 
      // if log4j (http://logging.apache.org/) shall be used:

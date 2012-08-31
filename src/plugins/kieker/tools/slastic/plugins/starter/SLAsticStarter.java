@@ -16,6 +16,9 @@
 
 package kieker.tools.slastic.plugins.starter;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -27,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import kieker.tools.slastic.common.FrameworkInstance;
+import kieker.tools.slastic.common.util.FileUtils;
 import kieker.tools.slastic.common.util.PropertiesFileUtils;
 
 /**
@@ -45,6 +49,16 @@ public class SLAsticStarter {
 	private static final Options cmdlOpts = new Options();
 	private static final String CMD_LONG_OPT_START_FRAMEWORK = "start-framework";
 	private static final String CMD_LONG_OPT_START_SIMULATION = "start-simulation";
+
+	/**
+	 * Will be initialized in {@link #initSLAsticInstanceFromArgs()}
+	 */
+	private static String frameworkConfigurationFile;
+
+	/**
+	 * Will be initialized in {@link #initSLAsticSimulationInstanceFromArgs()}
+	 */
+	private static String simulationConfigurationFile;
 
 	static {
 		cmdlOpts.addOption(OptionBuilder.withArgName("file").hasArg().withLongOpt(CMD_LONG_OPT_START_FRAMEWORK).isRequired(true)
@@ -67,6 +81,12 @@ public class SLAsticStarter {
 			if (frameworkInst == null) {
 				LOG.error("Failed to init SLAstic framework instance");
 				System.exit(1);
+			}
+			// copy configuration file to the project directory
+			try {
+				FileUtils.copyFileToDir(new File(frameworkConfigurationFile), new File(frameworkInst.getConfiguration().getRootContext().getDirectoryLocation()));
+			} catch (final IOException e) {
+				LOG.fatal("Failed to copy the framework configuration file", e);
 			}
 			if (!frameworkInst.run()) {
 				LOG.fatal("SLAstic framework instance return with error");
@@ -95,7 +115,7 @@ public class SLAsticStarter {
 	 */
 	private static SLAsticSimulatorInstance initSLAsticSimulationInstanceFromArgs()
 			throws IllegalArgumentException {
-		final String simulationConfigurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_SIMULATION);
+		simulationConfigurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_SIMULATION);
 
 		if (simulationConfigurationFile == null) {
 			LOG.fatal("Missing value for command line option '" + CMD_LONG_OPT_START_SIMULATION + "'");
@@ -119,16 +139,16 @@ public class SLAsticStarter {
 	 */
 	private static FrameworkInstance initSLAsticInstanceFromArgs()
 			throws IllegalArgumentException {
-		final String configurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_FRAMEWORK);
+		frameworkConfigurationFile = cmdl.getOptionValue(CMD_LONG_OPT_START_FRAMEWORK);
 
-		if (configurationFile == null) {
+		if (frameworkConfigurationFile == null) {
 			LOG.fatal("Missing value for command line option '" + CMD_LONG_OPT_START_FRAMEWORK + "'");
 			throw new IllegalArgumentException("Missing value for command line option '" + CMD_LONG_OPT_START_FRAMEWORK + "'");
 		}
 
 		FrameworkInstance inst = null;
 		try {
-			inst = new FrameworkInstance(PropertiesFileUtils.loadPropertiesFile(configurationFile));
+			inst = new FrameworkInstance(PropertiesFileUtils.loadPropertiesFile(frameworkConfigurationFile));
 		} catch (final Exception exc) {
 			LOG.error("Error creating SLAsticInstance", exc);
 			throw new IllegalArgumentException("Error creating SLAsticInstance", exc);
