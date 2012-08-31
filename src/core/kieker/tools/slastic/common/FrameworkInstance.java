@@ -290,8 +290,7 @@ public class FrameworkInstance {
 		this.terminateComponent(this.configuration.controlComponent, "ControlComponent", error);
 	}
 
-	private boolean executeComponent(final AbstractSLAsticComponent component,
-			final String componentType) {
+	private boolean executeComponent(final AbstractSLAsticComponent component, final String componentType) {
 		if ((component == null) || !component.execute()) {
 			LOG.error(componentType + " failed to execute");
 			return false;
