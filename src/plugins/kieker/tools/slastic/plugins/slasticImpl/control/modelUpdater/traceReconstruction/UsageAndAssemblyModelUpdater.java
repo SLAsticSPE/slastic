@@ -29,11 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
 
-import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyModel;
@@ -51,6 +46,10 @@ import kieker.tools.slastic.metamodel.usage.SynchronousCallMessage;
 import kieker.tools.slastic.metamodel.usage.SynchronousReplyMessage;
 import kieker.tools.slastic.metamodel.usage.UsageModel;
 import kieker.tools.slastic.metamodel.usage.ValidExecutionTrace;
+import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 
 /**
  * 
@@ -76,8 +75,7 @@ public class UsageAndAssemblyModelUpdater {
 	 * @param epService
 	 * @param modelManager
 	 */
-	public UsageAndAssemblyModelUpdater(final EPServiceProvider epService,
-			final ModelManager modelManager) {
+	public UsageAndAssemblyModelUpdater(final EPServiceProvider epService, final ModelManager modelManager) {
 		this.epService = epService;
 		this.modelManager = modelManager;
 		this.typeRepositoryModelManager = this.modelManager.getTypeRepositoryManager();

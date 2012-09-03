@@ -68,9 +68,7 @@ public class TraceReconstructor implements UpdateListener {
 		this.epService = epService;
 		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
 
-		final EPStatement statement =
-				this.epService.getEPAdministrator().createEPL(
-						this.getCEPStatement());
+		final EPStatement statement = this.epService.getEPAdministrator().createEPL(this.getCEPStatement());
 		statement.addListener(this);
 	}
 
@@ -99,8 +97,7 @@ public class TraceReconstructor implements UpdateListener {
 					.replaceAll("VAR_NAME", VAR_NAME);
 
 	private String getCEPStatement() {
-		return EXPRESSION
-				.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
+		return EXPRESSION.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
 	@Override
@@ -202,8 +199,7 @@ public class TraceReconstructor implements UpdateListener {
 	 * @return
 	 */
 	private static SynchronousReplyMessage createSynchronousReplyMessage(final long timestamp, final OperationExecution sender, final OperationExecution receiver) {
-		final SynchronousReplyMessage m =
-				UsageFactory.eINSTANCE.createSynchronousReplyMessage();
+		final SynchronousReplyMessage m = UsageFactory.eINSTANCE.createSynchronousReplyMessage();
 		m.setTimestamp(timestamp);
 		m.setSender(sender);
 		m.setReceiver(receiver);
@@ -219,8 +215,7 @@ public class TraceReconstructor implements UpdateListener {
 	 * @return
 	 */
 	private static SynchronousCallMessage createSynchronousCallMessage(final long timestamp, final OperationExecution sender, final OperationExecution receiver) {
-		final SynchronousCallMessage m =
-				UsageFactory.eINSTANCE.createSynchronousCallMessage();
+		final SynchronousCallMessage m = UsageFactory.eINSTANCE.createSynchronousCallMessage();
 		m.setTimestamp(timestamp);
 		m.setSender(sender);
 		m.setReceiver(receiver);
@@ -290,13 +285,11 @@ public class TraceReconstructor implements UpdateListener {
 			}
 
 			if ((itNum++ == 0) && (curE.getEss() != 0)) {
-				throw new IllegalStateException("First execution must have ess "
-						+ "0 (found " + curE.getEss() + ")\n Causing execution: " + curE);
+				throw new IllegalStateException("First execution must have ess " + "0 (found " + curE.getEss() + ")\n Causing execution: " + curE);
 			}
 			if (prevEoi != (curE.getEoi() - 1)) {
 				throw new IllegalStateException("Eois must increment by 1 --"
-						+ "but found sequence <" + prevEoi + "," + curE.getEoi() + ">" + "(Execution: " + curE
-						+ ")");
+						+ "but found sequence <" + prevEoi + "," + curE.getEoi() + ">" + "(Execution: " + curE + ")");
 			}
 			prevEoi = curE.getEoi();
 
@@ -309,8 +302,7 @@ public class TraceReconstructor implements UpdateListener {
 					final Message poppedCall = curStack.pop();
 					prevE = poppedCall.getReceiver();
 					curReturnReceiver = poppedCall.getSender();
-					final Message m = TraceReconstructor.createSynchronousReplyMessage(prevE.getTout(),
-							prevE, curReturnReceiver);
+					final Message m = TraceReconstructor.createSynchronousReplyMessage(prevE.getTout(), prevE, curReturnReceiver);
 					mSeq.add(m);
 					prevE = curReturnReceiver;
 				}
@@ -330,8 +322,7 @@ public class TraceReconstructor implements UpdateListener {
 				// detect ess incrementation by > 1
 				final IllegalStateException ex =
 						new IllegalStateException("Ess are only allowed to increment by 1 --"
-								+ "but found sequence <" + prevE.getEss() + "," + curE.getEss() + ">" + "(Execution: "
-								+ curE + ")");
+								+ "but found sequence <" + prevE.getEss() + "," + curE.getEss() + ">" + "(Execution: " + curE + ")");
 				throw ex;
 			}
 			if (!eSeqIt.hasNext()) { // empty stack completely, since no more
@@ -343,8 +334,7 @@ public class TraceReconstructor implements UpdateListener {
 					final Message poppedCall = curStack.pop();
 					prevE = poppedCall.getReceiver();
 					curReturnReceiver = poppedCall.getSender();
-					final Message m =
-							TraceReconstructor.createSynchronousReplyMessage(prevE.getTout(), prevE, curReturnReceiver);
+					final Message m = TraceReconstructor.createSynchronousReplyMessage(prevE.getTout(), prevE, curReturnReceiver);
 					mSeq.add(m);
 					prevE = curReturnReceiver;
 				}
