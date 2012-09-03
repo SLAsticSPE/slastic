@@ -74,8 +74,8 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 	protected boolean startReplay(final String controllerConfigurationFN) {
 		final FilesystemLogReplayer fsReplayer = new FilesystemLogReplayer(
 				controllerConfigurationFN,
-				this.realtimeMode,
-				this.realtimeMode,
+				this.realtimeMode, // realtimeMode?
+				true, // keepOriginalLoggingTimestamp (as we are simply passing the data)
 				this.numRealtimeWorkerThreads, // keep logging timestamp iff realtimeMode == true
 				this.ignoreRecordsBeforeTimestamp,
 				this.ignoreRecordsAfterTimestamp,
