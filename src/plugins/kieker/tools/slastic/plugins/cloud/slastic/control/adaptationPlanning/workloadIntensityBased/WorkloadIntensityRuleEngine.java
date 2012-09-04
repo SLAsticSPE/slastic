@@ -28,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
-
 import kieker.tools.slastic.plugins.cloud.slastic.control.adaptationPlanning.ConfigurationManager;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.IAssemblyComponentInvocationCountReceiver;
@@ -99,11 +98,9 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 	}
 
 	@Override
-	public synchronized void update(final long currentTimestampMillis, final AssemblyComponent assemblyComponent,
-			final Long count) {
+	public synchronized void update(final long currentTimestampMillis, final AssemblyComponent assemblyComponent, final Long count) {
 
-		final String fqAssemblyComponentName =
-				NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
+		final String fqAssemblyComponentName = NameUtils.createFQName(assemblyComponent.getPackageName(), assemblyComponent.getName());
 
 		final NumDeploymentsForAssemblyComponentRuleSet rs = this.ruleSets.get(fqAssemblyComponentName);
 
@@ -112,8 +109,7 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 			return;
 		}
 
-		LOG.info("Incoming intensity: "
-				+ LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000)) + ": " + count);
+		LOG.info("Incoming intensity: " + LoggingTimestampConverter.convertLoggingTimestampToUTCString(currentTimestampMillis * (1000 * 1000)) + ": " + count);
 
 		final String fqExecutionContainerTypeName = rs.getFQExecutionContainerTypeName();
 		final ExecutionContainerType executionContainerType =
@@ -127,8 +123,7 @@ public class WorkloadIntensityRuleEngine implements IAssemblyComponentInvocation
 		final AtomicReference<WorkloadIntensityEvent> pendingEventRef =
 				this.pendingWorkloadIntensityEvents.get(fqAssemblyComponentName);
 
-		final WorkloadIntensityEvent oldEvent =
-				pendingEventRef.getAndSet(new WorkloadIntensityEvent(currentTimestampMillis, count));
+		final WorkloadIntensityEvent oldEvent = pendingEventRef.getAndSet(new WorkloadIntensityEvent(currentTimestampMillis, count));
 		if (oldEvent != null) {
 			LOG.info("Dropping " + oldEvent);
 		}

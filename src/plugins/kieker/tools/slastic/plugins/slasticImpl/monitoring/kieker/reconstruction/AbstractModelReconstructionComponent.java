@@ -20,11 +20,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 
-import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
-import kieker.tools.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
-import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractTransformationComponent;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
@@ -39,6 +34,10 @@ import kieker.tools.slastic.metamodel.typeRepository.ResourceType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
+import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
+import kieker.tools.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
+import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractTransformationComponent;
 
 /**
  * 
@@ -349,8 +348,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	protected Operation lookupOrCreateOperationByName(final ComponentType componentType,
 			final String signatureName, final String returnType, final String[] argTypes) {
 
-		Operation res =
-				this.getTypeModelManager().lookupOperation(componentType, signatureName, returnType, argTypes);
+		Operation res = this.getTypeModelManager().lookupOperation(componentType, signatureName, returnType, argTypes);
 
 		if (res == null) {
 			res = this.getTypeModelManager().createAndRegisterOperation(componentType, signatureName, returnType, argTypes);
@@ -358,8 +356,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 			/* Now, we want to add the new operation also to the interface */
 			final EList<Interface> providedInterfaces = res.getComponentType().getProvidedInterfaces();
 			if (providedInterfaces.isEmpty()) {
-				LOG.warn("Component type " + componentType
-						+ " has no provided interface yet. Cannot add operation signature.");
+				LOG.warn("Component type " + componentType + " has no provided interface yet. Cannot add operation signature.");
 			} else {
 				// Add the operation to the last interface in the list (as this
 				// should be the one we've added in #createAssemblyComponent)
