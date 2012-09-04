@@ -146,8 +146,8 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 			return false;
 		}
 		final Configuration monitoringRecordLoggerFilterConfig = new Configuration();
+		monitoringRecordLoggerFilterConfig.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.FALSE.toString());
 		monitoringRecordLoggerFilterConfig.setProperty(MonitoringRecordLoggerFilter.CONFIG_PROPERTY_NAME_MONITORING_PROPS_FN, teeFilterControllerConfigFn);
-		monitoringRecordLoggerFilterConfig.setProperty(MonitoringRecordLoggerFilter.CONFIG_PROPERTY_NAME_KEEP_LOGGING_TIMESTAMP, Boolean.TRUE.toString());
 		final MonitoringRecordLoggerFilter monitoringRecordLoggerFilter = new MonitoringRecordLoggerFilter(monitoringRecordLoggerFilterConfig);
 		analysisController.registerFilter(monitoringRecordLoggerFilter);
 		analysisController.connect(reader, readerOutputPortName, monitoringRecordLoggerFilter, MonitoringRecordLoggerFilter.INPUT_PORT_NAME_RECORD);
