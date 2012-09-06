@@ -30,9 +30,9 @@ configuration file needs to be adjusted accordingly.
      commons-logging-<version>.jar
      esper-<version>.jar
      kieker-<version>.jar
-     org.eclipse.emf.common_<version>.jar
-     org.eclipse.emf.ecore_<version>.jar
-     org.eclipse.emf.ecore.xmi_<version>.jar
+     org.eclipse.emf.common-<version>.jar
+     org.eclipse.emf.ecore-<version>.jar
+     org.eclipse.emf.ecore.xmi-<version>.jar
      ReconfigurationPlanMM_1.0.0.jar
 
      // if log4j (http://logging.apache.org/) shall be used:
