@@ -43,8 +43,7 @@ import kieker.tools.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasureme
  * @author Andre van Hoorn
  */
 @Deprecated
-public class KiekerRecordDelegationMonitoringManager extends
-		AbstractKiekerMonitoringManager {
+public class KiekerRecordDelegationMonitoringManager extends AbstractKiekerMonitoringManager {
 
 	private static final Log LOG = LogFactory.getLog(KiekerRecordDelegationMonitoringManager.class);
 
@@ -91,11 +90,6 @@ public class KiekerRecordDelegationMonitoringManager extends
 
 		@Override
 		public Configuration getCurrentConfiguration() {
-			return new Configuration();
-		}
-
-		@Override
-		protected Configuration getDefaultConfiguration() {
 			return new Configuration();
 		}
 	}

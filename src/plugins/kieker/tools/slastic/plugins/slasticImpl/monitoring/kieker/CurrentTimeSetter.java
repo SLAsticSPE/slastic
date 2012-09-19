@@ -16,7 +16,6 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker;
 
-
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
 import kieker.common.configuration.Configuration;
@@ -46,11 +45,6 @@ public class CurrentTimeSetter extends AbstractFilterPlugin {
 
 	@Override
 	public Configuration getCurrentConfiguration() {
-		return new Configuration();
-	}
-
-	@Override
-	protected Configuration getDefaultConfiguration() {
 		return new Configuration();
 	}
 }

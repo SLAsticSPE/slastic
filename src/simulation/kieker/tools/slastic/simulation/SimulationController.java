@@ -164,11 +164,6 @@ public class SimulationController {
 		public Configuration getCurrentConfiguration() {
 			return new Configuration();
 		}
-
-		@Override
-		protected Configuration getDefaultConfiguration() {
-			return new Configuration();
-		}
 	}
 
 	private final AbstractFilterPlugin monitoringRecordConsumerFilter = new MonitoringRecordConsumerFilter(new Configuration());

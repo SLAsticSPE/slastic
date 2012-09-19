@@ -23,14 +23,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import kieker.tools.slastic.metamodel.core.IEvent;
-
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
 import kieker.common.configuration.Configuration;
 import kieker.common.record.IMonitoringRecord;
 import kieker.monitoring.core.IMonitoringRecordReceiver;
 import kieker.tools.slastic.control.AbstractControlComponent;
+import kieker.tools.slastic.metamodel.core.IEvent;
 
 /**
  * 
@@ -112,11 +111,6 @@ public class MonitoringRecordConsumerFilterChain extends AbstractFilterPlugin {
 
 	@Override
 	public Configuration getCurrentConfiguration() {
-		return new Configuration();
-	}
-
-	@Override
-	protected Configuration getDefaultConfiguration() {
 		return new Configuration();
 	}
 };
