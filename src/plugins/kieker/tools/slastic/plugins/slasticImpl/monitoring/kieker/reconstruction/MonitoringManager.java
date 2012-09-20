@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import kieker.analysis.AnalysisController;
 import kieker.analysis.exception.AnalysisConfigurationException;
+import kieker.analysis.plugin.AbstractPlugin;
 import kieker.analysis.plugin.reader.AbstractReaderPlugin;
 import kieker.common.configuration.Configuration;
 import kieker.monitoring.core.configuration.ConfigurationFactory;
@@ -55,12 +56,17 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	private volatile CPUUtilizationRecordTransformationFilter cpuUtilizationRecordTransformationFilter;
 	private volatile MemSwapUsageRecordTransformationFilter memSwapUsageRecordTransformationFilter;
 
+	private static final String PROP_NAME_KIEKER_TEE_WRITER_ENABLED = "kiekerTeeWriterEnabled";
+
 	private static final String PROP_NAME_COMPONENT_DISCOVERY_HIERARCHY_LEVEL = "component-discovery-level";
 	private static final String PROP_VAL_COMPONENT_DISCOVERY_LEVEL_CLASS = "CLASS";
 	private static final String PROP_VAL_COMPONENT_DISCOVERY_LEVEL_PACKAGE_STRICT = "PACKAGE_STRICT";
 
 	/** Will be initialized in {@link #init()} */
 	private volatile int componentDiscoveryHierarchyLevel;
+
+	/** Will be initialized in {@link #init()} */
+	private volatile boolean kiekerTeeWriterEnabled = true;
 
 	/**
 	 * Matches the given String representation of the property value for {@value #PROP_NAME_COMPONENT_DISCOVERY_MODE} to the corresponding value
@@ -95,6 +101,8 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	@Override
 	public boolean init() {
 		final boolean success = super.init() && this.initDiscoveryMode();
+		this.kiekerTeeWriterEnabled =
+				Boolean.parseBoolean(super.getInitProperty(PROP_NAME_KIEKER_TEE_WRITER_ENABLED, Boolean.toString(this.kiekerTeeWriterEnabled)));
 
 		return success;
 	}
@@ -139,19 +147,6 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 			throws IllegalStateException, AnalysisConfigurationException {
 		/* Initialize filter chain for incoming records */
 
-		/* Tee writer */
-		final String teeFilterControllerConfigFn = this.getComponentContext().getDirectoryLocation() + "/teemonitoring.properties";
-		if (!this.writeReplayControllerConfiguration(teeFilterControllerConfigFn, this.getComponentContext().getDirectoryLocation())) {
-			LOG.error("Failed to create monitoring.properties for TeeFilter");
-			return false;
-		}
-		final Configuration monitoringRecordLoggerFilterConfig = new Configuration();
-		monitoringRecordLoggerFilterConfig.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.FALSE.toString());
-		monitoringRecordLoggerFilterConfig.setProperty(MonitoringRecordLoggerFilter.CONFIG_PROPERTY_NAME_MONITORING_PROPS_FN, teeFilterControllerConfigFn);
-		final MonitoringRecordLoggerFilter monitoringRecordLoggerFilter = new MonitoringRecordLoggerFilter(monitoringRecordLoggerFilterConfig);
-		analysisController.registerFilter(monitoringRecordLoggerFilter);
-		analysisController.connect(reader, readerOutputPortName, monitoringRecordLoggerFilter, MonitoringRecordLoggerFilter.INPUT_PORT_NAME_RECORD);
-
 		/* Actual filters: */
 		this.monitoringRecordConsumerFilterChain.setControlComponent(this.getController());
 
@@ -168,7 +163,34 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 		this.monitoringRecordConsumerFilterChain.addSynchronousFilter(this.memSwapUsageRecordTransformationFilter);
 
 		analysisController.registerFilter(this.monitoringRecordConsumerFilterChain);
-		analysisController.connect(monitoringRecordLoggerFilter, MonitoringRecordLoggerFilter.OUTPUT_PORT_NAME_RELAYED_EVENTS,
+
+		AbstractPlugin lastPlugin = reader;
+		String lastOutputPortName = readerOutputPortName;
+
+		if (!this.kiekerTeeWriterEnabled) {
+			LOG.info("Kieker tee writer DISabled");
+			// lastPlugin and lastOutputPortName remain unchanged
+		} else {
+			LOG.info("Kieker tee writer ENabled");
+
+			/* Tee writer */
+			final String teeFilterControllerConfigFn = this.getComponentContext().getDirectoryLocation() + "/teemonitoring.properties";
+			if (!this.writeReplayControllerConfiguration(teeFilterControllerConfigFn, this.getComponentContext().getDirectoryLocation())) {
+				LOG.error("Failed to create monitoring.properties for TeeFilter");
+				return false;
+			}
+
+			final Configuration monitoringRecordLoggerFilterConfig = new Configuration();
+			monitoringRecordLoggerFilterConfig.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.FALSE.toString());
+			monitoringRecordLoggerFilterConfig.setProperty(MonitoringRecordLoggerFilter.CONFIG_PROPERTY_NAME_MONITORING_PROPS_FN, teeFilterControllerConfigFn);
+			final MonitoringRecordLoggerFilter monitoringRecordLoggerFilter = new MonitoringRecordLoggerFilter(monitoringRecordLoggerFilterConfig);
+			analysisController.registerFilter(monitoringRecordLoggerFilter);
+			analysisController.connect(reader, readerOutputPortName, monitoringRecordLoggerFilter, MonitoringRecordLoggerFilter.INPUT_PORT_NAME_RECORD);
+			lastPlugin = monitoringRecordLoggerFilter;
+			lastOutputPortName = MonitoringRecordLoggerFilter.OUTPUT_PORT_NAME_RELAYED_EVENTS;
+		}
+
+		analysisController.connect(lastPlugin, lastOutputPortName,
 				this.monitoringRecordConsumerFilterChain, MonitoringRecordConsumerFilterChain.INPUT_PORT_NAME_RECORDS);
 		return true;
 	}
