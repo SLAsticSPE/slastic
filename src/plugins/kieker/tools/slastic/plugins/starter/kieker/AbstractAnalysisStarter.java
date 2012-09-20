@@ -161,7 +161,6 @@ public abstract class AbstractAnalysisStarter {
 		// Set controller name
 		configuration.setProperty(ConfigurationFactory.CONTROLLER_NAME, "ReplayToPipe");
 
-		// TODO: Write file to directory of current FrameworkInstance ...
 		final File controllerConfigurationFile = rootContext.createFileInContextDir("replayer-monitoring.properties");
 		final String controllerConfigurationFN = controllerConfigurationFile.getPath();
 		try {

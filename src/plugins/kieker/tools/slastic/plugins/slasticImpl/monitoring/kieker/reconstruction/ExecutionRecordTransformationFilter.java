@@ -16,7 +16,9 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction;
 
-
+import kieker.common.record.IMonitoringRecord;
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.ClassOperationSignaturePair;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
@@ -27,10 +29,6 @@ import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExe
 import kieker.tools.slastic.metamodel.monitoring.MonitoringFactory;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
-
-import kieker.common.record.IMonitoringRecord;
-import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
@@ -158,7 +156,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			 */
 			newExecution.setEoi(execution.getEoi());
 			newExecution.setEss(execution.getEss());
-			newExecution.setSessionId(execution.getSessionId());
+			// TODO: reactivate (#31)? newExecution.setSessionId(execution.getSessionId());
 			newExecution.setTin(execution.getTin());
 			newExecution.setTout(execution.getTout());
 			newExecution.setTraceId(execution.getTraceId());

@@ -23,6 +23,7 @@ import kieker.analysis.AnalysisController;
 import kieker.analysis.AnalysisControllerThread;
 import kieker.analysis.exception.AnalysisConfigurationException;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
+import kieker.analysis.plugin.filter.forward.StringBufferFilter;
 import kieker.analysis.plugin.reader.AbstractReaderPlugin;
 import kieker.analysis.plugin.reader.namedRecordPipe.PipeReader;
 import kieker.common.configuration.Configuration;
@@ -75,6 +76,14 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		analysisInstance.registerReader(this.kiekerNamedRecordPipeReader);
 
 		/*
+		 * Unify Strings
+		 */
+		final StringBufferFilter stringBufferFilter = new StringBufferFilter(new Configuration());
+		analysisInstance.registerFilter(stringBufferFilter);
+		analysisInstance.connect(this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS,
+				stringBufferFilter, StringBufferFilter.INPUT_PORT_NAME_EVENTS);
+
+		/*
 		 * Register CurrentTimeEventGenerationFilter and connect to Reader
 		 */
 		final Configuration currentTimeEventGeneratorConfig = new Configuration();
@@ -82,7 +91,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 				.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION, Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
 		final CurrentTimeEventGenerationFilter currentTimeEventGenerationFilter = new CurrentTimeEventGenerationFilter(currentTimeEventGeneratorConfig);
 		analysisInstance.registerFilter(currentTimeEventGenerationFilter);
-		analysisInstance.connect(this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS,
+		analysisInstance.connect(stringBufferFilter, StringBufferFilter.OUTPUT_PORT_NAME_RELAYED_EVENTS,
 				currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.INPUT_PORT_NAME_NEW_RECORD);
 
 		/*
@@ -100,9 +109,6 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 			LOG.error("refineAnalysisConfiguration returned with error");
 			return false;
 		}
-
-		// TODO: remove as soon as functionality re-implemented:
-		// analysisInstance.registerPlugin(new TimeTriggerAndRecordDelegationPlugin(this.getController(), this.getMonitoringRecordConsumer()));
 
 		/** Spawn analysis instance */
 		LOG.debug("Spawning Kieker analysis instance");
