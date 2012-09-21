@@ -16,14 +16,12 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-
+import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
-
-import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.util.LoggingTimestampConverter;
 
 /**
@@ -43,7 +41,7 @@ public class DeploymentComponentOperationExecutionCountLogger extends AbstractPe
 	private final int outputIntervalSec;
 
 	public DeploymentComponentOperationExecutionCountLogger(final IComponentContext context) {
-		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS, IO_FLUSH_AFTER_EACH_RECORD_DEFAULT);
 	}
 
 	/**
@@ -51,8 +49,9 @@ public class DeploymentComponentOperationExecutionCountLogger extends AbstractPe
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public DeploymentComponentOperationExecutionCountLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
-		super(context);
+	public DeploymentComponentOperationExecutionCountLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec,
+			final boolean ioFlushAfterEachRecord) {
+		super(context, ioFlushAfterEachRecord);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
 	}

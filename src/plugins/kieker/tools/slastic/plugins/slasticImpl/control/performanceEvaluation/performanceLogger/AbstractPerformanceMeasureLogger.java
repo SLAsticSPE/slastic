@@ -19,14 +19,13 @@ package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.p
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import kieker.tools.slastic.common.IComponentContext;
-
 import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
 
 /**
@@ -40,11 +39,14 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 
 	private final IComponentContext context;
 
-	private final Map<T, File> entityFiles = new HashMap<T, File>();
-	private final Map<T, PrintWriter> entityPrintWriters =
-			new HashMap<T, PrintWriter>();
+	private final ConcurrentMap<T, File> entityFiles = new ConcurrentHashMap<T, File>();
+	private final ConcurrentMap<T, PrintWriter> entityPrintWriters = new ConcurrentHashMap<T, PrintWriter>();
 
-	public AbstractPerformanceMeasureLogger(final IComponentContext context) {
+	public static final boolean IO_FLUSH_AFTER_EACH_RECORD_DEFAULT = true;
+	private final boolean ioFlushAfterEachRecord;
+
+	public AbstractPerformanceMeasureLogger(final IComponentContext context, final boolean ioFlushAfterEachRecord) {
+		this.ioFlushAfterEachRecord = ioFlushAfterEachRecord;
 		this.context = context;
 	}
 
@@ -58,7 +60,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		}
 
 		if (pw == null) {
-			AbstractPerformanceMeasureLogger.LOG.warn("Failed to acquire writer for " + entity);
+			LOG.warn("Failed to acquire writer for " + entity);
 			/* what shall we do with the gummischuh? */
 			return;
 		}
@@ -78,7 +80,10 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		strB.deleteCharAt(0); // delete first CSV_FIELD_DELIM
 
 		pw.println(strB.toString());
-		pw.flush();
+
+		if (this.ioFlushAfterEachRecord) {
+			pw.flush();
+		}
 	}
 
 	protected abstract String createFilename(T entity);
@@ -125,9 +130,9 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 		try {
 			pw = new PrintWriter(file);
 		} catch (final FileNotFoundException e) {
-			AbstractPerformanceMeasureLogger.LOG.error("Failed to create FileWriter for " + file.getAbsolutePath() + "':" + e.getMessage(), e);
+			LOG.error("Failed to create FileWriter for " + file.getAbsolutePath() + "':" + e.getMessage(), e);
 			// we have seen the number of open writers to be the problem. Thus for debugging:
-			AbstractPerformanceMeasureLogger.LOG.error("Number of open writers:" + this.entityPrintWriters.size());
+			LOG.error("Number of open writers:" + this.entityPrintWriters.size());
 		}
 
 		if (pw != null) {

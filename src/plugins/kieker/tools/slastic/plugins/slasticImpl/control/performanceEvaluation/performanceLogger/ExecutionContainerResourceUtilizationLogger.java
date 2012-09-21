@@ -16,13 +16,11 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-
+import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import kieker.tools.slastic.metamodel.executionEnvironment.Resource;
 import kieker.tools.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import kieker.tools.slastic.metamodel.monitoring.ResourceUtilization;
-
-import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.util.LoggingTimestampConverter;
 
 /**
@@ -30,9 +28,8 @@ import kieker.tools.util.LoggingTimestampConverter;
  * @author Andre van Hoorn
  * 
  */
-public class ExecutionContainerResourceUtilizationLogger extends
-		AbstractPerformanceMeasureLogger<Resource> implements
-		IExecutionContainerResourceUtilizationReceiver {
+public class ExecutionContainerResourceUtilizationLogger extends AbstractPerformanceMeasureLogger<Resource>
+		implements IExecutionContainerResourceUtilizationReceiver {
 
 	// private static final Log LOG = LogFactory.getLog(ExecutionContainerResourceUtilizationLogger.class);
 
@@ -42,9 +39,8 @@ public class ExecutionContainerResourceUtilizationLogger extends
 	private final int winTimeSec;
 	private final int outputIntervalSec;
 
-	public ExecutionContainerResourceUtilizationLogger(
-			final IComponentContext context) {
-		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
+	public ExecutionContainerResourceUtilizationLogger(final IComponentContext context) {
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS, IO_FLUSH_AFTER_EACH_RECORD_DEFAULT);
 	}
 
 	/**
@@ -52,8 +48,9 @@ public class ExecutionContainerResourceUtilizationLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public ExecutionContainerResourceUtilizationLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec) {
-		super(context);
+	public ExecutionContainerResourceUtilizationLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec,
+			final boolean ioFlushAfterEachRecord) {
+		super(context, ioFlushAfterEachRecord);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
 	}

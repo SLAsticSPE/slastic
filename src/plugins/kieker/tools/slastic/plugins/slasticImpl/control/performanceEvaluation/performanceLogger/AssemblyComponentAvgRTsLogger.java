@@ -16,13 +16,11 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
-
+import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.typeRepository.ComponentType;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
-
-import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.util.LoggingTimestampConverter;
 
 /**
@@ -42,7 +40,7 @@ public class AssemblyComponentAvgRTsLogger extends AbstractPerformanceMeasureLog
 	private final int outputIntervalSec;
 
 	public AssemblyComponentAvgRTsLogger(final IComponentContext context) {
-		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS);
+		this(context, DEFAULT_WIN_TIME_SECONDS, DEFAULT_OUTPUT_INTERVAL_SECONDS, IO_FLUSH_AFTER_EACH_RECORD_DEFAULT);
 	}
 
 	/**
@@ -50,9 +48,8 @@ public class AssemblyComponentAvgRTsLogger extends AbstractPerformanceMeasureLog
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public AssemblyComponentAvgRTsLogger(final IComponentContext context,
-			final int winTimeSec, final int outputIntervalSec) {
-		super(context);
+	public AssemblyComponentAvgRTsLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec, final boolean ioFlushAfterEachRecord) {
+		super(context, ioFlushAfterEachRecord);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
 	}

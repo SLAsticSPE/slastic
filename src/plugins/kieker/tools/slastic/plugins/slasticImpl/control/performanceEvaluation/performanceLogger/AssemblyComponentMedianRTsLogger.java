@@ -1,27 +1,21 @@
 package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
 import kieker.tools.slastic.common.IComponentContext;
-import kieker.tools.util.LoggingTimestampConverter;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.typeRepository.ComponentType;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
+import kieker.tools.util.LoggingTimestampConverter;
 
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class AssemblyComponentMedianRTsLogger extends
-		AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
+public class AssemblyComponentMedianRTsLogger extends AbstractPerformanceMeasureLogger<AssemblyComponentOperationPair>
 		implements IAssemblyComponentMedianOperationExecutionResponseTimeReceiver {
 
-	private static final Log log = LogFactory
-			.getLog(AssemblyComponentMedianRTsLogger.class);
+	// private static final Log LOG = LogFactory.getLog(AssemblyComponentMedianRTsLogger.class);
 
 	public static final int DEFAULT_WIN_TIME_SECONDS = 5 * 60;
 	public static final int DEFAULT_OUTPUT_INTERVAL_SECONDS = 5 * 60;
@@ -31,7 +25,8 @@ public class AssemblyComponentMedianRTsLogger extends
 
 	public AssemblyComponentMedianRTsLogger(final IComponentContext context) {
 		this(context, AssemblyComponentMedianRTsLogger.DEFAULT_WIN_TIME_SECONDS,
-				AssemblyComponentMedianRTsLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS);
+				AssemblyComponentMedianRTsLogger.DEFAULT_OUTPUT_INTERVAL_SECONDS,
+				IO_FLUSH_AFTER_EACH_RECORD_DEFAULT);
 	}
 
 	/**
@@ -39,9 +34,8 @@ public class AssemblyComponentMedianRTsLogger extends
 	 * @param winTimeSec
 	 * @param outputIntervalSec
 	 */
-	public AssemblyComponentMedianRTsLogger(final IComponentContext context,
-			final int winTimeSec, final int outputIntervalSec) {
-		super(context);
+	public AssemblyComponentMedianRTsLogger(final IComponentContext context, final int winTimeSec, final int outputIntervalSec, final boolean ioFlushAfterEachRecord) {
+		super(context, ioFlushAfterEachRecord);
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
 	}
@@ -69,22 +63,22 @@ public class AssemblyComponentMedianRTsLogger extends
 						.convertLoggingTimestampToUTCString(currentTimestampMillis
 								* (1000 * 1000));
 		return new String[] {
-				/* 0: timestamp: */
-				Long.toString(currentTimestampMillis),
-				/* 1: human-readable UTC string: */
-				currentTimeUTCString,
-				/* 2: assembly-component name (ID): */
-				new StringBuilder().append(assemblyComponent.getPackageName())
-						.append(".").append(assemblyComponent.getName())
-						.append("(")
-						.append(Long.toString(assemblyComponent.getId()))
-						.append(")").toString(),
-				/* 3: operation name (ID): */
-				new StringBuilder().append(operation.getSignature().getName())
-						.append("(").append(Long.toString(operation.getId()))
-						.append(")").toString(),
-				/* 4: median RT (milliseconds) */
-				medianRTMillis == null ? "NA" : Double.toString(medianRTMillis) };
+			/* 0: timestamp: */
+			Long.toString(currentTimestampMillis),
+			/* 1: human-readable UTC string: */
+			currentTimeUTCString,
+			/* 2: assembly-component name (ID): */
+			new StringBuilder().append(assemblyComponent.getPackageName())
+					.append(".").append(assemblyComponent.getName())
+					.append("(")
+					.append(Long.toString(assemblyComponent.getId()))
+					.append(")").toString(),
+			/* 3: operation name (ID): */
+			new StringBuilder().append(operation.getSignature().getName())
+					.append("(").append(Long.toString(operation.getId()))
+					.append(")").toString(),
+			/* 4: median RT (milliseconds) */
+			medianRTMillis == null ? "NA" : Double.toString(medianRTMillis) };
 	}
 
 	/**
@@ -108,7 +102,7 @@ public class AssemblyComponentMedianRTsLogger extends
 	@Override
 	protected String[] createHeader() {
 		return new String[] { "timestamp", "UTCString", "assemblyComponent",
-				"operation", "medianRTMillis" };
+			"operation", "medianRTMillis" };
 	}
 
 	@Override
