@@ -16,9 +16,9 @@
 
 package kieker.tools.slastic.plugins.cloud.slastic.control.performanceEvaluation.performanceLogger;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -28,12 +28,12 @@ import com.espertech.esper.client.EPServiceProvider;
 import kieker.tools.slastic.common.IComponentContext;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AbstractPerformanceMeasureLogger;
-import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentAvgRTsLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentInvocationCountLogger;
-import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentMedianRTsLogger;
+import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentOperationAvgRTsLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentOperationExecutionCountLogger;
-import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentAvgRTsLogger;
+import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.AssemblyComponentOperationMedianRTsLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentInvocationCountLogger;
+import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationAvgRTsLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.DeploymentComponentOperationExecutionCountLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerCPUUtilizationLogger;
 import kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger.ExecutionContainerMemSwapUsageLogger;
@@ -53,7 +53,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 	private final boolean ioAutoFlush;
 	private final int winTimeSec;
 	private final int outputIntervalSec;
-	private final ConcurrentMap<String, Boolean> loggerClassesToActivate = new ConcurrentHashMap<String, Boolean>();
+	private final Set<String> loggerClassesToActivate = new HashSet<String>();
 
 	public PerformanceLogger(final EPServiceProvider epServiceProvider, final IComponentContext context, final int winTimeSec, final int outputIntervalSec,
 			final boolean ioAutoFlush, final List<String> loggerClassesToActivate) {
@@ -62,7 +62,7 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 		this.winTimeSec = winTimeSec;
 		this.outputIntervalSec = outputIntervalSec;
 		for (final String loggerClass : loggerClassesToActivate) {
-			this.loggerClassesToActivate.put(loggerClass, Boolean.TRUE);
+			this.loggerClassesToActivate.add(loggerClass);
 		}
 		this.startLoggers();
 	}
@@ -78,17 +78,19 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 	 */
 	private void startLoggers() {
 		int numLoggerActive = 0;
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(DeploymentComponentAvgRTsLogger.class.getSimpleName()))) {
-			/* 1. DeploymentComponentAvgRTsLogger */
-			final DeploymentComponentAvgRTsLogger deploymentComponentAvgRTsLogger =
-					new DeploymentComponentAvgRTsLogger(this.createLoggerContext(DeploymentComponentAvgRTsLogger.class, this.winTimeSec, this.outputIntervalSec),
+
+		/* 1. DeploymentComponentAvgRTsLogger */
+		if (this.loggerClassesToActivate.remove(DeploymentComponentOperationAvgRTsLogger.class.getSimpleName())) {
+			final DeploymentComponentOperationAvgRTsLogger deploymentComponentAvgRTsLogger =
+					new DeploymentComponentOperationAvgRTsLogger(this.createLoggerContext(DeploymentComponentOperationAvgRTsLogger.class, this.winTimeSec,
+							this.outputIntervalSec),
 							this.winTimeSec, this.outputIntervalSec, this.ioAutoFlush);
 			this.addAndRegisterLoggerAsSubscriber(deploymentComponentAvgRTsLogger);
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(DeploymentComponentOperationExecutionCountLogger.class.getSimpleName()))) {
-			/* 2. DeploymentComponentOperationExecutionCountLogger */
+		/* 2. DeploymentComponentOperationExecutionCountLogger */
+		if (this.loggerClassesToActivate.remove(DeploymentComponentOperationExecutionCountLogger.class.getSimpleName())) {
 			final DeploymentComponentOperationExecutionCountLogger deploymentComponentOperationExecutionCountLogger =
 					new DeploymentComponentOperationExecutionCountLogger(
 							this.createLoggerContext(DeploymentComponentOperationExecutionCountLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -97,8 +99,8 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(DeploymentComponentInvocationCountLogger.class.getSimpleName()))) {
-			/* 3. DeploymentComponentInvocationCountLogger */
+		/* 3. DeploymentComponentInvocationCountLogger */
+		if (this.loggerClassesToActivate.remove(DeploymentComponentInvocationCountLogger.class.getSimpleName())) {
 			final DeploymentComponentInvocationCountLogger deploymentComponentInvocationCountLogger =
 					new DeploymentComponentInvocationCountLogger(
 							this.createLoggerContext(DeploymentComponentInvocationCountLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -107,27 +109,28 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(AssemblyComponentAvgRTsLogger.class.getSimpleName()))) {
-			/* 4. AssemblyComponentAvgRTsLogger */
-			final AssemblyComponentAvgRTsLogger assemblyComponentAvgRTsLogger =
-					new AssemblyComponentAvgRTsLogger(
-							this.createLoggerContext(AssemblyComponentAvgRTsLogger.class, this.winTimeSec, this.outputIntervalSec),
+		/* 4. AssemblyComponentAvgRTsLogger */
+		if (this.loggerClassesToActivate.remove(AssemblyComponentOperationAvgRTsLogger.class.getSimpleName())) {
+			final AssemblyComponentOperationAvgRTsLogger assemblyComponentAvgRTsLogger =
+					new AssemblyComponentOperationAvgRTsLogger(
+							this.createLoggerContext(AssemblyComponentOperationAvgRTsLogger.class, this.winTimeSec, this.outputIntervalSec),
 							this.winTimeSec, this.outputIntervalSec, this.ioAutoFlush);
 			this.addAndRegisterLoggerAsSubscriber(assemblyComponentAvgRTsLogger);
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(AssemblyComponentMedianRTsLogger.class.getSimpleName()))) {
-			/* 4.1. AssemblyComponentMedianRTsLogger */
-			final AssemblyComponentMedianRTsLogger assemblyComponentMedianRTsLogger =
-					new AssemblyComponentMedianRTsLogger(this.createLoggerContext(AssemblyComponentMedianRTsLogger.class, this.winTimeSec, this.outputIntervalSec),
+		/* 4.1. AssemblyComponentMedianRTsLogger */
+		if (this.loggerClassesToActivate.remove(AssemblyComponentOperationMedianRTsLogger.class.getSimpleName())) {
+			final AssemblyComponentOperationMedianRTsLogger assemblyComponentMedianRTsLogger =
+					new AssemblyComponentOperationMedianRTsLogger(this.createLoggerContext(AssemblyComponentOperationMedianRTsLogger.class, this.winTimeSec,
+							this.outputIntervalSec),
 							this.winTimeSec, this.outputIntervalSec, this.ioAutoFlush);
 			this.addAndRegisterLoggerAsSubscriber(assemblyComponentMedianRTsLogger);
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(AssemblyComponentOperationExecutionCountLogger.class.getSimpleName()))) {
-			/* 5. AssemblyComponentOperationExecutionCountLogger */
+		/* 5. AssemblyComponentOperationExecutionCountLogger */
+		if (this.loggerClassesToActivate.remove(AssemblyComponentOperationExecutionCountLogger.class.getSimpleName())) {
 			final AssemblyComponentOperationExecutionCountLogger assemblyComponentOperationExecutionCountLogger =
 					new AssemblyComponentOperationExecutionCountLogger(
 							this.createLoggerContext(AssemblyComponentOperationExecutionCountLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -136,8 +139,8 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(AssemblyComponentInvocationCountLogger.class.getSimpleName()))) {
-			/* 6. AssemblyComponentInvocationCountLogger */
+		/* 6. AssemblyComponentInvocationCountLogger */
+		if (this.loggerClassesToActivate.remove(AssemblyComponentInvocationCountLogger.class.getSimpleName())) {
 			final AssemblyComponentInvocationCountLogger assemblyComponentInvocationCountLogger =
 					new AssemblyComponentInvocationCountLogger(
 							this.createLoggerContext(AssemblyComponentInvocationCountLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -146,8 +149,8 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(ExecutionContainerResourceUtilizationLogger.class.getSimpleName()))) {
-			/* 7. ExecutionContainerResourceUtilizationLogger */
+		/* 7. ExecutionContainerResourceUtilizationLogger */
+		if (this.loggerClassesToActivate.remove(ExecutionContainerResourceUtilizationLogger.class.getSimpleName())) {
 			final ExecutionContainerResourceUtilizationLogger executionContainerResourceUtilizationLogger =
 					new ExecutionContainerResourceUtilizationLogger(
 							this.createLoggerContext(ExecutionContainerResourceUtilizationLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -156,8 +159,8 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(ExecutionContainerCPUUtilizationLogger.class.getSimpleName()))) {
-			/* 8. ExecutionContainerCPUUtilizationLogger */
+		/* 8. ExecutionContainerCPUUtilizationLogger */
+		if (this.loggerClassesToActivate.remove(ExecutionContainerCPUUtilizationLogger.class.getSimpleName())) {
 			final ExecutionContainerCPUUtilizationLogger executionContainerCPUUtilizationLogger =
 					new ExecutionContainerCPUUtilizationLogger(
 							this.createLoggerContext(ExecutionContainerCPUUtilizationLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -166,8 +169,8 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			numLoggerActive++;
 		}
 
-		if (Boolean.TRUE.equals(this.loggerClassesToActivate.get(ExecutionContainerMemSwapUsageLogger.class.getSimpleName()))) {
-			/* 9. ExecutionContainerMemSwapUsageLogger */
+		/* 9. ExecutionContainerMemSwapUsageLogger */
+		if (this.loggerClassesToActivate.remove(ExecutionContainerMemSwapUsageLogger.class.getSimpleName())) {
 			final ExecutionContainerMemSwapUsageLogger executionContainerMemSwapUsageLogger =
 					new ExecutionContainerMemSwapUsageLogger(
 							this.createLoggerContext(ExecutionContainerMemSwapUsageLogger.class, this.winTimeSec, this.outputIntervalSec),
@@ -180,6 +183,10 @@ public class PerformanceLogger extends AbstractPerformanceLogger {
 			LOG.warn("No performance logger requested");
 		} else {
 			LOG.info(numLoggerActive + " performance loggers requested");
+		}
+
+		if (!this.loggerClassesToActivate.isEmpty()) {
+			LOG.warn("The following logger classes could not be resolved:" + this.loggerClassesToActivate);
 		}
 	}
 }
