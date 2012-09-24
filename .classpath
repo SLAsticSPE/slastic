@@ -68,7 +68,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar"/>
-	<classpathentry kind="lib" path="lib/esper-4.3.0.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.common_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.core_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.core.emf_3.2.0.v20110608-0926.jar"/>
@@ -79,5 +78,6 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.common-2.7.0.v20120127-1122.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore-2.7.0.v20120127-1122.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi-2.7.0.v20120127-1122.jar"/>
+	<classpathentry kind="lib" path="lib/esper-4.6.0.jar"/>
 	<classpathentry kind="output" path="build-eclipse"/>
 </classpath>
