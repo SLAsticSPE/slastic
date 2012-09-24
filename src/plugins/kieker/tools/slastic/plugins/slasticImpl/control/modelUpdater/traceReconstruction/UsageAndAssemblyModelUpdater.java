@@ -40,10 +40,12 @@ import kieker.tools.slastic.metamodel.typeRepository.ConnectorType;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
+import kieker.tools.slastic.metamodel.usage.InvalidExecutionTrace;
 import kieker.tools.slastic.metamodel.usage.Message;
 import kieker.tools.slastic.metamodel.usage.MessageTrace;
 import kieker.tools.slastic.metamodel.usage.SynchronousCallMessage;
 import kieker.tools.slastic.metamodel.usage.SynchronousReplyMessage;
+import kieker.tools.slastic.metamodel.usage.Trace;
 import kieker.tools.slastic.metamodel.usage.UsageModel;
 import kieker.tools.slastic.metamodel.usage.ValidExecutionTrace;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
@@ -59,7 +61,7 @@ import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 public class UsageAndAssemblyModelUpdater {
 	private static final Log LOG = LogFactory.getLog(UsageAndAssemblyModelUpdater.class);
 
-	private static final String CEP_QUERY = "select * from " + ValidExecutionTrace.class.getName();
+	private static final String CEP_QUERY = "select * from " + Trace.class.getName();
 
 	private final EPServiceProvider epService;
 
@@ -92,15 +94,20 @@ public class UsageAndAssemblyModelUpdater {
 	 * 
 	 * @param validExecutionTrace
 	 */
-	public void update(final ValidExecutionTrace validExecutionTrace) {
-		if (!this.processTrace(validExecutionTrace)) {
-			LOG.error("Failed to process trace: " + validExecutionTrace);
+	public void update(final Trace trace) {
+		if (trace instanceof ValidExecutionTrace) {
+			final ValidExecutionTrace validExecutionTrace = (ValidExecutionTrace) trace;
+			if (!this.processTrace(validExecutionTrace)) {
+				LOG.error("Failed to process trace: " + validExecutionTrace);
+			}
+		} else {
+			final InvalidExecutionTrace invalidExecutionTrace = (InvalidExecutionTrace) trace;
+			LOG.warn("Received InvalidExecutionTrace" + invalidExecutionTrace + "; Reason:" + invalidExecutionTrace.getErrorMsg());
 		}
 	}
 
 	/**
-	 * TODO: improve performance (the way we lookup entities can increased
-	 * heavily)
+	 * TODO: improve performance (the way we lookup entities can increased heavily)
 	 * 
 	 * @param validExecutionTrace
 	 * @return
