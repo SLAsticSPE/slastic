@@ -16,9 +16,13 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.control.performanceEvaluation.performanceLogger;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -40,10 +44,11 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	private final IComponentContext context;
 
 	private final ConcurrentMap<T, File> entityFiles = new ConcurrentHashMap<T, File>();
-	private final ConcurrentMap<T, PrintWriter> entityPrintWriters = new ConcurrentHashMap<T, PrintWriter>();
+	// TODO #20, remove? private final ConcurrentMap<T, PrintWriter> entityPrintWriters = new ConcurrentHashMap<T, PrintWriter>();
 
 	public static final boolean IO_FLUSH_AFTER_EACH_RECORD_DEFAULT = true;
-	private final boolean ioFlushAfterEachRecord;
+
+	private final boolean ioFlushAfterEachRecord; // TODO #20, remove?
 
 	public AbstractPerformanceMeasureLogger(final IComponentContext context, final boolean ioFlushAfterEachRecord) {
 		this.ioFlushAfterEachRecord = ioFlushAfterEachRecord;
@@ -53,37 +58,47 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	private final String CSV_FIELD_DELIM = ";";
 
 	protected final void writeRow(final T entity, final String[] columns) {
-		PrintWriter pw = this.entityPrintWriters.get(entity);
-		if (pw == null) {
-			/* Haven't seen this entity before; create new Writer */
-			pw = this.addNewPrintWriter(entity);
-		}
+		File file = this.entityFiles.get(entity);
+		FileWriter fileWriter = null;
+		BufferedWriter bufferedWriter = null;
+		try {
+			if (file == null) {
+				/* Haven't seen this entity before; create new File */
+				file = this.createNewFileForEntity(entity);
+			}
 
-		if (pw == null) {
-			LOG.warn("Failed to acquire writer for " + entity);
-			/* what shall we do with the gummischuh? */
-			return;
+			fileWriter = new FileWriter(file, true); // append
+			bufferedWriter = new BufferedWriter(fileWriter);
+			this.writeRow(bufferedWriter, columns);
+		} catch (final IOException e) {
+			LOG.error("Failed to write line to " + file.getAbsolutePath() + "':" + e.getMessage(), e);
+		} finally {
+			if (bufferedWriter != null) {
+				try {
+					bufferedWriter.close();
+				} catch (final IOException e) {
+					// can't change it
+				}
+			}
 		}
-		this.writeRow(pw, columns);
 	}
 
-	private final void writeComment(final PrintWriter pw, final String comment) {
-		pw.println("# " + comment);
+	private final void writeComment(final Writer pw, final String comment) throws IOException {
+		pw.write("# " + comment);
+		pw.write('\n');
 	}
 
-	private final void writeRow(final PrintWriter pw, final String[] columns) {
-		final StringBuilder strB = new StringBuilder();
+	private final void writeRow(final Writer pw, final String[] columns) throws IOException {
+		boolean firstCol = true;
 		for (final String field : columns) {
-			strB.append(this.CSV_FIELD_DELIM);
-			strB.append(field);
+			if (firstCol) {
+				firstCol = false;
+			} else {
+				pw.write(this.CSV_FIELD_DELIM);
+			}
+			pw.write(field);
 		}
-		strB.deleteCharAt(0); // delete first CSV_FIELD_DELIM
-
-		pw.println(strB.toString());
-
-		if (this.ioFlushAfterEachRecord) {
-			pw.flush();
-		}
+		pw.write('\n');
 	}
 
 	protected abstract String createFilename(T entity);
@@ -107,7 +122,7 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 
 	/**
 	 * Returns a string that is the given file name with all characters not
-	 * allowed in file names removes.
+	 * allowed in file names removed.
 	 */
 	// TODO: Refine
 	private final String escapeFileName(final String filename) {
@@ -120,40 +135,41 @@ public abstract class AbstractPerformanceMeasureLogger<T> {
 	 * 
 	 * @param deplComp
 	 * @return the writer, null on error
+	 * @throws IOException
 	 */
-	private PrintWriter addNewPrintWriter(final T entity) {
+	private File createNewFileForEntity(final T entity) throws IOException {
 
 		final String fn = this.escapeFileName(this.createFilename(entity));
 		final File file = this.context.createFileInContextDir(fn);
 
-		PrintWriter pw = null;
+		FileWriter fileWriter = null;
+		BufferedWriter bufferedWriter = null;
 		try {
-			pw = new PrintWriter(file);
-		} catch (final FileNotFoundException e) {
-			LOG.error("Failed to create FileWriter for " + file.getAbsolutePath() + "':" + e.getMessage(), e);
-			// we have seen the number of open writers to be the problem. Thus for debugging:
-			LOG.error("Number of open writers:" + this.entityPrintWriters.size());
-		}
+			fileWriter = new FileWriter(file, true); // append
+			bufferedWriter = new BufferedWriter(fileWriter);
 
-		if (pw != null) {
 			/*
 			 * Add file and writers to the tables *
 			 */
-			this.writeRow(pw, this.createHeader());
-			this.writeComment(pw, this.createMetaInfoLine());
+			this.writeRow(bufferedWriter, this.createHeader());
+			this.writeComment(bufferedWriter, this.createMetaInfoLine());
 			this.entityFiles.put(entity, file);
-			this.entityPrintWriters.put(entity, pw);
-		} else {
-			// TOOD: set a marker, since now this will be tried over and over
-			// again for this entity
+			// TODO #20, disabled: this.entityPrintWriters.put(entity, pw);
+		} catch (final FileNotFoundException e) {
+			LOG.error("Failed to write to initialize file " + file.getAbsolutePath() + "':" + e.getMessage(), e);
+		} finally {
+			if (bufferedWriter != null) {
+				bufferedWriter.close();
+			}
 		}
 
-		return pw;
+		return file;
 	}
 
 	public final void closePrintWriters() {
-		for (final PrintWriter pw : this.entityPrintWriters.values()) {
-			pw.close();
-		}
+		// TODO #20, disabled:
+		// for (final PrintWriter pw : this.entityPrintWriters.values()) {
+		// pw.close();
+		// }
 	}
 }
