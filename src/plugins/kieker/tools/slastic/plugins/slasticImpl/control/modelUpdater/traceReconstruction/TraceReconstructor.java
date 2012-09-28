@@ -27,8 +27,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import com.espertech.esper.client.EPServiceProvider;
 import com.espertech.esper.client.EPStatement;
-import com.espertech.esper.client.EventBean;
-import com.espertech.esper.client.UpdateListener;
 
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
@@ -47,11 +45,10 @@ import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
  * @author Andre van Hoorn
  * 
  */
-public class TraceReconstructor implements UpdateListener {
+public class TraceReconstructor {
 	// private static final Log LOG = LogFactory.getLog(class);
 
 	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-	private static final String VAR_NAME = "a_traceId";
 
 	private final EPServiceProvider epService;
 
@@ -69,21 +66,20 @@ public class TraceReconstructor implements UpdateListener {
 		this.traceDetectionTimeOutMillis = traceDetectionTimeOutMillis;
 
 		final EPStatement statement = this.epService.getEPAdministrator().createEPL(this.getCEPStatement());
-		statement.addListener(this);
+		statement.setSubscriber(this);
 	}
+
+	private static final String EXEC_A = "a";
+	private static final String EXEC_B = "b";
 
 	/**
 	 * Expression with place holders replaced in {@link #EXPRESSION}.
 	 */
 	private static final String EXPRESSION_TEMPLATE =
-			"select * from EXECUTION_EVENT_TYPE "
-					+ "match_recognize ("
-					+ "partition by traceId "
-					+ "measures A as VAR_NAME "
-					+ "pattern (A+) "
-					+ "interval INTERVAL seconds "
-					+ "define A as true"
-					+ ")";
+			"select EXEC_A, EXEC_B from "
+					+ "pattern [ every EXEC_A=EXECUTION_EVENT_TYPE "
+					+ "-> ((EXEC_B=EXECUTION_EVENT_TYPE(traceId=EXEC_A.traceId) OR timer:interval(INTERVAL sec)) until timer:interval(INTERVAL+1 sec)) "
+					+ "where timer:within(INTERVAL+15 sec) ] "; // turn 15 into property/constant // // TODO: why the last part?
 
 	/**
 	 * The CEP query for call events
@@ -94,29 +90,25 @@ public class TraceReconstructor implements UpdateListener {
 			 */
 			EXPRESSION_TEMPLATE
 					.replaceAll("EXECUTION_EVENT_TYPE", EXECUTION_EVENT_TYPE)
-					.replaceAll("VAR_NAME", VAR_NAME);
+					.replaceAll("EXEC_A", EXEC_A)
+					.replaceAll("EXEC_B", EXEC_B);
 
 	private String getCEPStatement() {
 		return EXPRESSION.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
-	@Override
-	public void update(final EventBean[] newEvents, final EventBean[] oldEvents) {
-		// newEvents contains an array of DeploymentComponentOperationExecution
-		// for a single trace id.
-		for (final EventBean newEvent : newEvents) {
-			// Processing a single trace
+	public void update(final DeploymentComponentOperationExecution execA, final DeploymentComponentOperationExecution[] execsB) {
+		final int numExecs = 1 + (execsB == null ? 0 : execsB.length);
+		final Collection<OperationExecution> executionsForTrace = new ArrayList<OperationExecution>(numExecs);
 
-			final OperationExecution[] exec1n = (OperationExecution[]) newEvent.get(VAR_NAME);
-			final Collection<OperationExecution> executionsForTrace = new ArrayList<OperationExecution>(exec1n.length);
-
-			for (final OperationExecution exec : exec1n) {
-				executionsForTrace.add(exec);
+		executionsForTrace.add(execA);
+		if (execsB != null) {
+			for (final DeploymentComponentOperationExecution execB : execsB) {
+				executionsForTrace.add(execB);
 			}
-			// #32: reenable
-			final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.ROOT_EXEC);
-			this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
 		}
+		final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.ROOT_EXEC);
+		this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
 	}
 
 	/**
