@@ -77,9 +77,8 @@ public class TraceReconstructor {
 	 */
 	private static final String EXPRESSION_TEMPLATE =
 			"select EXEC_A, EXEC_B from "
-					+ "pattern [ every EXEC_A=EXECUTION_EVENT_TYPE "
-					+ "-> ((EXEC_B=EXECUTION_EVENT_TYPE(traceId=EXEC_A.traceId) OR timer:interval(INTERVAL sec)) until timer:interval(INTERVAL+1 sec)) "
-					+ "where timer:within(INTERVAL+15 sec) ] "; // turn 15 into property/constant // // TODO: why the last part?
+					+ "pattern [ every-distinct(EXEC_A.traceId, INTERVAL+1 sec) EXEC_A=EXECUTION_EVENT_TYPE "
+					+ "-> ((EXEC_B=EXECUTION_EVENT_TYPE(traceId=EXEC_A.traceId) OR timer:interval(INTERVAL sec)) until timer:interval(INTERVAL+1 sec)) ]";
 
 	/**
 	 * The CEP query for call events
