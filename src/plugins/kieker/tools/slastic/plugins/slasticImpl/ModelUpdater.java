@@ -97,6 +97,8 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 
 	@Override
 	public void terminate(final boolean error) {
-		// No need to do something
+		if (this.traceReceiver != null) {
+			LOG.info(this.traceReceiver.getClass().getSimpleName() + " reconstructed " + this.traceReceiver.getNumTracesReconstructed() + " traces");
+		}
 	}
 }

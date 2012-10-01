@@ -23,6 +23,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.espertech.esper.client.EPServiceProvider;
@@ -96,6 +97,15 @@ public class TraceReconstructor {
 		return EXPRESSION.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
+	private final AtomicLong numTracesReconstructed = new AtomicLong(0);
+
+	/**
+	 * @return the numTracesReconstructed
+	 */
+	public long getNumTracesReconstructed() {
+		return this.numTracesReconstructed.get();
+	}
+
 	public void update(final DeploymentComponentOperationExecution execA, final DeploymentComponentOperationExecution[] execsB) {
 		final int numExecs = 1 + (execsB == null ? 0 : execsB.length);
 		final Collection<OperationExecution> executionsForTrace = new ArrayList<OperationExecution>(numExecs);
@@ -108,6 +118,7 @@ public class TraceReconstructor {
 		}
 		final ExecutionTrace validOrInvalidExecutionTrace = TraceReconstructor.reconstructTraceSave(executionsForTrace, UsageModelManager.ROOT_EXEC);
 		this.epService.getEPRuntime().sendEvent(validOrInvalidExecutionTrace);
+		this.numTracesReconstructed.incrementAndGet();
 	}
 
 	/**
