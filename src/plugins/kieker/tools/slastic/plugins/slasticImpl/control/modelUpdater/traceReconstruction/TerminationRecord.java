@@ -14,37 +14,13 @@
  * limitations under the License.
  ***************************************************************************/
 
-package kieker.tools.slastic.common;
+package kieker.tools.slastic.plugins.slasticImpl.control.modelUpdater.traceReconstruction;
 
 /**
  * 
  * @author Andre van Hoorn
  * 
  */
-public class Version {
+public class TerminationRecord {
 
-	/*
-	 * The VERSION string is updated by the Ant build file, which looks for the
-	 * pattern: VERSION = <quote>.*<quote>
-	 */
-	private static final String VERSION = "0.5a-SNAPSHOT-20121002";
-
-	static final String COPYRIGHT = "Copyright (c) 2012 The SLAstic Project";
-
-	/**
-	 * Not instantiable.
-	 */
-	private Version()
-	{
-		super();
-	}
-
-	/**
-	 * Returns the version String.
-	 * 
-	 * @return the version String.
-	 */
-	public static final String getVERSION() {
-		return Version.VERSION;
-	}
 }

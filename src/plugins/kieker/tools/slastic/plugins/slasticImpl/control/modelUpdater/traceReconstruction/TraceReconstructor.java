@@ -49,8 +49,6 @@ import kieker.tools.slastic.plugins.slasticImpl.model.usage.UsageModelManager;
 public class TraceReconstructor {
 	// private static final Log LOG = LogFactory.getLog(class);
 
-	private static final String EXECUTION_EVENT_TYPE = DeploymentComponentOperationExecution.class.getName();
-
 	private final EPServiceProvider epService;
 
 	private final long traceDetectionTimeOutMillis;
@@ -79,7 +77,7 @@ public class TraceReconstructor {
 	private static final String EXPRESSION_TEMPLATE =
 			"select EXEC_A, EXEC_B from "
 					+ "pattern [ every-distinct(EXEC_A.traceId, INTERVAL+1 sec) EXEC_A=EXECUTION_EVENT_TYPE "
-					+ "-> ((EXEC_B=EXECUTION_EVENT_TYPE(traceId=EXEC_A.traceId) OR timer:interval(INTERVAL sec)) until timer:interval(INTERVAL+1 sec)) ]";
+					+ "-> ((EXEC_B=EXECUTION_EVENT_TYPE(traceId=EXEC_A.traceId) OR timer:interval(INTERVAL sec)) until (timer:interval(INTERVAL+1 sec) OR TERMINATION_EVENT_TYPE)) ]";
 
 	/**
 	 * The CEP query for call events
@@ -89,15 +87,20 @@ public class TraceReconstructor {
 			 * INTERVAL will be replaced in getCEPStatement
 			 */
 			EXPRESSION_TEMPLATE
-					.replaceAll("EXECUTION_EVENT_TYPE", EXECUTION_EVENT_TYPE)
+					.replaceAll("EXECUTION_EVENT_TYPE", DeploymentComponentOperationExecution.class.getName())
 					.replaceAll("EXEC_A", EXEC_A)
-					.replaceAll("EXEC_B", EXEC_B);
+					.replaceAll("EXEC_B", EXEC_B)
+					.replaceAll("TERMINATION_EVENT_TYPE", TerminationRecord.class.getName());
 
 	private String getCEPStatement() {
 		return EXPRESSION.replaceAll("INTERVAL", Long.toString(this.traceDetectionTimeOutMillis / 1000));
 	}
 
 	private final AtomicLong numTracesReconstructed = new AtomicLong(0);
+
+	public void sendEndOfMonitoringMarker() {
+		this.epService.getEPRuntime().sendEvent(new TerminationRecord());
+	}
 
 	/**
 	 * @return the numTracesReconstructed

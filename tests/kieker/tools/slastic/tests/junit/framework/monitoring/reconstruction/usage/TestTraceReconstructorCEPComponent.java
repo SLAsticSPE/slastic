@@ -53,18 +53,13 @@ import kieker.tools.slastic.tests.junit.framework.monitoring.reconstruction.exam
  * 
  */
 public class TestTraceReconstructorCEPComponent extends TestCase {
-	private static final Log LOG = LogFactory.getLog(TestTraceReconstructorCEPComponent.class);
+	// private static final Log LOG = LogFactory.getLog(TestTraceReconstructorCEPComponent.class);
 
 	private static final int NUM_VALID_TRACES_TO_GENERATE = 3;
 	private static final int NUM_INVALID_TRACES_TO_GENERATE = 2;
 	private static final int NUM_EXECUTIONS_TO_REMOVE_FROM_INVALID_TRACES = 1;
 
 	public static final long TRACE_DETECTION_TIMEOUT_MILLIS = 2000;
-
-	/**
-	 * Time to wait for CEP to complete.
-	 */
-	private static final long SHUTDOWN_TIMEOUT_MILLIS = 4000;
 
 	private int nextTraceId = 0;
 
@@ -76,7 +71,6 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 	/**
 	 * Constructs a TraceReceiver which registers itself as a subscriber to the {@link EPServiceProvider}.
 	 */
-	@SuppressWarnings("unused")
 	private final TraceReconstructor traceReceiver = new TraceReconstructor(this.epService, TRACE_DETECTION_TIMEOUT_MILLIS);
 
 	private final ValidExecutionTraceCollector validExecutionTraceCollector = new ValidExecutionTraceCollector();
@@ -100,10 +94,7 @@ public class TestTraceReconstructorCEPComponent extends TestCase {
 		// Send broken (broken = true) traces:
 		this.sendBookstoreTraces(NUM_INVALID_TRACES_TO_GENERATE, true);
 
-		// We have to wait for this time period, to make sure that all traces
-		// are detected
-		LOG.info("Waiting " + SHUTDOWN_TIMEOUT_MILLIS + " millis for timeout to elapse");
-		Thread.sleep(SHUTDOWN_TIMEOUT_MILLIS);
+		this.traceReceiver.sendEndOfMonitoringMarker();
 
 		this.checkResults();
 	}

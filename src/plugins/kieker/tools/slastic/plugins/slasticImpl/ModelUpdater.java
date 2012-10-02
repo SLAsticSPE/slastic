@@ -42,7 +42,6 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 	/**
 	 * Will be initialized in {@link #execute()}.
 	 */
-	@SuppressWarnings("unused")
 	private volatile TraceReconstructor traceReceiver;
 
 	/**
@@ -98,6 +97,7 @@ public class ModelUpdater extends AbstractModelUpdaterComponent {
 	@Override
 	public void terminate(final boolean error) {
 		if (this.traceReceiver != null) {
+			this.traceReceiver.sendEndOfMonitoringMarker();
 			LOG.info(this.traceReceiver.getClass().getSimpleName() + " reconstructed " + this.traceReceiver.getNumTracesReconstructed() + " traces");
 		}
 	}

@@ -270,14 +270,6 @@ public class FrameworkInstance {
 
 	// TODO: Terminate in reverse order of initialization?
 	private void terminateAllComponents(final boolean error) {
-		{
-			// TODO: HACK
-			LOG.warn("HACK: Implement hack to forward time for some delay, e.g. in trace reconstruction, to elapse ...");
-			final long forwardByMillis = 1000 * 60 * 2; // 2 minutes
-			final long nextTime = this.configuration.controlComponent.getCurrentTimeMillis() + forwardByMillis;
-			this.configuration.controlComponent.setCurrentTimeMillis(nextTime);
-		}
-
 		this.terminateComponent(this.configuration.monitoringManagerComponent, "MonitoringManagerComponent", error);
 		this.terminateComponent(this.configuration.modelUpdaterComponent, "ModelUpdaterComponent", error);
 		this.terminateComponent(this.configuration.modelManagerComponent, "ModelManagerComponent", error);
