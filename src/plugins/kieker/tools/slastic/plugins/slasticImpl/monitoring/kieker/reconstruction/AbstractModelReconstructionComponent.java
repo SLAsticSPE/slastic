@@ -186,6 +186,8 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 					resourceType = this.getTypeModelManager().createAndRegisterCPUResourceType(resourceTypeName);
 				}
 
+				// TODO: What if the resource specification already exists for this container type?
+
 				// Create resource specification and add it to the container
 				// type
 				final ResourceSpecification resourceSpecification =
@@ -225,6 +227,8 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 				if (resourceType == null) {
 					resourceType = this.getTypeModelManager().createAndRegisterGenericResourceType(resourceTypeName);
 				}
+
+				// TODO: What if the resource specification already exists for this container type?
 
 				// Create resource specification and add it to the container
 				// type
@@ -401,5 +405,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 		resource.setExecutionContainer(executionContainer);
 		resource.setResourceSpecification(resourceSpecification);
 		return resource;
+
+		// TODO: Don't we have to add the resource to the model?
 	}
 }

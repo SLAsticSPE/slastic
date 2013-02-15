@@ -23,13 +23,12 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
 import kieker.tools.slastic.metamodel.executionEnvironment.Resource;
 import kieker.tools.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 
 /**
  * 
@@ -63,12 +62,14 @@ public class ExecutionContainersManager extends AbstractFQNamedEntityManager<Exe
 
 	@Override
 	public boolean allocateExecutionContainer(final ExecutionContainer executionContainer) {
+		// TODO: Why isn't the list 'allocatedExecutionContainers' used?
 		executionContainer.setActive(true);
 		return true;
 	}
 
 	@Override
 	public boolean deallocateExecutionContainer(final ExecutionContainer executionContainer) {
+		// TODO: Why isn't the list 'allocatedExecutionContainers' used?
 		return this.removeEntity(executionContainer);
 	}
 

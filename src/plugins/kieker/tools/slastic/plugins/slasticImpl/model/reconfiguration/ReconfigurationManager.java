@@ -70,8 +70,8 @@ public class ReconfigurationManager implements IReconfigurationManager {
 	}
 
 	@Override
-	public void dereplicateComponent(final DeploymentComponent deploymentContainer) {
-		this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentContainer);
+	public void dereplicateComponent(final DeploymentComponent deploymentComponent) {
+		this.componentDeploymentModelManager.deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override

@@ -20,20 +20,21 @@ import kieker.tools.slastic.common.AbstractSLAsticComponent;
 import kieker.tools.slastic.control.AbstractControlComponent;
 
 /**
- *
+ * 
  * @author Andre van Hoorn
  */
 public abstract class AbstractMonitoringManagerComponent extends AbstractSLAsticComponent {
-    public static final String PROP_PREFIX = "slastic.monitoring";
-    
-    private AbstractControlComponent controller;
+	public static final String PROP_PREFIX = "slastic.monitoring";
 
-    public final AbstractControlComponent getController() {
-        return this.controller;
-    }
+	private volatile AbstractControlComponent controller;
 
-    public final void setController(final AbstractControlComponent controller) {
-        this.controller = controller;
-    }
+	// TODO: private visibility should be sufficient
+	public final AbstractControlComponent getController() {
+		return this.controller;
+	}
+
+	public final void setController(final AbstractControlComponent controller) {
+		this.controller = controller;
+	}
 
 }

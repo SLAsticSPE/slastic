@@ -19,14 +19,13 @@ package kieker.tools.slastic.plugins.slasticImpl.model.typeRepository;
 import java.util.Collection;
 import java.util.List;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentFactory;
 import kieker.tools.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import kieker.tools.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
 import kieker.tools.slastic.metamodel.typeRepository.ResourceType;
 import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
 
 /**
  * 
@@ -62,6 +61,7 @@ public class ExecutionContainerTypesManager extends
 	}
 
 	// TODO: I'm pretty sure we'll have problems with this when starting with a deserialized model
+	// However, currently, the ID doesn't seem to be used
 	private volatile long nextId = 1;
 
 	@Override

@@ -105,6 +105,9 @@ public class SLAsticStarter {
 			simInst.run();
 			LOG.info("SLAstic simulator instance started");
 		}
+
+		// wait until framework is terminated?
+
 		LOG.info("Bye, this was SLAsticControl");
 	}
 

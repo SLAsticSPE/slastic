@@ -16,8 +16,13 @@
 
 package kieker.tools.slastic.tests.junit.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.apache.commons.lang.StringUtils;
 
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 
@@ -216,6 +221,56 @@ public class TestNameUtilsAbstraction extends TestCase {
 				new String[] { packageNameIn, classNameIn, operationNameIn },
 				new String[] { packageNameExpected, classNameExpected, operationNameExpected },
 				hierarchyLevel);
+	}
+
+	public static void printExamples() {
+		final List<String[]> examples = new ArrayList<String[]>();
+		examples.add(new String[] { "", "A", "op()" });
+		examples.add(new String[] { "a", "B", "op()" });
+		examples.add(new String[] { "a.b", "C", "op()" });
+		examples.add(new String[] { "a.b.c", "D", "op()" });
+		// examples.add(new String[] { "a.b.c.d", "E", "op" });
+
+		final int[][] ranges = { { NameUtils.ABSTRACTION_MODE_CLASS, 0 }, { 1, 3 } };
+
+		for (final int[] curRange : ranges) {
+			System.out.println("%% cur abstraction level range: " + curRange[0] + "-" + curRange[1]);
+			int curDepth = 1;
+			for (final String[] example : examples) {
+				System.out.println("%%%%");
+				final String inputFQName;
+				if (example[0].isEmpty()) {
+					inputFQName = example[1];
+				} else {
+					inputFQName = example[0] + "." + example[1];
+				}
+				System.out.println(inputFQName + ".op()" + " & " + curDepth + "% input name & depth ");
+				for (int level = curRange[0]; level <= curRange[1]; level++) {
+					System.out.print("& ");
+					String cols = ""; // remains on exception
+					try {
+						final String[] abstractNameComponents = NameUtils.abstractFQName(example[0], example[1], example[2], level);
+						final String[] abstractFQNameAndOp = new String[2];
+						if (abstractNameComponents[0].isEmpty()) {
+							abstractFQNameAndOp[0] = abstractNameComponents[1];
+						} else {
+							abstractFQNameAndOp[0] = abstractNameComponents[0] + "." + abstractNameComponents[1];
+						}
+						abstractFQNameAndOp[1] = abstractNameComponents[2];
+						cols = StringUtils.join(abstractFQNameAndOp, ".");
+					} catch (final Exception exc) {
+						// leaving empty
+					}
+					System.out.println(cols.replaceAll("_", "\\\\_").replaceAll("UnnamedClass", "@") + " % abstraction level: " + level);
+				}
+				System.out.println("\\\\\\hline");
+				curDepth++;
+			}
+		}
+	}
+
+	public static void main(final String[] args) {
+		TestNameUtilsAbstraction.printExamples();
 	}
 
 	/**
