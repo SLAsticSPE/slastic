@@ -143,10 +143,7 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ComponentType" eOpposite="#//typeRepository/ComponentType/operations"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="interface" ordered="false"
-          lowerBound="1" eType="#//typeRepository/Interface"/>
-    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainerType" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
           upperBound="-1" eType="#//executionEnvironment/ResourceSpecification" containment="true"/>
@@ -186,8 +183,8 @@
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainer" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainerType"
           ordered="false" lowerBound="1" eType="#//typeRepository/ExecutionContainerType"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLink" ordered="false"
-          lowerBound="1" eType="#//executionEnvironment/NetworkLink" eOpposite="#//executionEnvironment/NetworkLink/executionContainers"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="networkLinks" ordered="false"
+          upperBound="-1" eType="#//executionEnvironment/NetworkLink" eOpposite="#//executionEnvironment/NetworkLink/executionContainers"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
           upperBound="-1" eType="#//executionEnvironment/Resource" containment="true"
           eOpposite="#//executionEnvironment/Resource/executionContainer"/>
@@ -197,7 +194,7 @@
           lowerBound="1" eType="#//typeRepository/NetworkLinkType"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="executionContainers"
           ordered="false" upperBound="-1" eType="#//executionEnvironment/ExecutionContainer"
-          eOpposite="#//executionEnvironment/ExecutionContainer/networkLink"/>
+          eOpposite="#//executionEnvironment/ExecutionContainer/networkLinks"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Resource">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resourceSpecification"
