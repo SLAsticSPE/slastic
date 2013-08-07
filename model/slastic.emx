@@ -4073,7 +4073,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_epqq4qFLEd-l1J3OQ8v6iQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_epqq5KFLEd-l1J3OQ8v6iQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_eprR8KFLEd-l1J3OQ8v6iQ" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eppcwqFLEd-l1J3OQ8v6iQ" x="14317" y="4319"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_eppcwqFLEd-l1J3OQ8v6iQ" x="7542" y="2856"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_bl5F8KFNEd-l1J3OQ8v6iQ" element="_fyeQkKFMEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" showListVisibility="Text" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_bl5tAKFNEd-l1J3OQ8v6iQ" type="ImageCompartment">
@@ -4086,7 +4086,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_bl6UEqFNEd-l1J3OQ8v6iQ" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_bl6UFKFNEd-l1J3OQ8v6iQ" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_bl6UFqFNEd-l1J3OQ8v6iQ" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bl5F8qFNEd-l1J3OQ8v6iQ" x="6475" y="4313"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bl5F8qFNEd-l1J3OQ8v6iQ" x="7319" y="5327"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_OJ15gNSIEeCqQ7gSCWz0pg" element="_ljB7IJ71Ed-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ2gkNSIEeCqQ7gSCWz0pg" type="ImageCompartment">
@@ -4099,7 +4099,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_OJ3usdSIEeCqQ7gSCWz0pg" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_OJ3ustSIEeCqQ7gSCWz0pg" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_OJ4VwNSIEeCqQ7gSCWz0pg" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OJ15gdSIEeCqQ7gSCWz0pg" x="17611" y="5581"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OJ15gdSIEeCqQ7gSCWz0pg" x="10096" y="1557"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_RnZlgNSIEeCqQ7gSCWz0pg" element="_TIjGYJ8BEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_RnaMkNSIEeCqQ7gSCWz0pg" type="ImageCompartment">
@@ -4112,7 +4112,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_RnbasNSIEeCqQ7gSCWz0pg" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_RnbasdSIEeCqQ7gSCWz0pg" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_RnbastSIEeCqQ7gSCWz0pg" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RnZlgdSIEeCqQ7gSCWz0pg" x="3439" y="5593"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RnZlgdSIEeCqQ7gSCWz0pg" x="1742" y="3662"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_POPmcPJ8EeCrteEUR2CQUA" element="_PM7-4PJ8EeCrteEUR2CQUA" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_POXiQPJ8EeCrteEUR2CQUA" type="ImageCompartment">
@@ -4125,7 +4125,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_PObzsPJ8EeCrteEUR2CQUA" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_POeP8PJ8EeCrteEUR2CQUA" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_POfeEPJ8EeCrteEUR2CQUA" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_POPmcfJ8EeCrteEUR2CQUA" x="963" y="4265"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_POPmcfJ8EeCrteEUR2CQUA" x="1131" y="5320"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_pbUXUPJ8EeCrteEUR2CQUA" element="_pbPe0PJ8EeCrteEUR2CQUA" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_pbVlcPJ8EeCrteEUR2CQUA" type="ImageCompartment">
@@ -4138,7 +4138,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_pbYBsfJ8EeCrteEUR2CQUA" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_pbYowPJ8EeCrteEUR2CQUA" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_pbYowfJ8EeCrteEUR2CQUA" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pbUXUfJ8EeCrteEUR2CQUA" x="927" y="3028"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pbUXUfJ8EeCrteEUR2CQUA" x="1138" y="2879"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_BYrIUPJ9EeCrteEUR2CQUA" element="_BYmP0PJ9EeCrteEUR2CQUA" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_BYsWcPJ9EeCrteEUR2CQUA" type="ImageCompartment">
@@ -4151,7 +4151,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_BYuysPJ9EeCrteEUR2CQUA" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_BYvZwPJ9EeCrteEUR2CQUA" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_BYvZwfJ9EeCrteEUR2CQUA" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_BYrIUfJ9EeCrteEUR2CQUA" x="1056" y="258"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_BYrIUfJ9EeCrteEUR2CQUA" x="1075" y="-252"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_EP2JwPJ9EeCrteEUR2CQUA" element="_EPx4UPJ9EeCrteEUR2CQUA" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_EP2w0PJ9EeCrteEUR2CQUA" type="ImageCompartment">
@@ -4164,7 +4164,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_EP5NEPJ9EeCrteEUR2CQUA" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_EP5NEfJ9EeCrteEUR2CQUA" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_EP5NEvJ9EeCrteEUR2CQUA" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EP2JwfJ9EeCrteEUR2CQUA" x="3569" y="1911"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EP2JwfJ9EeCrteEUR2CQUA" x="3569" y="859"/>
           </children>
           <children xmi:type="umlnotation:UMLShape" xmi:id="_Pynz8PJ-EeCrteEUR2CQUA" element="_QR2woJ8CEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" transparency="100" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_PypCEPJ-EeCrteEUR2CQUA" type="ImageCompartment">
@@ -4177,7 +4177,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_PyppIvJ-EeCrteEUR2CQUA" visible="false" type="OperationCompartment"/>
             <children xmi:type="notation:SemanticListCompartment" xmi:id="_PyqQMPJ-EeCrteEUR2CQUA" visible="false" type="SignalCompartment"/>
             <children xmi:type="umlnotation:UMLShapeCompartment" xmi:id="_PyqQMfJ-EeCrteEUR2CQUA" visible="false" type="StructureCompartment"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Pynz8fJ-EeCrteEUR2CQUA" x="18737" y="429"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Pynz8fJ-EeCrteEUR2CQUA" x="7306" y="6714"/>
           </children>
           <element xsi:nil="true"/>
           <edges xmi:type="umlnotation:UMLConnector" xmi:id="_iVe1UKFLEd-l1J3OQ8v6iQ" element="_iVZVwKFLEd-l1J3OQ8v6iQ" source="_9o1EAKFGEd-l1J3OQ8v6iQ" target="_eppcwKFLEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
@@ -4196,11 +4196,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_iVgDcaFLEd-l1J3OQ8v6iQ" type="FromMultiplicityLabel" element="_iVZ80KFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_iVgDc6FLEd-l1J3OQ8v6iQ" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_iVgDcqFLEd-l1J3OQ8v6iQ" x="-128" y="136"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_iVgDcqFLEd-l1J3OQ8v6iQ" x="825" y="-391"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_iVgDdKFLEd-l1J3OQ8v6iQ" type="FromRoleLabel" element="_iVZ80KFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_iVgqgKFLEd-l1J3OQ8v6iQ" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_iVgDdaFLEd-l1J3OQ8v6iQ" x="-165" y="-1589"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_iVgDdaFLEd-l1J3OQ8v6iQ" x="-904" y="-315"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_iVgqgaFLEd-l1J3OQ8v6iQ" type="ToQualifierLabel" element="_iVbK8KFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_iVgqg6FLEd-l1J3OQ8v6iQ" type="QualifierCompartment"/>
@@ -4218,7 +4218,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_iVh4oqFLEd-l1J3OQ8v6iQ" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_iVh4oaFLEd-l1J3OQ8v6iQ" y="1254"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_iVe1UqFLEd-l1J3OQ8v6iQ" points="[2049, 89, -2575, -4634]$[2049, 1885, -2575, -2838]$[5039, 1885, 415, -2838]$[5039, 4723, 415, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_iVe1UqFLEd-l1J3OQ8v6iQ" points="[1996, 89, 4147, -3171]$[1996, 3652, 4147, 392]$[-1206, 3652, 945, 392]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_R7wNSIEeCqQ7gSCWz0pg" id="(0.4285713989516989,0.8404907975460124)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_TJ4NSIEeCqQ7gSCWz0pg" id="(0.7501308900523564,1.3949305241916078E-15)"/>
           </edges>
@@ -4238,11 +4238,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_dNgkBKFNEd-l1J3OQ8v6iQ" type="FromMultiplicityLabel" element="_dNbEcKFNEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_dNhLEaFNEd-l1J3OQ8v6iQ" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_dNhLEKFNEd-l1J3OQ8v6iQ" x="1150" y="300"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_dNhLEKFNEd-l1J3OQ8v6iQ" x="770" y="-228"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_dNhLEqFNEd-l1J3OQ8v6iQ" type="FromRoleLabel" element="_dNbEcKFNEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_dNhLFKFNEd-l1J3OQ8v6iQ" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_dNhLE6FNEd-l1J3OQ8v6iQ" x="198" y="-2258"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_dNhLE6FNEd-l1J3OQ8v6iQ" x="1217" y="497"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_dNhyIKFNEd-l1J3OQ8v6iQ" type="ToQualifierLabel" element="_dNbrgaFNEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_dNhyIqFNEd-l1J3OQ8v6iQ" type="QualifierCompartment"/>
@@ -4260,7 +4260,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_dNjARKFNEd-l1J3OQ8v6iQ" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_dNjAQ6FNEd-l1J3OQ8v6iQ" y="1254"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_dNfV4qFNEd-l1J3OQ8v6iQ" points="[-2259, 89, 1814, -4628]$[-2259, 3261, 1814, -1456]$[-7048, 3261, -2975, -1456]$[-7048, 4717, -2975, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_dNfV4qFNEd-l1J3OQ8v6iQ" points="[440, 89, 3669, -5642]$[440, 6013, 3669, 282]$[-1900, 6013, 1329, 282]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_UYANSIEeCqQ7gSCWz0pg" id="(0.857142797903397,0.8404907975460124)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_U_ENSIEeCqQ7gSCWz0pg" id="(0.7500779201395392,2.7898610483832155E-15)"/>
           </edges>
@@ -4272,7 +4272,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ6K8NSIEeCqQ7gSCWz0pg" type="ToMultiplicityLabel" element="_O-qKkKFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_OJ6K8tSIEeCqQ7gSCWz0pg" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ6K8dSIEeCqQ7gSCWz0pg" x="-235" y="-173"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ6K8dSIEeCqQ7gSCWz0pg" x="505" y="-89"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ6K89SIEeCqQ7gSCWz0pg" visible="false" type="ToRoleLabel" element="_O-qKkKFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_OJ6yANSIEeCqQ7gSCWz0pg" type="ToRole"/>
@@ -4280,11 +4280,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ6yAdSIEeCqQ7gSCWz0pg" type="FromMultiplicityLabel" element="_O-o8cKFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_OJ6yA9SIEeCqQ7gSCWz0pg" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ6yAtSIEeCqQ7gSCWz0pg" x="210" y="-322"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ6yAtSIEeCqQ7gSCWz0pg" x="-127" y="-324"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ7ZENSIEeCqQ7gSCWz0pg" type="FromRoleLabel" element="_O-o8cKFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_OJ7ZEtSIEeCqQ7gSCWz0pg" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ7ZEdSIEeCqQ7gSCWz0pg" x="171" y="1266"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ7ZEdSIEeCqQ7gSCWz0pg" x="-100" y="1346"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_OJ8AINSIEeCqQ7gSCWz0pg" type="ToQualifierLabel" element="_O-qKkKFLEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_OJ8AItSIEeCqQ7gSCWz0pg" type="QualifierCompartment"/>
@@ -4302,7 +4302,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_OJ9OQtSIEeCqQ7gSCWz0pg" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_OJ9OQdSIEeCqQ7gSCWz0pg" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OJ480dSIEeCqQ7gSCWz0pg" points="[2836, -135, -1020, -933]$[4872, -135, 1016, -933]$[4872, 798, 1016, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_OJ480dSIEeCqQ7gSCWz0pg" points="[2836, -304, -280, 1459]$[3313, -304, 197, 1459]$[3313, -1210, 197, 553]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_VmINSIEeCqQ7gSCWz0pg" id="(0.2501308900523565,0.8404907975460123)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_WNMNSIEeCqQ7gSCWz0pg" id="(0.5001359084041169,2.7898610483832155E-15)"/>
           </edges>
@@ -4314,7 +4314,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_RndP4tSIEeCqQ7gSCWz0pg" type="ToMultiplicityLabel" element="_ocO7sKFMEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_Rnd28NSIEeCqQ7gSCWz0pg" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_RndP49SIEeCqQ7gSCWz0pg" x="101" y="275"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_RndP49SIEeCqQ7gSCWz0pg" x="40" y="-299"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_RneeANSIEeCqQ7gSCWz0pg" visible="false" type="ToRoleLabel" element="_ocO7sKFMEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_RneeAtSIEeCqQ7gSCWz0pg" type="ToRole"/>
@@ -4322,11 +4322,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_RneeA9SIEeCqQ7gSCWz0pg" type="FromMultiplicityLabel" element="_ocNGgKFMEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_RnfFENSIEeCqQ7gSCWz0pg" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_RneeBNSIEeCqQ7gSCWz0pg" x="-87" y="270"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_RneeBNSIEeCqQ7gSCWz0pg" x="-298" y="-260"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_RnfFEdSIEeCqQ7gSCWz0pg" type="FromRoleLabel" element="_ocNGgKFMEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_RnfFE9SIEeCqQ7gSCWz0pg" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_RnfFEtSIEeCqQ7gSCWz0pg" x="-105" y="-1338"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_RnfFEtSIEeCqQ7gSCWz0pg" x="-254" y="1325"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_RnfsINSIEeCqQ7gSCWz0pg" type="ToQualifierLabel" element="_ocO7sKFMEd-l1J3OQ8v6iQ">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_RnfsItSIEeCqQ7gSCWz0pg" type="QualifierCompartment"/>
@@ -4344,7 +4344,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_Rng6QtSIEeCqQ7gSCWz0pg" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_Rng6QdSIEeCqQ7gSCWz0pg" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_RncBwdSIEeCqQ7gSCWz0pg" points="[983, 89, -1149, -775]$[983, 864, -1149, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_RncBwdSIEeCqQ7gSCWz0pg" points="[-455, -464, -722, 1658]$[-455, -1569, -722, 553]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_XbUNSIEeCqQ7gSCWz0pg" id="(0.5000587364741428,0.8404907975460151)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j_YCYNSIEeCqQ7gSCWz0pg" id="(0.5002464318300313,0.0)"/>
           </edges>
@@ -4356,19 +4356,19 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-LOgNowEeCt4bZH5yXw5Q" type="ToMultiplicityLabel" element="_O45F4NowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-McoNowEeCt4bZH5yXw5Q" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-LOgdowEeCt4bZH5yXw5Q" x="-505" y="-195"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-LOgdowEeCt4bZH5yXw5Q" x="21" y="-259"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-NDsNowEeCt4bZH5yXw5Q" type="ToRoleLabel" element="_O45F4NowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-NqwNowEeCt4bZH5yXw5Q" type="ToRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NDsdowEeCt4bZH5yXw5Q" x="1228" y="-249"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NDsdowEeCt4bZH5yXw5Q" x="379" y="-1477"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-NqwdowEeCt4bZH5yXw5Q" type="FromMultiplicityLabel" element="_O4onMNowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-OR0NowEeCt4bZH5yXw5Q" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NqwtowEeCt4bZH5yXw5Q" x="103" y="-290"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-NqwtowEeCt4bZH5yXw5Q" x="165" y="-163"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-O44NowEeCt4bZH5yXw5Q" type="FromRoleLabel" element="_O4onMNowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_O-Pf8NowEeCt4bZH5yXw5Q" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-O44dowEeCt4bZH5yXw5Q" x="1714" y="-180"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_O-O44dowEeCt4bZH5yXw5Q" x="-275" y="-1599"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_O-QHANowEeCt4bZH5yXw5Q" type="ToQualifierLabel" element="_O45F4NowEeCt4bZH5yXw5Q">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_O-QuENowEeCt4bZH5yXw5Q" type="QualifierCompartment"/>
@@ -4386,7 +4386,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_O-UYcNowEeCt4bZH5yXw5Q" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_O-TxYdowEeCt4bZH5yXw5Q" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_O9vwsdowEeCt4bZH5yXw5Q" points="[-2046, -464, 5974, 6]$[-2046, -906, 5974, -436]$[-6067, -906, 1953, -436]$[-6067, -470, 1953, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_O9vwsdowEeCt4bZH5yXw5Q" points="[-2123, 89, -1722, -1918]$[-2123, 2007, -1722, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUilMPJ_EeCrteEUR2CQUA" id="(0.7501308900523564,0.8404907975460123)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUjzUPJ_EeCrteEUR2CQUA" id="(0.5000779201395399,2.7898610483832155E-15)"/>
           </edges>
@@ -4398,19 +4398,19 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGk9YNoxEeCt4bZH5yXw5Q" type="ToMultiplicityLabel" element="_EGZ-QNoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGlkcNoxEeCt4bZH5yXw5Q" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGk9YdoxEeCt4bZH5yXw5Q" x="4" y="-225"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGk9YdoxEeCt4bZH5yXw5Q" x="-165" y="-377"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGmLgNoxEeCt4bZH5yXw5Q" type="ToRoleLabel" element="_EGZ-QNoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGmLgtoxEeCt4bZH5yXw5Q" type="ToRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGmLgdoxEeCt4bZH5yXw5Q" x="-1675" y="-250"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGmLgdoxEeCt4bZH5yXw5Q" x="228" y="-1671"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGmykNoxEeCt4bZH5yXw5Q" type="FromMultiplicityLabel" element="_EGXiANoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGmyktoxEeCt4bZH5yXw5Q" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGmykdoxEeCt4bZH5yXw5Q" x="465" y="-239"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGmykdoxEeCt4bZH5yXw5Q" x="-41" y="-303"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGnZoNoxEeCt4bZH5yXw5Q" type="FromRoleLabel" element="_EGXiANoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_EGnZotoxEeCt4bZH5yXw5Q" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGnZodoxEeCt4bZH5yXw5Q" x="-1311" y="-271"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EGnZodoxEeCt4bZH5yXw5Q" x="-401" y="-1670"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_EGoAsNoxEeCt4bZH5yXw5Q" type="ToQualifierLabel" element="_EGZ-QNoxEeCt4bZH5yXw5Q">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_EGoAstoxEeCt4bZH5yXw5Q" type="QualifierCompartment"/>
@@ -4428,7 +4428,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_EGp14NoxEeCt4bZH5yXw5Q" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_EGpO0toxEeCt4bZH5yXw5Q" y="1058"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EGjIMdoxEeCt4bZH5yXw5Q" points="[3301, 553, -5102, 83]$[3301, 1079, -5102, 609]$[7250, 1079, -1153, 609]$[7250, 559, -1153, 89]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EGjIMdoxEeCt4bZH5yXw5Q" points="[-658, 0, -1442, 2007]$[-658, -1918, -1442, 89]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUlBcPJ_EeCrteEUR2CQUA" id="(0.2500779201395392,2.7898610483832155E-15)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUlogPJ_EeCrteEUR2CQUA" id="(0.500130890052357,0.8404907975460123)"/>
           </edges>
@@ -4438,7 +4438,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_MD24ofJ9EeCrteEUR2CQUA" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MD1DcfJ9EeCrteEUR2CQUA" y="-184"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MD0cYfJ9EeCrteEUR2CQUA" points="[-272, 89, -2318, -4693]$[-272, 5111, -2318, 329]$[45, 5111, -2001, 329]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MD0cYfJ9EeCrteEUR2CQUA" points="[-2045, 89, -1658, -2578]$[-2045, 2667, -1658, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUrvIPJ_EeCrteEUR2CQUA" id="(0.3333333775917743,0.8404907975460115)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUsWMPJ_EeCrteEUR2CQUA" id="(0.3334164438849668,1.3949305241916078E-15)"/>
           </edges>
@@ -4448,7 +4448,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_MgHW0fJ9EeCrteEUR2CQUA" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_MgGvwfJ9EeCrteEUR2CQUA" y="-184"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MgGIsfJ9EeCrteEUR2CQUA" points="[-1099, 89, 0, -564]$[-1099, 653, 0, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_MgGIsfJ9EeCrteEUR2CQUA" points="[-2459, -135, -1571, -1691]$[-4123, -135, -3235, -1691]$[-4123, 1556, -3235, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUuycPJ_EeCrteEUR2CQUA" id="(0.3333332892307955,0.8404907975460115)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUuycfJ_EeCrteEUR2CQUA" id="(0.6667498312915282,1.3949305241916078E-15)"/>
           </edges>
@@ -4458,7 +4458,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_Zh6ZMPJ9EeCrteEUR2CQUA" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Zh5yIfJ9EeCrteEUR2CQUA" y="-184"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Zh4kAfJ9EeCrteEUR2CQUA" points="[-1177, 89, 616, -684]$[-1177, 773, 616, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Zh4kAfJ9EeCrteEUR2CQUA" points="[-2669, 89, -854, -1212]$[-2669, 1301, -854, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUqhAPJ_EeCrteEUR2CQUA" id="(0.5000830564784055,0.8404907975460123)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUrIEPJ_EeCrteEUR2CQUA" id="(0.33339206980747715,2.7898610483832155E-15)"/>
           </edges>
@@ -4468,11 +4468,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_fvhyAfJ9EeCrteEUR2CQUA" type="Name"/>
               <layoutConstraint xmi:type="notation:Bounds" xmi:id="_fvhK8fJ9EeCrteEUR2CQUA" y="-184"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_fvf80fJ9EeCrteEUR2CQUA" points="[-2658, -206, 1539, 285]$[-3025, -206, 1172, 285]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_fvf80fJ9EeCrteEUR2CQUA" points="[-2658, -209, 3844, 262]$[-5330, -209, 1172, 262]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUm2oPJ_EeCrteEUR2CQUA" id="(0.5000779201395399,0.8404907975460123)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUoEwPJ_EeCrteEUR2CQUA" id="(0.66672540314081,2.7898610483832155E-15)"/>
           </edges>
-          <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hw2wkPJ9EeCrteEUR2CQUA" element="_hwhZYPJ9EeCrteEUR2CQUA" source="_BYrIUPJ9EeCrteEUR2CQUA" target="_eppcwKFLEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
+          <edges xmi:type="umlnotation:UMLConnector" xmi:id="_hw2wkPJ9EeCrteEUR2CQUA" element="_hwhZYPJ9EeCrteEUR2CQUA" source="_BYrIUPJ9EeCrteEUR2CQUA" target="_eppcwKFLEd-l1J3OQ8v6iQ" fontName="Arial" fontHeight="8" routing="Rectilinear" jumpLinkStatus="Above" lineColor="0" lineWidth="1" showStereotype="Text">
             <children xmi:type="notation:DecorationNode" xmi:id="_hw3XoPJ9EeCrteEUR2CQUA" type="NameLabel">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw3-sPJ9EeCrteEUR2CQUA" type="Stereotype"/>
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw3-sfJ9EeCrteEUR2CQUA" type="Name"/>
@@ -4480,7 +4480,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_hw5M0PJ9EeCrteEUR2CQUA" type="ToMultiplicityLabel" element="_hwqjUPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw5z4PJ9EeCrteEUR2CQUA" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw5M0fJ9EeCrteEUR2CQUA" x="-3304" y="-242"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw5M0fJ9EeCrteEUR2CQUA" x="-977" y="-178"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_hw6a8PJ9EeCrteEUR2CQUA" visible="false" type="ToRoleLabel" element="_hwqjUPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw7CAPJ9EeCrteEUR2CQUA" type="ToRole"/>
@@ -4488,11 +4488,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_hw7CAfJ9EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_hwlq0PJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw7pEPJ9EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw7CAvJ9EeCrteEUR2CQUA" x="1564" y="-1409"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw7CAvJ9EeCrteEUR2CQUA" x="-27" y="621"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_hw7pEfJ9EeCrteEUR2CQUA" type="FromRoleLabel" element="_hwlq0PJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_hw83MPJ9EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw7pEvJ9EeCrteEUR2CQUA" x="425" y="-294"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_hw7pEvJ9EeCrteEUR2CQUA" x="-1375" y="256"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_hw83MfJ9EeCrteEUR2CQUA" type="ToQualifierLabel" element="_hwqjUPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_hw9eQPJ9EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4510,7 +4510,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_hw_TcPJ9EeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_hw-sYvJ9EeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hw2wkfJ9EeCrteEUR2CQUA" points="[-4902, -135, -14206, -3732]$[-5323, -135, -14627, -3732]$[-5323, 5839, -14627, 2242]$[10419, 5839, 1115, 2242]$[10419, 4150, 1115, 553]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hw2wkfJ9EeCrteEUR2CQUA" points="[-3648, 89, -6158, -2555]$[-3648, 1783, -6158, -861]$[1722, 1783, -788, -861]$[1722, 2644, -788, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUtkUPJ_EeCrteEUR2CQUA" id="(0.6666667551835486,0.8404907975460115)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUtkUfJ_EeCrteEUR2CQUA" id="(0.2501308900523565,1.3949305241916078E-15)"/>
           </edges>
@@ -4522,7 +4522,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tR3VoPJ9EeCrteEUR2CQUA" type="ToMultiplicityLabel" element="_tRtkoPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tR3VovJ9EeCrteEUR2CQUA" type="ToMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR3VofJ9EeCrteEUR2CQUA" x="-865" y="-202"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR3VofJ9EeCrteEUR2CQUA" x="106" y="-285"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tR38sPJ9EeCrteEUR2CQUA" visible="false" type="ToRoleLabel" element="_tRtkoPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tR38svJ9EeCrteEUR2CQUA" type="ToRole"/>
@@ -4530,11 +4530,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tR38s_J9EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_tRrvcPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tR4jwPJ9EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR38tPJ9EeCrteEUR2CQUA" x="846" y="308"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR38tPJ9EeCrteEUR2CQUA" x="39" y="-346"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tR4jwfJ9EeCrteEUR2CQUA" type="FromRoleLabel" element="_tRrvcPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tR5K0PJ9EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR4jwvJ9EeCrteEUR2CQUA" x="-724" y="1401"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tR4jwvJ9EeCrteEUR2CQUA" x="-305" y="-1516"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tR5K0fJ9EeCrteEUR2CQUA" type="ToQualifierLabel" element="_tRtkoPJ9EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_tR5x4PJ9EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4552,7 +4552,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_tR7AAvJ9EeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_tR7AAfJ9EeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_tR2HgfJ9EeCrteEUR2CQUA" points="[2460, -179, -5259, -2123]$[7889, -179, 170, -2123]$[7889, 1944, 170, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_tR2HgfJ9EeCrteEUR2CQUA" points="[-445, 89, -1389, -1444]$[-445, 1533, -1389, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUwAkPJ_EeCrteEUR2CQUA" id="(0.6666665784615908,0.8404907975460115)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUwnoPJ_EeCrteEUR2CQUA" id="(0.500130890052357,1.3949305241916078E-15)"/>
           </edges>
@@ -4572,11 +4572,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCB1YPJ-EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_mBu6cPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_mCB1YvJ-EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCB1YfJ-EeCrteEUR2CQUA" x="338" y="-411"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCB1YfJ-EeCrteEUR2CQUA" x="1631" y="331"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCccPJ-EeCrteEUR2CQUA" type="FromRoleLabel" element="_mBu6cPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_mCCccvJ-EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="47" y="1788"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_mCCccfJ-EeCrteEUR2CQUA" x="-481" y="286"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_mCCcc_J-EeCrteEUR2CQUA" type="ToQualifierLabel" element="_mB1oIPJ-EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_mCDDgPJ-EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4594,7 +4594,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_mCERoPJ-EeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_mCDqlPJ-EeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mB_ZIfJ-EeCrteEUR2CQUA" points="[1338, -231, -4783, -1064]$[6030, -231, -91, -1064]$[6030, 833, -91, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_mB_ZIfJ-EeCrteEUR2CQUA" points="[1338, -20, 6648, -7138]$[1717, -20, 7027, -7138]$[1717, 7150, 7027, 32]$[-4684, 7150, 626, 32]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUdFoPJ_EeCrteEUR2CQUA" id="(0.7142855958067948,0.8404907975460124)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUdssPJ_EeCrteEUR2CQUA" id="(0.6666666666666685,6.974652620958039E-16)"/>
           </edges>
@@ -4614,11 +4614,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_Di__8PJ_EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_DiykkPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_Di__8vJ_EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_Di__8fJ_EeCrteEUR2CQUA" x="296" y="264"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Di__8fJ_EeCrteEUR2CQUA" x="1949" y="-369"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_Di__8_J_EeCrteEUR2CQUA" type="FromRoleLabel" element="_DiykkPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_DjAnAPJ_EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_Di__9PJ_EeCrteEUR2CQUA" x="-1063" y="-352"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_Di__9PJ_EeCrteEUR2CQUA" x="-235" y="-264"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_DjAnAfJ_EeCrteEUR2CQUA" type="ToQualifierLabel" element="_Di2O8PJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_DjAnA_J_EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4636,7 +4636,7 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_DjCcMPJ_EeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_DjB1JPJ_EeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Di9jsfJ_EeCrteEUR2CQUA" points="[1831, 89, -4334, -744]$[1831, 1118, -4334, 285]$[5540, 1118, -625, 285]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Di9jsfJ_EeCrteEUR2CQUA" points="[2007, -311, 7273, -7429]$[2757, -311, 8023, -7429]$[2757, 7547, 8023, 429]$[-4015, 7547, 1251, 429]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUe60PJ_EeCrteEUR2CQUA" id="(0.5714286010483018,0.8404907975460124)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_KUfh4PJ_EeCrteEUR2CQUA" id="(0.3333333333333333,6.974652620958039E-16)"/>
           </edges>
@@ -4656,11 +4656,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tQ2XEfJ_EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_tQntkPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tQ2XE_J_EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2XEvJ_EeCrteEUR2CQUA" x="85" y="-157"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2XEvJ_EeCrteEUR2CQUA" x="-64" y="-199"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tQ2-IPJ_EeCrteEUR2CQUA" type="FromRoleLabel" element="_tQntkPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_tQ2-IvJ_EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2-IfJ_EeCrteEUR2CQUA" x="4" y="3009"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_tQ2-IfJ_EeCrteEUR2CQUA" x="-81" y="3497"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_tQ3lMPJ_EeCrteEUR2CQUA" type="ToQualifierLabel" element="_tQqw4PJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_tQ4zUPJ_EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4698,11 +4698,11 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_5uPr4fJ_EeCrteEUR2CQUA" type="FromMultiplicityLabel" element="_5uC3kPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_5uPr4_J_EeCrteEUR2CQUA" type="FromMultiplicity"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_5uPr4vJ_EeCrteEUR2CQUA" x="233" y="-368"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_5uPr4vJ_EeCrteEUR2CQUA" x="381" y="-154"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_5uQS8PJ_EeCrteEUR2CQUA" type="FromRoleLabel" element="_5uC3kPJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:BasicDecorationNode" xmi:id="_5uQS8vJ_EeCrteEUR2CQUA" type="FromRole"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_5uQS8fJ_EeCrteEUR2CQUA" x="239" y="2940"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_5uQS8fJ_EeCrteEUR2CQUA" x="4048" y="-105"/>
             </children>
             <children xmi:type="notation:DecorationNode" xmi:id="_5uQS8_J_EeCrteEUR2CQUA" type="ToQualifierLabel" element="_5uF64PJ_EeCrteEUR2CQUA">
               <children xmi:type="notation:SemanticListCompartment" xmi:id="_5uQ6APJ_EeCrteEUR2CQUA" type="QualifierCompartment"/>
@@ -4720,9 +4720,49 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
               <children xmi:type="notation:ListCompartment" xmi:id="_5uUkYvJ_EeCrteEUR2CQUA" type="FromConstraintCompartment"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_5uUkYfJ_EeCrteEUR2CQUA" y="1047"/>
             </children>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5uNPofJ_EeCrteEUR2CQUA" points="[-668, 20, 5960, -1151]$[-3651, 20, 2977, -1151]$[-3651, 1171, 2977, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5uNPofJ_EeCrteEUR2CQUA" points="[-668, -231, 5772, -383]$[-2989, -231, 3451, -383]$[-2989, 152, 3451, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_DlxKoPKAEeCrteEUR2CQUA" id="(0.14285720209660374,0.8404907975460124)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_DlxxsPKAEeCrteEUR2CQUA" id="(0.5000000000000001,6.974652620958039E-16)"/>
+          </edges>
+          <edges xmi:type="umlnotation:UMLConnector" xmi:id="_KqAFYP9GEeKULs34DVjx2g" element="_KpMNEP9GEeKULs34DVjx2g" source="_POPmcPJ8EeCrteEUR2CQUA" target="_Pynz8PJ-EeCrteEUR2CQUA" fontName="Arial" fontHeight="8" routing="Rectilinear" lineColor="0" lineWidth="1" showStereotype="Text">
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqDIsP9GEeKULs34DVjx2g" type="NameLabel">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqDvwP9GEeKULs34DVjx2g" type="Stereotype"/>
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqDvwf9GEeKULs34DVjx2g" type="Name"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KqDIsf9GEeKULs34DVjx2g" y="-186"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqE94P9GEeKULs34DVjx2g" type="ToMultiplicityLabel" element="_KptxgP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqFk8P9GEeKULs34DVjx2g" type="ToMultiplicity"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqE94f9GEeKULs34DVjx2g" x="-530" y="142"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqFk8f9GEeKULs34DVjx2g" visible="false" type="ToRoleLabel" element="_KptxgP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqGMAP9GEeKULs34DVjx2g" type="ToRole"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqFk8v9GEeKULs34DVjx2g" x="-1186" y="-440"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqGMAf9GEeKULs34DVjx2g" type="FromMultiplicityLabel" element="_KpqHIP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqGzEP9GEeKULs34DVjx2g" type="FromMultiplicity"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqGMAv9GEeKULs34DVjx2g" x="317" y="289"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqHaIP9GEeKULs34DVjx2g" type="FromRoleLabel" element="_KpqHIP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:BasicDecorationNode" xmi:id="_KqIBMP9GEeKULs34DVjx2g" type="FromRole"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqHaIf9GEeKULs34DVjx2g" x="-171" y="-315"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqIBMf9GEeKULs34DVjx2g" type="ToQualifierLabel" element="_KptxgP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:SemanticListCompartment" xmi:id="_KqIoQP9GEeKULs34DVjx2g" type="QualifierCompartment"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqIBMv9GEeKULs34DVjx2g" y="-186"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqIoQf9GEeKULs34DVjx2g" type="FromQualifierLabel" element="_KpqHIP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:SemanticListCompartment" xmi:id="_KqJPUP9GEeKULs34DVjx2g" type="QualifierCompartment"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqIoQv9GEeKULs34DVjx2g" y="-186"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqKdcP9GEeKULs34DVjx2g" type="ToConstraintLabel" element="_KptxgP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:ListCompartment" xmi:id="_KqLEgP9GEeKULs34DVjx2g" type="ToConstraintCompartment"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqKdcf9GEeKULs34DVjx2g" y="1058"/>
+            </children>
+            <children xmi:type="notation:DecorationNode" xmi:id="_KqLEgf9GEeKULs34DVjx2g" type="FromConstraintLabel" element="_KpqHIP9GEeKULs34DVjx2g">
+              <children xmi:type="notation:ListCompartment" xmi:id="_KqLrkP9GEeKULs34DVjx2g" type="FromConstraintCompartment"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_KqLEgv9GEeKULs34DVjx2g" y="1058"/>
+            </children>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_KqAFYf9GEeKULs34DVjx2g" points="[-236, 277, -9867, -1287]$[-236, 1415, -9867, -149]$[8693, 1415, -938, -149]"/>
           </edges>
         </contents>
         <contents xmi:type="umlnotation:UMLDiagram" xmi:id="_6npOIKFKEd-l1J3OQ8v6iQ" type="Class" name="assemblyComponent">
@@ -4983,6 +5023,10 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ocOUoaFMEd-l1J3OQ8v6iQ" value="1"/>
           <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ocOUoKFMEd-l1J3OQ8v6iQ" value="1"/>
         </ownedAttribute>
+        <ownedAttribute xmi:id="_KpqHIP9GEeKULs34DVjx2g" name="interface" visibility="private" type="_QR2woJ8CEd-l1J3OQ8v6iQ" association="_KpMNEP9GEeKULs34DVjx2g">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KpsjYP9GEeKULs34DVjx2g" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Kpr8UP9GEeKULs34DVjx2g" value="1"/>
+        </ownedAttribute>
       </packagedElement>
       <packagedElement xmi:type="uml:Class" xmi:id="_pbPe0PJ8EeCrteEUR2CQUA" name="SystemInterfaceDelegationConnector" isAbstract="true">
         <generalization xmi:id="_ZhzrgPJ9EeCrteEUR2CQUA" general="_PM7-4PJ8EeCrteEUR2CQUA"/>
@@ -5035,6 +5079,12 @@ class must be set to kieker.analysis.plugin.IAnalysisEvent!
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_tQl4YPJ_EeCrteEUR2CQUA" memberEnd="_tQntkPJ_EeCrteEUR2CQUA _tQqw4PJ_EeCrteEUR2CQUA"/>
       <packagedElement xmi:type="uml:Association" xmi:id="_5uBCYPJ_EeCrteEUR2CQUA" memberEnd="_5uC3kPJ_EeCrteEUR2CQUA _5uF64PJ_EeCrteEUR2CQUA"/>
+      <packagedElement xmi:type="uml:Association" xmi:id="_KpMNEP9GEeKULs34DVjx2g" memberEnd="_KpqHIP9GEeKULs34DVjx2g _KptxgP9GEeKULs34DVjx2g">
+        <ownedEnd xmi:id="_KptxgP9GEeKULs34DVjx2g" name="assemblyConnector" visibility="private" type="_PM7-4PJ8EeCrteEUR2CQUA" association="_KpMNEP9GEeKULs34DVjx2g">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Kpu_of9GEeKULs34DVjx2g" value="*"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Kpu_oP9GEeKULs34DVjx2g"/>
+        </ownedEnd>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Package" xmi:id="_wvHicKFNEd-l1J3OQ8v6iQ" name="componentDeployment">
       <eAnnotations xmi:id="_wvIJgKFNEd-l1J3OQ8v6iQ" source="uml2.diagrams" references="_wvIJgaFNEd-l1J3OQ8v6iQ">

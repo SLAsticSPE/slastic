@@ -244,6 +244,8 @@
         eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="connectorType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ConnectorType"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interface" ordered="false"
+          lowerBound="1" eType="#//typeRepository/Interface"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SystemInterfaceDelegationConnector"
         abstract="true" eSuperTypes="#//componentAssembly/AssemblyConnector"/>
