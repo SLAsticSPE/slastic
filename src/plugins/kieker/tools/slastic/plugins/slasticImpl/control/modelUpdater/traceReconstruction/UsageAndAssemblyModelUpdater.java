@@ -107,7 +107,7 @@ public class UsageAndAssemblyModelUpdater {
 	}
 
 	/**
-	 * TODO: improve performance (the way we lookup entities can increased heavily)
+	 * TODO: improve performance (the way we lookup entities can be increased heavily)
 	 * 
 	 * @param validExecutionTrace
 	 * @return

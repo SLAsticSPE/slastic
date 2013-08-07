@@ -121,7 +121,6 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 						MonitoringFactory.eINSTANCE.createConnectorOperationExecution();
 				newConnectorExec.setAssemblyConnector(assemblyConnector);
 				newConnectorExec.setExecutionContainer(executionContainer);
-				newConnectorExec.setExecutionContainer(executionContainer);
 				newExecution = newConnectorExec;
 
 				// TODO: operations for connector executions ...

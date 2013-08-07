@@ -496,7 +496,7 @@ public class EucalyptusApplicationCloudingService implements IApplicationCloudin
 		}
 
 		try {
-			Thread.sleep(15 * 1000);
+			Thread.sleep(15 * 1000); // why?
 		} catch (final InterruptedException e) {
 			LOG.error(e.getMessage(), e);
 		}

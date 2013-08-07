@@ -84,7 +84,7 @@ public class NumDeploymentsForAssemblyComponentRuleSet {
 			/* 1. Within old baseline interval */
 			nextBaseline = oldBaseline;
 		} else {
-			/* 2. Exceeding upper border of old baseline */
+			/* 2. Exceeding upper (or lower?) border of old baseline */
 			nextBaseline = this.baselines.floorEntry(workloadIntensity).getValue();
 		}
 
