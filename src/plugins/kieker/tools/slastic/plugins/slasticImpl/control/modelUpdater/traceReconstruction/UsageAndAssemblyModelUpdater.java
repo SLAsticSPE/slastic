@@ -217,6 +217,8 @@ public class UsageAndAssemblyModelUpdater {
 						sysProvDelegConnector = this.assemblyModelManager.createAndRegisterProvidedInterfaceDelegationConnector(connectorType);
 						this.assemblyModelManager.delegate(sysProvDelegConnector, iface, providingComponent);
 					}
+
+					// calling frequency of sysProvDelegConnector incremented below
 				} else { // reply message not originating from entry call
 					/*
 					 * Update receiver's (i.e., caller's) calling relationship.
@@ -257,6 +259,8 @@ public class UsageAndAssemblyModelUpdater {
 							return false;
 						}
 					}
+
+					// TODO: Update connector frequency?
 
 					/*
 					 * Update call frequency of receiving execution to

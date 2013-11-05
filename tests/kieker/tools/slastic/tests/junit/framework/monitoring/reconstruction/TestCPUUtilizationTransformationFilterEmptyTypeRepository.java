@@ -18,14 +18,12 @@ package kieker.tools.slastic.tests.junit.framework.monitoring.reconstruction;
 
 import junit.framework.Assert;
 
-
+import kieker.common.record.system.CPUUtilizationRecord;
 import kieker.tools.slastic.metamodel.executionEnvironment.Resource;
 import kieker.tools.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import kieker.tools.slastic.metamodel.monitoring.CPUUtilization;
 import kieker.tools.slastic.metamodel.typeRepository.ResourceType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType;
-
-import kieker.common.record.system.CPUUtilizationRecord;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.AbstractModelReconstructionComponent;
