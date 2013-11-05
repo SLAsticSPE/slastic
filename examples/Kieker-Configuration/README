@@ -6,7 +6,7 @@ use the following components:
    model at runtime
  - A Performance Evaluator which transforms the received
    performance data into time series.
-
+ 
 The file 'slastic.framework.properties' contains the 
 configuration. 
 
