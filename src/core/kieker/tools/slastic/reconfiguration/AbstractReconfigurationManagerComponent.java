@@ -24,7 +24,6 @@ import org.apache.commons.logging.LogFactory;
 
 import kieker.tools.slastic.common.AbstractSLAsticComponent;
 import kieker.tools.slastic.control.AbstractControlComponent;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
@@ -70,6 +69,7 @@ public abstract class AbstractReconfigurationManagerComponent extends AbstractSL
 			return;
 		}
 
+		// FIXME: Currently only supports sequential plans
 		final List<ReconfigurationOperation> executedOperations =
 				new ArrayList<ReconfigurationOperation>();
 
@@ -153,6 +153,8 @@ public abstract class AbstractReconfigurationManagerComponent extends AbstractSL
 	public DeploymentComponent replicateComponent(
 			final AssemblyComponent assemblyComponent,
 			final ExecutionContainer toExecutionContainer) {
+		// TODO: We may omit the preliminary object creation by first calling
+		// the reconfiguration operation on the model.
 		DeploymentComponent resDeploymentComponent = this.createPreliminaryDeploymentComponentInModel(assemblyComponent, toExecutionContainer);
 
 		final boolean success =
@@ -225,6 +227,8 @@ public abstract class AbstractReconfigurationManagerComponent extends AbstractSL
 	public DeploymentComponent migrateComponent(
 			final DeploymentComponent deploymentComponent,
 			final ExecutionContainer destination) {
+		// TODO: We may omit the preliminary object creation by first calling
+		// the reconfiguration operation on the model.
 		DeploymentComponent resDeploymentComponent = this.createPreliminaryDeploymentComponentInModel(deploymentComponent.getAssemblyComponent(), destination);
 
 		boolean success = this.concreteMigrateComponent(deploymentComponent, destination, resDeploymentComponent);
@@ -272,6 +276,9 @@ public abstract class AbstractReconfigurationManagerComponent extends AbstractSL
 	public ExecutionContainer allocateExecutionContainer(
 			final String fullyQualifiedName,
 			final ExecutionContainerType executionContainerType) {
+
+		// TODO: We may omit the preliminary object creation by first calling
+		// the reconfiguration operation on the model.
 		ExecutionContainer executionContainer = this.createPreliminaryExecutionContainerInModel(fullyQualifiedName, executionContainerType);
 
 		final boolean success = this.concreteAllocateExecutionContainer(executionContainerType, executionContainer);
@@ -283,6 +290,8 @@ public abstract class AbstractReconfigurationManagerComponent extends AbstractSL
 			executionContainer = null;
 			LOG.error("concreteAllocateExecutionContainer failed");
 		}
+
+		// TODO: Don't we need to call the Reconfiguration Model Manager's allocate operation to mark the container active?
 
 		// TODO: log event
 

@@ -25,15 +25,14 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
-
 import kieker.tools.slastic.metamodel.core.SystemModel;
 import kieker.tools.slastic.metamodel.typeRepository.ComponentType;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.usage.OperationCallFrequency;
 import kieker.tools.slastic.metamodel.usage.UsageFactory;
 import kieker.tools.slastic.metamodel.usage.UsageModel;
+import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
  * 

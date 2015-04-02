@@ -23,6 +23,12 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
+
+import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
+import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
+import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
+import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
 import kieker.tools.slastic.plugins.cloud.common.ICurrentTimeProvider;
 import kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstance;
 import kieker.tools.slastic.plugins.cloud.eucalyptus.model.EucalyptusApplicationInstanceConfiguration;
@@ -38,12 +44,6 @@ import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 import kieker.tools.slastic.reconfiguration.AbstractReconfigurationManagerComponent;
 import kieker.tools.slastic.reconfiguration.ReconfigurationException;
-
-import ReconfigurationPlanModel.SLAsticReconfigurationPlan;
-import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
-import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
-import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
-import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
 
 /**
  * 
@@ -417,23 +417,27 @@ public class EucalyptusReconfigurationManager extends AbstractReconfigurationMan
 
 	@Override
 	protected boolean deletePreliminaryDeploymentComponentFromModel(final DeploymentComponent deploymentComponent) {
+		// TODO: why not call to ReconfigurationModelManager's method?
 		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager().deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override
 	protected boolean deletePreliminaryExecutionContainerFromModel(final ExecutionContainer executionContainer) {
+		// TODO: why not call to ReconfigurationModelManager's method?
 		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager().deallocateExecutionContainer(executionContainer);
 	}
 
 	@Override
 	protected boolean deleteDeploymentComponentFromModel(final DeploymentComponent deploymentComponent) {
 		LOG.info("deleteDeploymentComponentFromModel(...)");
+		// TODO: why not call to ReconfigurationModelManager's dereplicateOperation?
 		return ((ModelManager) this.getControlComponent().getModelManager()).getComponentDeploymentModelManager().deleteDeploymentComponent(deploymentComponent);
 	}
 
 	@Override
 	protected boolean deleteExecutionContainerFromModel(final ExecutionContainer executionContainer) {
 		LOG.info("deleteExecutionContainerFromModel");
+		// TODO: why not call to ReconfigurationModelManager's method?
 		return ((ModelManager) this.getControlComponent().getModelManager()).getExecutionEnvironmentModelManager().deallocateExecutionContainer(executionContainer);
 	}
 }
