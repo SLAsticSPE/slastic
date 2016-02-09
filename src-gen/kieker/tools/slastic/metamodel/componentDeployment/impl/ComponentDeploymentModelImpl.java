@@ -30,10 +30,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentDeployment.impl.ComponentDeploymentModelImpl#getDeploymentComponents <em>Deployment Components</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

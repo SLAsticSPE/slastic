@@ -32,12 +32,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getProvidedInterfaces <em>Provided Interfaces</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getRequiredInterfaces <em>Required Interfaces</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.ComponentTypeImpl#getOperations <em>Operations</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

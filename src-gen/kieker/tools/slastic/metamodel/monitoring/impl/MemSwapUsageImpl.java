@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.MemSwapUsageImpl#getMemUsedBytes <em>Mem Used Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.MemSwapUsageImpl#getMemFreeBytes <em>Mem Free Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.MemSwapUsageImpl#getSwapUsedBytes <em>Swap Used Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.MemSwapUsageImpl#getSwapFreeBytes <em>Swap Free Bytes</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

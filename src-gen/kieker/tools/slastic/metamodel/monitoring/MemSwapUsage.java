@@ -14,13 +14,13 @@ package kieker.tools.slastic.metamodel.monitoring;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.MemSwapUsage#getMemUsedBytes <em>Mem Used Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.MemSwapUsage#getMemFreeBytes <em>Mem Free Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.MemSwapUsage#getSwapUsedBytes <em>Swap Used Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.MemSwapUsage#getSwapFreeBytes <em>Swap Free Bytes</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.monitoring.MonitoringPackage#getMemSwapUsage()
  * @model

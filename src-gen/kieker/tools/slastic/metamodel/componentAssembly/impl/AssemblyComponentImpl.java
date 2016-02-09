@@ -35,12 +35,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.AssemblyComponentImpl#getComponentType <em>Component Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.AssemblyComponentImpl#getProvidingConnectors <em>Providing Connectors</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.AssemblyComponentImpl#getRequiringConnectors <em>Requiring Connectors</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

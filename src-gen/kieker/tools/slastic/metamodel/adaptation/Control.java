@@ -15,6 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.Control#getAdaptationModel <em>Adaptation Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.Control#getPerformanceEvaluator <em>Performance Evaluator</em>}</li>
@@ -22,7 +23,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.Control#getPerformancePredictor <em>Performance Predictor</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.Control#getAdaptationPlanner <em>Adaptation Planner</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.adaptation.AdaptationPackage#getControl()
  * @model

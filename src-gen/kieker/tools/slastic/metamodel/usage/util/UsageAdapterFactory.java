@@ -142,6 +142,14 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 				return createSynchronousReplyMessageAdapter();
 			}
 			@Override
+			public Adapter caseDeploymentCallingRelationship(DeploymentCallingRelationship object) {
+				return createDeploymentCallingRelationshipAdapter();
+			}
+			@Override
+			public Adapter caseDeploymentOperationCallFrequency(DeploymentOperationCallFrequency object) {
+				return createDeploymentOperationCallFrequencyAdapter();
+			}
+			@Override
 			public Adapter caseSLAsticModel(SLAsticModel object) {
 				return createSLAsticModelAdapter();
 			}
@@ -400,6 +408,34 @@ public class UsageAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createSynchronousReplyMessageAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship <em>Deployment Calling Relationship</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship
+	 * @generated
+	 */
+	public Adapter createDeploymentCallingRelationshipAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency <em>Deployment Operation Call Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency
+	 * @generated
+	 */
+	public Adapter createDeploymentOperationCallFrequencyAdapter() {
 		return null;
 	}
 

@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.OperationImpl#getSignature <em>Signature</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.OperationImpl#getComponentType <em>Component Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -117,7 +117,7 @@ public class OperationImpl extends EntityImpl implements Operation {
 	 */
 	public ComponentType getComponentType() {
 		if (eContainerFeatureID() != TypeRepositoryPackage.OPERATION__COMPONENT_TYPE) return null;
-		return (ComponentType)eContainer();
+		return (ComponentType)eInternalContainer();
 	}
 
 	/**

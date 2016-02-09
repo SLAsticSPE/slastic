@@ -19,12 +19,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getExecutionContainerType <em>Execution Container Type</em>}</li>
- *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}</li>
+ *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLinks <em>Network Links</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getResources <em>Resources</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer()
  * @model
@@ -58,32 +58,22 @@ public interface ExecutionContainer extends FQNamedEntity {
 	void setExecutionContainerType(ExecutionContainerType value);
 
 	/**
-	 * Returns the value of the '<em><b>Network Link</b></em>' reference.
+	 * Returns the value of the '<em><b>Network Links</b></em>' reference list.
+	 * The list contents are of type {@link kieker.tools.slastic.metamodel.executionEnvironment.NetworkLink}.
 	 * It is bidirectional and its opposite is '{@link kieker.tools.slastic.metamodel.executionEnvironment.NetworkLink#getExecutionContainers <em>Execution Containers</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Network Link</em>' reference isn't clear,
+	 * If the meaning of the '<em>Network Links</em>' reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Network Link</em>' reference.
-	 * @see #setNetworkLink(NetworkLink)
-	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer_NetworkLink()
+	 * @return the value of the '<em>Network Links</em>' reference list.
+	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getExecutionContainer_NetworkLinks()
 	 * @see kieker.tools.slastic.metamodel.executionEnvironment.NetworkLink#getExecutionContainers
-	 * @model opposite="executionContainers" required="true" ordered="false"
+	 * @model opposite="executionContainers" ordered="false"
 	 * @generated
 	 */
-	NetworkLink getNetworkLink();
-
-	/**
-	 * Sets the value of the '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Network Link</em>' reference.
-	 * @see #getNetworkLink()
-	 * @generated
-	 */
-	void setNetworkLink(NetworkLink value);
+	EList<NetworkLink> getNetworkLinks();
 
 	/**
 	 * Returns the value of the '<em><b>Resources</b></em>' containment reference list.

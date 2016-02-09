@@ -14,6 +14,8 @@ import kieker.tools.slastic.metamodel.usage.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage
  * @generated
  */
-public class UsageSwitch<T> {
+public class UsageSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
@@ -50,14 +52,16 @@ public class UsageSwitch<T> {
 	}
 
 	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * Checks whether this is a switch for the given package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @param ePackage the package in question.
+	 * @return whether this is a switch for the given package.
 	 * @generated
 	 */
-	public T doSwitch(EObject theEObject) {
-		return doSwitch(theEObject.eClass(), theEObject);
+	@Override
+	protected boolean isSwitchFor(EPackage ePackage) {
+		return ePackage == modelPackage;
 	}
 
 	/**
@@ -67,26 +71,7 @@ public class UsageSwitch<T> {
 	 * @return the first non-null result returned by a <code>caseXXX</code> call.
 	 * @generated
 	 */
-	protected T doSwitch(EClass theEClass, EObject theEObject) {
-		if (theEClass.eContainer() == modelPackage) {
-			return doSwitch(theEClass.getClassifierID(), theEObject);
-		}
-		else {
-			List<EClass> eSuperTypes = theEClass.getESuperTypes();
-			return
-				eSuperTypes.isEmpty() ?
-					defaultCase(theEObject) :
-					doSwitch(eSuperTypes.get(0), theEObject);
-		}
-	}
-
-	/**
-	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the first non-null result returned by a <code>caseXXX</code> call.
-	 * @generated
-	 */
+	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
 			case UsagePackage.USAGE_MODEL: {
@@ -204,6 +189,20 @@ public class UsageSwitch<T> {
 				SynchronousReplyMessage synchronousReplyMessage = (SynchronousReplyMessage)theEObject;
 				T result = caseSynchronousReplyMessage(synchronousReplyMessage);
 				if (result == null) result = caseMessage(synchronousReplyMessage);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.DEPLOYMENT_CALLING_RELATIONSHIP: {
+				DeploymentCallingRelationship deploymentCallingRelationship = (DeploymentCallingRelationship)theEObject;
+				T result = caseDeploymentCallingRelationship(deploymentCallingRelationship);
+				if (result == null) result = caseCallingRelationship(deploymentCallingRelationship);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case UsagePackage.DEPLOYMENT_OPERATION_CALL_FREQUENCY: {
+				DeploymentOperationCallFrequency deploymentOperationCallFrequency = (DeploymentOperationCallFrequency)theEObject;
+				T result = caseDeploymentOperationCallFrequency(deploymentOperationCallFrequency);
+				if (result == null) result = caseOperationCallFrequency(deploymentOperationCallFrequency);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -467,6 +466,36 @@ public class UsageSwitch<T> {
 	}
 
 	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Deployment Calling Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Deployment Calling Relationship</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDeploymentCallingRelationship(DeploymentCallingRelationship object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Deployment Operation Call Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Deployment Operation Call Frequency</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseDeploymentOperationCallFrequency(DeploymentOperationCallFrequency object) {
+		return null;
+	}
+
+	/**
 	 * Returns the result of interpreting the object as an instance of '<em>SL Astic Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
@@ -492,6 +521,7 @@ public class UsageSwitch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
+	@Override
 	public T defaultCase(EObject object) {
 		return null;
 	}

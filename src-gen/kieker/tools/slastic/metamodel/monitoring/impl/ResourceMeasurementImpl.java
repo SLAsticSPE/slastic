@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.ResourceMeasurementImpl#getResource <em>Resource</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.ResourceMeasurementImpl#getTimestamp <em>Timestamp</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -17,12 +17,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.Message#getSender <em>Sender</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.Message#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.Message#getReceiver <em>Receiver</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getMessage()
  * @model

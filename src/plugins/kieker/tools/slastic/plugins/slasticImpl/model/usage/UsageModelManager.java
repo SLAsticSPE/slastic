@@ -19,25 +19,27 @@ package kieker.tools.slastic.plugins.slasticImpl.model.usage;
 import org.eclipse.emf.common.util.ECollections;
 import org.eclipse.emf.common.util.EList;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractModelManager;
-
 import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
+import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.monitoring.MonitoringFactory;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.metamodel.usage.CallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency;
 import kieker.tools.slastic.metamodel.usage.FrequencyDistribution;
 import kieker.tools.slastic.metamodel.usage.OperationCallFrequency;
 import kieker.tools.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
 import kieker.tools.slastic.metamodel.usage.UsageFactory;
 import kieker.tools.slastic.metamodel.usage.UsageModel;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class UsageModelManager extends AbstractModelManager<UsageModel> implements IUsageModelManager {
 	// private static final Log LOG = LogFactory.getLog(UsageModelManager.class);
@@ -133,6 +135,32 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	@Override
+	public void incDeploymentOperationCallFreq(final Operation operation, final DeploymentComponent deploymentComponent, final long frequency) {
+		DeploymentOperationCallFrequency deploymentOperationCallFrequency = this.lookupDeploymentOperationCallFrequency(operation, deploymentComponent);
+		if (deploymentOperationCallFrequency == null) {
+			deploymentOperationCallFrequency = UsageFactory.eINSTANCE.createDeploymentOperationCallFrequency();
+			deploymentOperationCallFrequency.setOperation(operation);
+			deploymentOperationCallFrequency.setDeploymentComponent(deploymentComponent);
+			deploymentOperationCallFrequency.setFrequency(0);
+			super.getModel().getDeploymentOperationCallFrequencies().add(deploymentOperationCallFrequency);
+		}
+
+		final long oldFrequency = deploymentOperationCallFrequency.getFrequency();
+		deploymentOperationCallFrequency.setFrequency(oldFrequency + frequency);
+	}
+
+	@Override
+	public DeploymentOperationCallFrequency lookupDeploymentOperationCallFrequency(final Operation operation, final DeploymentComponent deploymentComponent) {
+		for (final DeploymentOperationCallFrequency deploymentOperationCallFrequency : super.getModel().getDeploymentOperationCallFrequencies()) {
+			if (deploymentOperationCallFrequency.getOperation().equals(operation)
+					&& deploymentOperationCallFrequency.getDeploymentComponent().equals(deploymentComponent)) {
+				return deploymentOperationCallFrequency;
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface, final Signature signature) {
 		for (final CallingRelationship crTmp : super.getModel().getCallingRelationships()) {
 			if (crTmp.getCallingOperation().equals(operation) && crTmp.getCalledInterface().equals(iface)
@@ -162,7 +190,7 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 	}
 
 	/**
-	 * 
+	 *
 	 * @param fd
 	 *            note, that {@link FrequencyDistribution#getValues()} is
 	 *            ordered!
@@ -185,4 +213,42 @@ public class UsageModelManager extends AbstractModelManager<UsageModel> implemen
 			frequencyList.set(pos, oldFrequency + 1);
 		}
 	}
+
+	@Override
+	public void incDeploymentCallingRelationshipFreq(final DeploymentComponent callingDeploymentComponent, final Operation operation,
+			final Interface iface, final Signature signature, final DeploymentComponent calledDeploymentComponent, final long frequency) {
+		DeploymentCallingRelationship dcr = this.lookupDeploymentCallingRelationship(callingDeploymentComponent, operation, calledDeploymentComponent, iface,
+				signature);
+
+		if (dcr == null) {
+			dcr = UsageFactory.eINSTANCE.createDeploymentCallingRelationship();
+			dcr.setCallingDeploymentComponent(callingDeploymentComponent);
+			dcr.setCallingOperation(operation);
+			dcr.setCalledDeploymentComponent(calledDeploymentComponent);
+			dcr.setCalledInterface(iface);
+			dcr.setCalledSignature(signature);
+			dcr.setFrequencyDistribution(UsageFactory.eINSTANCE.createFrequencyDistribution());
+			super.getModel().getDeploymentCallingRelationships().add(dcr);
+		}
+
+		// Now, update frequency distribution
+		UsageModelManager.incFrequency(dcr.getFrequencyDistribution(), frequency);
+	}
+
+	@Override
+	public DeploymentCallingRelationship lookupDeploymentCallingRelationship(final DeploymentComponent callingDeploymentComponent, final Operation operation,
+			final DeploymentComponent calledDeploymentComponent, final Interface iface, final Signature signature) {
+		for (final DeploymentCallingRelationship dcrTmp : super.getModel().getDeploymentCallingRelationships()) {
+			if (dcrTmp.getCallingDeploymentComponent().equals(callingDeploymentComponent)
+					&& dcrTmp.getCallingOperation().equals(operation)
+					&& dcrTmp.getCalledDeploymentComponent().equals(calledDeploymentComponent)
+					&& dcrTmp.getCalledInterface().equals(iface)
+					&& dcrTmp.getCalledSignature().equals(signature)) {
+				// found the matching structure
+				return dcrTmp;
+			}
+		}
+		return null;
+	}
+
 }

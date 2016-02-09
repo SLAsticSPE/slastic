@@ -31,7 +31,7 @@ public class QosFactoryImpl extends EFactoryImpl implements QosFactory {
 	 */
 	public static QosFactory init() {
 		try {
-			QosFactory theQosFactory = (QosFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/qos.ecore"); 
+			QosFactory theQosFactory = (QosFactory)EPackage.Registry.INSTANCE.getEFactory(QosPackage.eNS_URI);
 			if (theQosFactory != null) {
 				return theQosFactory;
 			}

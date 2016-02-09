@@ -31,7 +31,7 @@ public class ComponentAssemblyFactoryImpl extends EFactoryImpl implements Compon
 	 */
 	public static ComponentAssemblyFactory init() {
 		try {
-			ComponentAssemblyFactory theComponentAssemblyFactory = (ComponentAssemblyFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/componentAssembly.ecore"); 
+			ComponentAssemblyFactory theComponentAssemblyFactory = (ComponentAssemblyFactory)EPackage.Registry.INSTANCE.getEFactory(ComponentAssemblyPackage.eNS_URI);
 			if (theComponentAssemblyFactory != null) {
 				return theComponentAssemblyFactory;
 			}

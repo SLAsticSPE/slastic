@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.typeRepository.ExecutionContainerType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.ContainerAllocation#getContainerType <em>Container Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage#getContainerAllocation()
  * @model

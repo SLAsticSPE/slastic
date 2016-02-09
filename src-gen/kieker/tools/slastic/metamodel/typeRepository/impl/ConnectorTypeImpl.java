@@ -25,10 +25,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.ConnectorTypeImpl#getInterface <em>Interface</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

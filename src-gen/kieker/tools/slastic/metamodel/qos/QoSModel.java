@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.QoSModel#getSystemModel <em>System Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.QoSModel#getQosConstraints <em>Qos Constraints</em>}</li>
@@ -25,7 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link kieker.tools.slastic.metamodel.qos.QoSModel#getCostProfile <em>Cost Profile</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.QoSModel#getQosCharacteristics <em>Qos Characteristics</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.qos.QosPackage#getQoSModel()
  * @model

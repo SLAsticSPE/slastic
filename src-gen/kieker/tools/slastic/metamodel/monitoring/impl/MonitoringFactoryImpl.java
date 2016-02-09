@@ -31,7 +31,7 @@ public class MonitoringFactoryImpl extends EFactoryImpl implements MonitoringFac
 	 */
 	public static MonitoringFactory init() {
 		try {
-			MonitoringFactory theMonitoringFactory = (MonitoringFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/monitoring.ecore"); 
+			MonitoringFactory theMonitoringFactory = (MonitoringFactory)EPackage.Registry.INSTANCE.getEFactory(MonitoringPackage.eNS_URI);
 			if (theMonitoringFactory != null) {
 				return theMonitoringFactory;
 			}

@@ -23,13 +23,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.core.SystemModel#getTypeRepositoryModel <em>Type Repository Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.SystemModel#getComponentAssemblyModel <em>Component Assembly Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.SystemModel#getComponentDeploymentModel <em>Component Deployment Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.SystemModel#getExecutionEnvironmentModel <em>Execution Environment Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.core.CorePackage#getSystemModel()
  * @model

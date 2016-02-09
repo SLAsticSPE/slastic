@@ -31,7 +31,7 @@ public class ComponentDeploymentFactoryImpl extends EFactoryImpl implements Comp
 	 */
 	public static ComponentDeploymentFactory init() {
 		try {
-			ComponentDeploymentFactory theComponentDeploymentFactory = (ComponentDeploymentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/componentDeployment.ecore"); 
+			ComponentDeploymentFactory theComponentDeploymentFactory = (ComponentDeploymentFactory)EPackage.Registry.INSTANCE.getEFactory(ComponentDeploymentPackage.eNS_URI);
 			if (theComponentDeploymentFactory != null) {
 				return theComponentDeploymentFactory;
 			}

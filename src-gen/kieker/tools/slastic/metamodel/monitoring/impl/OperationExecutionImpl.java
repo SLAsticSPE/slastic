@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.OperationExecutionImpl#getTraceId <em>Trace Id</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.OperationExecutionImpl#getEoi <em>Eoi</em>}</li>
@@ -30,7 +31,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.OperationExecutionImpl#getTout <em>Tout</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.OperationExecutionImpl#getSessionId <em>Session Id</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

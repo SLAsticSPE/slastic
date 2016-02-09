@@ -31,7 +31,7 @@ public class AdaptationFactoryImpl extends EFactoryImpl implements AdaptationFac
 	 */
 	public static AdaptationFactory init() {
 		try {
-			AdaptationFactory theAdaptationFactory = (AdaptationFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/adaptation.ecore"); 
+			AdaptationFactory theAdaptationFactory = (AdaptationFactory)EPackage.Registry.INSTANCE.getEFactory(AdaptationPackage.eNS_URI);
 			if (theAdaptationFactory != null) {
 				return theAdaptationFactory;
 			}

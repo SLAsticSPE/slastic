@@ -30,12 +30,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.AdaptationModelImpl#getControlModel <em>Control Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.AdaptationModelImpl#getQoSModel <em>Qo SModel</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.AdaptationModelImpl#getReconfigurationSpecification <em>Reconfiguration Specification</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

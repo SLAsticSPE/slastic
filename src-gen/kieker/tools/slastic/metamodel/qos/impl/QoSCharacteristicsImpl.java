@@ -27,10 +27,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.impl.QoSCharacteristicsImpl#getQosModel <em>Qos Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -61,7 +61,7 @@ public class QoSCharacteristicsImpl extends EObjectImpl implements QoSCharacteri
 	 */
 	public QoSModel getQosModel() {
 		if (eContainerFeatureID() != QosPackage.QO_SCHARACTERISTICS__QOS_MODEL) return null;
-		return (QoSModel)eContainer();
+		return (QoSModel)eInternalContainer();
 	}
 
 	/**

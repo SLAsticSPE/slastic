@@ -31,7 +31,7 @@ public class SpecificationFactoryImpl extends EFactoryImpl implements Specificat
 	 */
 	public static SpecificationFactory init() {
 		try {
-			SpecificationFactory theSpecificationFactory = (SpecificationFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/reconfiguration/specification.ecore"); 
+			SpecificationFactory theSpecificationFactory = (SpecificationFactory)EPackage.Registry.INSTANCE.getEFactory(SpecificationPackage.eNS_URI);
 			if (theSpecificationFactory != null) {
 				return theSpecificationFactory;
 			}

@@ -15,6 +15,7 @@ import kieker.tools.slastic.metamodel.core.IEvent;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.OperationExecution#getTraceId <em>Trace Id</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.OperationExecution#getEoi <em>Eoi</em>}</li>
@@ -23,7 +24,6 @@ import kieker.tools.slastic.metamodel.core.IEvent;
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.OperationExecution#getTout <em>Tout</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.OperationExecution#getSessionId <em>Session Id</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.monitoring.MonitoringPackage#getOperationExecution()
  * @model abstract="true"

@@ -17,10 +17,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.ExecutionTrace#getOperationExecutions <em>Operation Executions</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getExecutionTrace()
  * @model abstract="true"

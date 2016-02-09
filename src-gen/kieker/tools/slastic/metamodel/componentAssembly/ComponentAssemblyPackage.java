@@ -198,13 +198,22 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_CONNECTOR__INTERFACE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Assembly Connector</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+	int ASSEMBLY_CONNECTOR_FEATURE_COUNT = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 2;
 
 	/**
 	 * The meta object id for the '{@link kieker.tools.slastic.metamodel.componentAssembly.impl.AssemblyComponentConnectorImpl <em>Assembly Component Connector</em>}' class.
@@ -260,6 +269,15 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSEMBLY_COMPONENT_CONNECTOR__CONNECTOR_TYPE = ASSEMBLY_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSEMBLY_COMPONENT_CONNECTOR__INTERFACE = ASSEMBLY_CONNECTOR__INTERFACE;
 
 	/**
 	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
@@ -344,6 +362,15 @@ public interface ComponentAssemblyPackage extends EPackage {
 	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = ASSEMBLY_CONNECTOR__CONNECTOR_TYPE;
 
 	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_INTERFACE_DELEGATION_CONNECTOR__INTERFACE = ASSEMBLY_CONNECTOR__INTERFACE;
+
+	/**
 	 * The number of structural features of the '<em>System Interface Delegation Connector</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -406,6 +433,15 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @ordered
 	 */
 	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__INTERFACE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__INTERFACE;
 
 	/**
 	 * The feature id for the '<em><b>Providing Component</b></em>' reference.
@@ -488,6 +524,15 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @ordered
 	 */
 	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__CONNECTOR_TYPE;
+
+	/**
+	 * The feature id for the '<em><b>Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SYSTEM_REQUIRED_INTERFACE_DELEGATION_CONNECTOR__INTERFACE = SYSTEM_INTERFACE_DELEGATION_CONNECTOR__INTERFACE;
 
 	/**
 	 * The feature id for the '<em><b>Requiring Component</b></em>' reference.
@@ -685,6 +730,17 @@ public interface ComponentAssemblyPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getAssemblyConnector_ConnectorType();
+
+	/**
+	 * Returns the meta object for the reference '{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyConnector#getInterface <em>Interface</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Interface</em>'.
+	 * @see kieker.tools.slastic.metamodel.componentAssembly.AssemblyConnector#getInterface()
+	 * @see #getAssemblyConnector()
+	 * @generated
+	 */
+	EReference getAssemblyConnector_Interface();
 
 	/**
 	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.componentAssembly.SystemInterfaceDelegationConnector <em>System Interface Delegation Connector</em>}'.
@@ -935,6 +991,14 @@ public interface ComponentAssemblyPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ASSEMBLY_CONNECTOR__CONNECTOR_TYPE = eINSTANCE.getAssemblyConnector_ConnectorType();
+
+		/**
+		 * The meta object literal for the '<em><b>Interface</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSEMBLY_CONNECTOR__INTERFACE = eINSTANCE.getAssemblyConnector_Interface();
 
 		/**
 		 * The meta object literal for the '{@link kieker.tools.slastic.metamodel.componentAssembly.impl.SystemInterfaceDelegationConnectorImpl <em>System Interface Delegation Connector</em>}' class.

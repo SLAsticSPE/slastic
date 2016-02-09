@@ -304,6 +304,15 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getAssemblyConnector_Interface() {
+		return (EReference)assemblyConnectorEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getSystemInterfaceDelegationConnector() {
 		return systemInterfaceDelegationConnectorEClass;
 	}
@@ -464,6 +473,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 
 		assemblyConnectorEClass = createEClass(ASSEMBLY_CONNECTOR);
 		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__CONNECTOR_TYPE);
+		createEReference(assemblyConnectorEClass, ASSEMBLY_CONNECTOR__INTERFACE);
 
 		systemInterfaceDelegationConnectorEClass = createEClass(SYSTEM_INTERFACE_DELEGATION_CONNECTOR);
 
@@ -536,6 +546,7 @@ public class ComponentAssemblyPackageImpl extends EPackageImpl implements Compon
 
 		initEClass(assemblyConnectorEClass, AssemblyConnector.class, "AssemblyConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getAssemblyConnector_ConnectorType(), theTypeRepositoryPackage.getConnectorType(), null, "connectorType", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getAssemblyConnector_Interface(), theTypeRepositoryPackage.getInterface(), null, "interface", null, 1, 1, AssemblyConnector.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(systemInterfaceDelegationConnectorEClass, SystemInterfaceDelegationConnector.class, "SystemInterfaceDelegationConnector", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

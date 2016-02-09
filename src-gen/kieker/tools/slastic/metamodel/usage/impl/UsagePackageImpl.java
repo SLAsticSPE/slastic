@@ -6,53 +6,39 @@
  */
 package kieker.tools.slastic.metamodel.usage.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import kieker.tools.slastic.metamodel.adaptation.AdaptationPackage;
-
 import kieker.tools.slastic.metamodel.adaptation.impl.AdaptationPackageImpl;
-
 import kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage;
-
 import kieker.tools.slastic.metamodel.componentAssembly.impl.ComponentAssemblyPackageImpl;
-
 import kieker.tools.slastic.metamodel.componentDeployment.ComponentDeploymentPackage;
-
 import kieker.tools.slastic.metamodel.componentDeployment.impl.ComponentDeploymentPackageImpl;
-
 import kieker.tools.slastic.metamodel.core.CorePackage;
-
 import kieker.tools.slastic.metamodel.core.impl.CorePackageImpl;
-
 import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage;
-
 import kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionEnvironmentPackageImpl;
-
 import kieker.tools.slastic.metamodel.monitoring.MonitoringPackage;
-
 import kieker.tools.slastic.metamodel.monitoring.impl.MonitoringPackageImpl;
-
 import kieker.tools.slastic.metamodel.qos.QosPackage;
-
 import kieker.tools.slastic.metamodel.qos.impl.QosPackageImpl;
-
 import kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage;
-
 import kieker.tools.slastic.metamodel.reconfiguration.plan.impl.PlanPackageImpl;
-
 import kieker.tools.slastic.metamodel.reconfiguration.specification.SpecificationPackage;
-
 import kieker.tools.slastic.metamodel.reconfiguration.specification.impl.SpecificationPackageImpl;
-
 import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage;
-
 import kieker.tools.slastic.metamodel.typeRepository.impl.TypeRepositoryPackageImpl;
-
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPackage;
-
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.impl.ResourceTypesPackageImpl;
-
 import kieker.tools.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency;
 import kieker.tools.slastic.metamodel.usage.AssemblyConnectorCallFrequency;
 import kieker.tools.slastic.metamodel.usage.CallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency;
 import kieker.tools.slastic.metamodel.usage.ExecutionTrace;
 import kieker.tools.slastic.metamodel.usage.FrequencyDistribution;
 import kieker.tools.slastic.metamodel.usage.InvalidExecutionTrace;
@@ -69,13 +55,6 @@ import kieker.tools.slastic.metamodel.usage.UsageModel;
 import kieker.tools.slastic.metamodel.usage.UsagePackage;
 import kieker.tools.slastic.metamodel.usage.ValidExecutionTrace;
 import kieker.tools.slastic.metamodel.usage.ValidTrace;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -202,6 +181,20 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * @generated
 	 */
 	private EClass synchronousReplyMessageEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass deploymentCallingRelationshipEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass deploymentOperationCallFrequencyEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -342,6 +335,24 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 */
 	public EReference getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies() {
 		return (EReference)usageModelEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUsageModel_DeploymentCallingRelationships() {
+		return (EReference)usageModelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getUsageModel_DeploymentOperationCallFrequencies() {
+		return (EReference)usageModelEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -682,6 +693,51 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getDeploymentCallingRelationship() {
+		return deploymentCallingRelationshipEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDeploymentCallingRelationship_CallingDeploymentComponent() {
+		return (EReference)deploymentCallingRelationshipEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDeploymentCallingRelationship_CalledDeploymentComponent() {
+		return (EReference)deploymentCallingRelationshipEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getDeploymentOperationCallFrequency() {
+		return deploymentOperationCallFrequencyEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getDeploymentOperationCallFrequency_DeploymentComponent() {
+		return (EReference)deploymentOperationCallFrequencyEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public UsageFactory getUsageFactory() {
 		return (UsageFactory)getEFactoryInstance();
 	}
@@ -710,6 +766,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		createEReference(usageModelEClass, USAGE_MODEL__OPERATION_CALL_FREQUENCIES);
 		createEReference(usageModelEClass, USAGE_MODEL__ASSEMBLY_COMPONENT_CONNECTOR_CALL_FREQUENCIES);
 		createEReference(usageModelEClass, USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES);
+		createEReference(usageModelEClass, USAGE_MODEL__DEPLOYMENT_CALLING_RELATIONSHIPS);
+		createEReference(usageModelEClass, USAGE_MODEL__DEPLOYMENT_OPERATION_CALL_FREQUENCIES);
 
 		callingRelationshipEClass = createEClass(CALLING_RELATIONSHIP);
 		createEReference(callingRelationshipEClass, CALLING_RELATIONSHIP__CALLED_INTERFACE);
@@ -763,6 +821,13 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		synchronousCallMessageEClass = createEClass(SYNCHRONOUS_CALL_MESSAGE);
 
 		synchronousReplyMessageEClass = createEClass(SYNCHRONOUS_REPLY_MESSAGE);
+
+		deploymentCallingRelationshipEClass = createEClass(DEPLOYMENT_CALLING_RELATIONSHIP);
+		createEReference(deploymentCallingRelationshipEClass, DEPLOYMENT_CALLING_RELATIONSHIP__CALLING_DEPLOYMENT_COMPONENT);
+		createEReference(deploymentCallingRelationshipEClass, DEPLOYMENT_CALLING_RELATIONSHIP__CALLED_DEPLOYMENT_COMPONENT);
+
+		deploymentOperationCallFrequencyEClass = createEClass(DEPLOYMENT_OPERATION_CALL_FREQUENCY);
+		createEReference(deploymentOperationCallFrequencyEClass, DEPLOYMENT_OPERATION_CALL_FREQUENCY__DEPLOYMENT_COMPONENT);
 	}
 
 	/**
@@ -793,6 +858,7 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		TypeRepositoryPackage theTypeRepositoryPackage = (TypeRepositoryPackage)EPackage.Registry.INSTANCE.getEPackage(TypeRepositoryPackage.eNS_URI);
 		ComponentAssemblyPackage theComponentAssemblyPackage = (ComponentAssemblyPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentAssemblyPackage.eNS_URI);
 		MonitoringPackage theMonitoringPackage = (MonitoringPackage)EPackage.Registry.INSTANCE.getEPackage(MonitoringPackage.eNS_URI);
+		ComponentDeploymentPackage theComponentDeploymentPackage = (ComponentDeploymentPackage)EPackage.Registry.INSTANCE.getEPackage(ComponentDeploymentPackage.eNS_URI);
 
 		// Create type parameters
 
@@ -812,6 +878,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		invalidExecutionTraceEClass.getESuperTypes().add(this.getInvalidTrace());
 		synchronousCallMessageEClass.getESuperTypes().add(this.getMessage());
 		synchronousReplyMessageEClass.getESuperTypes().add(this.getMessage());
+		deploymentCallingRelationshipEClass.getESuperTypes().add(this.getCallingRelationship());
+		deploymentOperationCallFrequencyEClass.getESuperTypes().add(this.getOperationCallFrequency());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(usageModelEClass, UsageModel.class, "UsageModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -819,6 +887,8 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 		initEReference(getUsageModel_OperationCallFrequencies(), this.getOperationCallFrequency(), null, "operationCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getUsageModel_AssemblyComponentConnectorCallFrequencies(), this.getAssemblyComponentConnectorCallFrequency(), null, "assemblyComponentConnectorCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies(), this.getSystemProvidedInterfaceDelegationConnectorFrequency(), null, "systemProvidedInterfaceDelegationConnectorFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUsageModel_DeploymentCallingRelationships(), this.getDeploymentCallingRelationship(), null, "deploymentCallingRelationships", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getUsageModel_DeploymentOperationCallFrequencies(), this.getDeploymentOperationCallFrequency(), null, "deploymentOperationCallFrequencies", null, 0, -1, UsageModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(callingRelationshipEClass, CallingRelationship.class, "CallingRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getCallingRelationship_CalledInterface(), theTypeRepositoryPackage.getInterface(), null, "calledInterface", null, 1, 1, CallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
@@ -873,8 +943,15 @@ public class UsagePackageImpl extends EPackageImpl implements UsagePackage {
 
 		initEClass(synchronousReplyMessageEClass, SynchronousReplyMessage.class, "SynchronousReplyMessage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
+		initEClass(deploymentCallingRelationshipEClass, DeploymentCallingRelationship.class, "DeploymentCallingRelationship", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDeploymentCallingRelationship_CallingDeploymentComponent(), theComponentDeploymentPackage.getDeploymentComponent(), null, "callingDeploymentComponent", null, 1, 1, DeploymentCallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getDeploymentCallingRelationship_CalledDeploymentComponent(), theComponentDeploymentPackage.getDeploymentComponent(), null, "calledDeploymentComponent", null, 1, 1, DeploymentCallingRelationship.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(deploymentOperationCallFrequencyEClass, DeploymentOperationCallFrequency.class, "DeploymentOperationCallFrequency", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getDeploymentOperationCallFrequency_DeploymentComponent(), theComponentDeploymentPackage.getDeploymentComponent(), null, "deploymentComponent", null, 1, 1, DeploymentOperationCallFrequency.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+
 		// Create resource
 		createResource(eNS_URI);
 	}
 
-} //UsagePackageImpl
+} // UsagePackageImpl

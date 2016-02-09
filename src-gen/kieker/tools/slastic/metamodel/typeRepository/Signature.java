@@ -17,11 +17,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.Signature#getParamTypes <em>Param Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.Signature#getReturnType <em>Return Type</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getSignature()
  * @model

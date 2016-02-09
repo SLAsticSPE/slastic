@@ -17,21 +17,24 @@
 package kieker.tools.slastic.plugins.slasticImpl.model.usage;
 
 import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
+import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.metamodel.usage.CallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship;
+import kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public interface IUsageModelManager {
 
 	/**
 	 * Returns the number of times, the given {@link Signature} of the given {@link SystemProvidedInterfaceDelegationConnector} is called.
-	 * 
+	 *
 	 * @param connector
 	 * @param signature
 	 * @return
@@ -43,7 +46,7 @@ public interface IUsageModelManager {
 	/**
 	 * Increments the number of calls to the given {@link Signature} of the
 	 * given {@link SystemProvidedInterfaceDelegationConnector} by 1.
-	 * 
+	 *
 	 * @param connector
 	 * @param signature
 	 */
@@ -52,7 +55,7 @@ public interface IUsageModelManager {
 
 	/**
 	 * Returns the number of times, the given {@link Operation} was called.
-	 * 
+	 *
 	 * @param operation
 	 * @return
 	 */
@@ -61,7 +64,7 @@ public interface IUsageModelManager {
 	/**
 	 * Increments the number of calls to the given {@link Operation} by the
 	 * given frequency.
-	 * 
+	 *
 	 * @param operation
 	 *            the called {@link Operation}
 	 * @param signature
@@ -69,9 +72,11 @@ public interface IUsageModelManager {
 	 */
 	public void incOperationCallFreq(final Operation operation, final long frequency);
 
+	public void incDeploymentOperationCallFreq(final Operation operation, final DeploymentComponent deploymentComponent, final long frequency);
+
 	/**
 	 * Returns the {@link CallingRelationship} for the given {@link Operation} calling the given {@link Interface}'s {@link Signature}.
-	 * 
+	 *
 	 * @param operation
 	 * @param iface
 	 * @param signature
@@ -79,10 +84,12 @@ public interface IUsageModelManager {
 	 */
 	public CallingRelationship lookupCallingRelationship(final Operation operation, final Interface iface, final Signature signature);
 
+	public DeploymentOperationCallFrequency lookupDeploymentOperationCallFrequency(final Operation operation, final DeploymentComponent deploymentComponent);
+
 	/**
 	 * Adds the information that the given {@link Interface} {@link Signature} has been called the given number of times within an execution of the
 	 * given {@link Operation}.
-	 * 
+	 *
 	 * @param operation
 	 *            the calling {@link Operation}
 	 * @param iface
@@ -92,4 +99,10 @@ public interface IUsageModelManager {
 	 * @param frequency
 	 */
 	public void incCallingRelationshipFreq(final Operation operation, final Interface iface, final Signature signature, final long frequency);
+
+	public void incDeploymentCallingRelationshipFreq(final DeploymentComponent callingDeploymentComponent, final Operation operation,
+			final Interface iface, final Signature signature, final DeploymentComponent calledDeploymentComponent, final long frequency);
+
+	public DeploymentCallingRelationship lookupDeploymentCallingRelationship(DeploymentComponent callingDeploymentComponent, Operation operation,
+			DeploymentComponent calledDeploymentComponent, Interface iface, Signature signature);
 }

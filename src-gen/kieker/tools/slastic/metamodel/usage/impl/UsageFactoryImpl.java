@@ -31,7 +31,7 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 	 */
 	public static UsageFactory init() {
 		try {
-			UsageFactory theUsageFactory = (UsageFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/usage.ecore"); 
+			UsageFactory theUsageFactory = (UsageFactory)EPackage.Registry.INSTANCE.getEFactory(UsagePackage.eNS_URI);
 			if (theUsageFactory != null) {
 				return theUsageFactory;
 			}
@@ -72,6 +72,8 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 			case UsagePackage.INVALID_EXECUTION_TRACE: return createInvalidExecutionTrace();
 			case UsagePackage.SYNCHRONOUS_CALL_MESSAGE: return createSynchronousCallMessage();
 			case UsagePackage.SYNCHRONOUS_REPLY_MESSAGE: return createSynchronousReplyMessage();
+			case UsagePackage.DEPLOYMENT_CALLING_RELATIONSHIP: return createDeploymentCallingRelationship();
+			case UsagePackage.DEPLOYMENT_OPERATION_CALL_FREQUENCY: return createDeploymentOperationCallFrequency();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -195,6 +197,26 @@ public class UsageFactoryImpl extends EFactoryImpl implements UsageFactory {
 	public SynchronousReplyMessage createSynchronousReplyMessage() {
 		SynchronousReplyMessageImpl synchronousReplyMessage = new SynchronousReplyMessageImpl();
 		return synchronousReplyMessage;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DeploymentCallingRelationship createDeploymentCallingRelationship() {
+		DeploymentCallingRelationshipImpl deploymentCallingRelationship = new DeploymentCallingRelationshipImpl();
+		return deploymentCallingRelationship;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public DeploymentOperationCallFrequency createDeploymentOperationCallFrequency() {
+		DeploymentOperationCallFrequencyImpl deploymentOperationCallFrequency = new DeploymentOperationCallFrequencyImpl();
+		return deploymentOperationCallFrequency;
 	}
 
 	/**

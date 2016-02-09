@@ -31,7 +31,7 @@ public class ExecutionEnvironmentFactoryImpl extends EFactoryImpl implements Exe
 	 */
 	public static ExecutionEnvironmentFactory init() {
 		try {
-			ExecutionEnvironmentFactory theExecutionEnvironmentFactory = (ExecutionEnvironmentFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/executionEnvironment.ecore"); 
+			ExecutionEnvironmentFactory theExecutionEnvironmentFactory = (ExecutionEnvironmentFactory)EPackage.Registry.INSTANCE.getEFactory(ExecutionEnvironmentPackage.eNS_URI);
 			if (theExecutionEnvironmentFactory != null) {
 				return theExecutionEnvironmentFactory;
 			}

@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaceDelegationConnectors <em>System Provided Interface Delegation Connectors</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaceDelegationConnectors <em>System Required Interface Delegation Connectors</em>}</li>
@@ -27,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemProvidedInterfaces <em>System Provided Interfaces</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyModel#getSystemRequiredInterfaces <em>System Required Interfaces</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getComponentAssemblyModel()
  * @model

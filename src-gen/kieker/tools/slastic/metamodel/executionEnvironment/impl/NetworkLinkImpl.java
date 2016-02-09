@@ -35,11 +35,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.NetworkLinkImpl#getNetworkLinkType <em>Network Link Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.NetworkLinkImpl#getExecutionContainers <em>Execution Containers</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -128,7 +128,7 @@ public class NetworkLinkImpl extends FQNamedEntityImpl implements NetworkLink {
 	 */
 	public EList<ExecutionContainer> getExecutionContainers() {
 		if (executionContainers == null) {
-			executionContainers = new EObjectWithInverseResolvingEList<ExecutionContainer>(ExecutionContainer.class, this, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK);
+			executionContainers = new EObjectWithInverseResolvingEList.ManyInverse<ExecutionContainer>(ExecutionContainer.class, this, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS);
 		}
 		return executionContainers;
 	}

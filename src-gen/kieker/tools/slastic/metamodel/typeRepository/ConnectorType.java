@@ -15,16 +15,17 @@ import kieker.tools.slastic.metamodel.core.FQNamedEntity;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.ConnectorType#getInterface <em>Interface</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getConnectorType()
  * @model
  * @generated
  */
 public interface ConnectorType extends FQNamedEntity {
+
 	/**
 	 * Returns the value of the '<em><b>Interface</b></em>' reference.
 	 * <!-- begin-user-doc -->
@@ -36,7 +37,7 @@ public interface ConnectorType extends FQNamedEntity {
 	 * @return the value of the '<em>Interface</em>' reference.
 	 * @see #setInterface(Interface)
 	 * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getConnectorType_Interface()
-	 * @model required="true" ordered="false"
+	 * @model required="true"
 	 * @generated
 	 */
 	Interface getInterface();

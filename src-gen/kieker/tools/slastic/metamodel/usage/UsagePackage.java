@@ -108,13 +108,31 @@ public interface UsagePackage extends EPackage {
 	int USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Deployment Calling Relationships</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USAGE_MODEL__DEPLOYMENT_CALLING_RELATIONSHIPS = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Deployment Operation Call Frequencies</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int USAGE_MODEL__DEPLOYMENT_OPERATION_CALL_FREQUENCIES = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int USAGE_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 4;
+	int USAGE_MODEL_FEATURE_COUNT = CorePackage.SL_ASTIC_MODEL_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl <em>Calling Relationship</em>}' class.
@@ -737,6 +755,126 @@ public interface UsagePackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl <em>Deployment Calling Relationship</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl
+	 * @see kieker.tools.slastic.metamodel.usage.impl.UsagePackageImpl#getDeploymentCallingRelationship()
+	 * @generated
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP = 17;
+
+	/**
+	 * The feature id for the '<em><b>Called Interface</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__CALLED_INTERFACE = CALLING_RELATIONSHIP__CALLED_INTERFACE;
+
+	/**
+	 * The feature id for the '<em><b>Called Signature</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__CALLED_SIGNATURE = CALLING_RELATIONSHIP__CALLED_SIGNATURE;
+
+	/**
+	 * The feature id for the '<em><b>Calling Operation</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__CALLING_OPERATION = CALLING_RELATIONSHIP__CALLING_OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>Frequency Distribution</b></em>' containment reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__FREQUENCY_DISTRIBUTION = CALLING_RELATIONSHIP__FREQUENCY_DISTRIBUTION;
+
+	/**
+	 * The feature id for the '<em><b>Calling Deployment Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__CALLING_DEPLOYMENT_COMPONENT = CALLING_RELATIONSHIP_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Called Deployment Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP__CALLED_DEPLOYMENT_COMPONENT = CALLING_RELATIONSHIP_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Deployment Calling Relationship</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_CALLING_RELATIONSHIP_FEATURE_COUNT = CALLING_RELATIONSHIP_FEATURE_COUNT + 2;
+
+
+	/**
+	 * The meta object id for the '{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentOperationCallFrequencyImpl <em>Deployment Operation Call Frequency</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see kieker.tools.slastic.metamodel.usage.impl.DeploymentOperationCallFrequencyImpl
+	 * @see kieker.tools.slastic.metamodel.usage.impl.UsagePackageImpl#getDeploymentOperationCallFrequency()
+	 * @generated
+	 */
+	int DEPLOYMENT_OPERATION_CALL_FREQUENCY = 18;
+
+	/**
+	 * The feature id for the '<em><b>Frequency</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_OPERATION_CALL_FREQUENCY__FREQUENCY = OPERATION_CALL_FREQUENCY__FREQUENCY;
+
+	/**
+	 * The feature id for the '<em><b>Operation</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_OPERATION_CALL_FREQUENCY__OPERATION = OPERATION_CALL_FREQUENCY__OPERATION;
+
+	/**
+	 * The feature id for the '<em><b>Deployment Component</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_OPERATION_CALL_FREQUENCY__DEPLOYMENT_COMPONENT = OPERATION_CALL_FREQUENCY_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Deployment Operation Call Frequency</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DEPLOYMENT_OPERATION_CALL_FREQUENCY_FEATURE_COUNT = OPERATION_CALL_FREQUENCY_FEATURE_COUNT + 1;
+
+	/**
 	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.usage.UsageModel <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -789,6 +927,28 @@ public interface UsagePackage extends EPackage {
 	 * @generated
 	 */
 	EReference getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentCallingRelationships <em>Deployment Calling Relationships</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Deployment Calling Relationships</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentCallingRelationships()
+	 * @see #getUsageModel()
+	 * @generated
+	 */
+	EReference getUsageModel_DeploymentCallingRelationships();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentOperationCallFrequencies <em>Deployment Operation Call Frequencies</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Deployment Operation Call Frequencies</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentOperationCallFrequencies()
+	 * @see #getUsageModel()
+	 * @generated
+	 */
+	EReference getUsageModel_DeploymentOperationCallFrequencies();
 
 	/**
 	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.usage.CallingRelationship <em>Calling Relationship</em>}'.
@@ -1182,6 +1342,59 @@ public interface UsagePackage extends EPackage {
 	EClass getSynchronousReplyMessage();
 
 	/**
+	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship <em>Deployment Calling Relationship</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Deployment Calling Relationship</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship
+	 * @generated
+	 */
+	EClass getDeploymentCallingRelationship();
+
+	/**
+	 * Returns the meta object for the reference '{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCallingDeploymentComponent <em>Calling Deployment Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Calling Deployment Component</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCallingDeploymentComponent()
+	 * @see #getDeploymentCallingRelationship()
+	 * @generated
+	 */
+	EReference getDeploymentCallingRelationship_CallingDeploymentComponent();
+
+	/**
+	 * Returns the meta object for the reference '{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCalledDeploymentComponent <em>Called Deployment Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Called Deployment Component</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCalledDeploymentComponent()
+	 * @see #getDeploymentCallingRelationship()
+	 * @generated
+	 */
+	EReference getDeploymentCallingRelationship_CalledDeploymentComponent();
+
+	/**
+	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency <em>Deployment Operation Call Frequency</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Deployment Operation Call Frequency</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency
+	 * @generated
+	 */
+	EClass getDeploymentOperationCallFrequency();
+
+	/**
+	 * Returns the meta object for the reference '{@link kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency#getDeploymentComponent <em>Deployment Component</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Deployment Component</em>'.
+	 * @see kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency#getDeploymentComponent()
+	 * @see #getDeploymentOperationCallFrequency()
+	 * @generated
+	 */
+	EReference getDeploymentOperationCallFrequency_DeploymentComponent();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1244,6 +1457,22 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EReference USAGE_MODEL__SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR_FREQUENCIES = eINSTANCE.getUsageModel_SystemProvidedInterfaceDelegationConnectorFrequencies();
+
+		/**
+		 * The meta object literal for the '<em><b>Deployment Calling Relationships</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USAGE_MODEL__DEPLOYMENT_CALLING_RELATIONSHIPS = eINSTANCE.getUsageModel_DeploymentCallingRelationships();
+
+		/**
+		 * The meta object literal for the '<em><b>Deployment Operation Call Frequencies</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference USAGE_MODEL__DEPLOYMENT_OPERATION_CALL_FREQUENCIES = eINSTANCE.getUsageModel_DeploymentOperationCallFrequencies();
 
 		/**
 		 * The meta object literal for the '{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl <em>Calling Relationship</em>}' class.
@@ -1572,6 +1801,50 @@ public interface UsagePackage extends EPackage {
 		 * @generated
 		 */
 		EClass SYNCHRONOUS_REPLY_MESSAGE = eINSTANCE.getSynchronousReplyMessage();
+
+		/**
+		 * The meta object literal for the '{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl <em>Deployment Calling Relationship</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl
+		 * @see kieker.tools.slastic.metamodel.usage.impl.UsagePackageImpl#getDeploymentCallingRelationship()
+		 * @generated
+		 */
+		EClass DEPLOYMENT_CALLING_RELATIONSHIP = eINSTANCE.getDeploymentCallingRelationship();
+
+		/**
+		 * The meta object literal for the '<em><b>Calling Deployment Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEPLOYMENT_CALLING_RELATIONSHIP__CALLING_DEPLOYMENT_COMPONENT = eINSTANCE.getDeploymentCallingRelationship_CallingDeploymentComponent();
+
+		/**
+		 * The meta object literal for the '<em><b>Called Deployment Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEPLOYMENT_CALLING_RELATIONSHIP__CALLED_DEPLOYMENT_COMPONENT = eINSTANCE.getDeploymentCallingRelationship_CalledDeploymentComponent();
+
+		/**
+		 * The meta object literal for the '{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentOperationCallFrequencyImpl <em>Deployment Operation Call Frequency</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see kieker.tools.slastic.metamodel.usage.impl.DeploymentOperationCallFrequencyImpl
+		 * @see kieker.tools.slastic.metamodel.usage.impl.UsagePackageImpl#getDeploymentOperationCallFrequency()
+		 * @generated
+		 */
+		EClass DEPLOYMENT_OPERATION_CALL_FREQUENCY = eINSTANCE.getDeploymentOperationCallFrequency();
+
+		/**
+		 * The meta object literal for the '<em><b>Deployment Component</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference DEPLOYMENT_OPERATION_CALL_FREQUENCY__DEPLOYMENT_COMPONENT = eINSTANCE.getDeploymentOperationCallFrequency_DeploymentComponent();
 
 	}
 

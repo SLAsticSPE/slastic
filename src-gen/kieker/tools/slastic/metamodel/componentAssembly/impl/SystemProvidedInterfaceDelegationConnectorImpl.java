@@ -27,11 +27,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl#getProvidingComponent <em>Providing Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.SystemProvidedInterfaceDelegationConnectorImpl#getComponentAssemblyModel <em>Component Assembly Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -110,7 +110,7 @@ public class SystemProvidedInterfaceDelegationConnectorImpl extends SystemInterf
 	 */
 	public ComponentAssemblyModel getComponentAssemblyModel() {
 		if (eContainerFeatureID() != ComponentAssemblyPackage.SYSTEM_PROVIDED_INTERFACE_DELEGATION_CONNECTOR__COMPONENT_ASSEMBLY_MODEL) return null;
-		return (ComponentAssemblyModel)eContainer();
+		return (ComponentAssemblyModel)eInternalContainer();
 	}
 
 	/**

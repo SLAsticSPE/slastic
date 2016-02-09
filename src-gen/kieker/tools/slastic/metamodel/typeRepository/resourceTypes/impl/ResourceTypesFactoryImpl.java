@@ -31,7 +31,7 @@ public class ResourceTypesFactoryImpl extends EFactoryImpl implements ResourceTy
 	 */
 	public static ResourceTypesFactory init() {
 		try {
-			ResourceTypesFactory theResourceTypesFactory = (ResourceTypesFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/typeRepository/resourceTypes.ecore"); 
+			ResourceTypesFactory theResourceTypesFactory = (ResourceTypesFactory)EPackage.Registry.INSTANCE.getEFactory(ResourceTypesPackage.eNS_URI);
 			if (theResourceTypesFactory != null) {
 				return theResourceTypesFactory;
 			}

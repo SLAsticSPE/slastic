@@ -32,13 +32,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.core.impl.SystemModelImpl#getTypeRepositoryModel <em>Type Repository Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.impl.SystemModelImpl#getComponentAssemblyModel <em>Component Assembly Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.impl.SystemModelImpl#getComponentDeploymentModel <em>Component Deployment Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.core.impl.SystemModelImpl#getExecutionEnvironmentModel <em>Execution Environment Model</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.impl.QoSModelImpl#getSystemModel <em>System Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.impl.QoSModelImpl#getQosConstraints <em>Qos Constraints</em>}</li>
@@ -39,7 +40,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  *   <li>{@link kieker.tools.slastic.metamodel.qos.impl.QoSModelImpl#getCostProfile <em>Cost Profile</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.qos.impl.QoSModelImpl#getQosCharacteristics <em>Qos Characteristics</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

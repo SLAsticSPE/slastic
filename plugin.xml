@@ -80,4 +80,99 @@
             genModel="model/slastic.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/qos.ecore"
+            class="kieker.tools.slastic.metamodel.qos.QosPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/core.ecore"
+            class="kieker.tools.slastic.metamodel.core.CorePackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/typeRepository.ecore"
+            class="kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/typeRepository/resourceTypes.ecore"
+            class="kieker.tools.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/executionEnvironment.ecore"
+            class="kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/componentAssembly.ecore"
+            class="kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/componentDeployment.ecore"
+            class="kieker.tools.slastic.metamodel.componentDeployment.ComponentDeploymentPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/monitoring.ecore"
+            class="kieker.tools.slastic.metamodel.monitoring.MonitoringPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/reconfiguration/plan.ecore"
+            class="kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/reconfiguration/specification.ecore"
+            class="kieker.tools.slastic.metamodel.reconfiguration.specification.SpecificationPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/adaptation.ecore"
+            class="kieker.tools.slastic.metamodel.adaptation.AdaptationPackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated slastic -->
+      <package
+            uri="http:///metamodel/usage.ecore"
+            class="kieker.tools.slastic.metamodel.usage.UsagePackage"
+            genModel="model/slastic.genmodel"/>
+   </extension>
 </plugin>

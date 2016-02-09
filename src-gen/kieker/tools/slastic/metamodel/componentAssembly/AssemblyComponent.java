@@ -19,12 +19,12 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent#getComponentType <em>Component Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent#getProvidingConnectors <em>Providing Connectors</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent#getRequiringConnectors <em>Requiring Connectors</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyComponent()
  * @model

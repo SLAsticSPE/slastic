@@ -29,11 +29,11 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.SignatureImpl#getParamTypes <em>Param Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.SignatureImpl#getReturnType <em>Return Type</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

@@ -117,13 +117,13 @@ public interface ExecutionEnvironmentPackage extends EPackage {
 	int EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Network Link</b></em>' reference.
+	 * The feature id for the '<em><b>Network Links</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXECUTION_CONTAINER__NETWORK_LINK = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
+	int EXECUTION_CONTAINER__NETWORK_LINKS = CorePackage.FQ_NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Resources</b></em>' containment reference list.
@@ -450,15 +450,15 @@ public interface ExecutionEnvironmentPackage extends EPackage {
 	EReference getExecutionContainer_ExecutionContainerType();
 
 	/**
-	 * Returns the meta object for the reference '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}'.
+	 * Returns the meta object for the reference list '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLinks <em>Network Links</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Network Link</em>'.
-	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink()
+	 * @return the meta object for the reference list '<em>Network Links</em>'.
+	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLinks()
 	 * @see #getExecutionContainer()
 	 * @generated
 	 */
-	EReference getExecutionContainer_NetworkLink();
+	EReference getExecutionContainer_NetworkLinks();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getResources <em>Resources</em>}'.
@@ -672,12 +672,12 @@ public interface ExecutionEnvironmentPackage extends EPackage {
 		EReference EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE = eINSTANCE.getExecutionContainer_ExecutionContainerType();
 
 		/**
-		 * The meta object literal for the '<em><b>Network Link</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Network Links</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference EXECUTION_CONTAINER__NETWORK_LINK = eINSTANCE.getExecutionContainer_NetworkLink();
+		EReference EXECUTION_CONTAINER__NETWORK_LINKS = eINSTANCE.getExecutionContainer_NetworkLinks();
 
 		/**
 		 * The meta object literal for the '<em><b>Resources</b></em>' containment reference list feature.

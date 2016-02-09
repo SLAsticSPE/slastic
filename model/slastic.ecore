@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel"
-    nsURI="http:///metamodel.ecore" nsPrefix="metamodel">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel" nsURI="http:///metamodel.ecore" nsPrefix="metamodel">
   <eAnnotations source="com.ibm.xtools.common.ui.reduction.editingCapabilities">
     <details key="com.ibm.xtools.activities.umlBBSpecificInstanceType1" value="1"/>
     <details key="com.ibm.xtools.activities.umlBBDeploymentDiagram" value="1"/>
@@ -143,7 +141,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="componentType" ordered="false"
           lowerBound="1" eType="#//typeRepository/ComponentType" eOpposite="#//typeRepository/ComponentType/operations"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ConnectorType" eSuperTypes="#//core/FQNamedEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interface" lowerBound="1"
+          eType="#//typeRepository/Interface"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="ExecutionContainerType" eSuperTypes="#//core/FQNamedEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="resources" ordered="false"
           upperBound="-1" eType="#//executionEnvironment/ResourceSpecification" containment="true"/>
@@ -463,6 +464,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="systemProvidedInterfaceDelegationConnectorFrequencies"
           ordered="false" upperBound="-1" eType="#//usage/SystemProvidedInterfaceDelegationConnectorFrequency"
           containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentCallingRelationships"
+          ordered="false" upperBound="-1" eType="#//usage/DeploymentCallingRelationship"
+          containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentOperationCallFrequencies"
+          ordered="false" upperBound="-1" eType="#//usage/DeploymentOperationCallFrequency"
+          containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="CallingRelationship">
       <eStructuralFeatures xsi:type="ecore:EReference" name="calledInterface" ordered="false"
@@ -536,5 +543,16 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SynchronousCallMessage" eSuperTypes="#//usage/Message"/>
     <eClassifiers xsi:type="ecore:EClass" name="SynchronousReplyMessage" eSuperTypes="#//usage/Message"/>
+    <eClassifiers xsi:type="ecore:EClass" name="DeploymentCallingRelationship" eSuperTypes="#//usage/CallingRelationship">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callingDeploymentComponent"
+          lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="calledDeploymentComponent"
+          lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DeploymentOperationCallFrequency"
+        eSuperTypes="#//usage/OperationCallFrequency">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deploymentComponent"
+          ordered="false" lowerBound="1" eType="#//componentDeployment/DeploymentComponent"/>
+    </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

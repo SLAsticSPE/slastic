@@ -14,11 +14,11 @@ package kieker.tools.slastic.metamodel.executionEnvironment;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification#getMemCapacityBytes <em>Mem Capacity Bytes</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification#getSwapCapacityBytes <em>Swap Capacity Bytes</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getMemSwapResourceSpecification()
  * @model

@@ -17,13 +17,15 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getCallingRelationships <em>Calling Relationships</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getOperationCallFrequencies <em>Operation Call Frequencies</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getAssemblyComponentConnectorCallFrequencies <em>Assembly Component Connector Call Frequencies</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getSystemProvidedInterfaceDelegationConnectorFrequencies <em>System Provided Interface Delegation Connector Frequencies</em>}</li>
+ *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentCallingRelationships <em>Deployment Calling Relationships</em>}</li>
+ *   <li>{@link kieker.tools.slastic.metamodel.usage.UsageModel#getDeploymentOperationCallFrequencies <em>Deployment Operation Call Frequencies</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getUsageModel()
  * @model
@@ -93,5 +95,37 @@ public interface UsageModel extends SLAsticModel {
 	 * @generated
 	 */
 	EList<SystemProvidedInterfaceDelegationConnectorFrequency> getSystemProvidedInterfaceDelegationConnectorFrequencies();
+
+	/**
+	 * Returns the value of the '<em><b>Deployment Calling Relationships</b></em>' containment reference list.
+	 * The list contents are of type {@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Deployment Calling Relationships</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Deployment Calling Relationships</em>' containment reference list.
+	 * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getUsageModel_DeploymentCallingRelationships()
+	 * @model containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<DeploymentCallingRelationship> getDeploymentCallingRelationships();
+
+	/**
+	 * Returns the value of the '<em><b>Deployment Operation Call Frequencies</b></em>' containment reference list.
+	 * The list contents are of type {@link kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Deployment Operation Call Frequencies</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Deployment Operation Call Frequencies</em>' containment reference list.
+	 * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getUsageModel_DeploymentOperationCallFrequencies()
+	 * @model containment="true" ordered="false"
+	 * @generated
+	 */
+	EList<DeploymentOperationCallFrequency> getDeploymentOperationCallFrequencies();
 
 } // UsageModel

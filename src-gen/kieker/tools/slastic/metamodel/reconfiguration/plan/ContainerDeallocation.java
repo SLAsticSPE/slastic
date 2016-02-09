@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.ContainerDeallocation#getContainer <em>Container</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage#getContainerDeallocation()
  * @model

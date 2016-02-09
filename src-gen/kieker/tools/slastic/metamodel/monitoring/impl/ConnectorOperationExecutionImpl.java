@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.ConnectorOperationExecutionImpl#getAssemblyConnector <em>Assembly Connector</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.ConnectorOperationExecutionImpl#getExecutionContainer <em>Execution Container</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

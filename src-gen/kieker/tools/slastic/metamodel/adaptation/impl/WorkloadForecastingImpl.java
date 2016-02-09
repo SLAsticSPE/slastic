@@ -27,10 +27,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.WorkloadForecastingImpl#getControl <em>Control</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -61,7 +61,7 @@ public class WorkloadForecastingImpl extends EObjectImpl implements WorkloadFore
 	 */
 	public Control getControl() {
 		if (eContainerFeatureID() != AdaptationPackage.WORKLOAD_FORECASTING__CONTROL) return null;
-		return (Control)eContainer();
+		return (Control)eInternalContainer();
 	}
 
 	/**

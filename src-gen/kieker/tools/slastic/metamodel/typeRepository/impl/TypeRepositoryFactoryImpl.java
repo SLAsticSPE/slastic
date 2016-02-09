@@ -31,7 +31,7 @@ public class TypeRepositoryFactoryImpl extends EFactoryImpl implements TypeRepos
 	 */
 	public static TypeRepositoryFactory init() {
 		try {
-			TypeRepositoryFactory theTypeRepositoryFactory = (TypeRepositoryFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/typeRepository.ecore"); 
+			TypeRepositoryFactory theTypeRepositoryFactory = (TypeRepositoryFactory)EPackage.Registry.INSTANCE.getEFactory(TypeRepositoryPackage.eNS_URI);
 			if (theTypeRepositoryFactory != null) {
 				return theTypeRepositoryFactory;
 			}

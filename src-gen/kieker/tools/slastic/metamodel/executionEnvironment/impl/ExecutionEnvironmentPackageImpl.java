@@ -234,7 +234,7 @@ public class ExecutionEnvironmentPackageImpl extends EPackageImpl implements Exe
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getExecutionContainer_NetworkLink() {
+	public EReference getExecutionContainer_NetworkLinks() {
 		return (EReference)executionContainerEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -412,7 +412,7 @@ public class ExecutionEnvironmentPackageImpl extends EPackageImpl implements Exe
 		// Create classes and their features
 		executionContainerEClass = createEClass(EXECUTION_CONTAINER);
 		createEReference(executionContainerEClass, EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE);
-		createEReference(executionContainerEClass, EXECUTION_CONTAINER__NETWORK_LINK);
+		createEReference(executionContainerEClass, EXECUTION_CONTAINER__NETWORK_LINKS);
 		createEReference(executionContainerEClass, EXECUTION_CONTAINER__RESOURCES);
 
 		networkLinkEClass = createEClass(NETWORK_LINK);
@@ -477,12 +477,12 @@ public class ExecutionEnvironmentPackageImpl extends EPackageImpl implements Exe
 		// Initialize classes and features; add operations and parameters
 		initEClass(executionContainerEClass, ExecutionContainer.class, "ExecutionContainer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getExecutionContainer_ExecutionContainerType(), theTypeRepositoryPackage.getExecutionContainerType(), null, "executionContainerType", null, 1, 1, ExecutionContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getExecutionContainer_NetworkLink(), this.getNetworkLink(), this.getNetworkLink_ExecutionContainers(), "networkLink", null, 1, 1, ExecutionContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getExecutionContainer_NetworkLinks(), this.getNetworkLink(), this.getNetworkLink_ExecutionContainers(), "networkLinks", null, 0, -1, ExecutionContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEReference(getExecutionContainer_Resources(), this.getResource(), this.getResource_ExecutionContainer(), "resources", null, 0, -1, ExecutionContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(networkLinkEClass, NetworkLink.class, "NetworkLink", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getNetworkLink_NetworkLinkType(), theTypeRepositoryPackage.getNetworkLinkType(), null, "networkLinkType", null, 1, 1, NetworkLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
-		initEReference(getNetworkLink_ExecutionContainers(), this.getExecutionContainer(), this.getExecutionContainer_NetworkLink(), "executionContainers", null, 0, -1, NetworkLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEReference(getNetworkLink_ExecutionContainers(), this.getExecutionContainer(), this.getExecutionContainer_NetworkLinks(), "executionContainers", null, 0, -1, NetworkLink.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(resourceEClass, Resource.class, "Resource", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getResource_ResourceSpecification(), this.getResourceSpecification(), null, "resourceSpecification", null, 1, 1, Resource.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

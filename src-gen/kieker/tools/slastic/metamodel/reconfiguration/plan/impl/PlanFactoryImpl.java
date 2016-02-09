@@ -31,7 +31,7 @@ public class PlanFactoryImpl extends EFactoryImpl implements PlanFactory {
 	 */
 	public static PlanFactory init() {
 		try {
-			PlanFactory thePlanFactory = (PlanFactory)EPackage.Registry.INSTANCE.getEFactory("http:///metamodel/reconfiguration/plan.ecore"); 
+			PlanFactory thePlanFactory = (PlanFactory)EPackage.Registry.INSTANCE.getEFactory(PlanPackage.eNS_URI);
 			if (thePlanFactory != null) {
 				return thePlanFactory;
 			}

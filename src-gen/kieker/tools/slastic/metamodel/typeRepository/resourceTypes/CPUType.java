@@ -15,12 +15,12 @@ import kieker.tools.slastic.metamodel.typeRepository.ResourceType;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType#getVendor <em>Vendor</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType#getModel <em>Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType#getSpeedMhz <em>Speed Mhz</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.resourceTypes.ResourceTypesPackage#getCPUType()
  * @model

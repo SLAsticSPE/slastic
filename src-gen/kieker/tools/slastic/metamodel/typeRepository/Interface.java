@@ -17,10 +17,10 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.Interface#getSignatures <em>Signatures</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getInterface()
  * @model

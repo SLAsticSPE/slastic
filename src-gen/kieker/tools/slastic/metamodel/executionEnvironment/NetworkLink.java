@@ -19,11 +19,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.NetworkLink#getNetworkLinkType <em>Network Link Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.NetworkLink#getExecutionContainers <em>Execution Containers</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getNetworkLink()
  * @model
@@ -59,7 +59,7 @@ public interface NetworkLink extends FQNamedEntity {
 	/**
 	 * Returns the value of the '<em><b>Execution Containers</b></em>' reference list.
 	 * The list contents are of type {@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer}.
-	 * It is bidirectional and its opposite is '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink <em>Network Link</em>}'.
+	 * It is bidirectional and its opposite is '{@link kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLinks <em>Network Links</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Execution Containers</em>' reference list isn't clear,
@@ -68,8 +68,8 @@ public interface NetworkLink extends FQNamedEntity {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Execution Containers</em>' reference list.
 	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionEnvironmentPackage#getNetworkLink_ExecutionContainers()
-	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLink
-	 * @model opposite="networkLink" ordered="false"
+	 * @see kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer#getNetworkLinks
+	 * @model opposite="networkLinks" ordered="false"
 	 * @generated
 	 */
 	EList<ExecutionContainer> getExecutionContainers();

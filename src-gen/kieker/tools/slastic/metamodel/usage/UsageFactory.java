@@ -134,6 +134,24 @@ public interface UsageFactory extends EFactory {
 	SynchronousReplyMessage createSynchronousReplyMessage();
 
 	/**
+	 * Returns a new object of class '<em>Deployment Calling Relationship</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Deployment Calling Relationship</em>'.
+	 * @generated
+	 */
+	DeploymentCallingRelationship createDeploymentCallingRelationship();
+
+	/**
+	 * Returns a new object of class '<em>Deployment Operation Call Frequency</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Deployment Operation Call Frequency</em>'.
+	 * @generated
+	 */
+	DeploymentOperationCallFrequency createDeploymentOperationCallFrequency();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

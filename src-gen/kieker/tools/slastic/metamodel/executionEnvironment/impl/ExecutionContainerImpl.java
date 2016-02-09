@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -36,12 +37,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getExecutionContainerType <em>Execution Container Type</em>}</li>
- *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getNetworkLink <em>Network Link</em>}</li>
+ *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getNetworkLinks <em>Network Links</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getResources <em>Resources</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -57,14 +58,14 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 	protected ExecutionContainerType executionContainerType;
 
 	/**
-	 * The cached value of the '{@link #getNetworkLink() <em>Network Link</em>}' reference.
+	 * The cached value of the '{@link #getNetworkLinks() <em>Network Links</em>}' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getNetworkLink()
+	 * @see #getNetworkLinks()
 	 * @generated
 	 * @ordered
 	 */
-	protected NetworkLink networkLink;
+	protected EList<NetworkLink> networkLinks;
 
 	/**
 	 * The cached value of the '{@link #getResources() <em>Resources</em>}' containment reference list.
@@ -138,59 +139,11 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NetworkLink getNetworkLink() {
-		if (networkLink != null && networkLink.eIsProxy()) {
-			InternalEObject oldNetworkLink = (InternalEObject)networkLink;
-			networkLink = (NetworkLink)eResolveProxy(oldNetworkLink);
-			if (networkLink != oldNetworkLink) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK, oldNetworkLink, networkLink));
-			}
+	public EList<NetworkLink> getNetworkLinks() {
+		if (networkLinks == null) {
+			networkLinks = new EObjectWithInverseResolvingEList.ManyInverse<NetworkLink>(NetworkLink.class, this, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS);
 		}
-		return networkLink;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NetworkLink basicGetNetworkLink() {
-		return networkLink;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public NotificationChain basicSetNetworkLink(NetworkLink newNetworkLink, NotificationChain msgs) {
-		NetworkLink oldNetworkLink = networkLink;
-		networkLink = newNetworkLink;
-		if (eNotificationRequired()) {
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK, oldNetworkLink, newNetworkLink);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
-		}
-		return msgs;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setNetworkLink(NetworkLink newNetworkLink) {
-		if (newNetworkLink != networkLink) {
-			NotificationChain msgs = null;
-			if (networkLink != null)
-				msgs = ((InternalEObject)networkLink).eInverseRemove(this, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS, NetworkLink.class, msgs);
-			if (newNetworkLink != null)
-				msgs = ((InternalEObject)newNetworkLink).eInverseAdd(this, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS, NetworkLink.class, msgs);
-			msgs = basicSetNetworkLink(newNetworkLink, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK, newNetworkLink, newNetworkLink));
+		return networkLinks;
 	}
 
 	/**
@@ -214,10 +167,8 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				if (networkLink != null)
-					msgs = ((InternalEObject)networkLink).eInverseRemove(this, ExecutionEnvironmentPackage.NETWORK_LINK__EXECUTION_CONTAINERS, NetworkLink.class, msgs);
-				return basicSetNetworkLink((NetworkLink)otherEnd, msgs);
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getNetworkLinks()).basicAdd(otherEnd, msgs);
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				return ((InternalEList<InternalEObject>)(InternalEList<?>)getResources()).basicAdd(otherEnd, msgs);
 		}
@@ -232,8 +183,8 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				return basicSetNetworkLink(null, msgs);
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				return ((InternalEList<?>)getNetworkLinks()).basicRemove(otherEnd, msgs);
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				return ((InternalEList<?>)getResources()).basicRemove(otherEnd, msgs);
 		}
@@ -251,9 +202,8 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE:
 				if (resolve) return getExecutionContainerType();
 				return basicGetExecutionContainerType();
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				if (resolve) return getNetworkLink();
-				return basicGetNetworkLink();
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				return getNetworkLinks();
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				return getResources();
 		}
@@ -272,8 +222,9 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE:
 				setExecutionContainerType((ExecutionContainerType)newValue);
 				return;
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				setNetworkLink((NetworkLink)newValue);
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				getNetworkLinks().clear();
+				getNetworkLinks().addAll((Collection<? extends NetworkLink>)newValue);
 				return;
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				getResources().clear();
@@ -294,8 +245,8 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE:
 				setExecutionContainerType((ExecutionContainerType)null);
 				return;
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				setNetworkLink((NetworkLink)null);
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				getNetworkLinks().clear();
 				return;
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				getResources().clear();
@@ -314,8 +265,8 @@ public class ExecutionContainerImpl extends FQNamedEntityImpl implements Executi
 		switch (featureID) {
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__EXECUTION_CONTAINER_TYPE:
 				return executionContainerType != null;
-			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINK:
-				return networkLink != null;
+			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__NETWORK_LINKS:
+				return networkLinks != null && !networkLinks.isEmpty();
 			case ExecutionEnvironmentPackage.EXECUTION_CONTAINER__RESOURCES:
 				return resources != null && !resources.isEmpty();
 		}

@@ -14,6 +14,7 @@ package kieker.tools.slastic.metamodel.monitoring;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.CPUUtilization#getUser <em>User</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.CPUUtilization#getSystem <em>System</em>}</li>
@@ -23,7 +24,6 @@ package kieker.tools.slastic.metamodel.monitoring;
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.CPUUtilization#getCombined <em>Combined</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.CPUUtilization#getIdle <em>Idle</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.monitoring.MonitoringPackage#getCPUUtilization()
  * @model

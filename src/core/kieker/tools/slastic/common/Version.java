@@ -27,7 +27,7 @@ public class Version {
 	 * The VERSION string is updated by the Ant build file, which looks for the
 	 * pattern: VERSION = <quote>.*<quote>
 	 */
-	private static final String VERSION = "0.5a-SNAPSHOT-20140722";
+	private static final String VERSION = "0.5a-SNAPSHOT-20160209";
 
 	static final String COPYRIGHT = "Copyright (c) 2012 The SLAstic Project";
 

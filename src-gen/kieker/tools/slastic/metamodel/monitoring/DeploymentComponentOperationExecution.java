@@ -17,11 +17,11 @@ import kieker.tools.slastic.metamodel.typeRepository.Operation;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution#getDeploymentComponent <em>Deployment Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution#getOperation <em>Operation</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.monitoring.MonitoringPackage#getDeploymentComponentOperationExecution()
  * @model

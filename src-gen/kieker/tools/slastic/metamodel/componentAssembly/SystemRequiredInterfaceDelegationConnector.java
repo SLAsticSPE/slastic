@@ -14,11 +14,11 @@ package kieker.tools.slastic.metamodel.componentAssembly;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getRequiringComponent <em>Requiring Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.SystemRequiredInterfaceDelegationConnector#getComponentAssemblyModel <em>Component Assembly Model</em>}</li>
  * </ul>
- * </p>
  *
  * @see kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getSystemRequiredInterfaceDelegationConnector()
  * @model
