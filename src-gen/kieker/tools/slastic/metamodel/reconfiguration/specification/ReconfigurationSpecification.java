@@ -17,10 +17,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.specification.ReconfigurationSpecification#getAdaptationModel <em>Adaptation Model</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.reconfiguration.specification.SpecificationPackage#getReconfigurationSpecification()
  * @model

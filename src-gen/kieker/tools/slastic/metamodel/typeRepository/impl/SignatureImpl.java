@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -29,11 +30,12 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.SignatureImpl#getParamTypes <em>Param Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.SignatureImpl#getReturnType <em>Return Type</em>}</li>
+ *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.SignatureImpl#getModifiers <em>Modifiers</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
@@ -67,6 +69,16 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 	 * @ordered
 	 */
 	protected String returnType = RETURN_TYPE_EDEFAULT;
+
+	/**
+	 * The cached value of the '{@link #getModifiers() <em>Modifiers</em>}' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getModifiers()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<String> modifiers;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -125,6 +137,18 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<String> getModifiers() {
+		if (modifiers == null) {
+			modifiers = new EDataTypeUniqueEList<String>(String.class, this, TypeRepositoryPackage.SIGNATURE__MODIFIERS);
+		}
+		return modifiers;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -132,6 +156,8 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 				return getParamTypes();
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				return getReturnType();
+			case TypeRepositoryPackage.SIGNATURE__MODIFIERS:
+				return getModifiers();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -152,6 +178,10 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				setReturnType((String)newValue);
 				return;
+			case TypeRepositoryPackage.SIGNATURE__MODIFIERS:
+				getModifiers().clear();
+				getModifiers().addAll((Collection<? extends String>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -170,6 +200,9 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				setReturnType(RETURN_TYPE_EDEFAULT);
 				return;
+			case TypeRepositoryPackage.SIGNATURE__MODIFIERS:
+				getModifiers().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -186,6 +219,8 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 				return paramTypes != null && !paramTypes.isEmpty();
 			case TypeRepositoryPackage.SIGNATURE__RETURN_TYPE:
 				return RETURN_TYPE_EDEFAULT == null ? returnType != null : !RETURN_TYPE_EDEFAULT.equals(returnType);
+			case TypeRepositoryPackage.SIGNATURE__MODIFIERS:
+				return modifiers != null && !modifiers.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -204,6 +239,8 @@ public class SignatureImpl extends NamedEntityImpl implements Signature {
 		result.append(paramTypes);
 		result.append(", returnType: ");
 		result.append(returnType);
+		result.append(", modifiers: ");
+		result.append(modifiers);
 		result.append(')');
 		return result.toString();
 	}

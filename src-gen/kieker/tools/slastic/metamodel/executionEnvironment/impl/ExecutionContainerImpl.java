@@ -37,12 +37,12 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getExecutionContainerType <em>Execution Container Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getNetworkLinks <em>Network Links</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ExecutionContainerImpl#getResources <em>Resources</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

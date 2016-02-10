@@ -27,11 +27,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl#getRequiringComponent <em>Requiring Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.SystemRequiredInterfaceDelegationConnectorImpl#getComponentAssemblyModel <em>Component Assembly Model</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

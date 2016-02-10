@@ -13,10 +13,10 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.DeploymentOperationCallFrequency#getDeploymentComponent <em>Deployment Component</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getDeploymentOperationCallFrequency()
  * @model

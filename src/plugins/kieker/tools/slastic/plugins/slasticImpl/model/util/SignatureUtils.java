@@ -24,9 +24,9 @@ import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryFactory;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class SignatureUtils {
 	/**
@@ -37,13 +37,13 @@ public class SignatureUtils {
 
 	/**
 	 * Creates a new {@link Signature} with the given name, parameter types and return type.
-	 * 
+	 *
 	 * @param name
 	 * @param paramTypes
 	 * @param returnType
 	 * @return
 	 */
-	public static Signature createSignature(final String name, final String[] paramTypes, final String returnType) {
+	public static Signature createSignature(final String name, final String[] paramTypes, final String returnType, final String[] modifiers) {
 		// Create and assign the Signature of this Operation
 		final Signature signature = TypeRepositoryFactory.eINSTANCE.createSignature();
 		signature.setId(SignatureUtils.SIGNATURE_ID);
@@ -53,18 +53,21 @@ public class SignatureUtils {
 		for (final String paramType : paramTypes) {
 			signature.getParamTypes().add(paramType);
 		}
+		for (final String modifier : modifiers) {
+			signature.getModifiers().add(modifier);
+		}
 		return signature;
 	}
 
 	/**
 	 * Returns a String representation of the given {@link Signature}.
-	 * 
+	 *
 	 * Examples:
 	 * <ul>
 	 * <li>methodA():void</li>
 	 * <li>methodB(Integer,boolean):boolean</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param signature
 	 * @return
 	 */
@@ -77,7 +80,7 @@ public class SignatureUtils {
 
 	/**
 	 * Returns whether the given {@link Signature}s are equal.
-	 * 
+	 *
 	 * @param signature1
 	 * @param signature2
 	 * @return

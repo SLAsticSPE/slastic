@@ -21,10 +21,10 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentOperationCallFrequencyImpl#getDeploymentComponent <em>Deployment Component</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

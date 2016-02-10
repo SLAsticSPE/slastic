@@ -31,11 +31,11 @@ import org.eclipse.emf.ecore.util.EObjectResolvingEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.MessageTraceImpl#getMessages <em>Messages</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.MessageTraceImpl#getExecutionTrace <em>Execution Trace</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

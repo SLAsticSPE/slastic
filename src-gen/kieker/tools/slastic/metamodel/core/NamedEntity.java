@@ -14,10 +14,10 @@ package kieker.tools.slastic.metamodel.core;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.core.NamedEntity#getName <em>Name</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.core.CorePackage#getNamedEntity()
  * @model

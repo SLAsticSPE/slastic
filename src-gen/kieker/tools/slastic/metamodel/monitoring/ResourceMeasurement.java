@@ -17,11 +17,11 @@ import kieker.tools.slastic.metamodel.executionEnvironment.Resource;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.ResourceMeasurement#getResource <em>Resource</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.ResourceMeasurement#getTimestamp <em>Timestamp</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.monitoring.MonitoringPackage#getResourceMeasurement()
  * @model abstract="true"

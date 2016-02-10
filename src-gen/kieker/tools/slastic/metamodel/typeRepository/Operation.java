@@ -15,11 +15,11 @@ import kieker.tools.slastic.metamodel.core.Entity;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.Operation#getSignature <em>Signature</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.Operation#getComponentType <em>Component Type</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getOperation()
  * @model

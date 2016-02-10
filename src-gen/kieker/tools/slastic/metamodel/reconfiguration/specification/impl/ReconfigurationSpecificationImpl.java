@@ -29,10 +29,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.specification.impl.ReconfigurationSpecificationImpl#getAdaptationModel <em>Adaptation Model</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

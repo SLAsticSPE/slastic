@@ -16,8 +16,6 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.model.typeRepository;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractModelManager;
-
 import kieker.tools.slastic.metamodel.executionEnvironment.MemSwapResourceSpecification;
 import kieker.tools.slastic.metamodel.executionEnvironment.ResourceSpecification;
 import kieker.tools.slastic.metamodel.typeRepository.ComponentType;
@@ -32,14 +30,15 @@ import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryModel;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.CPUType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.GenericResourceType;
 import kieker.tools.slastic.metamodel.typeRepository.resourceTypes.MemSwapType;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractModelManager;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class TypeRepositoryModelManager extends AbstractModelManager<TypeRepositoryModel>
-		implements IComponentTypesManager, IInterfacesManager, IConnectorTypesManager, IExecutionContainerTypesManager, INetworkLinkTypesManager,
-		IResourceTypesManager {
+implements IComponentTypesManager, IInterfacesManager, IConnectorTypesManager, IExecutionContainerTypesManager, INetworkLinkTypesManager,
+IResourceTypesManager {
 
 	private final ComponentTypesManager componentTypeManager;
 	private final ConnectorTypesManager connectorTypeManager;
@@ -203,23 +202,26 @@ public class TypeRepositoryModelManager extends AbstractModelManager<TypeReposit
 	}
 
 	@Override
-	public Operation createAndRegisterOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes) {
-		return this.componentTypeManager.createAndRegisterOperation(componentType, operationName, returnType, argTypes);
+	public Operation createAndRegisterOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes,
+			final String[] modifiers) {
+		return this.componentTypeManager.createAndRegisterOperation(componentType, operationName, returnType, argTypes, modifiers);
 	}
 
 	@Override
-	public Operation lookupOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes) {
-		return this.componentTypeManager.lookupOperation(componentType, operationName, returnType, argTypes);
+	public Operation lookupOperation(final ComponentType componentType, final String operationName, final String returnType, final String[] argTypes,
+			final String[] modifiers) {
+		return this.componentTypeManager.lookupOperation(componentType, operationName, returnType, argTypes, modifiers);
 	}
 
 	@Override
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
-		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes);
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes, final String[] modifiers) {
+		return this.interfaceManager.lookupSignature(iface, signatureName, returnType, argTypes, modifiers);
 	}
 
 	@Override
-	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
-		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes);
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes,
+			final String[] modifiers) {
+		return this.interfaceManager.createAndRegisterSignature(iface, signatureName, returnType, argTypes, modifiers);
 	}
 
 	@Override

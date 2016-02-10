@@ -11,11 +11,11 @@ import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCallingDeploymentComponent <em>Calling Deployment Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.DeploymentCallingRelationship#getCalledDeploymentComponent <em>Called Deployment Component</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getDeploymentCallingRelationship()
  * @model

@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.FrequencyDistributionImpl#getValues <em>Values</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.FrequencyDistributionImpl#getFrequencies <em>Frequencies</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

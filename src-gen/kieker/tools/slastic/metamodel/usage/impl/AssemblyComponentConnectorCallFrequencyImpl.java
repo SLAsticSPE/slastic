@@ -24,10 +24,10 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.AssemblyComponentConnectorCallFrequencyImpl#getConnector <em>Connector</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

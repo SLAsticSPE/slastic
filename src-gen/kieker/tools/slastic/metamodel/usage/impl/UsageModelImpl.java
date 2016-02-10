@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.UsageModelImpl#getCallingRelationships <em>Calling Relationships</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.UsageModelImpl#getOperationCallFrequencies <em>Operation Call Frequencies</em>}</li>
@@ -44,6 +43,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.UsageModelImpl#getDeploymentCallingRelationships <em>Deployment Calling Relationships</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.UsageModelImpl#getDeploymentOperationCallFrequencies <em>Deployment Operation Call Frequencies</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

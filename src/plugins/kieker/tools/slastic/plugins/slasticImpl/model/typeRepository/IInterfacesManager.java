@@ -21,7 +21,7 @@ import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public interface IInterfacesManager {
@@ -29,7 +29,7 @@ public interface IInterfacesManager {
 	/**
 	 * Returns the interface with the given fully-qualified name or null
 	 * if no interface with this name.
-	 * 
+	 *
 	 * @param fullyQualifiedName
 	 *            the fully-qualified name of the interface to lookup
 	 * @return the looked up interface
@@ -39,7 +39,7 @@ public interface IInterfacesManager {
 	/**
 	 * Returns the interface with the given id or null if no component
 	 * with this id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the interface to lookup
 	 * @return the looked up interface
@@ -49,7 +49,7 @@ public interface IInterfacesManager {
 	/**
 	 * Creates and registers a new interface with the given full-qualified
 	 * name fullyQualifiedName.
-	 * 
+	 *
 	 * @param fullyQualifiedName
 	 * @return the new interface
 	 * @throws IllegalArgumentException
@@ -61,7 +61,7 @@ public interface IInterfacesManager {
 	/**
 	 * Creates and registers a new {@link Signature} with the given name, return
 	 * type, and argument types, that is to be declared by the given {@link Interface}.
-	 * 
+	 *
 	 * @param iface
 	 * @param signatureName
 	 * @param returnType
@@ -72,17 +72,17 @@ public interface IInterfacesManager {
 	 */
 	public Signature createAndRegisterSignature(
 			final Interface iface, final String signatureName,
-			final String returnType, final String[] argTypes);
+			final String returnType, final String[] argTypes, final String[] modifiers);
 
 	/**
 	 * Returns the {@link Signature} with given name, return type, and argument
 	 * types, that is declared by the given {@link Interface}.
-	 * 
+	 *
 	 * @param iface
 	 * @param signatureName
 	 * @param returnType
 	 * @param argTypes
 	 * @return the looked up {@link Signature}; null if no such {@link Signature}
 	 */
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes);
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes, final String[] modifiers);
 }

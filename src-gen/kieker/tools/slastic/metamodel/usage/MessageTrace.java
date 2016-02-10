@@ -15,11 +15,11 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.MessageTrace#getMessages <em>Messages</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.MessageTrace#getExecutionTrace <em>Execution Trace</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getMessageTrace()
  * @model

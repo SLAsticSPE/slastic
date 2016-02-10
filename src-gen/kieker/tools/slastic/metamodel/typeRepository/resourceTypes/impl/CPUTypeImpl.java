@@ -23,12 +23,12 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.impl.CPUTypeImpl#getVendor <em>Vendor</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.impl.CPUTypeImpl#getModel <em>Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.resourceTypes.impl.CPUTypeImpl#getSpeedMhz <em>Speed Mhz</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

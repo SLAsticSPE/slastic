@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl#getCalledInterface <em>Called Interface</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl#getCalledSignature <em>Called Signature</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl#getCallingOperation <em>Calling Operation</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.CallingRelationshipImpl#getFrequencyDistribution <em>Frequency Distribution</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

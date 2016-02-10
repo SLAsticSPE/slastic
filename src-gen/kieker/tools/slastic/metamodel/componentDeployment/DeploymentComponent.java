@@ -19,11 +19,11 @@ import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent#getAssemblyComponent <em>Assembly Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent#getExecutionContainer <em>Execution Container</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.componentDeployment.ComponentDeploymentPackage#getDeploymentComponent()
  * @model

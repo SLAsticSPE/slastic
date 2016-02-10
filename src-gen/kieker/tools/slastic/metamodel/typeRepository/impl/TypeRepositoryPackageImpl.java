@@ -330,6 +330,15 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSignature_Modifiers() {
+		return (EAttribute)signatureEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOperation() {
 		return operationEClass;
 	}
@@ -501,6 +510,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		signatureEClass = createEClass(SIGNATURE);
 		createEAttribute(signatureEClass, SIGNATURE__PARAM_TYPES);
 		createEAttribute(signatureEClass, SIGNATURE__RETURN_TYPE);
+		createEAttribute(signatureEClass, SIGNATURE__MODIFIERS);
 
 		operationEClass = createEClass(OPERATION);
 		createEReference(operationEClass, OPERATION__SIGNATURE);
@@ -583,6 +593,7 @@ public class TypeRepositoryPackageImpl extends EPackageImpl implements TypeRepos
 		initEClass(signatureEClass, Signature.class, "Signature", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getSignature_ParamTypes(), ecorePackage.getEString(), "paramTypes", null, 0, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getSignature_ReturnType(), ecorePackage.getEString(), "returnType", null, 1, 1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
+		initEAttribute(getSignature_Modifiers(), ecorePackage.getEString(), "modifiers", null, 1, -1, Signature.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 
 		initEClass(operationEClass, Operation.class, "Operation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOperation_Signature(), this.getSignature(), null, "signature", null, 1, 1, Operation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);

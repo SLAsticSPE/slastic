@@ -21,23 +21,22 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
-import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import kieker.tools.slastic.metamodel.typeRepository.ConnectorType;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
+import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class SystemProvidedInterfacesManager extends AbstractFQNamedEntityManager<SystemProvidedInterfaceDelegationConnector>
-		implements ISystemProvidedInterfacesManager {
+implements ISystemProvidedInterfacesManager {
 	private static final Log LOG = LogFactory.getLog(SystemProvidedInterfacesManager.class);
 
 	public final static String SYSPROVCONNECT_NO_NAME_PREFIX = "ASM_SYSPROVCONN_NN_";
@@ -94,7 +93,8 @@ public class SystemProvidedInterfacesManager extends AbstractFQNamedEntityManage
 			final Signature lookedUpSignature =
 					this.typeRepositoryModelManager.lookupSignature(connector.getConnectorType().getInterface(),
 							signature.getName(), signature.getReturnType(),
-							signature.getParamTypes().toArray(new String[] {}));
+							signature.getParamTypes().toArray(new String[] {}),
+							signature.getModifiers().toArray(new String[] {}));
 			if (lookedUpSignature != null) {
 				return connector;
 			}

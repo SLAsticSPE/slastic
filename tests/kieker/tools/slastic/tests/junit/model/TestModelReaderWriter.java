@@ -35,7 +35,7 @@ import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class TestModelReaderWriter extends TestCase {
@@ -68,7 +68,7 @@ public class TestModelReaderWriter extends TestCase {
 	/**
 	 * Tests whether a system model gets properly saved to a file and can
 	 * subsequently be reloaded from the file.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void testSaveReadSystemAndUSageModel() throws IOException {
@@ -98,9 +98,11 @@ public class TestModelReaderWriter extends TestCase {
 	private void fillSystemModel() {
 		final TypeRepositoryModelManager tMgr = this.systemModelManager.getTypeRepositoryManager();
 		this.componentType0 = tMgr.createAndRegisterComponentType(this.fqnComponentType0);
-		tMgr.createAndRegisterOperation(this.componentType0, "op0", Boolean.class.getName(), new String[] { void.class.getName() });
+		tMgr.createAndRegisterOperation(this.componentType0, "op0", Boolean.class.getName(), new String[] { void.class.getName() },
+				new String[] { void.class.getName() });
 		this.componentType1 = tMgr.createAndRegisterComponentType(this.fqnComponentType1);
-		tMgr.createAndRegisterOperation(this.componentType1, "op1", Integer.class.getName(), new String[] { String.class.getName() });
+		tMgr.createAndRegisterOperation(this.componentType1, "op1", Integer.class.getName(), new String[] { String.class.getName() },
+				new String[] { String.class.getName() });
 	}
 
 	/**

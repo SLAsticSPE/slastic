@@ -22,7 +22,7 @@ import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public interface IComponentTypesManager {
@@ -30,7 +30,7 @@ public interface IComponentTypesManager {
 	/**
 	 * Returns the component type with the given fully-qualified name or null if
 	 * no component with this name.
-	 * 
+	 *
 	 * @param fullyQualifiedName
 	 *            the fully-qualified name of the component type to lookup
 	 * @return the looked up component type
@@ -40,7 +40,7 @@ public interface IComponentTypesManager {
 	/**
 	 * Returns the component type with the given id or null if no component with
 	 * this id.
-	 * 
+	 *
 	 * @param id
 	 *            the id of the component type to lookup
 	 * @return the looked up component type
@@ -50,7 +50,7 @@ public interface IComponentTypesManager {
 	/**
 	 * Creates and registers a new component type with the given full-qualified
 	 * name fullyQualifiedName.
-	 * 
+	 *
 	 * @param fullyQualifiedName
 	 * @return the new component type
 	 * @throws IllegalArgumentException
@@ -62,7 +62,7 @@ public interface IComponentTypesManager {
 	/**
 	 * Returns the {@link Operation} with given name, return type, and argument
 	 * types, that is implemented by the given {@link ComponentType}.
-	 * 
+	 *
 	 * @param componentType
 	 * @param operationName
 	 * @param returnType
@@ -71,12 +71,12 @@ public interface IComponentTypesManager {
 	 */
 	public Operation lookupOperation(final ComponentType componentType,
 			final String operationName, final String returnType,
-			final String[] argTypes);
+			final String[] argTypes, final String[] modifiers);
 
 	/**
 	 * Creates and registers a new {@link Operation} with the given name, return
 	 * type, and argument types, that is to be provided by the given {@link ComponentType}.
-	 * 
+	 *
 	 * @param componentType
 	 * @param operationName
 	 * @param returnType
@@ -87,11 +87,11 @@ public interface IComponentTypesManager {
 	 */
 	public Operation createAndRegisterOperation(
 			final ComponentType componentType, final String operationName,
-			final String returnType, final String[] argTypes);
+			final String returnType, final String[] argTypes, final String[] modifiers);
 
 	/**
 	 * Registers the given {@link Interface} in the given {@link ComponentType} 's list of provided interfaces.
-	 * 
+	 *
 	 * @param componentType
 	 * @param providedInterface
 	 */
@@ -100,7 +100,7 @@ public interface IComponentTypesManager {
 	/**
 	 * Register the given {@link Interface} in the given {@link ComponentType}'s
 	 * list of required interfaces.
-	 * 
+	 *
 	 * @param componentType
 	 * @param requiredInterface
 	 */
@@ -108,7 +108,7 @@ public interface IComponentTypesManager {
 
 	/**
 	 * Returns the {@link Interface} declaring the given {@link Signature} provided by the given {@link ComponentType}.
-	 * 
+	 *
 	 * @param componentType
 	 * @param signature
 	 * @return
@@ -117,7 +117,7 @@ public interface IComponentTypesManager {
 
 	/**
 	 * Returns the {@link Interface} declaring the given {@link Signature} required by the given {@link ComponentType}.
-	 * 
+	 *
 	 * @param componentType
 	 * @param signature
 	 * @return

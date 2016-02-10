@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.core.FQNamedEntity;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.ConnectorType#getInterface <em>Interface</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getConnectorType()
  * @model

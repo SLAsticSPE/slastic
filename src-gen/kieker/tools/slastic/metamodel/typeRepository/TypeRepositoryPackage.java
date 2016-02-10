@@ -318,13 +318,22 @@ public interface TypeRepositoryPackage extends EPackage {
 	int SIGNATURE__RETURN_TYPE = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Modifiers</b></em>' attribute list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SIGNATURE__MODIFIERS = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Signature</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SIGNATURE_FEATURE_COUNT = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 2;
+	int SIGNATURE_FEATURE_COUNT = CorePackage.NAMED_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The meta object id for the '{@link kieker.tools.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.
@@ -745,6 +754,17 @@ public interface TypeRepositoryPackage extends EPackage {
 	EAttribute getSignature_ReturnType();
 
 	/**
+	 * Returns the meta object for the attribute list '{@link kieker.tools.slastic.metamodel.typeRepository.Signature#getModifiers <em>Modifiers</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute list '<em>Modifiers</em>'.
+	 * @see kieker.tools.slastic.metamodel.typeRepository.Signature#getModifiers()
+	 * @see #getSignature()
+	 * @generated
+	 */
+	EAttribute getSignature_Modifiers();
+
+	/**
 	 * Returns the meta object for class '{@link kieker.tools.slastic.metamodel.typeRepository.Operation <em>Operation</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1013,6 +1033,14 @@ public interface TypeRepositoryPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SIGNATURE__RETURN_TYPE = eINSTANCE.getSignature_ReturnType();
+
+		/**
+		 * The meta object literal for the '<em><b>Modifiers</b></em>' attribute list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SIGNATURE__MODIFIERS = eINSTANCE.getSignature_Modifiers();
 
 		/**
 		 * The meta object literal for the '{@link kieker.tools.slastic.metamodel.typeRepository.impl.OperationImpl <em>Operation</em>}' class.

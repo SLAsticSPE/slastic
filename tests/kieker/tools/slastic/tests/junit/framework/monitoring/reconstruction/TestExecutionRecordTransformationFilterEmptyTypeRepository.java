@@ -40,7 +40,7 @@ import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
  * transforms a {@link OperationExecutionRecord} into an {@link OperationExecution} including the required initializations of an empty
  * system model.
- * 
+ *
  * @author Andre van Hoorn
  */
 public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends AbstractReconstructionTest {
@@ -77,7 +77,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends 
 
 	/**
 	 * Performs a number of validity checks on the model and the record.
-	 * 
+	 *
 	 * @param mgr
 	 * @param slasticExecRec
 	 */
@@ -151,7 +151,8 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends 
 			lookedUpInterface = mgr.getTypeRepositoryManager().lookupInterface(interfaceLookupFQName);
 			Assert.assertNotNull("Lookup of interface " + interfaceLookupFQName + " returned null", lookedUpInterface);
 			final kieker.tools.slastic.metamodel.typeRepository.Signature signature = mgr.getTypeRepositoryManager()
-					.lookupSignature(lookedUpInterface, operationLookupName, this.signature.getReturnType(), this.signature.getParamTypeList());
+					.lookupSignature(lookedUpInterface, operationLookupName, this.signature.getReturnType(), this.signature.getParamTypeList(),
+							this.signature.getModifier());
 			Assert.assertNotNull("Lookup of signature returned null", signature);
 			Assert.assertTrue("Interface not contained in list of provided interfaces", lookedUpComponentType.getProvidedInterfaces().contains(lookedUpInterface));
 
@@ -171,7 +172,8 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends 
 							lookedUpComponentType,
 							operationLookupName,
 							this.signature.getReturnType(),
-							this.signature.getParamTypeList());
+							this.signature.getParamTypeList(),
+							this.signature.getModifier());
 			Assert.assertNotNull(
 					String.format("Lookup of operation '%s %s(%s)' for component type '%s' returned null",
 							this.signature.getReturnType(),

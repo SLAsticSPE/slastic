@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceD
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency#getConnector <em>Connector</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getSystemProvidedInterfaceDelegationConnectorFrequency()
  * @model

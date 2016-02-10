@@ -22,17 +22,16 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.emf.common.util.EList;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.util.SignatureUtils;
-
 import kieker.tools.slastic.metamodel.typeRepository.ComponentType;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Operation;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.util.SignatureUtils;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class ComponentTypesManager extends AbstractFQNamedEntityManager<ComponentType> implements IComponentTypesManager {
@@ -42,7 +41,7 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 	private final InterfacesManager interfacesManager;
 
 	/**
-	 * 
+	 *
 	 * @param componentTypes
 	 * @param interfaceManager
 	 */
@@ -81,8 +80,8 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 	@Override
 	public Operation createAndRegisterOperation(
 			final ComponentType componentType, final String operationName,
-			final String returnType, final String[] argTypes) {
-		Operation res = this.lookupOperation(componentType, operationName, returnType, argTypes);
+			final String returnType, final String[] argTypes, final String[] modifiers) {
+		Operation res = this.lookupOperation(componentType, operationName, returnType, argTypes, modifiers);
 
 		if (res != null) {
 			throw new IllegalArgumentException("Operation with given properties already registered: " + res);
@@ -94,7 +93,7 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 		res.setComponentType(componentType);
 		res.setId(this.nextOperationId++);
 
-		final Signature signature = SignatureUtils.createSignature(operationName, argTypes, returnType);
+		final Signature signature = SignatureUtils.createSignature(operationName, argTypes, returnType, modifiers);
 		res.setSignature(signature);
 
 		return res;
@@ -103,8 +102,8 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 	@Override
 	public Operation lookupOperation(final ComponentType componentType,
 			final String operationName, final String returnType,
-			final String[] argTypes) {
-		final Signature argSignature = SignatureUtils.createSignature(operationName, argTypes, returnType);
+			final String[] argTypes, final String[] modifiers) {
+		final Signature argSignature = SignatureUtils.createSignature(operationName, argTypes, returnType, modifiers);
 
 		for (final Operation op : componentType.getOperations()) {
 			if (SignatureUtils.signaturesEqual(argSignature, op.getSignature())) {
@@ -145,7 +144,8 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 		for (final Interface iface : providedInterfaces) {
 			final Signature lookedupSignature =
 					this.interfacesManager
-							.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}));
+					.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}),
+									signature.getModifiers().toArray(new String[] {}));
 			if (lookedupSignature != null) {
 				return iface;
 			}
@@ -161,7 +161,8 @@ public class ComponentTypesManager extends AbstractFQNamedEntityManager<Componen
 		for (final Interface iface : requiredInterfaces) {
 			final Signature lookedupSignature =
 					this.interfacesManager
-							.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}));
+					.lookupSignature(iface, signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}), signature
+							.getModifiers().toArray(new String[] {}));
 			if (lookedupSignature != null) {
 				return iface;
 			}

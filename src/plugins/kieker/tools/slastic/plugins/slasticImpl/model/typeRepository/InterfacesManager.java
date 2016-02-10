@@ -19,21 +19,20 @@ package kieker.tools.slastic.plugins.slasticImpl.model.typeRepository;
 import java.util.Arrays;
 import java.util.List;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.util.SignatureUtils;
-
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryFactory;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.util.SignatureUtils;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> implements IInterfacesManager {
 
 	/**
-	 * 
+	 *
 	 * @param interfaces
 	 * @param componentTypeManager
 	 */
@@ -62,7 +61,7 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
+	public Signature lookupSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes, final String[] modifiers) {
 		for (final Signature signature : iface.getSignatures()) {
 			// compare operation name
 			if (!signature.getName().equals(signatureName)) {
@@ -74,6 +73,10 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 			}
 			// compare argument types
 			if (!Arrays.equals(signature.getParamTypes().toArray(), argTypes)) {
+				continue;
+			}
+			// compare modifiers
+			if (!Arrays.equals(signature.getModifiers().toArray(), modifiers)) {
 				continue;
 			}
 			/*
@@ -88,15 +91,16 @@ public class InterfacesManager extends AbstractFQNamedEntityManager<Interface> i
 	}
 
 	@Override
-	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes) {
-		Signature res = this.lookupSignature(iface, signatureName, returnType, argTypes);
+	public Signature createAndRegisterSignature(final Interface iface, final String signatureName, final String returnType, final String[] argTypes,
+			final String[] modifiers) {
+		Signature res = this.lookupSignature(iface, signatureName, returnType, argTypes, modifiers);
 
 		if (res != null) {
 			throw new IllegalArgumentException("Signature with given properties already registered: " + res);
 		}
 
 		// Create and register operation
-		res = SignatureUtils.createSignature(signatureName, argTypes, returnType);
+		res = SignatureUtils.createSignature(signatureName, argTypes, returnType, modifiers);
 		iface.getSignatures().add(res);
 
 		return res;

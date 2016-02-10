@@ -17,11 +17,11 @@ import kieker.tools.slastic.metamodel.executionEnvironment.ExecutionContainer;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.ComponentMigration#getComponent <em>Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.ComponentMigration#getDestination <em>Destination</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage#getComponentMigration()
  * @model

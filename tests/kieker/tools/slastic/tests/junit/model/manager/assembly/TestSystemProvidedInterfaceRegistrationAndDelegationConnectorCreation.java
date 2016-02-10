@@ -21,23 +21,21 @@ import java.util.Arrays;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-
-import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
-import kieker.tools.slastic.tests.junit.model.ModelEntityCreationUtils;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
 import kieker.tools.slastic.metamodel.core.SystemModel;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
+import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
+import kieker.tools.slastic.tests.junit.model.ModelEntityCreationUtils;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreation extends TestCase {
 
@@ -48,6 +46,7 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 		final String operationName = "opName";
 		final String returnType = Boolean.class.getName();
 		final String[] argTypes = { Integer.class.getName() };
+		final String[] modifiers = { Integer.class.getName() };
 
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager systemModelManager = new ModelManager(systemModel);
@@ -59,7 +58,7 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 		 * Create common interface used by all the two assembly components and
 		 * the connector
 		 */
-		final Interface iface = this.createAndRegisterInterface(typeRepositoryModelManager, "MyInterface", operationName, returnType, argTypes);
+		final Interface iface = this.createAndRegisterInterface(typeRepositoryModelManager, "MyInterface", operationName, returnType, argTypes, modifiers);
 
 		/*
 		 * Register the interface as system-provided
@@ -95,6 +94,7 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 		final String operationName = "opName";
 		final String returnType = Boolean.class.getName();
 		final String[] argTypes = { Integer.class.getName() };
+		final String[] modifiers = { Integer.class.getName() };
 
 		final SystemModel systemModel = ModelManager.createInitializedSystemModel();
 		final ModelManager systemModelManager = new ModelManager(systemModel);
@@ -105,8 +105,10 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 		 * Create two different interfaces; one used by the two assembly
 		 * components and another used by the connector
 		 */
-		final Interface componentIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IComponentInterface", operationName, returnType, argTypes);
-		final Interface connectorIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IConnectorInterface", operationName, returnType, argTypes);
+		final Interface componentIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IComponentInterface", operationName, returnType, argTypes,
+				modifiers);
+		final Interface connectorIface = this.createAndRegisterInterface(typeRepositoryModelManager, "IConnectorInterface", operationName, returnType, argTypes,
+				modifiers);
 
 		/*
 		 * Create providing assembly component, register interface and implement
@@ -129,7 +131,7 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 	/**
 	 * Creates and registers an {@link Interface} with the given name, as well
 	 * as a single signature with the given parameters.
-	 * 
+	 *
 	 * @param mgr
 	 * @param ifaceName
 	 * @param operationName
@@ -138,14 +140,14 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 	 * @return
 	 */
 	private Interface createAndRegisterInterface(final TypeRepositoryModelManager mgr, final String ifaceName, final String operationName, final String returnType,
-			final String[] argTypes) {
+			final String[] argTypes, final String[] modifiers) {
 		final Interface iface = mgr.createAndRegisterInterface(ifaceName);
-		mgr.createAndRegisterSignature(iface, operationName, returnType, Arrays.copyOf(argTypes, argTypes.length));
+		mgr.createAndRegisterSignature(iface, operationName, returnType, Arrays.copyOf(argTypes, argTypes.length), Arrays.copyOf(modifiers, modifiers.length));
 		return iface;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param modelManager
 	 * @param fqComponentTypeName
 	 * @param fqAssemblyComponentName
@@ -168,7 +170,8 @@ public class TestSystemProvidedInterfaceRegistrationAndDelegationConnectorCreati
 		// Register provided interface (if such)
 		if (providedInterface != null) {
 			for (final Signature s : providedInterface.getSignatures()) {
-				tMgr.createAndRegisterOperation(asmComp.getComponentType(), s.getName(), s.getReturnType(), s.getParamTypes().toArray(new String[] {}));
+				tMgr.createAndRegisterOperation(asmComp.getComponentType(), s.getName(), s.getReturnType(), s.getParamTypes().toArray(new String[] {}), s
+						.getModifiers().toArray(new String[] {}));
 			}
 			tMgr.registerProvidedInterface(asmComp.getComponentType(), providedInterface);
 		}

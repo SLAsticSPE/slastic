@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.impl.ComponentMigrationImpl#getComponent <em>Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.impl.ComponentMigrationImpl#getDestination <em>Destination</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

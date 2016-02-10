@@ -34,7 +34,7 @@ import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynchronousTransformationFilter;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class ExecutionRecordTransformationFilter extends AbstractModelReconstructionComponent implements ISynchronousTransformationFilter,
@@ -45,7 +45,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 	// private static final Log log = LogFactory.getLog(ExecutionRecordTransformationFilter.class);
 
 	/**
-	 * 
+	 *
 	 * @param modelManager
 	 */
 	public ExecutionRecordTransformationFilter(final ModelManager modelManager, final int componentDiscoveryHierarchyLevel) {
@@ -58,7 +58,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 	 * Creates a new OperationExecution instance and initializes it based on the given execution. Depending on the instrumentation model, the returned object is an
 	 * instance of {@link DeploymentComponentOperationExecution} or {@link ConnectorOperationExecution}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * The strategy is as follows, given the {@link OperationExecutionRecord} object with {@link OperationExecutionRecord#className} parameter whose value equals
 	 * classname:
@@ -71,10 +71,10 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 	 * does not exist, it is being created.</li>
 	 * </ol>
 	 * </p>
-	 * 
+	 *
 	 * @see DeploymentComponentOperationExecution
 	 * @see ConnectorOperationExecution
-	 * 
+	 *
 	 * @param execution
 	 * @return
 	 */
@@ -94,6 +94,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 		final String operationName;
 		final String returnType;
 		final String[] argTypes;
+		final String[] modifiers;
 		{
 			final ClassOperationSignaturePair cosp = ClassOperationSignaturePair.splitOperationSignatureStr(execution.getOperationSignature());
 
@@ -106,6 +107,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 			// TODO: Note that we might also need to apply the name abstraction to these types
 			returnType = cosp.getSignature().getReturnType();
 			argTypes = cosp.getSignature().getParamTypeList();
+			modifiers = cosp.getSignature().getModifier();
 		}
 
 		{
@@ -141,7 +143,7 @@ public class ExecutionRecordTransformationFilter extends AbstractModelReconstruc
 				}
 
 				/* Lookup the operation */
-				final Operation op = this.lookupOrCreateOperationByName(assemblyComponent.getComponentType(), operationName, returnType, argTypes);
+				final Operation op = this.lookupOrCreateOperationByName(assemblyComponent.getComponentType(), operationName, returnType, argTypes, modifiers);
 				newComponentExec.setDeploymentComponent(deploymentComponent);
 				newComponentExec.setOperation(op);
 				newExecution = newComponentExec;

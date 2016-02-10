@@ -25,11 +25,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getFrequency <em>Frequency</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.AssemblyConnectorCallFrequencyImpl#getSignature <em>Signature</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

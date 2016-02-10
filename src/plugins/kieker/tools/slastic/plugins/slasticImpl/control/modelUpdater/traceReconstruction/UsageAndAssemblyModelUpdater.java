@@ -236,10 +236,11 @@ public class UsageAndAssemblyModelUpdater {
 				final String signatureName = operationSignature.getName();
 				final String signatureRetType = operationSignature.getReturnType();
 				final String[] signatureArgTypes = operationSignature.getParamTypes().toArray(new String[] {});
+				final String[] signatureModifiers = operationSignature.getModifiers().toArray(new String[] {});
 
 				final Signature returningInterfaceSignature = this.typeRepositoryModelManager.lookupSignature(
 						iface,
-						signatureName, signatureRetType, signatureArgTypes);
+						signatureName, signatureRetType, signatureArgTypes, signatureModifiers);
 
 				if (receiver.equals(UsageModelManager.ROOT_EXEC)) {
 					entryCallInterfaceSignature = returningInterfaceSignature;

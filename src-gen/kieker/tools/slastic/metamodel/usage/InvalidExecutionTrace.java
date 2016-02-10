@@ -14,10 +14,10 @@ package kieker.tools.slastic.metamodel.usage;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.InvalidExecutionTrace#getErrorMsg <em>Error Msg</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getInvalidExecutionTrace()
  * @model

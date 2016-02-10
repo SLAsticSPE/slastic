@@ -31,7 +31,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.ControlImpl#getAdaptationModel <em>Adaptation Model</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.ControlImpl#getPerformanceEvaluator <em>Performance Evaluator</em>}</li>
@@ -39,6 +38,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.ControlImpl#getPerformancePredictor <em>Performance Predictor</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.ControlImpl#getAdaptationPlanner <em>Adaptation Planner</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.CPUUtilizationImpl#getUser <em>User</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.CPUUtilizationImpl#getSystem <em>System</em>}</li>
@@ -31,6 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.CPUUtilizationImpl#getCombined <em>Combined</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.monitoring.impl.CPUUtilizationImpl#getIdle <em>Idle</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

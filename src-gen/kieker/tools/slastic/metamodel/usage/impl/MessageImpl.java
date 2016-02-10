@@ -25,12 +25,12 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.MessageImpl#getSender <em>Sender</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.MessageImpl#getTimestamp <em>Timestamp</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.MessageImpl#getReceiver <em>Receiver</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

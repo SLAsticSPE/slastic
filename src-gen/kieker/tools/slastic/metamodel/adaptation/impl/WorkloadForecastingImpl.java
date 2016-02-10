@@ -27,10 +27,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.adaptation.impl.WorkloadForecastingImpl#getControl <em>Control</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

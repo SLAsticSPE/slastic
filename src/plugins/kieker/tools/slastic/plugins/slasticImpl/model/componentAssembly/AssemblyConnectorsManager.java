@@ -21,19 +21,18 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
-import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
-import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
-
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyFactory;
 import kieker.tools.slastic.metamodel.typeRepository.ConnectorType;
 import kieker.tools.slastic.metamodel.typeRepository.Interface;
 import kieker.tools.slastic.metamodel.typeRepository.Signature;
+import kieker.tools.slastic.plugins.slasticImpl.model.AbstractFQNamedEntityManager;
+import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
+import kieker.tools.slastic.plugins.slasticImpl.model.typeRepository.TypeRepositoryModelManager;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<AssemblyComponentConnector> implements IAssemblyConnectorsManager {
@@ -85,7 +84,8 @@ public class AssemblyConnectorsManager extends AbstractFQNamedEntityManager<Asse
 		for (final AssemblyComponentConnector connector : requiringComponent.getProvidingConnectors()) {
 			final Signature lookedUpSignature =
 					this.typeRepositoryModelManager.lookupSignature(connector.getConnectorType().getInterface(),
-							signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}));
+							signature.getName(), signature.getReturnType(), signature.getParamTypes().toArray(new String[] {}),
+							signature.getModifiers().toArray(new String[] {}));
 			if (lookedUpSignature != null) {
 				return connector;
 			}

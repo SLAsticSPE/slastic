@@ -20,11 +20,11 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl#getCallingDeploymentComponent <em>Calling Deployment Component</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.impl.DeploymentCallingRelationshipImpl#getCalledDeploymentComponent <em>Called Deployment Component</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

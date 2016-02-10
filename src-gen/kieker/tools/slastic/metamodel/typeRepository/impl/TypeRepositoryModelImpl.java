@@ -35,7 +35,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getComponentTypes <em>Component Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getExecutionContainerTypes <em>Execution Container Types</em>}</li>
@@ -44,6 +43,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.impl.TypeRepositoryModelImpl#getResourceTypes <em>Resource Types</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

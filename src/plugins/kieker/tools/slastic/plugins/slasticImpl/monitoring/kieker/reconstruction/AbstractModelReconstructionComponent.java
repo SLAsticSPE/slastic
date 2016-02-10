@@ -40,9 +40,9 @@ import kieker.tools.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2Impl
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.AbstractTransformationComponent;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public abstract class AbstractModelReconstructionComponent extends AbstractTransformationComponent {
 
@@ -71,7 +71,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	// boolean reportedMatch = false;
 
 	/**
-	 * 
+	 *
 	 * @param hostNameImpl
 	 * @return
 	 */
@@ -98,7 +98,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resourceName
 	 * @param memCapacityBytes
 	 * @param swapCapacityBytes
@@ -159,7 +159,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resourceName
 	 * @param resourceTypeName
 	 * @param executionContainer
@@ -200,7 +200,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resourceName
 	 * @param resourceTypeName
 	 * @param executionContainer
@@ -242,7 +242,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
-	 * 
+	 *
 	 * @param resourceName
 	 * @param expected
 	 * @param found
@@ -266,11 +266,11 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	 * Creates a new {@link AssemblyComponent} with the given fqComponentName. The associated {@link ComponentType} is selected by using a (existing or newly created
 	 * by the method) {@link ComponentType} with the same name.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * An assembly component with the name fqComponentName must not be registered prior to the call.
 	 * </p>
-	 * 
+	 *
 	 * @param fqComponentName
 	 * @return
 	 */
@@ -291,9 +291,9 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 
 	/**
 	 * TODO: Remove method if lookupOrCreateOperationByName is working fine
-	 * 
+	 *
 	 * Copied from Kieker.TraceAnalysis
-	 * 
+	 *
 	 * @param operationSignatureStr
 	 * @return
 	 */
@@ -344,18 +344,18 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	// }
 
 	/**
-	 * 
+	 *
 	 * @param componentType
 	 * @param operationSignatureStr
 	 * @return
 	 */
 	protected Operation lookupOrCreateOperationByName(final ComponentType componentType,
-			final String signatureName, final String returnType, final String[] argTypes) {
+			final String signatureName, final String returnType, final String[] argTypes, final String[] modifiers) {
 
-		Operation res = this.getTypeModelManager().lookupOperation(componentType, signatureName, returnType, argTypes);
+		Operation res = this.getTypeModelManager().lookupOperation(componentType, signatureName, returnType, argTypes, modifiers);
 
 		if (res == null) {
-			res = this.getTypeModelManager().createAndRegisterOperation(componentType, signatureName, returnType, argTypes);
+			res = this.getTypeModelManager().createAndRegisterOperation(componentType, signatureName, returnType, argTypes, modifiers);
 
 			/* Now, we want to add the new operation also to the interface */
 			final EList<Interface> providedInterfaces = res.getComponentType().getProvidedInterfaces();
@@ -365,7 +365,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 				// Add the operation to the last interface in the list (as this
 				// should be the one we've added in #createAssemblyComponent)
 				final Interface iface = providedInterfaces.get(providedInterfaces.size() - 1);
-				this.getTypeModelManager().createAndRegisterSignature(iface, signatureName, returnType, argTypes);
+				this.getTypeModelManager().createAndRegisterSignature(iface, signatureName, returnType, argTypes, modifiers);
 			}
 		}
 
@@ -373,7 +373,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	}
 
 	/**
-	 * 
+	 *
 	 * @param containerName
 	 * @return
 	 */
@@ -395,7 +395,7 @@ public abstract class AbstractModelReconstructionComponent extends AbstractTrans
 	public static final String DEFAULT_MEMSWAP_RESOURCE_TYPE_NAME = "DEFAULT.MEMSWAP_RESOURCE_TYPE";
 
 	/**
-	 * 
+	 *
 	 * @param executionContainer
 	 * @param resourceSpecification
 	 * @return

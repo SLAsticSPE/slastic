@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnect
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.AssemblyComponentConnectorCallFrequency#getConnector <em>Connector</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getAssemblyComponentConnectorCallFrequency()
  * @model

@@ -19,13 +19,13 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.CallingRelationship#getCalledInterface <em>Called Interface</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.CallingRelationship#getCalledSignature <em>Called Signature</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.CallingRelationship#getCallingOperation <em>Calling Operation</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.usage.CallingRelationship#getFrequencyDistribution <em>Frequency Distribution</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.usage.UsagePackage#getCallingRelationship()
  * @model

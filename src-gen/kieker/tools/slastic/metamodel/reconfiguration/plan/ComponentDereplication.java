@@ -15,10 +15,10 @@ import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.reconfiguration.plan.ComponentDereplication#getComponent <em>Component</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.reconfiguration.plan.PlanPackage#getComponentDereplication()
  * @model

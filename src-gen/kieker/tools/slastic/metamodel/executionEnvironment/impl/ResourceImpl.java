@@ -28,11 +28,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ResourceImpl#getResourceSpecification <em>Resource Specification</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.executionEnvironment.impl.ResourceImpl#getExecutionContainer <em>Execution Container</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

@@ -21,14 +21,13 @@ import java.util.Arrays;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import kieker.tools.slastic.metamodel.typeRepository.Signature;
 import kieker.tools.slastic.plugins.slasticImpl.model.util.SignatureUtils;
 
-import kieker.tools.slastic.metamodel.typeRepository.Signature;
-
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class TestSignatureUtils extends TestCase {
 
@@ -39,8 +38,9 @@ public class TestSignatureUtils extends TestCase {
 		final String name = "opName";
 		final String[] paramTypes = { Integer.class.getName(), Boolean.class.getName() };
 		final String returnType = Object.class.getName();
+		final String[] modifiers = { String.class.getName() };
 
-		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType);
+		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType, modifiers);
 
 		Assert.assertEquals("Deviating names", name, signature.getName());
 		Assert.assertTrue("Deviating paramTypes", Arrays.equals(paramTypes, signature.getParamTypes().toArray()));
@@ -52,9 +52,10 @@ public class TestSignatureUtils extends TestCase {
 	 * equal {@link Signature}s.
 	 */
 	public void testCreateSignaturesEqual_Equal() {
-		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType");
+		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType", new String[] { "public" });
 		final Signature signature1 =
-				SignatureUtils.createSignature(signature0.getName(), signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType());
+				SignatureUtils.createSignature(signature0.getName(), signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType(),
+						signature0.getModifiers().toArray(new String[] {}));
 
 		Assert.assertTrue("Expected signatures to be equal", SignatureUtils.signaturesEqual(signature0, signature1));
 	}
@@ -63,9 +64,10 @@ public class TestSignatureUtils extends TestCase {
 	 * Tests the method {@link SignatureUtils#signaturesEqual(Signature, Signature)} with two {@link Signature}s differing in their name only.
 	 */
 	public void testCreateSignaturesEqual_NamesDiffer() {
-		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType");
+		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType", new String[] { "public" });
 		final Signature signature1 =
-				SignatureUtils.createSignature(signature0.getName() + "_", signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType());
+				SignatureUtils.createSignature(signature0.getName() + "_", signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType(),
+						signature0.getModifiers().toArray(new String[] {}));
 
 		Assert.assertFalse("Expected signatures not to be equal", SignatureUtils.signaturesEqual(signature0, signature1));
 	}
@@ -74,9 +76,10 @@ public class TestSignatureUtils extends TestCase {
 	 * Tests the method {@link SignatureUtils#signaturesEqual(Signature, Signature)} with two {@link Signature}s differing in their param types only
 	 */
 	public void testCreateSignaturesEqual_ParamTypesDiffer() {
-		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType");
+		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType", new String[] { "public" });
 		final Signature signature1 =
-				SignatureUtils.createSignature(signature0.getName(), new String[] { "Y" } /* Differs from {"C", "D"} */, signature0.getReturnType());
+				SignatureUtils.createSignature(signature0.getName(), new String[] { "Y" } /* Differs from {"C", "D"} */, signature0.getReturnType(), signature0
+						.getModifiers().toArray(new String[] {}));
 
 		Assert.assertFalse("Expected signatures not to be equal", SignatureUtils.signaturesEqual(signature0, signature1));
 	}
@@ -85,9 +88,10 @@ public class TestSignatureUtils extends TestCase {
 	 * Tests the method {@link SignatureUtils#signaturesEqual(Signature, Signature)} with two {@link Signature}s differing in their param types only
 	 */
 	public void testCreateSignaturesEqual_ReturnTypesDiffer() {
-		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType");
+		final Signature signature0 = SignatureUtils.createSignature("a", new String[] { "C", "D" }, "RetType", new String[] { "public" });
 		final Signature signature1 =
-				SignatureUtils.createSignature(signature0.getName(), signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType() + "_");
+				SignatureUtils.createSignature(signature0.getName(), signature0.getParamTypes().toArray(new String[] {}), signature0.getReturnType() + "_",
+						signature0.getModifiers().toArray(new String[] {}));
 
 		Assert.assertFalse("Expected signatures not to be equal", SignatureUtils.signaturesEqual(signature0, signature1));
 	}
@@ -99,13 +103,14 @@ public class TestSignatureUtils extends TestCase {
 		final String name = "opName";
 		final String[] paramTypes = { Integer.class.getName(), Boolean.class.getName() };
 		final String returnType = Object.class.getName();
+		final String[] modifiers = { String.class.getName() };
 
-		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType);
+		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType, modifiers);
 
 		final StringBuilder expectedStringB = new StringBuilder(name);
 		// Append parameter list:
 		expectedStringB.append('(').append(Integer.class.getName()).append(',').append(Boolean.class.getName())
-				.append(')');
+		.append(')');
 		// Append return value
 		expectedStringB.append(":").append(Object.class.getName());
 
@@ -119,8 +124,9 @@ public class TestSignatureUtils extends TestCase {
 		final String name = "opName";
 		final String[] paramTypes = {};
 		final String returnType = Object.class.getName();
+		final String[] modifiers = { String.class.getName() };
 
-		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType);
+		final Signature signature = SignatureUtils.createSignature(name, paramTypes, returnType, modifiers);
 
 		final StringBuilder expectedStringB = new StringBuilder(name);
 		// Append empty parameter list:

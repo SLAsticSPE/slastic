@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.EList;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryModel#getComponentTypes <em>Component Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryModel#getExecutionContainerTypes <em>Execution Container Types</em>}</li>
@@ -26,6 +25,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryModel#getNetworkLinkTypes <em>Network Link Types</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryModel#getResourceTypes <em>Resource Types</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.typeRepository.TypeRepositoryPackage#getTypeRepositoryModel()
  * @model

@@ -18,11 +18,11 @@ import kieker.tools.slastic.metamodel.typeRepository.Interface;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyConnector#getConnectorType <em>Connector Type</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.AssemblyConnector#getInterface <em>Interface</em>}</li>
  * </ul>
+ * </p>
  *
  * @see kieker.tools.slastic.metamodel.componentAssembly.ComponentAssemblyPackage#getAssemblyConnector()
  * @model abstract="true"

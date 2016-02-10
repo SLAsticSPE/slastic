@@ -37,7 +37,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl#getSystemProvidedInterfaceDelegationConnectors <em>System Provided Interface Delegation Connectors</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl#getSystemRequiredInterfaceDelegationConnectors <em>System Required Interface Delegation Connectors</em>}</li>
@@ -46,6 +45,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl#getSystemProvidedInterfaces <em>System Provided Interfaces</em>}</li>
  *   <li>{@link kieker.tools.slastic.metamodel.componentAssembly.impl.ComponentAssemblyModelImpl#getSystemRequiredInterfaces <em>System Required Interfaces</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */
