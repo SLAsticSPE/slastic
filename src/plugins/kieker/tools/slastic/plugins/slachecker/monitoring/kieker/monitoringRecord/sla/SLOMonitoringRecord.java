@@ -16,7 +16,12 @@
 
 package kieker.tools.slastic.plugins.slachecker.monitoring.kieker.monitoringRecord.sla;
 
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
+
 import kieker.common.record.AbstractMonitoringRecord;
+import kieker.common.util.registry.IRegistry;
 
 /**
  * @author Andre van Hoorn
@@ -92,5 +97,23 @@ public class SLOMonitoringRecord extends AbstractMonitoringRecord {
 			return -1;
 		}
 
+	}
+
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
+	}
+
+	@Override
+	public void initFromBytes(final ByteBuffer arg0, final IRegistry<String> arg1) throws BufferUnderflowException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
+	}
+
+	@Override
+	public void writeBytes(final ByteBuffer arg0, final IRegistry<String> arg1) throws BufferOverflowException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
 	}
 }

@@ -16,12 +16,17 @@
 
 package kieker.tools.slastic.simulation.software.statistics;
 
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
+import java.nio.ByteBuffer;
+
 import kieker.common.record.AbstractMonitoringRecord;
+import kieker.common.util.registry.IRegistry;
 
 /**
- * 
+ *
  * @author Robert von Massow
- * 
+ *
  */
 // TODO: Change to immutable
 public class ComponentUsersRecord extends AbstractMonitoringRecord {
@@ -59,6 +64,24 @@ public class ComponentUsersRecord extends AbstractMonitoringRecord {
 	public Class[] getValueTypes() {
 		return new Class[] { String.class, String.class, Integer.class,
 			Long.class };
+	}
+
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
+	}
+
+	@Override
+	public void initFromBytes(final ByteBuffer arg0, final IRegistry<String> arg1) throws BufferUnderflowException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
+	}
+
+	@Override
+	public void writeBytes(final ByteBuffer arg0, final IRegistry<String> arg1) throws BufferOverflowException {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Method not implemented");
 	}
 
 }

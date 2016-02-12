@@ -20,13 +20,11 @@ import java.util.ArrayList;
 
 import junit.framework.Assert;
 
-
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.signature.ClassOperationSignaturePair;
+import kieker.common.util.signature.Signature;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
-
-import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
-import kieker.common.util.Signature;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction.ExecutionRecordTransformationFilter;
@@ -34,7 +32,7 @@ import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstruction
 /**
  * Tests if the {@link ExecutionRecordTransformationFilter} filter correctly
  * re-uses existing model entities.
- * 
+ *
  * @author Andre van Hoorn
  */
 public class TestExecutionRecordTransformationFilterSameRecordTwice extends AbstractReconstructionTest {

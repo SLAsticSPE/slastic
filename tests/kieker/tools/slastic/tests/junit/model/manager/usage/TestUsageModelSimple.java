@@ -24,7 +24,8 @@ import java.util.TreeMap;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-
+import kieker.common.record.controlflow.OperationExecutionRecord;
+import kieker.common.util.signature.ClassOperationSignaturePair;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentAssembly.SystemProvidedInterfaceDelegationConnector;
@@ -40,9 +41,6 @@ import kieker.tools.slastic.metamodel.usage.OperationCallFrequency;
 import kieker.tools.slastic.metamodel.usage.SystemProvidedInterfaceDelegationConnectorFrequency;
 import kieker.tools.slastic.metamodel.usage.UsageFactory;
 import kieker.tools.slastic.metamodel.usage.UsageModel;
-
-import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
 import kieker.tools.slastic.plugins.slasticImpl.model.componentAssembly.ComponentAssemblyModelManager;
@@ -54,9 +52,9 @@ import kieker.tools.slastic.tests.junit.model.ModelEntityCreationUtils;
 /**
  * In this test, we are manually filling a {@link UsageModel} without the use of
  * the {@link UsageModelManager}.
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class TestUsageModelSimple extends TestCase {
 	/** Create {@link ModelManager} with empty {@link SystemModel} and {@link UsageModel} */
@@ -99,7 +97,7 @@ public class TestUsageModelSimple extends TestCase {
 
 	/**
 	 * Manually fills the {@link UsageModel} without using the {@link UsageModelManager}.
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public void testManuallyFillModel() throws IOException {
@@ -254,7 +252,7 @@ public class TestUsageModelSimple extends TestCase {
 		 * <li>AssemblyComponent <i>package.ComponentA</i></li>
 		 * </ul>
 		 */
-		final kieker.common.util.Signature signature = new kieker.common.util.Signature(opName, new String[] {}, returnType, paramTypes);
+		final kieker.common.util.signature.Signature signature = new kieker.common.util.signature.Signature(opName, new String[] {}, returnType, paramTypes);
 
 		final OperationExecutionRecord kiekerRecord;
 		{

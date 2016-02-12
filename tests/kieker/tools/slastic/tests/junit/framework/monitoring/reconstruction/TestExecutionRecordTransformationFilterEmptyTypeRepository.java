@@ -22,8 +22,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jfree.util.Log;
 
 import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
-import kieker.common.util.Signature;
+import kieker.common.util.signature.ClassOperationSignaturePair;
+import kieker.common.util.signature.Signature;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.monitoring.DeploymentComponentOperationExecution;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
@@ -178,7 +178,7 @@ public class TestExecutionRecordTransformationFilterEmptyTypeRepository extends 
 							operationLookupName,
 							StringUtils.join(this.signature.getParamTypeList(), ","),
 							lookedUpComponentType),
-					lookedUpOperation);
+							lookedUpOperation);
 			Assert.assertSame("Unexpected operation", slasticComponentExecRec.getOperation(), lookedUpOperation);
 		}
 

@@ -30,7 +30,7 @@ import kieker.tools.logReplayer.FilesystemLogReplayer;
 
 /**
  * Should be moved to SLAstic framework.
- * 
+ *
  * @author Andre van Hoorn
  */
 public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
@@ -43,6 +43,7 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 	private volatile String[] inputDirsArr;
 
 	private volatile boolean realtimeMode;
+	private volatile double realtimeAccelerationFactor = 1.0; // TODO: parse from command line argument
 
 	private volatile int numRealtimeWorkerThreads;
 
@@ -75,6 +76,7 @@ public class AnalysisStarterFileSystem extends AbstractAnalysisStarter {
 		final FilesystemLogReplayer fsReplayer = new FilesystemLogReplayer(
 				controllerConfigurationFN,
 				this.realtimeMode, // realtimeMode?
+				this.realtimeAccelerationFactor,
 				true, // keepOriginalLoggingTimestamp (as we are simply passing the data)
 				this.numRealtimeWorkerThreads, // keep logging timestamp iff realtimeMode == true
 				this.ignoreRecordsBeforeTimestamp,

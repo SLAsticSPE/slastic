@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import kieker.analysis.AnalysisController;
+import kieker.analysis.IProjectContext;
 import kieker.analysis.exception.AnalysisConfigurationException;
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
@@ -33,13 +34,13 @@ import kieker.tools.slastic.plugins.slachecker.monitoring.kieker.KiekerMeasureme
 /**
  * Wraps incoming {@link IMonitoringRecord}s as {@link KiekerMeasurementEvent}s
  * and delegates it to the analysis controller.
- * 
+ *
  * As it extends {@link AbstractKiekerMonitoringManager}, it uses a {@link PipeReader} internally to connect to a Kieker monitoring instance. See
  * {@link AbstractKiekerMonitoringManager} and {@link AbstractKiekerMonitoringManager#init()} for details on how to set the
  * pipe name.
- * 
+ *
  * TODO: Is this class required anywhere?
- * 
+ *
  * @author Andre van Hoorn
  */
 @Deprecated
@@ -60,7 +61,7 @@ public class KiekerRecordDelegationMonitoringManager extends AbstractKiekerMonit
 	@Override
 	protected boolean refineAnalysisConfiguration(final AnalysisController analysisController, final AbstractReaderPlugin reader, final String readerOutputPortName)
 			throws IllegalStateException, AnalysisConfigurationException {
-		final KiekerRecordDelegationFilter delegationFilter = new KiekerRecordDelegationFilter(new Configuration(), this.getController());
+		final KiekerRecordDelegationFilter delegationFilter = new KiekerRecordDelegationFilter(new Configuration(), analysisController, this.getController());
 		analysisController.registerFilter(delegationFilter);
 		analysisController.connect(reader, readerOutputPortName, delegationFilter, KiekerRecordDelegationFilter.INPUT_PORT_NAME_TIMER_EVENTS_NANOS);
 		return true;
@@ -69,17 +70,17 @@ public class KiekerRecordDelegationMonitoringManager extends AbstractKiekerMonit
 	/**
 	 * Wraps incoming {@link IMonitoringRecord}s into a {@link KiekerMeasurementEvent} and passes it to the
 	 * {@link AbstractControlComponent#getMonitoringClientPort()}.
-	 * 
+	 *
 	 * @author Andre van Hoorn
-	 * 
+	 *
 	 */
 	class KiekerRecordDelegationFilter extends AbstractFilterPlugin {
 		public static final String INPUT_PORT_NAME_TIMER_EVENTS_NANOS = "records";
 
 		private final AbstractControlComponent controlComponent;
 
-		public KiekerRecordDelegationFilter(final Configuration configuration, final AbstractControlComponent controlComponent) {
-			super(configuration);
+		public KiekerRecordDelegationFilter(final Configuration configuration, final IProjectContext projectContext, final AbstractControlComponent controlComponent) {
+			super(configuration, projectContext);
 			this.controlComponent = controlComponent;
 		}
 
