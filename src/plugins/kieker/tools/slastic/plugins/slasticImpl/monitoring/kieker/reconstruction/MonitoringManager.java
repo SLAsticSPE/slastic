@@ -30,7 +30,7 @@ import kieker.common.configuration.Configuration;
 import kieker.monitoring.core.configuration.ConfigurationFactory;
 import kieker.monitoring.writer.filesystem.AbstractAsyncFSWriter;
 import kieker.monitoring.writer.filesystem.AsyncFsWriter;
-import kieker.tools.logReplayer.MonitoringRecordLoggerFilter;
+import kieker.tools.logReplayer.filter.MonitoringRecordLoggerFilter;
 import kieker.tools.slastic.metamodel.monitoring.OperationExecution;
 import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.NameUtils;
@@ -38,7 +38,7 @@ import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.AbstractKieker
 import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.MonitoringRecordConsumerFilterChain;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class MonitoringManager extends AbstractKiekerMonitoringManager {
@@ -49,7 +49,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	 * Delegates all Kieker framework events including records to the {@link #execRecordTransformation} filter and sends the resulting {@link OperationExecution}s to
 	 * the {@link #getController()}.
 	 */
-	private final MonitoringRecordConsumerFilterChain monitoringRecordConsumerFilterChain = new MonitoringRecordConsumerFilterChain(new Configuration());
+	private volatile MonitoringRecordConsumerFilterChain monitoringRecordConsumerFilterChain;
 
 	private volatile ExecutionRecordTransformationFilter execRecordTransformation;
 	private volatile ResourceUtilizationRecordTransformationFilter resourceUtilizationRecordTransformation;
@@ -73,7 +73,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 	 * {@link ExecutionRecordTransformationFilter.ComponentDiscoveryMode} and
 	 * sets the private {@link #componentDiscoveryMode} field. If the given
 	 * value is null, the default mode {@link ExecutionRecordTransformationFilter.ComponentDiscoveryMode#CLASS_NAME} will be used.
-	 * 
+	 *
 	 * @return true on success; false otherwise
 	 */
 	private boolean initDiscoveryMode() {
@@ -124,7 +124,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 		configuration.setProperty(ConfigurationFactory.WRITER_CLASSNAME, AsyncFsWriter.class.getName());
 		// Custom storage path
 		configuration.setProperty(AsyncFsWriter.class.getName() + "." + AbstractAsyncFSWriter.CONFIG_PATH, storagePath);
-		configuration.setProperty(AsyncFsWriter.class.getName() + "." + AbstractAsyncFSWriter.CONFIG_TEMP, Boolean.toString(false));
+		// configuration.setProperty(AsyncFsWriter.class.getName() + "." + AbstractAsyncFSWriter.CONFIG_TEMP, Boolean.toString(false));
 		// Block on full queue
 		configuration.setProperty(AsyncFsWriter.class.getName() + ".QueueFullBehavior", Integer.toString(1));
 
@@ -148,6 +148,7 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 		/* Initialize filter chain for incoming records */
 
 		/* Actual filters: */
+		this.monitoringRecordConsumerFilterChain = new MonitoringRecordConsumerFilterChain(new Configuration(), analysisController);
 		this.monitoringRecordConsumerFilterChain.setControlComponent(this.getController());
 
 		final ModelManager modelManager = (ModelManager) this.getController().getModelManager();
@@ -183,7 +184,8 @@ public class MonitoringManager extends AbstractKiekerMonitoringManager {
 			final Configuration monitoringRecordLoggerFilterConfig = new Configuration();
 			monitoringRecordLoggerFilterConfig.setProperty(ConfigurationFactory.AUTO_SET_LOGGINGTSTAMP, Boolean.FALSE.toString());
 			monitoringRecordLoggerFilterConfig.setProperty(MonitoringRecordLoggerFilter.CONFIG_PROPERTY_NAME_MONITORING_PROPS_FN, teeFilterControllerConfigFn);
-			final MonitoringRecordLoggerFilter monitoringRecordLoggerFilter = new MonitoringRecordLoggerFilter(monitoringRecordLoggerFilterConfig);
+			final MonitoringRecordLoggerFilter monitoringRecordLoggerFilter = new MonitoringRecordLoggerFilter(monitoringRecordLoggerFilterConfig,
+					analysisController);
 			analysisController.registerFilter(monitoringRecordLoggerFilter);
 			analysisController.connect(reader, readerOutputPortName, monitoringRecordLoggerFilter, MonitoringRecordLoggerFilter.INPUT_PORT_NAME_RECORD);
 			lastPlugin = monitoringRecordLoggerFilter;

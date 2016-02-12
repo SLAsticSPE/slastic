@@ -18,7 +18,7 @@ package kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.reconstructio
 
 import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.controlflow.OperationExecutionRecord;
-import kieker.common.util.ClassOperationSignaturePair;
+import kieker.common.util.signature.ClassOperationSignaturePair;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponent;
 import kieker.tools.slastic.metamodel.componentAssembly.AssemblyComponentConnector;
 import kieker.tools.slastic.metamodel.componentDeployment.DeploymentComponent;
@@ -38,7 +38,7 @@ import kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker.filters.ISynch
  * @author Andre van Hoorn
  */
 public class ExecutionRecordTransformationFilter extends AbstractModelReconstructionComponent implements ISynchronousTransformationFilter,
-		IExecutionRecordTransformation {
+IExecutionRecordTransformation {
 
 	private final int componentDiscoveryHierarchyLevel;
 

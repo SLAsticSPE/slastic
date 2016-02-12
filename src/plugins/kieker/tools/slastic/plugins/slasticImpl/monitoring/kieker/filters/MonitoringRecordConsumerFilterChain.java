@@ -23,18 +23,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import kieker.analysis.IProjectContext;
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
 import kieker.common.configuration.Configuration;
 import kieker.common.record.IMonitoringRecord;
-import kieker.monitoring.core.IMonitoringRecordReceiver;
+import kieker.common.util.registry.IMonitoringRecordReceiver;
 import kieker.tools.slastic.control.AbstractControlComponent;
 import kieker.tools.slastic.metamodel.core.IEvent;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class MonitoringRecordConsumerFilterChain extends AbstractFilterPlugin {
 
@@ -51,12 +52,12 @@ public class MonitoringRecordConsumerFilterChain extends AbstractFilterPlugin {
 
 	// TODO: add additional filter types, e.g., asynchronous
 
-	public MonitoringRecordConsumerFilterChain(final Configuration configuration) {
-		super(configuration);
+	public MonitoringRecordConsumerFilterChain(final Configuration configuration, final IProjectContext projectContext) {
+		super(configuration, projectContext);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param filter
 	 */
 	public void addSynchronousFilter(final ISynchronousTransformationFilter filter) {
@@ -64,7 +65,7 @@ public class MonitoringRecordConsumerFilterChain extends AbstractFilterPlugin {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param monitoringRecordReceiver
 	 */
 	public void addSynchronousReceiver(final IMonitoringRecordReceiver monitoringRecordReceiver) {

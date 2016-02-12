@@ -65,6 +65,7 @@
 	<classpathentry kind="lib" path="lib/guice-throwingproviders-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/antlr-runtime-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/kieker-1.12.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/commons-math-2.2.jar"/>
@@ -74,7 +75,6 @@
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.drivers.emf4atl_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.emfvm_3.2.0.v20110608-0926.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.m2m.atl.engine.vm_3.2.0.v20110608-0926.jar"/>
-	<classpathentry kind="lib" path="lib/kieker-1.6-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.common-2.7.0.v20120127-1122.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore-2.7.0.v20120127-1122.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.emf.ecore.xmi-2.7.0.v20120127-1122.jar"/>

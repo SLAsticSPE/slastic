@@ -33,7 +33,7 @@ import kieker.tools.slastic.plugins.slasticImpl.ModelManager;
 import kieker.tools.slastic.plugins.slasticImpl.model.arch2implMapping.Arch2ImplNameMappingManager.EntityType;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoringManagerComponent {
@@ -72,13 +72,13 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		 */
 		final Configuration readerConfiguration = new Configuration();
 		readerConfiguration.setProperty(PipeReader.CONFIG_PROPERTY_NAME_PIPENAME, this.kiekerPipeName);
-		this.kiekerNamedRecordPipeReader = new PipeReader(readerConfiguration);
+		this.kiekerNamedRecordPipeReader = new PipeReader(readerConfiguration, analysisInstance);
 		analysisInstance.registerReader(this.kiekerNamedRecordPipeReader);
 
 		/*
 		 * Unify Strings
 		 */
-		final StringBufferFilter stringBufferFilter = new StringBufferFilter(new Configuration());
+		final StringBufferFilter stringBufferFilter = new StringBufferFilter(new Configuration(), analysisInstance);
 		analysisInstance.registerFilter(stringBufferFilter);
 		analysisInstance.connect(this.kiekerNamedRecordPipeReader, PipeReader.OUTPUT_PORT_NAME_RECORDS,
 				stringBufferFilter, StringBufferFilter.INPUT_PORT_NAME_EVENTS);
@@ -88,8 +88,9 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		 */
 		final Configuration currentTimeEventGeneratorConfig = new Configuration();
 		currentTimeEventGeneratorConfig
-				.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION, Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
-		final CurrentTimeEventGenerationFilter currentTimeEventGenerationFilter = new CurrentTimeEventGenerationFilter(currentTimeEventGeneratorConfig);
+		.setProperty(CurrentTimeEventGenerationFilter.CONFIG_PROPERTY_NAME_TIME_RESOLUTION, Long.toString(TIMER_EVENTS_RESOLUTION_NANOS));
+		final CurrentTimeEventGenerationFilter currentTimeEventGenerationFilter = new CurrentTimeEventGenerationFilter(currentTimeEventGeneratorConfig,
+				analysisInstance);
 		analysisInstance.registerFilter(currentTimeEventGenerationFilter);
 		analysisInstance.connect(stringBufferFilter, StringBufferFilter.OUTPUT_PORT_NAME_RELAYED_EVENTS,
 				currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.INPUT_PORT_NAME_NEW_RECORD);
@@ -97,7 +98,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 		/*
 		 * Register CurrentTimeSetter
 		 */
-		final CurrentTimeSetter currentTimeSetterFilter = new CurrentTimeSetter(new Configuration(), this.getController());
+		final CurrentTimeSetter currentTimeSetterFilter = new CurrentTimeSetter(new Configuration(), analysisInstance, this.getController());
 		analysisInstance.registerFilter(currentTimeSetterFilter);
 		analysisInstance.connect(currentTimeEventGenerationFilter, CurrentTimeEventGenerationFilter.OUTPUT_PORT_NAME_CURRENT_TIME_VALUE,
 				currentTimeSetterFilter, CurrentTimeSetter.INPUT_PORT_NAME_TIMER_EVENTS_NANOS);
@@ -184,7 +185,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 
 	/**
 	 * Allows implementing classes to refine the current {@link AnalysisController}, e.g., by registering and connecting additional {@link AbstractFilterPlugin}s.
-	 * 
+	 *
 	 * @param analysisController
 	 * @param reader
 	 * @param readerOutputPortName
@@ -197,7 +198,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 	/**
 	 * Is called from the {@link #terminate(boolean)} method after having
 	 * terminated the internal {@link AnalysisController} instance.
-	 * 
+	 *
 	 * @param error
 	 */
 	protected abstract void concreteTerminate(final boolean error);
@@ -206,7 +207,7 @@ public abstract class AbstractKiekerMonitoringManager extends AbstractMonitoring
 	 * Is called from {@link #execute()} just before the execution start and can
 	 * be used by implementing classes to start internal activities. Note that
 	 * the method must be non-blocking.
-	 * 
+	 *
 	 * @return
 	 */
 	protected abstract boolean concreteExecute();

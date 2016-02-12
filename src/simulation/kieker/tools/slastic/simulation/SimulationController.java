@@ -31,6 +31,7 @@ import de.uka.ipd.sdq.pcm.resourceenvironment.ResourceEnvironment;
 import de.uka.ipd.sdq.pcm.system.System;
 import desmoj.core.simulator.Experiment;
 
+import kieker.analysis.IProjectContext;
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.annotation.Plugin;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
@@ -38,7 +39,7 @@ import kieker.common.configuration.Configuration;
 import kieker.common.record.IMonitoringRecord;
 import kieker.common.record.controlflow.OperationExecutionRecord;
 import kieker.common.record.misc.EmptyRecord;
-import kieker.common.util.ClassOperationSignaturePair;
+import kieker.common.util.signature.ClassOperationSignaturePair;
 import kieker.tools.slastic.simulation.config.Constants;
 import kieker.tools.slastic.simulation.listeners.IReconfigurationEventListener;
 import kieker.tools.slastic.simulation.model.ModelManager;
@@ -48,9 +49,9 @@ import kieker.tools.slastic.simulation.software.controller.EntryCall;
 import kieker.tools.slastic.simulation.util.ExternalCallQueue;
 
 /**
- * 
+ *
  * @author Robert von Massow
- * 
+ *
  */
 public class SimulationController {
 	private static final Log LOG = LogFactory.getLog(SimulationController.class);
@@ -104,8 +105,8 @@ public class SimulationController {
 	@Plugin
 	public class MonitoringRecordConsumerFilter extends AbstractFilterPlugin {
 
-		public MonitoringRecordConsumerFilter(final Configuration configuration) {
-			super(configuration);
+		public MonitoringRecordConsumerFilter(final Configuration configuration, final IProjectContext projectContext) {
+			super(configuration, projectContext);
 		}
 
 		// TODO: Is this method called at all? It seems that this is a duplicate of SimulationController.start()
@@ -166,9 +167,10 @@ public class SimulationController {
 		}
 	}
 
-	private final AbstractFilterPlugin monitoringRecordConsumerFilter = new MonitoringRecordConsumerFilter(new Configuration());
+	private volatile AbstractFilterPlugin monitoringRecordConsumerFilter;
 
-	public AbstractFilterPlugin getMonitoringRecordConsumerFilter() {
+	public AbstractFilterPlugin getMonitoringRecordConsumerFilter(final IProjectContext projectContext) {
+		this.monitoringRecordConsumerFilter = new MonitoringRecordConsumerFilter(new Configuration(), projectContext);
 		return this.monitoringRecordConsumerFilter;
 	}
 

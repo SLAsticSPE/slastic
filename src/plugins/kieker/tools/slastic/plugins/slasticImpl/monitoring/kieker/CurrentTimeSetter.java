@@ -16,6 +16,7 @@
 
 package kieker.tools.slastic.plugins.slasticImpl.monitoring.kieker;
 
+import kieker.analysis.IProjectContext;
 import kieker.analysis.plugin.annotation.InputPort;
 import kieker.analysis.plugin.filter.AbstractFilterPlugin;
 import kieker.common.configuration.Configuration;
@@ -24,17 +25,17 @@ import kieker.tools.slastic.control.AbstractControlComponent;
 /**
  * Passes current time events in nanos, received via its {@link #INPUT_PORT_NAME_TIMER_EVENTS_NANOS}, to the
  * configured {@link AbstractControlComponent} via the {@link AbstractControlComponent#setCurrentTimeNanos(long)}.
- * 
+ *
  * @author Andre van Hoorn
- * 
+ *
  */
 public class CurrentTimeSetter extends AbstractFilterPlugin {
 	public static final String INPUT_PORT_NAME_TIMER_EVENTS_NANOS = "timerEventNanos";
 
 	private final AbstractControlComponent controlComponent;
 
-	public CurrentTimeSetter(final Configuration configuration, final AbstractControlComponent controlComponent) {
-		super(configuration);
+	public CurrentTimeSetter(final Configuration configuration, final IProjectContext projectContext, final AbstractControlComponent controlComponent) {
+		super(configuration, projectContext);
 		this.controlComponent = controlComponent;
 	}
 

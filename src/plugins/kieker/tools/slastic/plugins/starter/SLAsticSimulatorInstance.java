@@ -37,7 +37,7 @@ import kieker.tools.slastic.simulation.listeners.IReconfigurationEventListener;
 import kieker.tools.slastic.simulation.model.interfaces.IReconfigurationPlanReceiver;
 
 /**
- * 
+ *
  * @author Andre van Hoorn
  */
 public class SLAsticSimulatorInstance {
@@ -162,9 +162,9 @@ public class SLAsticSimulatorInstance {
 		/* Construct and start Tpan instance with FS reader */
 		final Configuration fsReaderConfig = new Configuration();
 		fsReaderConfig.setProperty(FSReader.CONFIG_PROPERTY_NAME_INPUTDIRS, this.fsReaderInputDir); // TODO: just a single one here ...
-		final FSReader fsReader = new FSReader(fsReaderConfig);
+		final FSReader fsReader = new FSReader(fsReaderConfig, this.analysisInstance);
 		this.analysisInstance.registerReader(fsReader);
-		final AbstractFilterPlugin recordReceiverFilter = this.simCtrl.getMonitoringRecordConsumerFilter();
+		final AbstractFilterPlugin recordReceiverFilter = this.simCtrl.getMonitoringRecordConsumerFilter(this.analysisInstance);
 		this.analysisInstance.registerFilter(recordReceiverFilter);
 
 		try {
